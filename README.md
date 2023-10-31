@@ -1,1 +1,1 @@
-# Tutorial of Kakao Cloud Education Class 
+# Kakao Cloud 교육을 위한 Github repo 입니다.
