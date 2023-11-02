@@ -50,12 +50,12 @@ VPC안에 기존에 사용하던 AZ1과 다른 AZ2를 사용할 수 있도록 �
      ```bash
      cd {keyPair.pem 다운로드 위치}
      ```
-          - **Note**: "keyPair.pem" 부분을 keyPair.pem의 디렉터리 위치로 교체하세요.
+     - **Note**: "keyPair.pem" 부분을 keyPair.pem의 디렉터리 위치로 교체하세요.
 
      ```bash
      ssh -i keyPair.pem centos@{ip주소}
      ```
-          - **Note**: "ip주소" 부분을 복사한 IP 주소로 교체하세요.
+     - **Note**: "ip주소" 부분을 복사한 IP 주소로 교체하세요.
 
      ```bash
      yes
