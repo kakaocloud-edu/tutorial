@@ -68,11 +68,7 @@
     - 에이전트 실행 확인
     ```bash
     sudo systemctl restart kic_monitor_agent 
-    ```
-    ```bash
     sudo systemctl enable kic_monitor_agent 
-    ```
-    ```bash 
     sudo journalctl -u kic_monitor_agent -f
     ```
 
