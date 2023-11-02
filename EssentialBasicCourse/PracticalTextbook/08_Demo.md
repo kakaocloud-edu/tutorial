@@ -73,7 +73,7 @@ VPC1과 VPC2를 연결하는 TGW를 생성하고 설정합니다. TGW를 통해 
      - Target 타입 : `Transit Gateway`
      - 목적지 : `172.31.0.0/16`(vpc_2의 IP CIDR 블록)
 20. 카카오 클라우드 콘솔 > 전체 서비스 > VPC
-21. Route Table 탭 > vpc_1의 main 클릭
+21. Route Table 탭 > vpc_2의 main 클릭
 21. Route 추가 버튼 클릭
      - Target 타입 : `Transit Gateway`
      - 목적지 : `172.30.0.0/16`(vpc_1의 IP CIDR 블록)
