@@ -43,20 +43,19 @@
     - Bastion을 통해 Web _server_2에 접속
     ```bash
     ssh -i "keyPair.pem" -o ProxyCommand="ssh -W %h:%p centos@{Bastion의 public IP} -i keyPair.pem" centos@{web_server_2의 private IP}
-    - **Note**: "{Bastion의 public IP}", "{web_server_1의 private IP}" 부분을 복사한 IP 주소로 교체하세요.
     ```
 11. CPU 부하기 패키지 설치 및 부하 생성 및 종료 - 터미널 명령어 입력
     ```bash
     sudo yum install epel-release -y
     ```
-    ```bash 
+    ```bash
     sudo yum install stress -y
-    ``` 
+    ```
     ```bash
     stress --cpu 2
     ```
     ```bash 
-    crtl + C // 1분 후 입력
+    crtl + C #1분 후 입력
     ```
 12. 입력했던 이메일 주소에 부하 알림 확인하기
 
