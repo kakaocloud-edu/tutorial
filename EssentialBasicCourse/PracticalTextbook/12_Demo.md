@@ -45,23 +45,25 @@
     sudo yum -y localinstall https://objectstorage.kr-central-2.kakaoi.io/v1/52867b7dc99d45fb808b5bc874cb5b79/kic-monitoring-agent/package/kic_monitor_agent-0.9.5.x86_64.rpm
     ```
 11. 모니터링 대시보드 생성을 위한 설정 - 터미널 명령어 입력
+    - **note** {사용자 액세스 키 ID} 값을 실제 액세스 키 ID(Lab1 참고)로 수정
+    - **note** {사용자 액세스 보안 키} 값을 실제 액세스 보안키(Lab1 참고)로 수정
     ```bash
     sudo tee /etc/default/kic_monitor_agent <<EOF
     C_LOG_FILE_PATH="/var/www/html/VMlog"
     KIC_MONITOR_ENDPOINT_URL="https://monitoring.kr-central-2.kakaoi.io"
-    KIC_MONITOR_AGENT_AUTH_APPLICATION_CREDENTIAL_ID="사용자 액세스 키 ID"
-    KIC_MONITOR_AGENT_AUTH_APPLICATION_CREDENTIAL_SECRET="사용자 액세스 보안 키"
+    KIC_MONITOR_AGENT_AUTH_APPLICATION_CREDENTIAL_ID="{사용자 액세스 키 ID}"
+    KIC_MONITOR_AGENT_AUTH_APPLICATION_CREDENTIAL_SECRET="{사용자 액세스 보안 키}"
     ## 호스트가 직접 Public 망에 접속하지 못할 경우, HTTP Proxy 서버를 지정할 수 있습니다.
     # HTTP_PROXY=http://proxy
     # HTTPS_PROXY=https://proxy
     # NO_PROXY=169.254.169.254
     EOF
     ```
-12. 설정 변경이 적용되었는지 출력하여 확인 - 터미널 명령어 입력
+13. 설정 변경이 적용되었는지 출력하여 확인 - 터미널 명령어 입력
     ```bash
     sudo cat -n /etc/default/kic_monitor_agent
     ```
-13. 에이전트 수동 시작 - 터미널 명령어 입력
+14. 에이전트 수동 시작 - 터미널 명령어 입력
     - enable로 설정하면, 컴퓨터 부팅 시 에이전트 자동 시작
     - 에이전트 실행 확인
     ```bash
