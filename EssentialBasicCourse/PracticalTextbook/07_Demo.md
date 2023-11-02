@@ -61,16 +61,10 @@ VPC안에 기존에 사용하던 AZ1과 다른 AZ2를 사용할 수 있도록 �
      10. 터미널 명령어 입력
      ```bash
      sudo yum -y install httpd
-     ```
-     ```bash
      sudo systemctl start httpd
-     ```
-     ```bash 
      sudo systemctl enable httpd
      ```
-     ```bash 
-     sudo systemctl status httpd
-     ```
+
 11. vm_5의 Public IP 복사
 12. 브라우저창에 입력
 13. apache 웹서버 Test페이지가 나오는 것을 확인
