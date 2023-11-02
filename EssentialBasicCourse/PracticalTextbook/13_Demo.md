@@ -24,7 +24,7 @@
     - 조건 유형 : `메트릭`
     - 서비스 : `Beyond Compute Service`
     - 메트릭 항목 : `CPU Usage`
-    - 자원 : `web_server_2`
+    - 자원 : `bastion`
     - 임계치 : `30%이상`
     - 지속시간 : `1분`
     - 심각도 : `경고`
@@ -36,15 +36,13 @@
 5. 다음 버튼 클릭 
 6. 만들기 버튼 클릭
 7. 카카오 클라우드 콘솔 > 전체 서비스 > Virtual Machine 접속
-8. Bastion VM의 Public IP 주소 복사
-9. Web_server_2의 Private IP 주소 복사
-10. 터미널 명령어 입력
+8. 터미널 명령어 입력
     - Keypair를 다운받아놓은 폴더로 이동
-    - Bastion을 통해 Web _server_2에 접속
+    - Bastion에 접속
     ```bash
-    ssh -i "keyPair.pem" -o ProxyCommand="ssh -W %h:%p centos@{Bastion의 public IP} -i keyPair.pem" centos@{web_server_2의 private IP}
+    ssh -i keyPair.pem centos@{Bastion의 public IP}
     ```
-11. CPU 부하기 패키지 설치 및 부하 생성 및 종료 - 터미널 명령어 입력
+9. CPU 부하기 패키지 설치 및 부하 생성 및 종료 - 터미널 명령어 입력
     ```bash
     sudo yum install epel-release -y
     ```
@@ -59,11 +57,9 @@
     crtl + C 
     ```
     
-12. 입력했던 이메일 주소에 부하 알림 확인하기
+10. 입력했던 이메일 주소에 부하 알림 확인하기
 
 ## 3. 이벤트 기반 알림 정책 생성 및 알림 확인
-
-
 1. 카카오 클라우드 콘솔 > 전체 서비스 > Alert Center 접속
 2. 알림 정책 만들기 버튼 클릭
     - 조건 유형 : `이벤트`
