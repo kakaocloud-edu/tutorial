@@ -100,7 +100,7 @@ VPC안에 기존에 사용하던 AZ1과 다른 AZ2를 사용할 수 있도록 �
 
 
 2. 호스트명 확인하기
-     - Load Balancer는 webserver1과 webserver2에 연결되어 있기 때문에 새로고침 시 호스트명이 연결된 VM의 Public IP로 바뀌는 것을 볼 수 있음
+     - Load Balancer는 webserver1과 webserver2에 연결되어 있기 때문에 새로고침 시 호스트명이 연결된 VM의 IP로 바뀌는 것을 볼 수 있음
      - 새로고침 시 바로 바뀌어서 접속되지않고, 일정시간후 새로고침을 진행해야함
 
 ### 3.2 kr-central-2-b에 있는 vm_5에 연결된 경우
