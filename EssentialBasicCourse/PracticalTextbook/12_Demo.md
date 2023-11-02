@@ -18,33 +18,30 @@
 2. 비밀번호 확인
 3. 사용자 액세스 키 생성
     - 사용자 엑세스 키 이름 : `acesskey`
-    - 프로젝트 지정: `kakaocloud (kakaocloud)`
+    - 프로젝트 지정: {모니터링할 가상머신 리소스가 존재하는 프로젝트 선택}
     - 사용자 액세스 키 정보(선택): `kakaocloud`
     - 만료기한: `지정하지 않음` 선택
 4. 만들기 버튼 클릭
 5. 만들어진 사용자 엑세스키 ID와 보안키를 복사해 클립보드 등에 저장
 6. 카카오 클라우드 콘솔 > 전체 서비스 > Virtual Machine 접속
-7. Bastion VM의 Public IP 주소 복사
-8. Web_server_2의 Private IP 주소 복사
-9. 터미널 명령어 입력
-    - KeyPair를 다운받아놓은 폴더로 이동
-    - Bastion을 통해 Web_server_2에 접속
+7. 터미널 명령어 입력
+    - Bastion VM에 접속
     ```bash
     cd {keyPair.pem 다운로드 위치}
     ```
-    - **Note**: "{keyPair.pem 다운로드 위치}" 부분을 keyPair.pem의 디렉터리 위치로 교체하세요.
+    - **Note**: "{keyPair.pem 다운로드 위치}" 부분을 keyPair.pem의 디렉터리 위치로 교체
     ```bash 
-    ssh -i "keyPair.pem" -o ProxyCommand="ssh -W %h:%p centos@{Bastion의 public IP} -i keyPair.pem" centos@{web_server_2의 private IP}
+    ssh -i keyPair.pem centos@{Bastion의 public IP}
     ```
-    - **Note**: "{Bastion의 public IP}", "{web_server_1의 private IP}" 부분을 복사한 IP 주소로 교체하세요.
+    - **Note**: "{Bastion의 public IP}", "{web_server_1의 private IP}" 부분을 복사한 IP 주소로 교체
     ```bash
     yes
     ```
-10. Monitoring Agent 패키지 설치 - 터미널 명령어 입력
+8. Monitoring Agent 패키지 설치 - 터미널 명령어 입력
     ```bash
     sudo yum -y localinstall https://objectstorage.kr-central-2.kakaoi.io/v1/52867b7dc99d45fb808b5bc874cb5b79/kic-monitoring-agent/package/kic_monitor_agent-0.9.5.x86_64.rpm
     ```
-11. 모니터링 대시보드 생성을 위한 설정 - 터미널 명령어 입력
+9. 모니터링 대시보드 생성을 위한 설정 - 터미널 명령어 입력
     - **note** {사용자 액세스 키 ID} 값을 실제 액세스 키 ID(Lab1 참고)로 수정
     - **note** {사용자 액세스 보안 키} 값을 실제 액세스 보안키(Lab1 참고)로 수정
     ```bash
@@ -59,11 +56,11 @@
     # NO_PROXY=169.254.169.254
     EOF
     ```
-13. 설정 변경이 적용되었는지 출력하여 확인 - 터미널 명령어 입력
+10. 설정 변경이 적용되었는지 출력하여 확인 - 터미널 명령어 입력
     ```bash
     sudo cat -n /etc/default/kic_monitor_agent
     ```
-14. 에이전트 수동 시작 - 터미널 명령어 입력
+11. 에이전트 수동 시작 - 터미널 명령어 입력
     - enable로 설정하면, 컴퓨터 부팅 시 에이전트 자동 시작
     - 에이전트 실행 확인
     ```bash
@@ -77,5 +74,5 @@
 
 1. 카카오 클라우드 콘솔 > 전체 서비스 > Monitoring 접속
 2. Beyond Compute System 클릭
-3. 좌측 상단 네모 박스 클릭 > web_server_2 선택
+3. 좌측 상단 네모 박스 클릭 > bastion VM 선택
 4. 대시보드가 생성된 것을 확인
