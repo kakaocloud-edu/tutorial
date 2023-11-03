@@ -62,6 +62,7 @@ VPC안에 기존에 사용하던 AZ1과 다른 AZ2를 사용할 수 있도록 �
      ```
      10. 터미널 명령어 입력
      ```bash
+     sudo yum -y update
      sudo yum -y install httpd
      sudo systemctl start httpd
      sudo systemctl enable httpd
