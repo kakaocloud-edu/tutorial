@@ -19,21 +19,22 @@
 
 
 1. 카카오 클라우드 콘솔 > 전체 서비스 > Virual Machine 접속
-2. Bastion 인스턴스의 Public IP 주소 확인 및 복사
-3. Web_server_1의 Private IP 주소 확인 및 복사
-4. 명령어 입력
-          - Keypair를 다운받아놓은 폴더로 이동
-          - 명령어 붙여넣기
-          - yes  입력
+2. 생성된 인스턴스의 우측 메뉴바 > SSH 연결 클릭
+     - SSH 접속 명령어 복사(다운받은 keyPair.pem 파일이 있는 경로에서 아래 명령어를 실행합니다.)
+     - 터미널 열기
+     - Keypair를 다운받아놓은 폴더로 이동
+     - 터미널에 명령어 붙여넣기
+     - yes 입력
+
      ```bash
      cd {keyPair.pem 다운로드 위치}
      ```
-     - **Note**: "{keyPair.pem 다운로드 위치}" 부분을 keyPair.pem의 디렉터리 위치로 교체하세요.
      ```bash
-     ssh -i "keyPair.pem" -o ProxyCommand="ssh -W %h:%p centos@{Bastion의 public IP} -i keyPair.pem" centos@{Web_server_1의 private IP}
+     ssh -i keyPair.pem centos@{bastion의 public ip주소}
      ```
-     - **Note**: "{Bastion의 public IP}", "{web_server_1의 private IP}" 부분을 복사한 IP 주소로 교체하세요.
-5. NFS 패키지 설치 - 터미널 명령어 입력
+     - **Note**: "bastion의 public ip주소" 부분을 복사한 IP 주소로 교체하세요.
+
+3. NFS 패키지 설치 - 터미널 명령어 입력
      ```bash
      sudo yum install -y nfs-utils
      ```
@@ -43,23 +44,23 @@
      ```bash
      ls -al
      ```
-6. 카카오 클라우드 콘솔 > 전체 서비스 > file Storage 접속
-7. fs-01 인스턴스의 마운트 정보 복사 버튼 클릭
-8. VM에서 마운트하기 - 터미널 명령어 붙여넣기
+4. 카카오 클라우드 콘솔 > 전체 서비스 > file Storage 접속
+5. fs-01 인스턴스의 마운트 정보 복사 버튼 클릭
+6. VM에서 마운트하기 - 터미널 명령어 붙여넣기
      ```bash
      #마운트 정보 복사 내용 붙여넣기
      sudo mount -t nfs {File Storage 인스턴스 사설 IP}:/{파일 공유 이름} fs1
      ```
      - **Note**: "{File Storage 인스턴스 사설 IP}:/{파일 공유 이름}" 부분을 마운트 정보 복사본으로 교체하세요.
-9. NFS마운트 여부 확인
+7. NFS마운트 여부 확인
      ```bash
      mount
      ```
-10. 마운트 된 디렉터리 권한 변경하기 - 터미널 명령어 입력
+8. 마운트 된 디렉터리 권한 변경하기 - 터미널 명령어 입력
      ```bash
      sudo chmod 777 fs1
      ```
-11. 변경된 권한 확인하기
+9. 변경된 권한 확인하기
      ```bash
      ls -l
      ```
