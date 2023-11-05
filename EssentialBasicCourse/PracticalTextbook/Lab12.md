@@ -14,17 +14,9 @@
 ## 2. 인스턴스에 Monitoring Agent 설치 및 설정
 
 
-1. 우측 상단 프로필 이미지 클릭 > 사용자 엑세스 키 클릭
-2. 비밀번호 확인
-3. 사용자 액세스 키 생성
-    - 사용자 엑세스 키 이름 : `acesskey`
-    - 프로젝트 지정: {모니터링할 가상머신 리소스가 존재하는 프로젝트 선택}
-    - 사용자 액세스 키 정보(선택): `kakaocloud`
-    - 만료기한: `지정하지 않음` 선택
-4. 만들기 버튼 클릭
-5. 만들어진 사용자 엑세스키 ID와 보안키를 복사해 클립보드 등에 저장
-6. 카카오 클라우드 콘솔 > 전체 서비스 > Virtual Machine 접속
-7. 터미널 명령어 입력
+1. IAM 실습에서 만들었던 사용자 엑세스 키 ID와 사용자 엑세스 보안 키 준비
+2. 카카오 클라우드 콘솔 > 전체 서비스 > Virtual Machine 접속
+3. 터미널 명령어 입력
     - Bastion VM에 접속
     ```bash
     cd {keyPair.pem 다운로드 위치}
@@ -33,15 +25,12 @@
     ```bash 
     ssh -i keyPair.pem centos@{Bastion의 public IP}
     ```
-    - **Note**: "{Bastion의 public IP}", "{web_server_1의 private IP}" 부분을 복사한 IP 주소로 교체
-    ```bash
-    yes
-    ```
-8. Monitoring Agent 패키지 설치 - 터미널 명령어 입력
+
+4. Monitoring Agent 패키지 설치 - 터미널 명령어 입력
     ```bash
     sudo yum -y localinstall https://objectstorage.kr-central-2.kakaoi.io/v1/52867b7dc99d45fb808b5bc874cb5b79/kic-monitoring-agent/package/kic_monitor_agent-0.9.5.x86_64.rpm
     ```
-9. 모니터링 대시보드 생성을 위한 설정 - 터미널 명령어 입력
+5. 모니터링 대시보드 생성을 위한 설정 - 터미널 명령어 입력
     - **note** {사용자 액세스 키 ID} 값을 실제 액세스 키 ID(Lab1 참고)로 수정
     - **note** {사용자 액세스 보안 키} 값을 실제 액세스 보안키(Lab1 참고)로 수정
     ```bash
@@ -56,11 +45,11 @@
     # NO_PROXY=169.254.169.254
     EOF
     ```
-10. 설정 변경이 적용되었는지 출력하여 확인 - 터미널 명령어 입력
+6. 설정 변경이 적용되었는지 출력하여 확인 - 터미널 명령어 입력
     ```bash
     sudo cat -n /etc/default/kic_monitor_agent
     ```
-11. 에이전트 수동 시작 - 터미널 명령어 입력
+7. 에이전트 수동 시작 - 터미널 명령어 입력
     - enable로 설정하면, 컴퓨터 부팅 시 에이전트 자동 시작
     - 에이전트 실행 확인
     ```bash
