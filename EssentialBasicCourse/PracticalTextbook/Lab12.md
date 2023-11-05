@@ -31,8 +31,8 @@
     sudo yum -y localinstall https://objectstorage.kr-central-2.kakaoi.io/v1/52867b7dc99d45fb808b5bc874cb5b79/kic-monitoring-agent/package/kic_monitor_agent-0.9.5.x86_64.rpm
     ```
 5. 모니터링 대시보드 생성을 위한 설정 - 터미널 명령어 입력
-    - **note** {사용자 액세스 키 ID} 값을 실제 액세스 키 ID(Lab1 참고)로 수정
-    - **note** {사용자 액세스 보안 키} 값을 실제 액세스 보안키(Lab1 참고)로 수정
+    - **note** {사용자 액세스 키 ID} 값을 준비한 실제 액세스 키 ID로 수정
+    - **note** {사용자 액세스 보안 키} 값을 준비한 실제 액세스 보안 키로 수정
     ```bash
     sudo tee /etc/default/kic_monitor_agent <<EOF
     C_LOG_FILE_PATH="/var/www/html/VMlog"
