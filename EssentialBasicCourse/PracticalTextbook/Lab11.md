@@ -35,7 +35,7 @@
 
 
 2. 환경변수 셋팅 - env.sh 파일 생성 - 터미널 명령어 입력
-    - 아래 스크립트를 메모장에 복사하여 {KAKAO_ACCESS_KEY}, {KAKAO_ACCESS_SECRET_KEY}, {USER_ID} 를 수정후 터미널에 입력력
+    - 아래 스크립트를 메모장에 복사하여 {KAKAO_ACCESS_KEY}, {KAKAO_ACCESS_SECRET_KEY}, {USER_ID} 를 수정후 터미널에 입력
          - **note** {KAKAO_ACCESS_KEY} 값을 액세스 키 ID(Lab1 참고)로 수정
          - **note** {KAKAO_ACCESS_SECRET_KEY} 값을 액세스 보안키(Lab1 참고)로 수정
          - **note** {USER_ID} 값을 사용자 ID 값으로 수정
