@@ -72,7 +72,7 @@ Bastion(점프서버) 인스턴스와 Web server 인스턴스를 생성해보고
      ```
      - **Note**: "bastion의 public ip주소" 부분을 복사한 IP 주소로 교체하세요.
    
-       #### **lab4-1-13-4**
+     #### **lab4-1-13-4**
      ```bash
      yes
      ```
