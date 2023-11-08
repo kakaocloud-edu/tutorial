@@ -18,21 +18,29 @@
 2. 카카오 클라우드 콘솔 > 전체 서비스 > Virtual Machine 접속
 3. 터미널 명령어 입력
     - Bastion VM에 접속
+
+    #### **lab12-2-3-1**
     ```bash
     cd {keyPair.pem 다운로드 위치}
     ```
     - **Note**: "{keyPair.pem 다운로드 위치}" 부분을 keyPair.pem의 디렉터리 위치로 교체
+
+    #### **lab12-2-3-2**
     ```bash 
     ssh -i keyPair.pem centos@{Bastion의 public IP}
     ```
 
 4. Monitoring Agent 패키지 설치 - 터미널 명령어 입력
+
+    #### **lab12-2-4**
     ```bash
     sudo yum -y localinstall https://objectstorage.kr-central-2.kakaoi.io/v1/52867b7dc99d45fb808b5bc874cb5b79/kic-monitoring-agent/package/kic_monitor_agent-0.9.5.x86_64.rpm
     ```
 5. 모니터링 대시보드 생성을 위한 설정 - 터미널 명령어 입력
     - **note** {사용자 액세스 키 ID} 값을 준비한 실제 액세스 키 ID로 수정
     - **note** {사용자 액세스 보안 키} 값을 준비한 실제 액세스 보안 키로 수정
+
+    #### **lab12-2-5**
     ```bash
     sudo tee /etc/default/kic_monitor_agent <<EOF
     C_LOG_FILE_PATH="/var/www/html/VMlog"
@@ -46,12 +54,16 @@
     EOF
     ```
 6. 설정 변경이 적용되었는지 출력하여 확인 - 터미널 명령어 입력
+
+    #### **lab12-2-6**
     ```bash
     sudo cat -n /etc/default/kic_monitor_agent
     ```
 7. 에이전트 수동 시작 - 터미널 명령어 입력
     - enable로 설정하면, 컴퓨터 부팅 시 에이전트 자동 시작
     - 에이전트 실행 확인
+
+    #### **lab12-2-7**
     ```bash
     sudo systemctl restart kic_monitor_agent 
     sudo systemctl enable kic_monitor_agent 
