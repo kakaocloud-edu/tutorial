@@ -33,6 +33,7 @@ Bastion(점프서버) 인스턴스와 Web server 인스턴스를 생성해보고
      - 만들기 버튼 클릭
 7. 고급설정 버튼 클릭
      - 사용자 스크립트에 아래 내용 붙여넣기 (mysql client 사용을 위함)
+     - [lab4-1-7]
      ```bash
      #!/bin/bash
      sudo rpm --import https://repo.mysql.com/RPM-GPG-KEY-mysql-2022
