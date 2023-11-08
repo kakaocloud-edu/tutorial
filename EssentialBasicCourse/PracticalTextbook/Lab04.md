@@ -33,12 +33,14 @@ Bastion(점프서버) 인스턴스와 Web server 인스턴스를 생성해보고
      - 만들기 버튼 클릭
 7. 고급설정 버튼 클릭
      - 사용자 스크립트에 아래 내용 붙여넣기 (mysql client 사용을 위함)
+     <!-- 코드 1 시작 -->
      ```bash
      #!/bin/bash
      sudo rpm --import https://repo.mysql.com/RPM-GPG-KEY-mysql-2022
      sudo yum localinstall https://dev.mysql.com/get/mysql57-community-release-el7-11.noarch.rpm -y
      sudo yum install mysql-community-server -y
      ```
+     <!-- 코드 1 끝 -->
      - **Note**: 고급 설정 스크립트 부분을 못하더라도 추후 설정할 수 있습니다.
 9. 만들기 버튼 클릭
 10. Virtual Machine > Instance
