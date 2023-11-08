@@ -12,9 +12,12 @@
      - 터미널 열기
      - 터미널에 명령어 붙여넣기
 
+    #### **lab11-1-2-1**
     ```bash
     cd {keyPair.pem 다운로드 위치}
     ```
+
+    #### **lab11-1-2-2**
     ```bash
     ssh -i keyPair.pem centos@{ip주소}
     ```
@@ -23,6 +26,8 @@
 
 
 1. 실습을 위한 패키지 설치 - 터미널 명령어 입력
+
+    #### **lab11-2-1**
     ```bash
     sudo yum update -y
     sudo yum install -y epel-release 
@@ -41,6 +46,7 @@
          - **note** {USER_ID} 값을 사용자 ID 값으로 수정
               - 사용자 ID 얻는 방법: 콘솔 화면의 우측 상단 사용자 아이콘 클릭 > 계정 정보 > 비밀번호 입력 > 사용자 ID 복사
 
+    #### **lab11-2-2**
     ```bash
     cat << 'EOF' > env.sh
     export ACCESS_KEY="{KAKAO_ACCESS_KEY}"
@@ -115,6 +121,8 @@
     EOF
     ```
 3. 생성된 env.sh 실행
+
+    #### **lab11-2-3**
     ```bash
     . env.sh
     ```
@@ -163,6 +171,8 @@
 
 
 1. 버킷 내 폴더 생성 - 터미널 명령어 입력
+
+    #### **lab11-4-1**
     ```bash
     aws s3api put-object --bucket my-bucket --key my-folder/
     ```
@@ -174,11 +184,15 @@
 
 
 1. 접속중인 VM 내부에 파일 생성 - 터미널 명령어 입력
+
+    #### **lab11-5-1**
     ```bash
     echo "This is my text" >> my-file.txt
     ```
 
 2. 버킷 내부 폴더로 파일 이동 - 터미널 명령어 입력
+
+    #### **lab11-5-2**
     ```bash
     aws s3 mv my-file.txt s3://my-bucket/my-folder/
     ```
@@ -191,9 +205,13 @@
 
 
 1. 파일 복사 후 내용 출력 - 터미널 명령어 입력
+
+    #### **lab11-6-1-1**
     ```bash
     aws s3 cp s3://my-bucket/my-folder/my-file.txt copytext.txt
     ```
+
+    #### **lab11-6-1-2**
     ```bash
     cat copytext.txt
     ```
@@ -202,6 +220,8 @@
 
 
 1. 파일 삭제(my-file) - 터미널 명령어 입력
+
+    #### **lab11-7-1**
     ```bash
     aws s3 rm s3://my-bucket/my-folder/my-file.txt
     ```
@@ -210,6 +230,8 @@
     - my-folder 클릭
     - my-file 삭제된 것을 확인
 3. 폴더 삭제(my-folder) - 터미널 명령어 입력
+
+    #### **lab11-7-3**
     ```bash
     aws s3 rm s3://my-bucket/my-folder/
     ```
@@ -217,6 +239,8 @@
     - my-bucket 클릭
     - my-folder 폴더가 삭제된 것을 확인
 5. 버킷 삭제(my-bucket) - 터미널 명령어 입력
+
+    #### **lab11-7-5**
     ```bash
     aws s3 rb s3://my-bucket
     ```
