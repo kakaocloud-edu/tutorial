@@ -33,6 +33,8 @@ Web서버와 DB간의 연동이 되는지 확인하는 실습입니다.
      - 터미널 열기
      - 터미널에 명령어 붙여넣기
      - MySQL 연결 명령어 입력
+         
+     #### **lab5-2-2**
      ```bash
      sudo rpm --import https://repo.mysql.com/RPM-GPG-KEY-mysql-2022
      sudo yum localinstall https://dev.mysql.com/get/mysql57-community-release-el7-11.noarch.rpm -y
@@ -41,29 +43,43 @@ Web서버와 DB간의 연동이 되는지 확인하는 실습입니다.
 3. 카카오 클라우드 콘솔 > 전체 서비스 > MySQL 접속 > database 클릭
      - 엔드포인트 URL 복사
      - 터미널에 명령어 입력
+          
+     #### **lab5-2-3-1**
      ```bash
      mysql --user=admin --password=admin1234 --host={엔드포인트URL}
      ```
      - **Note**: "{엔드포인트URL}" 부분을 복사한 URL 주소로 교체하세요.
      - MySQL 초기설정 명령어 입력
+           
+     #### **lab5-2-3-2**
      ```bash
      CREATE DATABASE IF NOT EXISTS myweb;
      ```
+          
+     #### **lab5-2-3-3**
      ```bash
      use myweb;
      ```
+          
+     #### **lab5-2-3-4**
      ```bash
      CREATE TABLE IF NOT EXISTS users (
      id INT AUTO_INCREMENT PRIMARY KEY,
      username VARCHAR(255) NOT NULL
      );
      ```
+          
+     #### **lab5-2-3-5**
      ```bash
      INSERT INTO users (username) VALUES ('kakao');
      ```
+          
+     #### **lab5-2-3-6**
      ```bash
      CALL mysql.mnms_grant_right_user('admin', '%', 'all', '*', '*');
      ```
+          
+     #### **lab5-2-3-7**
      ```bash
      ALTER USER 'admin'@'%' IDENTIFIED WITH mysql_native_password BY 'admin1234';
      ```     
