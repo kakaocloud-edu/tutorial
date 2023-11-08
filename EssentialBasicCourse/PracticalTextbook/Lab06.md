@@ -19,6 +19,8 @@ Public 서브넷에 Web서버 VM을 하나 더 생성합니다. 만든 Web서버
      - Security Group : `webserver`
 3. 고급 설정 클릭
      - 내부 스크립트 복사 후 클립보드에 보관
+      
+     #### **lab6-1-3**
      ```bash
      #!/bin/bash
      yum -y remove mariadb-libs
