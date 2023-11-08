@@ -135,6 +135,8 @@
     
     1. 버킷 생성 - 터미널 명령어 입력
     - "bucket-test" 라는 이름을 갖는 버킷을 생성
+
+    #### **lab11-3-1-1-1**
     ```bash
     curl --request PUT --location "${AWS_ENDPOINT_URL}/v1_ext/bucket" \
      --header 'X-Auth-Token: "'${TOKEN}'"' \
@@ -150,6 +152,8 @@
     ```
     2. 버킷 생성 확인 - 터미널 명령어 입력
     - "bucket-test" 라는 이름을 갖는 버킷 정보 조회
+
+    #### **lab11-3-1-1-2**
     ```bash
     curl --request GET --location "${AWS_ENDPOINT_URL}/v1_ext/bucket/bucket-test" \
     --header 'X-Auth-Token: "'${TOKEN}'"' | jq '.'
@@ -159,10 +163,14 @@
     
     
     1. 버킷 생성 - 터미널 명령어 입력
+
+    #### **lab11-3-1-2-1**
     ```bash
     aws s3api create-bucket --bucket my-bucket
     ```
     2. 버킷 조회 - 터미널 명령어 입력
+
+    #### **lab11-3-1-2-2**
     ```bash
     aws s3 ls
     ```
