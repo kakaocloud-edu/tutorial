@@ -89,10 +89,14 @@ VPC1과 VPC2를 연결하는 TGW를 생성하고 설정합니다. TGW를 통해 
      - Bastion VM에 접속
      - ping 명령어를 통해 vpc_2에 있는 vm에 패킷이 전달됨을 확인
      - vpc_1 -> vpc_2의 통신이 가능함을 알 수 있음
+           
+     #### **lab8-4-4-1**
      ```bash
      ssh -i keyPair.pem centos@{bastion의 Public IP}
      ```
      - **Note**: "bastion의 Public IP" 부분을 bastion의 Public IP 주소로 변경하세요.
+        
+     #### **lab8-4-4-2**
      ```bash 
      ping `{vpc2-vm의 Private IP}`
      ```
