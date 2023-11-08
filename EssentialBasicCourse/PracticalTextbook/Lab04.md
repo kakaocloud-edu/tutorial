@@ -43,30 +43,30 @@ Bastion(점프서버) 인스턴스와 Web server 인스턴스를 생성해보고
      ```
 
      - **Note**: 고급 설정 스크립트 부분을 못하더라도 추후 설정할 수 있습니다.
-9. 만들기 버튼 클릭
-10. Virtual Machine > Instance
-11. 생성된 인스턴스의 우측 메뉴바 > Public IP 연결 클릭
+8. 만들기 버튼 클릭
+9. Virtual Machine > Instance
+10. 생성된 인스턴스의 우측 메뉴바 > Public IP 연결 클릭
     - `새로운 Public IP를 생성하고 자동으로 할당` 
-12. 확인 버튼 클릭
-13. 생성된 인스턴스의 우측 메뉴바 > SSH 연결 클릭
+11. 확인 버튼 클릭
+12. 생성된 인스턴스의 우측 메뉴바 > SSH 연결 클릭
      - SSH 접속 명령어 복사(다운받은 keyPair.pem 파일이 있는 경로에서 아래 명령어를 실행합니다.)
      - 터미널 열기
      - Keypair를 다운받아놓은 폴더로 이동
      - 터미널에 명령어 붙여넣기
      - yes 입력
 
-     #### **lab4-1-13-1**
+     #### **lab4-1-12-1**
      ```bash
      cd {keyPair.pem 다운로드 위치}
      ```
      - 리눅스의 경우에 아래와 같이 키페어의 권한을 조정
 
-     #### **lab4-1-13-2**
+     #### **lab4-1-12-2**
      ```bash
      chmod 400 keyPair.pem
      ```
 
-     #### **lab4-1-13-3**
+     #### **lab4-1-12-3**
      ```bash
      ssh -i keyPair.pem centos@{bastion의 public ip주소}
      ```
@@ -125,10 +125,10 @@ Bastion(점프서버) 인스턴스와 Web server 인스턴스를 생성해보고
      - **Note**: 첫번째 '#!/bin/bash'도 적어 주셔야 합니다.
      - **Note**: 스크립트 설정을 못하더라도 추후 설정 가능합니다.
      - 멀티스레딩: 활성화
-10. 만들기 버튼 클릭
-11. Virtual Machine > Instance > 생성한 인스턴스 ( web_server_1 )의 우측 메뉴바 클릭 > Public IP 연결 클릭
+9. 만들기 버튼 클릭
+10. Virtual Machine > Instance > 생성한 인스턴스 ( web_server_1 )의 우측 메뉴바 클릭 > Public IP 연결 클릭
      - `새로운 Public IP를 자동으로 할당` 선택
-12. 확인 버튼 클릭
+11. 확인 버튼 클릭
 
 ## 3. Bastion VM 인스턴스를 통해 Web 서버 접속
 
