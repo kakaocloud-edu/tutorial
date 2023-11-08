@@ -55,17 +55,24 @@ Bastion(점프서버) 인스턴스와 Web server 인스턴스를 생성해보고
      - 터미널에 명령어 붙여넣기
      - yes 입력
 
+     #### **lab4-1-13-1**
      ```bash
      cd {keyPair.pem 다운로드 위치}
      ```
      - 리눅스의 경우에 아래와 같이 키페어의 권한을 조정
+
+     #### **lab4-1-13-2**
      ```bash
      chmod 400 keyPair.pem
      ```
+
+     #### **lab4-1-13-3**
      ```bash
      ssh -i keyPair.pem centos@{bastion의 public ip주소}
      ```
      - **Note**: "bastion의 public ip주소" 부분을 복사한 IP 주소로 교체하세요.
+   
+       #### **lab4-1-13-4**
      ```bash
      yes
      ```
@@ -99,6 +106,8 @@ Bastion(점프서버) 인스턴스와 Web server 인스턴스를 생성해보고
 6. 만들기 버튼 클릭
 7. 고급설정 버튼 클릭
 8. 사용자 스크립트에 아래 명령어 붙여넣기
+
+     #### **lab4-2-8**
      ```bash
      #!/bin/bash
      yum -y remove mariadb-libs
@@ -116,10 +125,10 @@ Bastion(점프서버) 인스턴스와 Web server 인스턴스를 생성해보고
      - **Note**: 첫번째 '#!/bin/bash'도 적어 주셔야 합니다.
      - **Note**: 스크립트 설정을 못하더라도 추후 설정 가능합니다.
      - 멀티스레딩: 활성화
-9. 만들기 버튼 클릭
-10. Virtual Machine > Instance > 생성한 인스턴스 ( web_server_1 )의 우측 메뉴바 클릭 > Public IP 연결 클릭
+10. 만들기 버튼 클릭
+11. Virtual Machine > Instance > 생성한 인스턴스 ( web_server_1 )의 우측 메뉴바 클릭 > Public IP 연결 클릭
      - `새로운 Public IP를 자동으로 할당` 선택
-11. 확인 버튼 클릭
+12. 확인 버튼 클릭
 
 ## 3. Bastion VM 인스턴스를 통해 Web 서버 접속
 
@@ -133,14 +142,20 @@ Bastion(점프서버) 인스턴스와 Web server 인스턴스를 생성해보고
      - Keypair를 다운받아놓은 폴더로 이동
      - 명령어 붙여넣기
      - yes  입력
+  
+     #### **lab4-3-4-1**
      ```bash
      cd {keyPair.pem 다운로드 위치}
      ```
      - **Note**: "{keyPair.pem 다운로드 위치}" 부분을 keyPair.pem의 디렉터리 위치로 교체하세요.
+
+     #### **lab4-3-4-2**
      ```bash
      ssh -i "keyPair.pem" -o ProxyCommand="ssh -W %h:%p centos@{bastion의 public IP} -i keyPair.pem" centos@{web_server_1의 private IP}
      ```
      - **Note**: "{Bastion의 public IP}", "{web_server_1의 private IP}" 부분을 복사한 IP 주소로 교체하세요.
+
+     #### **lab4-3-4-3**
      ```bash
      yes
      ```
