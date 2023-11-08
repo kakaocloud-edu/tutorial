@@ -47,26 +47,31 @@ VPC안에 기존에 사용하던 AZ1과 다른 AZ2를 사용할 수 있도록 �
      - 터미널에 명령어 붙여넣기
      - yes 입력
 
+     #### **lab7-2-9-1**
      ```bash
      cd {keyPair.pem 다운로드 위치}
      ```
      - **Note**: "keyPair.pem" 부분을 keyPair.pem의 디렉터리 위치로 교체하세요.
 
+     #### **lab7-2-9-2**
      ```bash
      ssh -i keyPair.pem centos@{ip주소}
      ```
      - **Note**: "ip주소" 부분을 복사한 IP 주소로 교체하세요.
 
+     #### **lab7-2-9-3**
      ```bash
      yes
      ```
-     10. 터미널 명령어 입력
-     ```bash
-     sudo yum -y update
-     sudo yum -y install httpd
-     sudo systemctl start httpd
-     sudo systemctl enable httpd
-     ```
+10. 터미널 명령어 입력
+
+#### **lab7-2-10**
+```bash
+sudo yum -y update
+sudo yum -y install httpd
+sudo systemctl start httpd
+sudo systemctl enable httpd
+```
 
 11. vm_5의 Public IP 복사
 12. 브라우저창에 입력
