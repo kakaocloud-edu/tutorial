@@ -53,17 +53,17 @@ Web서버와 DB간의 연동이 되는지 확인하는 실습입니다.
      - MySQL 초기설정 명령어 입력
            
      #### **lab5-2-3-2**
-     ```bash
+     ```sql
      CREATE DATABASE IF NOT EXISTS myweb;
      ```
           
      #### **lab5-2-3-3**
-     ```bash
+     ```sql
      use myweb;
      ```
           
      #### **lab5-2-3-4**
-     ```bash
+     ```sql
      CREATE TABLE IF NOT EXISTS users (
      id INT AUTO_INCREMENT PRIMARY KEY,
      username VARCHAR(255) NOT NULL
@@ -71,12 +71,12 @@ Web서버와 DB간의 연동이 되는지 확인하는 실습입니다.
      ```
           
      #### **lab5-2-3-5**
-     ```bash
+     ```sql
      INSERT INTO users (username) VALUES ('kakao');
      ```
           
      #### **lab5-2-3-6**
-     ```bash
+     ```sql
      CALL mysql.mnms_grant_right_user('admin', '%', 'all', '*', '*');
      ```
           
