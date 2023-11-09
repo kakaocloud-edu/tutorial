@@ -8,7 +8,7 @@ Bastion(점프서버) 인스턴스와 Web server 인스턴스를 생성해보고
 1. 카카오 클라우드 콘솔 > 전체 서비스 > Virtual Machine 접속
 2. Instance 만들기 클릭
      - 이름 : `bastion`
-     - Image : `CentOS 7.9`
+     - Image : `CentOS Stream 8 - 4.18.0-516`
      - Instance 타입 : `m2a.large`
      - Volume : `10 GB`
 3. 새 Key Pair 생성 클릭
@@ -83,7 +83,7 @@ Bastion(점프서버) 인스턴스와 Web server 인스턴스를 생성해보고
      - bastion 인스턴스의 Private IP 복사
 2. Instance 만들기 버튼 클릭
      - 이름 : `web_server_1`
-     - Image : `CentOS 7.9`
+     - Image : `CentOS Stream 8 - 4.18.0-516`
      - Instance 타입 : `m2a.large`
      - Volume : `10 GB`
      - Key Pair : `keyPair`
@@ -111,7 +111,7 @@ Bastion(점프서버) 인스턴스와 Web server 인스턴스를 생성해보고
      ```bash
      #!/bin/bash
      yum -y remove mariadb-libs
-     yum -y install httpd php mysql php-mysql wget 
+     yum -y install httpd php mysql php-mysqlnd wget 
      systemctl enable httpd
      cd /var/www/html
      wget https://github.com/kimjaehyeon0314/test/raw/main/kakao.tar.gz -O kakao.tar.gz
