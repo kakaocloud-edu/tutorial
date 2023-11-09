@@ -38,6 +38,7 @@ Web서버와 DB간의 연동이 되는지 확인하는 실습입니다.
      ```bash
      sudo rpm --import https://repo.mysql.com/RPM-GPG-KEY-mysql-2022
      sudo yum localinstall https://dev.mysql.com/get/mysql57-community-release-el7-11.noarch.rpm -y
+     sudo yum module disable mysql -y
      sudo yum install mysql-community-server -y
      ```
 3. 카카오 클라우드 콘솔 > 전체 서비스 > MySQL 접속 > database 클릭
