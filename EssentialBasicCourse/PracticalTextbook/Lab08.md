@@ -24,7 +24,7 @@ VPC1과 VPC2를 연결하는 TGW를 생성하고 설정합니다. TGW를 통해 
 2. bastion 인스턴스의 Private IP 주소 복사
 3. Instance 만들기 버튼 클릭
      - 이름 : `vpc2_vm`
-     - Image : `CentOS 7.9`
+     - Image : `CentOS Stream 8 - 4.18.0-516`
      - Instance 타입 : `m2a.large`
      - Key Pair : `keyPair`
      - VPC : `vpc_2`
