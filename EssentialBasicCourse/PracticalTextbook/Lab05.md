@@ -81,7 +81,7 @@ Web서버와 DB간의 연동이 되는지 확인하는 실습입니다.
      ```
           
      #### **lab5-2-3-7**
-     ```bash
+     ```sql
      ALTER USER 'admin'@'%' IDENTIFIED WITH mysql_native_password BY 'admin1234';
      ```
 
