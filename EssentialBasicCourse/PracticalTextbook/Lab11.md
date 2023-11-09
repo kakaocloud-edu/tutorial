@@ -68,7 +68,7 @@
                 }
             }
         }
-    }' | grep X-Subject-Token | awk -v RS='\r\n' '{print $2}')
+    }' | grep -i X-Subject-Token | awk -v RS='\r\n' '{print $2}')
     if [ -z $TOKEN ]; then
             echo "TOKEN is null..."
     fi
