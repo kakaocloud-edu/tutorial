@@ -10,7 +10,7 @@ Public 서브넷에 Web서버 VM을 하나 더 생성합니다. 만든 Web서버
 2. 인스턴스 만들기 클릭
      - 이름 : `web_server_2`
      - 개수 : `1`
-     - Image : `CentOS 7.9`
+     - Image : `CentOS Stream 8 - 4.18.0-516`
      - Instance 타입 : `m2a.large`
      - Volume : `10 GB`
      - Key Pair : `keyPair`
@@ -24,7 +24,7 @@ Public 서브넷에 Web서버 VM을 하나 더 생성합니다. 만든 Web서버
      ```bash
      #!/bin/bash
      yum -y remove mariadb-libs
-     yum -y install httpd php mysql php-mysql wget 
+     yum -y install httpd php mysql php-mysqlnd wget 
      systemctl enable httpd
      cd /var/www/html
      wget https://github.com/kimjaehyeon0314/test/raw/main/kakao.tar.gz -O kakao.tar.gz
