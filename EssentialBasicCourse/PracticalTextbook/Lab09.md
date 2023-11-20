@@ -109,85 +109,92 @@
      cat test.txt
      ```
 3. 카카오 클라우드 콘솔 > 전체 서비스 > Virual Machine 접속
-4. vm_5 인스턴스의 우측 메뉴바 > SSH 연결 클릭
-     - SSH 접속 명령어 복사(6. keyPair.pem 파일이 있는 경로에서 아래 명령어를 실행합니다.)
-     - keyPair를 다운받아놓은 폴더로 이동
-     - 터미널에 명령어 붙여넣기 
+4. Virtual Machine > Instance 
+5. Bastion VM과  Web Server의 IP 확인하기
+     - Bastion의 `Public IP 주소` 확인 및 복사
+     - Web_server_1의 `Private IP 주소` 확인 및 복사
+
       
-     #### **lab9-3-4-1**
+     #### **lab9-3-5-1**
      ```bash
      cd {keyPair.pem 다운로드 위치}
      ```
      - **Note**: "{keyPair.pem 다운로드 위치}" 부분을 keyPair.pem의 디렉터리 위치로 교체하세요. 
       
-     #### **lab9-3-4-2**
+     #### **lab9-3-5-2**
      ```bash
-     ssh -i keyPair.pem centos@{ip주소}
+     ssh -i "keyPair.pem" -o ProxyCommand="ssh -W %h:%p centos@{bastion의 public IP} -i keyPair.pem" centos@{web_server_1의 private IP}
      ```
-     - **Note**: "{ip주소}" 부분을 복사한 ip주소로 교체하세요.
-5. NFS 패키지 설치 - 터미널 명령어 입력 
+     - **Note**: "{Bastion의 public IP}", "{web_server_1의 private IP}" 부분을 복사한 IP 주소로 교체하세요.
+
+     #### **lab9-3-5-3**
+     ```bash
+     yes
+     ```
+
+6. NFS 패키지 설치 - 터미널 명령어 입력 
       
-     #### **lab9-3-5-1**
+     #### **lab9-3-6-1**
      ```bash
      sudo yum install -y nfs-utils
      ``` 
       
-     #### **lab9-3-5-2**
+     #### **lab9-3-6-2**
      ```bash 
      mkdir fs2
      ``` 
       
-     #### **lab9-3-5-3**
+     #### **lab9-3-6-3**
      ```bash
      ls -l
      ```
-6. 카카오 클라우드 콘솔 > 전체 서비스 > file Storage 접속
-7. fs-01 인스턴스의 마운트 정보 복사 버튼 클릭
-8. VM에서 마운트하기 - 터미널 명령어 붙여넣기 
+7. 카카오 클라우드 콘솔 > 전체 서비스 > file Storage 접속
+8. fs-01 인스턴스의 마운트 정보 복사 버튼 클릭
+9. VM에서 마운트하기 - 터미널 명령어 붙여넣기 
       
-     #### **lab9-3-8**
+     #### **lab9-3-9**
      ```bash
      #마운트 정보 복사 내용 붙여넣기
      sudo mount -t nfs {File Storage 인스턴스 사설 IP}:/{파일 공유 이름} fs2
      ```
      - **Note**: "{File Storage 인스턴스 사설 IP}:/{파일 공유 이름}" 부분을 마운트 정보 복사본으로 교체하세요.
-9. NFS마운트 여부 확인 
+10. NFS마운트 여부 확인 
       
-     #### **lab9-3-9**
+     #### **lab9-3-10**
      ```bash
      mount
      ```
-10. 디렉터리 이동 및 테스트 파일 확인 - 터미널 명령어 입력 
+11. 디렉터리 이동 및 테스트 파일 확인 - 터미널 명령어 입력 
       
-     #### **lab9-3-10-1**
+     #### **lab9-3-11-1**
      ```bash
      cd fs2
      ``` 
       
-     #### **lab9-3-10-2**
+     #### **lab9-3-11-2**
      ```bash
      ls -l
      ```
-11. 테스트 파일 확인 - 터미널 명령어 입력 
+12. 테스트 파일 확인 - 터미널 명령어 입력 
       
-     #### **lab9-3-11**
+     #### **lab9-3-12**
      ```bash
      cat test.txt
      ```
-12. NFS 마운트 해제하기 - 터미널 명령어 입력 
+13. NFS 마운트 해제하기 - 터미널 명령어 입력 
       
-     #### **lab9-3-12-1**
+     #### **lab9-3-13-1**
      ```bash
      cd ~
      ``` 
       
-     #### **lab9-3-12-2**
+     #### **lab9-3-13-2**
      ```bash
      sudo umount fs2
      ```
-13. NFS 마운트 상태 확인하기 - 터미널 명령어 입력 
+14. NFS 마운트 상태 확인하기 - 터미널 명령어 입력 
       
-     #### **lab9-3-13**
+     #### **lab9-3-14**
      ```bash
      mount
      ```
