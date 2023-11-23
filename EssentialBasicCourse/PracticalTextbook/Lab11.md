@@ -132,6 +132,8 @@
     ```bash
     . env.sh
     ```
+    ![image](https://github.com/kakaocloud-edu/tutorial/assets/128004136/180abe88-7a02-4ef3-8e01-0a93c77be7d8)
+
 
 ## 3. 버킷 생성 및 조회
 
