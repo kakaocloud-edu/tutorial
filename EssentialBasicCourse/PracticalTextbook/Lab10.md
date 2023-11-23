@@ -2,6 +2,9 @@
 
 새로운 File Storage 인스턴스를 생성합니다. File Storage를 사용중인 VM인스턴스와 연결해보고, 연결이 되었는지 확인해봅니다. 연결된 File Storage를 마운트 해제 후 확인해봅니다.
 
+**[아래 시작 전에 다음 실습 미리 준비하기](https://github.com/kakaocloud-edu/tutorial/blob/main/EssentialBasicCourse/PracticalTextbook/Lab11.md#lab11-2-1)**
+
+
 ## 1. 버킷 생성하기
 
 
