@@ -15,8 +15,9 @@ VPC1과 VPC2를 연결하는 TGW를 생성하고 설정합니다. TGW를 통해 
      - AZ당 Public Subnet 개수 : `1`
      - AZ당 Private Subnet 개수 : `0`
      - Public Subnet IPv4 CIDR 블록 : `172.31.0.0/20`
+     ![image](https://github.com/kakaocloud-edu/tutorial/assets/128004136/5a109ae3-5813-44a8-a336-4820e639d084)
 3. 만들기 버튼 클릭
-   ![image](https://github.com/kakaocloud-edu/tutorial/assets/128004136/5a109ae3-5813-44a8-a336-4820e639d084)
+   
 
 
 ## 2. VPC2내 VM 인스턴스 생성
