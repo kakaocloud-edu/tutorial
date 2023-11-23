@@ -41,9 +41,9 @@
 
 2. 환경변수 셋팅 - env.sh 파일 생성 - 터미널 명령어 입력
     - 아래 스크립트(**lab11-2-2**)를 메모장에 복사하여 {KAKAO_ACCESS_KEY}, {KAKAO_ACCESS_SECRET_KEY}, {USER_ID} 를 수정후 터미널에 입력
-         - **note** {KAKAO_ACCESS_KEY} 값을 액세스 키 ID(Lab1 참고)로 수정
-         - **note** {KAKAO_ACCESS_SECRET_KEY} 값을 액세스 보안키(Lab1 참고)로 수정
-         - **note** {USER_ID} 값을 사용자 ID 값으로 수정
+         - **Note**: {KAKAO_ACCESS_KEY} 값을 액세스 키 ID(Lab1 참고)로 수정
+         - **Note**: {KAKAO_ACCESS_SECRET_KEY} 값을 액세스 보안키(Lab1 참고)로 수정
+         - **Note**: {USER_ID} 값을 사용자 ID 값으로 수정
               - 사용자 ID 얻는 방법: 콘솔 화면의 우측 상단 사용자 아이콘 클릭 > 계정 정보 > 비밀번호 입력 > 사용자 ID 복사
 
     #### **lab11-2-2**
