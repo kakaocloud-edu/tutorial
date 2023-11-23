@@ -32,13 +32,16 @@ VPC1과 VPC2를 연결하는 TGW를 생성하고 설정합니다. TGW를 통해 
      - Key Pair : `keyPair`
      - VPC : `vpc_2`
      - Subnet : `main`
-     - Security Group : `default` (Ping test를 위해 아래 규칙을 별도로 추가)
-          - 프로토콜: `ICMP` 
-          - 패킷 출발지: `{bastion VM의 Private IP/32}`
+4. SecurityGroup 만들기
+     - Security Group 이름 : `webserver`
+     - Inbound 
+          - 프로토콜: `ICMP`, 패킷 출발지: `{bastion VM의 Private IP/32}`
           - **Note**: "bastion VM의 Private IP/32" 부분을 bastion VM의 Private IP 주소로 교체하세요.
-4. bastion 인스턴스의 우측 메뉴바 클릭 > Public IP 연결 클릭
+     - Outbound 
+          - 프로토콜: `ALL`, 패킷 출발지: `0.0.0.0/0`
+5. bastion 인스턴스의 우측 메뉴바 클릭 > Public IP 연결 클릭
      - `새로운 Public IP를 생성하고 자동으로 할당` 선택
-5. 확인 버튼 클릭    
+6. 확인 버튼 클릭    
 
  ## 3. TGW 생성 및 설정
 
