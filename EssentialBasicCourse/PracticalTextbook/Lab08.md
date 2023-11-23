@@ -32,8 +32,8 @@ VPC1과 VPC2를 연결하는 TGW를 생성하고 설정합니다. TGW를 통해 
      - Key Pair : `keyPair`
      - VPC : `vpc_2`
      - Subnet : `main`
-4. SecurityGroup 만들기
-     - Security Group 이름 : `webserver`
+4. 새 SecurityGroup 생성 클릭
+     - Security Group 이름 : `vpc2_vm`
      - Inbound 
           - 프로토콜: `ICMP`, 패킷 출발지: `{bastion VM의 Private IP/32}`
           - **Note**: "bastion VM의 Private IP/32" 부분을 bastion VM의 Private IP 주소로 교체하세요.
