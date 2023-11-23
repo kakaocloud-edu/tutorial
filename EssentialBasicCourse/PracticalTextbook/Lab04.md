@@ -24,7 +24,8 @@ Bastion(점프서버) 인스턴스와 Web server 인스턴스를 생성해보고
        - 프로토콜: `TCP` 
        - 패킷 출발지: `{사용자 IP}/32`
           - **Note**: "사용자_IP" 부분을 실제 IP 주소로 교체하세요.
-          - 사용자 IP 조회: [https://www.myip.com/](https://www.myip.com/)
+               - 사용자 IP 조회: [https://www.myip.com/](https://www.myip.com/)
+          - 실습 환경에 따라 사용자의 IP가 변경될 가능성이 있다면 `0.0.0.0/0` 으로 설정 
        - 포트 번호: `22` 
 6. Outbound 클릭
      - Outbound
