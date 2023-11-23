@@ -70,11 +70,20 @@ Bastion(점프서버) 인스턴스와 Web server 인스턴스를 생성해보고
 
      #### **lab4-1-12-3**
      ```bash
+     icacls.exe keyPair.pem /reset
+     icacls.exe keyPair.pem /grant:r %username%:(R)
+     icacls.exe keyPair.pem /inheritance:r
+     ```
+     - 윈도우에서 ssh 접근이 안될 경우에 cmd 창에서 keyPair.pem가 있는 경로로 이동 후 위 명령어 입력
+     
+
+     #### **lab4-1-12-4**
+     ```bash
      ssh -i keyPair.pem centos@{bastion의 public ip주소}
      ```
      - **Note**: "bastion의 public ip주소" 부분을 복사한 IP 주소로 교체하세요.
    
-     #### **lab4-1-12-4**
+     #### **lab4-1-12-5**
      ```bash
      yes
      ```
