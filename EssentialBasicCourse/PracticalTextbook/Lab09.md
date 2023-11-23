@@ -15,7 +15,7 @@
      - 마운트 정보 설정 : `fileshare-01`
 3. 만들기 버튼 클릭
 
-## 2. VM에서 마운트하기
+## 2. Bastion VM에서 마운트하기
 
 
 1. 카카오 클라우드 콘솔 > 전체 서비스 > Virual Machine 접속
@@ -108,9 +108,11 @@
      ```bash
      cat test.txt
      ```
-3. 카카오 클라우드 콘솔 > 전체 서비스 > Virual Machine 접속
-4. Virtual Machine > Instance 
-5. Bastion VM과  Web Server의 IP 확인하기
+
+3. web_server_1 VM 접속
+     - 카카오 클라우드 콘솔 > 전체 서비스 > Virual Machine 접속
+     - Virtual Machine > Instance 
+     - Bastion VM과  Web Server의 IP 확인하기
      - Bastion의 `Public IP 주소` 확인 및 복사
      - Web_server_1의 `Private IP 주소` 확인 및 복사
 
@@ -132,7 +134,7 @@
      yes
      ```
 
-6. NFS 패키지 설치 - 터미널 명령어 입력 
+4. web_server_1 VM에 NFS 패키지 설치 - 터미널 명령어 입력 
       
      #### **lab9-3-6-1**
      ```bash
@@ -148,9 +150,9 @@
      ```bash
      ls -l
      ```
-7. 카카오 클라우드 콘솔 > 전체 서비스 > file Storage 접속
-8. fs-01 인스턴스의 마운트 정보 복사 버튼 클릭
-9. VM에서 마운트하기 - 터미널 명령어 붙여넣기 
+5. 카카오 클라우드 콘솔 > 전체 서비스 > file Storage 접속
+6. fs-01 인스턴스의 마운트 정보 복사 버튼 클릭
+7. web_server_1 VM에서 마운트하기 - 터미널 명령어 붙여넣기 
       
      #### **lab9-3-9**
      ```bash
