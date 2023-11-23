@@ -44,7 +44,13 @@
          - **Note**: {KAKAO_ACCESS_KEY} 값을 액세스 키 ID(Lab1 참고)로 수정
          - **Note**: {KAKAO_ACCESS_SECRET_KEY} 값을 액세스 보안키(Lab1 참고)로 수정
          - **Note**: {USER_ID} 값을 사용자 ID 값으로 수정
-              - 사용자 ID 얻는 방법: 콘솔 화면의 우측 상단 사용자 아이콘 클릭 > 계정 정보 > 비밀번호 입력 > 사용자 ID 복사
+              - 사용자 ID 얻는 방법: 콘솔 화면의 우측 상단 사용자 아이콘 클릭 > 계정 정보 > 비밀번호 입력 > **사용자 고유 ID** 복사
+                
+                ![image](https://github.com/kakaocloud-edu/tutorial/assets/128004136/5f972a7c-3c05-44a7-83e3-1c43721948e6)
+                ![image](https://github.com/kakaocloud-edu/tutorial/assets/128004136/2a5e7955-80ea-458c-949a-681c804ca56f)
+
+                
+
 
     #### **lab11-2-2**
     ```bash
