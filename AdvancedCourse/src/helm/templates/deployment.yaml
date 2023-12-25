@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "kc-spring-demo.fullname" . }}
+  labels:
+    {{- include "kc-spring-demo.labels" . | nindent 4 }}
+spec:
+  {{- if not .Values.hpa.enabled }}
+  replicas: {{ .Values.replicaCount }}
+  {{- end }}
+  selector:
+    matchLabels:
+      app: {{ include "kc-spring-demo.name" . }}
+  template:
+    metadata:
+      labels:
+        app: {{ include "kc-spring-demo.name" . }}
+    spec:
+      containers:
+        - name: kc-webserver
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          envFrom:
+            - configMapRef:
+                name: {{ .Release.Name }}-config
+            - secretRef:
+                name: {{ .Release.Name }}-secret
+          ports:
+            - containerPort: 80
+          resources:
+            requests:
+              cpu: 500m
+            limits:
+              cpu: 500m
+      imagePullSecrets:
+        - name: {{ .Values.image.pullSecret }}

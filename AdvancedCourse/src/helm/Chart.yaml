@@ -1,0 +1,4 @@
+apiVersion: v2
+name: kc-spring-demo
+description: A Helm chart for deploying the KakaoCloud Spring Demo Application
+version: 1.0.0
