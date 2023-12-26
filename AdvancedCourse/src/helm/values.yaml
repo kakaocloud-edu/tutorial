@@ -39,6 +39,6 @@ job:
 hpa:
   enabled: false
   minReplicas: 2
-  maxReplicas: 5
-  averageUtilization: 20
+  maxReplicas: 6
+  averageUtilization: 50
 
