@@ -1,8 +1,9 @@
 replicaCount: 2
 
-image:
+deployment:
   repository: kakaocloud-online.kr-central-2.kcr.dev/k8s-registry/demo-spring-boot
   tag: "9.0"
+  containerPort: 8080
   pullSecret: regcred
 
 service:

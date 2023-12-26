@@ -18,18 +18,18 @@ spec:
     spec:
       containers:
         - name: kc-webserver
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          image: "{{ .Values.deployment.repository }}:{{ .Values.deployment.tag }}"
           envFrom:
             - configMapRef:
                 name: {{ .Release.Name }}-config
             - secretRef:
                 name: {{ .Release.Name }}-secret
           ports:
-            - containerPort: 80
+            - containerPort: {{ .Values.service.targetPort }}
           resources:
             requests:
               cpu: 500m
             limits:
               cpu: 500m
       imagePullSecrets:
-        - name: {{ .Values.image.pullSecret }}
+        - name: {{ .Values.deployment.pullSecret }}
