@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: demo-deployment
+  labels:
+    app: kc-spring-demo
+spec:
+  replicas: 2  # 복제본 갯수
+  selector:
+    matchLabels:
+      app: kc-spring-demo
+  template:
+    metadata:
+      labels:
+        app: kc-spring-demo
+    spec:
+      containers:
+      - name: kc-webserver
+        image: kakaocloud-online.kr-central-2.kcr.dev/k8s-registry/demo-spring-boot:1.7
+        envFrom:
+        - configMapRef:
+            name: app-config
+        - secretRef:
+            name: app-secret
+        ports:
+        - containerPort: 8080
+      imagePullSecrets:
+      - name: regcred  # NCR에 저장된 이미지 Pulling을 위한 인증 Secret 값
