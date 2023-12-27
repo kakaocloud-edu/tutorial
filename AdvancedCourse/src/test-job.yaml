@@ -1,0 +1,42 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: sql-job
+spec:
+  template:
+    spec:
+      containers:
+      - name: mysql
+        image: mysql:5.7
+        env:
+        - name: MYSQL_ROOT_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: app-secret
+              key: DB1_PW
+        - name: MYSQL_HOST
+          valueFrom:
+            secretKeyRef:
+              name: app-secret
+              key: DB1_URL
+        - name: MYSQL_PORT
+          valueFrom:
+            secretKeyRef:
+              name: app-secret
+              key: DB1_PORT
+        - name: MYSQL_USER
+          valueFrom:
+            secretKeyRef:
+              name: app-secret
+              key: DB1_ID
+        command: ["/bin/bash", "-c"]
+        args: ["mysql -h $(MYSQL_HOST) -P $(MYSQL_PORT) -u $(MYSQL_USER) -p$(MYSQL_ROOT_PASSWORD) < /scripts/script.sql && echo 'SQL script executed successfully' || exit 1"]
+        volumeMounts:
+        - name: script-volume
+          mountPath: /scripts
+      volumes:
+      - name: script-volume
+        configMap:
+          name: sql-script
+      restartPolicy: Never
+  backoffLimit: 4
