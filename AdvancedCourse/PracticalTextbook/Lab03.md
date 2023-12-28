@@ -35,7 +35,7 @@
   DB_EP1=$(echo -n "$INPUT_DB_EP1" | base64)
   DB_EP2=$(echo -n "$INPUT_DB_EP2" | base64)
 
-  cat <<EOF > /home/ubuntu/lab6-secret.yaml
+  cat <<EOF > /home/ubuntu/lab6-Secret.yaml
   apiVersion: v1
   kind: Secret
   metadata:
@@ -52,24 +52,7 @@
     DB2_PW: 'YWRtaW4xMjM0'
   EOF
 
-  cat <<EOF > /home/ubuntu/lab6-secret.yaml
-  apiVersion: v1
-  kind: Secret
-  metadata:
-    name: app-secret
-  type: Opaque
-  data:
-    DB1_PORT: 'MzMwNg=='
-    DB1_URL: "${DB_EP1}"
-    DB1_ID: 'YWRtaW4='
-    DB1_PW: 'YWRtaW4xMjM0'
-    DB2_PORT: 'MzMwNw=='
-    DB1_URL: "${DB_EP2}"
-    DB2_ID: 'YWRtaW4='
-    DB2_PW: 'YWRtaW4xMjM0'
-  EOF
-
-  cat <<EOF > /home/ubuntu/lab6-deployment.yaml
+  cat <<EOF > /home/ubuntu/lab6-Deployment.yaml
   apiVersion: apps/v1
   kind: Deployment
   metadata:
