@@ -143,68 +143,6 @@
 
   sudo apt install unzip
   sudo apt-get install -y openjdk-17-jdk maven
-
-   sudo tee -a /etc/environment << EOF
-   export API_SERVER="{lab3 1-3에서 복사한 서버 엔드 포인트}"
-   export USER_ACCESS_KEY_ID="{사용자 엑세스 키 ID}"
-   export USER_ACCESS_KEY_SECRET="{사용자 엑세스 보안 키}"
-   export AUTHORITY_DATA="{lab3 1-6 복사한 certificate-authority-data 값}"
-   EOF
-
-   source /etc/environment
-
-   curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
-   sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
-
-   mkdir /home/ubuntu/.kube
-
-   cat <<EOF > /home/ubuntu/.kube/config
-   apiVersion: v1
-   clusters:
-   - cluster:
-      certificate-authority-data: ${AUTHORITY_DATA}
-      server: ${API_SERVER}
-    name: kakao-k8s-cluster
-   contexts:
-   - context:
-      cluster: kakao-k8s-cluster
-      user: kakao-k8s-cluster-admin
-    name: kakao-k8s-cluster-admin@kakao-k8s-cluster
-   current-context: kakao-k8s-cluster-admin@kakao-k8s-cluster
-   kind: Config
-   preferences: {}
-   users:
-   - name: kakao-k8s-cluster-admin
-    user:
-      exec:
-        apiVersion: client.authentication.k8s.io/v1beta1
-        args: null
-        command: kic-iam-auth
-        env:
-        - name: "OS_AUTH_URL"
-          value: "https://iam.kakaoi.io/identity/v3"
-        - name: "OS_AUTH_TYPE"
-          value: "v3applicationcredential"
-        - name: "OS_APPLICATION_CREDENTIAL_ID"
-          value: "${USER_ACCESS_KEY_ID}"
-        - name: "OS_APPLICATION_CREDENTIAL_SECRET"
-          value: "${USER_ACCESS_KEY_SECRET}"
-        - name: "OS_REGION_NAME"
-          value: "kr-central-2"
-   EOF
-
-   wget https://objectstorage.kr-central-1.kakaoi.io/v1/9093ef2db68545b2bddac0076500b448/kc-docs/docs%2Fbinaries-kic-iam-auth%2FLinux%20x86_64%2064Bit%2Fkic-iam-auth -O kic-iam-auth
-   sudo chmod +x /kic-iam-auth
-   sudo mv /kic-iam-auth /usr/local/bin
-
-   curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
-   echo "deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
-   sudo apt-get update
-   sudo apt-get install -y docker-ce docker-ce-cli containerd.io
-   sudo chmod 666 /var/run/docker.sock
-
-   sudo apt install unzip
-   sudo apt-get install -y openjdk-17-jdk
    ```
 
 8. 카카오 클라우드 콘솔 > 전체 서비스 > Virtual Machine 접속
