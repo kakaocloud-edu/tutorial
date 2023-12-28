@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: app-config
+data:
+  WELCOME_MESSAGE: "Welcome to Kakao Cloud AdvancedCourse"
+  BACKGROUND_COLOR: "#4a69bd"
