@@ -9,7 +9,7 @@ nginx pod을 위한 deployment, LoadBalancer type의 서비스가 포함된 ingr
      - 접속 중인 Bastion VM 인스턴스에 명령어 입력
      #### **lab5-1-1**
      ```bash
-     kubectl apply -f kubectl apply -f https://github.com/kakaocloud-edu/tutorial/raw/main/AdvancedCourse/src/manifests/ingress-nginx-controller.yaml
+     kubectl apply -f https://github.com/kakaocloud-edu/tutorial/raw/main/AdvancedCourse/src/manifests/ingress-nginx-controller.yaml
      ```
 
 2. 실습 진행을 위해 유효성 검사 웹 훅 설정 삭제
