@@ -35,6 +35,14 @@
   DB_EP1=$(echo -n "$INPUT_DB_EP1" | tr -d ' ' | base64)
   DB_EP2=$(echo -n "$INPUT_DB_EP2" | tr -d ' ' | base64)
 
+  tee -a /etc/environment << EOF
+  export JAVA_VERSION="17"
+  export SPRING_BOOT_VERSION="3.1.0"
+  export DOCKER_IMAGE_NAME="demo-spring-boot"
+  export DOCKER_JAVA_VERSION="17-jdk-slim"
+  EOF
+  
+  source /etc/environment
   cat <<EOF > /home/ubuntu/lab6-Secret.yaml
   apiVersion: v1
   kind: Secret
