@@ -22,8 +22,8 @@
   # 환경 변수 설정. 여기 부분만 값을 입력해주세요.
   export PROJECT_NAME="프로젝트 이름 입력"
 
-  export ACC_KEY = "사용자 엑세스 키 아이디 입력"
-  export SEC_KEY = "사용자 엑세스 시크릿 키 입력"
+  export ACC_KEY = "사용자 액세스 키 ID 입력"
+  export SEC_KEY = "사용자 액세스 보안 키 입력"
 
   export API_SERVER = "클러스터의 API 엔드포인트 입력"
   export AUTH_DATA = "클러스터의 AUTHORITY_DATA 입력"
