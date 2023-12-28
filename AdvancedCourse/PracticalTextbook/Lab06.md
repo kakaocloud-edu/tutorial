@@ -37,22 +37,22 @@ Spring application 배포를 위한 Service, Ingress, ConfigMap, ConfigMap2의 y
    **Note** Yaml 파일 간 의존성 문제로 배포 순서를 지켜주세요.
    #### **lab6-2-2-1**
    ```
-   kubectl apply -f ./ConfigMap.yaml
+   kubectl apply -f ./lab6-ConfigMap.yaml
    ```
    
    #### **lab6-2-2-2**
    ```
-   kubectl apply -f ./ConfigMapDB.yaml
+   kubectl apply -f ./lab6-ConfigMapDB.yaml
    ```
 
    #### **lab6-2-2-3**
    ```
-   kubectl apply -f ./Secret.yaml
+   kubectl apply -f ./lab6-Secret.yaml
    ```
 
    #### **lab6-2-2-4**
    ```
-   kubectl apply -f ./Job.yaml
+   kubectl apply -f ./lab6-Job.yaml
    ```
 
    #### **lab6-2-2-5**
