@@ -1,7 +1,0 @@
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: app-config
-data:
-  WELCOME_MESSAGE: "환영합니다! 카카오 클라우드로!!!"
-  BACKGROUND_COLOR: "#4a69bd"
