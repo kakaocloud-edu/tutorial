@@ -74,7 +74,7 @@ Spring Boot 프로젝트를 생성해 간단한 웹 페이지를 생성합니다
    - 접속 중인 Bastion VM 인스턴스에 명령어 입력
    #### **lab4-4-5**
    ```
-   Docker images
+   docker images
    ```
    **Node** 현재 두 개의 이미지가 정상적으로 출력되는지 확인
 6. 이미지가 정상적으로 태그되었는지 확인
