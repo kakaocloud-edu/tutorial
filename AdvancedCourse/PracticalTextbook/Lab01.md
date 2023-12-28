@@ -41,19 +41,16 @@
    - Image : `MySQL 8.0.34`
    - MySQL 사용자 이름: `admin`
    - MySQL 비밀번호 : `admin1234`
-   - 인스턴스 가용성 : `단일(Primary 인스턴스)`
+   - 인스턴스 가용성 : `고가용성 (Primary, Standby 인스턴스)`
    - 인스턴스 타입 : `m2a.large`
    - 기본 스토리지 크기: `100GB`
    - 로그 스토리지 크기 : `100GB`
    - 네트워크 설정
-
-     - Multi AZ 옵션 : 활성화
-
+     - Multi AZ 옵션 : `활성화`
        - VPC : `vpc_1`
-       - Subnet : `{AZ-a의 Private 서브넷} 선택`
+       - Subnet : `{AZ-a의 Private 서브넷}`
        - 인스턴스 개수 : 1
-
-       - Subnet : `{AZ-b의 Private 서브넷} 선택`
+       - Subnet : `{AZ-b의 Private 서브넷}`
        - 인스턴스 개수 : 1
 
 3. 만들기 버튼 클릭
