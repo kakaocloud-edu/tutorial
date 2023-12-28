@@ -47,7 +47,7 @@
     DB1_ID: 'YWRtaW4='
     DB1_PW: 'YWRtaW4xMjM0'
     DB2_PORT: 'MzMwNw=='
-    DB1_URL: "${DB_EP2}"
+    DB2_URL: "${DB_EP2}"
     DB2_ID: 'YWRtaW4='
     DB2_PW: 'YWRtaW4xMjM0'
   EOF
