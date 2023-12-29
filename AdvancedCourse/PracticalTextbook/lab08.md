@@ -70,7 +70,7 @@
 1. Helm Chart 설치
    #### **lab8-2-1**
    ```bash
-   
+   curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
    ```
 
 2. 설치 확인
@@ -94,13 +94,18 @@
    cd ./tutorial/AdvancedCourse/src/helm
    ```
 
+3. 미리 생성해 놓은 values.yaml 파일 heml 디렉터리로 이동
+   ```bash
+   sudo mv /values.yaml ./values.yaml
+   ```
+
 ## 4. 차트 확인
 
 
 1. tree 패키지 다운로드
    #### **lab8-4-1**
    ```bash
-   
+   sudo apt  install tree
    ```
 
 2. tree를 이용해 차트 확인
@@ -129,7 +134,7 @@
    #### **lab8-5-1**
    ```bash
    helm install --dry-run --debug my-release .
-   #helm template . -f values.yaml
+   helm template . -f values.yaml
    ```
 
 2. 차트 설치 폴더 생성
