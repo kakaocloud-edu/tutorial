@@ -88,7 +88,7 @@
                       - key: app
                         operator: In
                         values:
-                          - kc-spring-boot
+                          - kc-spring-demo
                   topologyKey: kubernetes.io/hostname
         containers:
         - name: kc-webserver
