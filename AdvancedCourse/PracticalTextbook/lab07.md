@@ -60,7 +60,7 @@
    #### **lab7-6-4**
    ```bash
    kubectl scale deployment demo-deployment –replicas=2
-   
+   ```
    #### **lab7-6-5**
    -Pod 확인
    ```bash
