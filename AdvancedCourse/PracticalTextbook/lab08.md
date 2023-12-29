@@ -30,12 +30,9 @@
    kubectl delete job --all
    ```
    
-   ```bash
-   kubectl delete secret --all
-   ```
    
    ```bash
-   kubectl delete config --all
+   kubectl delete configmap --all
    ```
 
    
@@ -57,10 +54,7 @@
    kubectl get job
    ```
    ```bash
-   kubectl get secret
-   ```
-   ```bash
-   kubectl get config
+   kubectl get configmap
    ```
 
 
@@ -128,7 +122,7 @@
 
 ## 5. 차트 설치 시뮬레이션 및 차트 설치
 
-
+   
 1. 차트 설치 전 랜더링 테스트
 
    #### **lab8-5-1**
@@ -143,10 +137,15 @@
    helm create ./my-chart
    ```
 
-3. 차트 설치 
+3. 디버그
    #### **lab8-5-3**
    ```bash
-   helm install my-release ./my-chart -f values.yaml
+   helm install --dry-run --debug my-release . >yamls
+   ```
+
+5. 차트 설치
+   ```bash
+   helm install my-release . -f values.yaml
    ```
 
 4. 차트 확인
