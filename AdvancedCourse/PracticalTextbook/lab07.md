@@ -51,8 +51,8 @@
    ```bash
    kubectl scale deployment demo-deployment –replicas=3
    ```
-   -Pod 확인
    #### **lab7-6-3**
+   -Pod 확인
    ```bash
    kubectl get pod
    ```
