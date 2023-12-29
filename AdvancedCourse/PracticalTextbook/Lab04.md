@@ -94,7 +94,7 @@ Spring Boot 프로젝트를 생성해 간단한 웹 페이지를 생성합니다
    - 접속 중인 Bastion VM 인스턴스에 명령어 입력 
    #### **lab4-4-7**
    ```
-   docker push {프로젝트 이름}.kr-central-2.kcr.dev/kakao-registry/demo-spring-boot:1.0
+   docker push {프로젝트 이름}.kr-central-2.kcr.dev/kakao-registry/demo-spring-boot:latest
    ```
 8. 카카오 클라우드 콘솔 > 전체 서비스 > Container Registry > Repository 접속
 9. 생성한 Repository `kakao-registry` 클릭
