@@ -40,14 +40,16 @@
 
    
 4. 실행 중인 리소스가 삭제되었는 지 확인
-   **Note** `service/kubernetes`는 자동 생성되는 리소스로, 재생성되어도 무관합니다.
    #### **lab8-1-3**
    ```bash
    kubectl get ingress
    ```
+
    ```bash
    kubectl get svc
    ```
+   **Note** `service/kubernetes`는 자동 생성되는 리소스로, 재생성되어도 무관합니다.
+   
    ```bash
    kubectl get deploy
    ```
