@@ -88,7 +88,7 @@
               topologyKey: kubernetes.io/hostname
         containers:
         - name: kc-webserver
-          image: ${PROJECT_NAME}.kr-central-2.kcr.dev/kakao-registry/demo-spring-boot:latest
+          image: ${PROJECT_NAME}.kr-central-2.kcr.dev/kakao-registry/demo-spring-boot:1.0
           envFrom:
           - configMapRef:
               name: app-config
@@ -162,7 +162,7 @@
 
   deployment:
     repository: ${PROJECT_NAME}.kr-central-2.kcr.dev/kakao-registry/demo-spring-boot
-    tag: "latest"
+    tag: "1.0"
     pullSecret: regcred
 
   service:
