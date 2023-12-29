@@ -89,6 +89,7 @@
    ```
 
 3. 미리 생성해 놓은 values.yaml 파일 heml 디렉터리로 이동
+   #### **lab8-3-3**
    ```bash
    sudo mv /values.yaml ./values.yaml
    ```
@@ -127,7 +128,6 @@
 
    #### **lab8-5-1**
    ```bash
-   helm install --dry-run --debug my-release .
    helm template . -f values.yaml
    ```
 
