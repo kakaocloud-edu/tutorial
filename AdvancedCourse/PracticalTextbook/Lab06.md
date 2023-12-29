@@ -9,7 +9,7 @@ Spring application 배포를 위한 Service, Ingress, ConfigMap, ConfigMap2의 y
    - 접속 중인 Bastion VM 인스턴스에 명령어 입력
    #### **lab6-1-1-1**
    ```bash
-   wget https://github.com/kakaocloud-edu/tutorial/tree/main/AdvancedCourse/src/manifests/lab6Yaml.tar
+   wget https://github.com/kakaocloud-edu/tutorial/raw/main/AdvancedCourse/src/manifests/lab6Yaml.tar
    ```
 
    #### **lab6-1-1-2**
