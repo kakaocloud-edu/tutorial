@@ -4,27 +4,38 @@ Spring application 배포를 위한 Service, Ingress, ConfigMap, ConfigMap2의 y
 
 
 ## 1. YAML 파일 다운 및 설정
-
-1. YAML 압축파일 다운 및 확인
+1. 디렉토리 생성 및 이동
    - 접속 중인 Bastion VM 인스턴스에 명령어 입력
    #### **lab6-1-1-1**
    ```bash
-   wget https://github.com/kakaocloud-edu/tutorial/raw/main/AdvancedCourse/src/manifests/lab6Yaml.tar
+   mkdir yaml
    ```
 
    #### **lab6-1-1-2**
    ```bash
+   cd yaml
+   ```
+   
+2. YAML 압축파일 다운 및 확인
+   - 접속 중인 Bastion VM 인스턴스에 명령어 입력
+   #### **lab6-1-2-1**
+   ```bash
+   wget https://github.com/kakaocloud-edu/tutorial/raw/main/AdvancedCourse/src/manifests/lab6Yaml.tar
+   ```
+
+   #### **lab6-1-2-2**
+   ```bash
    ls
    ```
 
-2. YAML 압축파일 압축 풀기
+3. YAML 압축파일 압축 풀기
    - 접속 중인 Bastion VM 인스턴스에 명령어 입력
-   #### **lab6-1-2-1**
+   #### **lab6-1-3-1**
    ```bash
    tar -xvf lab6Yaml.tar
    ```
 
-   #### **lab6-1-2-2**
+   #### **lab6-1-3-2**
    ```bash
    mv ../lab6* .
    ```
@@ -39,7 +50,7 @@ Spring application 배포를 위한 Service, Ingress, ConfigMap, ConfigMap2의 y
    #### **lab6-1-3-1**
    ```bash
    kubectl create secret docker-registry regcred \
-   --docker-server={프로젝트 이름}.{리전명}.kcr.dev \
+   --docker-server={프로젝트 이름}.kr-central-2.kcr.dev \
    --docker-username={사용자 액세스 키 ID} \
    --docker-password={사용자 액세스 보안 키} \
    --docker-email={이메일} \
