@@ -26,6 +26,11 @@ Spring application 배포를 위한 Service, Ingress, ConfigMap, ConfigMap2의 y
 
    #### **lab6-1-2-2**
    ```bash
+   mv ../lab6* .
+   ```
+
+   #### **lab6-1-2-3**
+   ```bash
    ls
    ```
 
