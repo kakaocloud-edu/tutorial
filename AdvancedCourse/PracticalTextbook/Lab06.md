@@ -34,6 +34,17 @@ Spring application 배포를 위한 Service, Ingress, ConfigMap, ConfigMap2의 y
    ls
    ```
 
+3. 레지스트리 인증을 위한 시크릿키 생성
+   - 접속 중인 Bastion VM 인스턴스에 명령어 입력
+   #### **lab6-1-3-1**
+   ```bash
+   kubectl create secret docker-registry regcred \
+   --docker-server={프로젝트 이름}.{리전명}.kcr.dev \
+   --docker-username={사용자 액세스 키 ID} \
+   --docker-password={사용자 액세스 보안 키} \
+   --docker-email={이메일} \
+   ```
+
 ## 2. YAML 파일 배포
 
 
