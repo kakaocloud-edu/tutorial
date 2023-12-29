@@ -25,15 +25,19 @@
    ```bash
    kubectl delete deploy --all
    ```
-   
+
+   ```bash
+   kubectl delete pod --all
+   ```
+
    ```bash
    kubectl delete job --all
    ```
    
-   
    ```bash
    kubectl delete configmap --all
    ```
+   
 
    
 4. 실행 중인 리소스가 삭제되었는 지 확인
@@ -49,6 +53,9 @@
    
    ```bash
    kubectl get deploy
+   ```
+   ```bash
+   kubectl get po
    ```
    ```bash
    kubectl get job
