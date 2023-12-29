@@ -46,8 +46,8 @@
    ```bash
    kubectl get pod
    ```
-   -Replicas 수 3개로 늘리기
    #### **lab7-6-2**
+   -Replicas 수 3개로 늘리기
    ```bash
    kubectl scale deployment demo-deployment –replicas=3
    ```
@@ -56,8 +56,8 @@
    ```bash
    kubectl get pod
    ```
-   -Replicas 수 2개로 줄이기
    #### **lab7-6-4**
+   -Replicas 수 2개로 줄이기
    ```bash
    kubectl scale deployment demo-deployment –replicas=2
    ```
