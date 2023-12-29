@@ -9,7 +9,7 @@
    - 터미널에 아래 명령어를 입력하세요.
    #### **lab6-4-1**
    ```bash
-   vi lab6-ConfigMap.yaml
+   sudo vi lab6-ConfigMap.yaml
    ```
 
 2. `WelCome_MESSAGE` 내용을 변경해 웹 사이트 문구 변경하기
