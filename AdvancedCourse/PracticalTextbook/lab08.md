@@ -179,7 +179,7 @@
 
    #### **lab8-5-5-2**
    ```bash
-   helm upgrade my-release ./my-chart --description "#pod 2->3" -f values.yaml
+   helm upgrade my-release . --description "#pod 2->3" -f values.yaml
    ```
    
 3. 업데이트 확인하기 - CHART REVISION 값 변경 확인
