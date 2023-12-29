@@ -52,4 +52,3 @@ nginx pod을 위한 deployment, LoadBalancer type의 서비스가 포함된 ingr
 5. 생성된 두 개의 Load Balancer의 Public IP를 복사
 6. 브라우저 주소창에 복사한 IP 주소 각각 입력
      - nginx에 의한 error 창 확인
-     **Note** 웹 서버만 배포된 상태라 503 Error Code가 나오는게 정상입니다.
