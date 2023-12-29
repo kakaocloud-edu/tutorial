@@ -57,6 +57,12 @@
    kubectl get pod
    ```
    -Replicas 수 2개로 줄이기
-   #### **lab7-6-1**
+   #### **lab7-6-4**
    ```bash
    kubectl scale deployment demo-deployment –replicas=2
+   
+   #### **lab7-6-5**
+   -Pod 확인
+   ```bash
+   kubectl get pod
+   ```
