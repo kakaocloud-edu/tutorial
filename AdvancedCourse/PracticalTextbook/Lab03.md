@@ -162,7 +162,7 @@
 
   deployment:
     repository: ${PROJECT_NAME}.kr-central-2.kcr.dev/kakao-registry/demo-spring-boot
-    tag: "9.0"
+    tag: "latest"
     pullSecret: regcred
 
   service:
