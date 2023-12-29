@@ -25,44 +25,47 @@
       WELCOME_MESSAGE: "ConfigMap변경 실습"
       BACKGROUND_COLOR: "#4a69bd"
    ```
+## 2. yaml 파일 배포
 
-3. 수정된 yaml 파일 적용
+1. 수정된 yaml 파일 적용
    #### **lab7-3-1**
    ```bash
    kubectl apply -f ./lab6-ConfigMap.yaml
    ```
 
-4. Pod최신화를 위해 기존 리소스(Pod)제거
+2. Pod최신화를 위해 기존 리소스(Pod)제거
    #### **lab7-4-1**
    ```bash
    kubectl delete pod —all
    ```
+## 3. 변경된 내용 웹에서 확인
 
-5. 웹 사이트에 재접속해서 변경한 문구가 적용되었는지 확인하기
+1. 웹 사이트에 재접속해서 변경한 문구가 적용되었는지 확인하기
 
-6. Deployment 리소스의 replicas 값 변경
-   -Pod 확인
+## 4. Deployment 리소스의 replicas 값 변경
+
+1. Pod 확인
    #### **lab7-6-1**
    ```bash
    kubectl get pod
    ```
+2. Replicas 수 3개로 늘리기
    #### **lab7-6-2**
-   -Replicas 수 3개로 늘리기
    ```bash
    kubectl scale deployment demo-deployment –replicas=3
    ```
+3. Pod 확인
    #### **lab7-6-3**
-   -Pod 확인
    ```bash
    kubectl get pod
    ```
+4. Replicas 수 2개로 줄이기
    #### **lab7-6-4**
-   -Replicas 수 2개로 줄이기
    ```bash
    kubectl scale deployment demo-deployment –replicas=2
    ```
+5. Pod 확인
    #### **lab7-6-5**
-   -Pod 확인
    ```bash
    kubectl get pod
    ```
