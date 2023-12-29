@@ -77,6 +77,15 @@
         labels:
           app: kc-spring-demo
       spec:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution
+            - labelSelector:
+                matchExpressions:
+                  - key: app.kubernetes.io/component
+                    operator: In
+                    values:
+                      - controller
+              topologyKey: kubernetes.io/hostname
         containers:
         - name: kc-webserver
           image: ${PROJECT_NAME}.kr-central-2.kcr.dev/kakao-registry/demo-spring-boot:1.0
@@ -143,6 +152,56 @@
 
   sudo apt install unzip
   sudo apt-get install -y openjdk-17-jdk maven
+
+  chmod 600 /home/ubuntu/.kube/config
+  chown ubuntu:ubuntu /home/ubuntu/.kube/config
+  
+  cat <<EOF > /values.yaml
+  
+  replicaCount: 2
+
+  deployment:
+    repository: ${PROJECT_NAME}.kr-central-2.kcr.dev/kakao-registry/demo-spring-boot
+    tag: "9.0"
+    pullSecret: regcred
+
+  service:
+    type: ClusterIP
+    port: 80
+    targetPort: 8080
+
+  ingress:
+    enabled: true
+    className: nginx
+    path: /
+    sslRedirect: "false"
+
+  configMap:
+    WELCOME_MESSAGE: "Welcome to Kakao Cloud"
+    BACKGROUND_COLOR: "#4a69bd"
+
+  secret:
+    DB1_PORT: '3306'
+    DB1_URL: '${INPUT_DB_EP1}'
+    DB1_ID: 'admin'
+    DB1_PW: 'admin1234'
+    DB2_PORT: '3307'
+    DB2_URL: '${INPUT_DB_EP2}'
+    DB2_ID: 'admin'
+    DB2_PW: 'admin1234'
+
+  job:
+    name: sql-job
+    image: mysql:5.7
+    scriptConfigMap: sql-script
+    backoffLimit: 4
+
+  hpa:
+    enabled: false
+    minReplicas: 2
+    maxReplicas: 6
+    averageUtilization: 50
+  EOF
    ```
 
 8. 카카오 클라우드 콘솔 > 전체 서비스 > Virtual Machine 접속
