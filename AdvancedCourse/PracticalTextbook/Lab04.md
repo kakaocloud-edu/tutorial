@@ -36,6 +36,23 @@ Spring Boot 프로젝트를 생성해 간단한 웹 페이지를 생성합니다
    fi
    ```
 
+    #### **lab4-2-2**
+   - 접속 중인 Bastion VM 인스턴스에 명령어 입력
+   ```
+   cat <<EOF > Dockerfile
+   FROM openjdk:${DOCKER_JAVA_VERSION}
+   RUN apt-get update && apt-get install -y curl
+   COPY target/demo-0.0.1-SNAPSHOT.jar demo.jar
+   ENTRYPOINT ["java","-jar","/demo.jar"]
+   EOF
+   ```
+
+   #### **lab4-2-3**
+   - 접속 중인 Bastion VM 인스턴스에 명령어 입력
+   ```
+   sudo docker build -t ${DOCKER_IMAGE_NAME} .    
+   ```
+
 ## 3. Container Registry에 업로드
 
 1. 카카오 클라우드 콘솔 > 전체 서비스 > Container Registry > Repository 접속
