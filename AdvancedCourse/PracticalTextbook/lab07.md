@@ -35,7 +35,7 @@
 4. Pod최신화를 위해 기존 리소스(Pod)제거
    #### **lab6-4-4**
    ```bash
-   kubectl delete pod —all
+   kubectl delete pod —-all
    ```
 
 5. 웹 사이트에 재접속해서 변경한 문구가 적용되었는지 확인하기
