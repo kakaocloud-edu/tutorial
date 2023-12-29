@@ -15,21 +15,50 @@
 2. 실행 중인 리소스 삭제
    #### **lab8-1-2-1**
    ```bash
-   kubectl delete all --all
-   ```   
-   **Note** 30초 정도 시간이 소요됩니다.
-
-   #### **lab8-1-2-2**
-   ```bash
    kubectl delete ingress --all
+   ```
+   
+   ```bash
+   kubectl delete svc --all
+   ```
+
+   ```bash
+   kubectl delete deploy --all
+   ```
+   
+   ```bash
+   kubectl delete job --all
+   ```
+   
+   ```bash
+   kubectl delete secret --all
+   ```
+   
+   ```bash
+   kubectl delete config --all
    ```
 
    
-3. 실행 중인 리소스가 삭제되었는 지 확인
+4. 실행 중인 리소스가 삭제되었는 지 확인
    **Note** `service/kubernetes`는 자동 생성되는 리소스로, 재생성되어도 무관합니다.
    #### **lab8-1-3**
    ```bash
-   kubectl get all
+   kubectl get ingress
+   ```
+   ```bash
+   kubectl get svc
+   ```
+   ```bash
+   kubectl get deploy
+   ```
+   ```bash
+   kubectl get job
+   ```
+   ```bash
+   kubectl get secret
+   ```
+   ```bash
+   kubectl get config
    ```
 
 
