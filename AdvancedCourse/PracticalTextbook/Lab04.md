@@ -29,17 +29,10 @@ Spring Boot 프로젝트를 생성해 간단한 웹 페이지를 생성합니다
    - 접속 중인 Bastion VM 인스턴스에 명령어 입력
    ```
    if ./mvnw clean package; then
-      cat <<EOF > Dockerfile
-      FROM openjdk:${DOCKER_JAVA_VERSION}
-      RUN apt-get update && apt-get install -y curl
-      COPY target/demo-0.0.1-SNAPSHOT.jar demo.jar
-      ENTRYPOINT ["java","-jar","/demo.jar"]
-   EOF
-
-      sudo docker build -t ${DOCKER_IMAGE_NAME} .
+    echo "Maven build successful."
    else
-      echo "Maven build failed. Docker image will not be built."
-      exit 1
+    echo "Maven build failed."
+    exit 1
    fi
    ```
 
