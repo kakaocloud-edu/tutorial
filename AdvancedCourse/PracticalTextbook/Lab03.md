@@ -77,15 +77,19 @@
         labels:
           app: kc-spring-demo
       spec:
-        podAntiAffinity:
-          preferredDuringSchedulingIgnoredDuringExecution
-            - labelSelector:
-                matchExpressions:
-                  - key: app.kubernetes.io/component
-                    operator: In
-                    values:
-                      - controller
-              topologyKey: kubernetes.io/hostname
+      spec:
+        affinity:
+          podAntiAffinity:
+            preferredDuringSchedulingIgnoredDuringExecution:
+              - weight: 100
+                podAffinityTerm:
+                  labelSelector:
+                    matchExpressions:
+                      - key: app
+                        operator: In
+                        values:
+                          - kc-spring-boot
+                  topologyKey: kubernetes.io/hostname
         containers:
         - name: kc-webserver
           image: ${PROJECT_NAME}.kr-central-2.kcr.dev/kakao-registry/demo-spring-boot:1.0
