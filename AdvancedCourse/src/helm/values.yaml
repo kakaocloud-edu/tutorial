@@ -1,8 +1,8 @@
 replicaCount: 2
 
 deployment:
-  repository: kakaocloud-online.kr-central-2.kcr.dev/k8s-registry/demo-spring-boot
-  tag: "9.0"
+  repository: {$프로젝트 이름}.kr-central-2.kcr.dev/k8s-registry/demo-spring-boot
+  tag: "1.0"
   pullSecret: regcred
 
 service:
