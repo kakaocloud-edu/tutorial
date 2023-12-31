@@ -26,7 +26,7 @@
    ```bash
    kubectl scale deployment demo-deployment –replicas=3
    ```
-3. Pod 확인
+3. Pod들의 상태 변화 확인
 4. 변경된 첫 번째 웹 사이트 확인
 5. 변경된 두 번째 웹 사이트 확인
 6. 변경된 세 번째 웹 사이트 확인
@@ -35,7 +35,7 @@
    ```bash
    kubectl scale deployment demo-deployment --replicas=2
    ```
-8. Pod들의 상태 변화 학인
+8. Pod들의 상태 변화 확인
 
 9. 변경된 첫 번째 웹 사이트 확인
 10. 변경된 두 번째 웹 사이트 확인
@@ -84,12 +84,8 @@
    ```bash
    kubectl rollout restart deployment demo-deployment
    ```
-3. Pod들의 상태 변화 학인
-   #### **lab7-3-3**
-   ```bash
-   kubectl get po -w
-   ```
-   
+3. Pod들의 상태 변화 확인
+
 ## 4. 변경된 내용 웹에서 확인
 
 1. 변경 된 첫 번째 웹사이트 확인
