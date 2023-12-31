@@ -1,53 +1,27 @@
-# kubernetes engine 클러스터에 웹서버 수동 배포 실습
+![image](https://github.com/kakaocloud-edu/tutorial/assets/81578218/6b3693ea-3134-4383-932c-9645601f95c0)# kubernetes engine 클러스터에 웹서버 수동 배포 실습
 
 Spring application 배포를 위한 Service, Ingress, ConfigMap, ConfigMap2의 yaml 파일들을 다운 받아 배포하고, 배포된 프로젝트를 브라우저로 확인하는 실습입니다.
 
 
 ## 1. YAML 파일 다운 및 설정
-1. 디렉토리 생성 및 이동
+1. 생성해 놓은 yaml 디렉터리 이동
    - 접속 중인 Bastion VM 인스턴스에 명령어 입력
-   #### **lab6-1-1-1**
-   ```bash
-   mkdir yaml
-   ```
 
-   #### **lab6-1-1-2**
+   #### **lab6-1-1**
    ```bash
    cd yaml
    ```
    
-2. YAML 압축파일 다운 및 확인
+2. YAML 파일 확인
    - 접속 중인 Bastion VM 인스턴스에 명령어 입력
-   #### **lab6-1-2-1**
-   ```bash
-   wget https://github.com/kakaocloud-edu/tutorial/raw/main/AdvancedCourse/src/manifests/lab6Yaml.tar
-   ```
-
-   #### **lab6-1-2-2**
-   ```bash
-   ls
-   ```
-
-3. YAML 압축파일 압축 풀기
-   - 접속 중인 Bastion VM 인스턴스에 명령어 입력
-   #### **lab6-1-3-1**
-   ```bash
-   tar -xvf lab6Yaml.tar
-   ```
-
-   #### **lab6-1-3-2**
-   ```bash
-   mv ../lab6* .
-   ```
-
-   #### **lab6-1-2-3**
+   #### **lab6-1-2**
    ```bash
    ls
    ```
 
 3. 레지스트리 인증을 위한 시크릿키 생성
    - 접속 중인 Bastion VM 인스턴스에 명령어 입력
-   #### **lab6-1-3-1**
+   #### **lab6-1-3**
    ```bash
    kubectl create secret docker-registry regcred \
    --docker-server={프로젝트 이름}.kr-central-2.kcr.dev \
