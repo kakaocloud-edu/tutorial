@@ -6,17 +6,27 @@
 
 1. Pod들의 상태 변화 확인
    - 새로운 터미널에 아래 명령어를 입력하세요.
-   #### **lab7-4-1**
+    #### **lab7-1-5-1**
+   ```bash
+   cd {keypair.pem 다운로드 위치}
+   ```
+   #### **lab7-1-5-2**
+   ```bash
+   ssh -i keyPair.pem centos@{bastion의 public ip주소}
+   ```
+   - **Note**: "bastion의 public ip주소" 부분을 복사한 IP 주소로 교체하세요.
+  
+   #### **lab7-1-5-3**
    ```bash
    kubectl get po -w
    ```
+   
 2. Replicas 수 3개로 늘리기
    #### **lab7-1-2**
    ```bash
    kubectl scale deployment demo-deployment –replicas=3
    ```
 3. Pod 확인
-
 4. 변경된 첫 번째 웹 사이트 확인
 5. 변경된 두 번째 웹 사이트 확인
 6. 변경된 세 번째 웹 사이트 확인
