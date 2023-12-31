@@ -32,8 +32,8 @@
   export INPUT_DB_EP2="데이터베이스 2의 엔드포인트 입력"
 
   # 여기부터는 값을 변경하시면 안됩니다.
-  DB_EP1=$(echo -n "$INPUT_DB_EP1" | tr -d ' ' | base64)
-  DB_EP2=$(echo -n "$INPUT_DB_EP2" | tr -d ' ' | base64)
+  DB_EP1=$(echo -n "$INPUT_DB_EP1" | base64 -w 0)
+  DB_EP2=$(echo -n "$INPUT_DB_EP2" | base64 -w 0)
 
   tee -a /etc/environment << EOF
   export JAVA_VERSION="17"
