@@ -16,6 +16,10 @@ Spring application 배포를 위한 Service, Ingress, ConfigMap, ConfigMap2의 y
    - 접속 중인 Bastion VM 인스턴스에 명령어 입력
    #### **lab6-1-2**
    ```bash
+   tar -xvf /home/ubuntu/yaml/lab6Yaml.tar
+   ```
+   
+   ```bash
    ls
    ```
 
