@@ -1,4 +1,4 @@
-![image](https://github.com/kakaocloud-edu/tutorial/assets/81578218/6b3693ea-3134-4383-932c-9645601f95c0)# kubernetes engine 클러스터에 웹서버 수동 배포 실습
+# kubernetes engine 클러스터에 웹서버 수동 배포 실습
 
 Spring application 배포를 위한 Service, Ingress, ConfigMap, ConfigMap2의 yaml 파일들을 다운 받아 배포하고, 배포된 프로젝트를 브라우저로 확인하는 실습입니다.
 
