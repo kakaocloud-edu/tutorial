@@ -48,8 +48,6 @@
   chmod 777 /home/ubuntu/yaml
   wget https://github.com/kakaocloud-edu/tutorial/raw/main/AdvancedCourse/src/manifests/lab6Yaml.tar -O /home/ubuntu/yaml/lab6Yaml.tar
   
-  tar -xvf /home/ubuntu/yaml/lab6Yaml.tar
-  
   cat <<EOF > /home/ubuntu/yaml/lab6-Secret.yaml
   apiVersion: v1
   kind: Secret
@@ -109,6 +107,24 @@
           - containerPort: 8080
         imagePullSecrets:
         - name: regcred  # NCR에 저장된 이미지 Pulling을 위한 인증 Secret 값
+  EOF
+
+  cat <<EOF > /home/ubuntu/yaml/lab6-ConfigMapDB.yaml
+  apiVersion: v1
+  kind: ConfigMap
+  metadata:
+    name: sql-script
+  data:
+    script.sql: |
+      CREATE DATABASE IF NOT EXISTS history;
+      USE history;
+      CREATE TABLE IF NOT EXISTS access (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        date VARCHAR(255) NOT NULL
+      );
+      INSERT INTO access (date) VALUES ('hello:)');
+      CALL mysql.mnms_grant_right_user('admin', '%', 'all', '*', '*');
+      ALTER USER 'admin'@'%' IDENTIFIED WITH mysql_native_password BY 'admin1234';
   EOF
 
   curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
