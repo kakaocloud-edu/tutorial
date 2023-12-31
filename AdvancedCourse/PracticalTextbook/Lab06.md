@@ -1,4 +1,4 @@
-# kubernetes engine 클러스터에 웹서버 수동 배포 실습
+# kubernetes Engine 클러스터에 웹서버 수동 배포 실습
 
 Spring application 배포를 위한 Service, Ingress, ConfigMap, ConfigMap2의 yaml 파일들을 다운 받아 배포하고, 배포된 프로젝트를 브라우저로 확인하는 실습입니다.
 
