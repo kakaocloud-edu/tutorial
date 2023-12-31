@@ -45,7 +45,7 @@
   source /etc/environment
 
   mkdir /home/ubuntu/yaml
-  
+  chmod 777 /home/ubuntu/yaml
   wget https://github.com/kakaocloud-edu/tutorial/raw/main/AdvancedCourse/src/manifests/lab6Yaml.tar -O /home/ubuntu/yaml/lab6Yaml.tar
   
   tar -xvf /home/ubuntu/yaml/lab6Yaml.tar
