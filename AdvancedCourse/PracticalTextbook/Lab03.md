@@ -167,7 +167,7 @@
   chmod 600 /home/ubuntu/.kube/config
   chown ubuntu:ubuntu /home/ubuntu/.kube/config
   
-  cat <<EOF > /values.yaml
+  cat <<EOF > /home/ubuntu/values.yaml
   
   replicaCount: 2
 
