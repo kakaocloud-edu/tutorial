@@ -196,7 +196,7 @@
     DB1_URL: '${INPUT_DB_EP1}'
     DB1_ID: 'admin'
     DB1_PW: 'admin1234'
-    DB2_PORT: '3306'
+    DB2_PORT: '3307'
     DB2_URL: '${INPUT_DB_EP2}'
     DB2_ID: 'admin'
     DB2_PW: 'admin1234'
