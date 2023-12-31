@@ -13,7 +13,7 @@
    ```
 
 2. 실행 중인 리소스 삭제
-   #### **lab8-1-2-1**
+   #### **lab8-1-2**
    ```bash
    kubectl delete ingress --all
    ```
@@ -27,20 +27,23 @@
    ```
 
    ```bash
-   kubectl delete pod --all
+   kubectl delete job sql-job
    ```
 
    ```bash
-   kubectl delete job --all
+   kubectl secret app-secret
    ```
    
    ```bash
    kubectl delete configmap --all
    ```
+   ```bash
+   kubectl delete po --all
+   ```
    
 
    
-4. 실행 중인 리소스가 삭제되었는 지 확인
+3. 실행 중인 리소스가 삭제되었는 지 확인
    #### **lab8-1-3**
    ```bash
    kubectl get ingress
@@ -153,7 +156,7 @@
 5. 차트 확인
 
    1. 차트 리스트로 확인
-   #### **lab8-6-4-1**
+   #### **lab8-6-5**
    ```bash
    helm list
    ```
@@ -161,7 +164,7 @@
    
 
 6. 차트 세부 내용 확인
-   #### **lab8-6-4-2**
+   #### **lab8-6-6**
    ```bash
    helm status my-release   
    ```
