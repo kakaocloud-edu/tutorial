@@ -1,4 +1,4 @@
-# ConfigMap 
+# Kubernetes Engine 활용하기 
 
 만들어진 웹을 ConfigMap.yaml 파일을 변경해서 웹의 구조를 변경하고 확인합니다. 또한 Deployment 리소스의 replicas 값 변경하여 Pod의 개수를 확인하는 실습과정을 진행합니다.
 
