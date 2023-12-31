@@ -43,7 +43,14 @@
   EOF
   
   source /etc/environment
-  cat <<EOF > /home/ubuntu/lab6-Secret.yaml
+
+  mkdir /home/ubuntu/yaml
+  
+  wget https://github.com/kakaocloud-edu/tutorial/raw/main/AdvancedCourse/src/manifests/lab6Yaml.tar -O /home/ubuntu/yaml/lab6Yaml.tar
+  
+  tar -xvf /home/ubuntu/yaml/lab6Yaml.tar
+  
+  cat <<EOF > /home/ubuntu/yaml/lab6-Secret.yaml
   apiVersion: v1
   kind: Secret
   metadata:
@@ -60,7 +67,7 @@
     DB2_PW: 'YWRtaW4xMjM0'
   EOF
 
-  cat <<EOF > /home/ubuntu/lab6-Deployment.yaml
+  cat <<EOF > /home/ubuntu/yaml/lab6-Deployment.yaml
   apiVersion: apps/v1
   kind: Deployment
   metadata:
