@@ -16,7 +16,6 @@
    kubectl scale deployment demo-deployment –replicas=3
    ```
 3. Pod 확인
-   #### **lab7-1-3**
 
 4. 변경된 첫 번째 웹 사이트 확인
 5. 변경된 두 번째 웹 사이트 확인
@@ -27,7 +26,6 @@
    kubectl scale deployment demo-deployment --replicas=2
    ```
 8. Pod들의 상태 변화 학인
-   #### **lab7-1-3**
 
 9. 변경된 첫 번째 웹 사이트 확인
 10. 변경된 두 번째 웹 사이트 확인
