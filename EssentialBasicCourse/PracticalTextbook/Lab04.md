@@ -115,7 +115,7 @@ Bastion(점프서버) 인스턴스와 Web server 인스턴스를 생성해보고
           - 프로토콜: `TCP`, 패킷 출발지: `0.0.0.0/0`, 포트번호: `80` 
           - 프로토콜: `TCP`, 패킷 출발지: `0.0.0.0/0`, 포트번호: `443`
           - 프로토콜: `TCP`, 패킷 출발지: `{bastion Private IP}/32`, 포트번호: `22` 
-          - **Note**: "bastion Private IP" 부분을 복사한 IP 주소로 교체하세요.
+               - **Note**: "bastion Private IP" 부분을 복사한 IP 주소로 교체하세요.
           - 프로토콜: `ICMP`, 패킷 출발지: `0.0.0.0/0`
 5. Outbound 클릭
      - Outbound
