@@ -41,6 +41,23 @@ Public 서브넷에 Web서버 VM을 하나 더 생성합니다. 만든 Web서버
      - `새로운 Public IP를 자동으로 할당` 선택
 7. 확인 버튼 클릭
 8. Web_server_2의 {Public IP} 복사 후 브라우저 창에 입력
+    
+> 💡 고급설정에서 스크립트 입력을 못했을 경우 VM에 접속하여 아래 명령어 붙여넣기
+
+```bash
+#!/bin/bash
+sudo yum -y remove mariadb-libs
+sudo yum -y install httpd php mysql php-mysqlnd wget 
+sudo systemctl enable httpd
+sudo cd /var/www/html
+sudo wget https://github.com/kimjaehyeon0314/test/raw/main/kakao.tar.gz -O kakao.tar.gz
+sudo tar -xvf kakao.tar.gz
+sudo mv /var/www/html/kakao/{index.php,get_user_list.php,add_user.php} /var/www/html/
+sudo rm /etc/selinux/config
+sudo mv /var/www/html/kakao/config /etc/selinux
+sudo setenforce 0
+sudo systemctl start httpd
+```
 
 ## 2. Web2 서버와 DB 연결
 
