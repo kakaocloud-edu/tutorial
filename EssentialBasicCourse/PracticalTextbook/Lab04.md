@@ -44,7 +44,14 @@ Bastion(점프서버) 인스턴스와 Web server 인스턴스를 생성해보고
      sudo yum install mysql-community-server -y
      ```
 
-     - **Note**: 고급 설정 스크립트 부분을 못하더라도 추후 설정할 수 있습니다.
+     - **Note**: 고급 설정 스크립트 부분을 못하더라도 추후 설정할 수 있습니다. VM 접속 후 아래 내용 붙여넣기
+       ```bash
+       #!/bin/bash
+       sudo rpm --import https://repo.mysql.com/RPM-GPG-KEY-mysql-2022
+       sudo yum localinstall https://dev.mysql.com/get/mysql57-community-release-el7-11.noarch.rpm -y
+       sudo yum module disable mysql -y
+       sudo yum install mysql-community-server -y
+       ```
 8. 만들기 버튼 클릭
 9. Virtual Machine > Instance
 10. 생성된 인스턴스의 우측 메뉴바 > Public IP 연결 클릭
@@ -136,10 +143,28 @@ Bastion(점프서버) 인스턴스와 Web server 인스턴스를 생성해보고
      - **Note**: 첫번째 '#!/bin/bash'도 적어 주셔야 합니다.
      - **Note**: 스크립트 설정을 못하더라도 추후 설정 가능합니다.
      - 멀티스레딩: 활성화
+     
 9. 만들기 버튼 클릭
 10. Virtual Machine > Instance > 생성한 인스턴스 ( web_server_1 )의 우측 메뉴바 클릭 > Public IP 연결 클릭
      - `새로운 Public IP를 자동으로 할당` 선택
 11. 확인 버튼 클릭
+
+> 💡 고급설정에서 스크립트 입력을 못했을 경우 VM에 접속하여 아래 명령어 붙여넣기
+
+```bash
+#!/bin/bash
+sudo yum -y remove mariadb-libs
+sudo yum -y install httpd php mysql php-mysqlnd wget 
+sudo systemctl enable httpd
+sudo cd /var/www/html
+sudo wget https://github.com/kimjaehyeon0314/test/raw/main/kakao.tar.gz -O kakao.tar.gz
+sudo tar -xvf kakao.tar.gz
+sudo mv /var/www/html/kakao/{index.php,get_user_list.php,add_user.php} /var/www/html/
+sudo rm /etc/selinux/config
+sudo mv /var/www/html/kakao/config /etc/selinux
+sudo setenforce 0
+sudo systemctl start httpd
+```
 
 ## 3. Bastion VM 인스턴스를 통해 Web 서버 접속
 
