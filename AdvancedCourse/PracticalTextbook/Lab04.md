@@ -7,7 +7,7 @@ Spring Boot 프로젝트를 생성해 간단한 웹 페이지를 생성합니다
 
 1. Spring 어플리케이션 다운로드
    - 접속 중인 Bastion VM 인스턴스 터미널에 명령어 입력
-   #### **lab4-1-1**
+   #### **lab4-1-1-1**
    ```
    wget https://github.com/kakaocloud-edu/tutorial/raw/main/AdvancedCourse/src/demo.zip
    ```
@@ -15,7 +15,7 @@ Spring Boot 프로젝트를 생성해 간단한 웹 페이지를 생성합니다
 2. 다운로드한 Spring 어플리케이션 압축 해제
 
    - 접속 중인 Bastion VM 인스턴스 터미널에 명령어 입력
-   #### **lab4-1-2**
+   #### **lab4-1-1-2**
    ```
    unzip -o demo.zip
    ```
@@ -23,7 +23,7 @@ Spring Boot 프로젝트를 생성해 간단한 웹 페이지를 생성합니다
 3. 다운로드한 Spring 어플리케이션 압축 파일 확인
 
    - 접속 중인 Bastion VM 인스턴스 터미널에 명령어 입력
-   #### **lab4-1-3**
+   #### **lab4-1-1-3**
    ```
    ls
    ```
@@ -33,7 +33,7 @@ Spring Boot 프로젝트를 생성해 간단한 웹 페이지를 생성합니다
    
 1. Spring 어플리케이션 패키징 및 빌드
   
-   #### **lab4-2-1**
+   #### **lab4-2-1-1**
    - 접속 중인 Bastion VM 인스턴스에 명령어 입력
    ```
    if sudo ./mvnw clean package; then
@@ -44,7 +44,7 @@ Spring Boot 프로젝트를 생성해 간단한 웹 페이지를 생성합니다
    fi
    ```
 
-    #### **lab4-2-2**
+    #### **lab4-2-1-2**
    - 접속 중인 Bastion VM 인스턴스에 명령어 입력
    ```
    cat <<EOF > Dockerfile
@@ -55,13 +55,13 @@ Spring Boot 프로젝트를 생성해 간단한 웹 페이지를 생성합니다
    EOF
    ```
 
-   #### **lab4-2-3**
+   #### **lab4-2-1-3**
    - 접속 중인 Bastion VM 인스턴스에 명령어 입력
    ```
    sudo docker build -t ${DOCKER_IMAGE_NAME} .    
    ```
 
-   #### **lab4-2-4**
+   #### **lab4-2-1-3**
    - 빌드 된 Docker 이미지 확인
    ```
    sudo docker images
@@ -69,7 +69,7 @@ Spring Boot 프로젝트를 생성해 간단한 웹 페이지를 생성합니다
    
 2. Spring 어플리케이션 패키징 및 빌드 확인
 
-   #### **lab4-2-5**
+   #### **lab4-2-2**
    - 빌드 된 Docker 이미지 실행
    ```
    sudo docker run -p 8080:8080 demo-spring-boot 
