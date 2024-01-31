@@ -1,4 +1,4 @@
-# kubernetes Engine 클러스터에 웹서버 수동 배포 실습
+<img width="69" alt="image" src="https://github.com/kakaocloud-edu/tutorial/assets/114378755/42de7cfd-6982-4215-b51f-f06c54136332"># kubernetes Engine 클러스터에 웹서버 수동 배포 실습
 
 Spring application 배포를 위한 Service, Ingress, ConfigMap, ConfigMap2의 yaml 파일들을 다운 받아 배포하고, 배포된 프로젝트를 브라우저로 확인하는 실습입니다.
 
@@ -35,9 +35,12 @@ Spring application 배포를 위한 Service, Ingress, ConfigMap, ConfigMap2의 y
    ```
 
 ## 2. YAML 파일 배포
-
-
-1. 다운 받은 yaml들 배포
+1. 리소스 초기화
+  #### **lab6-2-1-1**
+   ```
+   kubectl delete -A ValidatingWebhookConfiguration ingress-nginx-admission
+   ```
+2. 다운 받은 yaml들 배포
 
    **Note** Yaml 파일 간 의존성 문제로 배포 순서를 지켜주세요.
    #### **lab6-2-2-1**
