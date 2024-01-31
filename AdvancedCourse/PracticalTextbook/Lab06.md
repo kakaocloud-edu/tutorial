@@ -36,7 +36,7 @@ Spring application 배포를 위한 Service, Ingress, ConfigMap, ConfigMap2의 y
 
 ## 2. YAML 파일 배포
 1. 리소스 초기화
-  #### **lab6-2-1-1**
+   #### **lab6-2-1-1**
    ```
    kubectl delete -A ValidatingWebhookConfiguration ingress-nginx-admission
    ```
