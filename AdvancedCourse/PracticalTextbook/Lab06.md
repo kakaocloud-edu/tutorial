@@ -40,6 +40,7 @@ Spring application 배포를 위한 Service, Ingress, ConfigMap, ConfigMap2의 y
    ```
    kubectl delete -A ValidatingWebhookConfiguration ingress-nginx-admission
    ```
+
 2. 다운 받은 yaml들 배포
 
    **Note** Yaml 파일 간 의존성 문제로 배포 순서를 지켜주세요.
