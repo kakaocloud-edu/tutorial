@@ -75,7 +75,7 @@ Spring Boot 프로젝트를 생성해 간단한 웹 페이지를 생성합니다
    sudo docker run -p 8080:8080 demo-spring-boot 
    ```
 
-3. bastion의 Public IP 복사
+3. 카카오 클라우드 콘솔 > 전체 서비스 > Virtual Machine > bastion의 Public IP 복사
 4. 브라우저 주소창에 복사한 IP 주소 입력
 
 ## 3. Container Registry에 업로드
