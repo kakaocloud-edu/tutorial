@@ -19,6 +19,14 @@ Spring Boot 프로젝트를 생성해 간단한 웹 페이지를 생성합니다
    ```
    unzip -o demo.zip
    ```
+
+3. 다운로드한 Spring 어플리케이션 압축 파일 확인
+
+   - 접속 중인 Bastion VM 인스턴스 터미널에 명령어 입력
+   #### **lab4-1-2**
+   ```
+   ls
+   ```
     
 ## 2. Spring 어플리케이션을 Container 이미지로 만들기
 
