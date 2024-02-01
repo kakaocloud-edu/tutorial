@@ -1,4 +1,4 @@
-<img width="167" alt="image" src="https://github.com/kakaocloud-edu/tutorial/assets/114378755/34299c11-9746-4435-b9dc-fd2367707c42"><img width="58" alt="image" src="https://github.com/kakaocloud-edu/tutorial/assets/114378755/d82939f3-1e9d-46c6-8459-dff32ab778da"><img width="58" alt="image" src="https://github.com/kakaocloud-edu/tutorial/assets/114378755/a60f2266-5a75-4288-9cd8-c47b9aa7e32c"># Container Image 만들기
+# Container Image 만들기
 
 Spring Boot 프로젝트를 생성해 간단한 웹 페이지를 생성합니다. 생성한 프로젝트를 Docker Image 파일로 만들어 Kakao Cloud Container Registry에 업로드하는 실습을 진행합니다.
 
