@@ -24,7 +24,7 @@
 2. Replicas 수 3개로 늘리기
    #### **lab7-1-2**
    ```bash
-   kubectl scale deployment demo-deployment –replicas=3
+   kubectl scale deployment demo-deployment --replicas=3
    ```
 3. Pod들의 상태 변화 확인
 4. 변경된 첫 번째 웹 사이트 확인
