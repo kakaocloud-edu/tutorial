@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+name: demo-deployment
+labels:
+  app: kc-spring-demo
+spec:
+replicas: 2  # 복제본 갯수
+selector:
+  matchLabels:
+    app: kc-spring-demo
+template:
+  metadata:
+    labels:
+      app: kc-spring-demo
+  spec:
+  spec:
+    affinity:
+      podAntiAffinity:
+        preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 100
+            podAffinityTerm:
+              labelSelector:
+                matchExpressions:
+                  - key: app
+                    operator: In
+                    values:
+                      - kc-spring-demo
+              topologyKey: kubernetes.io/hostname
+    containers:
+    - name: kc-webserver
+      image: ${PROJECT_NAME}.kr-central-2.kcr.dev/kakao-registry/demo-spring-boot:1.0
+      envFrom:
+      - configMapRef:
+          name: app-config
+      - secretRef:
+          name: app-secret
+      ports:
+      - containerPort: 8080
+    imagePullSecrets:
+    - name: regcred  # NCR에 저장된 이미지 Pulling을 위한 인증 Secret 값
