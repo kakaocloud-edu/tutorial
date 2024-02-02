@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 sudo mkdir /home/ubuntu/yaml
 sudo chmod 777 /home/ubuntu/yaml
