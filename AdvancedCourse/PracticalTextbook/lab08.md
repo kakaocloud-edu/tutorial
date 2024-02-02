@@ -27,11 +27,11 @@
    ```
 
    ```bash
-   kubectl delete job sql-job
+   kubectl delete job sql-job
    ```
 
    ```bash
-   kubectl secret app-secret
+   kubectl delete secret app-secret
    ```
    
    ```bash
