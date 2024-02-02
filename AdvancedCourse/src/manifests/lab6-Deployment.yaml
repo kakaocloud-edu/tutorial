@@ -29,7 +29,7 @@ spec:
                 topologyKey: kubernetes.io/hostname
       containers:
       - name: kc-webserver
-        image: ${프로젝트 이름}.kr-central-2.kcr.dev/kakao-registry/demo-spring-boot:1.0
+        image: ${프로젝트 이름}.kr-central-2.kcr.dev/kakao-registry/${이미지 이름}:1.0
         envFrom:
         - configMapRef:
             name: app-config
