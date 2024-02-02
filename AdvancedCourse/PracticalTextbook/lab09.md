@@ -21,7 +21,7 @@ HPA 옵션을 주어 워크로드 리소스를 자동으로 증가시키는 오�
    - 접속 중인 Bastion VM 인스턴스 터미널에 명령어 입력
    #### **lab9-1-2**
    ```
-   vi values.yaml
+   sudo vi values.yaml
    ```
 
    - 40번 라인 수정
