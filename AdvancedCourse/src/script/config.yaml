@@ -3,17 +3,17 @@ clusters:
 - cluster:
     certificate-authority-data: "${AUTH_DATA}"
     server: ${API_SERVER}
-  name: kakao-k8s-cluster
+  name: ${CLUSTER_NAME}
 contexts:
 - context:
-    cluster: kakao-k8s-cluster
-    user: kakao-k8s-cluster-admin
-  name: kakao-k8s-cluster-admin@kakao-k8s-cluster
-current-context: kakao-k8s-cluster-admin@kakao-k8s-cluster
+    cluster: ${CLUSTER_NAME}
+    user: ${CLUSTER_NAME}-admin
+  name: ${CLUSTER_NAME}-admin@${CLUSTER_NAME}
+current-context: ${CLUSTER_NAME}-admin@${CLUSTER_NAME}
 kind: Config
 preferences: {}
 users:
-- name: kakao-k8s-cluster-admin
+- name: ${CLUSTER_NAME}-admin
   user:
     exec:
       apiVersion: client.authentication.k8s.io/v1beta1
