@@ -32,10 +32,10 @@ export INPUT_DB_EP1="데이터베이스 1의 엔드포인트 입력"
 export INPUT_DB_EP2="데이터베이스 2의 엔드포인트 입력"
 
 # 이미지 이름 : demo-spring-boot
-export IMAGE_NAME_USER="이미지 이름 입력"
+export IMAGE_NAME_USER="이미지 이름 입력" #demo-spring-boot
 
 # 자바 버전 : 17-jdk-slim
-export JAVA_VERSION_USER="자바 버전 입력"
+export JAVA_VERSION_USER="자바 버전 입력" #17-jdk-slim
 
 
 # 여기부터는 값을 변경하시면 안됩니다.
