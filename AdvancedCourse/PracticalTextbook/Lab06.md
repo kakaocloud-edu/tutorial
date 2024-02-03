@@ -29,7 +29,7 @@ Spring application 배포를 위한 Service, Ingress, ConfigMap, ConfigMap2의 y
    #### **lab6-1-3**
    ```bash
    kubectl create secret docker-registry regcred \
-   --docker-server={프로젝트 이름}.kr-central-2.kcr.dev \
+   --docker-server=${PROJECT_NAME}.kr-central-2.kcr.dev \
    --docker-username={사용자 액세스 키 ID} \
    --docker-password={사용자 액세스 보안 키} \
    --docker-email={이메일} \
