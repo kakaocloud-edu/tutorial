@@ -307,7 +307,23 @@
      icacls.exe keyPair.pem /grant:r %username%:(R)
      icacls.exe keyPair.pem /inheritance:r
      ```
+17. bastion 생성 시에 고급 설정을 진행하지 않았을 때 진행
+     #### **lab3-1-17-1**
+     ```bash
+     wget https://github.com/kakaocloud-edu/tutorial/raw/main/AdvancedCourse/src/script/script.sh
+     ```
 
+     #### **lab3-1-17-2**
+     ```bash
+     chmod +x script.sh
+     ```
+
+     #### **lab3-1-17-3**
+     ```bash
+     ./script.sh
+     ```
+
+     
 ## 2. Bastion VM 인스턴스를 통해 클러스터 확인
 
 
