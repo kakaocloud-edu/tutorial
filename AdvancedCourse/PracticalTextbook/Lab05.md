@@ -13,7 +13,7 @@ nginx pod을 위한 deployment, LoadBalancer type의 서비스가 포함된 ingr
      ```
 
 2. 실습 진행을 위해 유효성 검사 웹 훅 설정 삭제
-   #### **lab6-2-1**
+   #### **lab5-1-2**
    ```
    kubectl delete -A ValidatingWebhookConfiguration ingress-nginx-admission
    ```
