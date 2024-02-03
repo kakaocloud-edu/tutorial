@@ -6,17 +6,17 @@
 
 1. Pod들의 상태 변화 확인
    - 새로운 터미널에 아래 명령어를 입력하세요.
-    #### **lab7-1-5-1**
+    #### **lab7-1-1-1**
    ```bash
    cd {keypair.pem 다운로드 위치}
    ```
-   #### **lab7-1-5-2**
+   #### **lab7-1-1-2**
    ```bash
    ssh -i keyPair.pem centos@{bastion의 public ip주소}
    ```
    - **Note**: "bastion의 public ip주소" 부분을 복사한 IP 주소로 교체하세요.
   
-   #### **lab7-1-5-3**
+   #### **lab7-1-1-3**
    ```bash
    kubectl get po -w
    ```
@@ -45,7 +45,7 @@
    
 1. lab6-ConfigMap.yaml 파일 수정
    - 터미널에 아래 명령어를 입력하세요.
-   #### **lab7-1-2**
+   #### **lab7-2-1**
    ```bash
    sudo vi lab6-ConfigMap.yaml
    ```
@@ -54,7 +54,7 @@
      
 3. ConfigMap.yaml 파일 내용 변경후 저장
 
-   #### **lab7-1-3**
+   #### **lab7-2-3**
    ```bash
    sudo vi lab6-ConfigMap.yaml
    ```
@@ -73,7 +73,7 @@
 ## 3. yaml 파일 배포
 
 1. 수정된 yaml 파일 적용
-   #### **lab7-2-1**
+   #### **lab7-3-1**
    ```bash
    kubectl apply -f ./lab6-ConfigMap.yaml
    ```
