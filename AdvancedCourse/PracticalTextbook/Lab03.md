@@ -17,7 +17,7 @@
     ```bash
      
     # 환경 변수 설정. 여기 부분만 값을 입력해주세요.
-    export PROJECT_NAME="프로젝트 이름 입력"
+    export PROJECT_NAME_USER="프로젝트 이름 입력"
     
     export ACC_KEY="사용자 액세스 키 ID 입력"
     export SEC_KEY="사용자 액세스 보안 키 입력"
@@ -45,6 +45,7 @@
     export SPRING_BOOT_VERSION="3.1.0"
     export DOCKER_IMAGE_NAME="${IMAGE_NAME_USER}"
     export DOCKER_JAVA_VERSION="${JAVA_VERSION_USER}"
+    export PROJECT_NAME="${PROJECT_NAME_USER}"
     EOF
     
     source /etc/environment
