@@ -12,7 +12,7 @@
     - kubeconfig 파일 열기
     - certificate-authority-data 값 복사
 
-4. 스크립트 환경변수 텍스트 파일에 복사하기
+4. 스크립트를 메모장에 복사후 복사해놓은 값들을 입력하기
    #### **lab3-1-4**
 
   ```bash
