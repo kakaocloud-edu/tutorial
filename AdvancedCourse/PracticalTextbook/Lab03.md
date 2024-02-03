@@ -15,9 +15,8 @@
 4. 스크립트를 메모장에 복사후 복사해놓은 값들을 입력하기
    #### **lab3-1-4**
 
-  ```bash
-#!/bin/bash
-
+```bash
+ 
 # 환경 변수 설정. 여기 부분만 값을 입력해주세요.
 export PROJECT_NAME="프로젝트 이름 입력"
 
@@ -236,7 +235,7 @@ hpa:
   maxReplicas: 6
   averageUtilization: 50
 EOF
-   ```
+```
 
 5. 카카오 클라우드 콘솔 > 전체 서비스 > Virtual Machine 접속
 6. Instance 만들기 클릭
