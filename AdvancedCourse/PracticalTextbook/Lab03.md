@@ -16,219 +16,226 @@
    #### **lab3-1-4**
 
   ```bash
-  #!/bin/bash
-  
+#!/bin/bash
 
-  # 환경 변수 설정. 여기 부분만 값을 입력해주세요.
-  export PROJECT_NAME="프로젝트 이름 입력"
+# 환경 변수 설정. 여기 부분만 값을 입력해주세요.
+export PROJECT_NAME="프로젝트 이름 입력"
 
-  export ACC_KEY="사용자 액세스 키 ID 입력"
-  export SEC_KEY="사용자 액세스 보안 키 입력"
+export ACC_KEY="사용자 액세스 키 ID 입력"
+export SEC_KEY="사용자 액세스 보안 키 입력"
 
-  export API_SERVER="클러스터의 API 엔드포인트 입력"
-  export AUTH_DATA="클러스터의 certificate-authority-data 입력"
+export CLUSTER_NAME="클러스터 이름 입력"
+export API_SERVER="클러스터의 API 엔드포인트 입력"
+export AUTH_DATA="클러스터의 certificate-authority-data 입력"
 
-  export INPUT_DB_EP1="데이터베이스 1의 엔드포인트 입력"
-  export INPUT_DB_EP2="데이터베이스 2의 엔드포인트 입력"
+export INPUT_DB_EP1="데이터베이스 1의 엔드포인트 입력"
+export INPUT_DB_EP2="데이터베이스 2의 엔드포인트 입력"
 
-  # 여기부터는 값을 변경하시면 안됩니다.
-  DB_EP1=$(echo -n "$INPUT_DB_EP1" | base64 -w 0)
-  DB_EP2=$(echo -n "$INPUT_DB_EP2" | base64 -w 0)
+# 이미지 이름 : demo-spring-boot
+export IMAGE_NAME_USER="이미지 이름 입력"
 
-  tee -a /etc/environment << EOF
-  export JAVA_VERSION="17"
-  export SPRING_BOOT_VERSION="3.1.0"
-  export DOCKER_IMAGE_NAME="demo-spring-boot"
-  export DOCKER_JAVA_VERSION="17-jdk-slim"
-  EOF
-  
-  source /etc/environment
+# 자바 버전 : 17-jdk-slim
+export JAVA_VERSION_USER="자바 버전 입력"
 
-  mkdir /home/ubuntu/yaml
-  chmod 777 /home/ubuntu/yaml
-  wget https://github.com/kakaocloud-edu/tutorial/raw/main/AdvancedCourse/src/manifests/lab6Yaml.tar -O /home/ubuntu/yaml/lab6Yaml.tar
-  
-  cat <<EOF > /home/ubuntu/yaml/lab6-Secret.yaml
-  apiVersion: v1
-  kind: Secret
-  metadata:
-    name: app-secret
-  type: Opaque
-  data:
-    DB1_PORT: 'MzMwNg=='
-    DB1_URL: "${DB_EP1}"
-    DB1_ID: 'YWRtaW4='
-    DB1_PW: 'YWRtaW4xMjM0'
-    DB2_PORT: 'MzMwNw=='
-    DB2_URL: "${DB_EP2}"
-    DB2_ID: 'YWRtaW4='
-    DB2_PW: 'YWRtaW4xMjM0'
-  EOF
 
-  cat <<EOF > /home/ubuntu/yaml/lab6-Deployment.yaml
-  apiVersion: apps/v1
-  kind: Deployment
-  metadata:
-    name: demo-deployment
-    labels:
+# 여기부터는 값을 변경하시면 안됩니다.
+DB_EP1=$(echo -n "$INPUT_DB_EP1" | base64 -w 0)
+DB_EP2=$(echo -n "$INPUT_DB_EP2" | base64 -w 0)
+
+tee -a /etc/environment << EOF
+export JAVA_VERSION="17"
+export SPRING_BOOT_VERSION="3.1.0"
+export DOCKER_IMAGE_NAME="${IMAGE_NAME_USER}"
+export DOCKER_JAVA_VERSION="${JAVA_VERSION_USER}"
+EOF
+
+source /etc/environment
+
+mkdir /home/ubuntu/yaml
+chmod 777 /home/ubuntu/yaml
+wget https://github.com/kakaocloud-edu/tutorial/raw/main/AdvancedCourse/src/manifests/lab6Yaml.tar -O /home/ubuntu/yaml/lab6Yaml.tar
+
+cat <<EOF > /home/ubuntu/yaml/lab6-Secret.yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: app-secret
+type: Opaque
+data:
+  DB1_PORT: 'MzMwNg=='
+  DB1_URL: "${DB_EP1}"
+  DB1_ID: 'YWRtaW4='
+  DB1_PW: 'YWRtaW4xMjM0'
+  DB2_PORT: 'MzMwNw=='
+  DB2_URL: "${DB_EP2}"
+  DB2_ID: 'YWRtaW4='
+  DB2_PW: 'YWRtaW4xMjM0'
+EOF
+
+cat <<EOF > /home/ubuntu/yaml/lab6-Deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: demo-deployment
+  labels:
+    app: kc-spring-demo
+spec:
+  replicas: 2  # 복제본 갯수
+  selector:
+    matchLabels:
       app: kc-spring-demo
-  spec:
-    replicas: 2  # 복제본 갯수
-    selector:
-      matchLabels:
+  template:
+    metadata:
+      labels:
         app: kc-spring-demo
-    template:
-      metadata:
-        labels:
-          app: kc-spring-demo
-      spec:
-      spec:
-        affinity:
-          podAntiAffinity:
-            preferredDuringSchedulingIgnoredDuringExecution:
-              - weight: 100
-                podAffinityTerm:
-                  labelSelector:
-                    matchExpressions:
-                      - key: app
-                        operator: In
-                        values:
-                          - kc-spring-demo
-                  topologyKey: kubernetes.io/hostname
-        containers:
-        - name: kc-webserver
-          image: ${PROJECT_NAME}.kr-central-2.kcr.dev/kakao-registry/demo-spring-boot:1.0
-          envFrom:
-          - configMapRef:
-              name: app-config
-          - secretRef:
-              name: app-secret
-          ports:
-          - containerPort: 8080
-        imagePullSecrets:
-        - name: regcred  # NCR에 저장된 이미지 Pulling을 위한 인증 Secret 값
-  EOF
+    spec:
+    spec:
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 100
+              podAffinityTerm:
+                labelSelector:
+                  matchExpressions:
+                    - key: app
+                      operator: In
+                      values:
+                        - kc-spring-demo
+                topologyKey: kubernetes.io/hostname
+      containers:
+      - name: kc-webserver
+        image: ${PROJECT_NAME}.kr-central-2.kcr.dev/kakao-registry/${DOCKER_IMAGE_NAME}:1.0
+        envFrom:
+        - configMapRef:
+            name: app-config
+        - secretRef:
+            name: app-secret
+        ports:
+        - containerPort: 8080
+      imagePullSecrets:
+      - name: regcred  # NCR에 저장된 이미지 Pulling을 위한 인증 Secret 값
+EOF
 
-  cat <<EOF > /home/ubuntu/yaml/lab6-ConfigMapDB.yaml
-  apiVersion: v1
-  kind: ConfigMap
-  metadata:
-    name: sql-script
-  data:
-    script.sql: |
-      CREATE DATABASE IF NOT EXISTS history;
-      USE history;
-      CREATE TABLE IF NOT EXISTS access (
-        id INT AUTO_INCREMENT PRIMARY KEY,
-        date VARCHAR(255) NOT NULL
-      );
-      INSERT INTO access (date) VALUES ('hello:)');
-      CALL mysql.mnms_grant_right_user('admin', '%', 'all', '*', '*');
-      ALTER USER 'admin'@'%' IDENTIFIED WITH mysql_native_password BY 'admin1234';
-  EOF
+cat <<EOF > /home/ubuntu/yaml/lab6-ConfigMapDB.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: sql-script
+data:
+  script.sql: |
+    CREATE DATABASE IF NOT EXISTS history;
+    USE history;
+    CREATE TABLE IF NOT EXISTS access (
+      id INT AUTO_INCREMENT PRIMARY KEY,
+      date VARCHAR(255) NOT NULL
+    );
+    INSERT INTO access (date) VALUES ('hello:)');
+    CALL mysql.mnms_grant_right_user('admin', '%', 'all', '*', '*');
+    ALTER USER 'admin'@'%' IDENTIFIED WITH mysql_native_password BY 'admin1234';
+EOF
 
-  curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
-  sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
+curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
 
-  mkdir /home/ubuntu/.kube
+mkdir /home/ubuntu/.kube
 
-  cat <<EOF > /home/ubuntu/.kube/config
-  apiVersion: v1
-  clusters:
-  - cluster:
-      certificate-authority-data: "${AUTH_DATA}"
-      server: ${API_SERVER}
-    name: kakao-k8s-cluster
-  contexts:
-  - context:
-      cluster: kakao-k8s-cluster
-      user: kakao-k8s-cluster-admin
-    name: kakao-k8s-cluster-admin@kakao-k8s-cluster
-  current-context: kakao-k8s-cluster-admin@kakao-k8s-cluster
-  kind: Config
-  preferences: {}
-  users:
-  - name: kakao-k8s-cluster-admin
-    user:
-      exec:
-        apiVersion: client.authentication.k8s.io/v1beta1
-        args: null
-        command: kic-iam-auth
-        env:
-        - name: "OS_AUTH_URL"
-          value: "https://iam.kakaoi.io/identity/v3"
-        - name: "OS_AUTH_TYPE"
-          value: "v3applicationcredential"
-        - name: "OS_APPLICATION_CREDENTIAL_ID"
-          value: "${ACC_KEY}"
-        - name: "OS_APPLICATION_CREDENTIAL_SECRET"
-          value: "${SEC_KEY}"
-        - name: "OS_REGION_NAME"
-          value: "kr-central-2"
-  EOF
+cat <<EOF > /home/ubuntu/.kube/config
+apiVersion: v1
+clusters:
+- cluster:
+    certificate-authority-data: "${AUTH_DATA}"
+    server: ${API_SERVER}
+  name: ${CLUSTER_NAME}
+contexts:
+- context:
+    cluster: ${CLUSTER_NAME}
+    user: ${CLUSTER_NAME}-admin
+  name: ${CLUSTER_NAME}-admin@${CLUSTER_NAME}
+current-context: ${CLUSTER_NAME}-admin@${CLUSTER_NAME}
+kind: Config
+preferences: {}
+users:
+- name: ${CLUSTER_NAME}-admin
+  user:
+    exec:
+      apiVersion: client.authentication.k8s.io/v1beta1
+      args: null
+      command: kic-iam-auth
+      env:
+      - name: "OS_AUTH_URL"
+        value: "https://iam.kakaoi.io/identity/v3"
+      - name: "OS_AUTH_TYPE"
+        value: "v3applicationcredential"
+      - name: "OS_APPLICATION_CREDENTIAL_ID"
+        value: "${ACC_KEY}"
+      - name: "OS_APPLICATION_CREDENTIAL_SECRET"
+        value: "${SEC_KEY}"
+      - name: "OS_REGION_NAME"
+        value: "kr-central-2"
+EOF
 
-  wget https://objectstorage.kr-central-1.kakaoi.io/v1/9093ef2db68545b2bddac0076500b448/kc-docs/docs%2Fbinaries-kic-iam-auth%2FLinux%20x86_64%2064Bit%2Fkic-iam-auth -O kic-iam-auth
-  sudo chmod +x /kic-iam-auth
-  sudo mv /kic-iam-auth /usr/local/bin
+wget https://objectstorage.kr-central-1.kakaoi.io/v1/9093ef2db68545b2bddac0076500b448/kc-docs/docs%2Fbinaries-kic-iam-auth%2FLinux%20x86_64%2064Bit%2Fkic-iam-auth -O kic-iam-auth
+sudo chmod +x /kic-iam-auth
+sudo mv /kic-iam-auth /usr/local/bin
 
-  curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
-  echo "deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
-  sudo apt-get update
-  sudo apt-get install -y docker-ce docker-ce-cli containerd.io
-  sudo chmod 666 /var/run/docker.sock
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+echo "deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+sudo apt-get update
+sudo apt-get install -y docker-ce docker-ce-cli containerd.io
+sudo chmod 666 /var/run/docker.sock
 
-  sudo apt install unzip
-  sudo apt-get install -y openjdk-17-jdk maven
+sudo apt install unzip
+sudo apt-get install -y openjdk-17-jdk maven
 
-  chmod 600 /home/ubuntu/.kube/config
-  chown ubuntu:ubuntu /home/ubuntu/.kube/config
-  
-  cat <<EOF > /home/ubuntu/values.yaml
-  
-  replicaCount: 2
+chmod 600 /home/ubuntu/.kube/config
+chown ubuntu:ubuntu /home/ubuntu/.kube/config
 
-  deployment:
-    repository: ${PROJECT_NAME}.kr-central-2.kcr.dev/kakao-registry/demo-spring-boot
-    tag: "1.0"
-    pullSecret: regcred
+cat <<EOF > /home/ubuntu/values.yaml
 
-  service:
-    type: ClusterIP
-    port: 80
-    targetPort: 8080
+replicaCount: 2
 
-  ingress:
-    enabled: true
-    className: nginx
-    path: /
-    sslRedirect: "false"
+deployment:
+  repository: ${PROJECT_NAME}.kr-central-2.kcr.dev/kakao-registry/${DOCKER_IMAGE_NAME}
+  tag: "1.0"
+  pullSecret: regcred
 
-  configMap:
-    WELCOME_MESSAGE: "Welcome to Kakao Cloud"
-    BACKGROUND_COLOR: "#4a69bd"
+service:
+  type: ClusterIP
+  port: 80
+  targetPort: 8080
 
-  secret:
-    DB1_PORT: '3306'
-    DB1_URL: '${INPUT_DB_EP1}'
-    DB1_ID: 'admin'
-    DB1_PW: 'admin1234'
-    DB2_PORT: '3307'
-    DB2_URL: '${INPUT_DB_EP2}'
-    DB2_ID: 'admin'
-    DB2_PW: 'admin1234'
+ingress:
+  enabled: true
+  className: nginx
+  path: /
+  sslRedirect: "false"
 
-  job:
-    name: sql-job
-    image: mysql:5.7
-    scriptConfigMap: sql-script
-    backoffLimit: 4
+configMap:
+  WELCOME_MESSAGE: "Welcome to Kakao Cloud"
+  BACKGROUND_COLOR: "#4a69bd"
 
-  hpa:
-    enabled: false
-    minReplicas: 2
-    maxReplicas: 6
-    averageUtilization: 50
-  EOF
+secret:
+  DB1_PORT: '3306'
+  DB1_URL: '${INPUT_DB_EP1}'
+  DB1_ID: 'admin'
+  DB1_PW: 'admin1234'
+  DB2_PORT: '3307'
+  DB2_URL: '${INPUT_DB_EP2}'
+  DB2_ID: 'admin'
+  DB2_PW: 'admin1234'
+
+job:
+  name: sql-job
+  image: mysql:5.7
+  scriptConfigMap: sql-script
+  backoffLimit: 4
+
+hpa:
+  enabled: false
+  minReplicas: 2
+  maxReplicas: 6
+  averageUtilization: 50
+EOF
    ```
 
 5. 카카오 클라우드 콘솔 > 전체 서비스 > Virtual Machine 접속
