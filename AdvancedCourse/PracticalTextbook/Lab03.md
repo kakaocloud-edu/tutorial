@@ -13,7 +13,7 @@
     - certificate-authority-data 값 복사
 
 4. 스크립트 환경변수 텍스트 파일에 복사하기
-   #### **lab3-1-7**
+   #### **lab3-1-4**
 
   ```bash
   #!/bin/bash
@@ -231,18 +231,18 @@
   EOF
    ```
 
-8. 카카오 클라우드 콘솔 > 전체 서비스 > Virtual Machine 접속
-9. Instance 만들기 클릭
+5. 카카오 클라우드 콘솔 > 전체 서비스 > Virtual Machine 접속
+6. Instance 만들기 클릭
    - 이름 : `bastion`
    - Image : `Ubuntu 20.04`
    - Instance 타입 : `m2a.large`
    - Volume : `10 GB`
-10. Key Pair : `keypair`
-11. VPC 선택
+7. Key Pair : `keypair`
+8. VPC 선택
     - VPC : `vpc_1`
     - Subnet : `main`
     - SecurityGroup 선택
-12. 새 Security Group 생성 클릭
+9. 새 Security Group 생성 클릭
     - Security Group 이름: `bastion`
     - Inbound :
       - 프로토콜: `TCP`
@@ -251,49 +251,49 @@
           - 사용자 IP 조회: [https://www.myip.com/](https://www.myip.com/)
         - 실습 환경에 따라 사용자의 IP가 변경될 가능성이 있다면 `0.0.0.0/0` 으로 설정
       - 포트 번호: `22`
-13. Outbound 클릭
+10. Outbound 클릭
     - Outbound
       - 프로토콜 : `ALL`
       - 패킷 목적지 : `0.0.0.0/0`
     - 만들기 버튼 클릭
-14. 고급설정 버튼 클릭
-    - 사용자 스크립트에 - **lab3-1-7** 내용을 붙여넣기
+11. 고급설정 버튼 클릭
+    - 사용자 스크립트에 - **lab3-1-4** 내용을 붙여넣기
     - **Note**: 고급 설정 스크립트 부분을 못하더라도 추후 설정할 수 있습니다.
-15. 만들기 버튼 클릭
-16. 카카오 클라우드 콘솔 > 전체 서비스 > Virtual Machine 접속
-17. 생성된 인스턴스의 우측 메뉴바 > Public IP 연결 클릭
+12. 만들기 버튼 클릭
+13. 카카오 클라우드 콘솔 > 전체 서비스 > Virtual Machine 접속
+14. 생성된 인스턴스의 우측 메뉴바 > Public IP 연결 클릭
     - `새로운 Public IP를 생성하고 자동으로 할당` 
-18. 확인 버튼 클릭
-19. 생성된 인스턴스의 우측 메뉴바 > SSH 연결 클릭
+15. 확인 버튼 클릭
+16. 생성된 인스턴스의 우측 메뉴바 > SSH 연결 클릭
      - SSH 접속 명령어 복사(다운받은 keyPair.pem 파일이 있는 경로에서 아래 명령어를 실행합니다.)
      - 터미널 열기
      - Keypair를 다운받아놓은 폴더로 이동
      - 터미널에 명령어 붙여넣기
      - yes 입력
-    #### **lab4-1-12-1**
+    #### **lab3-1-16-1**
      ```bash
      cd {keypair.pem 다운로드 위치}
      ```
      - 리눅스의 경우에 아래와 같이 키페어의 권한을 조정
 
-     #### **lab4-1-12-2**
+     #### **lab3-1-16-2**
      ```bash
      chmod 400 keyPair.pem
      ```
 
-     #### **lab4-1-12-4**
+     #### **lab3-1-16-3**
      ```bash
      ssh -i keyPair.pem centos@{bastion의 public ip주소}
      ```
      - **Note**: "bastion의 public ip주소" 부분을 복사한 IP 주소로 교체하세요.
    
-     #### **lab3-1-19**
+     #### **lab3-1-16-4**
      ```bash
      yes
      ```
     
     - **Note**: 윈도우에서 ssh 접근이 안될 경우에 cmd 창에서 keyPair.pem가 있는 경로로 이동 후 아래 명령어 입력
-     #### **lab4-1-12-3**
+     #### **lab3-1-16-5**
      ```bash
      icacls.exe keyPair.pem /reset
      icacls.exe keyPair.pem /grant:r %username%:(R)
