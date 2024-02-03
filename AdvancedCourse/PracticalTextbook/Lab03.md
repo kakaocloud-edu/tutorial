@@ -235,19 +235,19 @@
       averageUtilization: 50
     EOF
     ```
-
-6. 카카오 클라우드 콘솔 > 전체 서비스 > Virtual Machine 접속
-7. Instance 만들기 클릭
+    
+5. 카카오 클라우드 콘솔 > 전체 서비스 > Virtual Machine 접속
+6. Instance 만들기 클릭
    - 이름 : `bastion`
    - Image : `Ubuntu 20.04`
    - Instance 타입 : `m2a.large`
    - Volume : `10 GB`
-8. Key Pair : `keypair`
-9. VPC 선택
+7. Key Pair : `keypair`
+8. VPC 선택
     - VPC : `vpc_1`
     - Subnet : `main`
     - SecurityGroup 선택
-10. 새 Security Group 생성 클릭
+9. 새 Security Group 생성 클릭
     - Security Group 이름: `bastion`
     - Inbound :
       - 프로토콜: `TCP`
@@ -259,20 +259,20 @@
       - 프로토콜: `TCP`
       - 패킷 출발지: `0.0.0.0/32`
       - 포트 번호: `8080`
-11. Outbound 클릭
+10. Outbound 클릭
     - Outbound
       - 프로토콜 : `ALL`
       - 패킷 목적지 : `0.0.0.0/0`
     - 만들기 버튼 클릭
-12. 고급설정 버튼 클릭
+11. 고급설정 버튼 클릭
     - 사용자 스크립트에 - **lab3-1-4** 내용을 붙여넣기
     - **Note**: 고급 설정 스크립트 부분을 못하더라도 추후 설정할 수 있습니다.
-13. 만들기 버튼 클릭
-14. 카카오 클라우드 콘솔 > 전체 서비스 > Virtual Machine 접속
-15. 생성된 인스턴스의 우측 메뉴바 > Public IP 연결 클릭
+12. 만들기 버튼 클릭
+13. 카카오 클라우드 콘솔 > 전체 서비스 > Virtual Machine 접속
+14. 생성된 인스턴스의 우측 메뉴바 > Public IP 연결 클릭
     - `새로운 Public IP를 생성하고 자동으로 할당` 
-16. 확인 버튼 클릭
-17. 생성된 인스턴스의 우측 메뉴바 > SSH 연결 클릭
+15. 확인 버튼 클릭
+16. 생성된 인스턴스의 우측 메뉴바 > SSH 연결 클릭
      - SSH 접속 명령어 복사(다운받은 keyPair.pem 파일이 있는 경로에서 아래 명령어를 실행합니다.)
      - 터미널 열기
      - Keypair를 다운받아놓은 폴더로 이동
