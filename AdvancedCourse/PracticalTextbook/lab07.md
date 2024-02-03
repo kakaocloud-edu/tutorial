@@ -55,10 +55,7 @@
 3. ConfigMap.yaml 파일 내용 변경후 저장
 
    #### **lab7-2-3**
-   ```bash
-   sudo vi lab6-ConfigMap.yaml
-   ```
-
+   
    **Note** 아래와 같은 방식으로 문구를 변경하면 됩니다.   
    ```bash
    apiVersion: v1
