@@ -70,3 +70,11 @@ HPA 옵션을 주어 워크로드 리소스를 자동으로 증가시키는 오�
   ```bash
   kubectl run -i --tty load-generator --rm --image=ke-container-registry.kr-central-2.kcr.dev/ke-cr/busybox:1.28 --restart=Never -- /bin/sh -c "while sleep 0.01; do wget -q -O- http://61.109.239.122/; done"
   ```
+
+  2. pod 자동확장 여부 확인
+  - **Note**: 5번에서 열었던 터미널 창에서 결과를 확인해주세요.
+  
+  - 리소스 사용량에 맞추어 pod이 자동확장 되는 것을 확인
+
+    
+
