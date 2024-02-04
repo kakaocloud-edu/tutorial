@@ -272,9 +272,9 @@
     - `새로운 Public IP를 생성하고 자동으로 할당` 
 15. 확인 버튼 클릭
 16. 생성된 인스턴스의 우측 메뉴바 > SSH 연결 클릭
-     - SSH 접속 명령어 복사(다운받은 keyPair.pem 파일이 있는 경로에서 아래 명령어를 실행합니다.)
+     - SSH 접속 명령어 복사(다운받은 keypair.pem 파일이 있는 경로에서 아래 명령어를 실행합니다.)
      - 터미널 열기
-     - Keypair를 다운받아놓은 폴더로 이동
+     - keypair를 다운받아놓은 폴더로 이동
      - 터미널에 명령어 붙여넣기
      - yes 입력
     #### **lab3-1-16-1**
@@ -285,12 +285,12 @@
 
      #### **lab3-1-16-2**
      ```bash
-     chmod 400 keyPair.pem
+     chmod 400 keypair.pem
      ```
 
      #### **lab3-1-16-3**
      ```bash
-     ssh -i keyPair.pem centos@{bastion의 public ip주소}
+     ssh -i keypair.pem centos@{bastion의 public ip주소}
      ```
      - **Note**: "bastion의 public ip주소" 부분을 복사한 IP 주소로 교체하세요.
    
@@ -299,12 +299,12 @@
      yes
      ```
     
-    - **Note**: 윈도우에서 ssh 접근이 안될 경우에 cmd 창에서 keyPair.pem가 있는 경로로 이동 후 아래 명령어 입력
+    - **Note**: 윈도우에서 ssh 접근이 안될 경우에 cmd 창에서 keypair.pem가 있는 경로로 이동 후 아래 명령어 입력
      #### **lab3-1-16-5**
      ```bash
-     icacls.exe keyPair.pem /reset
-     icacls.exe keyPair.pem /grant:r %username%:(R)
-     icacls.exe keyPair.pem /inheritance:r
+     icacls.exe keypair.pem /reset
+     icacls.exe keypair.pem /grant:r %username%:(R)
+     icacls.exe keypair.pem /inheritance:r
      ```
 17. bastion 생성 시에 고급 설정을 진행하지 않았을 때 진행
      #### **lab3-1-17-1**
