@@ -35,7 +35,7 @@ sudo chown ubuntu:ubuntu /home/ubuntu/.kube/config
 
 sudo curl -o /home/ubuntu/yaml/values.yaml https://raw.githubusercontent.com/kakaocloud-edu/tutorial/main/AdvancedCourse/src/script/values.yaml
 
-sudo awk -v auth_data="$AUTH_DATA" '{gsub("AUTH_DATA", auth_data)}1' /home/ubuntu/.kube/config > /tmp/temp_config && sudo mv /tmp/temp_config /home/ubuntu/.kube/config
+sudo awk -v auth_data="${AUTH_DATA}" '{while(match($0,/\$\{AUTH_DATA\}/)) { $0 = substr($0, 1, RSTART-1) auth_data substr($0, RSTART+RLENGTH)}; print}' /home/ubuntu/.kube/config > /tmp/temp_config && sudo mv /tmp/temp_config /home/ubuntu/.kube/config
 sudo sed -i "s|\${API_SERVER}|$API_SERVER|g" /home/ubuntu/.kube/config
 sudo sed -i "s|\${ACC_KEY}|$ACC_KEY|g" /home/ubuntu/.kube/config
 sudo sed -i "s|\${SEC_KEY}|$SEC_KEY|g" /home/ubuntu/.kube/config
