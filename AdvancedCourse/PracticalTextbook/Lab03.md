@@ -1,4 +1,4 @@
-# K8s engine Cluster 관리 VM 생성 실습
+<img width="60" alt="image" src="https://github.com/kakaocloud-edu/tutorial/assets/114378755/a3085f97-4b9f-4ab4-95f2-c959d39611f7"># K8s engine Cluster 관리 VM 생성 실습
 
 클러스터를 관리하기 위한 Bation VM 인스턴스를 생성하는 실습입니다.
 
@@ -252,10 +252,8 @@
     - Security Group 이름: `bastion`
     - Inbound :
       - 프로토콜: `TCP`
-      - 패킷 출발지: `{사용자 IP}/32`
-        - **Note**: "사용자\_IP" 부분을 실제 IP 주소로 교체하세요.
-          - 사용자 IP 조회: [https://www.myip.com/](https://www.myip.com/)
-        - 실습 환경에 따라 사용자의 IP가 변경될 가능성이 있다면 `0.0.0.0/0` 으로 설정
+      - 패킷 출발지: `{교육장의 사설 IP}/32`
+        - **Note**: "교육장의 사설 IP" 부분을 실제 IP 주소로 교체하세요.
       - 포트 번호: `22`
       - 프로토콜: `TCP`
       - 패킷 출발지: `0.0.0.0/32`
