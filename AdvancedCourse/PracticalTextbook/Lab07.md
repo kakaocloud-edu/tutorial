@@ -12,7 +12,7 @@
    ```
    #### **lab7-1-1-2**
    ```bash
-   ssh -i keyPair.pem centos@{bastion의 public ip주소}
+   ssh -i keypair.pem centos@{bastion의 public ip주소}
    ```
    - **Note**: "bastion의 public ip주소" 부분을 복사한 IP 주소로 교체하세요.
   
