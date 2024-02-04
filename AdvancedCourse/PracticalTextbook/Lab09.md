@@ -52,7 +52,7 @@ HPA 옵션을 주어 워크로드 리소스를 자동으로 증가시키는 오�
 
    #### **lab9-1-5-2**
    ```bash
-   ssh -i keyPair.pem centos@{bastion의 public ip주소}
+   ssh -i keypair.pem centos@{bastion의 public ip주소}
    ```
    - **Note**: "bastion의 public ip주소" 부분을 복사한 IP 주소로 교체하세요.
   
