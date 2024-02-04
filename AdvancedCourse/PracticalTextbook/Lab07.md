@@ -50,9 +50,10 @@
    sudo vi lab6-ConfigMap.yaml
    ```
 2.  Google에 color picker 검색 후 원하는 색상 HEX값 복사
+   - https://www.google.com/search?client=safari&rls=en&q=color+picker&ie=UTF-8&oe=UTF-8
 
      
-3. ConfigMap.yaml 파일 내용 변경후 저장
+4. ConfigMap.yaml 파일 내용 변경후 저장
    
    **Note** 아래와 같은 방식으로 문구를 변경하면 됩니다.   
    ```bash
