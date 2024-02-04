@@ -290,7 +290,7 @@
 
      #### **lab3-1-16-3**
      ```bash
-     ssh -i keypair.pem centos@{bastion의 public ip주소}
+     ssh -i keypair.pem ubuntu@{bastion의 public ip주소}
      ```
      - **Note**: "bastion의 public ip주소" 부분을 복사한 IP 주소로 교체하세요.
    
