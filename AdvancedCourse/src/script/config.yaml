@@ -1,7 +1,7 @@
 apiVersion: v1
 clusters:
 - cluster:
-    certificate-authority-data: ${AUTH_DATA}
+    certificate-authority-data: "${AUTH_DATA}"
     server: ${API_SERVER}
   name: ${CLUSTER_NAME}
 contexts:
