@@ -62,7 +62,7 @@
       name: app-config
    data:
       WELCOME_MESSAGE: "ConfigMap변경 실습"
-      BACKGROUND_COLOR: "{HEX값}" #반드시 쌍따옴표로 감싸주세요 "#4287f5"
+      BACKGROUND_COLOR: "{HEX값}" #반드시 쌍따옴표로 감싸주세요 ex)"#4287f5"
    ```
    
 ## 3. yaml 파일 배포
