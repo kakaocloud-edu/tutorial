@@ -1,4 +1,4 @@
-<img width="60" alt="image" src="https://github.com/kakaocloud-edu/tutorial/assets/114378755/a3085f97-4b9f-4ab4-95f2-c959d39611f7"># K8s engine Cluster 관리 VM 생성 실습
+# K8s engine Cluster 관리 VM 생성 실습
 
 클러스터를 관리하기 위한 Bation VM 인스턴스를 생성하는 실습입니다.
 
@@ -264,7 +264,7 @@
       - 패킷 목적지 : `0.0.0.0/0`
     - 만들기 버튼 클릭
 11. 고급설정 버튼 클릭
-    - 사용자 스크립트에 - **lab3-1-4** 내용을 붙여넣기
+    - 사용자 스크립트에 **lab3-1-4** 내용을 붙여넣기
     - **Note**: 고급 설정 스크립트 부분을 못하더라도 추후 설정할 수 있습니다.
 12. 만들기 버튼 클릭
 13. 카카오 클라우드 콘솔 > 전체 서비스 > Virtual Machine 접속
