@@ -82,6 +82,7 @@
 3. Pod들의 상태 변화 확인
 
 ## 4. 변경된 내용 웹에서 확인
-
-1. 변경 된 첫 번째 웹사이트 확인
-2. 변경 된 두 번째 웹사이트 확인
+1. 카카오 클라우드 콘솔 > 전체 서비스 > Beyond Networking Service > Load Balancing > Load Balancer
+2. 생성된 두 개의 Load Balancer의 Public IP를 복사
+4. 브라우저 주소창에 복사한 IP 주소 각각 입력
+     - 변경된 내용 확인
