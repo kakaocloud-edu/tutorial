@@ -240,7 +240,7 @@
 5. 카카오 클라우드 콘솔 > 전체 서비스 > Virtual Machine 접속
 6. Instance 만들기 클릭
    - 이름 : `bastion`
-   - Image : `Ubuntu 20.04`
+   - Image : `Ubuntu 20.04 - 5.4.0-164`
    - Instance 타입 : `m2a.large`
    - Volume : `10 GB`
 7. Key Pair : `keypair`
