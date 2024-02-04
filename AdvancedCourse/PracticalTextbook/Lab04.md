@@ -77,7 +77,7 @@ Spring Boot 프로젝트를 생성해 간단한 웹 페이지를 생성합니다
 
 3. 카카오 클라우드 콘솔 > 전체 서비스 > Virtual Machine 접속
 4. bastion의 Public IP 복사
-5. 브라우저 주소창에 복사한 IP 주소 입력
+5. 브라우저 주소창에 {복사한 IP 주소}:8080 입력
 6. 이미지 실행 확인
 
 ## 3. Container Registry에 업로드
