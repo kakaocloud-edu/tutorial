@@ -144,7 +144,7 @@
 2. 디버그
    #### **lab8-6-2**
    ```bash
-   helm install --dry-run --debug my-release . >yamls
+   helm install --dry-run --debug my-release . > yamls
    ```
 
 3. 차트 설치
