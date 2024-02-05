@@ -34,7 +34,7 @@
    ```bash
    #!/bin/bash
 
-   # 환경 변수 설정. 여기 부분만 값을 입력해주세요.
+   # 환경 변수 설정. 복사한 값들을 입력해주세요.
 
    command=$(cat <<EOF
    export ACC_KEY='사용자 액세스 키 ID 입력'
