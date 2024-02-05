@@ -340,6 +340,21 @@
      ```bash
      ls -al
      ```
+
+     #### **lab3-1-18-4**
+     ```bash
+     cat lab6-ConfigMapDB.yaml
+     ```
+
+     #### **lab3-1-18-5**
+     ```bash
+     cat lab6-Deployment.yaml
+     ```
+
+     #### **lab3-1-18-6**
+     ```bash
+     cat lab6-Secret.yaml
+     ```
      
 
      
