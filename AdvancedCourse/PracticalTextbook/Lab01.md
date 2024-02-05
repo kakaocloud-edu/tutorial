@@ -24,7 +24,7 @@
 
 ## 2. Container Registry 생성
 
-1. 카카오 클라우드 콘솔 > 전체 서비스 > VPC 접속
+1. 카카오 클라우드 콘솔 > 전체 서비스 > Container Registry 접속
 2. 리포지토리 만들기 버튼 클릭
    - 공개 여부: 비공개
    - 리포지토리 이름 : `kakao-registry`
