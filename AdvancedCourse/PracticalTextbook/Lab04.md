@@ -78,7 +78,7 @@ Spring Boot 프로젝트를 생성해 간단한 웹 페이지를 생성합니다
 6. 브라우저 주소창에 {복사한 IP 주소}:8080 입력
 7. 이미지 실행 확인
 
-## 3. Container Registry에 업로드
+## 3. Container Registry 설정
 
 1. 카카오 클라우드 콘솔 > 전체 서비스 > Container Registry > Repository 접속
 2. 생성 된 Repository 클릭 
