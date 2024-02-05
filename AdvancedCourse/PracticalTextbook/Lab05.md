@@ -11,13 +11,6 @@ nginx pod을 위한 deployment, LoadBalancer type의 서비스가 포함된 ingr
      ```bash
      kubectl apply -f https://github.com/kakaocloud-edu/tutorial/raw/main/AdvancedCourse/src/manifests/ingress-nginx-controller.yaml
      ```
-
-2. 실습 진행을 위해 유효성 검사 웹 훅 설정 삭제
-   #### **lab5-1-2**
-   ```
-   kubectl delete -A ValidatingWebhookConfiguration ingress-nginx-admission
-   ```
-
 ## 2. ingress-nginx 파드 및 서비스 상태 확인
 
 1. ingress-nginx 파드 상태 확인
