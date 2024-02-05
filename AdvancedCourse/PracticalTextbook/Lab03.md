@@ -146,8 +146,8 @@
     - 만들기 버튼 클릭
 13. 고급설정 버튼 클릭
     - 사용자 스크립트에 **lab3-1-4** 내용을 붙여넣기
-    - **Note**: 고급 설정 스크립트 부분을 못하더라도 추후 설정할 수 있습니다.
-    - 스크립트 내용 링크 : https://github.com/kakaocloud-edu/tutorial/blob/main/AdvancedCourse/PracticalTextbook/Lab03.md#:~:text=bastion%20%EC%83%9D%EC%84%B1%20%EC%8B%9C%EC%97%90%20%EA%B3%A0%EA%B8%89%20%EC%84%A4%EC%A0%95%EC%9D%84%20%EC%A7%84%ED%96%89%ED%95%98%EC%A7%80%20%EC%95%8A%EC%95%98%EC%9D%84%20%EB%95%8C%20%EC%A7%84%ED%96%89
+      - **Note**: 고급 설정 스크립트 부분을 못하더라도 추후 설정할 수 있습니다.
+      - 스크립트 내용 링크 : https://github.com/kakaocloud-edu/tutorial/blob/main/AdvancedCourse/PracticalTextbook/Lab03.md#:~:text=bastion%20%EC%83%9D%EC%84%B1%20%EC%8B%9C%EC%97%90%20%EA%B3%A0%EA%B8%89%20%EC%84%A4%EC%A0%95%EC%9D%84%20%EC%A7%84%ED%96%89%ED%95%98%EC%A7%80%20%EC%95%8A%EC%95%98%EC%9D%84%20%EB%95%8C%20%EC%A7%84%ED%96%89
 14. 만들기 버튼 클릭
 15. 카카오 클라우드 콘솔 > 전체 서비스 > Virtual Machine 접속
 16. 생성된 인스턴스의 우측 메뉴바 > Public IP 연결 클릭
