@@ -28,15 +28,13 @@ nginx pod을 위한 deployment, LoadBalancer type의 서비스가 포함된 ingr
      ```
 
 2. ingress-nginx 서비스 상태 확인
-     - 접속 중인 Bastion VM 인스턴스에 명령어 입력
      #### **lab5-2-2**
      ```bash
      kubectl get svc -n ingress-nginx
      ```
-     - External-IP의 DNS 주소값 복사(**lab5-2-3** nslookup 다음 위 명령어를 붙여넣습니다.)
+     - **Note**: External-IP의 DNS 주소값 복사(**lab5-2-3** nslookup 다음 위 명령어를 붙여넣습니다.)
 
 3. nslookup 결과 확인
-     - 접속 중인 Bastion VM 인스턴스에 명령어 입력
      #### **lab5-2-3**
      ```bash
      nslookup {DNS 주소값}
