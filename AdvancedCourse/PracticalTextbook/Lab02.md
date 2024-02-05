@@ -30,7 +30,7 @@ Kakao Cloud Kubernetes Engine Cluster 생성에 대한 실습입니다.
      - 노드 수 : `2`
    - 노드 풀 Network 설정
      - VPC : `vpc_1` 선택
-     - Subnet : public 서브넷들만 선택
+     - Subnet : Public 서브넷들만 선택
    - 자동 확장 설정 : `사용 안함`
    - key Pair
      - 신규 Key Pair 생성 클릭
