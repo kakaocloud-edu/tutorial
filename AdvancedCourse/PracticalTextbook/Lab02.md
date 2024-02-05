@@ -17,7 +17,7 @@ Kakao Cloud Kubernetes Engine Cluster 생성에 대한 실습입니다.
 
 ## 2. 노드 풀 생성
 
-1. 카카오 클라우드 콘솔 > 전체 서비스 > Kubernetes Engine 접속
+1. 카카오 클라우드 콘솔 > Container Pack > Kubernetes > Cluster 접속
 2. 생성된 클러스터 `kakao-k8s-cluster` 클릭
 3. 노드 풀 클릭
 4. 노드 풀 만들기 버튼 클릭
