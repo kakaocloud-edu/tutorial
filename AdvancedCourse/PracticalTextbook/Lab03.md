@@ -1,4 +1,4 @@
-# K8s engine Cluster 관리 VM 생성 실습
+![image](https://github.com/kakaocloud-edu/tutorial/assets/88716899/bb186a31-f32e-4325-b7ec-873ce07c3360)# K8s engine Cluster 관리 VM 생성 실습
 
 클러스터를 관리하기 위한 Bation VM 인스턴스를 생성하는 실습입니다.
 
@@ -322,6 +322,25 @@
      ```bash
      ./script.sh
      ```
+18. YAML 파일 확인
+     #### **lab3-1-18-1**
+     ```bash
+     cat /home/ubuntu/.kube/config
+     ```
+
+     #### **lab3-1-18-2**
+     ```bash
+     cat /home/ubuntu/values.yaml
+     ```
+
+     #### **lab3-1-18-3**
+     ```bash
+     cd yaml
+     ```
+     ```bash
+     ls -al
+     ```
+     
 
      
 ## 2. Bastion VM 인스턴스를 통해 클러스터 확인
