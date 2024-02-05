@@ -43,7 +43,7 @@ nginx pod을 위한 deployment, LoadBalancer type의 서비스가 포함된 ingr
 ## 3. LoadBalancer 확인
 
 1. 카카오 클라우드 콘솔 > 전체 서비스 > Beyond Networking Service > Load Balancing > Load Balancer
-2. LoadBalancer 콘솔창에서 AZ별로 생성된 loadbalancer 확인
+2. Load Balancer 콘솔창에서 AZ별로 생성된 Load Balancer 확인
 3. 생성된 두 개의 인스턴스의 우측 메뉴바 > Public IP 연결 클릭
      - `새로운 Public IP를 생성하고 자동으로 할당` 
 4. 적용 버튼 클릭
