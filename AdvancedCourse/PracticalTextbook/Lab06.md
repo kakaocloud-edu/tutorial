@@ -11,6 +11,9 @@ Spring application 배포를 위한 Service, Ingress, ConfigMap, Job의 yaml 파
    ```bash
    cd yaml
    ```
+   ```bash
+   ls -al
+   ```
    
 2. YAML 파일 확인
    #### **lab6-1-2**
