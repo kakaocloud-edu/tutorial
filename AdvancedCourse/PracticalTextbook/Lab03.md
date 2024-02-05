@@ -6,7 +6,7 @@
 
 1. 카카오 클라우드 콘솔 > Container Pack > Kubernetes > Cluster 접속
 2. 클러스터 `kakao-k8s-cluster` 클릭
-  - 서버 엔드 포인트 복사
+  - 서버 엔드 포인트 복사 후 메모장에 붙여넣기
 3. kubectl 버튼 클릭
   - kubeconfig 파일 다운로드 클릭
     - kubeconfig 파일 열기
