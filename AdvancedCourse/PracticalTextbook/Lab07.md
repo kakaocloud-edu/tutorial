@@ -17,28 +17,29 @@
    - **Note**: "bastion의 public ip주소" 부분을 복사한 IP 주소로 교체하세요.
   
    #### **lab7-1-1-3**
+   - 상태 변화 확인을 위해 실시간 변화를 확인 가능한 -w 옵션을 사용한 명령어 입력
    ```bash
    kubectl get po -w
    ```
    
-2. Replicas 수 3개로 늘리기
+3. Replicas 수 3개로 늘리기
    #### **lab7-1-2**
    ```bash
    kubectl scale deployment demo-deployment --replicas=3
    ```
-3. Pod들의 상태 변화 확인
-4. 변경된 첫 번째 웹 사이트 확인
-5. 변경된 두 번째 웹 사이트 확인
-6. 변경된 세 번째 웹 사이트 확인
-7. Replicas 수 2개로 줄이기
+4. Pod들의 상태 변화 확인
+5. 변경된 첫 번째 웹 사이트 확인
+6. 변경된 두 번째 웹 사이트 확인
+7. 변경된 세 번째 웹 사이트 확인
+8. Replicas 수 2개로 줄이기
    #### **lab7-1-7**
    ```bash
    kubectl scale deployment demo-deployment --replicas=2
    ```
-8. Pod들의 상태 변화 확인
+9. Pod들의 상태 변화 확인
 
-9. 변경된 첫 번째 웹 사이트 확인
-10. 변경된 두 번째 웹 사이트 확인
+10. 변경된 첫 번째 웹 사이트 확인
+11. 변경된 두 번째 웹 사이트 확인
    
 ## 2. yaml 파일을 이용해 배포된 내용 수정하기
 
