@@ -20,7 +20,8 @@ Spring application 배포를 위한 Service, Ingress, ConfigMap, Job의 yaml 파
    ```bash
    tar -xvf /home/ubuntu/yaml/lab6Yaml.tar
    ```
-   
+
+3. 압축 해제된 YAML 파일들 확인   
    ```bash
    ls
    ```
