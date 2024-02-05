@@ -26,6 +26,26 @@ Spring application 배포를 위한 Service, Ingress, ConfigMap, Job의 yaml 파
    ls
    ```
 
+4. lab6-ConfigMap.yaml 파일 확인   
+   ```bash
+   cat lab6-ConfigMap.yaml
+   ```
+   
+5. lab6-Ingress.yaml 파일 확인    
+   ```bash
+   cat lab6-Ingress.yaml
+   ```
+
+6. lab6-Job.yaml 파일 확인    
+   ```bash
+   cat lab6-Job.yaml
+   ```
+
+7. lab6-Service.yaml 파일 확인    
+   ```bash
+   cat lab6-Service.yaml
+   ```
+
 3. 레지스트리 인증을 위한 시크릿키 생성
    - 메모장에 복사 후 복사해놓은 사용자 액세스키 ID, 사용자 액세스 보안 키 값, 사용자 이메일 주소를 넣은 후 입력하기
    #### **lab6-1-3**
