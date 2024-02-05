@@ -159,30 +159,30 @@
      - keypair를 다운받아놓은 폴더로 이동
      - 터미널에 명령어 붙여넣기
      - yes 입력
-    #### **lab3-1-16-1**
+    #### **lab3-1-18-1**
      ```bash
      cd {keypair.pem 다운로드 위치}
      ```
      - 리눅스의 경우에 아래와 같이 키페어의 권한을 조정
 
-     #### **lab3-1-16-2**
+     #### **lab3-1-18-2**
      ```bash
      chmod 400 keypair.pem
      ```
 
-     #### **lab3-1-16-3**
+     #### **lab3-1-18-3**
      ```bash
      ssh -i keypair.pem ubuntu@{bastion의 public ip주소}
      ```
      - **Note**: "bastion의 public ip주소" 부분을 복사한 IP 주소로 교체하세요.
    
-     #### **lab3-1-16-4**
+     #### **lab3-1-18-4**
      ```bash
      yes
      ```
     
     - **Note**: 윈도우에서 ssh 접근이 안될 경우에 cmd 창에서 keypair.pem가 있는 경로로 이동 후 아래 명령어 입력
-     #### **lab3-1-16-5**
+     #### **lab3-1-18-5**
      ```bash
      icacls.exe keypair.pem /reset
      icacls.exe keypair.pem /grant:r %username%:(R)
@@ -192,37 +192,37 @@
 
 ### Note : 19번은 고급설정을 진행하지 않았을 때만 진행합니다
 19. bastion 생성 시에 고급 설정을 진행하지 않았을 때 진행
-     #### **lab3-1-17-1**
+     #### **lab3-1-19-1**
     - script.sh 파일 내려받기
      ```bash
      wget https://github.com/kakaocloud-edu/tutorial/raw/main/AdvancedCourse/src/script/script.sh
      ```
 
-     #### **lab3-1-17-2**
+     #### **lab3-1-19-2**
     - script.sh 파일 권한 설정
      ```bash
      chmod +x script.sh
      ```
 
-     #### **lab3-1-17-3**
+     #### **lab3-1-19-3**
     - script.sh 파일 실행
      ```bash
      ./script.sh
      ```
 20. YAML 파일 확인
-     #### **lab3-1-18-1**
+     #### **lab3-1-20-1**
     - config 파일 확인
      ```bash
      cat /home/ubuntu/.kube/config
      ```
 
-     #### **lab3-1-18-2**
+     #### **lab3-1-20-2**
     - values.yaml 파일 확인
      ```bash
      cat /home/ubuntu/values.yaml
      ```
 
-     #### **lab3-1-18-3**
+     #### **lab3-1-20-3**
     - 다른 YAML 파일들이 있는 디렉토리로 이동
      ```bash
      cd yaml
@@ -231,19 +231,19 @@
      ls -al
      ```
 
-     #### **lab3-1-18-4**
+     #### **lab3-1-20-4**
     - lab6-ConfigMapDB.yaml 파일 확인
      ```bash
      cat lab6-ConfigMapDB.yaml
      ```
 
-     #### **lab3-1-18-5**
+     #### **lab3-1-20-5**
     - lab6-Deployment.yaml 파일 확인
      ```bash
      cat lab6-Deployment.yaml
      ```
 
-     #### **lab3-1-18-6**
+     #### **lab3-1-20-6**
     - lab6-Secret.yaml 파일 확인
      ```bash
      cat lab6-Secret.yaml
