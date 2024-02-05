@@ -10,9 +10,13 @@
 3. kubectl 버튼 클릭
   - kubeconfig 파일 다운로드 클릭
     - kubeconfig 파일 열기
-    - certificate-authority-data 값 복사
+    - certificate-authority-data(인증데이터), name(클러스터 이름) 값 복사
 
 4. 스크립트를 메모장에 복사후 복사해놓은 값들을 입력하기
+  - 사용자 엑세스 키 ID, 사용자 엑세스 보안 키
+  - 클러스터 API 엔드포인트
+  - 프로젝트 이름, az-a의 엔드포인트, az-b의 엔드포인트
+
    #### **lab3-1-4**
     ```bash
     #!/bin/bash
@@ -102,18 +106,18 @@
     sudo sed -i "s|\${DOCKER_IMAGE_NAME}|$DOCKER_IMAGE_NAME|g" /home/ubuntu/values.yaml
     ```
     
-5. 카카오 클라우드 콘솔 > 전체 서비스 > Virtual Machine 접속
-6. Instance 만들기 클릭
+6. 카카오 클라우드 콘솔 > 전체 서비스 > Virtual Machine 접속
+7. Instance 만들기 클릭
    - 이름 : `bastion`
    - Image : `Ubuntu 20.04 - 5.4.0-164`
    - Instance 타입 : `t1i.large`
    - Volume : `10 GB`
-7. Key Pair : `keypair`
-8. VPC 선택
+8. Key Pair : `keypair`
+9. VPC 선택
     - VPC : `vpc_1`
     - Subnet : `main`
     - SecurityGroup 선택
-9. 새 Security Group 생성 클릭
+10. 새 Security Group 생성 클릭
     - Security Group 이름: `bastion`
     - Inbound :
       - 프로토콜: `TCP`
@@ -123,21 +127,21 @@
       - 프로토콜: `TCP`
       - 패킷 출발지: `0.0.0.0/32`
       - 포트 번호: `8080`
-10. Outbound 클릭
+11. Outbound 클릭
     - Outbound
       - 프로토콜 : `ALL`
       - 패킷 목적지 : `0.0.0.0/0`
     - 만들기 버튼 클릭
-11. 고급설정 버튼 클릭
+12. 고급설정 버튼 클릭
     - 사용자 스크립트에 **lab3-1-4** 내용을 붙여넣기
     - **Note**: 고급 설정 스크립트 부분을 못하더라도 추후 설정할 수 있습니다.
     - 스크립트 내용 링크 : https://github.com/kakaocloud-edu/tutorial/blob/main/AdvancedCourse/PracticalTextbook/Lab03.md#:~:text=bastion%20%EC%83%9D%EC%84%B1%20%EC%8B%9C%EC%97%90%20%EA%B3%A0%EA%B8%89%20%EC%84%A4%EC%A0%95%EC%9D%84%20%EC%A7%84%ED%96%89%ED%95%98%EC%A7%80%20%EC%95%8A%EC%95%98%EC%9D%84%20%EB%95%8C%20%EC%A7%84%ED%96%89
-12. 만들기 버튼 클릭
-13. 카카오 클라우드 콘솔 > 전체 서비스 > Virtual Machine 접속
-14. 생성된 인스턴스의 우측 메뉴바 > Public IP 연결 클릭
+13. 만들기 버튼 클릭
+14. 카카오 클라우드 콘솔 > 전체 서비스 > Virtual Machine 접속
+15. 생성된 인스턴스의 우측 메뉴바 > Public IP 연결 클릭
     - `새로운 Public IP를 생성하고 자동으로 할당` 
-15. 확인 버튼 클릭
-16. 생성된 인스턴스의 우측 메뉴바 > SSH 연결 클릭
+16. 확인 버튼 클릭
+17. 생성된 인스턴스의 우측 메뉴바 > SSH 연결 클릭
      - SSH 접속 명령어 복사(다운받은 keypair.pem 파일이 있는 경로에서 아래 명령어를 실행합니다.)
      - 터미널 열기
      - keypair를 다운받아놓은 폴더로 이동
@@ -172,7 +176,7 @@
      icacls.exe keypair.pem /grant:r %username%:(R)
      icacls.exe keypair.pem /inheritance:r
      ```
-17. bastion 생성 시에 고급 설정을 진행하지 않았을 때 진행
+18. bastion 생성 시에 고급 설정을 진행하지 않았을 때 진행
      #### **lab3-1-17-1**
     - script.sh 파일 내려받기
      ```bash
