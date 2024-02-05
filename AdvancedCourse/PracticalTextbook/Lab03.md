@@ -30,7 +30,7 @@
      - 클러스터 이름
      - certificate-authority-data(인증 데이터)
      - 프로젝트 이름, Database az-a의 엔드포인트, Database az-b의 엔드포인트
-     **Note**: 서버와 데이터베이스 통신시, 순서대로 진행하므로 꼭 az-a, az-b 순서대로 붙여넣어주세요. 
+    **Note**: 서버와 데이터베이스 통신시, 순서대로 진행하므로 꼭 az-a, az-b 순서대로 붙여넣어주세요. 
    ```bash
     #!/bin/bash
     
