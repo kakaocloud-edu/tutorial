@@ -1,4 +1,4 @@
-![image](https://github.com/kakaocloud-edu/tutorial/assets/88716899/bb186a31-f32e-4325-b7ec-873ce07c3360)# K8s engine Cluster 관리 VM 생성 실습
+![image](https://github.com/kakaocloud-edu/tutorial/assets/88716899/ac04cc0f-dc68-4f14-b956-af05470577a2)![image](https://github.com/kakaocloud-edu/tutorial/assets/88716899/fe261de7-b254-41a3-bdb5-b55162886279)![image](https://github.com/kakaocloud-edu/tutorial/assets/88716899/f688253c-a850-4f86-ba29-b62334b8d649)![image](https://github.com/kakaocloud-edu/tutorial/assets/88716899/bb186a31-f32e-4325-b7ec-873ce07c3360)# K8s engine Cluster 관리 VM 생성 실습
 
 클러스터를 관리하기 위한 Bation VM 인스턴스를 생성하는 실습입니다.
 
@@ -309,20 +309,23 @@
      ```
 17. bastion 생성 시에 고급 설정을 진행하지 않았을 때 진행
      #### **lab3-1-17-1**
+    - script.sh 파일 내려받기
      ```bash
      wget https://github.com/kakaocloud-edu/tutorial/raw/main/AdvancedCourse/src/script/script.sh
      ```
 
      #### **lab3-1-17-2**
+    - script.sh 파일 권한 설정
      ```bash
      chmod +x script.sh
      ```
 
      #### **lab3-1-17-3**
+    - script.sh 파일 실행
      ```bash
      ./script.sh
      ```
-18. YAML 파일 확인
+19. YAML 파일 확인
      #### **lab3-1-18-1**
      ```bash
      cat /home/ubuntu/.kube/config
