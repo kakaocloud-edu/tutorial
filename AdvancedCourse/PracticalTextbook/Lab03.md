@@ -1,4 +1,4 @@
-![image](https://github.com/kakaocloud-edu/tutorial/assets/88716899/ac04cc0f-dc68-4f14-b956-af05470577a2)![image](https://github.com/kakaocloud-edu/tutorial/assets/88716899/fe261de7-b254-41a3-bdb5-b55162886279)![image](https://github.com/kakaocloud-edu/tutorial/assets/88716899/f688253c-a850-4f86-ba29-b62334b8d649)![image](https://github.com/kakaocloud-edu/tutorial/assets/88716899/bb186a31-f32e-4325-b7ec-873ce07c3360)# K8s engine Cluster 관리 VM 생성 실습
+# K8s engine Cluster 관리 VM 생성 실습
 
 클러스터를 관리하기 위한 Bation VM 인스턴스를 생성하는 실습입니다.
 
