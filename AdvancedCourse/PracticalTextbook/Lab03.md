@@ -59,8 +59,8 @@
     # 여기부터는 값을 변경하시면 안됩니다
     export JAVA_VERSION='17'
     export SPRING_BOOT_VERSION='3.1.0'
-    export DB_EP1=\$(echo -n '\$INPUT_DB_EP1' | base64 -w 0)
-    export DB_EP2=\$(echo -n '\$INPUT_DB_EP2' | base64 -w 0)
+    export DB_EP1=\$(echo -n "\$INPUT_DB_EP1" | base64 -w 0)
+    export DB_EP2=\$(echo -n "\$INPUT_DB_EP2" | base64 -w 0)
     EOF
     )
     
