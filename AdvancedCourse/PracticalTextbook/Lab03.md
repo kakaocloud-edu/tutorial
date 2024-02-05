@@ -176,6 +176,9 @@
      icacls.exe keypair.pem /grant:r %username%:(R)
      icacls.exe keypair.pem /inheritance:r
      ```
+
+
+     ### 18-19번은 고급설정을 진행하지 않았을 때만 진행합니다
 18. bastion 생성 시에 고급 설정을 진행하지 않았을 때 진행
      #### **lab3-1-17-1**
     - script.sh 파일 내려받기
