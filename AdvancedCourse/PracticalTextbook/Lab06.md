@@ -30,7 +30,7 @@ Spring application 배포를 위한 Service, Ingress, ConfigMap, Job의 yaml 파
    --docker-server=${PROJECT_NAME}.kr-central-2.kcr.dev \
    --docker-username=${ACC_KEY} \
    --docker-password=${SEC_KEY} \
-   --docker-email=${EMAIL_ADDRESS} \
+   --docker-email=${EMAIL_ADDRESS}
    ```
 
 ## 2. YAML 파일 배포
