@@ -44,7 +44,7 @@
 11. 새로고침을 통해 서버의 호스트 이름이 2가지 Pod 이름으로 바뀌는 것을 확인
 12. 변경된 두 번째 웹 사이트 확인
    
-## 2. yaml 파일을 이용해 배포된 내용 수정하기
+## 2. yaml 파일을 이용해 배포된 내용 수정해보기
 
    
 1. lab6-ConfigMap.yaml 파일 수정
@@ -78,7 +78,7 @@
    ```
    
 
-2. 실행 중인 Deployment를 재시작
+2. 수정사항 반영을 위해 실행 중인 Deployment를 재시작
    #### **lab7-3-2**
    ```bash
    kubectl rollout restart deployment demo-deployment
