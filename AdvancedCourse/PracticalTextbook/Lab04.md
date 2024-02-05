@@ -92,7 +92,6 @@ Spring Boot 프로젝트를 생성해 간단한 웹 페이지를 생성합니다
 
 1. 도커 로그인
    - 접속 중인 Bastion VM 인스턴스에 명령어 입력
-   - 메모장에 복사 후 복사해놓은 사용자 액세스키 ID, 사용자 액세스 보안 키 값을 넣은 후 입력하기
    #### **lab4-4-1**
    ```
    docker login ${PROJECT_NAME}.kr-central-2.kcr.dev --username ${ACC_KEY} --password ${SEC_KEY}
