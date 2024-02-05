@@ -118,7 +118,7 @@
     sudo sed -i "s|\${DOCKER_IMAGE_NAME}|$DOCKER_IMAGE_NAME|g" /home/ubuntu/values.yaml
    ```
     
-7. 카카오 클라우드 콘솔 > 전체 서비스 > Virtual Machine 접속
+7. 카카오 클라우드 콘솔 > Beyond Compute Service > Virtual Machine > Instance 접속
 8. Instance 만들기 클릭
    - 이름 : `bastion`
    - Image : `Ubuntu 20.04 - 5.4.0-164`
