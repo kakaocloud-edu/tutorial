@@ -46,8 +46,8 @@
     export AUTH_DATA='클러스터의 certificate-authority-data 입력'
     
     export PROJECT_NAME='프로젝트 이름 입력'
-    export INPUT_DB_EP1='데이터베이스 1의 엔드포인트 입력'
-    export INPUT_DB_EP2='데이터베이스 2의 엔드포인트 입력'
+    export INPUT_DB_EP1='database az-a의 엔드포인트 입력'
+    export INPUT_DB_EP2='database az-b의 엔드포인트 입력'
     
     # 이미지 이름 : demo-spring-boot
     export DOCKER_IMAGE_NAME='이미지 이름 입력'
