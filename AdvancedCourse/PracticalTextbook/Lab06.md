@@ -52,7 +52,6 @@ Spring application 배포를 위한 Service, Ingress, ConfigMap, Job의 yaml 파
    ```
 
 8. 레지스트리 인증을 위한 시크릿키 생성
-   - 메모장에 복사 후 복사해놓은 사용자 액세스키 ID, 사용자 액세스 보안 키 값, 사용자 이메일 주소를 넣은 후 입력하기
    #### **lab6-8-1**
    ```bash
    kubectl create secret docker-registry regcred \
