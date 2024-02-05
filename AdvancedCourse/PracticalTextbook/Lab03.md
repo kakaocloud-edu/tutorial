@@ -16,169 +16,65 @@
    #### **lab3-1-4**
     ```bash
     #!/bin/bash
+    
+    command=$(cat <<EOF
+    
     # 환경 변수 설정. 여기 부분만 값을 입력해주세요.
-    export PROJECT_NAME_USER="프로젝트 이름 입력"
     
-    export ACC_KEY="사용자 액세스 키 ID 입력"
-    export SEC_KEY="사용자 액세스 보안 키 입력"
+    export ACC_KEY='사용자 액세스 키 ID 입력'
+    export SEC_KEY='사용자 액세스 보안 키 입력'
+    export EMAIL_ADDRESS='사용자 이메일 입력'
     
-    export CLUSTER_NAME="클러스터 이름 입력"
-    export API_SERVER="클러스터의 API 엔드포인트 입력"
-    export AUTH_DATA="클러스터의 certificate-authority-data 입력"
+    export CLUSTER_NAME='클러스터 이름 입력'
+    export API_SERVER='클러스터의 API 엔드포인트 입력'
+    export AUTH_DATA='클러스터의 certificate-authority-data 입력'
     
-    export INPUT_DB_EP1="데이터베이스 1의 엔드포인트 입력"
-    export INPUT_DB_EP2="데이터베이스 2의 엔드포인트 입력"
+    export PROJECT_NAME='프로젝트 이름 입력'
+    export INPUT_DB_EP1='데이터베이스 1의 엔드포인트 입력'
+    export INPUT_DB_EP2='데이터베이스 2의 엔드포인트 입력'
     
     # 이미지 이름 : demo-spring-boot
-    export IMAGE_NAME_USER="이미지 이름 입력"
+    export DOCKER_IMAGE_NAME='이미지 이름 입력'
     
     # 자바 버전 : 17-jdk-slim
-    export JAVA_VERSION_USER="자바 버전 입력"
+    export DOCKER_JAVA_VERSION='자바 버전 입력'
     
     
-    # 여기부터는 값을 변경하시면 안됩니다.
-    DB_EP1=$(echo -n "$INPUT_DB_EP1" | base64 -w 0)
-    DB_EP2=$(echo -n "$INPUT_DB_EP2" | base64 -w 0)
-    
-    tee -a /etc/environment << EOF
-    export JAVA_VERSION="17"
-    export SPRING_BOOT_VERSION="3.1.0"
-    export DOCKER_IMAGE_NAME="${IMAGE_NAME_USER}"
-    export DOCKER_JAVA_VERSION="${JAVA_VERSION_USER}"
-    export PROJECT_NAME="${PROJECT_NAME_USER}"
+    # 여기부터는 값을 변경하시면 안됩니다
+    export JAVA_VERSION='17'
+    export SPRING_BOOT_VERSION='3.1.0'
+    export DB_EP1=\$(echo -n '\$INPUT_DB_EP1' | base64 -w 0)
+    export DB_EP2=\$(echo -n '\$INPUT_DB_EP2' | base64 -w 0)
     EOF
+    )
     
-    source /etc/environment
+    eval "$command"
     
-    mkdir /home/ubuntu/yaml
-    chmod 777 /home/ubuntu/yaml
-    wget https://github.com/kakaocloud-edu/tutorial/raw/main/AdvancedCourse/src/manifests/lab6Yaml.tar -O /home/ubuntu/yaml/lab6Yaml.tar
+    echo "$command" >> /home/ubuntu/.bashrc
     
-    cat <<EOF > /home/ubuntu/yaml/lab6-Secret.yaml
-    apiVersion: v1
-    kind: Secret
-    metadata:
-      name: app-secret
-    type: Opaque
-    data:
-      DB1_PORT: 'MzMwNg=='
-      DB1_URL: "${DB_EP1}"
-      DB1_ID: 'YWRtaW4='
-      DB1_PW: 'YWRtaW4xMjM0'
-      DB2_PORT: 'MzMwNw=='
-      DB2_URL: "${DB_EP2}"
-      DB2_ID: 'YWRtaW4='
-      DB2_PW: 'YWRtaW4xMjM0'
-    EOF
+    sudo mkdir /home/ubuntu/yaml
+    sudo chmod 777 /home/ubuntu/yaml
+    sudo wget https://github.com/kakaocloud-edu/tutorial/raw/main/AdvancedCourse/src/manifests/lab6Yaml.tar -O /home/ubuntu/yaml/lab6Yaml.tar
     
-    cat <<EOF > /home/ubuntu/yaml/lab6-Deployment.yaml
-    apiVersion: apps/v1
-    kind: Deployment
-    metadata:
-      name: demo-deployment
-      labels:
-        app: kc-spring-demo
-    spec:
-      replicas: 2  # 복제본 갯수
-      selector:
-        matchLabels:
-          app: kc-spring-demo
-      template:
-        metadata:
-          labels:
-            app: kc-spring-demo
-        spec:
-        spec:
-          affinity:
-            podAntiAffinity:
-              preferredDuringSchedulingIgnoredDuringExecution:
-                - weight: 100
-                  podAffinityTerm:
-                    labelSelector:
-                      matchExpressions:
-                        - key: app
-                          operator: In
-                          values:
-                            - kc-spring-demo
-                    topologyKey: kubernetes.io/hostname
-          containers:
-          - name: kc-webserver
-            image: ${PROJECT_NAME}.kr-central-2.kcr.dev/kakao-registry/${DOCKER_IMAGE_NAME}:1.0
-            envFrom:
-            - configMapRef:
-                name: app-config
-            - secretRef:
-                name: app-secret
-            ports:
-            - containerPort: 8080
-          imagePullSecrets:
-          - name: regcred  # NCR에 저장된 이미지 Pulling을 위한 인증 Secret 값
-    EOF
+    sudo curl -o /home/ubuntu/yaml/lab6-Secret.yaml https://raw.githubusercontent.com/kakaocloud-edu/tutorial/main/AdvancedCourse/src/script/lab6-Secret.yaml
     
-    cat <<EOF > /home/ubuntu/yaml/lab6-ConfigMapDB.yaml
-    apiVersion: v1
-    kind: ConfigMap
-    metadata:
-      name: sql-script
-    data:
-      script.sql: |
-        CREATE DATABASE IF NOT EXISTS history;
-        USE history;
-        CREATE TABLE IF NOT EXISTS access (
-          id INT AUTO_INCREMENT PRIMARY KEY,
-          date VARCHAR(255) NOT NULL
-        );
-        INSERT INTO access (date) VALUES ('hello:)');
-        CALL mysql.mnms_grant_right_user('admin', '%', 'all', '*', '*');
-        ALTER USER 'admin'@'%' IDENTIFIED WITH mysql_native_password BY 'admin1234';
-    EOF
+    sudo curl -o /home/ubuntu/yaml/lab6-Deployment.yaml https://raw.githubusercontent.com/kakaocloud-edu/tutorial/main/AdvancedCourse/src/script/lab6-Deployment.yaml
     
-    curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+    sudo curl -o /home/ubuntu/yaml/lab6-ConfigMapDB.yaml https://raw.githubusercontent.com/kakaocloud-edu/tutorial/main/AdvancedCourse/src/script/lab6-ConfigMapDB.yaml
+    
+    sudo curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
     sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
     
-    mkdir /home/ubuntu/.kube
+    sudo mkdir /home/ubuntu/.kube
     
-    cat <<EOF > /home/ubuntu/.kube/config
-    apiVersion: v1
-    clusters:
-    - cluster:
-        certificate-authority-data: "${AUTH_DATA}"
-        server: ${API_SERVER}
-      name: ${CLUSTER_NAME}
-    contexts:
-    - context:
-        cluster: ${CLUSTER_NAME}
-        user: ${CLUSTER_NAME}-admin
-      name: ${CLUSTER_NAME}-admin@${CLUSTER_NAME}
-    current-context: ${CLUSTER_NAME}-admin@${CLUSTER_NAME}
-    kind: Config
-    preferences: {}
-    users:
-    - name: ${CLUSTER_NAME}-admin
-      user:
-        exec:
-          apiVersion: client.authentication.k8s.io/v1beta1
-          args: null
-          command: kic-iam-auth
-          env:
-          - name: "OS_AUTH_URL"
-            value: "https://iam.kakaoi.io/identity/v3"
-          - name: "OS_AUTH_TYPE"
-            value: "v3applicationcredential"
-          - name: "OS_APPLICATION_CREDENTIAL_ID"
-            value: "${ACC_KEY}"
-          - name: "OS_APPLICATION_CREDENTIAL_SECRET"
-            value: "${SEC_KEY}"
-          - name: "OS_REGION_NAME"
-            value: "kr-central-2"
-    EOF
+    sudo curl -o /home/ubuntu/.kube/config https://raw.githubusercontent.com/kakaocloud-edu/tutorial/main/AdvancedCourse/src/script/config.yaml
     
-    wget https://objectstorage.kr-central-1.kakaoi.io/v1/9093ef2db68545b2bddac0076500b448/kc-docs/docs%2Fbinaries-kic-iam-auth%2FLinux%20x86_64%2064Bit%2Fkic-iam-auth -O kic-iam-auth
-    sudo chmod +x /kic-iam-auth
-    sudo mv /kic-iam-auth /usr/local/bin
+    sudo wget https://objectstorage.kr-central-1.kakaoi.io/v1/9093ef2db68545b2bddac0076500b448/kc-docs/docs%2Fbinaries-kic-iam-auth%2FLinux%20x86_64%2064Bit%2Fkic-iam-auth -O kic-iam-auth
+    sudo chmod +x kic-iam-auth
+    sudo mv kic-iam-auth /usr/local/bin/
     
-    curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
-    echo "deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+    sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+    sudo echo "deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
     sudo apt-get update
     sudo apt-get install -y docker-ce docker-ce-cli containerd.io
     sudo chmod 666 /var/run/docker.sock
@@ -189,52 +85,21 @@
     chmod 600 /home/ubuntu/.kube/config
     chown ubuntu:ubuntu /home/ubuntu/.kube/config
     
-    cat <<EOF > /home/ubuntu/values.yaml
+    sudo curl -o /home/ubuntu/values.yaml https://raw.githubusercontent.com/kakaocloud-edu/tutorial/main/AdvancedCourse/src/script/values.yaml
     
-    replicaCount: 2
-    
-    deployment:
-      repository: ${PROJECT_NAME}.kr-central-2.kcr.dev/kakao-registry/${DOCKER_IMAGE_NAME}
-      tag: "1.0"
-      pullSecret: regcred
-    
-    service:
-      type: ClusterIP
-      port: 80
-      targetPort: 8080
-    
-    ingress:
-      enabled: true
-      className: nginx
-      path: /
-      sslRedirect: "false"
-    
-    configMap:
-      WELCOME_MESSAGE: "Welcome to Kakao Cloud"
-      BACKGROUND_COLOR: "#4a69bd"
-    
-    secret:
-      DB1_PORT: '3306'
-      DB1_URL: '${INPUT_DB_EP1}'
-      DB1_ID: 'admin'
-      DB1_PW: 'admin1234'
-      DB2_PORT: '3307'
-      DB2_URL: '${INPUT_DB_EP2}'
-      DB2_ID: 'admin'
-      DB2_PW: 'admin1234'
-    
-    job:
-      name: sql-job
-      image: mysql:5.7
-      scriptConfigMap: sql-script
-      backoffLimit: 4
-    
-    hpa:
-      enabled: false
-      minReplicas: 2
-      maxReplicas: 6
-      averageUtilization: 50
-    EOF
+    awk -v auth_data="${AUTH_DATA}" '{while(match($0,/\$\{AUTH_DATA\}/)) { $0 = substr($0, 1, RSTART-1) auth_data substr($0, RSTART+RLENGTH)}; print}' /home/ubuntu/.kube/config > /tmp/temp_config && sudo mv /tmp/temp_config /home/ubuntu/.kube/config
+    sudo sed -i "s|\${API_SERVER}|$API_SERVER|g" /home/ubuntu/.kube/config
+    sudo sed -i "s|\${ACC_KEY}|$ACC_KEY|g" /home/ubuntu/.kube/config
+    sudo sed -i "s|\${SEC_KEY}|$SEC_KEY|g" /home/ubuntu/.kube/config
+    sudo sed -i "s|\${CLUSTER_NAME}|$CLUSTER_NAME|g" /home/ubuntu/.kube/config
+    sudo sed -i "s|\${PROJECT_NAME}|$PROJECT_NAME|g" /home/ubuntu/yaml/lab6-Deployment.yaml
+    sudo sed -i "s|\${DOCKER_IMAGE_NAME}|$DOCKER_IMAGE_NAME|g" /home/ubuntu/yaml/lab6-Deployment.yaml
+    sudo sed -i "s|\${DB_EP1}|$DB_EP1|g" /home/ubuntu/yaml/lab6-Secret.yaml
+    sudo sed -i "s|\${DB_EP2}|$DB_EP2|g" /home/ubuntu/yaml/lab6-Secret.yaml
+    sudo sed -i "s|\${PROJECT_NAME}|$PROJECT_NAME|g" /home/ubuntu/values.yaml
+    sudo sed -i "s|\${INPUT_DB_EP1}|$INPUT_DB_EP1|g" /home/ubuntu/values.yaml
+    sudo sed -i "s|\${INPUT_DB_EP2}|$INPUT_DB_EP2|g" /home/ubuntu/values.yaml
+    sudo sed -i "s|\${DOCKER_IMAGE_NAME}|$DOCKER_IMAGE_NAME|g" /home/ubuntu/values.yaml
     ```
     
 5. 카카오 클라우드 콘솔 > 전체 서비스 > Virtual Machine 접속
