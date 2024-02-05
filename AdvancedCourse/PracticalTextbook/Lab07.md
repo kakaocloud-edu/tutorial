@@ -30,8 +30,8 @@
    ```bash
    kubectl scale deployment demo-deployment --replicas=3
    ```
-5. Pod들의 상태 변화 확인
-6. 변경된 첫 번째 웹 사이트 확인
+5. 새로운 터미널에서 Pod들의 상태 변화 확인
+6. 새로고침을 통해 서버의 호스트 이름이 3가지 Pod 이름으로 바뀌는 것을 확인
 7. 변경된 두 번째 웹 사이트 확인
 8. 변경된 세 번째 웹 사이트 확인
 9. Replicas 수 2개로 줄이기
@@ -39,9 +39,9 @@
    ```bash
    kubectl scale deployment demo-deployment --replicas=2
    ```
-10. Pod들의 상태 변화 확인
+10. 새로운 터미널에서 Pod들의 상태 변화 확인
 
-11. 변경된 첫 번째 웹 사이트 확인
+11. 새로고침을 통해 서버의 호스트 이름이 2가지 Pod 이름으로 바뀌는 것을 확인
 12. 변경된 두 번째 웹 사이트 확인
    
 ## 2. yaml 파일을 이용해 배포된 내용 수정하기
