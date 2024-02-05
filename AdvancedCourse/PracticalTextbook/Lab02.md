@@ -37,7 +37,7 @@ Kakao Cloud Kubernetes Engine Cluster 생성에 대한 실습입니다.
        - 이름 : `keypair`
        - 생성 및 다운로드 버튼 클릭
 5. 고급 설정 생략 후 만들기 버튼 클릭
-6. 카카오 클라우드 콘솔 > 전체 서비스 > Kubernetes Engine 접속
+6. 카카오 클라우드 콘솔 > Container Pack > Kubernetes > Cluster 접속
 7. `kakao-k8s-cluster` 클릭
 8. 노드 탭으로 이동
 9. 노드 생성 여부 확인
