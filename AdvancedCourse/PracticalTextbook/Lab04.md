@@ -111,9 +111,11 @@ Spring Boot 프로젝트를 생성해 간단한 웹 페이지를 생성합니다
    ```
    docker images
    ```
-     현재 두 개의 이미지가 정상적으로 출력되는지 확인
+   - 현재 두 개의 이미지가 정상적으로 출력되는지 확인
    
 6. 이미지가 정상적으로 태그되었는지 확인
+   - ex) kakao-k8s-cluster.kr-central-2.kcr.dev/kakao-registry/demo-spring-boot  1.0
+     
 7. 이미지 업로드하기
    #### **lab4-4-6**
    ```
