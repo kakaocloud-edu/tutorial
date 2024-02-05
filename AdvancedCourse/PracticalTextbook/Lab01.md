@@ -48,9 +48,9 @@
    - 네트워크 설정
      - Multi AZ 옵션 : `활성화`
        - VPC : `vpc_1`
-       - Subnet : `AZ-a의 Private 서브넷 선택`
+       - Subnet : `AZ-a의 Private 서브넷 선택(172.30.16.0/20)`
        - 인스턴스 개수 : 1
-       - Subnet : `AZ-b의 Private 서브넷 선택`
+       - Subnet : `AZ-b의 Private 서브넷 선택(172.30.48.0/20)`
        - 인스턴스 개수 : 1
 
 3. 만들기 버튼 클릭
