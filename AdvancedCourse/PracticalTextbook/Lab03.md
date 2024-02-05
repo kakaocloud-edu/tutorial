@@ -17,8 +17,8 @@
   - 클러스터 API 엔드포인트
   - 프로젝트 이름, az-a의 엔드포인트, az-b의 엔드포인트
 
-   #### **lab3-1-4**
-    ```bash
+   #### **lab3-1-4**     
+   ```bash
     #!/bin/bash
     
     command=$(cat <<EOF
@@ -104,7 +104,7 @@
     sudo sed -i "s|\${INPUT_DB_EP1}|$INPUT_DB_EP1|g" /home/ubuntu/values.yaml
     sudo sed -i "s|\${INPUT_DB_EP2}|$INPUT_DB_EP2|g" /home/ubuntu/values.yaml
     sudo sed -i "s|\${DOCKER_IMAGE_NAME}|$DOCKER_IMAGE_NAME|g" /home/ubuntu/values.yaml
-    ```
+   ```
     
 6. 카카오 클라우드 콘솔 > 전체 서비스 > Virtual Machine 접속
 7. Instance 만들기 클릭
