@@ -327,16 +327,19 @@
      ```
 19. YAML 파일 확인
      #### **lab3-1-18-1**
+    - config 파일 확인
      ```bash
      cat /home/ubuntu/.kube/config
      ```
 
      #### **lab3-1-18-2**
+    - values.yaml 파일 확인
      ```bash
      cat /home/ubuntu/values.yaml
      ```
 
      #### **lab3-1-18-3**
+    - 다른 YAML 파일들이 있는 디렉토리로 이동
      ```bash
      cd yaml
      ```
@@ -345,16 +348,19 @@
      ```
 
      #### **lab3-1-18-4**
+    - lab6-ConfigMapDB.yaml 파일 확인
      ```bash
      cat lab6-ConfigMapDB.yaml
      ```
 
      #### **lab3-1-18-5**
+    - lab6-Deployment.yaml 파일 확인
      ```bash
      cat lab6-Deployment.yaml
      ```
 
      #### **lab3-1-18-6**
+    - lab6-Secret.yaml 파일 확인
      ```bash
      cat lab6-Secret.yaml
      ```
