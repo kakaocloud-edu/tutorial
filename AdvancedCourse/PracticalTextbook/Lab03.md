@@ -10,7 +10,7 @@
 3. kubectl 버튼 클릭
   - kubeconfig 파일 다운로드 클릭
     - kubeconfig 파일 열기
-    - certificate-authority-data(인증데이터), name(클러스터 이름) 값 복사
+    - certificate-authority-data(인증데이터), name(클러스터 이름) 값 복사 후 메모장에 붙여넣기
 
 4. 스크립트를 메모장에 복사후 복사해놓은 값들을 입력하기
   - 사용자 엑세스 키 ID, 사용자 엑세스 보안 키
