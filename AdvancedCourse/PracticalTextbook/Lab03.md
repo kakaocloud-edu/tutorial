@@ -11,6 +11,9 @@
   - kubeconfig 파일 다운로드 클릭
     - kubeconfig 파일 열기
     - certificate-authority-data(인증데이터), name(클러스터 이름) 값 복사 후 메모장에 붙여넣기
+4. 카카오 클라우드 콘솔 > Data Store > MySQL 접속
+5. 생성했던 MySQL 인스턴스 그룹 클릭
+6. az-a의 엔드포인트 주소와 az-b의 엔드포인트 주소를 순서대로 복사 후 메모장에 붙여넣기
 
 4. 스크립트를 메모장에 복사후 복사해놓은 값들을 입력하기
   - 사용자 엑세스 키 ID, 사용자 엑세스 보안 키
