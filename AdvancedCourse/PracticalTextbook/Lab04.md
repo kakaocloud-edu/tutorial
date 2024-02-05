@@ -43,6 +43,7 @@ Spring Boot 프로젝트를 생성해 간단한 웹 페이지를 생성합니다
    ```
 
     #### **lab4-2-1-2**
+   - Docker 이미지 빌드에 필요한 Dockerfile 생성
    ```
    cat <<EOF > Dockerfile
    FROM openjdk:${DOCKER_JAVA_VERSION}
@@ -53,6 +54,7 @@ Spring Boot 프로젝트를 생성해 간단한 웹 페이지를 생성합니다
    ```
 
    #### **lab4-2-1-3**
+   - Docker 이미지 생성
    ```
    sudo docker build -t ${DOCKER_IMAGE_NAME} .    
    ```
@@ -63,7 +65,7 @@ Spring Boot 프로젝트를 생성해 간단한 웹 페이지를 생성합니다
    sudo docker images
    ```
    
-2. Spring 어플리케이션 패키징 및 빌드 확인
+3. Spring 어플리케이션 패키징 및 빌드 확인
 
    #### **lab4-2-2**
    - 빌드 된 Docker 이미지 실행
@@ -71,10 +73,10 @@ Spring Boot 프로젝트를 생성해 간단한 웹 페이지를 생성합니다
    sudo docker run -p 8080:8080 ${DOCKER_IMAGE_NAME}
    ```
 
-3. 카카오 클라우드 콘솔 > 전체 서비스 > Virtual Machine 접속
-4. bastion의 Public IP 복사
-5. 브라우저 주소창에 {복사한 IP 주소}:8080 입력
-6. 이미지 실행 확인
+4. 카카오 클라우드 콘솔 > 전체 서비스 > Virtual Machine 접속
+5. bastion의 Public IP 복사
+6. 브라우저 주소창에 {복사한 IP 주소}:8080 입력
+7. 이미지 실행 확인
 
 ## 3. Container Registry에 업로드
 
