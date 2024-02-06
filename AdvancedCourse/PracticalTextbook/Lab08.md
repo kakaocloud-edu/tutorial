@@ -156,7 +156,7 @@
    ```bash
    helm list
    ```
-   **Note** `my-release` 이름으로 차트가 생성되었는지 확인
+   - **Note** `my-release` 이름으로 차트가 생성되었는지 확인
    
 
 5. 차트 세부 내용 확인
