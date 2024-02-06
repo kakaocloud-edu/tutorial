@@ -150,7 +150,7 @@
    helm install my-release . -f values.yaml
    ```
 
-5. 차트 확인
+4. 차트 확인
 
    #### **lab8-6-4**
    ```bash
@@ -159,10 +159,17 @@
    **Note** `my-release` 이름으로 차트가 생성되었는지 확인
    
 
-6. 차트 세부 내용 확인
+5. 차트 세부 내용 확인
    #### **lab8-6-5**
    ```bash
    helm status my-release   
+   ```
+
+
+6. 파드 상태 확인
+   #### **lab8-6-5**
+   ```bash
+   kubectl get all  
    ```
 
 
