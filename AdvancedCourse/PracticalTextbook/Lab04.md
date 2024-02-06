@@ -78,50 +78,40 @@ Spring Boot 프로젝트를 생성해 간단한 웹 페이지를 생성합니다
 6. 브라우저 주소창에 {복사한 IP 주소}:8080 입력
 7. 이미지 실행 확인
 
-## 3. Container Registry 설정
-
-1. 카카오 클라우드 콘솔 > 전체 서비스 > Container Registry > Repository 접속
-2. 생성 된 Repository 클릭 
-3. 권한 설정 클릭
-4. ID 입력란에 사용자 계정 입력
-5. 사용자 계정 입력 후 확인 버튼 클릭
-6. 커맨드 보기 클릭
-7. 커맨드 보기 클릭 후 나온 각 명령어 메모장에 복사
-
-## 4. Container 레지스트리에 이미지 업로드
+## 3. Container 레지스트리에 이미지 업로드
 
 1. 도커 로그인
    - 접속 중인 Bastion VM 인스턴스에 명령어 입력
-   #### **lab4-4-1**
+   #### **lab4-3-1**
    ```
    docker login ${PROJECT_NAME}.kr-central-2.kcr.dev --username ${ACC_KEY} --password ${SEC_KEY}
    ```
 
-3. 로그인 성공 시 출력되는 `Login Succeeded` 확인
-4. 생성한 이미지 태그하기
-   #### **lab4-4-3**
+2. 로그인 성공 시 출력되는 `Login Succeeded` 확인
+3. 생성한 이미지 태그하기
+   #### **lab4-3-3**
    ```
    docker tag ${DOCKER_IMAGE_NAME} ${PROJECT_NAME}.kr-central-2.kcr.dev/kakao-registry/${DOCKER_IMAGE_NAME}:1.0
    ```
 
-5. 이미지 태그 확인
-   #### **lab4-4-4**
+4. 이미지 태그 확인
+   #### **lab4-3-4**
    
    ```
    docker images
    ```
    - 현재 두 개의 이미지가 정상적으로 출력되는지 확인
    
-6. 이미지가 정상적으로 태그되었는지 확인
+5. 이미지가 정상적으로 태그되었는지 확인
    - ex) kakao-k8s-cluster.kr-central-2.kcr.dev/kakao-registry/demo-spring-boot  1.0
      
-7. 이미지 업로드하기
-   #### **lab4-4-6**
+6. 이미지 업로드하기
+   #### **lab4-3-6**
    ```
    docker push ${PROJECT_NAME}.kr-central-2.kcr.dev/kakao-registry/${DOCKER_IMAGE_NAME}:1.0
    ```
-8. 카카오 클라우드 콘솔 > 전체 서비스 > Container Registry > Repository 접속
-9. 생성한 Repository `kakao-registry` 클릭
-10. 이미지 업로드 상태 확인
+7. 카카오 클라우드 콘솔 > 전체 서비스 > Container Registry > Repository 접속
+8. 생성한 Repository `kakao-registry` 클릭
+9. 이미지 업로드 상태 확인
 
 
