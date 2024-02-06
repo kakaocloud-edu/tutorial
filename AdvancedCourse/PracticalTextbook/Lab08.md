@@ -173,7 +173,7 @@
    ```
 
 7. 웹 사이트 배포 확인
-**Note** my-release-kc-spring-demo-... 이름으로 서버 호스트 이름이 변경되었는지 확인
+##**Note** my-release-kc-spring-demo-... 이름으로 서버 호스트 이름이 변경되었는지 확인
 
 ## 7. Helm Chart를 이용한 버전 관리
 
