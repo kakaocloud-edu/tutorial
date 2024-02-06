@@ -101,13 +101,14 @@ Spring application 배포를 위한 Service, Ingress, ConfigMap, Job의 yaml 파
    ```
    kubectl get all -o wide
    ```
-
-   #### **lab6-2-3-2**
+   
+4. 배포한 내용 확인(Configmap, Secret)
+   #### **lab6-2-4-1**
    ```
    kubectl get configmap
    ```
 
-   #### **lab6-2-3-3**
+   #### **lab6-2-4-2**
    ```
    kubectl get secret
    ```
