@@ -76,22 +76,18 @@ Spring application 배포를 위한 Service, Ingress, ConfigMap, Job의 yaml 파
    kubectl apply -f ./lab6-ConfigMap.yaml
    ```
    
-   #### **lab6-2-2-2**
    ```
    kubectl apply -f ./lab6-ConfigMapDB.yaml
    ```
 
-   #### **lab6-2-2-3**
    ```
    kubectl apply -f ./lab6-Secret.yaml
    ```
 
-   #### **lab6-2-2-4**
    ```
    kubectl apply -f ./lab6-Job.yaml
    ```
 
-   #### **lab6-2-2-5**
    ```
    kubectl apply -f .
    ```
