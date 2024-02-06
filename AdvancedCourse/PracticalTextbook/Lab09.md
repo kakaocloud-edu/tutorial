@@ -51,10 +51,10 @@ HPA 옵션을 주어 워크로드 리소스를 자동으로 증가시키는 오�
    cd {keypair.pem 다운로드 위치}
    ```
 
+- **Note**: "bastion의 public ip주소" 부분을 복사한 IP 주소로 교체하세요.
    ```bash
    ssh -i keypair.pem ubuntu@{bastion의 public ip주소}
    ```
-   - **Note**: "bastion의 public ip주소" 부분을 복사한 IP 주소로 교체하세요.
   
    ```bash
    kubectl get po -w
