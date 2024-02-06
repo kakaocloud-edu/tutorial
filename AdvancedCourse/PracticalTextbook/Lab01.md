@@ -21,7 +21,7 @@
      - kr-central2-b의 Public Subnet IPv4 CIDR 블록 : `172.30.32.0/20`
      - kr-central2-b의 Private Subnet IPv4 CIDR 블록 : `172.30.48.0/20`
 3. 만들기 버튼 클릭
-4. VPC 생성 상태 확인
+4. VPC 생성 확인
 
 ## 2. Container Registry 생성
 
@@ -32,6 +32,7 @@
    - 태그 덮어쓰기 : 가능
    - 이미지 스캔 : 자동
 3. 만들기 버튼 클릭
+4. Container Registry 생성 확인
 
 ## 3. MYSQL 인스턴스 그룹 생성
 
