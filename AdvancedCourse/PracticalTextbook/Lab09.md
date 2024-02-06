@@ -7,13 +7,13 @@ HPA 옵션을 주어 워크로드 리소스를 자동으로 증가시키는 오�
 ## 1. HPA 설정
 
 1. metrics-server 저장소 추가
-  #### **lab9-1-1**
+   #### **lab9-1-1**
    ```bash
    helm repo add metrics-server https://kubernetes-sigs.github.io/metrics-server/
    ```
 
 2. 노드의 리소스 사용량을 모니터링하는 metrics-server 설치
-  #### **lab9-1-2**
+   #### **lab9-1-2**
    ```bash
    helm upgrade --install metrics-server metrics-server/metrics-server --set hostNetwork.enabled=true --set containerPort=4443
    ```
