@@ -1,4 +1,5 @@
-<img width="72" alt="image" src="https://github.com/kakaocloud-edu/tutorial/assets/114378755/7faac0ae-8487-4546-8da4-bf266ca8092b"># kubernetes Engine 클러스터에 웹서버 수동 배포 실습
+
+# kubernetes Engine 클러스터에 웹서버 수동 배포 실습
 
 Spring application 배포를 위한 Service, Ingress, ConfigMap, Job의 yaml 파일들을 다운 받아 배포하고, 배포된 프로젝트를 브라우저로 확인하는 실습입니다.
 
