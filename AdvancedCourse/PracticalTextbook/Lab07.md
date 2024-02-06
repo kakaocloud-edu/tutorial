@@ -11,10 +11,10 @@
    cd {keypair.pem 다운로드 위치}
    ```
 
+   - **Note**: "bastion의 public ip주소" 부분을 복사한 IP 주소로 교체하세요.
    ```bash
    ssh -i keypair.pem ubuntu@{bastion의 public ip주소}
    ```
-   - **Note**: "bastion의 public ip주소" 부분을 복사한 IP 주소로 교체하세요.
   
    - 상태 변화 확인을 위해 실시간 변화를 확인 가능한 -w 옵션을 사용한 명령어 입력
    ```bash
