@@ -5,7 +5,7 @@
 ## 1. Deployment 리소스의 replicas 값 변경
 
 1. Pod들의 상태 변화 확인
-    #### **lab7-1-1-1**
+    #### **lab7-1-1**
    - 새로운 터미널에 아래 명령어를 입력하세요.
    ```bash
    cd {keypair.pem 다운로드 위치}
