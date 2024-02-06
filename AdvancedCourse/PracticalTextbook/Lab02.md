@@ -14,6 +14,7 @@ Kakao Cloud Kubernetes Engine Cluster 생성에 대한 실습입니다.
      - VPC : `vpc_1`
      - Subnet : 모든 서브넷 선택
 4. 만들기 버튼 클릭
+5. 클러스터 생성 확인
 
 ## 2. 노드 풀 생성
 
