@@ -184,6 +184,7 @@
    ```
    - 1라인 : replicaCount : 2
    - `2` -> `3` 수정
+   - ESC 버튼 + :wq + Enter 버튼 입력으로 저장 후 나가기
 
 2. `helm upgrade`를 통한 차트 릴리즈 업그레이드
 
