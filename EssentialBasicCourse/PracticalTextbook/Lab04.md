@@ -152,11 +152,10 @@ Bastion(점프서버) 인스턴스와 Web server 인스턴스를 생성해보고
 > 💡 고급설정에서 스크립트 입력을 못했을 경우 VM에 접속하여 아래 명령어 붙여넣기
 
 ```bash
-#!/bin/bash
 sudo yum -y remove mariadb-libs
 sudo yum -y install httpd php mysql php-mysqlnd wget 
 sudo systemctl enable httpd
-sudo cd /var/www/html
+cd /var/www/html
 sudo wget https://github.com/kimjaehyeon0314/test/raw/main/kakao.tar.gz -O kakao.tar.gz
 sudo tar -xvf kakao.tar.gz
 sudo mv /var/www/html/kakao/{index.php,get_user_list.php,add_user.php} /var/www/html/
