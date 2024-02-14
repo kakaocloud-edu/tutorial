@@ -83,7 +83,7 @@
 3. 미리 생성해 놓은 values.yaml 파일 heml 디렉터리로 이동
    #### **lab8-3-3**
    ```bash
-   sudo mv /home/ubuntu/values.yaml values.yaml
+   mv /home/ubuntu/values.yaml values.yaml
    ```
 
 ## 4. 차트 확인
@@ -162,7 +162,7 @@
 1. replicaCount 수정
    #### **lab8-7-1**
    ```bash
-   sudo vi values.yaml
+   vi values.yaml
    ```
    - 1라인 : replicaCount : 2
    - `2` -> `3` 수정
