@@ -16,33 +16,14 @@
    #### **lab8-1-2**
    ```bash
    kubectl delete ingress --all
-   ```
-   
-   ```bash
    kubectl delete svc --all
-   ```
-
-   ```bash
    kubectl delete deploy --all
-   ```
-
-   ```bash
    kubectl delete job sql-job
-   ```
-
-   ```bash
    kubectl delete secret app-secret
-   ```
-   
-   ```bash
    kubectl delete configmap --all
-   ```
-   ```bash
    kubectl delete po --all
    ```
-   
-
-   
+      
 3. 실행 중인 리소스가 삭제되었는 지 확인
    #### **lab8-1-3**
    ```bash
