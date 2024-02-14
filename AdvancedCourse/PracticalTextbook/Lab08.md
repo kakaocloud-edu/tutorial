@@ -15,13 +15,12 @@
 2. 실행 중인 리소스 삭제
    #### **lab8-1-2**
    ```bash
-   kubectl delete ingress --all
-   kubectl delete svc --all
-   kubectl delete deploy --all
+   kubectl delete ingress kc-nginx-ingress
+   kubectl delete svc kc-spring-service
+   kubectl delete deploy demo-deployment
    kubectl delete job sql-job
    kubectl delete secret app-secret
-   kubectl delete configmap --all
-   kubectl delete po --all
+   kubectl delete configmap app-config sql-script
    ```
       
 3. 실행 중인 리소스가 삭제되었는 지 확인
@@ -29,12 +28,10 @@
    ```bash
    kubectl get ingress
    ```
-
    ```bash
    kubectl get svc
    ```
-   **Note** `service/kubernetes`는 자동 생성되는 리소스로, 재생성되어도 무관합니다.
-   
+   **Note** `service/kubernetes`는 쿠버네티스 자체 서비스임
    ```bash
    kubectl get deploy
    ```
@@ -47,7 +44,9 @@
    ```bash
    kubectl get configmap
    ```
-
+   ```bash
+   kubectl get secret
+   ```
 
 ## 2. Helm Chart 설치
 
