@@ -31,7 +31,7 @@
    ```bash
    kubectl get svc
    ```
-   **Note** `service/kubernetes`는 쿠버네티스 자체 서비스임
+   **Note**: `service/kubernetes`는 쿠버네티스 클러스터 내에서 API 서버의 기본 서비스를 나타냄
    ```bash
    kubectl get deploy
    ```
@@ -44,9 +44,11 @@
    ```bash
    kubectl get configmap
    ```
+   **Note**: `kube-root-ca.crt`는 쿠버네티스 클러스터에서 사용되는 루트 인증서(root certificate) 파일
    ```bash
    kubectl get secret
    ```
+   **Note**:' default-token-*****'는 쿠버네티스(Kube냄
 
 ## 2. Helm Chart 설치
 
