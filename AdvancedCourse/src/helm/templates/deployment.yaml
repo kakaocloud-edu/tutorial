@@ -28,8 +28,8 @@ spec:
             - containerPort: {{ .Values.service.targetPort }}
           resources:
             requests:
-              cpu: 500m
+              cpu: 100m #Pod가 시작될 때 요청하는 최소 CPU 양
             limits:
-              cpu: 500m
+              cpu: 200m #Pod가 사용할 수 있는 최대 CPU 양
       imagePullSecrets:
         - name: {{ .Values.deployment.pullSecret }}
