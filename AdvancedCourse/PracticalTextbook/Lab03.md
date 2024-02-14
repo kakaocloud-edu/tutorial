@@ -213,6 +213,29 @@
      ```bash
      watch "cat /var/log/cloud-init-output.log | grep kakaocloud:"
      ```
+    - 모든 스크립트가 완료되면 아래와 같음
+     ```bash
+      kakaocloud: Starting environment variable setup
+      kakaocloud: Environment variable setup completed
+      kakaocloud: Preparing directories and files
+      kakaocloud: Directories prepared
+      kakaocloud: Downloading YAML files
+      kakaocloud: YAML files downloaded
+      kakaocloud: Installing kubectl
+      kakaocloud: kubectl installed
+      kakaocloud: Setting up .kube directory and configuration file
+      kakaocloud: .kube setup completed
+      kakaocloud: Installing kic-iam-auth
+      kakaocloud: kic-iam-auth installation completed
+      kakaocloud: Installing Docker and setting it up
+      kakaocloud: Docker installation and setup completed
+      kakaocloud: Installing additional software
+      kakaocloud: Additional software installation completed
+      kakaocloud: Setting permissions for .kube/config
+      kakaocloud: Permissions set for .kube/config
+      kakaocloud: Downloading helm-values.yaml and applying environment substitutions
+      kakaocloud: Environment substitutions applied and setup completed
+     ```
 
      #### **lab3-1-20-1**
     - config 파일 확인
