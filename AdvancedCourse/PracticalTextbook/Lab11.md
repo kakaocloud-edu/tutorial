@@ -6,7 +6,7 @@
      - 접속 중인 Bastion VM 인스턴스에서 아래 명령어 입력
      #### **lab11-1-1**
      ```bash
-     kubectl delete -f https://github.com/kakaocloud-edu/tutorial/raw/main/AdvancedCourse/src/manifests/ingress-nginx-controller.yam
+     kubectl delete -f https://github.com/kakaocloud-edu/tutorial/raw/main/AdvancedCourse/src/manifests/ingress-nginx-controller.yaml
      ```
 2. Virtual Machine > Instance > `bastion VM` 선택 > Instance 삭제 > 영구 삭제 > 삭제 버튼 클릭
 3. DNS > DNS Zone > DNS 이름 클릭 > 추가했던 상단 레코드의 오른쪽 (...) 클릭 > 레코드 삭제 클릭 >  오른쪽 상단 레코드의 오른쪽 (...) 클릭 >  DNS 삭제 클릭 > DNS 주소 이름 입력 > 삭제 버튼 클릭
