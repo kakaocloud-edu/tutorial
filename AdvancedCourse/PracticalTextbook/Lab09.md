@@ -24,11 +24,8 @@ HPA 옵션을 주어 워크로드 리소스를 자동으로 증가시키는 오�
    ```
    sudo vi values.yaml
    ```
+   - `hpa.enabled`의 값을 `false`에서 `true`로 변경
 
-   - 40번 라인 수정
-     `enabled: false` -> `enabled: true`
-   - 43번 라인 수정
-     `averageUtilization: 50` -> `averageUtilization: 1`
 
 4. helm upgrade를 통한 릴리즈 업그레이드
 
@@ -63,11 +60,12 @@ HPA 옵션을 주어 워크로드 리소스를 자동으로 증가시키는 오�
 ## 2. CPU 부하 발생 및 기능 확인
 
   1. CPU 부하 발생
-  - **Note**: 기존에 사용하던 터미널 창에 아래 코드를 입력해 주세요.
+  - **Note**: 기존에 사용하던 터미널 창 이용
+  - **Note**: 아래 코드에서 `{웹서비스를 위한 Public IP}`에 LB에 할당된 Public IP 중에 하나로 대체하여 아래 명령을 실행
   
     #### **lab9-2-1**
     ```bash
-    kubectl run -i --tty load-generator --rm --image=ke-container-registry.kr-central-2.kcr.dev/ke-cr/busybox:1.28 --restart=Never -- /bin/sh -c "while sleep 0.01; do wget -q -O- http://61.109.239.122/; done"
+    kubectl run -i --tty load-generator --rm --image=ke-container-registry.kr-central-2.kcr.dev/ke-cr/busybox:1.28 --restart=Never -- /bin/sh -c "while sleep 0.01; do wget -q -O- http://{웹서비스를 위한 Public IP}/; done"
     ```
     
   2. pod 자동확장 여부 확인
