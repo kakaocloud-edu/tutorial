@@ -21,39 +21,44 @@
    kubectl get po -w
    ```
    
-3. Replicas 수 3개로 늘리기
+2. Replicas 수 3개로 늘리기
    - 기존 터미널에 아래 명령어를 입력하세요.
    #### **lab7-1-2**
    ```bash
    kubectl scale deployment demo-deployment --replicas=3
    ```
-5. 새로운 터미널에서 Pod들의 상태 변화 확인
-6. 새로고침을 통해 서버의 호스트 이름이 3가지 Pod 이름으로 바뀌는 것을 확인
-7. 변경된 두 번째 웹 사이트 확인
-8. 변경된 세 번째 웹 사이트 확인
-9. Replicas 수 2개로 줄이기
+3. 새로운 터미널에서 Pod들의 상태 변화 확인
+4. 새로고침을 통해 서버의 호스트 이름이 3가지 Pod 이름으로 바뀌는 것을 확인
+5. 변경된 두 번째 웹 사이트 확인
+6. 변경된 세 번째 웹 사이트 확인
+7. Replicas 수 2개로 줄이기
    #### **lab7-1-7**
    ```bash
    kubectl scale deployment demo-deployment --replicas=2
    ```
-10. 새로운 터미널에서 Pod들의 상태 변화 확인
+8. 새로운 터미널에서 Pod들의 상태 변화 확인
 
-11. 새로고침을 통해 서버의 호스트 이름이 2가지 Pod 이름으로 바뀌는 것을 확인
-12. 변경된 두 번째 웹 사이트 확인
+9. 새로고침을 통해 서버의 호스트 이름이 2가지 Pod 이름으로 바뀌는 것을 확인
+10. 변경된 두 번째 웹 사이트 확인
    
 ## 2. yaml 파일을 이용해 배포된 내용 수정해보기
 
-   
+0. yaml 파일이 있는 경로로 이동
+   - 아래 경로로 이동
+   #### **lab7-2-0**
+   ```bash
+   cd /home/ubuntu/yaml
+   ```
 1. lab6-ConfigMap.yaml 파일 수정
-   - 터미널에 아래 명령어를 입력하세요.
+   - 터미널에 아래 명령어를 입력
    #### **lab7-2-1**
    ```bash
-   sudo vi lab6-ConfigMap.yaml
+   vi lab6-ConfigMap.yaml
    ```
 2.  Google에 color picker 검색 후 원하는 색상 HEX값 복사
     - [color picker](https://www.google.com/search?client=safari&rls=en&q=color+picker&ie=UTF-8&oe=UTF-8)
 
-4. ConfigMap.yaml 파일 내용 변경후 저장
+3. ConfigMap.yaml 파일 내용 변경후 저장
    
    **Note** 아래와 같은 방식으로 문구를 변경하면 됩니다.   
    ```bash
@@ -85,5 +90,5 @@
 ## 4. 변경된 내용 웹에서 확인
 1. 카카오 클라우드 콘솔 > 전체 서비스 > Beyond Networking Service > Load Balancing > Load Balancer
 2. 생성된 두 개의 Load Balancer의 Public IP를 복사
-4. 브라우저 주소창에 복사한 IP 주소 각각 입력
+3. 브라우저 주소창에 복사한 IP 주소 각각 입력
      - 변경된 내용 확인
