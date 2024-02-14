@@ -5,14 +5,8 @@
 
 ## 1. 기존 리소스 삭제
 
-1. yaml 파일 삭제
-   - 접속 중인 Bastion VM 인스턴스에 명령어 입력
-   #### **lab8-1-1**
-   ```bash
-   rm -f lab6*.yaml
-   ```
 
-2. 실행 중인 리소스 삭제
+1. 실행 중인 리소스 삭제
    #### **lab8-1-2**
    ```bash
    kubectl delete ingress kc-nginx-ingress
@@ -22,8 +16,8 @@
    kubectl delete secret app-secret
    kubectl delete configmap app-config sql-script
    ```
-      
-3. 실행 중인 리소스가 삭제되었는 지 확인
+
+2. 실행 중인 리소스가 삭제되었는 지 확인
    #### **lab8-1-3**
    ```bash
    kubectl get ingress
