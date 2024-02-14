@@ -162,7 +162,7 @@
 1. replicaCount 수정
    #### **lab8-7-1**
    ```bash
-   vi values.yaml
+   sudo vi values.yaml
    ```
    - 1라인 : replicaCount : 2
    - `2` -> `3` 수정
