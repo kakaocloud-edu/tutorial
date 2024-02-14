@@ -48,7 +48,7 @@
    ```bash
    kubectl get secret
    ```
-   **Note**:' default-token-*****'는 쿠버네티스(Kube냄
+   **Note**: `default-token-*****`는 쿠버네티스 클러스터 내의 서비스 어카운트 토큰(Secret)을 나타냄
 
 ## 2. Helm Chart 설치
 
