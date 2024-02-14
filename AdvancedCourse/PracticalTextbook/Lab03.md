@@ -207,7 +207,13 @@
      ```bash
      ./script.sh
      ```
-21. YAML 파일 확인
+20. cloud-init log 확인 및 YAML 파일 확인
+     #### **lab3-1-20-0**
+    - [**lab3-1-6**](https://github.com/kakaocloud-edu/tutorial/blob/main/AdvancedCourse/PracticalTextbook/Lab03.md#lab3-1-6)를 통해 진행한 스크립트의 진행상황을 확인
+     ```bash
+     watch "cat /var/log/cloud-init-output.log | grep kakaocloud:"
+     ```
+
      #### **lab3-1-20-1**
     - config 파일 확인
      ```bash
