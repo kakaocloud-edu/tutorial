@@ -27,7 +27,7 @@ Kakao Cloud Kubernetes Engine Cluster 생성에 대한 실습입니다.
    - 기본 설정
      - 노드 풀 이름 : `node-pool`
      - Image 선택 : `Ubuntu 20.04`
-     - Instance 타입 : `m2a-large`
+     - Instance 타입 : `m2a.large`
      - Volume 크기 : `50GB`
      - 노드 수 : `2`
    - 노드 풀 Network 설정
