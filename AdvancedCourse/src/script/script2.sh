@@ -45,6 +45,10 @@ echo "kakaocloud: Setting up .kube directory and configuration file"
 sudo mkdir /home/ubuntu/.kube || { echo "Failed to create .kube directory"; exit 1; }
 
 sudo curl -o /home/ubuntu/.kube/config https://raw.githubusercontent.com/kakaocloud-edu/tutorial/main/AdvancedCourse/src/manifests/kube-config.yaml || { echo "Failed to download kube-config.yaml"; exit 1; }
+echo "kakaocloud: Setting permissions for .kube/config"
+sudo chmod 600 /home/ubuntu/.kube/config || { echo "Failed to change permission of /home/ubuntu/.kube/config"; exit 1; }
+sudo chown ubuntu:ubuntu /home/ubuntu/.kube/config || { echo "Failed to change ownership of /home/ubuntu/.kube/config"; exit 1; }
+echo "kakaocloud: Permissions set for .kube/config"
 
 echo "kakaocloud: .kube setup completed"
 
@@ -78,10 +82,7 @@ sudo apt-get install -y openjdk-17-jdk maven || { echo "Failed to install openjd
 echo "kakaocloud: Additional software installation completed"
 
 echo "kakaocloud: section_8"
-echo "kakaocloud: Setting permissions for .kube/config"
-sudo chmod 600 /home/ubuntu/.kube/config || { echo "Failed to change permission of /home/ubuntu/.kube/config"; exit 1; }
-sudo chown ubuntu:ubuntu /home/ubuntu/.kube/config || { echo "Failed to change ownership of /home/ubuntu/.kube/config"; exit 1; }
-echo "kakaocloud: Permissions set for .kube/config"
+
 
 echo "kakaocloud: section_9"
 echo "kakaocloud: Downloading helm-values.yaml and applying environment substitutions"
