@@ -7,8 +7,17 @@ VPC1과 VPC2를 연결하는 TGW를 생성하고 설정합니다. TGW를 통해 
 graph LR
     시작(시작) --> VPC2생성(VPC2 생성)
     VPC2생성 --> VPC2내VM생성(VPC2내 VM 인스턴스 생성)
-    VPC2내VM생성 --> TGW생성(TGW 생성 및 설정)
-    TGW생성 --> VPC간통신확인(VPC간 통신 확인)
+    VPC2내VM생성 --> TGW생성(TGW 생성)
+
+    subgraph TGW 및 라우팅 설정
+        TGW생성 --> VPC1TGW연결(VPC1 TGW Attachment)
+        VPC1TGW연결 --> VPC2TGW연결(VPC2 TGW Attachment)
+        VPC2TGW연결 --> TGWRoute설정(TGW Route 설정)
+        TGWRoute설정 --> VPC1Route설정(VPC1 Route 설정)
+        VPC1Route설정 --> VPC2Route설정(VPC2 Route 설정)
+    end
+
+    VPC2Route설정 --> VPC간통신확인(VPC간 통신 확인)
     VPC간통신확인 --> 종료(종료)
 
     %% 강조
@@ -16,6 +25,7 @@ graph LR
     
     %% 클래스 스타일
     classDef emphasized fill:#f9f,stroke:#333,stroke-width:4px;
+
 ```
 
 
