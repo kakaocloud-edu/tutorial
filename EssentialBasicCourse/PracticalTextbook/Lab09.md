@@ -1,6 +1,20 @@
 # File Storage 실습
 
 새로운 File Storage 인스턴스를 생성합니다. File Storage를 사용중인 VM인스턴스와 연결 후 연결된 File Storage를 마운트 해제하는 실습입니다.
+```mermaid
+graph LR
+    시작(시작) --> FS인스턴스생성(File Storage 인스턴스 생성)
+    FS인스턴스생성 --> 마운트실습(VM에서 NFS 마운트)
+    마운트실습 --> 파일작업실습(파일 작업 및 실습)
+    파일작업실습 --> 마운트해제(NFS 마운트 해제)
+    마운트해제 --> 종료(실습 종료)
+
+    %% 강조
+    class FS인스턴스생성,마운트실습,파일작업실습,마운트해제 emphasized;
+    
+    %% 클래스 스타일
+    classDef emphasized fill:#f9f,stroke:#333,stroke-width:4px;
+```
 
 ## 1. File Storage 인스턴스 생성하기
 
