@@ -69,7 +69,7 @@ graph LR
      - `새로운 Public IP를 생성하고 자동으로 할당` 선택
 6. 확인 버튼 클릭    
 
- ## 3. TGW 생성 및 설정
+ ## 3-1. TGW 생성 및 설정
 
 
 1. 전체 서비스 > Transit Gateway 만들기 클릭 
@@ -97,22 +97,21 @@ graph LR
 15. static Route 추가 버튼 클릭
      - 목적지 : `172.30.0.0/16`(vpc_1의 IP CIDR블록)
      - Target : `vpc_1 선택` 
-16. 추가 버튼 클릭
-17. 카카오 클라우드 콘솔 > 전체 서비스 > VPC
-18. Route Table 탭 > vpc_1의 main 클릭
-19. Route 추가 버튼 클릭
+## 3-2. VPC의 라우트 설정
+1. 카카오 클라우드 콘솔 > 전체 서비스 > VPC
+2. Route Table 탭 > vpc_1의 main 클릭
+3. Route 추가 버튼 클릭
      - Route 추가 클릭
      - Target 타입 : `Transit Gateway`
      - 목적지 : `172.31.0.0/16`(vpc_2의 IP CIDR 블록)
-20. 카카오 클라우드 콘솔 > 전체 서비스 > VPC
-21. Route Table 탭 > vpc_2의 main 클릭
-21. Route 추가 버튼 클릭
+4. 카카오 클라우드 콘솔 > 전체 서비스 > VPC
+5. Route Table 탭 > vpc_2의 main 클릭
+6. Route 추가 버튼 클릭
+     - Route 추가 클릭
      - Target 타입 : `Transit Gateway`
      - 목적지 : `172.30.0.0/16`(vpc_1의 IP CIDR 블록)
 
 ## 4. VPC간 통신 확인
-
-
 1. 카카오 클라우드 콘솔 > 전체 서비스 > Virtual Machine > Instance
 2. Bastion VM의 Public IP 주소 복사
 3. vpc2_vm의  Private IP 주소 복사
