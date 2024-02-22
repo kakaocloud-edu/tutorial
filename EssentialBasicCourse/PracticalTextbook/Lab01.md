@@ -18,6 +18,11 @@ graph LR
     조직레벨역할추가 --> 종료(종료)
     프로젝트레벨역할추가 --> 종료
 
+    %% 강조
+    class 프로젝트생성,사용자추가,역할부여 emphasized;
+    
+    %% 클래스 스타일
+    classDef emphasized fill:#f9f,stroke:#333,stroke-width:4px;
 ```
 
 ## 1. 프로젝트 생성
