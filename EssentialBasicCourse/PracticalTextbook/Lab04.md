@@ -2,6 +2,21 @@
 
 Bastion(점프서버) 인스턴스와 Web server 인스턴스를 생성해보고, 점프서버를 통해 웹서버로 접속해보는 실습입니다.
 
+```mermaid
+graph LR
+    시작(시작) --> BastionVM생성(Bastion VM 인스턴스 생성)
+    BastionVM생성 --> WebVM생성(Web VM 인스턴스 생성)
+    WebVM생성 --> Bastion을통한Web접속(Bastion VM 인스턴스를 통해 Web 서버 접속)
+    Bastion을통한Web접속 --> Web접속확인(Web VM의 Public IP로 웹 접속 확인)
+    Web접속확인 --> 종료(종료)
+
+    %% 강조
+    class BastionVM생성,WebVM생성,Bastion을통한Web접속,Web접속확인 emphasized;
+    
+    %% 클래스 스타일
+    classDef emphasized fill:#f9f,stroke:#333,stroke-width:4px;
+```
+
 ## 1. Bastion VM 인스턴스 생성
 
 
