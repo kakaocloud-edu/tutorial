@@ -3,7 +3,7 @@
 echo "kakaocloud: section_0"
 echo "kakaocloud: github Connection test start"
 
-curl --output /dev/null --silent --head --fail "https://github.com" || { echo " kakaocloud: github Connection failed"; exit 1; }
+curl --output /dev/null --silent --head --fail "https://github.com" || { echo "kakaocloud: github Connection failed"; exit 1; }
 echo "kakaocloud: github Connection succeeded"
 
 
