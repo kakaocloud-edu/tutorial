@@ -43,52 +43,28 @@ Web서버와 DB간의 연동이 되는지 확인하는 실습입니다.
      ```
 3. 카카오 클라우드 콘솔 > 전체 서비스 > MySQL 접속 > database 클릭
      - 엔드포인트 URL 복사
-     - 터미널에 명령어 입력
+     - **Note**: 아래 명령어를 메모장에 복사한 후 "{엔드포인트URL}" 부분을 복사한 URL 주소로 교체하세요.
           
      #### **lab5-2-3-1**
      ```bash
-     mysql --user=admin --password=admin1234 --host={엔드포인트URL}
-     ```
-     - **Note**: "{엔드포인트URL}" 부분을 복사한 URL 주소로 교체하세요.
-     - MySQL 초기설정 명령어 입력
-           
-     #### **lab5-2-3-2**
-     ```sql
+     mysql --user=admin --password=admin1234 --host={엔드포인트URL} <<EOF
      CREATE DATABASE IF NOT EXISTS myweb;
-     ```
-          
-     #### **lab5-2-3-3**
-     ```sql
-     use myweb;
-     ```
-          
-     #### **lab5-2-3-4**
-     ```sql
+     USE myweb;
      CREATE TABLE IF NOT EXISTS users (
-     id INT AUTO_INCREMENT PRIMARY KEY,
-     username VARCHAR(255) NOT NULL
+       id INT AUTO_INCREMENT PRIMARY KEY,
+       username VARCHAR(255) NOT NULL
      );
-     ```
-          
-     #### **lab5-2-3-5**
-     ```sql
      INSERT INTO users (username) VALUES ('kakao');
-     ```
-          
-     #### **lab5-2-3-6**
-     ```sql
      CALL mysql.mnms_grant_right_user('admin', '%', 'all', '*', '*');
-     ```
-          
-     #### **lab5-2-3-7**
-     ```sql
      ALTER USER 'admin'@'%' IDENTIFIED WITH mysql_native_password BY 'admin1234';
+     EOF
      ```
-
-     #### **lab5-2-3-8**
-     ```bash
-     exit
-     ```     
+     - 명령어에 대한 설명
+          - myweb 데이터베이스가 없으면 생성
+          - users 테이블이 없으면 myweb 데이터베이스 내에 생성함. 이 테이블은 id (자동 증가, 기본 키)와 username (문자열, 필수) 필드를 포함함.
+          - users 테이블에 username 값이 'kakao'인 레코드를 삽입
+          - admin 사용자에게 모든 권한을 부여
+          - admin 사용자의 인증 방식을 mysql_native_password로 변경하고 비밀번호를 재설정
 
 ## 3. Web서버와 DB 연결 확인
 
