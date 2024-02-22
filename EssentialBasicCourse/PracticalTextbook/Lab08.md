@@ -3,6 +3,22 @@
 새로운 VPC2를 생성하고 VPC2에 VM을 생성합니다. 
 VPC1과 VPC2를 연결하는 TGW를 생성하고 설정합니다. TGW를 통해 서로 다른 VPC간 통신이 가능한지 확인하는 실습입니다.
 
+```mermaid
+graph LR
+    시작(시작) --> VPC2생성(VPC2 생성)
+    VPC2생성 --> VPC2내VM생성(VPC2내 VM 인스턴스 생성)
+    VPC2내VM생성 --> TGW생성(TGW 생성 및 설정)
+    TGW생성 --> VPC간통신확인(VPC간 통신 확인)
+    VPC간통신확인 --> 종료(종료)
+
+    %% 강조
+    class VPC2생성,VPC2내VM생성,TGW생성,VPC간통신확인 emphasized;
+    
+    %% 클래스 스타일
+    classDef emphasized fill:#f9f,stroke:#333,stroke-width:4px;
+```
+
+
 ## 1. VPC2 생성
 
 
