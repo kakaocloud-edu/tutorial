@@ -2,6 +2,22 @@
 
 Public 서브넷에 Web서버 VM을 하나 더 생성합니다. 만든 Web서버와 DB간의 연결이 되는지 확인합니다.
  Load Balancer를 생성하고 2개의 Web 서버 VM과 연결합니다. Load Balancer가 트래픽을 잘 분배하는지 볼 수 있는 실습입니다.
+```mermaid
+graph LR
+    시작(시작) --> Web2VM생성(Web2 VM 인스턴스 생성)
+    Web2VM생성 --> Web2DB연결(Web2 서버와 DB 연결)
+    Web2DB연결 --> LB생성(Load Balancer 생성)
+    LB생성 --> 타겟그룹설정(Target Group 설정)
+    타겟그룹설정 --> 웹접속및밸런싱확인(웹 접속 및 밸런싱 여부 확인)
+    웹접속및밸런싱확인 --> 종료(종료)
+
+    %% 강조
+    class Web2VM생성,Web2DB연결,LB생성,타겟그룹설정,웹접속및밸런싱확인 emphasized;
+    
+    %% 클래스 스타일
+    classDef emphasized fill:#f9f,stroke:#333,stroke-width:4px;
+
+```
 
 ## 1. Web2 VM 인스턴스 생성
 
