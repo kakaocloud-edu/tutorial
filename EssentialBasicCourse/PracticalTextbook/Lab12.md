@@ -1,8 +1,19 @@
 # Monitoring 실습
 
-카카오 클라우드에서 제공하는 여러 API를 활용하여 Object Storage를 VM인스턴스 환경에서 활용해봅니다. CLI 환경에서 API 인증키를 발급받고 버킷 생성 및 상세 내용 조회, 파일관리 등 Object Storage를 활용할 수 있는 방법에 대한 실습입니다.
-#### 콘솔에서 Monitoring 대시보드 환경에 대해서 살펴봅니다. 대시보드 활용을 위해 Bastion서버 VM에 Monitoring Agent를 설치하고 설정합니다. 콘솔에서 대시보드가 생성되었는지 확인해보는 실습을 진행합니다.
+콘솔에서 Monitoring 대시보드 환경에 대해서 살펴봅니다. 대시보드 활용을 위해 Bastion서버 VM에 Monitoring Agent를 설치하고 설정합니다. 콘솔에서 대시보드가 생성되었는지 확인해보는 실습을 진행합니다.
+```mermaid
+graph LR
+    시작(시작) --> 대시보드확인(콘솔에서 Monitoring 대시보드 확인)
+    대시보드확인 --> 에이전트설치및설정(인스턴스에 Monitoring Agent 설치 및 설정)
+    에이전트설치및설정 --> 대시보드생성확인(대시보드 생성 확인)
+    대시보드생성확인 --> 종료(실습 종료)
 
+    %% 강조
+    class 대시보드확인,에이전트설치및설정,대시보드생성확인 emphasized;
+    
+    %% 클래스 스타일
+    classDef emphasized fill:#f9f,stroke:#333,stroke-width:4px;
+```
 
 ## 1. 콘솔에서 Monitoring 대시보드 확인
 
