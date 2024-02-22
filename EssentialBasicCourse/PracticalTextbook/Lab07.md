@@ -34,48 +34,25 @@ VPC안에 기존에 사용하던 AZ1과 다른 AZ2를 사용할 수 있도록 �
      - Outbound 
           - 프로토콜: `ALL`
           - 패킷 목적지: `0.0.0.0/0`
-4. 만들기 버튼 클릭
-5. 카카오 클라우드 콘솔 > 전체 서비스 > Virtual Machine > Instance
-6. 생성된 vm_5 인스턴스의 우측 메뉴바 클릭 > Public IP 연결 클릭
-     - `새로운 Public IP를 자동으로 할당` 선택
-7. 확인 버튼 클릭
-8. 카카오 클라우드 콘솔 > 전체 서비스 > Virtual Machine > Instance
-9. 생성된 vm_5 인스턴스의 우측 메뉴바 클릭 > SSH 연결 클릭
-     - SSH 접속 명령어 복사(6. keyPair.pem 파일이 있는 경로에서 아래 명령어를 실행합니다.)
-     - Keypair를 다운받아놓은 Downloads 폴더로 이동
-     - 터미널 열기
-     - 터미널에 명령어 붙여넣기
-     - yes 입력
-
-     #### **lab7-2-9-1**
+4. 고급설정 버튼 클릭
+     - 사용자 스크립트에 아래 내용 붙여넣기 (mysql client 사용을 위함)
+       
+     #### **lab7-2-4**
      ```bash
-     cd {keyPair.pem 다운로드 위치}
-     ```
-     - **Note**: "keyPair.pem" 부분을 keyPair.pem의 디렉터리 위치로 교체하세요.
-
-     #### **lab7-2-9-2**
-     ```bash
-     ssh -i keyPair.pem centos@{ip주소}
-     ```
-     - **Note**: "ip주소" 부분을 복사한 IP 주소로 교체하세요.
-
-     #### **lab7-2-9-3**
-     ```bash
-     yes
-     ```
-10. 터미널 명령어 입력
-
-     #### **lab7-2-10**
-     ```bash
+     #!/bin/bash
      sudo yum -y update
      sudo yum -y install httpd
      sudo systemctl start httpd
      sudo systemctl enable httpd
      ```
-
-11. vm_5의 Public IP 복사
-12. 브라우저창에 입력
-13. apache 웹서버 Test페이지가 나오는 것을 확인
+5. 만들기 버튼 클릭
+6. 카카오 클라우드 콘솔 > 전체 서비스 > Virtual Machine > Instance
+7. 생성된 vm_5 인스턴스의 우측 메뉴바 클릭 > Public IP 연결 클릭
+     - `새로운 Public IP를 자동으로 할당` 선택
+8. 확인 버튼 클릭
+9. vm_5의 Public IP 복사
+10. 브라우저창에 입력
+11. apache 웹서버 Test페이지가 나오는 것을 확인
 
 ## 3. DNS 서비스 설정
 
