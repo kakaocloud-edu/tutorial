@@ -2,6 +2,22 @@
 
 VPC안에 기존에 사용하던 AZ1과 다른 AZ2를 사용할 수 있도록 설정합니다. AZ2 안에 새로운 VM 인스턴스를 생성하고 DNS 연결을 통해 AZ1의 웹서버와 새로 생성한 VM에 연결합니다. 연결한 도메인을 통해 DNS 서비스가 작동하는지 확인하는 실습입니다.
 
+```mermaid
+graph LR
+    시작(시작) --> AZ생성(VPC 안에 새로운 AZ 생성하기)
+    AZ생성 --> VM생성(생성된 AZ에 VM 생성하기)
+    VM생성 --> DNS설정(DNS 서비스 설정)
+    DNS설정 --> DNS동작확인(DNS 서비스 동작 확인)
+    DNS동작확인 --> 종료(종료)
+
+    %% 강조
+    class AZ생성,VM생성,DNS설정,DNS동작확인 emphasized;
+    
+    %% 클래스 스타일
+    classDef emphasized fill:#f9f,stroke:#333,stroke-width:4px;
+```
+
+
 ## 1. VPC 안 다른 AZ 생성하기
 
 
