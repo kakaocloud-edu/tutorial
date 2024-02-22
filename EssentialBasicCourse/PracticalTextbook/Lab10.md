@@ -2,6 +2,24 @@
 
 새로운 File Storage 인스턴스를 생성합니다. File Storage를 사용중인 VM인스턴스와 연결해보고, 연결이 되었는지 확인해봅니다. 연결된 File Storage를 마운트 해제 후 확인해봅니다.
 
+```mermaid
+graph LR
+    시작(시작) --> 버킷생성(버킷 생성하기)
+    버킷생성 --> 파일업로드(파일 업로드)
+    파일업로드 --> 파일접근(URL로 파일 열어보기)
+    파일접근 --> 권한설정(접근 권한 설정하기)
+    권한설정 --> LifeCycle설정(Life Cycle 설정하기)
+    LifeCycle설정 --> 버킷삭제(버킷 삭제)
+    버킷삭제 --> 종료(실습 종료)
+
+    %% 강조
+    class 버킷생성,파일업로드,파일접근,권한설정,LifeCycle설정,버킷삭제 emphasized;
+    
+    %% 클래스 스타일
+    classDef emphasized fill:#f9f,stroke:#333,stroke-width:4px;
+
+```
+
 **[아래 시작 전에 다음 실습 미리 준비하기](https://github.com/kakaocloud-edu/tutorial/blob/main/EssentialBasicCourse/PracticalTextbook/Lab11.md#lab11-2-1)**
 
 
