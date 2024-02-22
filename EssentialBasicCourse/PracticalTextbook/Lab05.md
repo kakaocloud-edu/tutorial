@@ -4,6 +4,21 @@ Private 서브넷에 MySQL서비스를 이용하여 DB를 구축합니다.
 Bastion 서버에 MySQL DB를 연결할 수 있도록 설정합니다. 
 Web서버와 DB간의 연동이 되는지 확인하는 실습입니다.
 
+```mermaid
+graph LR
+    시작(시작) --> MySQL인스턴스그룹생성(MySQL 인스턴스 그룹 생성)
+    MySQL인스턴스그룹생성 --> BastionMySQL연결(Bastion에 MySQL 인스턴스 그룹 연결 및 DB 설정)
+    BastionMySQL연결 --> WebDB연결확인(Web서버와 DB 연결 확인)
+    WebDB연결확인 --> 종료(종료)
+
+    %% 강조
+    class MySQL인스턴스그룹생성,BastionMySQL연결,DB설정,WebDB연결확인 emphasized;
+    
+    %% 클래스 스타일
+    classDef emphasized fill:#f9f,stroke:#333,stroke-width:4px;
+```
+
+
 ## 1. MySQL 인스턴스 그룹 생성
 
 
