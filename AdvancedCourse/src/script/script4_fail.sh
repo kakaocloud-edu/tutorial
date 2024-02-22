@@ -1,22 +1,10 @@
 #!/bin/bash
 
 echo "kakaocloud: section_0"
-echo "kakaocloud: Ping test start"
+echo "kakaocloud: github Connection test start"
 
-target_host="20.200.245.247"
-
-# 핑 명령 실행
-ping_result=$(ping -c 4 $target_host)
-
-# 핑 결과에서 패킷 손실률 추출
-packet_loss=$(echo "$ping_result" | grep "packet loss" | awk '{print $6}' | cut -d "%" -f1)
-
-# 패킷 손실률이 0이 아니면 연결 실패 메시지 출력
-if [ "$packet_loss" -ne 0 ]; then
-    echo "kakaocloud: github연결에 실패했습니다."; exit 1;
-else
-    echo "kakaocloud: github연결이 성공했습니다."
-fi
+curl --output /dev/null --silent --head --fail "https://github.com" || { echo " kakaocloud: github Connection failed"; exit 1; }
+echo "kakaocloud: github Connection succeeded"
 
 
 echo "kakaocloud: section_1"
