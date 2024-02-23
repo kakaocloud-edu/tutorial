@@ -1,6 +1,6 @@
 #!/bin/bash
 
-echo -e "kakaocloud: \e[93m0.\e[0mtext_style_test"
+echo -e "kakaocloud: $(tput setaf 3)0.$(tput sgr0)text_style_test"
 
 echo "kakaocloud: 1.github Connection test start"
 curl --output /dev/null --silent --head --fail "https://github.com" || { echo "kakaocloud: github Connection failed"; exit 1; }
