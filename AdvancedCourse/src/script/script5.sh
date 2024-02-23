@@ -26,10 +26,8 @@ echo "kakaocloud: Directories prepared"
 
 
 echo "kakaocloud: 6.Downloading YAML files"
-sudo wget https://github.com/kakaocloud-edu/tutorial/raw/main/AdvancedCourse/src/manifests/lab6Yaml.tar -O /home/ubuntu/yaml/lab6Yaml.tar || { echo "kakaocloud: Failed to download lab6Yaml.tar"; exit 1; }
-sudo curl -o /home/ubuntu/yaml/lab6-Secret.yaml https://raw.githubusercontent.com/kakaocloud-edu/tutorial/main/AdvancedCourse/src/manifests/lab6-Secret.yaml || { echo "kakaocloud: Failed to download lab6-Secret.yaml"; exit 1; }
-sudo curl -o /home/ubuntu/yaml/lab6-Deployment.yaml https://raw.githubusercontent.com/kakaocloud-edu/tutorial/main/AdvancedCourse/src/manifests/lab6-Deployment.yaml || { echo "kakaocloud: Failed to download lab6-Deployment.yaml"; exit 1; }
-sudo curl -o /home/ubuntu/yaml/lab6-ConfigMapDB.yaml https://raw.githubusercontent.com/kakaocloud-edu/tutorial/main/AdvancedCourse/src/manifests/lab6-ConfigMapDB.yaml || { echo "kakaocloud: Failed to download lab6-ConfigMapDB.yaml"; exit 1; }
+git clone https://github.com/kakaocloud-edu/tutorial.git || { echo "kakaocloud: Failed to git clone"; exit 1; }
+sudo cp /home/ubuntu/tutorial/AdvancedCourse/src/manifests/lab6-* /home/ubuntu/yaml || { echo "kakaocloud: Failed to set yaml"; exit 1; }
 echo "kakaocloud: All YAML files downloaded"
 
 
@@ -42,7 +40,7 @@ echo "kakaocloud: kubectl installed"
 
 echo "kakaocloud: 8.Setting up .kube directory and configuration file"
 sudo mkdir /home/ubuntu/.kube || { echo "Failed to create .kube directory"; exit 1; }
-sudo curl -o /home/ubuntu/.kube/config https://raw.githubusercontent.com/kakaocloud-edu/tutorial/main/AdvancedCourse/src/manifests/kube-config.yaml || { echo "Failed to download kube-config.yaml"; exit 1; }
+sudo cp /home/ubuntu/tutorial/AdvancedCourse/src/manifests/kube-config.yaml /home/ubuntu/.kube/config || { echo "Failed to set kube-config.yaml"; exit 1; }
 echo "kakaocloud: .kube setup completed"
 
 
@@ -76,7 +74,7 @@ echo "kakaocloud: Permissions set for .kube/config"
 
 
 echo "kakaocloud: 13.Downloading helm-values.yaml and applying environment substitutions"
-sudo curl -o /home/ubuntu/values.yaml https://raw.githubusercontent.com/kakaocloud-edu/tutorial/main/AdvancedCourse/src/manifests/helm-values.yaml || { echo "Failed to download helm-values.yaml"; exit 1; }
+sudo cp /home/ubuntu/tutorial/AdvancedCourse/src/manifests/helm-values.yaml /home/ubuntu/values.yaml || { echo "Failed to download helm-values.yaml"; exit 1; }
 envsubst < /home/ubuntu/.kube/config > /home/ubuntu/.kube/config.tmp && mv /home/ubuntu/.kube/config.tmp /home/ubuntu/.kube/config || { echo "Failed to modify /home/ubuntu/.kube/config"; exit 1; }
 envsubst < /home/ubuntu/yaml/lab6-Deployment.yaml > /home/ubuntu/yaml/deploy.tmp && mv /home/ubuntu/yaml/deploy.tmp /home/ubuntu/yaml/lab6-Deployment.yaml || { echo "Failed to modify /home/ubuntu/yaml/lab6-Deployment.yaml"; exit 1; }
 envsubst < /home/ubuntu/yaml/lab6-Secret.yaml > /home/ubuntu/yaml/secret.tmp && mv /home/ubuntu/yaml/secret.tmp /home/ubuntu/yaml/lab6-Secret.yaml || { echo "Failed to modify /home/ubuntu/yaml/lab6-Secret.yaml"; exit 1; }
