@@ -13,7 +13,6 @@ done
 echo "kakaocloud: variables are valid"
 
 
-
 echo "kakaocloud: 4.github Connection test start"
 curl --output /dev/null --silent --head --fail "https://github.com" || { echo "kakaocloud: github Connection failed"; exit 1; }
 echo "kakaocloud: github Connection succeeded"
@@ -24,12 +23,10 @@ sudo mkdir -p /home/ubuntu/yaml && sudo chmod 777 /home/ubuntu/yaml || { echo "k
 echo "kakaocloud: Directories prepared"
 
 
-
 echo "kakaocloud: 6.Downloading YAML files"
 sudo git clone https://github.com/kakaocloud-edu/tutorial.git /home/ubuntu/tutorial || { echo "kakaocloud: Failed to git clone"; exit 1; }
 sudo cp /home/ubuntu/tutorial/AdvancedCourse/src/manifests/lab6-* /home/ubuntu/yaml || { echo "kakaocloud: Failed to set yaml"; exit 1; }
 echo "kakaocloud: All YAML files downloaded"
-
 
 
 echo "kakaocloud: 7.Installing kubectl"
@@ -42,7 +39,6 @@ echo "kakaocloud: 8.Setting up .kube directory and configuration file"
 sudo mkdir /home/ubuntu/.kube || { echo "Failed to create .kube directory"; exit 1; }
 sudo cp /home/ubuntu/tutorial/AdvancedCourse/src/manifests/kube-config.yaml /home/ubuntu/.kube/config || { echo "Failed to set kube-config.yaml"; exit 1; }
 echo "kakaocloud: .kube setup completed"
-
 
 
 echo "kakaocloud: 9.Installing kic-iam-auth"
