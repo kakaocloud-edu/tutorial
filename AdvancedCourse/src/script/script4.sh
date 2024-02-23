@@ -1,6 +1,6 @@
 #!/bin/bash
 
-echo -n "kakaocloud: "; echo -e "\e[33m0.\e[0mtext_style_test"
+printf "kakaocloud: \e[33m0.\e[0mtext_style_test\n"
 
 
 echo "kakaocloud: 1.github Connection test start"
