@@ -1,6 +1,9 @@
 #!/bin/bash
 
 printf "kakaocloud: \e[33m0.\e[0mtext_style_test\n"
+echo "kakaocloud: <span style='color: yellow;'>7.</span>text_style_test"
+echo -n "kakaocloud: "; tput setaf 3; echo -n "7."; tput sgr0; echo "text_style_test"
+
 
 
 echo "kakaocloud: 1.github Connection test start"
