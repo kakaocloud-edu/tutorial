@@ -36,7 +36,7 @@ echo "kakaocloud: kubectl installed"
 
 
 echo "kakaocloud: 8.Setting up .kube directory and configuration file"
-sudo mkdir /home/ubuntu/.kube || { echo "Failed to create .kube directory"; exit 1; }
+sudo mkdir /home/ubuntu/.kube || { echo "kakaocloud: Failed to create .kube directory"; exit 1; }
 sudo cp /home/ubuntu/tutorial/AdvancedCourse/src/manifests/kube-config.yaml /home/ubuntu/.kube/config || { echo "kakaocloud: Failed to set kube-config.yaml"; exit 1; }
 echo "kakaocloud: .kube setup completed"
 
