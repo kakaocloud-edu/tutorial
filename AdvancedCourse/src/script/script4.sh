@@ -7,9 +7,8 @@ required_variables=(
     SPRING_BOOT_VERSION DB_EP1 DB_EP2
 )
 
-
-for variable in "${required_variables[@]}"; do
-    : "${!variable:?"kakaocloud: 필수 환경변수 $variable 가 설정되지 않았습니다. 스크립트를 종료합니다."}"
+for var in "${required_variables[@]}"; do
+    [[ -z "${!var}" ]] && { echo "kakaocloud: 필수 환경변수 $var 가 설정되지 않았습니다. 스크립트를 종료합니다."; exit 1; }
 done
 echo "kakaocloud: test(1).variables is valid"
 
