@@ -1,5 +1,19 @@
 #!/bin/bash
 
+echo "kakaocloud: test(1).variables validity test start"
+required_variables=(
+    ACC_KEY SEC_KEY EMAIL_ADDRESS CLUSTER_NAME API_SERVER AUTH_DATA PROJECT_NAME
+    INPUT_DB_EP1 INPUT_DB_EP2 DOCKER_IMAGE_NAME DOCKER_JAVA_VERSION JAVA_VERSION
+    SPRING_BOOT_VERSION,DB_EP1,DB_EP2
+)
+
+
+for variable in "${required_variables[@]}"; do
+    : "${!variable:?"kakaocloud: 필수 환경변수 $variable 가 설정되지 않았습니다. 스크립트를 종료합니다."}"
+done
+echo "kakaocloud: test(1).variables is valid"
+
+
 
 echo "kakaocloud: 3.github Connection test start"
 curl --output /dev/null --silent --head --fail "https://github.com" || { echo "kakaocloud: github Connection failed"; exit 1; }
