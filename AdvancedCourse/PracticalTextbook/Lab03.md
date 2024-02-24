@@ -211,7 +211,7 @@
      #### **lab3-1-20-0**
     - [**lab3-1-6**](https://github.com/kakaocloud-edu/tutorial/blob/main/AdvancedCourse/PracticalTextbook/Lab03.md#lab3-1-6)를 통해 진행한 스크립트의 진행상황을 확인
      ```bash
-     watch "cat /var/log/cloud-init-output.log | grep kakaocloud:"
+     watch -c 'awk "/kakaocloud:/ {gsub(/([0-9]+)\\./,\"\\033[33m&\\033[0m\"); print}" < /var/log/cloud-init-output.log'
      ```
     - 모든 스크립트가 완료되면 아래와 같음
      ```bash
