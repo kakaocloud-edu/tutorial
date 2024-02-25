@@ -1,6 +1,6 @@
 #!/bin/bash
 
-echo "kakaocloud: 3.variables validity test start"
+echo "kakaocloud: 3.Variables validity test start"
 required_variables=(
     ACC_KEY SEC_KEY EMAIL_ADDRESS CLUSTER_NAME API_SERVER AUTH_DATA PROJECT_NAME
     INPUT_DB_EP1 INPUT_DB_EP2 DOCKER_IMAGE_NAME DOCKER_JAVA_VERSION JAVA_VERSION
@@ -10,12 +10,12 @@ required_variables=(
 for var in "${required_variables[@]}"; do
     [[ -z "${!var}" ]] && { echo "kakaocloud: 필수 환경변수 $var 가 설정되지 않았습니다. 스크립트를 종료합니다."; exit 1; }
 done
-echo "kakaocloud: variables are valid"
+echo "kakaocloud: Variables are valid"
 
 
-echo "kakaocloud: 4.github Connection test start"
-curl --output /dev/null --silent --head --fail "https://github.com" || { echo "kakaocloud: github Connection failed"; exit 1; }
-echo "kakaocloud: github Connection succeeded"
+echo "kakaocloud: 4.Github Connection test start"
+curl --output /dev/null --silent --head --fail "https://github.com" || { echo "kakaocloud: Github Connection failed"; exit 1; }
+echo "kakaocloud: Github Connection succeeded"
 
 
 echo "kakaocloud: 5.Preparing directories and files"
@@ -32,7 +32,7 @@ echo "kakaocloud: All YAML files downloaded"
 echo "kakaocloud: 7.Installing kubectl"
 sudo curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl" || { echo "kakaocloud: Failed to download kubectl binary"; exit 1; }
 sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl || { echo "kakaocloud: Failed to install kubectl binary"; exit 1; }
-echo "kakaocloud: kubectl installed"
+echo "kakaocloud: Kubectl installed"
 
 
 echo "kakaocloud: 8.Setting up .kube directory and configuration file"
