@@ -199,7 +199,6 @@
       kakaocloud: Permissions set for .kube/config
       kakaocloud: 13.Downloading helm-values.yaml and applying environment substitutions
       kakaocloud: Environment substitutions applied and setup completed
-
      ```
 
      #### **lab3-1-20-2**
