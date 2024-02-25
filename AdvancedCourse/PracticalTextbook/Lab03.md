@@ -173,26 +173,33 @@
      ```
     - 모든 스크립트가 완료되면 아래와 같음
      ```bash
-      kakaocloud: Starting environment variable setup
+      kakaocloud: 1.Starting environment variable setup
       kakaocloud: Environment variable setup completed
-      kakaocloud: Preparing directories and files
+      kakaocloud: 2.Checking the validity of the script download site
+      kakaocloud: script download site is valid
+      kakaocloud: 3.Variables validity test start
+      kakaocloud: Variables are valid
+      kakaocloud: 4.Github Connection test start
+      kakaocloud: Github Connection succeeded
+      kakaocloud: 5.Preparing directories and files
       kakaocloud: Directories prepared
-      kakaocloud: Downloading YAML files
-      kakaocloud: YAML files downloaded
-      kakaocloud: Installing kubectl
-      kakaocloud: kubectl installed
-      kakaocloud: Setting up .kube directory and configuration file
+      kakaocloud: 6.Downloading YAML files
+      kakaocloud: All YAML files downloaded
+      kakaocloud: 7.Installing kubectl
+      kakaocloud: Kubectl installed
+      kakaocloud: 8.Setting up .kube directory and configuration file
       kakaocloud: .kube setup completed
-      kakaocloud: Installing kic-iam-auth
+      kakaocloud: 9.Installing kic-iam-auth
       kakaocloud: kic-iam-auth installation completed
-      kakaocloud: Installing Docker and setting it up
+      kakaocloud: 10.Installing Docker and setting it up
       kakaocloud: Docker installation and setup completed
-      kakaocloud: Installing additional software
+      kakaocloud: 11.Installing additional software
       kakaocloud: Additional software installation completed
-      kakaocloud: Setting permissions for .kube/config
+      kakaocloud: 12.Setting permissions for .kube/config
       kakaocloud: Permissions set for .kube/config
-      kakaocloud: Downloading helm-values.yaml and applying environment substitutions
+      kakaocloud: 13.Downloading helm-values.yaml and applying environment substitutions
       kakaocloud: Environment substitutions applied and setup completed
+
      ```
 
      #### **lab3-1-20-2**
