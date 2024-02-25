@@ -167,10 +167,10 @@
 20. cloud-init log 확인 및 YAML 파일 확인
      #### **lab3-1-20-1**
     - [**lab3-1-6**](https://github.com/kakaocloud-edu/tutorial/blob/main/AdvancedCourse/PracticalTextbook/Lab03.md#lab3-1-6)를 통해 진행한 스크립트의 진행상황을 확인
+      - **Note**: 터미널 창이 작으면 로그가 안보일 수도 있으니, 터미널 창의 크기를 늘려주세요.
      ```bash
      watch -c 'awk "/kakaocloud:/ {gsub(/([0-9]+)\\./,\"\\033[33m&\\033[0m\"); print}" < /var/log/cloud-init-output.log'
      ```
-     - **Note**: 터미널 창이 작으면 로그가 안보일 수도 있으니, 터미널 창의 크기를 늘려주세요.
     - 모든 스크립트가 완료되면 아래와 같음
      ```bash
       kakaocloud: Starting environment variable setup
