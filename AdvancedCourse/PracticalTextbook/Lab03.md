@@ -172,7 +172,7 @@
      watch -c 'awk "/kakaocloud:/ {gsub(/([0-9]+)\\./,\"\\033[33m&\\033[0m\"); print}" < /var/log/cloud-init-output.log'
      ```
     - 모든 스크립트가 완료되면 아래와 같음
-     ```bash
+     ```
       kakaocloud: 1.Starting environment variable setup
       kakaocloud: Environment variable setup completed
       kakaocloud: 2.Checking the validity of the script download site
