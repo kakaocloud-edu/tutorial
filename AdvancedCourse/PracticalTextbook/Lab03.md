@@ -32,7 +32,7 @@
      서버와 데이터베이스 통신시, 순서대로 진행하므로 꼭 database az-a의 엔드포인트, database az-b의 엔드포인트 순서대로 붙여넣어주세요. 
    #### **lab3-1-6**
      - **Note**: 사용자는 export ACC_KEY부터 DOCKER_JAVA_VERSION까지만 입력해주세요.
-     - **Note**: ''을 없애지 말고 ''안에 사용자 입력값을 넣어주세요.
+     - **Note**: 작은따옴표를 없애지 말고 사용자 입력값을 넣어주세요.
    ```bash
    #!/bin/bash
 
