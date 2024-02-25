@@ -165,7 +165,7 @@
      sudo ./script.sh
      ```
 20. cloud-init log 확인 및 YAML 파일 확인
-     #### **lab3-1-20-0**
+     #### **lab3-1-20-1**
     - [**lab3-1-6**](https://github.com/kakaocloud-edu/tutorial/blob/main/AdvancedCourse/PracticalTextbook/Lab03.md#lab3-1-6)를 통해 진행한 스크립트의 진행상황을 확인
      ```bash
      watch -c 'awk "/kakaocloud:/ {gsub(/([0-9]+)\\./,\"\\033[33m&\\033[0m\"); print}" < /var/log/cloud-init-output.log'
@@ -194,19 +194,19 @@
       kakaocloud: Environment substitutions applied and setup completed
      ```
 
-     #### **lab3-1-20-1**
+     #### **lab3-1-20-2**
     - config 파일 확인
      ```bash
      cat /home/ubuntu/.kube/config
      ```
 
-     #### **lab3-1-20-2**
+     #### **lab3-1-20-3**
     - values.yaml 파일 확인
      ```bash
      cat /home/ubuntu/values.yaml
      ```
 
-     #### **lab3-1-20-3**
+     #### **lab3-1-20-4**
     - 다른 YAML 파일들이 있는 디렉토리로 이동
      ```bash
      cd yaml
@@ -215,19 +215,19 @@
      ls -al
      ```
 
-     #### **lab3-1-20-4**
+     #### **lab3-1-20-5**
     - lab6-ConfigMapDB.yaml 파일 확인
      ```bash
      cat lab6-ConfigMapDB.yaml
      ```
 
-     #### **lab3-1-20-5**
+     #### **lab3-1-20-6**
     - lab6-Deployment.yaml 파일 확인
      ```bash
      cat lab6-Deployment.yaml
      ```
 
-     #### **lab3-1-20-6**
+     #### **lab3-1-20-7**
     - lab6-Secret.yaml 파일 확인
      ```bash
      cat lab6-Secret.yaml
