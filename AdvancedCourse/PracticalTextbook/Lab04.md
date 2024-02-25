@@ -3,7 +3,18 @@
 Spring Boot 프로젝트를 생성해 간단한 웹 페이지를 생성합니다. 생성한 프로젝트를 Docker Image 파일로 만들어 Kakao Cloud Container Registry에 업로드하는 실습을 진행합니다.
 
 
-## 1. Spring 어플리케이션 구현
+## 1. Container Registry 생성
+
+1. 카카오 클라우드 콘솔 > 전체 서비스 > Container Registry 접속
+2. 리포지토리 만들기 버튼 클릭
+   - 공개 여부: 비공개
+   - 리포지토리 이름 : `kakao-registry`
+   - 태그 덮어쓰기 : 가능
+   - 이미지 스캔 : 자동
+3. 만들기 버튼 클릭
+4. Container Registry 생성 확인
+
+## 2. Spring 어플리케이션 구현
 
 1. Spring 어플리케이션 다운로드
    - 접속 중인 Bastion VM 인스턴스 터미널에 명령어 입력
@@ -26,7 +37,7 @@ Spring Boot 프로젝트를 생성해 간단한 웹 페이지를 생성합니다
    ls
    ```
     
-## 2. Spring 어플리케이션을 Container 이미지로 만들기
+## 3. Spring 어플리케이션을 Container 이미지로 만들기
 
    
 1. Spring 어플리케이션 패키징 및 빌드
@@ -78,7 +89,7 @@ Spring Boot 프로젝트를 생성해 간단한 웹 페이지를 생성합니다
 6. 브라우저 주소창에 {복사한 IP 주소}:8080 입력
 7. 이미지 실행 확인
 
-## 3. Container 레지스트리에 이미지 업로드
+## 4. Container 레지스트리에 이미지 업로드
 
 1. 도커 로그인
    - 접속 중인 Bastion VM 인스턴스에 명령어 입력
