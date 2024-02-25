@@ -71,7 +71,7 @@
 2. 실습 진행을 위한 디렉터리 이동
    #### **lab8-3-2**
    ```bash
-   cd ./tutorial/AdvancedCourse/src/helm
+   cd ~/tutorial/AdvancedCourse/src/helm
    ```
 
 3. 미리 생성해 놓은 values.yaml 파일 heml 디렉터리로 이동
