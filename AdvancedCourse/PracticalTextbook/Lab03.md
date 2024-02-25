@@ -162,7 +162,7 @@
      #### **lab3-1-19-3**
     - script.sh 파일 실행
      ```bash
-     sudo -E ./script5.sh
+     sudo -E ./script.sh
      ```
 20. cloud-init log 확인 및 YAML 파일 확인
      #### **lab3-1-20-1**
