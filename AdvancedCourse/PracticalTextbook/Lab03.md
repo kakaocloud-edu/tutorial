@@ -75,7 +75,7 @@
 9. Instance 만들기 클릭
    - 이름 : `bastion`
    - Image : `Ubuntu 20.04 - 5.4.0-164`
-   - Instance 타입 : `t1i.large`
+   - Instance 타입 : `t1i.xlarge`
    - Volume : `10 GB`
 10. Key Pair : `keypair`
 11. VPC 선택
