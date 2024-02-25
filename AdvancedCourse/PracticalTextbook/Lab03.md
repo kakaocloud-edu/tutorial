@@ -59,15 +59,13 @@
    echo "$command" >> /home/ubuntu/.bashrc
    echo "kakaocloud: Environment variable setup completed"
 
-   
-  echo "kakaocloud: 2.Checking the validity of the script download site"
-  curl --output /dev/null --silent --head --fail "https://github.com/kakaocloud-edu/tutorial/raw/main/AdvancedCourse/src/script/script.sh" || { echo "kakaocloud: script download site is not valid"; exit 1; }
-  echo "kakaocloud: script download site is valid"
+   echo "kakaocloud: 2.Checking the validity of the script download site"
+   curl --output /dev/null --silent --head --fail "https://github.com/kakaocloud-edu/tutorial/raw/main/AdvancedCourse/src/script/script.sh" || { echo "kakaocloud: script download site is not valid"; exit 1; }
+   echo "kakaocloud: script download site is valid"
   
-  
-  wget https://github.com/kakaocloud-edu/tutorial/raw/main/AdvancedCourse/src/script/script.sh
-  chmod +x script.sh
-  sudo -E ./script.sh
+   wget https://github.com/kakaocloud-edu/tutorial/raw/main/AdvancedCourse/src/script/script.sh
+   chmod +x script.sh
+   sudo -E ./script.sh
    ```
     
 8. 카카오 클라우드 콘솔 > Beyond Compute Service > Virtual Machine > Instance 접속
