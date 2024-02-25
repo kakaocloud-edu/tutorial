@@ -170,6 +170,7 @@
      ```bash
      watch -c 'awk "/kakaocloud:/ {gsub(/([0-9]+)\\./,\"\\033[33m&\\033[0m\"); print}" < /var/log/cloud-init-output.log'
      ```
+     - **Note**: 터미널 창이 작으면 로그가 안보일 수도 있으니, 터미널 창의 크기를 늘려주세요.
     - 모든 스크립트가 완료되면 아래와 같음
      ```bash
       kakaocloud: Starting environment variable setup
