@@ -199,6 +199,8 @@
       kakaocloud: Permissions set for .kube/config
       kakaocloud: 13.Downloading helm-values.yaml and applying environment substitutions
       kakaocloud: Environment substitutions applied and setup completed
+      kakaocloud: 14.Checking Kubernetes cluster nodes status
+      kakaocloud: Successfully communicated with Kubernetes cluster
      ```
 
      #### **lab3-1-20-2**
