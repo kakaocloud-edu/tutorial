@@ -77,5 +77,5 @@ envsubst < /home/ubuntu/values.yaml > /home/ubuntu/values.tmp && mv /home/ubuntu
 echo "kakaocloud: Environment substitutions applied and setup completed"
 
 echo "kakaocloud: 14.Checking Kubernetes cluster nodes status"
-kubectl get nodes &>/dev/null || { echo "kakaocloud: Failed to get nodes"; exit 1; }
-echo "kakaocloud: Successfully retrieved Kubernetes cluster nodes status"
+kubectl cluster-info &>/dev/null || { echo "kakaocloud: Failed to communicate with Kubernetes cluster"; exit 1; }
+echo "kakaocloud: Successfully communicated with Kubernetes cluster
