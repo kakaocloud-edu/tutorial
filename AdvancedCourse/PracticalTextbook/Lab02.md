@@ -4,12 +4,9 @@ Kakao Cloud Kubernetes Engine Cluster 생성에 대한 실습입니다.
 
 ## 1. 클러스터 생성
 
-1. 클러스터가 배포될 서브넷 확인 : 전체 서비스 > VPC
-2. vpc_1 클릭
-3. Topology에서 kr-central-2-a과 kr-central-b의 Public 서브넷 IP CIDR 블록 확인
-4. 카카오 클라우드 콘솔 > Container Pack > Kubernetes > Cluster 접속
-5. 시작하기 버튼 클릭
-6. 클러스터 만들기 버튼 클릭
+1. 카카오 클라우드 콘솔 > Container Pack > Kubernetes > Cluster 접속
+2. 시작하기 버튼 클릭
+3. 클러스터 만들기 버튼 클릭
    - 기본 설정
      - 클러스터 이름 : `kakao-k8s-cluster`
      - kubernetes 버전 : `1.26`
@@ -17,8 +14,9 @@ Kakao Cloud Kubernetes Engine Cluster 생성에 대한 실습입니다.
      - VPC : `vpc_1`
      - Subnet : kr-central-2-a과 kr-central-b의 Public 서브넷만 선택(172.30.0.0/20, 172.30.32.0/20)
        - **Note**: 클러스터의 Subnet은 서로 다른 AZ로 최소 2개 이상의 Subnet이 설정되어야 합니다.
-7. 만들기 버튼 클릭
-8. 클러스터 생성 확인
+       - **Note**: Public Subnet 확인하는 방법 : 전체 서비스 > VPC > vpc_1 클릭 후 Topology에서 kr-central-2-a과 kr-central-b의 Public 서브넷 IP CIDR 블록 확인
+4. 만들기 버튼 클릭
+5. 클러스터 생성 확인
 
 ## 2. 노드 풀 생성
 
