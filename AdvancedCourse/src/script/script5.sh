@@ -75,3 +75,8 @@ envsubst < /home/ubuntu/.kube/config > /home/ubuntu/.kube/config.tmp && mv /home
 envsubst < /home/ubuntu/yaml/lab6-manifest.yaml > /home/ubuntu/yaml/manifest.tmp && mv /home/ubuntu/yaml/manifest.tmp /home/ubuntu/yaml/lab6-manifest.yaml || { echo "kakaocloud: Failed to modify /home/ubuntu/yaml/lab6-manifests.yaml"; exit 1; }
 envsubst < /home/ubuntu/values.yaml > /home/ubuntu/values.tmp && mv /home/ubuntu/values.tmp /home/ubuntu/values.yaml || { echo "kakaocloud: Failed to modify /home/ubuntu/values.yaml"; exit 1; }
 echo "kakaocloud: Environment substitutions applied and setup completed"
+
+echo "kakaocloud: 14.Checking Kubernetes cluster nodes status"
+kubectl get nodes || { echo "kakaocloud: Failed to get nodes"; exit 1; }
+echo "kakaocloud: Successfully retrieved Kubernetes cluster nodes status"
+
