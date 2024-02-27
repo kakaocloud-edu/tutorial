@@ -5,8 +5,8 @@ Kakao Cloud Kubernetes Engine Cluster 생성에 대한 실습입니다.
 ## 1. 클러스터 생성
 
 1. 클러스터가 배포될 서브넷 확인 : 전체 서비스 > VPC
-2. VPC_1 클릭
-3. Topology에서 Public 서브넷의 IP CIDR 블록 확인
+2. vpc_1 클릭
+3. Topology에서 kr-central-2-a과 kr-central-b의 Public 서브넷의 IP CIDR 블록 확인
 4. 카카오 클라우드 콘솔 > Container Pack > Kubernetes > Cluster 접속
 5. 시작하기 버튼 클릭
 6. 클러스터 만들기 버튼 클릭
