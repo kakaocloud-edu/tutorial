@@ -81,16 +81,8 @@
    ```
 
 ## 4. 차트 확인
-
-
-1. tree 패키지 다운로드
+1. tree를 이용해 차트 확인
    #### **lab8-4-1**
-   ```bash
-   sudo apt install tree
-   ```
-
-2. tree를 이용해 차트 확인
-   #### **lab8-4-2**
    ```bash
    tree .
    ```
