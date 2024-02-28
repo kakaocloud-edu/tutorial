@@ -80,17 +80,17 @@ HPA 옵션을 주어 워크로드 리소스를 자동으로 증가시키는 오�
    helm uninstall my-release
    ```
    2. Helm 차트를 통해 설치한 Kubernetes 애플리케이션 삭제
-   #### **lab9-3-1**
+   #### **lab9-3-2**
    ```bash
    helm uninstall my-release
    ```
    3. Helm 차트를 통해 설치한 Kubernetes 클러스터의 Metrics Server 삭제
-   #### **lab9-3-1**
+   #### **lab9-3-3**
    ```bash
    helm uninstall metrics-server
    ```
    4. 리소스 삭제 확인
-   #### **lab9-3-1**
+   #### **lab9-3-4**
    ```bash
    kubectl get all
    ```
