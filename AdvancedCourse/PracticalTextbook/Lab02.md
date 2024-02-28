@@ -14,7 +14,7 @@ Kakao Cloud Kubernetes Engine Cluster 생성에 대한 실습입니다.
      - VPC : `vpc_1`
      - Subnet : kr-central-2-a과 kr-central-b의 Public 서브넷만 선택(172.30.0.0/20, 172.30.32.0/20)
        - **Note**: 클러스터의 Subnet은 서로 다른 AZ로 최소 2개 이상의 Subnet이 설정되어야 합니다.
-       - **Note**: Public Subnet 확인하는 방법 : 전체 서비스 > VPC > vpc_1 클릭 후 Topology에서 kr-central-2-a과 kr-central-b의 Public 서브넷 IP CIDR 블록 확인
+       - **Note**: Public Subnet 확인하는 방법 : 전체 서비스 > VPC > vpc_1 클릭 > Topology 선택 >  kr-central-2-a과 kr-central-b의 Public 서브넷 IP CIDR 블록 확인
 4. 만들기 버튼 클릭
 5. 클러스터 생성 확인
 
