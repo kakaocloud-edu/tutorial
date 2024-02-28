@@ -1,0 +1,32 @@
+apiVersion: v1
+clusters:
+- cluster:
+    certificate-authority-data: "${AUTH_DATA}"
+    server: ${API_SERVER}
+  name: ${CLUSTER_NAME}
+contexts:
+- context:
+    cluster: ${CLUSTER_NAME}
+    user: ${CLUSTER_NAME}-admin
+  name: ${CLUSTER_NAME}-admin@${CLUSTER_NAME}
+current-context: ${CLUSTER_NAME}-admin@${CLUSTER_NAME}
+kind: Config
+preferences: {}
+users:
+- name: ${CLUSTER_NAME}-admin
+  user:
+    exec:
+      apiVersion: client.authentication.k8s.io/v1beta1
+      args: null
+      command: kic-iam-auth
+      env:
+      - name: "OS_AUTH_URL"
+        value: "https://iam.kakaoi.io/identity/v3"
+      - name: "OS_AUTH_TYPE"
+        value: "v3applicationcredential"
+      - name: "OS_APPLICATION_CREDENTIAL_ID"
+        value: "${ACC_KEY}"
+      - name: "OS_APPLICATION_CREDENTIAL_SECRET"
+        value: "${SEC_KEY}"
+      - name: "OS_REGION_NAME"
+        value: "kr-central-2"

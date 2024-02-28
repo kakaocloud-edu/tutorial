@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "kc-spring-demo.fullname" . }}
+  labels:
+    {{- include "kc-spring-demo.labels" . | nindent 4 }}
+spec:
+  {{- if not .Values.hpa.enabled }}
+  replicas: {{ .Values.replicaCount }}
+  {{- end }}
+  selector:
+    matchLabels:
+      app: {{ include "kc-spring-demo.name" . }}
+  template:
+    metadata:
+      labels:
+        app: {{ include "kc-spring-demo.name" . }}
+    spec:
+      containers:
+        - name: kc-webserver
+          image: "{{ .Values.deployment.repository }}:{{ .Values.deployment.tag }}"
+          envFrom:
+            - configMapRef:
+                name: {{ .Release.Name }}-config
+            - secretRef:
+                name: {{ .Release.Name }}-secret
+          ports:
+            - containerPort: {{ .Values.service.targetPort }}
+          resources:
+            requests:
+              cpu: 100m #Pod가 시작될 때 요청하는 최소 CPU 양
+            limits:
+              cpu: 200m #Pod가 사용할 수 있는 최대 CPU 양
+      imagePullSecrets:
+        - name: {{ .Values.deployment.pullSecret }}

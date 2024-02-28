@@ -1,0 +1,118 @@
+
+# kubernetes Engine 클러스터에 웹서버 수동 배포 실습
+
+Spring application 배포를 위한 Service, Ingress, ConfigMap, Job의 yaml 파일들을 다운 받아 배포하고, 배포된 프로젝트를 브라우저로 확인하는 실습입니다.
+
+
+## 1. YAML 파일 다운 및 설정
+1. 생성해 놓은 yaml 디렉터리 이동
+   - 접속 중인 Bastion VM 인스턴스에 명령어 입력
+
+   #### **lab6-1-1**
+   ```bash
+   cd yaml
+   ```
+   ```bash
+   ls -al
+   ```
+   
+2. YAML 파일 확인
+   #### **lab6-2-1**
+   ```bash
+   tar -xvf /home/ubuntu/yaml/lab6Yaml.tar
+   ```
+
+3. 압축 해제된 YAML 파일들 확인
+   #### **lab6-3-1**
+   ```bash
+   ls
+   ```
+
+4. lab6-ConfigMap.yaml 파일 확인
+   #### **lab6-4-1**
+   ```bash
+   cat lab6-ConfigMap.yaml
+   ```
+   
+5. lab6-Ingress.yaml 파일 확인
+   #### **lab6-5-1**    
+   ```bash
+   cat lab6-Ingress.yaml
+   ```
+
+6. lab6-Job.yaml 파일 확인
+   #### **lab6-6-1**  
+   ```bash
+   cat lab6-Job.yaml
+   ```
+
+7. lab6-Service.yaml 파일 확인
+   #### **lab6-7-1**    
+   ```bash
+   cat lab6-Service.yaml
+   ```
+
+8. 레지스트리 인증을 위한 시크릿키 생성
+   #### **lab6-8-1**
+   ```bash
+   kubectl create secret docker-registry regcred \
+   --docker-server=${PROJECT_NAME}.kr-central-2.kcr.dev \
+   --docker-username=${ACC_KEY} \
+   --docker-password=${SEC_KEY} \
+   --docker-email=${EMAIL_ADDRESS}
+   ```
+
+## 2. YAML 파일 배포
+1. 리소스 초기화
+   #### **lab6-2-1**
+   ```
+   kubectl delete -A ValidatingWebhookConfiguration ingress-nginx-admission
+   ```
+
+2. 다운 받은 yaml들 배포
+
+   **Note** Yaml 파일 간 의존성 문제로 배포 순서를 지켜주세요.
+   #### **lab6-2-2-1**
+   ```
+   kubectl apply -f ./lab6-ConfigMap.yaml
+   ```
+   
+   ```
+   kubectl apply -f ./lab6-ConfigMapDB.yaml
+   ```
+
+   ```
+   kubectl apply -f ./lab6-Secret.yaml
+   ```
+
+   ```
+   kubectl apply -f ./lab6-Job.yaml
+   ```
+
+   ```
+   kubectl apply -f .
+   ```
+
+3. 배포한 내용 확인
+   #### **lab6-2-3-1**
+   ```
+   kubectl get all -o wide
+   ```
+   
+4. 배포한 내용 확인(Configmap, Secret)
+   #### **lab6-2-4-1**
+   ```
+   kubectl get configmap
+   ```
+
+   #### **lab6-2-4-2**
+   ```
+   kubectl get secret
+   ```
+
+## 3.배포한 프로젝트 웹에서 확인
+
+ 1. 카카오 클라우드 콘솔 > 전체 서비스 > Beyond Networking Service > Load Balancing > Load Balancer
+ 2. 두 개의 Load Balancer의 Public IP를 복사
+ 3. 브라우저 주소창에 복사한 IP 주소 각각 입력
+    - 배포한 프로젝트 구동 확인
