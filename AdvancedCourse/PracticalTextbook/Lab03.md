@@ -194,37 +194,10 @@
      ```
 
      #### **lab3-1-20-3**
-    - values.yaml 파일 확인
+    - 수동 배포에 필요한 YAML 파일의 존재 확인 
      ```bash
-     cat /home/ubuntu/values.yaml
-     ```
-
-     #### **lab3-1-20-4**
-    - 다른 YAML 파일들이 있는 디렉토리로 이동
-     ```bash
-     cd yaml
-     ```
-     ```bash
-     ls -al
-     ```
-
-     #### **lab3-1-20-5**
-    - lab6-ConfigMapDB.yaml 파일 확인
-     ```bash
-     cat lab6-ConfigMapDB.yaml
-     ```
-
-     #### **lab3-1-20-6**
-    - lab6-Deployment.yaml 파일 확인
-     ```bash
-     cat lab6-Deployment.yaml
-     ```
-
-     #### **lab3-1-20-7**
-    - lab6-Secret.yaml 파일 확인
-     ```bash
-     cat lab6-Secret.yaml
-     ```
+      ls /home/ubuntu/yaml/lab6-manifest.yaml
+     ```  
      
 
      
