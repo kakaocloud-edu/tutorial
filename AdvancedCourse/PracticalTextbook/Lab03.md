@@ -1,4 +1,4 @@
-# K8s engine Cluster 관리 VM 생성 실습
+![image](https://github.com/kakaocloud-edu/tutorial/assets/88716899/1d3fa6b9-3798-4318-a702-8104cb5c2cfa)# K8s engine Cluster 관리 VM 생성 실습
 
 클러스터를 관리하기 위한 Bation VM 인스턴스를 생성하는 실습입니다.
 
@@ -145,25 +145,9 @@
 
 ### Note : 19번은 고급설정을 진행하지 않았을 때만 진행합니다
 19. bastion 생성 시에 고급 설정을 진행하지 않았을 때 진행
-    - 메모장에 작성해 놓은 스크립트 중, 환경변수 설정 부분만 복사
-    - 복사한 환경 변수 설정 명령어 bastion 터미널에 붙여 널기
-     #### **lab3-1-19-1**
-    - script.sh 파일 내려받기
-     ```bash
-     wget https://github.com/kakaocloud-edu/tutorial/raw/main/AdvancedCourse/src/script/script.sh
-     ```
-
-     #### **lab3-1-19-2**
-    - script.sh 파일 권한 설정
-     ```bash
-     chmod +x script.sh
-     ```
-
-     #### **lab3-1-19-3**
-    - script.sh 파일 실행
-     ```bash
-     sudo -E ./script.sh
-     ```
+    - 메모장에 작성해 놓은 스크립트 전체 복사
+    - 복사한 스크립트 명령어  bastion 터미널에 붙여 넣기
+     
 20. cloud-init log 확인 및 YAML 파일 확인
      #### **lab3-1-20-1**
     - [**lab3-1-6**](https://github.com/kakaocloud-edu/tutorial/blob/main/AdvancedCourse/PracticalTextbook/Lab03.md#lab3-1-6)를 통해 진행한 스크립트의 진행상황을 확인
