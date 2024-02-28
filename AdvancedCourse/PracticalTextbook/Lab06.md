@@ -19,40 +19,10 @@ Spring application 배포를 위한 Service, Ingress, ConfigMap, Job의 yaml 파
 2. YAML 파일 확인
    #### **lab6-2-1**
    ```bash
-   tar -xvf /home/ubuntu/yaml/lab6Yaml.tar
+   less lab6-manifests.yaml
    ```
 
-3. 압축 해제된 YAML 파일들 확인
-   #### **lab6-3-1**
-   ```bash
-   ls
-   ```
-
-4. lab6-ConfigMap.yaml 파일 확인
-   #### **lab6-4-1**
-   ```bash
-   cat lab6-ConfigMap.yaml
-   ```
-   
-5. lab6-Ingress.yaml 파일 확인
-   #### **lab6-5-1**    
-   ```bash
-   cat lab6-Ingress.yaml
-   ```
-
-6. lab6-Job.yaml 파일 확인
-   #### **lab6-6-1**  
-   ```bash
-   cat lab6-Job.yaml
-   ```
-
-7. lab6-Service.yaml 파일 확인
-   #### **lab6-7-1**    
-   ```bash
-   cat lab6-Service.yaml
-   ```
-
-8. 레지스트리 인증을 위한 시크릿키 생성
+3. 레지스트리 인증을 위한 시크릿키 생성
    #### **lab6-8-1**
    ```bash
    kubectl create secret docker-registry regcred \
