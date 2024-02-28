@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Welcome</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            color: white;
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(145deg, #5d7404, #0d0956);
+            overflow: hidden;
+        }
+        .content {
+            text-align: center;
+            z-index: 10;
+        }
+        .background-shape {
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            width: 200px;
+            height: 200px;
+            background: #1119ba;
+            border-radius: 50%;
+        }
+        .shape1 {
+            top: -50px;
+            right: -50px;
+        }
+        .shape2 {
+            bottom: -80px;
+            left: -80px;
+            background: #e9e445;
+        }
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 0.5em;
+        }
+        p {
+            margin-bottom: 2em;
+        }
+
+        .db-row {
+            margin-bottom: 0; /* 추가된 클래스 스타일 */
+        }
+
+        .server-name {
+            font-size: 1.2em;
+            padding: 0.5em 1em;
+            border: 2px solid #e9e445;
+            border-radius: 4px;
+            background: transparent;
+            margin-bottom: 2em;
+            max-height: 500px;
+            overflow-y: auto; 
+        }
+
+        .animated-circle {
+            position: absolute;
+            border-radius: 50%;
+            animation: pulseAnimation 2s infinite ease-in-out;
+        }
+
+        @keyframes pulseAnimation {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        ul {
+            list-style-type: none; /* Removes default bullets */
+            padding-left: 0; /* Removes default padding */
+        }
+
+        ul li {
+            background: #e9e445; /* Same background as buttons */
+            color: white; /* Text color */
+            padding: 0.5em 1em; /* Same padding as buttons */
+            margin: 0.5em 0; /* Space between list items */
+            border-radius: 4px; /* Rounded corners */
+            cursor: pointer; /* Cursor changes on hover */
+            transition: background 0.3s ease; /* Smooth background transition */
+        }
+
+        ul li:hover {
+            background: #a33741; /* Hover effect similar to buttons */
+        }
+
+        /* New styles for button container */
+        .button-container {
+            display: flex; /* Aligns buttons horizontally */
+            justify-content: space-around; /* Spaces out buttons evenly */
+            margin: 1em 0; /* Margin above and below the container */
+        }
+
+        /* Styles for buttons (if not already styled) */
+        .btn {
+            padding: 0.5em 1em; /* Padding */
+            background: #e9e445; /* Background color */
+            border: none; /* No border */
+            border-radius: 4px; /* Rounded corners */
+            color: black; /* Text color */
+            cursor: pointer; /* Cursor changes on hover */
+            transition: background 0.3s ease; /* Smooth background transition */
+        }
+
+        .btn:hover {
+            background: #a33741; /* Hover effect */
+        }
+
+    </style>
+</head>
+<body th:style="'background: linear-gradient(145deg, #1a1a2e,' + ${backgroundColor} + ');'">
+    <div class="background-shape shape1 animated-circle"></div>
+    <div class="background-shape shape2 animated-circle"></div>
+    <div class="content">
+        <h1 th:text="${welcomeMessage}">Welcome to kakaocloud</h1>
+        <p>카카오클라우드의 Kubernetes Engine 서비스를 기반으로 하는 실습 중심의 3-티어 웹서비스 구축 교육입니다.</p>
+        <div class="server-name " th:text="'서버의 호스트 이름: ' + ${hostname}">서버의 호스트 이름</div>
+
+        <button class="btn" onclick="toggleVisibility()">가용 영역별 DB 연동 열기/닫기</button>
+
+        <!-- Container for the content to show/hide -->
+        <div id="toggleContent" style="display: none;">
+            <div class="button-container">
+                <button class="btn" onclick="loadDbInfo('/db1')">첫 번째 가용 영역 DB에 데이터 삽입 및 조회</button>
+                <button class="btn" onclick="loadDbInfo('/db2')">두 번째 가용 영역 DB에 데이터 단순 조회</button>
+            </div>
+            <p class="server-name" id="dbinfo">위의 두 버튼 중 하나를 클릭하세요.</p>
+
+        </div>
+
+        <script>
+            function toggleVisibility() {
+                var content = document.getElementById("toggleContent");
+                content.style.display = content.style.display === "none" ? "block" : "none";
+            }
+
+            function loadDbInfo(endpoint) {
+                // Set a timeout value (in milliseconds)
+                const timeout = 4000;
+
+                // Create a Promise that rejects after the specified timeout
+                const timeoutPromise = new Promise((_, reject) => {
+                    setTimeout(() => {
+                        reject(new Error('Request timed out'));
+                    }, timeout);
+                });
+
+                // Use Promise.race to race between the fetch and the timeout
+                Promise.race([
+                    fetch(endpoint).then(response => response.json()),
+                    timeoutPromise
+                ])
+                .then(data => {
+                    var dbInfoElement = document.getElementById("dbinfo");
+                    var dbConnection = 'Endpoint: ' + data.dbConnection.URL + ', Port: ' + data.dbConnection.Port;
+                    var formattedData = data.data.map(item => JSON.stringify(item)).join(',<br>');
+                    dbInfoElement.innerHTML = dbConnection + '<br><br>' + formattedData;
+                })
+                .catch(error => {
+                    // Check if the error is due to a timeout
+                    if (error.message === 'Request timed out') {
+                        // Handle timeout (e.g., show an alert)
+                        window.alert('데이터베이스와 연동되어 있지 않습니다.');
+                    } else {
+                        console.error('Error:', error);
+                    }
+                });
+            }
+
+    </script>
+    </div>
+</body>
+</html>
