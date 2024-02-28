@@ -77,7 +77,7 @@
 3. 미리 생성해 놓은 values.yaml 파일 heml 디렉터리로 이동
    #### **lab8-3-3**
    ```bash
-   mv /home/ubuntu/values.yaml values.yaml
+   sudo mv /home/ubuntu/values.yaml values.yaml
    ```
 
 ## 4. 차트 확인
