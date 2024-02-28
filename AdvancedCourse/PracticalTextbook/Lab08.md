@@ -7,7 +7,7 @@
 
 
 1. 실행 중인 리소스 삭제
-   #### **lab8-1-2**
+   #### **lab8-1-1**
    ```bash
    kubectl delete ingress kc-nginx-ingress
    kubectl delete svc kc-spring-service
@@ -18,7 +18,7 @@
    ```
 
 2. 실행 중인 리소스가 삭제되었는 지 확인
-   #### **lab8-1-3**
+   #### **lab8-1-2**
    ```bash
    kubectl get ingress
    ```
