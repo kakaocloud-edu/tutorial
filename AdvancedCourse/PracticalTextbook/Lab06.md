@@ -39,28 +39,10 @@ Spring application 배포를 위한 Service, Ingress, ConfigMap, Job의 yaml 파
    kubectl delete -A ValidatingWebhookConfiguration ingress-nginx-admission
    ```
 
-2. 다운 받은 yaml들 배포
-
-   **Note** Yaml 파일 간 의존성 문제로 배포 순서를 지켜주세요.
+2. YAML 파일 배포
    #### **lab6-2-2-1**
    ```
-   kubectl apply -f ./lab6-ConfigMap.yaml
-   ```
-   
-   ```
-   kubectl apply -f ./lab6-ConfigMapDB.yaml
-   ```
-
-   ```
-   kubectl apply -f ./lab6-Secret.yaml
-   ```
-
-   ```
-   kubectl apply -f ./lab6-Job.yaml
-   ```
-
-   ```
-   kubectl apply -f .
+   kubectl apply -f ./lab6-manifests.yaml
    ```
 
 3. 배포한 내용 확인
