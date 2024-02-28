@@ -52,7 +52,7 @@
    - 터미널에 아래 명령어를 입력
    #### **lab7-2-1**
    ```bash
-   vi lab6-ConfigMap.yaml
+   sudo vi lab6-ConfigMap.yaml
    ```
 2.  Google에 color picker 검색 후 원하는 색상 HEX값 복사
     - [color picker](https://www.google.com/search?client=safari&rls=en&q=color+picker&ie=UTF-8&oe=UTF-8)
