@@ -16,7 +16,7 @@ Spring application 배포를 위한 Service, Ingress, ConfigMap, Job의 yaml 파
    ls -al
    ```
    
-2. YAML 파일 확인
+2. lab6-manifests.yaml 확인
    #### **lab6-2-1**
    ```bash
    less lab6-manifests.yaml
