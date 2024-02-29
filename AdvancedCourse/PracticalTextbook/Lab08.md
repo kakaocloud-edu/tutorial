@@ -7,7 +7,7 @@
 
 
 1. YAML 파일 삭제
-#### **lab8-1-1**
+   #### **lab8-1-1**
    ```bash
    rm -f lab6-manifests.yaml
    ```
