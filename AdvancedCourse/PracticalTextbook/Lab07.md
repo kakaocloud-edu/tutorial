@@ -1,6 +1,6 @@
 # Kubernetes Engine 활용하기 
 
-만들어진 웹을 ConfigMap.yaml 파일을 변경해서 웹의 구조를 변경하고 확인합니다. 또한 Deployment 리소스의 replicas 값 변경하여 Pod의 개수를 확인하는 실습과정을 진행합니다.
+만들어진 웹을 ConfigMap을 변경해서 웹의 구조를 변경하고 확인합니다. 또한 Deployment 리소스의 replicas 값 변경하여 Pod의 개수를 확인하는 실습과정을 진행합니다.
 
 ## 1. Deployment 리소스의 replicas 값 변경
 
@@ -43,21 +43,18 @@
    
 ## 2. yaml 파일을 이용해 배포된 내용 수정해보기
 
-0. yaml 파일이 있는 경로로 이동
-   #### **lab7-2-0**
-   ```bash
-   cd /home/ubuntu/yaml
-   ```
-1. lab6-ConfigMap.yaml 파일 수정
-   - 터미널에 아래 명령어를 입력
+1. yaml 파일이 있는 경로로 이동 및 lab6-manifests.yaml 파일 수정
    #### **lab7-2-1**
    ```bash
-   sudo vi lab6-ConfigMap.yaml
+   cd yaml
    ```
-2.  Google에 color picker 검색 후 원하는 색상 HEX값 복사
+   ```bash
+   sudo vi lab6-manifests.yaml
+   ```
+3.  Google에 color picker 검색 후 원하는 색상 HEX값 복사
     - [color picker](https://www.google.com/search?client=safari&rls=en&q=color+picker&ie=UTF-8&oe=UTF-8)
 
-3. ConfigMap.yaml 파일 내용 변경후 저장
+4. ConfigMap.yaml 파일 내용 변경후 저장
    
    **Note** 아래와 같은 방식으로 문구를 변경하면 됩니다.   
    ```bash
