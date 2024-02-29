@@ -72,7 +72,7 @@
 1. 수정된 yaml 파일 적용
    #### **lab7-3-1**
    ```bash
-   kubectl apply -f ./lab6-ConfigMap.yaml
+   kubectl apply -f ./lab6-manifests.yaml
    ```
    
 
