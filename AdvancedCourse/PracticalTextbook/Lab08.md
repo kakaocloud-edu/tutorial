@@ -65,23 +65,17 @@
    helm version
    ```
 
-## 3. Helm Chart 프로젝트 다운 및 확인
+## 3. Helm Chart 프로젝트 설정
 
 
-1. Helm Chart 프로젝트 다운
+1. 실습 진행을 위한 디렉터리 이동
    #### **lab8-3-1**
    ```bash
-   git clone https://github.com/kakaocloud-edu/tutorial.git
+   cd /home/ubuntu/tutorial/AdvancedCourse/src/helm
    ```
 
-2. 실습 진행을 위한 디렉터리 이동
+2. 미리 생성해 놓은 values.yaml 파일 heml 디렉터리로 이동
    #### **lab8-3-2**
-   ```bash
-   cd ~/tutorial/AdvancedCourse/src/helm
-   ```
-
-3. 미리 생성해 놓은 values.yaml 파일 heml 디렉터리로 이동
-   #### **lab8-3-3**
    ```bash
    sudo mv /home/ubuntu/values.yaml values.yaml
    ```
