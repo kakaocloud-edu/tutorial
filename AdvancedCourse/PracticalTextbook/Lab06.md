@@ -40,13 +40,13 @@ Spring application 배포를 위한 Service, Ingress, ConfigMap, Job의 yaml 파
    ```
 
 2. YAML 파일 배포
-   #### **lab6-2-2-1**
+   #### **lab6-2-2**
    ```
    kubectl apply -f ./lab6-manifests.yaml
    ```
 
 3. 배포한 내용 확인
-   #### **lab6-2-3-1**
+   #### **lab6-2-3**
    ```
    kubectl get all -o wide
    ```
