@@ -109,7 +109,7 @@
 2. 디버그
    #### **lab8-6-2**
    ```bash
-   sudo helm install --dry-run --debug my-release . | tee ~/yamls
+   helm install --dry-run --debug my-release . | tee ~/yamls
    ```
 
 3. 차트 설치
