@@ -10,7 +10,7 @@ Spring application 배포를 위한 Service, Ingress, ConfigMap, Job의 yaml 파
 
    #### **lab6-1-1**
    ```bash
-   cd yaml
+   cd /home/ubuntu/yaml
    ```
    ```bash
    ls -al
