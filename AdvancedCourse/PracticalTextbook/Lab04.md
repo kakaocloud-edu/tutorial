@@ -14,29 +14,6 @@ Spring Boot 프로젝트를 생성해 간단한 웹 페이지를 생성합니다
    - 이미지 스캔 : 자동
 3. 만들기 버튼 클릭
 4. Container Registry 생성 확인
-
-## 2. Spring 어플리케이션 구현
-
-1. 다운받은 Spring 어플리케이션 복사
-   - 접속 중인 Bastion VM 인스턴스 터미널에 명령어 입력
-   #### **lab4-2-1**
-   ```
-   cp -r /home/ubuntu/tutorial/AdvancedCourse/src/spring /home/ubuntu/
-   ```
-
-2. 다운로드한 Spring 경로로 이동
-
-   #### **lab4-2-2**
-   ```
-   cd /home/ubuntu/spring
-   ```
-
-3. Maven Wrapper 실행 권한 부여
-
-   #### **lab4-2-3**
-   ```
-   chmod +x /home/ubuntu/spring/mvnw
-   ```
     
 ## 3. Spring 어플리케이션을 Container 이미지로 만들기
 
