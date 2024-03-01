@@ -1,3 +1,4 @@
+# HPA (Horizontal Pod Autoscaler) 테스트
 HPA 옵션을 주어 워크로드 리소스를 자동으로 증가시키는 오토스케일링 실습을 진행합니다.
 
 
