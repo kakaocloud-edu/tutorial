@@ -43,11 +43,8 @@
    
 ## 2. yaml 파일을 이용해 배포된 내용 수정해보기
 
-1. yaml 파일이 있는 경로로 이동 및 lab6-manifests.yaml 파일 수정
+1. lab6-manifests.yaml 파일 수정
    #### **lab7-2-1**
-   ```bash
-   cd yaml
-   ```
    ```bash
    sudo vi lab6-manifests.yaml
    ```
