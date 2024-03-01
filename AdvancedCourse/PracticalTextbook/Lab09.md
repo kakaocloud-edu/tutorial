@@ -25,7 +25,7 @@ HPA 옵션을 주어 워크로드 리소스를 자동으로 증가시키는 오�
    sudo vi values.yaml
    ```
    - `hpa.enabled`의 값을 `false`에서 `true`로 변경
-   - `hpa.avergeUtilzation`의 값을 `30`에서 `1`로 변경
+   - `hpa.averageUtilzation`의 값을 `30`에서 `1`로 변경
 
 4. helm upgrade를 통한 릴리즈 업그레이드
 
