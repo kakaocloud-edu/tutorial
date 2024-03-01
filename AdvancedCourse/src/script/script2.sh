@@ -30,8 +30,8 @@ echo "kakaocloud: All YAML files downloaded"
 
 
 echo "kakaocloud: TEST_6-1.Preparing Spring directories and files"
-sudo cp -r /home/ubuntu/tutorial/AdvancedCourse/src/spring /home/ubuntu/
-sudo chmod +x mvnw
+sudo cp -r /home/ubuntu/tutorial/AdvancedCourse/src/spring /home/ubuntu/ || { echo "kakaocloud: Failed to create Spring directories."; exit 1; }
+sudo chmod +x mvnw || { echo "kakaocloud: Failed to change permission of mvnw"; exit 1; }
 echo "kakaocloud: Spring Directories and files prepared"
 
 echo "kakaocloud: 7.Installing kubectl"
