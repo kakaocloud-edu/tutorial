@@ -17,13 +17,13 @@ Spring application 배포를 위한 Service, Ingress, ConfigMap, Job의 yaml 파
    ```
    
 2. lab6-manifests.yaml 확인
-   #### **lab6-2-1**
+   #### **lab6-1-2**
    ```bash
    less lab6-manifests.yaml
    ```
 
 3. 레지스트리 인증을 위한 시크릿키 생성
-   #### **lab6-3-1**
+   #### **lab6-1-3**
    ```bash
    kubectl create secret docker-registry regcred \
    --docker-server=${PROJECT_NAME}.kr-central-2.kcr.dev \
