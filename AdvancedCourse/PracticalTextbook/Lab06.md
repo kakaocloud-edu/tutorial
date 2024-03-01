@@ -23,7 +23,7 @@ Spring application 배포를 위한 Service, Ingress, ConfigMap, Job의 yaml 파
    ```
 
 3. 레지스트리 인증을 위한 시크릿키 생성
-   #### **lab6-8-1**
+   #### **lab6-3-1**
    ```bash
    kubectl create secret docker-registry regcred \
    --docker-server=${PROJECT_NAME}.kr-central-2.kcr.dev \
