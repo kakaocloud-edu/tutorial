@@ -169,19 +169,21 @@
       kakaocloud: Directories prepared
       kakaocloud: 6.Downloading YAML files
       kakaocloud: All YAML files downloaded
-      kakaocloud: 7.Installing kubectl
+      kakaocloud: 7.Preparing Spring directories and files
+      kakaocloud: Spring Directories and files prepared
+      kakaocloud: 8.Installing kubectl
       kakaocloud: Kubectl installed
-      kakaocloud: 8.Installing kic-iam-auth
+      kakaocloud: 9.Installing kic-iam-auth
       kakaocloud: kic-iam-auth installation completed
-      kakaocloud: 9.Installing Docker and setting it up
+      kakaocloud: 10.Installing Docker and setting it up
       kakaocloud: Docker installation and setup completed
-      kakaocloud: 10.Installing additional software
+      kakaocloud: 11.Installing additional software
       kakaocloud: Additional software installation completed
-      kakaocloud: 11.Setting permissions for .kube/config
+      kakaocloud: 12.Setting permissions for .kube/config
       kakaocloud: Permissions set for .kube/config
-      kakaocloud: 12.Downloading helm-values.yaml and applying environment substitutions
+      kakaocloud: 13.Downloading helm-values.yaml and applying environment substitutions
       kakaocloud: Environment substitutions applied and setup completed
-      kakaocloud: 13.Checking Kubernetes cluster nodes status
+      kakaocloud: 14.Checking Kubernetes cluster nodes status
       kakaocloud: Successfully communicated with Kubernetes cluster
      ```
 
