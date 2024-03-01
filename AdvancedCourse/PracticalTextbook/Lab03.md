@@ -195,7 +195,7 @@
      #### **lab3-1-20-3**
     - 수동 배포에 필요한 YAML 파일의 존재 확인 
      ```bash
-      ls /home/ubuntu/yaml/lab6-manifests.yaml
+     ls /home/ubuntu/yaml/lab6-manifests.yaml
      ```  
      
 
