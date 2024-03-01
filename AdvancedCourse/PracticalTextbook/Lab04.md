@@ -17,10 +17,16 @@ Spring Boot 프로젝트를 생성해 간단한 웹 페이지를 생성합니다
     
 ## 2. Spring 어플리케이션을 Container 이미지로 만들기
 
+1. Spring 어플리케이션이 있는 경로로 이동
+   #### **lab4-2-1**
+   - 접속 중인 Bastion VM 인스턴스에 명령어 입력
+   ```
+   cd /home/ubuntu/spring
+   ```
    
-1. Spring 어플리케이션 패키징 및 빌드
+2. Spring 어플리케이션 패키징 및 빌드
   
-   #### **lab4-2-1-1**
+   #### **lab4-2-2-1**
    - 접속 중인 Bastion VM 인스턴스에 명령어 입력
    ```
    if sudo ./mvnw clean package; then
@@ -31,7 +37,7 @@ Spring Boot 프로젝트를 생성해 간단한 웹 페이지를 생성합니다
    fi
    ```
 
-    #### **lab4-2-1-2**
+    #### **lab4-2-2-2**
    - Docker 이미지 빌드에 필요한 Dockerfile 생성
    ```
    sudo bash -c "cat <<EOF > Dockerfile
@@ -42,13 +48,13 @@ Spring Boot 프로젝트를 생성해 간단한 웹 페이지를 생성합니다
    EOF"
    ```
 
-   #### **lab4-2-1-3**
+   #### **lab4-2-2-3**
    - Docker 이미지 생성
    ```
    sudo docker build -t ${DOCKER_IMAGE_NAME} .    
    ```
 
-   #### **lab4-2-1-4**
+   #### **lab4-2-2-4**
    - 빌드 된 Docker 이미지 확인
    ```
    sudo docker images
