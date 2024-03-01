@@ -26,14 +26,14 @@ Spring Boot 프로젝트를 생성해 간단한 웹 페이지를 생성합니다
 
 2. 다운로드한 Spring 경로로 이동
 
-   #### **lab4-2-3**
+   #### **lab4-2-2**
    ```
    cd /home/ubuntu/spring
    ```
 
 3. Maven Wrapper 실행 권한 부여
 
-   #### **lab4-2-2**
+   #### **lab4-2-3**
    ```
    chmod +x /home/ubuntu/spring/mvnw
    ```
