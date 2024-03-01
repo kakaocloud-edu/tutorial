@@ -57,12 +57,12 @@ Spring Boot 프로젝트를 생성해 간단한 웹 페이지를 생성합니다
     #### **lab4-3-1-2**
    - Docker 이미지 빌드에 필요한 Dockerfile 생성
    ```
-   cat <<EOF > Dockerfile
+   sudo bash -c "cat <<EOF > Dockerfile
    FROM openjdk:${DOCKER_JAVA_VERSION}
    RUN apt-get update && apt-get install -y curl
    COPY target/demo-0.0.1-SNAPSHOT.jar demo.jar
    ENTRYPOINT ["java","-jar","/demo.jar"]
-   EOF
+   EOF"
    ```
 
    #### **lab4-3-1-3**
