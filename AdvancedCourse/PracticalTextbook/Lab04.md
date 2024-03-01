@@ -17,25 +17,25 @@ Spring Boot 프로젝트를 생성해 간단한 웹 페이지를 생성합니다
 
 ## 2. Spring 어플리케이션 구현
 
-1. Spring 어플리케이션 다운로드
+1. 다운받은 Spring 어플리케이션 복사
    - 접속 중인 Bastion VM 인스턴스 터미널에 명령어 입력
    #### **lab4-2-1**
    ```
-   wget https://github.com/kakaocloud-edu/tutorial/raw/main/AdvancedCourse/src/demo.zip
+   cp -r /home/ubuntu/tutorial/AdvancedCourse/src/spring /home/ubuntu/
    ```
 
-2. 다운로드한 Spring 어플리케이션 압축 해제
-
-   #### **lab4-2-2**
-   ```
-   unzip -o demo.zip
-   ```
-
-3. 다운로드한 Spring 어플리케이션 압축 파일 확인
+2. 다운로드한 Spring 경로로 이동
 
    #### **lab4-2-3**
    ```
-   ls
+   cd /home/ubuntu/spring
+   ```
+
+3. Maven Wrapper 실행 권한 부여
+
+   #### **lab4-2-2**
+   ```
+   chmod +x /home/ubuntu/spring/mvnw
    ```
     
 ## 3. Spring 어플리케이션을 Container 이미지로 만들기
