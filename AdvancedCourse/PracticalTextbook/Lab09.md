@@ -1,4 +1,4 @@
-# HPA (Horizontal Pod Autoscaler) 테스트
+<img width="113" alt="image" src="https://github.com/kakaocloud-edu/tutorial/assets/114378755/fadf366a-1c7d-44e0-909c-09d42d2b16e1"># HPA (Horizontal Pod Autoscaler) 테스트
 
 HPA 옵션을 주어 워크로드 리소스를 자동으로 증가시키는 오토스케일링 실습을 진행합니다.
 
@@ -25,7 +25,7 @@ HPA 옵션을 주어 워크로드 리소스를 자동으로 증가시키는 오�
    sudo vi values.yaml
    ```
    - `hpa.enabled`의 값을 `false`에서 `true`로 변경
-
+   - `hpa.avergeUtilzation`의 값을 `30`에서 `1`로 변경
 
 4. helm upgrade를 통한 릴리즈 업그레이드
 
