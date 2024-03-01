@@ -17,7 +17,7 @@ nginx pod을 위한 deployment, LoadBalancer type의 서비스가 포함된 ingr
      - 접속 중인 Bastion VM 인스턴스에 명령어 입력
      #### **lab5-2-1**
      ```bash
-     kubectl get pods -n ingress-nginx
+     kubectl get all -n ingress-nginx
      ```
 
 2. ingress-nginx 서비스 상태 확인
