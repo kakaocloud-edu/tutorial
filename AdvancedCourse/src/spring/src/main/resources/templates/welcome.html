@@ -166,7 +166,7 @@
                 })
                 .catch(error => {
                     // Check if the error is due to a timeout
-                    if (error.message === 'Request timed out') {
+                    if (error.message === 'Request timed out' || error.message.includes('java.net.UnknownHostException')) {
                         // Handle timeout (e.g., show an alert)
                         window.alert('데이터베이스와 연동되어 있지 않습니다.');
                     } else {
