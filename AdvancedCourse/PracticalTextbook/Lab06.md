@@ -33,7 +33,7 @@ Spring application 배포를 위해서 다운받은 yaml 파일을 확인 후 �
    ```
 
 ## 2. YAML 파일 배포
-1. 리소스 초기화
+1. 원활한 실습을 위한 리소스 초기화
    #### **lab6-2-1**
    ```
    kubectl delete -A ValidatingWebhookConfiguration ingress-nginx-admission
