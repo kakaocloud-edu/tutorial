@@ -18,26 +18,17 @@
 
 4. 카카오 클라우드 콘솔 > Data Store > MySQL 접속
 5. 생성된 MySQL 인스턴스 그룹 클릭
-    - az-a의 엔드포인트 주소와 az-b의 엔드포인트 주소를 순서대로 복사 후 메모장에 붙여넣기
+    - Primary의 엔드포인트 주소와 Standby의 엔드포인트 주소를 순서대로 복사 후 메모장에 붙여넣기
+      ![image](https://github.com/kakaocloud-edu/tutorial/assets/128004136/18ac433f-dd42-4c8c-a682-064708026df9)
     - 왼쪽 상단에 있는 프로젝트 이름 복사 후 메모장에 붙여넣기
+      ![image](https://github.com/kakaocloud-edu/tutorial/assets/128004136/689925d7-f6e4-4a1f-9765-186224867982)
 
 
-6. 사용자 스크립트 작성
-     - 스크립트를 메모장에 복사후 복사해놓은 값들을 입력하기
-       - 사용자 엑세스 키 ID, 사용자 엑세스 보안 키
-       - 클러스터 API 엔드포인트
-       - 클러스터 이름
-       - certificate-authority-data(인증 데이터)
-       - 프로젝트 이름, database az-a의 엔드포인트, database az-b의 엔드포인트
-       - 이메일(사용자 지정 입력)
-       - 이미지 이름(사용자 지정 입력)
-       - Docker 자바 버전(사용자 지정 입력)
-      
-      ### **Note**:
-     서버와 데이터베이스 통신시, 순서대로 진행하므로 꼭 database az-a의 엔드포인트, database az-b의 엔드포인트 순서대로 붙여넣어주세요. 
+6. 사용자 스크립트 작성    
    #### **lab3-1-6**
      - **Note**: 사용자는 export ACC_KEY부터 DOCKER_JAVA_VERSION까지만 입력해주세요.
-     - **Note**: 작은따옴표를 없애지 말고 사용자 입력값을 넣어주세요.
+     - **Note**: INPUT_DB_EP1에는 Primary의 엔드포인트, INPUT_DB_EP2에는 Standby의 엔드포인트를 붙여넣어주세요.
+     - **Note**: 작은따옴표('')를 내에 사용자 입력값을 넣어주세요.
      - **Note**: 맥 OS 사용자의 경우 사용자 입력 시에 작은따옴표가 자동 변환되는 경우가 빈번하니, https://n.lrl.kr/ 같은 메모장 사이트를 이용해 주세요.
    ```bash
    #!/bin/bash
@@ -47,13 +38,13 @@
    command=$(cat <<EOF
    export ACC_KEY='사용자 액세스 키 ID 입력'
    export SEC_KEY='사용자 액세스 보안 키 입력'
-   export EMAIL_ADDRESS='사용자 이메일 입력'
+   export EMAIL_ADDRESS='사용자 이메일 입력(직접 입력)'
    export CLUSTER_NAME='클러스터 이름 입력'
    export API_SERVER='클러스터의 API 엔드포인트 입력'
    export AUTH_DATA='클러스터의 certificate-authority-data 입력'
    export PROJECT_NAME='프로젝트 이름 입력'
-   export INPUT_DB_EP1='데이터베이스 1의 엔드포인트 입력'
-   export INPUT_DB_EP2='데이터베이스 2의 엔드포인트 입력'
+   export INPUT_DB_EP1='Primary의 엔드포인트 입력'
+   export INPUT_DB_EP2='Standby의 엔드포인트 입력'
    export DOCKER_IMAGE_NAME='이미지 이름 입력(demo-spring-boot)'
    export DOCKER_JAVA_VERSION='자바 버전 입력(17-jdk-slim)'
    export JAVA_VERSION='17'
