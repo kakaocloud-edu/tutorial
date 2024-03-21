@@ -34,6 +34,7 @@ graph LR
      - 로그 스토리지 크기 : `100GB`
      - VPC : `vpc_1`
      - Subnet : `{vpc_1의 Private 서브넷} 선택`
+     - 자동 백업: `미설정`
 3. 만들기 버튼 클릭
 
 ## 2. Bastion에 MySQL 인스턴스 그룹 연결 및 DB 설정
