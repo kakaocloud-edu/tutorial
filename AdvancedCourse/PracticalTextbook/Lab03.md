@@ -28,7 +28,7 @@
    #### **lab3-1-6**
      - **Note**: 사용자는 export ACC_KEY부터 DOCKER_JAVA_VERSION까지만 입력해주세요.
      - **Note**: INPUT_DB_EP1에는 Primary의 엔드포인트, INPUT_DB_EP2에는 Standby의 엔드포인트를 붙여넣어주세요.
-     - **Note**: 작은따옴표('')를 내에 사용자 입력값을 넣어주세요.
+     - **Note**: 작은따옴표(')를 내에 사용자 입력값을 넣어주세요.
      - **Note**: 맥 OS 사용자의 경우 사용자 입력 시에 작은따옴표가 자동 변환되는 경우가 빈번하니, https://n.lrl.kr/ 같은 메모장 사이트를 이용해 주세요.
    ```bash
    #!/bin/bash
