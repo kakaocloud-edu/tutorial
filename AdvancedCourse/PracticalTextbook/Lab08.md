@@ -74,7 +74,7 @@
    cd /home/ubuntu/tutorial/AdvancedCourse/src/helm
    ```
 
-2. 미리 생성해 놓은 values.yaml 파일 heml 디렉터리로 이동
+2. 미리 생성해 놓은 values.yaml 파일 helm 디렉터리로 이동
    #### **lab8-3-2**
    ```bash
    sudo mv /home/ubuntu/values.yaml values.yaml
