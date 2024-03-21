@@ -28,6 +28,7 @@ nginx pod을 위한 deployment, LoadBalancer type의 서비스가 포함된 ingr
      - **Note**: External-IP의 DNS 주소값 복사(**lab5-2-3** nslookup 다음 위 명령어를 붙여넣습니다.)
 
 3. nslookup 결과 확인
+     - ingress-nginx에서 배포된 서비스(type: LB)의 ip들을 확인 가능
      #### **lab5-2-3**
      ```bash
      nslookup {DNS 주소값}
