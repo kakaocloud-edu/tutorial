@@ -81,17 +81,12 @@
 12. 새 Security Group 생성 클릭
     - Security Group 이름: `bastion`
     - Inbound :
-      - 프로토콜: `TCP`
-      - 패킷 출발지: `{교육장의 사설 IP}/32`
+      - 프로토콜: `TCP`, 패킷 출발지: `{교육장의 사설 IP}/32`, 포트 번호: `22`
         - **Note**: "교육장의 사설 IP" 부분을 실제 IP 주소로 교체하세요.
-      - 포트 번호: `22`
-      - 프로토콜: `TCP`
-      - 패킷 출발지: `0.0.0.0/0`
-      - 포트 번호: `8080`
+      - 프로토콜: `TCP`, 패킷 출발지: `0.0.0.0/0`, 포트 번호: `8080`
 13. Outbound 클릭
     - Outbound
-      - 프로토콜 : `ALL`
-      - 패킷 목적지 : `0.0.0.0/0`
+      - 프로토콜 : `ALL`, 패킷 목적지 : `0.0.0.0/0`
     - 만들기 버튼 클릭
 14. 고급설정 버튼 클릭
     - 사용자 스크립트에 [**lab3-1-6**](https://github.com/kakaocloud-edu/tutorial/blob/main/AdvancedCourse/PracticalTextbook/Lab03.md#lab3-1-6) 내용을 붙여넣기
