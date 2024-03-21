@@ -9,18 +9,7 @@
 1. YAML 파일 삭제
    #### **lab8-1-1**
    ```bash
-   rm -f lab6-manifests.yaml
-   ```
-
-2. 실행 중인 리소스 삭제
-   #### **lab8-1-2**
-   ```bash
-   kubectl delete ingress --all
-   kubectl delete svc --all
-   kubectl delete deploy --all
-   kubectl delete job sql-job
-   kubectl delete secret app-secret
-   kubectl delete configmap --all
+   kubectl delete -f lab6-manifests.yaml
    ```
 
 2. 실행 중인 리소스가 삭제되었는 지 확인
