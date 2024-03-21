@@ -6,27 +6,27 @@
 
 1. 카카오 클라우드 콘솔 > Container Pack > Kubernetes > Cluster 접속
 2. 클러스터 `kakao-k8s-cluster` 클릭
-  - 서버 엔드 포인트 복사 후 메모장에 붙여넣기
+    - 서버 엔드 포인트 복사 후 메모장에 붙여넣기
 3. kubectl 버튼 클릭
-  - kubeconfig 파일 다운로드 클릭
-    - kubeconfig 파일 열기
-    - certificate-authority-data(인증 데이터), name(클러스터 이름) 값 복사 후 메모장에 붙여넣기
+    - kubeconfig 파일 다운로드 클릭
+      - kubeconfig 파일 열기
+      - certificate-authority-data(인증 데이터), name(클러스터 이름) 값 복사 후 메모장에 붙여넣기
 4. 카카오 클라우드 콘솔 > Data Store > MySQL 접속
 5. 생성된 MySQL 인스턴스 그룹 클릭
-  - az-a의 엔드포인트 주소와 az-b의 엔드포인트 주소를 순서대로 복사 후 메모장에 붙여넣기
-  - 왼쪽 상단에 있는 프로젝트 이름 복사 후 메모장에 붙여넣기
+    - az-a의 엔드포인트 주소와 az-b의 엔드포인트 주소를 순서대로 복사 후 메모장에 붙여넣기
+    - 왼쪽 상단에 있는 프로젝트 이름 복사 후 메모장에 붙여넣기
 
 
 6. 사용자 스크립트 작성
-   - 스크립트를 메모장에 복사후 복사해놓은 값들을 입력하기
-     - 사용자 엑세스 키 ID, 사용자 엑세스 보안 키
-     - 클러스터 API 엔드포인트
-     - 클러스터 이름
-     - certificate-authority-data(인증 데이터)
-     - 프로젝트 이름, database az-a의 엔드포인트, database az-b의 엔드포인트
-     - 이메일(사용자 지정 입력)
-     - 이미지 이름(사용자 지정 입력)
-     - Docker 자바 버전(사용자 지정 입력)
+     - 스크립트를 메모장에 복사후 복사해놓은 값들을 입력하기
+       - 사용자 엑세스 키 ID, 사용자 엑세스 보안 키
+       - 클러스터 API 엔드포인트
+       - 클러스터 이름
+       - certificate-authority-data(인증 데이터)
+       - 프로젝트 이름, database az-a의 엔드포인트, database az-b의 엔드포인트
+       - 이메일(사용자 지정 입력)
+       - 이미지 이름(사용자 지정 입력)
+       - Docker 자바 버전(사용자 지정 입력)
       
       ### **Note**:
      서버와 데이터베이스 통신시, 순서대로 진행하므로 꼭 database az-a의 엔드포인트, database az-b의 엔드포인트 순서대로 붙여넣어주세요. 
