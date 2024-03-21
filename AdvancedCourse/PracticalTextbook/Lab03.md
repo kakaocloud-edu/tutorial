@@ -12,7 +12,10 @@
 3. kubectl 버튼 클릭
     - kubeconfig 파일 다운로드 클릭
       - kubeconfig 파일 열기
+      ![image](https://github.com/kakaocloud-edu/tutorial/assets/128004136/5812bcd3-8380-4a53-a6d0-c667c1ce0d02)
       - certificate-authority-data(인증 데이터), name(클러스터 이름) 값 복사 후 메모장에 붙여넣기
+      ![image](https://github.com/kakaocloud-edu/tutorial/assets/128004136/e8a73a4e-9573-492c-a432-bb8725b39065)
+
 4. 카카오 클라우드 콘솔 > Data Store > MySQL 접속
 5. 생성된 MySQL 인스턴스 그룹 클릭
     - az-a의 엔드포인트 주소와 az-b의 엔드포인트 주소를 순서대로 복사 후 메모장에 붙여넣기
