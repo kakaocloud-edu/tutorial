@@ -70,7 +70,7 @@
 8. 카카오 클라우드 콘솔 > Beyond Compute Service > Virtual Machine > Instance 접속
 9. Instance 만들기 클릭
    - 이름 : `bastion`
-   - Image : `Ubuntu 20.04 - 5.4.0-164`
+   - Image : `Ubuntu 20.04 - 5.4.0-163`
    - Instance 타입 : `t1i.xlarge`
    - Volume : `10 GB`
 10. Key Pair : `keypair`
