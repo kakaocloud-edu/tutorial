@@ -41,4 +41,4 @@ hpa:
   enabled: false
   minReplicas: 2
   maxReplicas: 6
-  averageUtilization: 30
+  averageUtilization: 10
