@@ -22,7 +22,7 @@ Spring application 배포를 위해서 다운받은 yaml 파일을 확인 후 �
    less lab6-manifests.yaml
    ```
 
-3. 레지스트리 인증을 위한 시크릿키 생성
+3. 레지스트리 인증을 위한 시크릿키 생성 및 확인
    #### **lab6-1-3**
    ```bash
    kubectl create secret docker-registry regcred \
@@ -30,6 +30,10 @@ Spring application 배포를 위해서 다운받은 yaml 파일을 확인 후 �
    --docker-username=${ACC_KEY} \
    --docker-password=${SEC_KEY} \
    --docker-email=${EMAIL_ADDRESS}
+   ```
+   #### **lab6-1-4**
+   ```bash
+   kubectl get secret regcred -o jsonpath='{.data.\.dockerconfigjson}' | base64 --decode | jq
    ```
 
 ## 2. YAML 파일 배포
