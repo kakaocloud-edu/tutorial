@@ -15,21 +15,9 @@
 2. 실행 중인 리소스가 삭제되었는 지 확인
    #### **lab8-1-3**
    ```bash
-   kubectl get ingress
-   ```
-   ```bash
-   kubectl get svc
+   kubectl get all -o wide
    ```
    **Note**: `service/kubernetes`는 쿠버네티스 클러스터 내에서 API 서버의 기본 서비스를 나타냄
-   ```bash
-   kubectl get deploy
-   ```
-   ```bash
-   kubectl get po
-   ```
-   ```bash
-   kubectl get job
-   ```
    ```bash
    kubectl get configmap
    ```
