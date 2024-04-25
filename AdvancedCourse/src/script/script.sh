@@ -58,6 +58,7 @@ echo "kakaocloud: Docker installation and setup completed"
 
 echo "kakaocloud: 11.Installing additional software"
 sudo apt install unzip || { echo "kakaocloud: Failed to install unzip"; exit 1; }
+sudo apt install jq || { echo "kakaocloud: Failed to install jq"; exit 1; }
 sudo apt-get install -y openjdk-17-jdk maven || { echo "kakaocloud: Failed to install openjdk-17-jdk and maven"; exit 1; }
 sudo apt install tree || { echo "kakaocloud: Failed to install tree"; exit 1; }
 echo "kakaocloud: Additional software installation completed"
