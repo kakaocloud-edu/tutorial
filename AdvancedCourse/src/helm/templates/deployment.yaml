@@ -28,8 +28,8 @@ spec:
             - containerPort: {{ .Values.service.targetPort }}
           resources:
             requests:
-              cpu: 400m #Pod가 시작될 때 요청하는 최소 CPU 양
+              cpu: 400m # 최소 코어의 40%에 해당하는 CPU 사용량을 파드가 보장받는다는 것을 의미 (1000m (밀리코어)는 1 CPU 코어와 동일)
             limits:
-              cpu: 500m #Pod가 사용할 수 있는 최대 CPU 양
+              cpu: 500m # 최대 코어의 50%에 해당하는 CPU 사용량을 파드가 보장받는다는 것을 의미
       imagePullSecrets:
         - name: {{ .Values.deployment.pullSecret }}
