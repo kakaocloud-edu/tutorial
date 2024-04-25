@@ -82,12 +82,14 @@
    ```bash
    helm template . -f values.yaml
    ```
+   - 차트에서 사용하는 템플릿을 실제 값으로 렌더링하여 결과를 확인
 
-2. 디버그
+2. 디버깅
    #### **lab8-6-2**
    ```bash
    helm install --dry-run --debug my-release . | tee ~/yamls
    ```
+   - 차트의 설치가 클러스터에서 어떻게 이루어질지 시뮬레이션하고 상세한 디버그 정보를 제공
 
 3. 차트 설치
    #### **lab8-6-3**
