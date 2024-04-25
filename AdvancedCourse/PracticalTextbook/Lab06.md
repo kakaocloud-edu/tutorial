@@ -54,17 +54,21 @@ Spring application 배포를 위해서 다운받은 yaml 파일을 확인 후 �
    ```
    kubectl get all -o wide
    ```
-   
+     ![image](https://github.com/kakaocloud-edu/tutorial/assets/128004136/8525ee31-2830-468f-91b7-830cb82aae4a)
+
+  
 4. 배포한 내용 확인(Configmap, Secret)
    #### **lab6-2-4-1**
    ```
    kubectl get configmap
    ```
+     ![image](https://github.com/kakaocloud-edu/tutorial/assets/128004136/f021405c-a8e5-4d85-b279-79e7084dce46)
 
    #### **lab6-2-4-2**
    ```
    kubectl get secret
    ```
+     ![image](https://github.com/kakaocloud-edu/tutorial/assets/128004136/b6b45faa-2275-44e4-a423-7555e6889661)
 
 ## 3.배포한 프로젝트 웹에서 확인
 
