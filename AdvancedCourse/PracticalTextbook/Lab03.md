@@ -66,6 +66,12 @@
    chmod +x script.sh
    sudo -E ./script.sh
    ```
+   #### **lab3-1-7**
+   ```bash
+   wget https://github.com/kakaocloud-edu/tutorial/raw/main/AdvancedCourse/src/script/script2.sh
+   chmod +x script2.sh
+   sudo -E ./script2.sh
+   ```
     
 8. 카카오 클라우드 콘솔 > Beyond Compute Service > Virtual Machine > Instance 접속
 9. Instance 만들기 클릭
