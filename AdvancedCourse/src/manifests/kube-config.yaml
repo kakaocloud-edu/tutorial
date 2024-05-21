@@ -21,7 +21,7 @@ users:
       command: kic-iam-auth
       env:
       - name: "OS_AUTH_URL"
-        value: "https://iam.kakaoi.io/identity/v3"
+        value: "https://iam.kakaocloud.com/identity/v3"
       - name: "OS_AUTH_TYPE"
         value: "v3applicationcredential"
       - name: "OS_APPLICATION_CREDENTIAL_ID"
