@@ -2,12 +2,12 @@
 
 # 환경 변수 설정
 command=$(cat <<EOF
-export ACC_KEY='사용자 액세스키 입력'
-export SEC_KEY='사용자 시크릿키 입력'
+export ACC_KEY='액세스 키 아이디 입력'
+export SEC_KEY='보안 액세스 키 입력'
 export EMAIL_ADDRESS='사용자 이메일 입력'
-export CLUSTER_NAME='k8s-cluster'
-export API_SERVER='클러스터 api 엔드포인트 입력'
-export AUTH_DATA='클러스터 auth-data 입력'
+export CLUSTER_NAME='클러스터 이름 입력'
+export API_SERVER='클러스터의 API 엔드포인트 입력'
+export AUTH_DATA='클러스터의 certificate-authority-data 입력'
 export PROJECT_NAME='프로젝트 이름 입력'
 EOF
 )
