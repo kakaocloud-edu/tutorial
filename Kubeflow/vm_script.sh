@@ -13,7 +13,7 @@ EOF
 )
 
 # 환경 변수를 평가하고 .bashrc에 추가
-echo "1. kakaocloud: 환경 변수 설정"
+echo "kakaocloud: 1. 환경 변수 설정"
 eval "$command"
 echo "$command" >> /home/ubuntu/.bashrc
 echo "kakaocloud: 환경 변수 설정 완료"
