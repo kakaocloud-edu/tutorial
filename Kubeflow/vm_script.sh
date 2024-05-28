@@ -7,7 +7,7 @@ export ACC_KEY='액세스 키 아이디 입력'
 export SEC_KEY='보안 액세스 키 입력'
 export EMAIL_ADDRESS='사용자 이메일 입력'
 export CLUSTER_NAME='클러스터 이름 입력'
-export API_SERVER='클러스터의 server 값 입력'
+export API_SERVER='클러스터의 API 서버 엔드포인트 입력'
 export AUTH_DATA='클러스터의 certificate-authority-data 값 입력'
 export PROJECT_NAME='프로젝트 이름 입력'
 EOF
@@ -23,20 +23,20 @@ echo "kakaocloud: 2. 도커 설치 시작"
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
 echo "deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null 
 sudo apt update
-sudo apt-get install -y docker-ce docker-ce-cli containerd.io 
-sudo chmod 666 /var/run/docker.sock 
+apt-get install -y docker-ce docker-ce-cli containerd.io 
+chmod 666 /var/run/docker.sock 
 echo "kakaocloud: 도커 설치 완료"
 
 echo "kakaocloud: 3. kubectl 설치 시작"
 # kubectl 설치
 curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
-sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
+install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
 echo "kakaocloud: kubectl 설치 완료"
 
 echo "kakaocloud: 4. kic-iam-auth 설치 시작"
 # kic-iam-auth 설치
-sudo wget -O /usr/local/bin/kic-iam-auth https://objectstorage.kr-central-2.kakaoi.io/v1/fe631cd1b7a14c0ba2612d031a8a5619/public/docs%2Fbinaries-kic-iam-auth%2FLinux%20x86_64%2064Bit%2Fkic-iam-auth
-sudo chmod +x /usr/local/bin/kic-iam-auth
+wget -O /usr/local/bin/kic-iam-auth https://objectstorage.kr-central-2.kakaoi.io/v1/fe631cd1b7a14c0ba2612d031a8a5619/public/docs%2Fbinaries-kic-iam-auth%2FLinux%20x86_64%2064Bit%2Fkic-iam-auth
+chmod +x /usr/local/bin/kic-iam-auth
 echo "kakaocloud: kic-iam-auth 설치 완료"
 
 echo "kakaocloud: 5. kube config 설정 시작"
