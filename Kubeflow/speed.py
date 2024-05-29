@@ -1,3 +1,4 @@
+# TensorFlow 및 기타 라이브러리 임포트
 import tensorflow as tf
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense, Flatten, Conv2D, MaxPooling2D
@@ -5,7 +6,7 @@ import time
 from tensorflow.keras.utils import plot_model
 import matplotlib.pyplot as plt
 
-# TensorFlow가 GPU를 인식하는지 확인 
+# GPU를 인식 및 사용 선택 
 gpus = tf.config.experimental.list_physical_devices('GPU')
 if gpus:
     try:
