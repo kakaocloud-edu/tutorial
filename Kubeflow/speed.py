@@ -6,7 +6,7 @@ import time
 from tensorflow.keras.utils import plot_model
 import matplotlib.pyplot as plt
 
-# GPU를 인식 및 사용 선택 
+# TensorFlow가 GPU를 인식하는지 확인 
 gpus = tf.config.experimental.list_physical_devices('GPU')
 if gpus:
     try:
