@@ -16,6 +16,7 @@ EOF
 # 환경 변수를 평가하고 .bashrc에 추가
 eval "$command"
 echo "$command" >> /home/ubuntu/.bashrc
+source /home/ubuntu/.bashrc
 echo "kakaocloud: 환경 변수 설정 완료"
 
 echo "kakaocloud: 2. 도커 설치 시작"
