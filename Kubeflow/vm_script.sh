@@ -7,8 +7,8 @@ export ACC_KEY='액세스 키 아이디 입력'
 export SEC_KEY='보안 액세스 키 입력'
 export EMAIL_ADDRESS='사용자 이메일 입력'
 export CLUSTER_NAME='클러스터 이름 입력'
-export API_SERVER='클러스터의 API 서버 엔드포인트 입력'
 export AUTH_DATA='클러스터의 certificate-authority-data 값 입력'
+export API_SERVER='클러스터의 server 값 입력'
 export PROJECT_NAME='프로젝트 이름 입력'
 EOF
 )
@@ -42,6 +42,9 @@ echo "kakaocloud: kic-iam-auth 설치 완료"
 echo "kakaocloud: 5. kube config 설정 시작"
 # kube config 설정
 mkdir -p /home/ubuntu/.kube
+if [ -f /home/ubuntu/.kube/config ]; then
+    rm /home/ubuntu/.kube/config
+fi
 wget -O /home/ubuntu/.kube/config https://raw.githubusercontent.com/kakaocloud-edu/tutorial/main/AdvancedCourse/src/manifests/kube-config.yaml
 envsubst < /home/ubuntu/.kube/config > /home/ubuntu/.kube/config.tmp && mv /home/ubuntu/.kube/config.tmp /home/ubuntu/.kube/config
 chmod 600 /home/ubuntu/.kube/config
@@ -49,6 +52,17 @@ chown ubuntu:ubuntu /home/ubuntu/.kube/config
 echo "kakaocloud: kube config 설정 완료"
 
 echo "kakaocloud: 6. 하이퍼파라미터 파일 다운로드 시작"
+# 기존 파일 삭제
+if [ -f /home/ubuntu/Dockerfile ]; then
+    rm /home/ubuntu/Dockerfile
+fi
+if [ -f /home/ubuntu/Experiment.yaml ]; then
+    rm /home/ubuntu/Experiment.yaml
+fi
+if [ -f /home/ubuntu/mnist_train.py ]; then
+    rm /home/ubuntu/mnist_train.py
+fi
+
 # 하이퍼파라미터에 필요한 파일 다운로드
 wget -O /home/ubuntu/Dockerfile https://raw.githubusercontent.com/kakaocloud-edu/tutorial/main/Kubeflow/HyperParam/Dockerfile 
 wget -O /home/ubuntu/Experiment.yaml https://raw.githubusercontent.com/kakaocloud-edu/tutorial/main/Kubeflow/HyperParam/Experiment.yaml 
