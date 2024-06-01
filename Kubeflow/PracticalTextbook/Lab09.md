@@ -120,34 +120,38 @@
     - `1`번 스크립트 클릭 후 `RUN` 클릭
 6. Kubeflow Pipelines에 접속하기 위한 환경 변수 설정
     - 아래 환경 변수들에 값들을 넣어주세요.
+   
    `KUBEFLOW_HOST`: http://대시보드 접속한 로드밸런서의 Public IP/
-   `KUBEFLOW_USERNAME`: 대시보드 접속 아이디(이메일) 입력 
+   
+   `KUBEFLOW_USERNAME`: 대시보드 접속 아이디(이메일) 입력
+   
    `KUBEFLOW_PASSWORD`: 대시보드 접속 비밀번호 입력
+   
    - `2`번 스크립트 클릭 후 `RUN` 클릭
-7. 파이프라인 컴포넌트 빌드 준비
+8. 파이프라인 컴포넌트 빌드 준비
     - `3`번 확인 후 `RUN` 클릭
-8. 데이터 수집 컴포넌트 빌드
+9. 데이터 수집 컴포넌트 빌드
     - `3-1`번 확인 후 `RUN` 클릭
-9. 예측 모델 학습 컴포넌트
+10. 예측 모델 학습 컴포넌트
     - `3-2`번 확인 후 `RUN` 클릭
-10. 모델 검증 컴포넌트
+11. 모델 검증 컴포넌트
     - `3-3`번 확인 후 `RUN` 클릭
-11. 로드 및 생성
+12. 로드 및 생성
     - `4-1`번 확인 후 `RUN` 클릭
-12. 파이프라인 정의
+13. 파이프라인 정의
     - `4-2`번 확인 후 `RUN` 클릭
-13. 파이프라인 실행
+14. 파이프라인 실행
     - `4-3`번 확인 후 `RUN` 클릭
     - 실험이 생성되고 실행되었다는 메세지 확인
-14. Notebooks 탭 > `Runs` > `nyc_taxi_pytorch_pipeline_w_cpu run` 클릭
-15. NYC Taxi Fare Dataset 컴포넌트 확인
+15. Notebooks 탭 > `Runs` > `nyc_taxi_pytorch_pipeline_w_cpu run` 클릭
+16. NYC Taxi Fare Dataset 컴포넌트 확인
     - `Graph` 선택
     - `NYC Taxi Fare Dataset` 컴포넌트 클릭
     - `Input / Output` 선택 후 하단 내용 확인
-16. Train Pytorch Tabular Model 컴포넌트 확인 
+17. Train Pytorch Tabular Model 컴포넌트 확인 
     - `Train Pytorch Tabular Model` 컴포넌트 클릭
     - `Input / Output` 선택 후 하단 내용 확인
-17. Evaluate Pytorch Tabular Model 컴포넌트 확인
+18. Evaluate Pytorch Tabular Model 컴포넌트 확인
     - `Evaluate Pytorch Tabular Model` 컴포넌트 클릭
     - `Input / Output` 선택 후 하단 내용 확인
 
