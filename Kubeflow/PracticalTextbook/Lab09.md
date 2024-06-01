@@ -46,15 +46,15 @@
 1. SDK를 통해 파이프라인을 실행
     - `6`번 확인 후 `RUN` 클릭 
     - 파이프라인이 생성되고 실행됨을 확인 
-2. Notebooks 탭 > Experiments (KFP) > 생성된 math_pipeline_test experiment 확인
-3. Notebooks 탭 > Runs > 생성된 `math_pipeline_run` 클릭
+2. `Experiments(KFP)` 탭 > 생성된 math_pipeline_test experiment 확인
+3. Runs 탭 > 생성된 `math_pipeline_run` 클릭
 4. `Add` 컴포넌트 클릭 후 내용 확인 
 5. `Multiply` 컴포넌트 클릭 후 내용 확인
 
 ## 3. Kubeflow 대시보드 UI를 통한 파이프라인 실행
 
 1. gpu-notebook > `math.pipeline.yaml` 우클릭 > `Download` 클릭
-2. Notebooks 탭 > Pipelines > `+ Upload pipeline ` 클릭
+2. `Pipelines` 탭 > `+ Upload pipeline ` 클릭
 3. 파이프라인 생성
     - `Create a new pipeline` 선택
     - `Pipeline name`: second math_pipeline
@@ -70,13 +70,13 @@
     - `b`: 5
     - `c`: 6 
     - `Start` 선택
-8. Notebooks 탭 > Experiments(KFP) > `math_pipeline test experiment` 클릭
+8. `Experiments(KFP)` 탭 > `math_pipeline test experiment` 클릭
 9. 실행되었던 Run 항목들 확인 
 
 ## 4. 파이프라인 실행 이후 각 항목 확인
 
 ### 1. Experiments (KFP)
-1. Notebooks 탭 > `Experiments(KFP)` > `math_pipeline test experiment` 클릭
+1. `Experiments(KFP)` 탭 > `math_pipeline test experiment` 클릭
 2. 실행되었던 `Run` 항목들 확인
 3. 실행된 `Run of second math_pipeline`의 `Pipeline Version` 클릭
 4. 실행된 `Run of second math_pipeline`이 참조한 파이프라인 확인
@@ -90,19 +90,19 @@
 12. `Config` 선택 후 정보 확인
 
 ### 2. Pipelines
-1. Notebooks 탭 > `Pipelines` 클릭
+1. `Pipelines` 탭 클릭
 2. `second math_pipeline` 클릭
 3. `Graph` 선택 후 컴포넌트 및 컴포넌트 간 연결 확인
 4. `YAML` 선택 후 Argo Workflows Yaml 형식의 파이프라인 정의 확인
 
 ### 3. Artifacts
-1. Notebooks 탭 > `Artifacts` 클릭
+1. `Artifacts` 탭 클릭
 2. `Pipeline / Workspace`에서 생성한 파이프라인 클릭
 3. `Overview` 선택 후 정보 확인
 4. `Linear Explorer` 선택 후 정보 확인
 
 ### 4. Artifacts
-1. Notebooks 탭 > `Executions 클릭` > `자세히 버튼` 클릭 후 정보 확인 
+1. `Executions` 탭 클릭 > `자세히 버튼` 클릭 후 정보 확인 
 
 ## 5. 실제 머신러닝 워크플로우를 위한 파이프라인 실습
 1. Notebooks 탭 > `cpu-notebook` > `CONNECT` 버튼 클릭
@@ -143,7 +143,7 @@
 14. 파이프라인 실행
     - `4-3`번 확인 후 `RUN` 클릭
     - 실험이 생성되고 실행되었다는 메세지 확인
-15. Notebooks 탭 > `Runs` > `nyc_taxi_pytorch_pipeline_w_cpu run` 클릭
+15. `Runs` 탭 > `nyc_taxi_pytorch_pipeline_w_cpu run` 클릭
 16. NYC Taxi Fare Dataset 컴포넌트 확인
     - `Graph` 선택
     - `NYC Taxi Fare Dataset` 컴포넌트 클릭
