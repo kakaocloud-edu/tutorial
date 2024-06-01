@@ -19,6 +19,7 @@
 6. 대시보드 접속한 로드밸런서의 Public Ip 복사
 7. Kubeflow Pipelines에 접속하기 위한 환경 변수 설정
     - 아래 환경 변수들에 값들을 넣어주세요.
+
    `KUBEFLOW_HOST`: http://대시보드 접속한 로드밸런서의 Public IP/
 
    `KUBEFLOW_USERNAME`: 대시보드 접속 아이디(이메일) 입력
