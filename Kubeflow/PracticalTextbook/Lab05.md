@@ -1,4 +1,3 @@
-![image](https://github.com/KOlizer/tutorial/assets/127844467/828c04c3-938f-458a-b617-0cd470cea359)
 # 간단한 Notebook 실습
 CPU, GPU Notebook을 각각 생성하고 Tensorboard, 하이퍼파라미터 튜닝 등을 실습합니다.
 
