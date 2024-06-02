@@ -68,18 +68,18 @@ CPU, GPU Notebook을 각각 생성하고 Tensorboard, 하이퍼파라미터 튜�
 3. cpu-notebook – speed.ipynb `RUN`  클릭
    - ![image](https://github.com/KOlizer/tutorial/assets/127844467/f8882625-4f13-42d1-a775-1f10524da24a)
    - 진행 상황 확인
-   - ![image](https://github.com/KOlizer/tutorial/assets/127844467/c8a371d6-9b91-4fcb-a293-ee44682a0968)
+   ![image](https://github.com/KOlizer/tutorial/assets/127844467/c8a371d6-9b91-4fcb-a293-ee44682a0968)
 
 
 4. gpu-notebook – speed.ipynb `RUN`  클릭
    - **Note**: 위의 cpu-notebook 실습과 동일
    - ![image](https://github.com/KOlizer/tutorial/assets/127844467/f8882625-4f13-42d1-a775-1f10524da24a)
    - 진행 상황 확인
-   - ![image](https://github.com/KOlizer/tutorial/assets/127844467/c8a371d6-9b91-4fcb-a293-ee44682a0968)
+   ![image](https://github.com/KOlizer/tutorial/assets/127844467/c8a371d6-9b91-4fcb-a293-ee44682a0968)
 
 5. 결과 값 비료
    - Training time이 서로 다른 것을 확인
-   - <img src="https://github.com/KOlizer/tutorial/assets/127844467/0c66ab5b-5aae-4a70-9cce-357e1965bbb5" width="400" height="500"> <img src="https://github.com/KOlizer/tutorial/assets/127844467/6b47a691-640e-4fd6-b857-7c8f05d92a9a" width="400" height="500">
+   <img src="https://github.com/KOlizer/tutorial/assets/127844467/0c66ab5b-5aae-4a70-9cce-357e1965bbb5" width="400" height="500"> <img src="https://github.com/KOlizer/tutorial/assets/127844467/6b47a691-640e-4fd6-b857-7c8f05d92a9a" width="400" height="500">
 
 ## 4. Kubeflow Tensorboard
 1. Notebooks 탭 > `cpu-notebook` `CONNECT` 접속
@@ -97,16 +97,16 @@ CPU, GPU Notebook을 각각 생성하고 Tensorboard, 하이퍼파라미터 튜�
    1. Scalars (스칼라)
       - 훈련 및 검증 정확도 (Training and Validation Accuracy)
       - 훈련 및 검증 손실 (Training and Validation Loss)
-      -  ![image](https://github.com/KOlizer/tutorial/assets/127844467/451e818d-8593-4ca5-aaf4-82eb0ba9d0a4)
+      ![image](https://github.com/KOlizer/tutorial/assets/127844467/451e818d-8593-4ca5-aaf4-82eb0ba9d0a4)
 
    2. Graphs (그래프)
       - 모델 그래프 시각화 (Model Graph Visualization)
-      -  ![image](https://github.com/KOlizer/tutorial/assets/127844467/1a6dc343-3067-4f7b-adaf-317fcae81418)
+      ![image](https://github.com/KOlizer/tutorial/assets/127844467/1a6dc343-3067-4f7b-adaf-317fcae81418)
 
    3. Distributions (분포)
       - 가중치 및 편향 분포 (Weights and Biases Distribution)
-      -  ![image](https://github.com/KOlizer/tutorial/assets/127844467/cf7d6531-5768-4e4b-88b2-e9e366558934)
+      ![image](https://github.com/KOlizer/tutorial/assets/127844467/cf7d6531-5768-4e4b-88b2-e9e366558934)
 
    4. Histogram (히스토그램)
       - 가중치 및 편향 히스토그램 (Weights and Biases Histograms)
-      -  ![image](https://github.com/KOlizer/tutorial/assets/127844467/fc059c5d-45f4-4c47-89f2-e34fff839acb)
+      ![image](https://github.com/KOlizer/tutorial/assets/127844467/fc059c5d-45f4-4c47-89f2-e34fff839acb)
