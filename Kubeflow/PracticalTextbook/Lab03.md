@@ -1,8 +1,7 @@
-## Kubeflow 사용자/그룹 추가
-
+# Kubeflow 사용자/그룹 추가
 Kakocloud 콘솔을 이용한 Kubeflow의 사용자와 그룹을 추가하는 실습입니다.
 
-### kakaocloud 콘솔에서 사용자 추가
+### 1. kakaocloud 콘솔에서 사용자 추가
    - **Note** : 관리자/맴버 권한이 없는 유저를 추가하는 경우 생성 불가
 1. 카카오 클라우드 콘솔 AI Service > Kubeflow > Kubeflow
 2. Kubeflow 탭 > `+ 사용자 추가` 클릭
@@ -21,7 +20,7 @@ Kakocloud 콘솔을 이용한 Kubeflow의 사용자와 그룹을 추가하는 �
    - Password : 소유자 이메일로 전송된 초기 패스워드
    - 로그인 확인
 
-### kakaocloud 콘솔에서 그룹 추가
+### 2. kakaocloud 콘솔에서 그룹 추가
 1. 카카오 클라우드 콘솔 > AI Service > Kubeflow > Kubeflow
 2. Kubeflow 탭 > 생성해둔 `Kubeflow(kc-handson)` 클릭
 3. 그룹 탭 > `그룹 추가` 버튼 클릭
@@ -42,7 +41,7 @@ Kakocloud 콘솔을 이용한 Kubeflow의 사용자와 그룹을 추가하는 �
 8. `그룹 사용자 설정` 클릭
 9. 상태 값 Active 확인
 
-### Kubeflow 콘솔에서 세부 내용 확인
+### 3. Kubeflow 콘솔에서 세부 내용 확인
 1. 카카오 클라우드 콘솔 > AI Service > Kubeflow > Kubeflow
 2. Kubeflow 탭 > 생성해둔 `Kubeflow(kc-handson)` 클릭
 3. `대시보드 보기` 클릭 후 `Public Dashboard` 둘 중 하나 클릭
