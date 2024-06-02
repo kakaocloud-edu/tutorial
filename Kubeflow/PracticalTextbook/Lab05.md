@@ -32,7 +32,7 @@ CPU, GPU Notebook을 각각 생성하고 Tensorboard, 하이퍼파라미터 튜�
 4. kubectl.ipynb 파일 다운
    #### **Lab5-2-2**
    ```bash
-   wget https://github.com/kakaocloud-edu/tutorial/raw/main/Kubeflow/kubectl.ipynb
+   wget https://github.com/kakaocloud-edu/tutorial/raw/main/Kubeflow/src/ipynb/kubectl.ipynb
    ```
    - 좌측탭에 kubectl.ipynb 파일 생성 확인
 6. speed.ipynb 파일 다운
@@ -53,7 +53,7 @@ CPU, GPU Notebook을 각각 생성하고 Tensorboard, 하이퍼파라미터 튜�
 10. kubectl.ipynb 파일 다운
    #### **Lab5-2-5**
    ```bash
-   wget https://github.com/kakaocloud-edu/tutorial/raw/main/Kubeflow/kubectl.ipynb
+   wget https://github.com/kakaocloud-edu/tutorial/raw/main/Kubeflow/src/ipynb/kubectl.ipynb
    ```
    - 좌측탭에 kubectl.ipynb 파일 생성 확인
 11. speed.ipynb 파일 다운
