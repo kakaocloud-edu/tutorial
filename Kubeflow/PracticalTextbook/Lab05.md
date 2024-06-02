@@ -73,7 +73,7 @@ CPU, GPU Notebook을 각각 생성하고 Tensorboard, 하이퍼파라미터 튜�
 
 4. gpu-notebook – speed.ipynb `RUN`  클릭
    - **Note**: 위의 cpu-notebook 실습과 동일
-   - ![image](https://github.com/KOlizer/tutorial/assets/127844467/f8882625-4f13-42d1-a775-1f10524da24a)
+   ![image](https://github.com/KOlizer/tutorial/assets/127844467/f8882625-4f13-42d1-a775-1f10524da24a)
    - 진행 상황 확인
    ![image](https://github.com/KOlizer/tutorial/assets/127844467/c8a371d6-9b91-4fcb-a293-ee44682a0968)
 
