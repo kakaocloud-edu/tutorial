@@ -1,7 +1,7 @@
 # Kubeflow 생성
 클러스터에 필수 및 선택 노드 풀을 설정하고, Kubeflow 소유자와 DB 설정, Object Storage를 Kubeflow 생성 및 구성하는 실습입니다. 
 
-## Kubeflow 정보
+## 1. Kubeflow 생성
 1. 카카오 클라우드 콘솔 > AI Service > Kubeflow > Kubeflow
 2. Kubeflow 서비스의 시작하기 버튼 클릭
 3. Kubeflow 탭 > [Kubeflow 생성] 클릭
@@ -36,7 +36,7 @@
 6. Kubeflow 생성 시 입력한 소유자 이메일 계정, 해당 이메일로 전송된 임시 비밀번호 복사 후 메모장에 붙여넣기
     **Note**: 추후 비밀번호 변경 가능
 
-## Kubeflow 대시보드에 접속하기(로드밸런서 Public IP를 이용)
+## 2. Kubeflow 대시보드에 접속하기(로드밸런서 Public IP를 이용)
 1. 카카오 클라우드 콘솔 > Beyond Networking Service > Load Balancing
 2. Kubeflow의 Ingress를 위해 생성된 kube_service_{프로젝트 아이디}_{IKE 클러스터명}_ingress-nginx_ingress-nginx-controller 이름의 로드밸런서를 찾아 Public IP 연결
     - 로드밸런서의 우측 메뉴바 > Public IP 연결 클릭
@@ -48,7 +48,7 @@
     - Password : `소유자 이메일로 전송된 초기 패스워드`
     - 로그인 확인
 
-## Kubeflow 대시보드에 접속하기(Kubectl 포트 포워딩을 이용)
+## 3. Kubeflow 대시보드에 접속하기(Kubectl 포트 포워딩을 이용)
 
 1. 사용자 로컬 시스템의 특정 포트(예:8080)를 Kubeflow 대시보드 포트로 포워딩
     - **Note**: 터미널에 입력
