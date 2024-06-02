@@ -9,7 +9,7 @@
     - 터미널에 아래 명령어를 입력하세요.
      #### **lab9-1-4**
    ```bash
-   wget https://github.com/kakaocloud-edu/tutorial/raw/main/Kubeflow/src/ipynb/taxi.ipynb
+   wget https://github.com/kakaocloud-edu/tutorial/raw/main/Kubeflow/src/ipynb/simple_pipeline.ipynb
    ```
     - simple_pipeline.ipynb 파일 생성 확인
 
