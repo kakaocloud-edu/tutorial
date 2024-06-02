@@ -3,7 +3,7 @@ AutoML 실험을 생성하고, 해당 실험과 관련된 Kubernetes 리소스(E
 
 ## 1. AutoML 실험 생성
 1. bastion VM 터미널에서 Experiment.yaml 파일 내용 복사
-    - **Note**: 아래 명령어를 입력한 뒤 출력된 파일 내용을 복사하세요.
+- **Note**: 아래 명령어를 입력한 뒤 출력된 파일 내용을 복사하세요.
     #### **lab7-1-3**
     ```bash
     apiVersion: "kubeflow.org/v1beta1"
