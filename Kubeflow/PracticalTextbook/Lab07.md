@@ -105,12 +105,14 @@ AutoML 실험을 생성하고, 해당 실험과 관련된 Kubernetes 리소스(E
     kubectl get trials -n kbm-u-kubeflow-tutorial
     ```
 
+
     - **Note**: 현재 네임스페이스에서 실행 중인 Job 목록 확인
     - **Note**: Job - 각 Trial에서 수행되는 작업으로, 실제 모델 학습 등의 작업 처리
    #### **lab7-3-3-2**
     ```
     kubectl get trials -n kbm-u-kubeflow-tutorial
     ```
+
     
    - **Note**: 현재 네임스페이스에서 실행 중인 Pod 목록 확인
    - **Note**: Pod - Job에 의해 생성된 컨테이너 단위로, 실제 컴퓨팅 리소스를 사용하여 작업 수행
