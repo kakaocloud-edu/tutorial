@@ -224,7 +224,7 @@
    - **Note**: Lab1-4 에서 복사해둔 사용자 액세스 키 ID와 사용자 액세스 보안 키 붙여넣기
    #### **lab6-4-4**
    ```bash
-   docker login kc-edu-40.kr-central-2.kcr.dev --username {사용자 액세스 키 ID} --password {사용자 액세스 보안 키}
+   docker login {프로젝트 이름}.kr-central-2.kcr.dev --username {사용자 액세스 키 ID} --password {사용자 액세스 보안 키}
    ```
 5. 카카오 클라우드 콘솔 > 서비스 > Container Pack > Container Resistry > Repository
 6. `kakao-registry` 클릭
