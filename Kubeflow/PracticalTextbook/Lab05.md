@@ -61,7 +61,7 @@ CPU, GPU Notebook을 각각 생성하고 Tensorboard, 하이퍼파라미터 튜�
     #### **Lab5-2-10**
    ```bash
     wget https://github.com/kakaocloud-edu/tutorial/raw/main/Kubeflow/src/ipynb/speed.ipynb
-    ```
+   ```
 
 ## 3. 노트북 속도 비교
 1. Notebooks 탭 > `cpu-notebook` `CONNECT` 접속
