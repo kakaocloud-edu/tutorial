@@ -41,24 +41,24 @@ CPU, GPU Notebook을 각각 생성하고 Tensorboard, 하이퍼파라미터 튜�
    wget https://github.com/kakaocloud-edu/tutorial/raw/main/Kubeflow/src/ipynb/speed.ipynb
    ```
 
-7. Notebooks 탭 > `gpu-notebook` `CONNECT` 접속
+6. Notebooks 탭 > `gpu-notebook` `CONNECT` 접속
    **Note**: `cpu-notebook`, `gpu-notebook` 서로 다름 유의
-8. Other 중 `Terminal` 클릭
-9. TensorFlow 라이브러리 gpu-notebook에 설치
+7. Other 중 `Terminal` 클릭
+8. TensorFlow 라이브러리 gpu-notebook에 설치
    #### **Lab5-2-9**
    ```bash
    pip install tensorflow
    ```
 
-10. kubectl.ipynb 파일 다운로드
-   #### **Lab5-2-10**
+9. kubectl.ipynb 파일 다운로드
+   #### **Lab5-2-9**
    ```bash
    wget https://github.com/kakaocloud-edu/tutorial/raw/main/Kubeflow/src/ipynb/kubectl.ipynb
    ```
    - 좌측탭에 kubectl.ipynb 파일 생성 확인
 
-11. speed.ipynb 파일 다운로드
-   #### **Lab5-2-11**
+10. speed.ipynb 파일 다운로드
+   #### **Lab5-2-10**
    ```bash
    wget hhttps://github.com/kakaocloud-edu/tutorial/raw/main/Kubeflow/src/ipynb/speed.ipynb
    ```
