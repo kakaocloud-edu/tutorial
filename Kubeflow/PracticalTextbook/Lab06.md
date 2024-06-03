@@ -150,12 +150,12 @@
      ssh -i keypair.pem ubuntu@{bastion의 public ip주소}
      ```
    - yes 입력
-     #### **lab6-2-6-2**
+     #### **lab6-2-6-3**
      ```bash
      yes
      ```
    - **Note**: 윈도우에서 ssh 접근이 안될 경우에 cmd 창에서 keypair.pem가 있는 경로로 이동 후 아래 명령어 입력
-     #### **lab6-2-6-2**
+     #### **lab6-2-6-4**
      ```bash
      icacls.exe keypair.pem /reset
      icacls.exe keypair.pem /grant:r %username%:(R)
