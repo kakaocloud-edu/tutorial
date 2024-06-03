@@ -36,7 +36,7 @@ CPU, GPU Notebook을 각각 생성하고 Tensorboard, 하이퍼파라미터 튜�
    - 좌측탭에 kubectl.ipynb 파일 생성 확인
 
 6. speed.ipynb 파일 다운로드
-   #### **Lab5-2-6**
+   #### **Lab5-2-5**
    ```bash
    wget https://github.com/kakaocloud-edu/tutorial/raw/main/Kubeflow/src/ipynb/speed.ipynb
    ```
