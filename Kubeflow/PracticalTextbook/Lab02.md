@@ -57,7 +57,7 @@
     kubectl port-forward svc/istio-ingressgateway -n istio-system 8080:80 --address 0.0.0.0
     ```
 2. 브라우저에서 로컬 호스트 8080 포트로 접속
-   #### **lab4-3-2**
+   #### **lab2-3-2**
    - 주소창에 입력해주세요
     ```
     http://localhost:8080
