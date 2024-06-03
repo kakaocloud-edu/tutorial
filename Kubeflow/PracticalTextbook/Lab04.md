@@ -56,13 +56,13 @@
 2. 매핑된 바인딩 확인
    - kbm-u-Kubeflow-tutorial 네임스페이스의 모든 RoleBinding 목록 조회
    - **Note**: 터미널 창에서 입력
-   #### **lab4-4-2**
+   #### **lab4-4-2-1**
      ```bash
      kubectl get rolebinding -n kbm-u-Kubeflow-tutorial
      ```
 
    - kbm-u-Kubeflow-tutorial 네임스페이스의 default-editor RoleBinding의 세부 정보를 YAML 형식으로 조회
-   #### **lab4-4-3**
+   #### **lab4-4-2-2**
      ```bash
      kubectl get rolebinding default-editor -n kbm-u-Kubeflow-tutorial -o yaml
 
