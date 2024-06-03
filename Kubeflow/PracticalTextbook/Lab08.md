@@ -47,7 +47,7 @@ Training Operator를 사용하여 병렬 학습 환경을 구축하고 PyTorchJo
    !kubectl get pytorchjobs -n kbm-u-Kubeflow-tutorial -o yaml
    ```
     - `pytorchReplicaSpecs` 하위에 각각 `Master` 1개, `Worker` 4개 확인
-          - `containers` 필드에 수행 학습 코드 확인 가능 (args 필드)
+        - `containers` 필드에 수행 학습 코드 확인 가능 (args 필드)
 
 2. Kubernetes 네임스페이스 `kbm-u-Kubeflow-tutorial에서 parallel-train-pytorch-`로 시작하는 모든 파드를 확인
     - 터미널에 아래 명령어를 입력하세요.
