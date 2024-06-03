@@ -42,7 +42,7 @@ Training Operator를 사용하여 병렬 학습 환경을 구축하고 PyTorchJo
 ## 4. k8s 내부 동작 확인
 1. PytorchJob 내용 확인
     - 터미널에 아래 명령어를 입력하세요.
-     #### **lab8-1-9**
+     #### **lab8-4-1**
    ```bash
    !kubectl get pytorchjobs -n kbm-u-Kubeflow-tutorial -o yaml
    ```
