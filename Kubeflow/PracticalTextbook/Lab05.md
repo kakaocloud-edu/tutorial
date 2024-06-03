@@ -45,7 +45,7 @@ CPU, GPU Notebook을 각각 생성하고 Tensorboard, 하이퍼파라미터 튜�
    **Note**: `cpu-notebook`, `gpu-notebook` 서로 다름 유의
 7. Other 중 `Terminal` 클릭
 8. TensorFlow 라이브러리 gpu-notebook에 설치
-   #### **Lab5-2-9**
+   #### **Lab5-2-8**
    ```bash
    pip install tensorflow
    ```
