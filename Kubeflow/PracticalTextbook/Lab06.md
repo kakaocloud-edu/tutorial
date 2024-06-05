@@ -2,7 +2,7 @@
 하이퍼파라미터 튜닝을 위해 트레이닝 이미지를 직접 빌드하고 컨테이너 레지스트리에 이미지를 푸시합니다. 이 과정을 통해 Experiment를 생성하여 최적의 하이퍼파라미터를 찾는 방법을 자동화하는 실습을 진행합니다.
 
 ### 1. Container Registry 생성
-1. 카카오 클라우드 콘솔 > 서비스 > Container Pack > Container Registry
+1. 카카오 클라우드 콘솔 > Container Pack > Container Registry
 2. Repository 탭 > `+리포지토리 만들기` 클릭
    - 리포지토리 설정
      - 공개 여부 : `비공개` 선택
@@ -99,7 +99,7 @@
       - clusters 하위의 `certificate-authority-data`, `name` 값 메모장에 붙여넣기
         ![image](https://github.com/KOlizer/tutorial/assets/127844467/362b8588-156a-4fc7-9f9b-add2574162d5)
 2. Instance 만들기
-   1. 카카오 클라우드 콘솔 > 서비스 > Beyond Compute Service > Virtual Machine > Instance
+   1. 카카오 클라우드 콘솔 > Beyond Compute Service > Virtual Machine > Instance
    2. `Instance 만들기` 클릭
       - 인스턴스 설정 정보
         - 이름 : bastion
