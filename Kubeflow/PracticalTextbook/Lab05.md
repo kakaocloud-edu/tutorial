@@ -20,7 +20,7 @@ CPU, GPU Notebook을 각각 생성하고 Tensorboard, 하이퍼파라미터 튜�
 4. Notebook 생성 확인
 
 ## 2. .ipynb 파일 업로드
-1. Notebooks 탭 > `cpu-notebook` `CONNECT` 접속
+1. Notebooks 탭 > `cpu-notebook`의 `CONNECT` 클릭
 2. Other 중 `Terminal` 클릭
 3. TensorFlow 라이브러리 cpu-notebook에 설치
    #### **Lab5-2-3**
@@ -41,7 +41,7 @@ CPU, GPU Notebook을 각각 생성하고 Tensorboard, 하이퍼파라미터 튜�
    wget https://github.com/kakaocloud-edu/tutorial/raw/main/Kubeflow/src/ipynb/speed.ipynb
    ```
 
-6. Notebooks 탭 > `gpu-notebook` `CONNECT` 접속
+6. Notebooks 탭 > `gpu-notebook`의 `CONNECT` 클릭
    **Note**: `cpu-notebook`, `gpu-notebook` 서로 다름 유의
 7. Other 중 `Terminal` 클릭
 8. TensorFlow 라이브러리 gpu-notebook에 설치
@@ -64,8 +64,8 @@ CPU, GPU Notebook을 각각 생성하고 Tensorboard, 하이퍼파라미터 튜�
    ```
 
 ## 3. 노트북 속도 비교
-1. Notebooks 탭 > `cpu-notebook` `CONNECT` 접속
-2. Notebooks 탭 > `gpu-notebook` `CONNECT` 접속
+1. Notebooks 탭 > `cpu-notebook`의 `CONNECT` 클릭
+2. Notebooks 탭 > `gpu-notebook`의 `CONNECT` 클릭
 3. cpu-notebook – speed.ipynb `RUN` 클릭
 
    ![cpu speed run](https://github.com/KOlizer/tutorial/assets/127844467/f8882625-4f13-42d1-a775-1f10524da24a)
@@ -90,16 +90,16 @@ CPU, GPU Notebook을 각각 생성하고 Tensorboard, 하이퍼파라미터 튜�
      ![gpu training time](https://github.com/KOlizer/tutorial/assets/127844467/6b47a691-640e-4fd6-b857-7c8f05d92a9a)
 
 ## 4. Kubeflow Tensorboard
-1. Notebooks 탭 > `cpu-notebook` `CONNECT` 접속
-2. 위 실행에 의하여 log (logs/fit/) 날짜별로 생성됨을 확인
-3. Tensorboards 탭 > `+New TensorBoard` 클릭
+1. Notebooks 탭 > `gpu-notebook`의 `CONNECT` 클릭
+2. 위 실행에 의하여 log(logs/fit/) 날짜별로 생성됨을 확인
+3. Tensorboards 탭 > `+ New TensorBoard` 클릭
    - Tensorboard 설정 정보
      - 이름 : `tensorboard`
-     - `PVC 클릭`
+     - `PVC` 클릭
      - PVC name : `cpu-notebook-volume`
      - Mount Path : `logs/fit/`
 4. `CREATE` 클릭
-5. 생성된 TensorBoard의 `CONNECT` 버튼 클릭
+5. 생성된 TensorBoard의 `CONNECT` 클릭
 6. 생성된 Tensorboards 목록 확인
    1. Scalars (스칼라)
       - 훈련 및 검증 정확도 (Training and Validation Accuracy)
