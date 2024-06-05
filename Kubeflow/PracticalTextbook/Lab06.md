@@ -1,7 +1,7 @@
 # Kubeflow 하이퍼파라미터 튜닝
 하이퍼파라미터 튜닝을 위해 트레이닝 이미지를 직접 빌드하고 컨테이너 레지스트리에 이미지를 푸시합니다. 이 과정을 통해 Experiment를 생성하여 최적의 하이퍼파라미터를 찾는 방법을 자동화하는 실습을 진행합니다.
 
-### 1. Container Registry 생성
+## 1. Container Registry 생성
 1. 카카오 클라우드 콘솔 > Container Pack > Container Registry > Repository
 2. Repository 탭 > `+ 리포지토리 만들기` 클릭
    - 리포지토리 설정 정보
@@ -13,7 +13,7 @@
 3. 생성된 `kakao-registry` 클릭
 4. 생성된 Container Registry 확인
 
-### 2. Bastion VM 생성 및 준비
+## 2. Bastion VM 생성 및 준비
 1. VM 생성 전 스크립트 작성
    - **Note**:아래 스크립트를 메모장에 붙여넣기
    #### **lab6-2-1**
@@ -204,7 +204,7 @@
    cat mnist_train.py 
    ```
 
-### 3. 도커 이미지 생성 및 레지스트리 등록
+## 3. 도커 이미지 생성 및 레지스트리 등록
 1. 이미지 빌드하기
    #### **lab6-3-1**
    ```bash
@@ -253,4 +253,126 @@
    #### **lab6-10**
    ```bash
    kubectl get secret -n kbm-u-kubeflow-tutorial
+   ```
+
+## 4. Kubeflow UI에서 Experiment 생성
+1. 깃허브 lab6-4-1 Experiment 설정 파일을 메모장에 붙여넣기
+   - **Note**: 아래 명령어를 입력한 뒤 출력된 파일 내용을 복사하세요.
+    #### **lab6-4-1**
+    ```bash
+   apiVersion: "kubeflow.org/v1beta1"
+   kind: Experiment
+   metadata:
+     name: mnist-hyperparameter-tuning
+     namespace: kubeflow
+   spec:
+     objective:
+       type: maximize
+       goal: 0.99
+       objectiveMetricName: accuracy
+       additionalMetricNames:
+         - loss
+     algorithm:
+       algorithmName: random
+     parallelTrialCount: 10
+     maxTrialCount: 12
+     maxFailedTrialCount: 3
+     parameters:
+       - name: --learning_rate
+         parameterType: double
+         feasibleSpace:
+           min: "0.0001"
+           max: "0.01"
+       - name: --batch_size
+         parameterType: int
+         feasibleSpace:
+           min: "16"
+           max: "128"
+     trialTemplate:
+       retain: true
+       primaryContainerName: mnist-training
+       trialParameters:
+         - name: learningRate
+           description: Learning rate for the model
+           reference: --learning_rate
+         - name: batchSize
+           description: Batch size for the model
+           reference: --batch_size
+       trialSpec:
+         apiVersion: batch/v1
+         kind: Job
+         spec:
+           template:
+             metadata:
+               annotations:
+                 sidecar.istio.io/inject: 'false'
+             spec:
+               containers:
+                 - name: mnist-training
+                   image: {프로젝트 이름}.kr-central-2.kcr.dev/kakao-registry/hyperpram
+                   command:
+                     - "python"
+                     - "mnist_train.py"
+                     - "--learning_rate=${trialParameters.learningRate}"
+                     - "--batch_size=${trialParameters.batchSize}"
+               restartPolicy: Never
+               imagePullSecrets:
+                 - name: regcred
+     metricsCollectorSpec:
+       source:
+         filter:
+           metricsFormat:
+             - "{metricName: ([\\w|-]+), metricValue: ((-?\\d+)(\\.\\d+)?)}"
+         fileSystemPath:
+           path: "/tmp/mnist.log"
+           kind: File
+       collector:
+         kind: File
+    ```
+
+2. 카카오클라우드 왼쪽 상단에 있는 프로젝트 이름 복사 후 메모장에 붙여넣기
+2. Kubeflow 대시보드의 Experiments (AutoML) 탭 > [New Experiment] 버튼 클릭
+3. 하단의 Edit 클릭
+4. 기존 내용을 지운 뒤 터미널에서 복사한 Experiment.yaml 내용을 복사여 붙여넣고 [CREATE] 버튼 클릭
+
+## 5. Experiment 결과 확인
+1. 생성된 mnist-hyperparameter-tuning 클릭
+2. OVERVIEW 탭 확인
+   - OVERVIEW 탭 클릭
+3. TRIALS 탭 확인
+   - TRIALS 탭 클릭
+4. DETAILS 탭 확인
+   - DETAILS 탭 클릭
+
+## 6. K8s의 내부 동작 살펴보기
+   - **Note**: bastion VM 접속 터미널 창에 아래 명령어들을 입력하세요.
+1. Experiment 생성함
+   #### **lab6-6-1**
+   ```
+   kubectl get Experiment -n kbm-u-kubeflow-tutorial
+   ```
+2. Experiment Controller가 Suggestion을 생성함
+   #### **lab6-6-2**
+   ```
+   kubectl get Suggestion -n kbm-u-kubeflow-tutorial
+   ```
+3. Trial Controller가 Suggestion에 작성된 하이퍼파라미터 설정을 기반으로 Trial들을 생성 > Trial들이 Job을 생성 > Job이 Pod들을 생성함
+   - 현재 네임스페이스에서 실행 중인 Trial 목록 확인
+      - **Note**: Trial - 제안된 하이퍼파라미터 설정에 따라 생성된 실험 실행 단위
+   ```
+   kubectl get trials -n kbm-u-kubeflow-tutorial
+   ```
+   
+   #### **lab7-3-3-2**
+   - 현재 네임스페이스에서 실행 중인 Job 목록 확인
+   - **Note**: Job - 각 Trial에서 수행되는 작업으로, 실제 모델 학습 등의 작업 처리
+   ```
+   kubectl get trials -n kbm-u-kubeflow-tutorial
+   ```
+   
+   #### **lab7-3-3-3**
+   - 현재 네임스페이스에서 실행 중인 Pod 목록 확인
+   - **Note**: Pod - Job에 의해 생성된 컨테이너 단위로, 실제 컴퓨팅 리소스를 사용하여 작업 수행
+   ```
+   kubectl get job -n kbm-u-kubeflow-tutorial
    ```
