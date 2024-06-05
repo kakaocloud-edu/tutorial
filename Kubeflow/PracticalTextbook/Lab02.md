@@ -5,7 +5,7 @@
 1. 카카오 클라우드 콘솔 > AI Service > Kubeflow > Kubeflow
 2. Kubeflow 서비스의 시작하기 버튼 클릭
 3. Kubeflow 탭 > [Kubeflow 생성] 클릭
-4. 기본 설정 정보 작성
+4. 기본 설정 정보
     - Kubeflow 이름 : `kc-handson`
     - Kubeflow 구성
         - 버전 : `1.0.0`
