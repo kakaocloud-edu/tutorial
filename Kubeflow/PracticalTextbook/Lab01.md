@@ -106,7 +106,7 @@ kubeflow 실습을 위한 프로젝트 실습 환경구성입니다.
     - 노드 수: `1`
     - 노드 풀 Network 설정
         - VPC: `vpc_k8s`
-        - Subnet: `Public 서브넷` 2개 선택
+        - Subnet: `Public 서브넷 2개` 선택
     - 자동 확장 설정(선택): `사용 안함`
     - Key Pair: `keypair`
     - 고급 설정(선택): 빈칸
@@ -125,7 +125,7 @@ kubeflow 실습을 위한 프로젝트 실습 환경구성입니다.
     - 노드 수: `6`
     - 노드 풀 Network 설정
         - VPC: `vpc_k8s`
-        - Subnet: `Public 서브넷` 2개 선택
+        - Subnet: `Public 서브넷 2개` 선택
     - 자동 확장 설정(선택): `사용 안함`
     - Key Pair: `keypair`
     - 고급 설정(선택): 빈칸
@@ -144,7 +144,7 @@ kubeflow 실습을 위한 프로젝트 실습 환경구성입니다.
     - 노드 수: `1`
     - 노드 풀 Network 설정
         - VPC: `vpc_k8s`
-        - Subnet: `Public 서브넷` 2개 선택
+        - Subnet: `Public 서브넷 2개` 선택
     - 자동 확장 설정(선택): `사용 안함`
     - Key Pair: `keypair`
     - 고급 설정(선택): 빈칸
