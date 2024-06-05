@@ -77,6 +77,6 @@
    - 현재 Namespace에서 모든 PersistentVolumeClaim(PVC) 리소스 조회
    - **Note**: 위에서 생성한 Notebook(`cpu-notebook`)에서 입력
    #### **lab4-5-1**
-     ```bash
-     !kubectl get pvc
-     ```
+   ```bash
+   !kubectl get pvc
+   ```
