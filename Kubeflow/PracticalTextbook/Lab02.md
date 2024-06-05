@@ -34,7 +34,7 @@
      - 만들기 클릭
 5. Active 생성 확인
 6. Kubeflow 생성 시 입력한 소유자 이메일 계정, 해당 이메일로 전송된 임시 비밀번호 복사 후 메모장에 붙여넣기
-    **Note**: 추후 비밀번호 변경 가능
+    - **Note**: 추후 비밀번호 변경 가능
 
 ## 2. Kubeflow 대시보드에 접속하기(로드밸런서 Public IP를 이용)
 1. 카카오 클라우드 콘솔 > Beyond Networking Service > Load Balancing
@@ -52,13 +52,13 @@
 
 1. 사용자 로컬 시스템의 특정 포트(예:8080)를 Kubeflow 대시보드 포트로 포워딩
     #### **lab2-3-1**
-    - 터미널에 입력해주세요
+    - **Note**: 터미널에 입력해주세요
     ```
     kubectl port-forward svc/istio-ingressgateway -n istio-system 8080:80 --address 0.0.0.0
     ```
 2. 브라우저에서 로컬 호스트 8080 포트로 접속
    #### **lab2-3-2**
-   - 주소창에 입력해주세요
+   - **Note**: 주소창에 입력해주세요
     ```
     http://localhost:8080
     ```
