@@ -2,11 +2,11 @@
 CPU, GPU Notebook을 각각 생성하고 Tensorboard, 하이퍼파라미터 튜닝 등을 실습합니다.
 
 ## 1. GPU 기반 Jupyter Notebook 생성
-1. kbm-u-Kubeflow-tutorial 네임스페이스 선택 > 좌측 메뉴바의 Notebooks 탭 클릭
+1. kbm-u-kubeflow-tutorial 네임스페이스 선택 > 좌측 메뉴바의 Notebooks 탭 클릭
 2. `+ New Notebook` 클릭
 3. 노트북 설정 정보 작성
    - Name : `gpu-notebook`
-   - Namespace : `kbm-u-Kubeflow-tutorial`
+   - Namespace : `kbm-u-kubeflow-tutorial`
    - Image : `mlops-pipelines/jupyter- tensorflow-full:v1.0.1.py36`
    - Requested CPUs : `2`
    - Requested memory in Gi : `8`
