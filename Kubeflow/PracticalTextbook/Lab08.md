@@ -139,7 +139,7 @@
     - **Note**: 터미널에 아래 명령어를 입력하세요.
     #### **lab8-5-4**
     ```bash
-    wget https://raw.githubusercontent.com/kakaocloud-edu/tutorial/main/Kubeflow/taxi.ipynb
+    wget https://raw.githubusercontent.com/kakaocloud-edu/tutorial/main/Kubeflow/src/ipynb/taxi.ipynb
     ```
     - taxi.ipynb 파일 생성 확인
 5. 필요한 라이브러리 import
