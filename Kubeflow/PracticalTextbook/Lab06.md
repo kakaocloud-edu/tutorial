@@ -30,6 +30,8 @@
    export AUTH_DATA='클러스터의 certificate-authority-data 값 입력'
    export API_SERVER='클러스터의 server 값 입력'
    export PROJECT_NAME='프로젝트 이름 입력'
+   export DOCKER_IMAGE_NAME='이미지 이름 입력(hyperpram)'
+   export USER_NAMESPACE='사용자 네임스페이스 입력(kbm-u-kubeflow-tutorial)'
    EOF
    )
    
@@ -185,9 +187,9 @@
    ```
 12. 하이퍼파라미터 파일 다운로드 확인
    #### **6-2-12**
-    ```bash
-    ls
-    ```
+   ```bash
+   ls
+   ```
 13. kubectl get nodes를 통해 생성했던 노드들 조회(총 8개)
    #### **6-2-13**
    ```bash
@@ -221,36 +223,45 @@
    docker run -d hyperpram:1.0
    ```
 4. 도커 로그인
-   - **Note**: Lab1-4 에서 복사해둔 사용자 액세스 키 ID와 사용자 액세스 보안 키 붙여넣기
+   - 접속 중인 Bastion VM 인스턴스에 명령어 입력
    #### **lab6-3-4**
    ```bash
-   docker login {프로젝트 이름}.kr-central-2.kcr.dev --username {사용자 액세스 키 ID} --password {사용자 액세스 보안 키}
+   docker login ${PROJECT_NAME}.kr-central-2.kcr.dev --username ${ACC_KEY} --password ${SEC_KEY}
    ```
-5. 카카오 클라우드 콘솔 > Container Pack > Container Resistry > Repository
-6. `kakao-registry` 클릭
-7. hyperpram 이미지 생성 확인
+5. 생성한 이미지 태그하기
+   #### **lab6-3-5**
+   ```bash
+   docker tag ${DOCKER_IMAGE_NAME} ${PROJECT_NAME}.kr-central-2.kcr.dev/kakao-registry/${DOCKER_IMAGE_NAME}:1.0
+   ```
+6. 이미지 태그 확인
+   #### **lab6-3-6**
+   ```bash
+   docker images
+   ```
+7. 이미지 업로드하기
+   #### **lab6-3-7**
+   ```bash
+   docker push ${PROJECT_NAME}.kr-central-2.kcr.dev/kakao-registry/${DOCKER_IMAGE_NAME}:1.0
+   ```
+8. 카카오 클라우드 콘솔 > Container Pack > Container Resistry > Repository
+9. `kakao-registry` 클릭
+10. hyperpram 이미지 생성 확인
 
    ![image](https://github.com/KOlizer/tutorial/assets/127844467/8473733e-5591-4dd8-af27-70d3bbe30c69)
 
-8. 깃허브 lab6-8-1스크립트를 메모장에 붙여넣기
-   #### **lab6-8-1**
+11. bastion VM 터미널에 lab6-3-11 스크립트를 붙여넣기
+   #### **lab6-3-11**
    ```bash
    kubectl create secret docker-registry regcred \
    --docker-server=kakao-sw-club.kr-central-2.kcr.dev \
-   --docker-username={액세스 키 아이디} \
-   --docker-password={보안 액세스 키} \
-   --docker-email={사용자 이메일} \
-   --namespace={사용자 네임스페이스}
+   --docker-username=${ACC_KEY} \
+   --docker-password=${SEC_KEY} \
+   --docker-email=${EMAIL_ADDRESS} \
+   --namespace=${USER_NAMESPACE}
    ```
-   - Lab1-4 에서 복사해둔 사용자 액세스 키 ID와 사용자 액세스 보안 키 메모장에 붙여넣기
-   - Kubeflow 대시보드 > 네임스페이스 복사
-   
-     ![image](https://github.com/KOlizer/tutorial/assets/127844467/bdbcca75-604b-45e9-a455-c74af1edcaab)
-     
-   - {사용자 이메일}에 사용자의 이메일 입력 
-9. bastion VM 터미널에 작성된 명령어를 입력하여 시크릿 키 생성
-10. 시크릿 키 생성 확인
-   #### **lab6-10**
+12. bastion VM 터미널에 작성된 명령어를 입력하여 시크릿 키 생성
+13. 시크릿 키 생성 확인
+   #### **lab6-3-13**
    ```bash
    kubectl get secret -n kbm-u-kubeflow-tutorial
    ```
@@ -331,9 +342,9 @@
     ```
 
 2. 카카오클라우드 왼쪽 상단에 있는 프로젝트 이름 복사 후 메모장에 붙여넣기
-2. Kubeflow 대시보드의 Experiments (AutoML) 탭 > [New Experiment] 버튼 클릭
-3. 하단의 Edit 클릭
-4. 기존 내용을 지운 뒤 터미널에서 복사한 Experiment.yaml 내용을 복사여 붙여넣고 [CREATE] 버튼 클릭
+3. Kubeflow 대시보드의 Experiments (AutoML) 탭 > [New Experiment] 버튼 클릭
+4. 하단의 Edit 클릭
+5. 기존 내용을 지운 뒤 터미널에서 복사한 Experiment.yaml 내용을 복사여 붙여넣고 [CREATE] 버튼 클릭
 
 ## 5. Experiment 결과 확인
 1. 생성된 mnist-hyperparameter-tuning 클릭
@@ -357,22 +368,23 @@
    kubectl get Suggestion -n kbm-u-kubeflow-tutorial
    ```
 3. Trial Controller가 Suggestion에 작성된 하이퍼파라미터 설정을 기반으로 Trial들을 생성 > Trial들이 Job을 생성 > Job이 Pod들을 생성함
+   #### **lab6-6-3-1**
    - 현재 네임스페이스에서 실행 중인 Trial 목록 확인
-      - **Note**: Trial - 제안된 하이퍼파라미터 설정에 따라 생성된 실험 실행 단위
+   - **Note**: Trial - 제안된 하이퍼파라미터 설정에 따라 생성된 실험 실행 단위
    ```
    kubectl get trials -n kbm-u-kubeflow-tutorial
    ```
    
-   #### **lab7-3-3-2**
+   #### **lab6-6-3-2**
    - 현재 네임스페이스에서 실행 중인 Job 목록 확인
    - **Note**: Job - 각 Trial에서 수행되는 작업으로, 실제 모델 학습 등의 작업 처리
    ```
-   kubectl get trials -n kbm-u-kubeflow-tutorial
+   kubectl get job -n kbm-u-kubeflow-tutorial
    ```
-   
-   #### **lab7-3-3-3**
+
+   #### **lab6-6-3-3**
    - 현재 네임스페이스에서 실행 중인 Pod 목록 확인
    - **Note**: Pod - Job에 의해 생성된 컨테이너 단위로, 실제 컴퓨팅 리소스를 사용하여 작업 수행
    ```
-   kubectl get job -n kbm-u-kubeflow-tutorial
+   kubectl get po -n kbm-u-kubeflow-tutorial
    ```
