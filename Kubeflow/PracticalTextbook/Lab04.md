@@ -14,11 +14,11 @@
 
 ## 2. CPU 기반 Jupyter Notebook 생성
 
-1. kbm-u-Kubeflow-tutorial 네임스페이스 선택 > 좌측 메뉴바의 `Notebooks` 탭 클릭 
+1. kbm-u-kubeflow-tutorial 네임스페이스 선택 > 좌측 메뉴바의 `Notebooks` 탭 클릭 
 2. `+ New Notebook` 클릭
    - 노브북 설정
      - Name : `cpu-notebook`
-     - Namespace : `kbm-u-Kubeflow-tutorial`
+     - Namespace : `kbm-u-kubeflow-tutorial`
      - Image : `mlops-pipelines/jupyter-pytorch-full:v1.0.1.py36`
      - Requested CPUs : `2`
      - Requested memory in Gi : `8`
@@ -58,11 +58,11 @@
    !kubectl get sa
    ```
 3. 매핑된 바인딩 확인
-   - kbm-u-Kubeflow-tutorial 네임스페이스의 모든 RoleBinding 목록 조회
+   - kbm-u-kubeflow-tutorial 네임스페이스의 모든 RoleBinding 목록 조회
    - **Note**: 터미널 창에서 입력
    #### **lab4-4-2-1**
    ```bash
-   kubectl get rolebinding -n kbm-u-Kubeflow-tutorial
+   kubectl get rolebinding -n kbm-u-kubeflow-tutorial
    ```
 
 4. 특정 RoleBinding의 상세 정보 출력
@@ -70,7 +70,7 @@
    - **Note**: 터미널 창에서 입력
    #### **lab4-4-2-2**
    ```bash
-   kubectl get rolebinding default-editor -n kbm-u-Kubeflow-tutorial -o yaml
+   kubectl get rolebinding default-editor -n kbm-u-kubeflow-tutorial -o yaml
    ```
 
 ## 5. PVC 리소스 조회
