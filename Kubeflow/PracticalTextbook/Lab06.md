@@ -231,7 +231,7 @@
 5. 생성한 이미지 태그하기
    #### **lab6-3-5**
    ```bash
-   docker tag ${DOCKER_IMAGE_NAME} ${PROJECT_NAME}.kr-central-2.kcr.dev/kakao-registry/${DOCKER_IMAGE_NAME}:1.0
+   docker tag ${DOCKER_IMAGE_NAME}:1.0 ${PROJECT_NAME}.kr-central-2.kcr.dev/kakao-registry/${DOCKER_IMAGE_NAME}:1.0
    ```
 6. 이미지 태그 확인
    #### **lab6-3-6**
