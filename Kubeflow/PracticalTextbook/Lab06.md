@@ -249,7 +249,7 @@
 
    ![image](https://github.com/KOlizer/tutorial/assets/127844467/8473733e-5591-4dd8-af27-70d3bbe30c69)
 
-11. bastion VM 터미널에 lab6-3-11 스크립트를 붙여넣기
+11. bastion VM 터미널에 lab6-3-11 스크립트를 입력하여 시크릿 키 생성
    #### **lab6-3-11**
    ```bash
    kubectl create secret docker-registry regcred \
@@ -259,8 +259,7 @@
    --docker-email=${EMAIL_ADDRESS} \
    --namespace=${USER_NAMESPACE}
    ```
-12. bastion VM 터미널에 작성된 명령어를 입력하여 시크릿 키 생성
-13. 시크릿 키 생성 확인
+12. 시크릿 키 생성 확인
    #### **lab6-3-13**
    ```bash
    kubectl get secret -n kbm-u-kubeflow-tutorial
