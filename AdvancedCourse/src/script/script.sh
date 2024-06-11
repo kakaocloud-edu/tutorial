@@ -41,9 +41,8 @@ echo "kakaocloud: Kubectl installed"
 
 
 echo "kakaocloud: 9.Installing kic-iam-auth"
-sudo wget https://objectstorage.kr-central-1.kakaoi.io/v1/9093ef2db68545b2bddac0076500b448/kc-docs/docs%2Fbinaries-kic-iam-auth%2FLinux%20x86_64%2064Bit%2Fkic-iam-auth -O kic-iam-auth || { echo "kakaocloud: Failed to download kic-iam-auth"; exit 1; }
-sudo chmod +x kic-iam-auth || { echo "kakaocloud: Failed to change permission of kic-iam-auth"; exit 1; }
-sudo mv kic-iam-auth /usr/local/bin/ || { echo "kakaocloud: Failed to move kic-iam-auth to /usr/local/bin/"; exit 1; }
+sudo wget -O /usr/local/bin/kic-iam-auth https://objectstorage.kr-central-2.kakaoi.io/v1/fe631cd1b7a14c0ba2612d031a8a5619/public/docs%2Fbinaries-kic-iam-auth%2FLinux%20x86_64%2064Bit%2Fkic-iam-auth || { echo "kakaocloud: Failed to download kic-iam-auth"; exit 1; }
+sudo chmod +x /usr/local/bin/kic-iam-auth || { echo "kakaocloud: Failed to change permission of kic-iam-auth"; exit 1; }
 echo "kakaocloud: kic-iam-auth installation completed"
 
 
