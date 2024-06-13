@@ -17,7 +17,7 @@ Spring Boot 프로젝트를 생성해 간단한 웹 페이지를 생성합니다
     
 ## 2. Spring 어플리케이션을 Container 이미지로 만들기
 
-1. Spring 어플리케이션이 있는 경로로 이동
+1. bastion VM에 접속하여 Spring 어플리케이션이 있는 경로로 이동
    #### **lab4-2-1**
    - 접속 중인 Bastion VM 인스턴스에 명령어 입력
    ```
