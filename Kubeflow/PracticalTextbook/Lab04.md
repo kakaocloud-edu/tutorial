@@ -16,37 +16,43 @@
 
 1. kbm-u-kubeflow-tutorial 네임스페이스 선택 > 좌측 메뉴바의 `Notebooks` 탭 클릭 
 2. `+ New Notebook` 클릭
-   - 노브북 설정
-     - Name : `cpu-notebook`
-     - Namespace : `kbm-u-kubeflow-tutorial`
-     - Image : `mlops-pipelines/jupyter-pytorch-full:v1.0.1.py36`
-     - Requested CPUs : `2`
-     - Requested memory in Gi : `8`
-     - Volume / Configurations 설정 : `모두 기존 값 사용`
-     - Affiinity : `pool-worker` 
-     - Tolerations : `None(기존 값)` 
-     - Miscellaneous Settings :  `기존 값 사용`
-     - LAUNCH 클릭
+   - 노트북 설정 정보
+      - Name
+         - Name : `cpu-notebook`
+         - Namespace : `kbm-u-kubeflow-tutorial`
+      - Docker Image
+         - Image : `mlops-pipelines/jupyter-pytorch-full:v1.0.1.py36`
+      - CPU/RAM
+         -  Requested CPUs : `2`
+         - Requested memory in Gi : `8`
+      - GPUs
+         - Number of GPUs : `None`
+      - Workspace Valume, Data Valumes, Configurations : `모두 기본값 사용`
+      - Affiinity/Tolerations
+         - Affiinity : `pool-worker` 
+         - Tolerations : `None` 
+      - Miscellaneous Settings : `Enable Shared Memory`
+   - `LAUNCH` 클릭
 3. Notebook 생성 확인
 
 
 ## 3. 특정 네임스페이스의 리소스 확인
 
 1. 생성한 `cpu-notebook`의 `CONNECT` 클릭
-2. Other 중 `Python` 클릭
+2. Other 중 Terminal 클릭
 3. 특정 네임스페이스의 리소스 확인
    - Kubeflow 네임스페이스의 리소스 출력
    - **Note**: 위에서 생성한 Notebook(`cpu-notebook`)에서 입력
    #### **lab4-3-1**
    ```bash
-   !kubectl get all
+   kubectl get all
    ```
 
    - Kubernetes StatefulSet 리소스를 YAML 형식으로 출력
    - **Note**: 위에서 생성한 Notebook(`cpu-notebook`)에서 입력
    #### **lab4-3-2**
    ```bash
-   !kubectl get sts -o yaml
+   kubectl get sts -o yaml
    ```
 
 ## 4. Service Accounts 목록 조회
@@ -55,7 +61,7 @@
    - **Note**: 위에서 생성한 Notebook(`cpu-notebook`)에서 입력
    #### **lab4-4-1**
    ```bash
-   !kubectl get sa
+   kubectl get sa
    ```
 3. 매핑된 바인딩 확인
    - kbm-u-kubeflow-tutorial 네임스페이스의 모든 RoleBinding 목록 조회
@@ -78,5 +84,5 @@
    - **Note**: 위에서 생성한 Notebook(`cpu-notebook`)에서 입력
    #### **lab4-5-1**
    ```bash
-   !kubectl get pvc
+   kubectl get pvc
    ```
