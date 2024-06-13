@@ -4,20 +4,25 @@ CPU, GPU Notebook을 각각 생성하고 Tensorboard, 하이퍼파라미터 튜�
 ## 1. GPU 기반 Jupyter Notebook 생성
 1. kbm-u-kubeflow-tutorial 네임스페이스 선택 > 좌측 메뉴바의 Notebooks 탭 클릭
 2. `+ New Notebook` 클릭
-3. 노트북 설정 정보 작성
-   - Name : `gpu-notebook`
-   - Namespace : `kbm-u-kubeflow-tutorial`
-   - Image : `mlops-pipelines/jupyter- tensorflow-full:v1.0.1.py36`
-   - Requested CPUs : `2`
-   - Requested memory in Gi : `8`
-   - Number of GPUs : `4` 
-   - GPU Vendor : `NVIDIA MIC - 1g.10gb`  
-   - Volume / Configurations 설정 : `모두 기존 값 사용`
-   - Affinity : `pool-gpu`
-   - Tolerations : `None(기존 값)`
-   - Miscellaneous Settings :  `기존 값 사용`
-   - Launch 클릭
-4. Notebook 생성 확인
+   - 노트북 설정 정보
+      - Name
+         - Name : `gpu-notebook`
+         - Namespace : `kbm-u-kubeflow-tutorial`
+      - Docker Image
+         -  Image : `mlops-pipelines/jupyter- tensorflow-full:v1.0.1.py36`
+      - CPU/RAM
+         - Requested CPUs : `2`
+         - Requested memory in Gi : `8`
+      - GPUs
+         - Number of GPUs : `4` 
+         - GPU Vendor : `NVIDIA MIC - 1g.10gb`  
+      - Workspace Valume, Data Valumes, Configurations : `모두 기본값 사용`
+      - Affiinity/Tolerations
+         - Affinity : `pool-gpu`
+         - Tolerations : `None`
+      - Miscellaneous Settings : `Enable Shared Memory`
+   - `Launch` 클릭
+3. Notebook 생성 확인
 
 ## 2. .ipynb 파일 업로드
 1. Notebooks 탭 > `cpu-notebook`의 `CONNECT` 클릭
@@ -74,7 +79,7 @@ CPU, GPU Notebook을 각각 생성하고 Tensorboard, 하이퍼파라미터 튜�
    - `PVC` 클릭
    - PVC name : `gpu-notebook-volume`
    - Mount Path : `logs/fit/`
-   - CREATE 클릭
+   - `CREATE` 클릭
 5. 생성된 TensorBoard의 `CONNECT` 클릭
 6. 생성된 Tensorboards 목록 확인
    - Scalars (스칼라)
