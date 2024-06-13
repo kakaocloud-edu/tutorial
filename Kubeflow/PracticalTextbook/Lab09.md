@@ -11,7 +11,7 @@
         - DNS Zone 이름: kakaocloud-edu.com 입력
         - DNS Zone 설명(선택) : 빈칸
     - `만들기` 버튼 클릭
-4. 생성된 DNS(kakaocloud-edu.com) 클릭
+4. 생성된 `DNS(kakaocloud-edu.com)` 클릭
 5. `레코드 추가` 버튼 클릭
 6. 레코드 추가 설정 값 입력
     - 레코드 타입: `A`
