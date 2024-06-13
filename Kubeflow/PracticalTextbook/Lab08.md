@@ -6,7 +6,7 @@
 2. 좌측 상단의 `+` 클릭
 3. Other 중 `Terminal` 선택
 4. `simple_pipeline.ipynb` 파일 다운
-    - 터미널에 아래 명령어를 입력
+    - 터미널에 아래 명령어 입력
     #### **lab9-1-4**
     ```bash
     wget https://github.com/kakaocloud-edu/tutorial/raw/main/Kubeflow/src/ipynb/simple_pipeline.ipynb
