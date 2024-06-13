@@ -51,7 +51,7 @@ kubeflow 실습을 위한 프로젝트 실습 환경구성입니다.
 
 ## 5. VPC 생성 (데모)
 1. 카카오 클라우드 콘솔 > Beyond Networking Service > VPC
-2. VPC 탭 > `VPC 생성` 클릭
+2. VPC 탭 > `VPC 생성` 버튼 클릭
 3. VPC 설정 정보
     - VPC 정보
         - VPC 이름 : `vpc_k8s`
