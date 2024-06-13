@@ -5,11 +5,11 @@
 1. 카카오 클라우드 콘솔 > Container Pack > Container Registry > Repository
 2. Repository 탭 > `+ 리포지토리 만들기` 클릭
    - 리포지토리 설정 정보
-      - 공개 여부 : `비공개` 선택
+      - 공개 여부 : `비공개`
       - 리포지토리 이름 : `kakao-registry`
-      - 태그 덮어쓰기 : `가능` 선택
-      - 이미지 스캔
-      - 만들기 클릭
+      - 태그 덮어쓰기 : `가능`
+      - 이미지 스캔 : `자동`
+   - `만들기` 클릭
 3. 생성된 `kakao-registry` 클릭
 4. 생성된 Container Registry 확인
 
@@ -30,8 +30,6 @@
    export AUTH_DATA='클러스터의 certificate-authority-data 값 입력'
    export API_SERVER='클러스터의 server 값 입력'
    export PROJECT_NAME='프로젝트 이름 입력'
-   export DOCKER_IMAGE_NAME='이미지 이름 입력(hyperpram)'
-   export USER_NAMESPACE='사용자 네임스페이스 입력(kbm-u-kubeflow-tutorial)'
    EOF
    )
    
@@ -98,15 +96,15 @@
 2. Lab1-4에서 복사해둔 사용자 액세스 키 ID와 사용자 액세스 보안 키를 스크립트 메모장에 붙여넣기
 3. 카카오 클라우드 콘솔 > Container Pack > Kubernetes > Cluster
 4. 프로젝트 이름 메모장에 붙여넣은 후 `kubectl` 버튼 클릭
+5. kubeconfilg 파일 다운로드 후 파일 열기
    - 왼쪽 상단에 있는 프로젝트 이름 복사 후 메모장에 붙여넣기
    - `kubectl` 버튼 클릭
    - `kubeconfilg 파일 다운로드` 버튼 클릭 후 파일 열기
       - **Note**: 연결 프로그램을 메모장으로 열기 (다른 SDK 환경도 가능)
-   - clusters 하위의 `certificate-authority-data`, `server`, `name` 값 메모장에 붙여넣기
+6. clusters 하위의 `certificate-authority-data`, `server`, `name` 값 메모장에 붙여넣기
         ![image](https://github.com/KOlizer/tutorial/assets/127844467/362b8588-156a-4fc7-9f9b-add2574162d5)
-5. Instance 만들기
-6. 카카오 클라우드 콘솔 > Beyond Compute Service > Virtual Machine > Instance
-7. `Instance 만들기` 클릭
+7. 카카오 클라우드 콘솔 > Beyond Compute Service > Virtual Machine > Instance
+8. `Instance 만들기` 클릭
    - 인스턴스 설정 정보
       - 기본 정보
          - 이름 : `bastion`
@@ -117,7 +115,7 @@
          - 루트 볼륨 : `30 GB`
       - 키 페어 : `생성해둔 keypair` 선택
       - 네트워크
-         - vpc : `vpc_k8s` 선택
+         - VPC : `vpc_k8s` 선택
          - 서브넷 : `main` 선택
          - 보안 그룹
             - `보안 그룹 생성` 클릭 
@@ -125,12 +123,12 @@
                - 보안 그룹 이름 : `bastion`
                - 보안 그룹 설명(선택) : 빈칸
                - 인바운드 정보
-                  - 1 번째 인바운드
+                  - 1번째 인바운드
                      - 프로토콜 : `TCP`
                      - 패킷 출발지 : `교육장의 사설 IP/32`
                      - 포트번호 : `22`
                      - 추가하기 클릭
-                  - 2 번째 인바운드
+                  - 2번째 인바운드
                      - 프로토콜 : `TCP`
                      - 패킷 출발지 : `0.0.0.0/0`
                      - 포트번호 : `8080`
@@ -139,16 +137,18 @@
                   - 프로토콜 : `ALL`
                   - 패킷 출발지 : `0.0.0.0/0`
                   - 포트번호 : `ALL`
-               - 생성 클릭
+               - `생성` 클릭
             - `bastion` 선택
       - 하단의 고급설정 클릭
       - 사용자 스크립트에 Lab6-4까지 작성한 메모장 내용 붙여넣기
          - **Note**: 가상머신을 생성할 때 고급 설정 스크립트 부분을 설정하지 못하였더라도 추후 설정할 수 있습니다.
-      - 생성 클릭
-8. 생성된 인스턴스의 우측 메뉴바 > Public IP 연결 클릭
+   - `생성` 클릭
+9. 인스턴스에 퍼블릭 IP 연결
+   - 생성된 인스턴스의 우측 메뉴바 > Public IP 연결 클릭
    - `새로운 Public IP를 생성하고 자동으로 할당` 선택
-   - 확인 버튼 클릭
-9. 생성된 인스턴스의 우측 메뉴바 > SSH 연결 클릭
+   - `확인` 버튼 클릭
+10. 인스턴스에 SSH 연결
+   - 생성된 인스턴스의 우측 메뉴바 > SSH 연결 클릭
    - SSH 접속 명령어 복사 (다운받은 keypair.pem 파일이 있는 경로에서 아래 명령어를 실행합니다.)
    - 터미널 열기
    - keypair를 다운받아놓은 폴더로 이동
@@ -207,7 +207,7 @@
    ```
 
 ## 3. 도커 이미지 생성 및 레지스트리 등록
-1. 이미지 빌드하기
+1. 이미지 빌드
    #### **lab6-3-1**
    ```bash
    docker build -t hyperpram:1.0 .
@@ -217,7 +217,7 @@
    ```bash
    docker images
    ```
-3. 테스트로 이미지 실행 (run) 해보기 
+3. 테스트로 이미지 실행(run)
    #### **lab6-3-3**
    ```bash
    docker run -d hyperpram:1.0
@@ -228,17 +228,17 @@
    ```bash
    docker login ${PROJECT_NAME}.kr-central-2.kcr.dev --username ${ACC_KEY} --password ${SEC_KEY}
    ```
-5. 생성한 이미지 태그하기
+5. 이미지 Push를 위한 태깅(tag)
    #### **lab6-3-5**
    ```bash
    docker tag ${DOCKER_IMAGE_NAME}:1.0 ${PROJECT_NAME}.kr-central-2.kcr.dev/kakao-registry/${DOCKER_IMAGE_NAME}:1.0
    ```
-6. 이미지 태그 확인
+6. 이미지가 정상적으로 태그 되었는지 확인
    #### **lab6-3-6**
    ```bash
    docker images
    ```
-7. 이미지 업로드하기
+7. 이미지 업로드
    #### **lab6-3-7**
    ```bash
    docker push ${PROJECT_NAME}.kr-central-2.kcr.dev/kakao-registry/${DOCKER_IMAGE_NAME}:1.0
@@ -267,7 +267,7 @@
 
 ## 4. Kubeflow UI에서 Experiment 생성
 1. 깃허브 lab6-4-1 Experiment 설정 파일을 메모장에 붙여넣기
-   - **Note**: 아래 명령어를 입력한 뒤 출력된 파일 내용을 복사하세요.
+      - **Note**:아래 스크립트를 메모장에 붙여넣기
     #### **lab6-4-1**
     ```bash
    apiVersion: "kubeflow.org/v1beta1"
@@ -340,10 +340,13 @@
          kind: File
     ```
 
-2. 카카오클라우드 왼쪽 상단에 있는 프로젝트 이름 복사 후 메모장에 붙여넣기
-3. Kubeflow 대시보드의 Experiments (AutoML) 탭 > [New Experiment] 버튼 클릭
-4. 하단의 Edit 클릭
-5. 기존 내용을 지운 뒤 터미널에서 복사한 Experiment.yaml 내용을 복사여 붙여넣고 [CREATE] 버튼 클릭
+2. 카카오클라우드 콘솔 왼쪽 상단에 있는 프로젝트 이름 복사 후 메모장에 붙여넣기
+3. Kubeflow 대시보드의 Experiments (AutoML) 탭 > `New Experiment` 버튼 클릭
+4. 하단의 `Edit` 클릭
+5. 기존 내용을 지운 뒤 Experiment 설정 파일 내용 삽입
+   - 기존 내용 지우기
+   - Experiment 설정 파일 내용 삽입
+   - `CREATE` 버튼 클릭
 
 ## 5. Experiment 결과 확인
 1. 생성된 mnist-hyperparameter-tuning 클릭
