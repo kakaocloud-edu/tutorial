@@ -4,19 +4,23 @@ Training Operator를 사용하여 병렬 학습 환경을 구축하고 PyTorchJo
 ## 1. pytorch용 CPU 기반 노트북 생성
 1.  `Notebooks` 탭  클릭 
 2. `+ New Notebook` 클릭
-3. 노트북 설정 정보 작성
-    - Notebook 이름, 네임스페이스, 이미지 설정
-        - Name: `train-test`
-        - Namespace: `kbm-u-kubeflow-tutorial`
-        - Image: `mlops-pipelines/jupyter-pyspark-pytorch:v1.0.1.py36`
-    - CPU / RAM / GPUs 설정
-        - Requested CPUs: `2`
-        - Requested memory in Gi: `6`
-    - Volume / Configurations 설정 : `모두 기존 값 사용`
-    - Affiinity / Tolerations 설정
-        - Affiinity : `pool-worker 선택`
-        - Tolerations: `None(기존 값)`
-        - `Miscellaneous Settings`: 기존 값 사용
+    - 노트북 설정 정보
+        - Name
+            - Name: `train-test`
+            - Namespace: `kbm-u-kubeflow-tutorial`
+        - Docker Image
+            - Image: `mlops-pipelines/jupyter-pyspark-pytorch:v1.0.1.py36`
+        - CPU/RAM
+            - Requested CPUs: `2`
+            - Requested memory in Gi: `6`
+        - GPUs
+            - Number of GPUs: `None`
+        - Workspace Valume, Data Valumes, Configurations : `모두 기본값 사용`
+        - Affiinity/Tolerations
+    
+            - Affiinity : `pool-worker 선택`
+            - Tolerations: `None`
+        - Miscellaneous Settings : Enable Shared Memory
     - `LAUNCH` 클릭
 4. `train-test` > `CONNECT` 버튼 클릭
 5. Other 중 `Terminal` 클릭
