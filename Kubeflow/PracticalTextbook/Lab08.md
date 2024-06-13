@@ -5,23 +5,23 @@
 1. Notebooks 탭 > `gpu-notebook`의 `CONNECT` 버튼 클릭
 2. 좌측 상단의 `+` 클릭
 3. Other 중 `Terminal` 선택
-4. kubectl.ipynb 파일 다운
+4. `simple_pipeline.ipynb` 파일 다운
     - 터미널에 아래 명령어를 입력하세요.
     #### **lab9-1-4**
     ```bash
     wget https://github.com/kakaocloud-edu/tutorial/raw/main/Kubeflow/src/ipynb/simple_pipeline.ipynb
     ```
-    - simple_pipeline.ipynb 파일 생성 확인
+    - `simple_pipeline.ipynb` 파일 생성 확인
 5. 필요한 라이브러리 import 
-    - simple_pipeline.ipynb 파일 더블 클릭
-    - 1번 스크립트 클릭 후 RUN 클릭
+    - `simple_pipeline.ipynb` 파일 더블 클릭
+    - 1번 스크립트 클릭 후 `RUN` 클릭
 6. 대시보드 접속한 로드밸런서의 Public IP 복사
 7. Kubeflow Pipelines에 접속하기 위한 환경 변수 설정
     - 아래 환경 변수들에 값들을 넣어주세요.
         - KUBEFLOW_HOST : https://대시보드 접속한 로드밸런서의 Public IP/
         - KUBEFLOW_USERNAME : 대시보드 접속 아이디(이메일) 입력
         - KUBEFLOW_PASSWORD : 대시보드 접속 비밀번호 입력
-    - 2번 스크립트 클릭 후 RUN 클릭
+    - 2번 스크립트 클릭 후 `RUN` 클릭
 8. 컴포넌트 정의 (덧셈 함수를 정의 후 Kubeflow 컴포넌트로 변환)
     - **Note**: ADD 컴포넌트를 정의하는 블록
     -  `3-1`번 스크립트 클릭 후 `RUN` 클릭
@@ -43,7 +43,7 @@
     - **Note**: SDK를 통해 파이프라인을 실행하는 블록
     - `6`번 확인 후 `RUN` 클릭 
     - 파이프라인이 생성되고 실행됨을 확인 
-2. `Experiments(KFP)` 탭 > 생성된 math_pipeline_test experiment 확인
+2. `Experiments(KFP)` 탭 > 생성된 `math_pipeline_test` experiment 확인
 3. Runs 탭 > 생성된 `math_pipeline_run` 클릭
 4. `Add` 컴포넌트 클릭 후 내용 확인 
 5. `Multiply` 컴포넌트 클릭 후 내용 확인
@@ -51,7 +51,7 @@
 ## 3. Kubeflow 대시보드 UI를 통한 파이프라인 실행
 
 1. gpu-notebook > `math.pipeline.yaml` 우클릭 > `Download` 클릭
-2. `Pipelines` 탭 > `+ Upload pipeline ` 클릭
+2. `Pipelines` 탭 > `+ Upload pipeline` 클릭
 3. 파이프라인 생성
     - `Create a new pipeline` 선택
     - Pipeline name : `second math_pipeline`
@@ -60,16 +60,16 @@
     - Create 클릭
 4. `+ Create run` 클릭
 5. This run will be associated with the following experiment > `Choose` 클릭
-    - Experiment 부분 Choose 클릭
+    - Experiment 부분 `Choose` 클릭
 6. Experiment 업로드
-    - SDK를 통해 만들어진  math_pipeline test experiment 선택
-    - Use this experiment 클릭
+    - SDK를 통해 만들어진 `math_pipeline test experiment` 선택
+    - `Use this experiment` 클릭
 7. 파라미터 설정
     - Run parameters
-        - `a`: 4
-        - `b`: 5
-        - `c`: 6 
-    - Start 클릭
+        - a : `4`
+        - b : `5`
+        - c : `6` 
+    - `Start` 클릭
 8. `Experiments(KFP)` 탭 > `math_pipeline test experiment` 클릭
 9. 실행되었던 Run 항목들 확인
     - Run의 이름, 상태, Duration, 버전 확인
@@ -83,6 +83,7 @@
 3. 실행된 `Run of second math_pipeline`의 `Pipeline Version` 클릭
 4. 실행된 `Run of second math_pipeline`이 참조한 파이프라인 확인
     - 실행된 Run이 참조한 파이프라인을 확인할 수 있음
+    - 확인 후 뒤로가기 클릭
 5. 실행된 `Run of second math_pipeline` 클릭 
 6. `Graph` 확인
     - Graph로 각 컴포넌트들과 컴포넌트간의 연결 및 실행 상태를 확인 가능
