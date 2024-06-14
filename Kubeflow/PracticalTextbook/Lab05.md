@@ -37,7 +37,7 @@ CPU, GPU Notebook을 각각 생성하고 Tensorboard, 하이퍼파라미터 튜�
    - speed.ipynb 파일 생성 확인
 
 4. Notebooks 탭 > `gpu-notebook`의 `CONNECT` 클릭
-   **Note**: `cpu-notebook`, `gpu-notebook` 서로 다름 유의
+   - **Note** : `cpu-notebook`, `gpu-notebook` 서로 다름 유의
 5. Other 중 `Terminal` 클릭
 6. speed.ipynb 파일 다운로드
     #### **Lab5-2-10**
