@@ -13,6 +13,7 @@
 
 
 ## 2. CPU 기반 Jupyter Notebook 생성
+   - **Note** : Kubeflow 콘솔에서 진행하는 실습입니다.
 
 1. kbm-u-kubeflow-tutorial 네임스페이스 선택 > 좌측 메뉴바의 `Notebooks` 탭 클릭 
 2. `+ New Notebook` 클릭
