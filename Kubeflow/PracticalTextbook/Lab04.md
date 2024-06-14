@@ -22,7 +22,7 @@
          - Name : `cpu-notebook`
          - Namespace : `kbm-u-kubeflow-tutorial`
       - Docker Image
-         - Image : `jupyter-tensorflow-cuda-full:v1.0.1.py36`
+         - Image : `mlops-pipelines/jupyter-tensorflow-cuda-full:v1.0.1.py36`
       - CPU/RAM
          -  Requested CPUs : `2`
          - Requested memory in Gi : `8`
