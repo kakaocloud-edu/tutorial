@@ -30,7 +30,7 @@
          - 포트 : `3306`
          - 비밀번호 : `admin1234!`
      - Object storage 타입 : `KC Object Storage`
-     - 도메인 연결 (선택) : kakaocloud-edu.com
+     - 도메인 연결 (데모) : kakaocloud-edu.com
      - `만들기` 버튼 클릭
 5. Active 생성 확인
 6. Kubeflow 생성 시 입력한 소유자 이메일 계정, 해당 이메일로 전송된 임시 비밀번호 복사 후 메모장에 붙여넣기
