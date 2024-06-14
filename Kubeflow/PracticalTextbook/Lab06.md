@@ -232,7 +232,7 @@
 5. 이미지 Push를 위한 태깅(tag)
    #### **lab6-3-5**
    ```bash
-   docker tag ${DOCKER_IMAGE_NAME}:1.0 ${PROJECT_NAME}.kr-central-2.kcr.dev/kakao-registry/${DOCKER_IMAGE_NAME}:1.0
+   docker tag hyperpram:1.0 ${PROJECT_NAME}.kr-central-2.kcr.dev/kakao-registry/hyperpram:1.0
    ```
 6. 이미지가 정상적으로 태그 되었는지 확인
    #### **lab6-3-6**
@@ -242,7 +242,7 @@
 7. 이미지 업로드
    #### **lab6-3-7**
    ```bash
-   docker push ${PROJECT_NAME}.kr-central-2.kcr.dev/kakao-registry/${DOCKER_IMAGE_NAME}:1.0
+   docker push ${PROJECT_NAME}.kr-central-2.kcr.dev/kakao-registry/:1.0
    ```
 8. 카카오 클라우드 콘솔 > Container Pack > Container Resistry > Repository
 9. `kakao-registry` 클릭
@@ -257,8 +257,7 @@
    --docker-server=kakao-sw-club.kr-central-2.kcr.dev \
    --docker-username=${ACC_KEY} \
    --docker-password=${SEC_KEY} \
-   --docker-email=${EMAIL_ADDRESS} \
-   --namespace=${USER_NAMESPACE}
+   --docker-email=${EMAIL_ADDRESS}
    ```
 12. 시크릿 키 생성 확인
    #### **lab6-3-13**
