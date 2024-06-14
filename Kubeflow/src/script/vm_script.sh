@@ -6,9 +6,9 @@ command=$(cat <<EOF
 export ACC_KEY='액세스 키 아이디 입력'
 export SEC_KEY='보안 액세스 키 입력'
 export EMAIL_ADDRESS='사용자 이메일 입력'
-export CLUSTER_NAME='클러스터 이름 입력'
 export AUTH_DATA='클러스터의 certificate-authority-data 값 입력'
 export API_SERVER='클러스터의 server 값 입력'
+export CLUSTER_NAME='클러스터 이름 입력'
 export PROJECT_NAME='프로젝트 이름 입력'
 EOF
 )
