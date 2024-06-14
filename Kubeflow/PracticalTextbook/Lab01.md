@@ -49,7 +49,7 @@ kubeflow 실습을 위한 프로젝트 실습 환경구성입니다.
      - `생성` 버튼 클릭
 6. 사용자 액세스 키 ID, 사용자 액세스 보안 키 복사 후 메모장에 붙여넣기
 
-## 5. VPC 생성 (데모)
+## 5. [Demo] VPC 생성
 1. 카카오 클라우드 콘솔 > Beyond Networking Service > VPC
 2. VPC 탭 > `VPC 생성` 버튼 클릭
 3. VPC 설정 정보
