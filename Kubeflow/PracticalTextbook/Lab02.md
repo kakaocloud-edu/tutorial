@@ -30,7 +30,7 @@
          - 포트 : `3306`
          - 비밀번호 : `admin1234!`
      - Object storage 타입 : `KC Object Storage`
-     - [Demo]도메인 연결 : kakaocloud-edu.com
+     - [Demo] 도메인 연결 : kakaocloud-edu.com
      - `만들기` 버튼 클릭
 5. Active 생성 확인
 6. Kubeflow 생성 시 입력한 소유자 이메일 계정, 해당 이메일로 전송된 임시 비밀번호 복사 후 메모장에 붙여넣기
@@ -49,7 +49,7 @@
     - Password : `소유자 이메일로 전송된 초기 패스워드`
     - 로그인 확인
 
-## 3. [Demo]Kubeflow 대시보드에 접속하기(Kubectl 포트 포워딩을 이용)
+## 3. [Demo] Kubeflow 대시보드에 접속하기(Kubectl 포트 포워딩을 이용)
 
 1. 사용자 로컬 시스템의 특정 포트(예:8080)를 Kubeflow 대시보드 포트로 포워딩
     #### **lab2-3-1**
