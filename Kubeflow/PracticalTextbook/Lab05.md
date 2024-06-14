@@ -11,7 +11,7 @@ CPU, GPU Notebook을 각각 생성하고 Tensorboard, 하이퍼파라미터 튜�
          - Name : `gpu-notebook`
          - Namespace : `kbm-u-kubeflow-tutorial`
       - Docker Image
-         -  Image : `mlops-pipelines/jupyter- tensorflow-full:v1.0.1.py36`
+         -  Image : `mlops-pipelines/jupyter-tensorflow-cuda-full:v1.0.1.py36`
       - CPU/RAM
          - Requested CPUs : `2`
          - Requested memory in Gi : `8`
