@@ -38,7 +38,7 @@
 
 ## 2. Kubeflow 대시보드에 접속하기(로드밸런서 Public IP를 이용)
 1. 카카오 클라우드 콘솔 > Beyond Networking Service > Load Balancing
-2. Kubeflow의 Ingress를 위해 생성된 kube_service_{프로젝트 아이디}_{IKE 클러스터명}_ingress-nginx_ingress-nginx-controller 이름의 로드밸런서를 찾아 Public IP 연결
+2. Kubeflow의 Ingress를 위해 생성된 두 개의 로드밸런서에 Public IP 연결
     - 로드밸런서 우측 더보기 버튼 클릭
     - `Public IP 연결` 클릭
     - `새로운 Public IP를 생성하고 자동으로 할당` 선택
