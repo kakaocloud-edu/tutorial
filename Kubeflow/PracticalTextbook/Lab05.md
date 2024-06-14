@@ -1,5 +1,5 @@
 # 간단한 Notebook 실습
-   **Note**: Kubeflow 콘솔에서 진행하는 실습입니다.
+     **Note**: Kubeflow 콘솔에서 진행하는 실습입니다.
 CPU, GPU Notebook을 각각 생성하고 Tensorboard, 하이퍼파라미터 튜닝 등을 실습합니다.
 
 ## 1. GPU 기반 Jupyter Notebook 생성
