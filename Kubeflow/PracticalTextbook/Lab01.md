@@ -89,8 +89,8 @@ kubeflow 실습을 위한 프로젝트 실습 환경구성입니다.
 5. 클러스터 생성 상태 확인 (생성 약 10~15분 소요)
 
 ## 7. Kubernetes Engine Cluster의 노드풀 생성
-1. 생성된 `kakao-k8s` 클릭
-2. 생성된 kakao-k8s 세부 정보 확인
+1. 생성된 `k8s-cluster` 클릭
+2. 생성된 k8s-cluster 세부 정보 확인
 
 #### pool-ingress 노드
 3. 노드 풀 탭 > 노드 풀 만들기 클릭
