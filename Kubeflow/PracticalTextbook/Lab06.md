@@ -257,7 +257,8 @@
    --docker-server=kakao-sw-club.kr-central-2.kcr.dev \
    --docker-username=${ACC_KEY} \
    --docker-password=${SEC_KEY} \
-   --docker-email=${EMAIL_ADDRESS}
+   --docker-email=${EMAIL_ADDRESS} \
+   --namespace=${USER_NAMESPACE}
    ```
 12. 시크릿 키 생성 확인
    #### **lab6-3-13**
