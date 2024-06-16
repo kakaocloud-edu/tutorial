@@ -2,6 +2,7 @@
 하이퍼파라미터 튜닝을 위해 트레이닝 이미지를 직접 빌드하고 컨테이너 레지스트리에 이미지를 푸시합니다. 이 과정을 통해 Experiment를 생성하여 최적의 하이퍼파라미터를 찾는 방법을 자동화하는 실습을 진행합니다.
 
 ## 1. Container Registry 생성
+**Note** : 카카오 클라우드 자동 로그아웃 된 경우, 조직이름 : kakaocloud-edu 입력 후 진행
 1. 카카오 클라우드 콘솔 > Container Pack > Container Registry > Repository
 2. Repository 탭 > `+ 리포지토리 만들기` 클릭
    - 리포지토리 설정 정보
@@ -186,6 +187,8 @@
    ```bash
    watch -c 'awk "/kakaocloud:/ {gsub(/([0-9]+)\\./, \"\\033[33m&\\033[0m\"); print}" < /var/log/cloud-init-output.log'
    ```
+   - **Note**: 설치 확인 화면 `ctrl+c`로 빠져나오기
+
 12. 하이퍼파라미터 파일 다운로드 확인
    #### **6-2-12**
    ```bash
