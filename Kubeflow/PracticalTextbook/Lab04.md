@@ -23,6 +23,7 @@
          - Namespace : `kbm-u-kubeflow-tutorial`
       - Docker Image
          - Image : `mlops-pipelines/jupyter-tensorflow-cuda-full:v1.0.1.py36`
+         - **Note**: 이미지 이름 정확하게 확인하기
       - CPU/RAM
          -  Requested CPUs : `2`
          - Requested memory in Gi : `8`
