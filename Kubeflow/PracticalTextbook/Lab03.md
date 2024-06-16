@@ -4,7 +4,7 @@ Kakocloud 콘솔을 이용한 Kubeflow의 사용자와 그룹을 추가하는 �
 ### 1. kakaocloud 콘솔에서 사용자 추가
    - **Note** : 관리자/맴버 권한이 없는 유저를 추가하는 경우 생성 불가
 1. 카카오 클라우드 콘솔 AI Service > Kubeflow > Kubeflow
-2. Kubeflow 탭 > `사용자 추가` 클릭
+2. Kubeflow 탭 > 생성한 kubeflow (kc-handson) > `사용자 추가` 클릭
 3. Kubeflow 소유자 타입으로 생성 (도메인에 IAM 유저 중에 관리자/맴버 권한이 있는 유저 이메일 추가)
    - 사용자 타입 : `Kubeflow 소유자`
    - 사용자 이메일 : `사용자 이메일 입력`
