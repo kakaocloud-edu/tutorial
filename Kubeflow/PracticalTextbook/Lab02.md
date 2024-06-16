@@ -9,6 +9,7 @@
     - Kubeflow 이름 : `kc-handson`
     - Kubeflow 구성
         - 버전 : `1.0.0`
+        - 서비스 타입 : `체크된 기본값`
     - 클러스터 연결 : `k8s-cluster`
     - 클러스터 구성
         - 필수 노드 풀 설정 
@@ -38,11 +39,12 @@
 
 ## 2. Kubeflow 대시보드에 접속하기(로드밸런서 Public IP를 이용)
 1. 카카오 클라우드 콘솔 > Beyond Networking Service > Load Balancing
-2. Kubeflow의 Ingress를 위해 생성된 두 개의 로드밸런서(kube_service_{프로젝트 아이디}_{IKE 클러스터명}_ingress-nginx_ingress-nginx-controller)에 Public IP 연결
-    - 로드밸런서 우측 더보기 버튼 클릭
+2. Kubeflow의 Ingress를 위해 생성된 **두 개**의 로드밸런서(kube_service_{프로젝트 아이디}_{IKE 클러스터명}_ingress-nginx_ingress-nginx-controller)에 Public IP 연결
+    - 로드밸런서 우측 더보기 버튼(점 3개) 클릭
     - `Public IP 연결` 클릭
     - `새로운 Public IP를 생성하고 자동으로 할당` 선택
     - `적용` 버튼 클릭
+    - 새로 고침으로 할단된 Public IP 확인
 3. 웹브라우저 주소창에 `http://{로드밸런서의 Public IP}` 입력하여 접속
 4. 대시보드에 접속한 후 Kubeflow 생성 단계에서 입력한 소유자 이메일 계정과 복사해둔 소유자 이메일로 전송된 초기 패스워드를 사용하여 로그인
     - Email Address : `소유자 이메일 계정`
