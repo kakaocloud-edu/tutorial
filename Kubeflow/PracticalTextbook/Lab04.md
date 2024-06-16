@@ -58,13 +58,13 @@
 
 ## 4. Service Accounts 목록 조회
 
-1. Kubernetes ServiceAccount 리소스 조회
+1. Kubernetes ServiceAccount 리소스 조회 
    - **Note**: 위에서 생성한 Notebook(`cpu-notebook`)에서 입력
    #### **lab4-4-1**
    ```bash
    kubectl get sa
    ```
-3. 매핑된 바인딩 확인
+3. 매핑된 바인딩 확인 (데모)
    - kbm-u-kubeflow-tutorial 네임스페이스의 모든 RoleBinding 목록 조회
    - **Note**: 터미널 창에서 입력
    #### **lab4-4-2-1**
@@ -72,7 +72,7 @@
    kubectl get rolebinding -n kbm-u-kubeflow-tutorial
    ```
 
-4. 특정 RoleBinding의 상세 정보 출력
+4. 특정 RoleBinding의 상세 정보 출력 (데모)
    - kbm-u-kubeflow-tutorial 네임스페이스의 default-editor RoleBinding의 세부 정보를 YAML 형식으로 조회
    - **Note**: 터미널 창에서 입력
    #### **lab4-4-2-2**
@@ -85,5 +85,5 @@
    - **Note**: 위에서 생성한 Notebook(`cpu-notebook`)에서 입력
    #### **lab4-5-1**
    ```bash
-   kubectl get pvc
+   kubectl get pvc -n kbm-u-kubeflow-tutorial
    ```
