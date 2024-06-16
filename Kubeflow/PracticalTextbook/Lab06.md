@@ -242,7 +242,7 @@
 7. 이미지 업로드
    #### **lab6-3-7**
    ```bash
-   docker push ${PROJECT_NAME}.kr-central-2.kcr.dev/kakao-registry/:1.0
+   docker push ${PROJECT_NAME}.kr-central-2.kcr.dev/kakao-registry/hyperpram:1.0
    ```
 8. 카카오 클라우드 콘솔 > Container Pack > Container Resistry > Repository
 9. `kakao-registry` 클릭
