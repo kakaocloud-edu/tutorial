@@ -45,7 +45,7 @@ Training Operator를 사용하여 병렬 학습 환경을 구축하고 PyTorchJo
    - **Note**: Traing Job을 삭제하면 뒷 부분 실습이 진행이 안되기 때문에 ‘k8s 내부 동작 확인’ 실습 후 삭제 진행합니다
 
 ## 4. k8s 내부 동작 확인
-1. PytorchJob 내용 확인
+1. 앞에서 쓰던 노트북 하단에 명령어 입력해서  PytorchJob 내용 확인
     - **Note**: 터미널에 아래 명령어를 입력하세요.
     #### **lab7-4-1**
     ```bash
