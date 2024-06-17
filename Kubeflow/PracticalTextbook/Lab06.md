@@ -327,7 +327,7 @@
              spec:
                containers:
                  - name: mnist-training
-                   image: ${프로젝트 이름}.kr-central-2.kcr.dev/kakao-registry/hyperpram
+                   image: ${프로젝트 이름}.kr-central-2.kcr.dev/kakao-registry/hyperpram:1.0
                    command:
                      - "python"
                      - "mnist_train.py"
