@@ -178,10 +178,10 @@
      ```
 
 ### Note : 10번은 고급설정을 진행하지 않았을 때만 진행합니다
-10. **bastion 생성 시에 고급 설정을 진행하지 않았을 때 진행**
+11. **bastion 생성 시에 고급 설정을 진행하지 않았을 때 진행**
    - 메모장에 작성해 놓은 스크립트 전체 복사
-   - 복사한 스크립트 명령어 bastion 터미널에 붙여 넣기
-11. cloud-init log 확인하는 명령어 입력
+12. 복사한 스크립트 명령어 bastion 터미널에 붙여 넣기
+13. cloud-init log 확인하는 명령어 입력
    - **Note**: 터미널 창이 작으면 로그가 안보일 수도 있으니, 터미널 창의 크기를 늘려주세요.
    #### **6-2-11**
    ```bash
@@ -189,22 +189,22 @@
    ```
    - **Note**: 설치 확인 화면 `ctrl+c`로 빠져나오기
 
-12. 하이퍼파라미터 파일 다운로드 확인
+14. 하이퍼파라미터 파일 다운로드 확인
    #### **6-2-12**
    ```bash
    ls
    ```
-13. kubectl get nodes를 통해 생성했던 노드들 조회(총 8개)
+15. kubectl get nodes를 통해 생성했던 노드들 조회(총 8개)
    #### **6-2-13**
    ```bash
    kubectl get nodes
    ```
-14. Dockerfile 내용 조회
+16. Dockerfile 내용 조회
    #### **6-2-14**
    ```bash
     cat Dockerfile
    ```
-15. mnist_train.py 내용 조회
+17. mnist_train.py 내용 조회
    #### **6-2-15**
    ```bash
    cat mnist_train.py 
@@ -221,7 +221,7 @@
    ```bash
    docker images
    ```
-3. 테스트로 이미지 실행(run)
+3. 테스트로 이미지 실행
    #### **lab6-3-3**
    ```bash
    docker run -d hyperpram:1.0
@@ -232,7 +232,7 @@
    ```bash
    docker login ${PROJECT_NAME}.kr-central-2.kcr.dev --username ${ACC_KEY} --password ${SEC_KEY}
    ```
-5. 이미지 Push를 위한 태깅(tag)
+5. 이미지 Push를 위한 태깅
    #### **lab6-3-5**
    ```bash
    docker tag hyperpram:1.0 ${PROJECT_NAME}.kr-central-2.kcr.dev/kakao-registry/hyperpram:1.0
@@ -253,7 +253,7 @@
 
    ![image](https://github.com/KOlizer/tutorial/assets/127844467/8473733e-5591-4dd8-af27-70d3bbe30c69)
 
-11. bastion VM 터미널에 lab6-3-11 스크립트를 입력하여 시크릿 키 생성
+11. bastion VM 터미널에서 시크릿 키 생성
    #### **lab6-3-11**
    ```bash
    kubectl create secret docker-registry regcred \
