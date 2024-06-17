@@ -4,7 +4,7 @@
 ## 1. .ipynb 파일 업로드
 1. Notebooks 탭 > `gpu-notebook`의 `CONNECT` 버튼 클릭
 2. 좌측 상단의 `+` 클릭
-3. Other 중 `Terminal` 선택
+3. Other 중 `Terminal` 클릭
 4. `simple_pipeline.ipynb` 파일 다운
     - 터미널에 아래 명령어 입력
     #### **lab9-1-4**
