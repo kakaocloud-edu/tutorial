@@ -15,7 +15,7 @@
 5. 필요한 라이브러리 import 
     - `simple_pipeline.ipynb` 파일 더블 클릭
     - 1번 스크립트 클릭 후 `RUN` 클릭
-6. 대시보드 접속한 로드밸런서의 Public IP 복사
+6. 주소창에 있는 대시보드 접속한 로드밸런서의 Public IP 복사
 7. Kubeflow Pipelines에 접속하기 위한 환경 변수 설정
     - **Note**: ''(따옴표) 안에 값을 넣어주세요
     - 아래 환경 변수들에 값들을 넣어주세요.
@@ -23,20 +23,20 @@
         - KUBEFLOW_USERNAME : 대시보드 접속 아이디(이메일) 입력
         - KUBEFLOW_PASSWORD : 대시보드 접속 비밀번호 입력
     - 2번 스크립트 클릭 후 `RUN` 클릭
-9. 컴포넌트 정의 (덧셈 함수를 정의 후 Kubeflow 컴포넌트로 변환)
+8. 컴포넌트 정의 (덧셈 함수를 정의 후 Kubeflow 컴포넌트로 변환)
     - **Note**: ADD 컴포넌트를 정의하는 블록
     -  `3-1`번 스크립트 클릭 후 `RUN` 클릭
-10. 컴포넌트 정의 (곱셈 함수를 정의 후 Kubeflow 컴포넌트로 변환)
+9. 컴포넌트 정의 (곱셈 함수를 정의 후 Kubeflow 컴포넌트로 변환)
     - **Note**: Multifly 컴포넌트를 정의하는 블록
     - `3-2`번 스크립트 클릭 후 `RUN` 클릭
-11. 두 개의 컴포넌트를 이용하여 파이프라인을 정의
+10. 두 개의 컴포넌트를 이용하여 파이프라인을 정의
     - **Note**: 두 컴포넌트를 이용해 파이프라인을 정의하는 블록
     - `4`번 확인 후 `RUN` 클릭
-12. 파이프라인을 정의한 후 이를 컴파일 하여 YAML 파일로 저장
+11. 파이프라인을 정의한 후 이를 컴파일 하여 YAML 파일로 저장
     - **Note**: 파이프라인을 정의한 후 컴파일하여 yaml 파일로 저장하는 블록
     - `5`번 확인 후 `RUN` 클릭
     - 생성된 `math_pipeline.yaml` 확인
-13. 생성된 math_pipeline.yaml 파일 내용 확인하기 
+12. 생성된 math_pipeline.yaml 파일 내용 확인하기 
     - 생성된 math_pipeline.yaml 더블 클릭
 
 ## 2. SDK를 통한 파이프라인 실행
@@ -80,13 +80,13 @@
 ### 1. Experiments (KFP)
 1. `Experiments(KFP)` 탭 > `math_pipeline test experiment` 클릭
 2. 실행되었던 `Run` 항목들 확인
-    - Run의 이름, 상태, Duration, 버전 확인
+    - Run의 이름, 상태, Duration 버전 확인
 3. 실행된 `Run of second math_pipeline`의 `Pipeline Version` 클릭
 4. 실행된 `Run of second math_pipeline`이 참조한 파이프라인 확인
     - 실행된 Run이 참조한 파이프라인을 확인할 수 있음
     - 확인 후 뒤로가기 클릭
 5. 실행된 `Run of second math_pipeline` 클릭 
-6. `Graph` 확인
+6. Graph 확인
     - Graph로 각 컴포넌트들과 컴포넌트간의 연결 및 실행 상태를 확인 가능
     - Graph에서 Visualizations,  Events, ML Metadata 등의 정보들도 확인 가능 
 7. 각 컴포넌트의 `Graph` - `Input / Output` 클릭 후 정보 확인
@@ -129,15 +129,16 @@
 4. `Linear Explorer` 선택 후 정보 확인
     - 그래프 형태로 확인 가능
 
-### 4. Artifacts
+### 4. Executions
+
 1. `Executions` 탭 클릭 > `자세히 버튼` 클릭 후 정보 확인
-    - Run 내에서 각 작업의 실행 단위 확인 가능(Add, Multiply) 
+    - Run 내에서 각 작업의 실행 단위 확인 가능(Add, Multiply)
 
 ## 5. 실제 머신러닝 워크플로우를 위한 파이프라인 실습
 1. Notebooks 탭 > `cpu-notebook`의 `CONNECT` 버튼 클릭
 2. 좌측 상단의 ` + ` 버튼 클릭
 3. Other 중 `Terminal` 클릭
-4. `taxi.ipynb` 파일 다운
+4. `taxi.ipynb` 파일 다운로드
     - **Note**: 터미널에 아래 명령어를 입력하세요.
     #### **lab8-5-4**
     ```bash
@@ -154,36 +155,36 @@
         - KUBEFLOW_USERNAME : 대시보드 접속 아이디(이메일) 입력
         - KUBEFLOW_PASSWORD : 대시보드 접속 비밀번호 입력
     - 2번 스크립트 클릭 후 RUN 클릭
-8. 파이프라인 컴포넌트 빌드 준비
+7. 파이프라인 컴포넌트 빌드 준비
     - **Note**: 훈련 데이터를 저장할 디렉토리를 준비하는 블록
     - `3`번 확인 후 `RUN` 클릭
-9. 데이터 수집 컴포넌트 빌드
+8. 데이터 수집 컴포넌트 빌드
     - **Note**: 데이터를 수집 컴포넌트를 빌드하는 블록
     - `3-1`번 확인 후 `RUN` 클릭
-10. 예측 모델 학습 컴포넌트
+9. 예측 모델 학습 컴포넌트
     - **Note**: 예측 모델 학습 컴포넌트를 빌드하는 블록
     - `3-2`번 확인 후 `RUN` 클릭
-11. 모델 검증 컴포넌트
+10. 모델 검증 컴포넌트
     - **Note**: 모델 검증 컴포넌트를 빌드하는 블록
     - `3-3`번 확인 후 `RUN` 클릭
-12. 로드 및 생성
+11. 로드 및 생성
     - **Note**: 컴포넌트를 로드 하고 생성하는 블록
     - `4-1`번 확인 후 `RUN` 클릭
-13. 파이프라인 정의
+12. 파이프라인 정의
     - **Note**: 파이프라인을 정의하는 블록
     - `4-2`번 확인 후 `RUN` 클릭
-14. 파이프라인 실행
+13. 파이프라인 실행
     - **Note**: 파이프라인을 실행하는 블록
     - `4-3`번 확인 후 `RUN` 클릭
     - 실험이 생성되고 실행되었다는 메세지 확인
-15. `Runs` 탭 > `nyc_taxi_pytorch_pipeline_w_cpu run` 클릭
-16. NYC Taxi Fare Dataset 컴포넌트 확인
+14. `Runs` 탭 > `nyc_taxi_pytorch_pipeline_w_cpu run` 클릭
+15. NYC Taxi Fare Dataset 컴포넌트 확인
     - `Graph` 선택
     - `NYC Taxi Fare Dataset` 컴포넌트 클릭
     - `Input / Output` 선택 후 하단 내용 확인
-17. Train Pytorch Tabular Model 컴포넌트 확인 
+16. Train Pytorch Tabular Model 컴포넌트 확인 
     - `Train Pytorch Tabular Model` 컴포넌트 클릭
     - `Input / Output` 선택 후 하단 내용 확인
-18. Evaluate Pytorch Tabular Model 컴포넌트 확인
+17. Evaluate Pytorch Tabular Model 컴포넌트 확인
     - `Evaluate Pytorch Tabular Model` 컴포넌트 클릭
     - `Input / Output` 선택 후 하단 내용 확인
