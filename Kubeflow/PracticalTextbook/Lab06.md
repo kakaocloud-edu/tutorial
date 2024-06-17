@@ -93,7 +93,7 @@
 
    # Experiment.yaml 파일 생성
    envsubst < /home/ubuntu/Experiment.template.yaml > /home/ubuntu/Experiment.yaml
-   
+   rm /home/ubuntu/Experiment.template.yaml
    echo "kakaocloud: 하이퍼파라미터 파일 다운로드 완료"
    
    echo "kakaocloud: 모든 설정이 완료되었습니다."
