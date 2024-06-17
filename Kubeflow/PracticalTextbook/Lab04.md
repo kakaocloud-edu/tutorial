@@ -1,9 +1,10 @@
-# Kubeflow의 쿠버네티스 리소스 확인해보기
+# K8s의 내부 동작 확인
+
 쿠버네티스 위에서 동작하는 Kubeflow의 리소스들이 어떤 것들이 있는지 확인해 보는 실습입니다.
 
 ## 1. 네임스페이스 확인 (데모)
 
-1. Kubeflow를 위한 네임스페이스들 확인
+1. 터미널에서 Kubeflow를 위한 네임스페이스들 확인
    - **Note**: 터미널에서 명령어 입력
    #### **Lab4-1-1**
    ```bash
@@ -12,7 +13,7 @@
    ![image](https://github.com/KOlizer/tutorial/assets/127844467/c8476ac8-462d-4379-9d06-fa315811398a)
 
 
-## 2. CPU 기반 Jupyter Notebook 생성
+## 2. CPU 기반 Notebook 생성
    - **Note** : Kubeflow 콘솔에서 진행하는 실습입니다.
 
 1. kbm-u-kubeflow-tutorial 네임스페이스 선택 > 좌측 메뉴바의 `Notebooks` 탭 클릭 
@@ -40,7 +41,7 @@
 
 ## 3. 특정 네임스페이스의 리소스 확인
 
-1. 생성한 `cpu-notebook`의 `CONNECT` 클릭
+1. Notebooks 탭 > `cpu-notebook`의 `CONNECT` 클릭
 2. Other 중 Terminal 클릭
 3. 특정 네임스페이스의 리소스 확인
    - Kubeflow 네임스페이스의 리소스 출력
@@ -65,7 +66,7 @@
    ```bash
    kubectl get sa
    ```
-3. 매핑된 바인딩 확인 (데모)
+2. 매핑된 바인딩 확인 (데모)
    - kbm-u-kubeflow-tutorial 네임스페이스의 모든 RoleBinding 목록 조회
    - **Note**: 터미널 창에서 입력
    #### **lab4-4-2-1**
@@ -73,7 +74,7 @@
    kubectl get rolebinding -n kbm-u-kubeflow-tutorial
    ```
 
-4. 특정 RoleBinding의 상세 정보 출력 (데모)
+3. 특정 RoleBinding의 상세 정보 출력 (데모)
    - kbm-u-kubeflow-tutorial 네임스페이스의 default-editor RoleBinding의 세부 정보를 YAML 형식으로 조회
    - **Note**: 터미널 창에서 입력
    #### **lab4-4-2-2**
