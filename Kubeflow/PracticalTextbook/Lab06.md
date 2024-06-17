@@ -261,7 +261,7 @@
    --docker-username=${ACC_KEY} \
    --docker-password=${SEC_KEY} \
    --docker-email=${EMAIL_ADDRESS} \
-   --namespace=${USER_NAMESPACE}
+   --namespace=kbm-u-kubeflow-tutorial
    ```
 12. 시크릿 키 생성 확인
    #### **lab6-3-13**
