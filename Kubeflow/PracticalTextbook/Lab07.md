@@ -33,19 +33,19 @@ Training Operator를 사용하여 병렬 학습 환경을 구축하고 PyTorchJo
     - `fashionmnist_pytorch_parallel_train_with_tj.ipynb` 파일 생성 확인
 
 ## 2. 모델 학습 코드 살펴보기 
-1. 우측 화면 영역에 실습 내용을 확인
+1. 우측 화면 영역에 실습 내용 확인
     - `class NeuralNetwork`
     - `load_train_dataset_model_and_opt()`
     
 ## 3. 노트북 코드 결과 확인 
 1. `TrainingClient`를 사용하여 트레이닝 Job을 생성
-2. `get_job_pod_names`를 통해 pod들 목록 확인
+2. `get_job_pod_names`를 통해 pod 목록 확인
 3. `get_job_logs`를 통해 특정 pod의 로그 확인
 4. `delete_pytorchjob`를 통해 pytorchjob 삭제
    - **Note**: Traing Job을 삭제하면 뒷 부분 실습이 진행이 안되기 때문에 ‘k8s 내부 동작 확인’ 실습 후 삭제 진행합니다
 
 ## 4. k8s 내부 동작 확인
-1. 앞에서 쓰던 노트북 하단에 명령어 입력해서  PytorchJob 내용 확인
+1. 앞에서 쓰던 노트북 하단에 명령어 입력해서 PytorchJob 내용 확인
     - **Note**: 터미널에 아래 명령어를 입력하세요.
     #### **lab7-4-1**
     ```bash
