@@ -88,8 +88,11 @@
    
    # 하이퍼파라미터에 필요한 파일 다운로드
    wget -O /home/ubuntu/Dockerfile https://raw.githubusercontent.com/kakaocloud-edu/tutorial/main/Kubeflow/HyperParam/Dockerfile 
-   wget -O /home/ubuntu/Experiment.yaml https://raw.githubusercontent.com/kakaocloud-edu/tutorial/main/Kubeflow/HyperParam/Experiment.yaml 
-   wget -O /home/ubuntu/mnist_train.py https://raw.githubusercontent.com/kakaocloud-edu/tutorial/main/Kubeflow/HyperParam/mnist_train.py 
+   wget -O /home/ubuntu/mnist_train.py https://raw.githubusercontent.com/kakaocloud-edu/tutorial/main/Kubeflow/HyperParam/mnist_train.py
+   wget -O /home/ubuntu/Experiment.template.yaml https://raw.githubusercontent.com/kakaocloud-edu/tutorial/main/Kubeflow/HyperParam/Experiment.template.yaml
+   # Experiment.yaml 파일 생성
+   envsubst < /home/ubuntu/Experiment.template.yaml > /home/ubuntu/Experiment.yaml
+   
    echo "kakaocloud: 하이퍼파라미터 파일 다운로드 완료"
    
    echo "kakaocloud: 모든 설정이 완료되었습니다."
