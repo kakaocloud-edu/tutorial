@@ -90,6 +90,7 @@
    wget -O /home/ubuntu/Dockerfile https://raw.githubusercontent.com/kakaocloud-edu/tutorial/main/Kubeflow/HyperParam/Dockerfile 
    wget -O /home/ubuntu/mnist_train.py https://raw.githubusercontent.com/kakaocloud-edu/tutorial/main/Kubeflow/HyperParam/mnist_train.py
    wget -O /home/ubuntu/Experiment.template.yaml https://raw.githubusercontent.com/kakaocloud-edu/tutorial/main/Kubeflow/HyperParam/Experiment.template.yaml
+
    # Experiment.yaml 파일 생성
    envsubst < /home/ubuntu/Experiment.template.yaml > /home/ubuntu/Experiment.yaml
    
