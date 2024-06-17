@@ -27,7 +27,7 @@
 1. Lab 2-1 Kubeflow 생성 시 도메인 연결(선택) 항목에 도메인 설정 필요
     - 도메인 입력 완료된 Kubeflow 사용
 2. Lab 3-1 네임스페이스 쿼터 설정 시 원활한 실습이 어려울 수 있으므로, ‘쿼터 미 설정’ 된 사용자로 실습 진행
-3. GPU 이미지 기반의 노트북인 기존 `gpu-notebooke` 사용
+3. 기존에 사용하던 GPU 이미지 기반의 노트북(gpu-notebook) 사용
 
 ## 2. 노트북에서 모델 학습 및 서빙 API 생성 파이프라인 만들기
 1. Notebooks 탭 > `gpu-notebook`의 `CONNECT` 버튼 클릭
@@ -39,7 +39,7 @@
     wget https://github.com/kakaocloud-edu/tutorial/raw/main/Kubeflow/src/ipynb/fmnist-kserve.ipynb
     ```
     - `fmnist-kserve.ipynb` 파일 생성 확인
-5. 라이브러리 추가 및 데이터 확인
+4. 라이브러리 추가 및 데이터 확인
   - **Note**: Fashion MNIST 데이터셋 다운로드 및 시각화
     - fmnist-kserve.ipynb 파일 더블클릭
     - 1번 스크립트 클릭 후 `RUN` 클릭
@@ -64,14 +64,14 @@
         - **Note**: 훈련된 PyTorch 모델을 TorchServe에서 사용할 수 있는 MAR 파일로 패키징
       - 3-3번 스크립트 클릭 후 `RUN` 클릭 
     - KServe 컴포넌트 YAML 파일 작성
-        - **Note**: 머신러닝 모델을 배포하고 관리할 수 있도록  컴포넌트 정의
+        - **Note**: 머신러닝 모델을 배포하고 관리할 수 있도록 컴포넌트 정의
       - 3-4번 스크립트 클릭 후 `RUN` 클릭 
     - KServe 인퍼런스 모델 생성 컴포넌트
         - **Note**: KServe를 사용하여 PyTorch 모델을 배포하는 파이프라인 컴포넌트 생성
       - 3-5번 스크립트 클릭 후 `RUN` 클릭
-    - 파이프라인 생성
+7. 파이프라인 생성
       - 4번 스크립트 클릭 후 `RUN` 클릭
-    - 파이프라인 실행
+8. 파이프라인 실행
       - 5번 스크립트 클릭 후 `RUN` 클릭
       - `Run details.` 클릭
       - 모두 정상 실행됨을 확인
