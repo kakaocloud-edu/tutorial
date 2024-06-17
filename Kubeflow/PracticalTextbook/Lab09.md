@@ -31,7 +31,7 @@
 
 ## 2. 노트북에서 모델 학습 및 서빙 API 생성 파이프라인 만들기
 1. Notebooks 탭 > `gpu-notebook`의 `CONNECT` 버튼 클릭
-2. Other 중 Terminal 버튼 클릭
+2. Other 중 Terminal 클릭
 3. `fmnist-kserve.ipynb` 파일 다운로드
     - 아래 명령어 입력
     #### **lab2-3-2**
