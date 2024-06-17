@@ -27,7 +27,7 @@ CPU, GPU Notebook을 각각 생성하고 Tensorboard, 하이퍼파라미터 튜�
    - `Launch` 클릭
 3. Notebook 생성 확인
 
-## 2. .ipynb 파일 업로드
+## 2. 각 노트북에 .ipynb 파일 업로드
 1. Notebooks 탭 > `cpu-notebook`의 `CONNECT` 클릭
 2. Other 중 `Terminal` 클릭
 3. speed.ipynb 파일 다운로드
@@ -48,9 +48,9 @@ CPU, GPU Notebook을 각각 생성하고 Tensorboard, 하이퍼파라미터 튜�
    - speed.ipynb 파일 생성 확인
 
 ## 3. 노트북 속도 비교
-1. Notebooks 탭 > `cpu-notebook`의 `CONNECT` 클릭
-2. Notebooks 탭 > `gpu-notebook`의 `CONNECT` 클릭
-3. cpu-notebook의 speed.ipynb 파일 더블 클릭 `RUN` 클릭
+1. Notebooks 탭 > `cpu-notebook`의 `CONNECT` 클릭\
+   Notebooks 탭 > `gpu-notebook`의 `CONNECT` 클릭
+2. cpu-notebook의 speed.ipynb 파일 `RUN` 클릭
 
    ![cpu speed run](https://github.com/KOlizer/tutorial/assets/127844467/f8882625-4f13-42d1-a775-1f10524da24a)
    
@@ -58,7 +58,7 @@ CPU, GPU Notebook을 각각 생성하고 Tensorboard, 하이퍼파라미터 튜�
    
    ![cpu progress](https://github.com/KOlizer/tutorial/assets/127844467/c8a371d6-9b91-4fcb-a293-ee44682a0968)
 
-4. gpu-notebook의 speed.ipynb 파일 더블 클릭 후 `RUN` 클릭
+3. gpu-notebook의 speed.ipynb 파일 `RUN` 클릭
    **Note**: 위의 cpu-notebook 실습과 동일
 
    ![gpu speed run](https://github.com/KOlizer/tutorial/assets/127844467/f8882625-4f13-42d1-a775-1f10524da24a)
@@ -67,24 +67,24 @@ CPU, GPU Notebook을 각각 생성하고 Tensorboard, 하이퍼파라미터 튜�
 
    ![gpu progress](https://github.com/KOlizer/tutorial/assets/127844467/c8a371d6-9b91-4fcb-a293-ee44682a0968)
 
-5. 결과 값 비교
+4. 결과 값 비교
    - Training time이 서로 다른 것을 확인
 
      ![cpu training time](https://github.com/KOlizer/tutorial/assets/127844467/0c66ab5b-5aae-4a70-9cce-357e1965bbb5)
      ![gpu training time](https://github.com/KOlizer/tutorial/assets/127844467/6b47a691-640e-4fd6-b857-7c8f05d92a9a)
 
 ## 4. Kubeflow Tensorboard
-1. Notebooks 탭 > `gpu-notebook`의 `CONNECT` 클릭
-2. 위 실행에 의하여 log(logs/fit/) 날짜별로 생성됨을 확인
-3. Tensorboards 탭 > `+ New TensorBoard` 클릭
-4. Tensorboard 설정 정보 작성
+1. Notebooks 탭 > `gpu-notebook`의 `CONNECT` 클릭\
+   **Note**: 위 실행에 의하여 log(logs/fit/) 날짜별로 생성됨을 확인
+2. Tensorboards 탭 > `+ New TensorBoard` 클릭
+3. Tensorboard 설정 정보 작성
    - 이름 : `tensorboard`
    - `PVC` 클릭
    - PVC name : `gpu-notebook-volume`
    - Mount Path : `logs/fit/`
    - `CREATE` 클릭
-5. 생성된 TensorBoard의 `CONNECT` 클릭
-6. 생성된 Tensorboards 목록 확인
+4. 생성된 TensorBoard의 `CONNECT` 클릭
+5. 생성된 Tensorboards 목록 확인
    - Scalars (스칼라)
       - 훈련 및 검증 정확도 (Training and Validation Accuracy)
       - 훈련 및 검증 손실 (Training and Validation Loss)
