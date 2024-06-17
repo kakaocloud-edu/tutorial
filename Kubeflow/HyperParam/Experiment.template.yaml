@@ -1,0 +1,68 @@
+apiVersion: "kubeflow.org/v1beta1"
+kind: Experiment
+metadata:
+  name: mnist-hyperparameter-tuning
+  namespace: kubeflow
+spec:
+  objective:
+    type: maximize
+    goal: 0.99
+    objectiveMetricName: accuracy
+    additionalMetricNames:
+      - loss
+  algorithm:
+    algorithmName: random
+  parallelTrialCount: 10
+  maxTrialCount: 12
+  maxFailedTrialCount: 3
+  parameters:
+    - name: --learning_rate
+      parameterType: double
+      feasibleSpace:
+        min: "0.0001"
+        max: "0.01"
+    - name: --batch_size
+      parameterType: int
+      feasibleSpace:
+        min: "16"
+        max: "128"
+  trialTemplate:
+    retain: true
+    primaryContainerName: mnist-training
+    trialParameters:
+      - name: learningRate
+        description: Learning rate for the model
+        reference: --learning_rate
+      - name: batchSize
+        description: Batch size for the model
+        reference: --batch_size
+    trialSpec:
+      apiVersion: batch/v1
+      kind: Job
+      spec:
+        template:
+          metadata:
+            annotations:
+              sidecar.istio.io/inject: 'false'
+          spec:
+            containers:
+              - name: mnist-training
+                image: ${PROJECT_NAME}.kr-central-2.kcr.dev/kakao-registry/hyperpram
+                command:
+                  - "python"
+                  - "mnist_train.py"
+                  - "--learning_rate=\${trialParameters.learningRate}"
+                  - "--batch_size=\${trialParameters.batchSize}"
+            restartPolicy: Never
+            imagePullSecrets:
+              - name: regcred
+  metricsCollectorSpec:
+    source:
+      filter:
+        metricsFormat:
+          - "{metricName: ([\\w|-]+), metricValue: ((-?\\d+)(\\.\\d+)?)}"
+      fileSystemPath:
+        path: "/tmp/mnist.log"
+        kind: File
+    collector:
+      kind: File
