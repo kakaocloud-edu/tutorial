@@ -42,9 +42,9 @@ Training Operator를 사용하여 병렬 학습 환경을 구축하고 PyTorchJo
 2. `get_job_pod_names`를 통해 pod 목록 확인
 3. `get_job_logs`를 통해 특정 pod의 로그 확인
 4. `delete_pytorchjob`를 통해 pytorchjob 삭제
-   - **Note**: Traing Job을 삭제하면 뒷 부분 실습이 진행이 안되기 때문에 ‘k8s 내부 동작 확인’ 실습 후 삭제 진행합니다
+   - **Note**: Traing Job을 삭제하면 뒷 부분 실습이 진행이 안되기 때문에 ‘K8s 내부 동작 확인’ 실습 후 삭제 진행합니다
 
-## 4. k8s 내부 동작 확인
+## 4. K8s 내부 동작 확인
 1. 앞에서 쓰던 노트북 하단에 명령어 입력해서 PytorchJob 내용 확인
     - **Note**: 터미널에 아래 명령어를 입력하세요.
     #### **lab7-4-1**
