@@ -77,9 +77,9 @@ graph LR
     export ACCESS_SECRET_KEY="{KAKAO_ACCESS_SECRET_KEY}"
     export USER_ID="{USER_ID}"
     export AWS_DEFAULT_REGION="kr-central-2"
-    export AWS_ENDPOINT_URL="https://objectstorage.kr-central-2.kakaoi.io"
+    export AWS_ENDPOINT_URL="https://objectstorage.kr-central-2.kakaocloud.com"
 
-    export TOKEN=$(curl -s -X POST -i https://iam.kakaoi.io/identity/v3/auth/tokens -H "Content-Type: application/json" -d \
+    export TOKEN=$(curl -s -X POST -i https://iam.kakaocloud.com/identity/v3/auth/tokens -H "Content-Type: application/json" -d \
     '{
         "auth": {
             "identity": {
@@ -97,7 +97,7 @@ graph LR
             echo "TOKEN is null..."
     fi
 
-    export PROJECT_ID=$(curl -s -X POST https://iam.kakaoi.io/identity/v3/auth/tokens -H "Content-Type: application/json" -d \
+    export PROJECT_ID=$(curl -s -X POST https://iam.kakaocloud.com/identity/v3/auth/tokens -H "Content-Type: application/json" -d \
     '{
         "auth": {
             "identity": {
@@ -115,7 +115,7 @@ graph LR
             echo "PROJECT_ID is null..."
     fi
 
-    export CREDENTIALS=$(curl -s -X POST -i https://iam.kakaoi.io/identity/v3/users/${USER_ID}/credentials/OS-EC2 \
+    export CREDENTIALS=$(curl -s -X POST -i https://iam.kakaocloud.com/identity/v3/users/${USER_ID}/credentials/OS-EC2 \
     -H "Content-Type: application/json" \
     -H "X-Auth-Token: ${TOKEN}" -d \
     '{
