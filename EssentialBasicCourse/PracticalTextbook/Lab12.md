@@ -45,7 +45,7 @@ graph LR
 
     #### **lab12-2-4**
     ```bash
-    sudo yum -y localinstall https://objectstorage.kr-central-2.kakaoi.io/v1/52867b7dc99d45fb808b5bc874cb5b79/kic-monitoring-agent/package/kic_monitor_agent-0.9.5.x86_64.rpm
+    sudo yum -y localinstall https://objectstorage.kr-central-2.kakaocloud.com/v1/52867b7dc99d45fb808b5bc874cb5b79/kic-monitoring-agent/package/kic_monitor_agent-0.9.5.x86_64.rpm
     ```
 5. 모니터링 대시보드 생성을 위한 설정 - 터미널 명령어 입력
     - **note**: {사용자 액세스 키 ID} 값을 준비한 실제 액세스 키 ID로 수정
@@ -55,7 +55,7 @@ graph LR
     ```bash
     sudo tee /etc/default/kic_monitor_agent <<EOF
     C_LOG_FILE_PATH="/var/www/html/VMlog"
-    KIC_MONITOR_ENDPOINT_URL="https://monitoring.kr-central-2.kakaoi.io"
+    KIC_MONITOR_ENDPOINT_URL="https://monitoring.kr-central-2.kakaocloud.com"
     KIC_MONITOR_AGENT_AUTH_APPLICATION_CREDENTIAL_ID="{사용자 액세스 키 ID}"
     KIC_MONITOR_AGENT_AUTH_APPLICATION_CREDENTIAL_SECRET="{사용자 액세스 보안 키}"
     ## 호스트가 직접 Public 망에 접속하지 못할 경우, HTTP Proxy 서버를 지정할 수 있습니다.
