@@ -32,13 +32,13 @@ graph LR
 
     #### **lab12-2-3-1**
     ```bash
-    cd {keyPair.pem 다운로드 위치}
+    cd {keypair.pem 다운로드 위치}
     ```
-    - **Note**: "{keyPair.pem 다운로드 위치}" 부분을 keyPair.pem의 디렉터리 위치로 교체
+    - **Note**: "{keypair.pem 다운로드 위치}" 부분을 keypair.pem의 디렉터리 위치로 교체
 
     #### **lab12-2-3-2**
     ```bash 
-    ssh -i keyPair.pem centos@{Bastion의 public IP}
+    ssh -i keypair.pem centos@{Bastion의 public IP}
     ```
 
 4. Monitoring Agent 패키지 설치 - 터미널 명령어 입력
