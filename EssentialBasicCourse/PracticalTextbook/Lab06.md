@@ -38,18 +38,17 @@ graph LR
       
      #### **lab6-1-3**
      ```bash
-     #!/bin/bash
-     yum -y remove mariadb-libs
-     yum -y install httpd php mysql php-mysqlnd wget 
-     systemctl enable httpd
-     cd /var/www/html
+     #!/bin/bash        
+     sudo apt-get update
+     sudo apt-get -y remove mariadb-server mariadb-client        
+     sudo apt-get -y install apache2 php mysql-client php-mysql wget    
+     sudo systemctl enable apache2    
+     cd /var/www/html  
+     sudo rm -f index.html   
      wget https://github.com/kimjaehyeon0314/test/raw/main/kakao.tar.gz -O kakao.tar.gz
-     tar -xvf kakao.tar.gz
-     mv /var/www/html/kakao/{index.php,get_user_list.php,add_user.php} /var/www/html/
-     rm /etc/selinux/config
-     mv /var/www/html/kakao/config /etc/selinux
-     setenforce 0
-     systemctl start httpd
+     tar -xvf kakao.tar.gz    
+     sudo mv kakao/{index.php,get_user_list.php,add_user.php} /var/www/html/ 
+     sudo systemctl restart apache2
      ```
 4. 만들기 버튼 클릭
 5. 전체 서비스 > Virtual Machine > Instance
@@ -61,18 +60,17 @@ graph LR
 > 💡 고급설정에서 스크립트 입력을 못했을 경우 VM에 접속하여 아래 명령어 붙여넣기
 
 ```bash
-#!/bin/bash
-sudo yum -y remove mariadb-libs
-sudo yum -y install httpd php mysql php-mysqlnd wget 
-sudo systemctl enable httpd
-cd /var/www/html
+#!/bin/bash        
+sudo apt-get update
+sudo apt-get -y remove mariadb-server mariadb-client        
+sudo apt-get -y install apache2 php mysql-client php-mysql wget    
+sudo systemctl enable apache2    
+sudo cd /var/www/html  
+sudo rm -f index.html   
 sudo wget https://github.com/kimjaehyeon0314/test/raw/main/kakao.tar.gz -O kakao.tar.gz
-sudo tar -xvf kakao.tar.gz
-sudo mv /var/www/html/kakao/{index.php,get_user_list.php,add_user.php} /var/www/html/
-sudo rm /etc/selinux/config
-sudo mv /var/www/html/kakao/config /etc/selinux
-sudo setenforce 0
-sudo systemctl start httpd
+sudo tar -xvf kakao.tar.gz    
+sudo mv kakao/{index.php,get_user_list.php,add_user.php} /var/www/html/ 
+sudo systemctl restart apache2
 ```
 
 ## 2. Web2 서버와 DB 연결
