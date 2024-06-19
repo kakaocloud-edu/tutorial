@@ -28,8 +28,8 @@ graph LR
      - 개수 : `1`
      - Image : `Ubuntu 20.04 - 5.4.0-173`
      - Instance 타입 : `m2a.large`
-     - Volume : `10 GB`
-     - Key Pair : `keyPair`
+     - Volume : `30 GB`
+     - Key Pair : `keypair`
      - VPC : `vpc_1`
      - Subnet : `main`
      - Security Group : `webserver`
