@@ -26,7 +26,7 @@ graph LR
 2. 인스턴스 만들기 클릭
      - 이름 : `web_server_2`
      - 개수 : `1`
-     - Image : `CentOS Stream 8 - 4.18.0-516`
+     - Image : `Ubuntu 20.04`
      - Instance 타입 : `m2a.large`
      - Volume : `10 GB`
      - Key Pair : `keyPair`
