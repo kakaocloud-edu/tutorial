@@ -53,9 +53,9 @@ graph LR
 2. bastion 인스턴스의 Private IP 주소 복사
 3. Instance 만들기 버튼 클릭
      - 이름 : `vpc2_vm`
-     - Image : `CentOS Stream 8 - 4.18.0-516`
+     - Image : `Ubuntu 20.04 - 5.4.0-173`
      - Instance 타입 : `m2a.large`
-     - Key Pair : `keyPair`
+     - Key Pair : `keypair`
      - VPC : `vpc_2`
      - Subnet : `main`
 4. 새 SecurityGroup 생성 클릭
@@ -116,14 +116,14 @@ graph LR
 2. Bastion VM의 Public IP 주소 복사
 3. vpc2_vm의  Private IP 주소 복사
 4. 명령어 입력
-     - Keypair을 다운받아놓은 폴더로 이동
+     - keypair을 다운받아놓은 폴더로 이동
      - Bastion VM에 접속
      - ping 명령어를 통해 vpc_2에 있는 vm에 패킷이 전달됨을 확인
      - vpc_1 -> vpc_2의 통신이 가능함을 알 수 있음
            
      #### **lab8-4-4-1**
      ```bash
-     ssh -i keyPair.pem centos@{bastion의 Public IP}
+     ssh -i kepair.pem centos@{bastion의 Public IP}
      ```
      - **Note**: "bastion의 Public IP" 부분을 bastion의 Public IP 주소로 변경하세요.
         
