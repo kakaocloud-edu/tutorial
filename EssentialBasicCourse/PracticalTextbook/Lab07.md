@@ -36,7 +36,7 @@ graph LR
 1. 카카오 클라우드 콘솔 > 전체 서비스 > Virtual Machine > Instance
 2. 인스턴스 만들기 클릭
      - 이름 : `vm_5`
-     - Image : `CentOS Stream 8 - 4.18.0-516`
+     - Image : `Ubuntu 20.04 - 5.4.0-173`
      - Instance 타입 : `m2a.large`
      - Volume : `20 GB`
      - Key Pair : `keyPair`
