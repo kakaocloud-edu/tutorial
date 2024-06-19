@@ -36,18 +36,18 @@ graph LR
 2. 생성된 인스턴스의 우측 메뉴바 > SSH 연결 클릭
      - SSH 접속 명령어 복사(다운받은 keyPair.pem 파일이 있는 경로에서 아래 명령어를 실행합니다.)
      - 터미널 열기
-     - Keypair를 다운받아놓은 폴더로 이동
+       keypair를 다운받아놓은 폴더로 이동
      - 터미널에 명령어 붙여넣기
      - yes 입력
        
      #### **lab9-2-2-1**
      ```bash
-     cd {keyPair.pem 다운로드 위치}
+     cd {keypair.pem 다운로드 위치}
      ```
      
      #### **lab9-2-2-2**
      ```bash
-     ssh -i keyPair.pem centos@{bastion의 public ip주소}
+     ssh -i keypair.pem centos@{bastion의 public ip주소}
      ```
      - **Note**: "bastion의 public ip주소" 부분을 복사한 IP 주소로 교체하세요.
 
@@ -133,13 +133,13 @@ graph LR
       
      #### **lab9-3-5-1**
      ```bash
-     cd {keyPair.pem 다운로드 위치}
+     cd {keypair.pem 다운로드 위치}
      ```
-     - **Note**: "{keyPair.pem 다운로드 위치}" 부분을 keyPair.pem의 디렉터리 위치로 교체하세요. 
+     - **Note**: "{keypair.pem 다운로드 위치}" 부분을 keypair.pem의 디렉터리 위치로 교체하세요. 
       
      #### **lab9-3-5-2**
      ```bash
-     ssh -i "keyPair.pem" -o ProxyCommand="ssh -W %h:%p centos@{bastion의 public IP} -i keyPair.pem" centos@{web_server_1의 private IP}
+     ssh -i "keypair.pem" -o ProxyCommand="ssh -W %h:%p centos@{bastion의 public IP} -i keypair.pem" centos@{web_server_1의 private IP}
      ```
      - **Note**: "{Bastion의 public IP}", "{web_server_1의 private IP}" 부분을 복사한 IP 주소로 교체하세요.
 
