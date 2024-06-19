@@ -147,10 +147,10 @@ graph LR
         sudo apt-get -y remove mariadb-server mariadb-client        
         sudo apt-get -y install apache2 php mysql-client php-mysql wget    
         sudo systemctl enable apache2    
-        cd /var/www/html  
+        sudo cd /var/www/html  
         sudo rm -f index.html   
-        wget https://github.com/kimjaehyeon0314/test/raw/main/kakao.tar.gz -O kakao.tar.gz
-        tar -xvf kakao.tar.gz    
+        sudo wget https://github.com/kimjaehyeon0314/test/raw/main/kakao.tar.gz -O kakao.tar.gz
+        sudo tar -xvf kakao.tar.gz    
         sudo mv kakao/{index.php,get_user_list.php,add_user.php} /var/www/html/ 
         sudo systemctl restart apache2
      ```
