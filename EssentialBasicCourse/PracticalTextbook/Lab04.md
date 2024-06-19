@@ -53,19 +53,19 @@ graph LR
      #### **lab4-1-7**
      ```bash
      #!/bin/bash
-     sudo rpm --import https://repo.mysql.com/RPM-GPG-KEY-mysql-2022
-     sudo yum localinstall https://dev.mysql.com/get/mysql57-community-release-el7-11.noarch.rpm -y
-     sudo yum module disable mysql -y
-     sudo yum install mysql-community-server -y
+     wget https://dev.mysql.com/get/mysql-apt-config_0.8.17-1_all.deb
+     sudo dpkg -i mysql-apt-config_0.8.17-1_all.deb
+     sudo apt-get update
+     sudo apt-get install -y mysql-server
      ```
 
      - **Note**: 고급 설정 스크립트 부분을 못하더라도 추후 설정할 수 있습니다. VM 접속 후 아래 내용 붙여넣기
        ```bash
        #!/bin/bash
-       sudo rpm --import https://repo.mysql.com/RPM-GPG-KEY-mysql-2022
-       sudo yum localinstall https://dev.mysql.com/get/mysql57-community-release-el7-11.noarch.rpm -y
-       sudo yum module disable mysql -y
-       sudo yum install mysql-community-server -y
+       wget https://dev.mysql.com/get/mysql-apt-config_0.8.17-1_all.deb
+       sudo dpkg -i mysql-apt-config_0.8.17-1_all.deb
+       sudo apt-get update
+       sudo apt-get install -y mysql-server
        ```
 8. 만들기 버튼 클릭
 9. Virtual Machine > Instance
@@ -142,18 +142,17 @@ graph LR
 
      #### **lab4-2-8**
      ```bash
-     #!/bin/bash
-     yum -y remove mariadb-libs
-     yum -y install httpd php mysql php-mysqlnd wget 
-     systemctl enable httpd
-     cd /var/www/html
-     wget https://github.com/kimjaehyeon0314/test/raw/main/kakao.tar.gz -O kakao.tar.gz
-     tar -xvf kakao.tar.gz
-     mv /var/www/html/kakao/{index.php,get_user_list.php,add_user.php} /var/www/html/
-     rm /etc/selinux/config
-     mv /var/www/html/kakao/config /etc/selinux
-     setenforce 0
-     systemctl start httpd
+        #!/bin/bash        
+        sudo apt-get update
+        sudo apt-get -y remove mariadb-server mariadb-client        
+        sudo apt-get -y install apache2 php mysql-client php-mysql wget    
+        sudo systemctl enable apache2    
+        cd /var/www/html  
+        sudo rm -f index.html   
+        wget https://github.com/kimjaehyeon0314/test/raw/main/kakao.tar.gz -O kakao.tar.gz
+        tar -xvf kakao.tar.gz    
+        sudo mv kakao/{index.php,get_user_list.php,add_user.php} /var/www/html/ 
+        sudo systemctl restart apache2
      ```
      - **Note**: 첫번째 '#!/bin/bash'도 적어 주셔야 합니다.
      - **Note**: 스크립트 설정을 못하더라도 추후 설정 가능합니다.
@@ -167,17 +166,17 @@ graph LR
 > 💡 고급설정에서 스크립트 입력을 못했을 경우 VM에 접속하여 아래 명령어 붙여넣기
 
 ```bash
-sudo yum -y remove mariadb-libs
-sudo yum -y install httpd php mysql php-mysqlnd wget 
-sudo systemctl enable httpd
-cd /var/www/html
-sudo wget https://github.com/kimjaehyeon0314/test/raw/main/kakao.tar.gz -O kakao.tar.gz
-sudo tar -xvf kakao.tar.gz
-sudo mv /var/www/html/kakao/{index.php,get_user_list.php,add_user.php} /var/www/html/
-sudo rm /etc/selinux/config
-sudo mv /var/www/html/kakao/config /etc/selinux
-sudo setenforce 0
-sudo systemctl start httpd
+#!/bin/bash        
+sudo apt-get update
+sudo apt-get -y remove mariadb-server mariadb-client
+sudo apt-get -y install apache2 php mysql-client php-mysql wget    
+sudo systemctl enable apache2    
+cd /var/www/html  
+sudo rm -f index.html   
+wget https://github.com/kimjaehyeon0314/test/raw/main/kakao.tar.gz -O kakao.tar.gz
+tar -xvf kakao.tar.gz    
+sudo mv kakao/{index.php,get_user_list.php,add_user.php} /var/www/html/ 
+sudo systemctl restart apache2
 ```
 
 ## 3. Bastion VM 인스턴스를 통해 Web 서버 접속
