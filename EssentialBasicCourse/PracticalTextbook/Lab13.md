@@ -56,7 +56,7 @@ graph LR
   
     #### **lab13-2-8**
     ```bash
-    ssh -i keypair.pem centos@{Bastion의 public IP}
+    ssh -i keypair.pem ubuntu@{Bastion의 public IP}
     ```
 9. CPU 부하기 패키지 설치 및 부하 생성 및 종료 - 터미널 명령어 입력
   
