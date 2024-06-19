@@ -47,7 +47,7 @@ graph LR
      
      #### **lab9-2-2-2**
      ```bash
-     ssh -i keypair.pem centos@{bastion의 public ip주소}
+     ssh -i keypair.pem ubuntu@{bastion의 public ip주소}
      ```
      - **Note**: "bastion의 public ip주소" 부분을 복사한 IP 주소로 교체하세요.
 
@@ -139,7 +139,7 @@ graph LR
       
      #### **lab9-3-5-2**
      ```bash
-     ssh -i "keypair.pem" -o ProxyCommand="ssh -W %h:%p centos@{bastion의 public IP} -i keypair.pem" centos@{web_server_1의 private IP}
+     ssh -i "keypair.pem" -o ProxyCommand="ssh -W %h:%p ubuntu@{bastion의 public IP} -i keypair.pem" ubuntu@{web_server_1의 private IP}
      ```
      - **Note**: "{Bastion의 public IP}", "{web_server_1의 private IP}" 부분을 복사한 IP 주소로 교체하세요.
 
