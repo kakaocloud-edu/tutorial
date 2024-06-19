@@ -37,7 +37,7 @@ graph LR
 
     #### **lab11-1-2-2**
     ```bash
-    ssh -i keypair.pem centos@{ip주소}
+    ssh -i keypair.pem ubuntu@{ip주소}
     ```
 
 ## 2. 실습 환경 준비
