@@ -52,10 +52,11 @@ graph LR
          
      #### **lab5-2-2**
      ```bash
-     sudo rpm --import https://repo.mysql.com/RPM-GPG-KEY-mysql-2022
-     sudo yum localinstall https://dev.mysql.com/get/mysql57-community-release-el7-11.noarch.rpm -y
-     sudo yum module disable mysql -y
-     sudo yum install mysql-community-server -y
+     #!/bin/bash
+    wget https://dev.mysql.com/get/mysql-apt-config_0.8.17-1_all.deb
+    sudo dpkg -i mysql-apt-config_0.8.17-1_all.deb
+    sudo apt-get update
+    sudo apt-get install -y mysql-server
      ```
 3. 카카오 클라우드 콘솔 > 전체 서비스 > MySQL 접속 > database 클릭
      - 엔드포인트 URL 복사
