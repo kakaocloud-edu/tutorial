@@ -25,9 +25,9 @@ graph LR
      - 이름 : `bastion`
      - Image : `Ubuntu 20.04 - 5.4.0-173`
      - Instance 타입 : `m2a.large`
-     - Volume : `10 GB`
+     - Volume : `30 GB`
 3. 새 Key Pair 생성 클릭
-     - 이름 : `keyPair`
+     - 이름 : `keypair`
      - 만들기 클릭
 4. VPC 선택
      - VPC : `vpc_1`
@@ -73,35 +73,35 @@ graph LR
     - `새로운 Public IP를 생성하고 자동으로 할당` 
 11. 확인 버튼 클릭
 12. 생성된 인스턴스의 우측 메뉴바 > SSH 연결 클릭
-     - SSH 접속 명령어 복사(다운받은 keyPair.pem 파일이 있는 경로에서 아래 명령어를 실행합니다.)
+     - SSH 접속 명령어 복사(다운받은 keypair.pem 파일이 있는 경로에서 아래 명령어를 실행합니다.)
      - 터미널 열기
-     - Keypair를 다운받아놓은 폴더로 이동
+       keypair를 다운받아놓은 폴더로 이동
      - 터미널에 명령어 붙여넣기
      - yes 입력
 
      #### **lab4-1-12-1**
      ```bash
-     cd {keyPair.pem 다운로드 위치}
+     cd {keypair.pem 다운로드 위치}
      ```
      - 리눅스의 경우에 아래와 같이 키페어의 권한을 조정
 
      #### **lab4-1-12-2**
      ```bash
-     chmod 400 keyPair.pem
+     chmod 400 keypair.pem
      ```
 
      #### **lab4-1-12-3**
      ```bash
-     icacls.exe keyPair.pem /reset
-     icacls.exe keyPair.pem /grant:r %username%:(R)
-     icacls.exe keyPair.pem /inheritance:r
+     icacls.exe keypair.pem /reset
+     icacls.exe keypair.pem /grant:r %username%:(R)
+     icacls.exe keypair.pem /inheritance:r
      ```
-     - 윈도우에서 ssh 접근이 안될 경우에 cmd 창에서 keyPair.pem가 있는 경로로 이동 후 위 명령어 입력
+     - 윈도우에서 ssh 접근이 안될 경우에 cmd 창에서 keypair.pem가 있는 경로로 이동 후 위 명령어 입력
      
 
      #### **lab4-1-12-4**
      ```bash
-     ssh -i keyPair.pem centos@{bastion의 public ip주소}
+     ssh -i keypair.pem centos@{bastion의 public ip주소}
      ```
      - **Note**: "bastion의 public ip주소" 부분을 복사한 IP 주소로 교체하세요.
    
@@ -118,8 +118,8 @@ graph LR
      - 이름 : `web_server_1`
      - Image : `Ubuntu 20.04 - 5.4.0-173`
      - Instance 타입 : `m2a.large`
-     - Volume : `10 GB`
-     - Key Pair : `keyPair`
+     - Volume : `30 GB`
+     - Key Pair : `keypair`
 3. VPC 선택
      - VPC : `vpc_1`
      - Subnet : `main`
@@ -189,19 +189,19 @@ sudo systemctl start httpd
      - Bastion의 `Public IP 주소` 확인 및 복사
      - Web_server_1의 `Private IP 주소` 확인 및 복사
 4. 터미널 명령어 입력
-     - Keypair를 다운받아놓은 폴더로 이동
+     - keypair를 다운받아놓은 폴더로 이동
      - 명령어 붙여넣기
      - yes  입력
   
      #### **lab4-3-4-1**
      ```bash
-     cd {keyPair.pem 다운로드 위치}
+     cd {keypair.pem 다운로드 위치}
      ```
-     - **Note**: "{keyPair.pem 다운로드 위치}" 부분을 keyPair.pem의 디렉터리 위치로 교체하세요.
+     - **Note**: "{keypair.pem 다운로드 위치}" 부분을 keypair.pem의 디렉터리 위치로 교체하세요.
 
      #### **lab4-3-4-2**
      ```bash
-     ssh -i "keyPair.pem" -o ProxyCommand="ssh -W %h:%p centos@{bastion의 public IP} -i keyPair.pem" centos@{web_server_1의 private IP}
+     ssh -i "keypair.pem" -o ProxyCommand="ssh -W %h:%p centos@{bastion의 public IP} -i keypair.pem" centos@{web_server_1의 private IP}
      ```
      - **Note**: "{Bastion의 public IP}", "{web_server_1의 private IP}" 부분을 복사한 IP 주소로 교체하세요.
 
