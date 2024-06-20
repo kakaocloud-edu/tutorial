@@ -1,4 +1,4 @@
-# API를 활용한 Object Storage 실습
+![image](https://github.com/kakaocloud-edu/tutorial/assets/114378755/0ec3f29d-ea77-4348-9a59-92f75a539f49)# API를 활용한 Object Storage 실습
 
 카카오 클라우드에서 제공하는 여러 API를 활용하여 Object Storage를 VM인스턴스 환경에서 활용해봅니다. AWS S3 Client를 활용해 CLI 환경에서 API 인증키를 발급받고 버킷 생성 및 상세 내용 조회, 파일관리 등 Object Storage를 활용할 수 있는 방법에 대한 실습입니다.
 
@@ -47,12 +47,10 @@ graph LR
 
     #### **lab11-2-1**
     ```bash
-    sudo yum update -y
-    sudo yum install -y epel-release 
-    sudo yum install -y jq
-    sudo yum install -y unzip
-    sudo curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
-    sudo unzip awscliv2.zip
+    sudo apt install -y software-properties-common unzip
+    sudo apt install -y jq
+    curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+    unzip awscliv2.zip
     sudo ./aws/install
     ```
 
