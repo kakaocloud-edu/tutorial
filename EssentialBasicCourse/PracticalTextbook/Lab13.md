@@ -62,21 +62,16 @@ graph LR
   
     #### **lab13-2-9-1**
     ```bash
-    sudo yum install epel-release -y
+    sudo apt install stress -y
     ```
   
     #### **lab13-2-9-2**
-    ```bash
-    sudo yum install stress -y
-    ```
-  
-    #### **lab13-2-9-3**
     ```bash
     stress --cpu 2
     ```
     - 1분 후 ctrl+ C 입력
   
-    #### **lab13-2-9-4**
+    #### **lab13-2-9-3**
     ```bash 
     crtl + C 
     ```
