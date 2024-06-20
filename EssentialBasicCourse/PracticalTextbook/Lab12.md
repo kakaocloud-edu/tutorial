@@ -45,7 +45,10 @@ graph LR
 
     #### **lab12-2-4**
     ```bash
-    sudo yum -y localinstall https://objectstorage.kr-central-2.kakaocloud.com/v1/52867b7dc99d45fb808b5bc874cb5b79/kic-monitoring-agent/package/kic_monitor_agent-0.9.5.x86_64.rpm
+    wget https://objectstorage.kr-central-2.kakaocloud.com/v1/52867b7dc99d45fb808b5bc874cb5b79/kic-monitoring-agent/package/kic_monitor_agent_0.9.5_amd64.deb
+    ```
+    ```bash
+    sudo dpkg -i kic_monitor_agent_0.9.5_amd64.deb
     ```
 5. 모니터링 대시보드 생성을 위한 설정 - 터미널 명령어 입력
     - **note**: {사용자 액세스 키 ID} 값을 준비한 실제 액세스 키 ID로 수정
