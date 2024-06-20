@@ -38,7 +38,7 @@ graph LR
      - 이름 : `vm_5`
      - Image : `Ubuntu 20.04 - 5.4.0-173`
      - Instance 타입 : `m2a.large`
-     - Volume : `20 GB`
+     - Volume : `30 GB`
      - Key Pair : `keyPair`
      - VPC : `vpc_1`
      - Subnet : `main-b(kr-cenrtral2-b의 Public 서브넷)`
