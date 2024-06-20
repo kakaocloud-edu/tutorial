@@ -55,7 +55,7 @@ graph LR
        
      #### **lab9-2-3-1**
      ```bash
-     sudo yum install -y nfs-utils
+     sudo apt install -y nfs-common
      ```
      
      #### **lab9-2-3-2**
@@ -152,7 +152,7 @@ graph LR
       
      #### **lab9-3-6-1**
      ```bash
-     sudo yum install -y nfs-utils
+     sudo apt install -y nfs-common
      ``` 
       
      #### **lab9-3-6-2**
