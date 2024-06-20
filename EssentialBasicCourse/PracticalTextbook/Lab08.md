@@ -55,6 +55,7 @@ graph LR
      - 이름 : `vpc2_vm`
      - Image : `Ubuntu 20.04 - 5.4.0-173`
      - Instance 타입 : `m2a.large`
+     - Volume : `30GB`
      - Key Pair : `keypair`
      - VPC : `vpc_2`
      - Subnet : `main`
