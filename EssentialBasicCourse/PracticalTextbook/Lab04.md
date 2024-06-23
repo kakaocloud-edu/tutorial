@@ -60,6 +60,7 @@ graph LR
      ```
 
      - **Note**: 고급 설정 스크립트 부분을 못하더라도 추후 설정할 수 있습니다. VM 접속 후 아래 내용 붙여넣기
+     - **Note**: MySQL 설정화면 OK 선택 후 엔터
        ```bash
        #!/bin/bash
        wget https://dev.mysql.com/get/mysql-apt-config_0.8.17-1_all.deb
