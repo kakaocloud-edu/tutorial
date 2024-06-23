@@ -55,10 +55,10 @@ graph LR
      #### **lab7-2-4**
      ```bash
      #!/bin/bash
-     sudo yum -y update
-     sudo yum -y install httpd
-     sudo systemctl start httpd
-     sudo systemctl enable httpd
+     sudo apt update -y
+    sudo apt install -y apache2
+    sudo systemctl start apache2
+    sudo systemctl enable apache2
      ```
 5. 만들기 버튼 클릭
 6. 카카오 클라우드 콘솔 > 전체 서비스 > Virtual Machine > Instance
