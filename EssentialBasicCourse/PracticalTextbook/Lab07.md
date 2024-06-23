@@ -39,7 +39,7 @@ graph LR
      - Image : `Ubuntu 20.04 - 5.4.0-173`
      - Instance 타입 : `m2a.large`
      - Volume : `30 GB`
-     - Key Pair : `keyPair`
+     - Key Pair : `keypair`
      - VPC : `vpc_1`
      - Subnet : `main-b(kr-cenrtral2-b의 Public 서브넷)`
 3. 새 Security Group 생성 클릭
