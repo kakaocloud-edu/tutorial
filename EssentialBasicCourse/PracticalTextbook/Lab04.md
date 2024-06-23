@@ -215,6 +215,6 @@ sudo systemctl restart apache2
 1. 카카오 클라우드 콘솔 > 전체 서비스 > Virtual Machine 접속
 2. Virtual Machine > Instance 
 3. web_server_1 인스턴스 확인하기
-     - Web_server_1의 `Public IP 주소` 확인 및 복사
-4. Web_server_1의 `Public IP 주소` 브라우저 창에 입력
+     - web_server_1의 `Public IP 주소` 확인 및 복사
+4. web_server_1의 `Public IP 주소` 브라우저 창에 입력
      - 생성 지연으로 인해 시간이 조금 지나면 연결이 됩니다.
