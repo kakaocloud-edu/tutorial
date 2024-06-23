@@ -124,7 +124,7 @@ graph LR
            
      #### **lab8-4-4-1**
      ```bash
-     ssh -i kepair.pem centos@{bastion의 Public IP}
+     ssh -i kepair.pem ubuntu@{bastion의 Public IP}
      ```
      - **Note**: "bastion의 Public IP" 부분을 bastion의 Public IP 주소로 변경하세요.
         
