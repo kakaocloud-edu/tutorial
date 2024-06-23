@@ -208,9 +208,13 @@ graph LR
     ```bash
     aws s3api put-object --bucket my-bucket --key my-folder/
     ```
-2. 카카오 클라우드 콘솔 > 전체 서비스 > Object Storage 접속
-3. my-bucket 버킷 클릭
-4. 내부에 my-folder 폴더 생성된 것을 확인
+    ### **lab11-4-2**
+    ```bash
+    aws s3 ls s3://my-bucket/
+    ```
+3. 카카오 클라우드 콘솔 > 전체 서비스 > Object Storage 접속
+4. my-bucket 버킷 클릭
+5. 내부에 my-folder 폴더 생성된 것을 확인
 
 ## 5. 버킷 폴더 내 파일 생성
 
