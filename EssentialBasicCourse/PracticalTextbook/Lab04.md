@@ -143,17 +143,17 @@ graph LR
 
      #### **lab4-2-8**
      ```bash
-        #!/bin/bash        
-        sudo apt-get update
-        sudo apt-get -y remove mariadb-server mariadb-client        
-        sudo apt-get -y install apache2 php mysql-client php-mysql wget    
-        sudo systemctl enable apache2    
-        sudo cd /var/www/html  
-        sudo rm -f index.html   
-        sudo wget https://github.com/kimjaehyeon0314/test/raw/main/kakao.tar.gz -O kakao.tar.gz
-        sudo tar -xvf kakao.tar.gz    
-        sudo mv kakao/{index.php,get_user_list.php,add_user.php} /var/www/html/ 
-        sudo systemctl restart apache2
+     #!/bin/bash
+     sudo apt-get update
+     sudo apt-get -y remove mariadb-server mariadb-client        
+     sudo apt-get -y install apache2 php mysql-client php-mysql wget    
+     sudo systemctl enable apache2    
+     sudo cd /var/www/html  
+     sudo rm -f index.html   
+     sudo wget https://github.com/kimjaehyeon0314/test/raw/main/kakao.tar.gz -O kakao.tar.gz
+     sudo tar -xvf kakao.tar.gz    
+     sudo mv kakao/{index.php,get_user_list.php,add_user.php} /var/www/html/ 
+     sudo systemctl restart apache2
      ```
      - **Note**: 첫번째 '#!/bin/bash'도 적어 주셔야 합니다.
      - **Note**: 스크립트 설정을 못하더라도 추후 설정 가능합니다.
