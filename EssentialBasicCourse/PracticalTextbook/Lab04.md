@@ -145,14 +145,14 @@ graph LR
      ```bash
      #!/bin/bash
      sudo apt-get update
-     sudo apt-get -y remove mariadb-server mariadb-client        
-     sudo apt-get -y install apache2 php mysql-client php-mysql wget    
-     sudo systemctl enable apache2    
-     sudo cd /var/www/html  
-     sudo rm -f index.html   
+     sudo apt-get -y remove mariadb-server mariadb-client
+     sudo apt-get -y install apache2 php mysql-client php-mysql wget
+     sudo systemctl enable apache2
+     sudo cd /var/www/html
+     sudo rm -f index.html 
      sudo wget https://github.com/kimjaehyeon0314/test/raw/main/kakao.tar.gz -O kakao.tar.gz
-     sudo tar -xvf kakao.tar.gz    
-     sudo mv kakao/{index.php,get_user_list.php,add_user.php} /var/www/html/ 
+     sudo tar -xvf kakao.tar.gz
+     sudo mv kakao/{index.php,get_user_list.php,add_user.php} /var/www/html/
      sudo systemctl restart apache2
      ```
      - **Note**: 첫번째 '#!/bin/bash'도 적어 주셔야 합니다.
@@ -170,13 +170,13 @@ graph LR
 #!/bin/bash        
 sudo apt-get update
 sudo apt-get -y remove mariadb-server mariadb-client
-sudo apt-get -y install apache2 php mysql-client php-mysql wget    
-sudo systemctl enable apache2    
-cd /var/www/html  
-sudo rm -f index.html   
+sudo apt-get -y install apache2 php mysql-client php-mysql wget
+sudo systemctl enable apache2
+cd /var/www/html
+sudo rm -f index.html
 wget https://github.com/kimjaehyeon0314/test/raw/main/kakao.tar.gz -O kakao.tar.gz
-tar -xvf kakao.tar.gz    
-sudo mv kakao/{index.php,get_user_list.php,add_user.php} /var/www/html/ 
+tar -xvf kakao.tar.gz
+sudo mv kakao/{index.php,get_user_list.php,add_user.php} /var/www/html/
 sudo systemctl restart apache2
 ```
 
