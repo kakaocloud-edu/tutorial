@@ -164,24 +164,8 @@ graph LR
      - `새로운 Public IP를 자동으로 할당` 선택
 11. 확인 버튼 클릭
 
-> 💡 고급설정에서 스크립트 입력을 못했을 경우 VM에 접속하여 아래 명령어 붙여넣기
-
-```bash
-#!/bin/bash        
-sudo apt-get update
-sudo apt-get -y remove mariadb-server mariadb-client
-sudo apt-get -y install apache2 php mysql-client php-mysql wget
-sudo systemctl enable apache2
-cd /var/www/html
-sudo rm -f index.html
-wget https://github.com/kimjaehyeon0314/test/raw/main/kakao.tar.gz -O kakao.tar.gz
-tar -xvf kakao.tar.gz
-sudo mv kakao/{index.php,get_user_list.php,add_user.php} /var/www/html/
-sudo systemctl restart apache2
-```
 
 ## 3. Bastion VM 인스턴스를 통해 Web 서버 접속
-
 
 1. 카카오 클라우드 콘솔 > 전체 서비스 > Virtual Machine 접속
 2. Virtual Machine > Instance 
