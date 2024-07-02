@@ -108,14 +108,9 @@ graph LR
       
      #### **lab9-3-1-2**
      ```bash
-     cat > test.txt
+     echo "This is a test message." > test.txt
      ``` 
-      
-     #### **lab9-3-1-3**
-     ```bash
-     I am a test file
-     ```
-     - UNIX 계열 시스템에서는 Ctrl+D (파일의 끝을 나타냄), Windows에서는 Ctrl+Z 를 눌러서 입력을 종료
+
 2. 테스트 파일 확인 - 터미널 명령어 입력 
       
      #### **lab9-3-2**
