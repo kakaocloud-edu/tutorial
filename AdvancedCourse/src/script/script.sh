@@ -25,7 +25,8 @@ echo "kakaocloud: Directories prepared"
 
 echo "kakaocloud: 6.Downloading YAML files"
 if [ -d "/home/ubuntu/tutorial" ]; then
-  sudo rm -rf /home/ubuntu/tutorial
+  echo "kakaocloud: Removing existing /home/ubuntu/tutorial directory"
+  sudo rm -rf /home/ubuntu/tutorial || { echo "kakaocloud: Failed to remove existing /home/ubuntu/tutorial directory"; exit 1; }
 fi
 sudo git clone https://github.com/kakaocloud-edu/tutorial.git /home/ubuntu/tutorial || { echo "kakaocloud: Failed to git clone"; exit 1; }
 sudo cp /home/ubuntu/tutorial/AdvancedCourse/src/manifests/lab6-* /home/ubuntu/yaml || { echo "kakaocloud: Failed to set yaml"; exit 1; }
