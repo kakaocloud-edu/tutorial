@@ -2,7 +2,7 @@
 
 echo "kakaocloud: 3.Variables validity test start"
 required_variables=(
-    ACC_KEY SEC_KEY CLUSTER_NAME API_SERVER AUTH_DATA PROJECT_NAME
+    ACC_KEY SEC_KEY EMAIL_ADDRESS CLUSTER_NAME API_SERVER AUTH_DATA PROJECT_NAME
     INPUT_DB_EP1 INPUT_DB_EP2 DOCKER_IMAGE_NAME DOCKER_JAVA_VERSION JAVA_VERSION
     SPRING_BOOT_VERSION DB_EP1 DB_EP2
 )
@@ -24,10 +24,6 @@ echo "kakaocloud: Directories prepared"
 
 
 echo "kakaocloud: 6.Downloading YAML files"
-if [ -d "/home/ubuntu/tutorial" ]; then
-  echo "kakaocloud: Removing existing /home/ubuntu/tutorial directory"
-  sudo rm -rf /home/ubuntu/tutorial || { echo "kakaocloud: Failed to remove existing /home/ubuntu/tutorial directory"; exit 1; }
-fi
 sudo git clone https://github.com/kakaocloud-edu/tutorial.git /home/ubuntu/tutorial || { echo "kakaocloud: Failed to git clone"; exit 1; }
 sudo cp /home/ubuntu/tutorial/AdvancedCourse/src/manifests/lab6-* /home/ubuntu/yaml || { echo "kakaocloud: Failed to set yaml"; exit 1; }
 echo "kakaocloud: All YAML files downloaded"
@@ -68,17 +64,12 @@ echo "kakaocloud: Additional software installation completed"
 
 
 echo "kakaocloud: 12.Setting .kube/config"
-
 sudo mkdir -p /home/ubuntu/.kube || { echo "kakaocloud: Failed to create .kube directory"; exit 1; }
 sudo cp /home/ubuntu/tutorial/AdvancedCourse/src/manifests/kube-config.yaml /home/ubuntu/.kube/config || { echo "kakaocloud: Failed to set kube-config.yaml"; exit 1; }
-sudo mkdir -p /tmp/kube || { echo "kakaocloud: Failed to create temporary directory"; exit 1; }
-sudo cp /home/ubuntu/.kube/config /tmp/kube/config || { echo "kakaocloud: Failed to copy config to temporary directory"; exit 1; }
-sudo bash -c 'envsubst < /tmp/kube/config > /tmp/kube/config.tmp' || { echo "kakaocloud: Failed to run envsubst"; exit 1; }
-sudo mv -f /tmp/kube/config.tmp /home/ubuntu/.kube/config || { echo "kakaocloud: Failed to move modified config"; exit 1; }
+envsubst < /home/ubuntu/.kube/config > /home/ubuntu/.kube/config.tmp && mv -f /home/ubuntu/.kube/config.tmp /home/ubuntu/.kube/config || { echo "kakaocloud: Failed to modify /home/ubuntu/.kube/config"; exit 1; }
 sudo chmod 600 /home/ubuntu/.kube/config || { echo "kakaocloud: Failed to change permission of /home/ubuntu/.kube/config"; exit 1; }
 sudo chown ubuntu:ubuntu /home/ubuntu/.kube/config || { echo "kakaocloud: Failed to change ownership of /home/ubuntu/.kube/config"; exit 1; }
 echo "kakaocloud: Setting .kube/config completed"
-
 
 
 echo "kakaocloud: 13.Downloading helm-values.yaml and applying environment substitutions"
