@@ -28,8 +28,7 @@ Spring application 배포를 위해서 다운받은 yaml 파일을 확인 후 �
    kubectl create secret docker-registry regcred \
    --docker-server=${PROJECT_NAME}.kr-central-2.kcr.dev \
    --docker-username=${ACC_KEY} \
-   --docker-password=${SEC_KEY} \
-   --docker-email=${EMAIL_ADDRESS}
+   --docker-password=${SEC_KEY}
    ```
    #### **lab6-1-4**
    ```bash
