@@ -24,6 +24,9 @@ echo "kakaocloud: Directories prepared"
 
 
 echo "kakaocloud: 6.Downloading YAML files"
+if [ -d "/home/ubuntu/tutorial" ]; then
+  sudo rm -rf /home/ubuntu/tutorial
+fi
 sudo git clone https://github.com/kakaocloud-edu/tutorial.git /home/ubuntu/tutorial || { echo "kakaocloud: Failed to git clone"; exit 1; }
 sudo cp /home/ubuntu/tutorial/AdvancedCourse/src/manifests/lab6-* /home/ubuntu/yaml || { echo "kakaocloud: Failed to set yaml"; exit 1; }
 echo "kakaocloud: All YAML files downloaded"
