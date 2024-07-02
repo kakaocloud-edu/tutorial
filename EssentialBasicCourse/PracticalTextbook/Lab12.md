@@ -82,6 +82,7 @@ graph LR
     sudo systemctl restart kic_monitor_agent 
     sudo systemctl enable kic_monitor_agent 
     sudo journalctl -u kic_monitor_agent -f
+    
     ```
 
 ## 3. 대시보드 생성 확인
