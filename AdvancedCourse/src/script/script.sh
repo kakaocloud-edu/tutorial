@@ -24,7 +24,11 @@ echo "kakaocloud: Directories prepared"
 
 
 echo "kakaocloud: 6.Downloading YAML files"
-sudo git clone https://github.com/kakaocloud-edu/tutorial.git /home/ubuntu/tutorial || { echo "kakaocloud: Failed to git clone"; exit 1; }
+if [ ! -d "/home/ubuntu/tutorial" ]; then
+    sudo git clone https://github.com/kakaocloud-edu/tutorial.git /home/ubuntu/tutorial || { echo "kakaocloud: Failed to git clone"; exit 1; }
+else
+    echo "kakaocloud: /home/ubuntu/tutorial already exists, skipping git clone"
+fi
 sudo cp /home/ubuntu/tutorial/AdvancedCourse/src/manifests/lab6-* /home/ubuntu/yaml || { echo "kakaocloud: Failed to set yaml"; exit 1; }
 echo "kakaocloud: All YAML files downloaded"
 
