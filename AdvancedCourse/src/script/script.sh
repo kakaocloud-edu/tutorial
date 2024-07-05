@@ -29,6 +29,13 @@ if [ ! -d "/home/ubuntu/tutorial" ]; then
 else
     echo "kakaocloud: /home/ubuntu/tutorial already exists, skipping git clone"
 fi
+
+if [ ! -d "/home/ubuntu/tutorial/AdvancedCourse/src/manifests" ]; then
+    echo "kakaocloud: Cloning again as the previous clone seems to have failed"
+    sudo rm -rf /home/ubuntu/tutorial
+    sudo git clone https://github.com/kakaocloud-edu/tutorial.git /home/ubuntu/tutorial || { echo "kakaocloud: Failed to git clone"; exit 1; }
+fi
+
 sudo cp /home/ubuntu/tutorial/AdvancedCourse/src/manifests/lab6-* /home/ubuntu/yaml || { echo "kakaocloud: Failed to set yaml"; exit 1; }
 echo "kakaocloud: All YAML files downloaded"
 
