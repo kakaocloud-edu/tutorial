@@ -53,21 +53,13 @@ graph LR
      #### **lab4-1-7**
      ```bash
      #!/bin/bash
-     wget https://dev.mysql.com/get/mysql-apt-config_0.8.17-1_all.deb
-     sudo dpkg -i mysql-apt-config_0.8.17-1_all.deb
      sudo apt-get update
-     sudo apt-get install -y mysql-server
+     sudo apt-get install -y mysql-client
+     
      ```
 
-     - **Note**: 고급 설정 스크립트 부분을 못하더라도 추후 설정할 수 있습니다. VM 접속 후 아래 내용 붙여넣기
-     - **Note**: MySQL 설정화면 OK 선택 후 엔터
-       ```bash
-       #!/bin/bash
-       wget https://dev.mysql.com/get/mysql-apt-config_0.8.17-1_all.deb
-       sudo dpkg -i mysql-apt-config_0.8.17-1_all.deb
-       sudo apt-get update
-       sudo apt-get install -y mysql-server
-       ```
+     - **Note**: 고급 설정 스크립트 부분을 못하더라도 추후 설정할 수 있습니다. VM 접속 후 위 내용 붙여넣기
+
 8. 만들기 버튼 클릭
 9. Virtual Machine > Instance
 10. 생성된 인스턴스의 우측 메뉴바 > Public IP 연결 클릭
