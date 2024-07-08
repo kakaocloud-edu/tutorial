@@ -53,10 +53,8 @@ graph LR
      #### **lab5-2-2**
      ```bash
      #!/bin/bash
-    wget https://dev.mysql.com/get/mysql-apt-config_0.8.17-1_all.deb
-    sudo dpkg -i mysql-apt-config_0.8.17-1_all.deb
-    sudo apt-get update
-    sudo apt-get install -y mysql-server
+     sudo apt-get update
+     sudo apt-get install -y mysql-client
      ```
 3. 카카오 클라우드 콘솔 > 전체 서비스 > MySQL 접속 > database 클릭
      - 엔드포인트 URL 복사
