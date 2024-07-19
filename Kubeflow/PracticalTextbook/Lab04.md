@@ -81,7 +81,7 @@
    ```
 
 ### 3. PVC 리소스 조회
-   - 현재 Namespace에서 모든 PersistentVolumeClaim(PVC) 리소스 조회
+1. 현재 Namespace에서 모든 PersistentVolumeClaim(PVC) 리소스 조회
    - **Note**: 위에서 생성한 Notebook(`cpu-notebook`)에서 입력
    #### **lab4-3-6**
    ```bash
