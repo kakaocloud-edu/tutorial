@@ -37,7 +37,8 @@
 6. Kubeflow 생성 시 입력한 소유자 이메일 계정, 해당 이메일로 전송된 임시 비밀번호 복사 후 메모장에 붙여넣기
     - **Note**: 추후 비밀번호 변경 가능
 
-## 2. Kubeflow 대시보드에 접속하기(로드밸런서 Public IP를 이용)
+## 2. Kubeflow 대시보드에 접속하기
+### 로드밸런서 Public IP를 이용
 1. 카카오 클라우드 콘솔 > Beyond Networking Service > Load Balancing
 2. Kubeflow의 Ingress를 위해 생성된 **두 개**의 로드밸런서(kube_service_{프로젝트 아이디}_{IKE 클러스터명}_ingress-nginx_ingress-nginx-controller)에 Public IP 연결
     - 로드밸런서 우측 더보기 버튼(점 3개) 클릭
@@ -51,8 +52,7 @@
     - Password : `소유자 이메일로 전송된 초기 패스워드`
     - 로그인 확인
 
-## 3. [Demo] Kubeflow 대시보드에 접속하기(Kubectl 포트 포워딩을 이용)
-
+### Kubectl 포트 포워딩을 이용 (Demo)
 1. 사용자 로컬 시스템의 특정 포트(예:8080)를 Kubeflow 대시보드 포트로 포워딩
     #### **lab2-3-1**
     - **Note**: 터미널에 입력해주세요
