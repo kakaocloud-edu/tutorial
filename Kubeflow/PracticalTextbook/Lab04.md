@@ -10,7 +10,6 @@
    ```bash
    kubectl get ns
    ```
-   ![image](https://github.com/KOlizer/tutorial/assets/127844467/c8476ac8-462d-4379-9d06-fa315811398a)
 
 
 ## 2. CPU 기반 Notebook 생성
