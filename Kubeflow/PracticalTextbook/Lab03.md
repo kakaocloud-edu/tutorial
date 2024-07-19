@@ -49,10 +49,7 @@ Kakocloud 콘솔을 이용한 Kubeflow의 사용자와 그룹을 추가하는 �
 3. Kubeflow 대시보드 최상단 네임스페이스에 생성된 접근 가능한 네임스페이스 목록 2개 확인
    - Kubeflow 대시보드 최상단 네임스페이스 클릭
    -  **Note** : `kbm-g-kc-handson-grp`, `kbm-u-kubeflow-tutorial` 확인
-   ![image](https://github.com/KOlizer/tutorial/assets/127844467/c0a06b9b-92e6-46c6-b63a-9342f771bf2e)
 
 4. Manage Account 탭에서 추가된 접근 가능한 네임스페이스 목록 확인
-   ![image](https://github.com/KOlizer/tutorial/assets/127844467/c806d4aa-b50d-4ae0-a395-73825ad88947)
 
 5. Manage Group Users 탭에서 추가된 그룹 네임스페이스 사용자 확인
-   ![image](https://github.com/KOlizer/tutorial/assets/127844467/f22c8061-a2ad-4712-8b5d-ba248ba0005e)
