@@ -15,12 +15,12 @@
         - 필수 노드 풀 설정 
             - Ingress 노드 풀 : `pool-ingress`
             - Worker 노드 풀 : `pool-worker`
-            - CPU 노트북 노드 풀 : `pool-worker`
      - 선택 노드 풀 설정
          - CPU 노트북 노드 풀 : `pool-worker`
          - CPU 파이프라인 노드 풀 : `pool-worker`
          - GPU 노트북 노드 풀 : `pool-gpu`
-         - GPU MIG : `1g.10gb` 7개
+         - GPU MIG : `1g.10gb`
+             - `+`를 눌러서 7을 선택
          - GPU 파이프라인 노드 풀 : `pool-gpu`
      - 디폴트 파일 스토리지 : `handson`
      - Kubeflow 소유자 설정
