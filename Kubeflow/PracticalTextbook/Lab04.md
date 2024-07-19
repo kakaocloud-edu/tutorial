@@ -2,7 +2,7 @@
 
 쿠버네티스 위에서 동작하는 Kubeflow의 리소스들이 어떤 것들이 있는지 확인해 보는 실습입니다.
 
-## 1. 네임스페이스 확인 (데모)
+## 1. 쿠버네티스에서 kubeflow와 관련된 namespace들을 확인해 보기 (Demo)
 
 1. 터미널에서 Kubeflow를 위한 네임스페이스들 확인
    - **Note**: 터미널에서 명령어 입력
@@ -11,8 +11,7 @@
    kubectl get ns
    ```
 
-
-## 2. CPU 기반 Notebook 생성
+## 2. CPU 기반 Notebook 생성 (약 3분 소요)
    - **Note** : Kubeflow 콘솔에서 진행하는 실습입니다.
 
 1. kbm-u-kubeflow-tutorial 네임스페이스 선택 > 좌측 메뉴바의 `Notebooks` 탭 클릭 
@@ -38,10 +37,11 @@
 3. Notebook 생성 확인
 
 
-## 3. 특정 네임스페이스의 리소스 확인
+## 3. 생성된 Notebook에 접속하여 namespace 내의 리소스들 확인
 
+### 1. cpu-notebook과 관련된 k8s 리소스 확인하기
 1. Notebooks 탭 > `cpu-notebook`의 `CONNECT` 클릭
-2. Other 중 Terminal 클릭
+2. Other 중 `Terminal` 클릭
 3. 특정 네임스페이스의 리소스 확인
    - Kubeflow 네임스페이스의 리소스 출력
    - **Note**: 위에서 생성한 Notebook(`cpu-notebook`)에서 입력
@@ -50,25 +50,24 @@
    kubectl get all
    ```
 
-   - Kubernetes StatefulSet 리소스를 YAML 형식으로 출력
+   - `cpu-notebook`에 대한 Kubernetes StatefulSet 리소스를 YAML 형식으로 출력
    - **Note**: 위에서 생성한 Notebook(`cpu-notebook`)에서 입력
    #### **lab4-3-2**
    ```bash
-   kubectl get sts -o yaml
+   kubectl get sts cpu-notebook -o yaml
    ```
 
-## 4. Service Accounts 목록 조회
-
+### 2. Service Accounts 목록 조회
 1. Kubernetes ServiceAccount 리소스 조회 
    - **Note**: 위에서 생성한 Notebook(`cpu-notebook`)에서 입력
-   #### **lab4-4-1**
+   #### **lab4-3-3**
    ```bash
    kubectl get sa
    ```
 2. 매핑된 바인딩 확인 (데모)
    - kbm-u-kubeflow-tutorial 네임스페이스의 모든 RoleBinding 목록 조회
    - **Note**: 터미널 창에서 입력
-   #### **lab4-4-2-1**
+   #### **lab4-3-4**
    ```bash
    kubectl get rolebinding -n kbm-u-kubeflow-tutorial
    ```
@@ -76,15 +75,15 @@
 3. 특정 RoleBinding의 상세 정보 출력 (데모)
    - kbm-u-kubeflow-tutorial 네임스페이스의 default-editor RoleBinding의 세부 정보를 YAML 형식으로 조회
    - **Note**: 터미널 창에서 입력
-   #### **lab4-4-2-2**
+   #### **lab4-3-5**
    ```bash
    kubectl get rolebinding default-editor -n kbm-u-kubeflow-tutorial -o yaml
    ```
 
-## 5. PVC 리소스 조회
+### 3. PVC 리소스 조회
    - 현재 Namespace에서 모든 PersistentVolumeClaim(PVC) 리소스 조회
    - **Note**: 위에서 생성한 Notebook(`cpu-notebook`)에서 입력
-   #### **lab4-5-1**
+   #### **lab4-3-6**
    ```bash
    kubectl get pvc -n kbm-u-kubeflow-tutorial
    ```
