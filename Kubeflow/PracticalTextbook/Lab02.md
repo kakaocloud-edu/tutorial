@@ -1,7 +1,7 @@
 # Kubeflow 생성
 클러스터에 필수 및 선택 노드 풀을 설정하고, Kubeflow 소유자와 DB 설정, Object Storage를 Kubeflow 생성 및 구성하는 실습입니다. 도메인 연결을 통해 외부 접근을 설정할 수 있습니다. 배포된 Kubeflow 환경에 접속하기 위하여 대시보드에 접속하는 실습입니다. 사용자는 대시보드를 통해 Kubeflow의 다양한 리소스를 관리하고, Jupyter Notebook 환경을 구성할 수 있습니다.
 
-## 1. Kubeflow 생성
+## 1. Kubeflow 생성 (약 4~5분 소요)
 1. 카카오 클라우드 콘솔 > AI Service > Kubeflow > Kubeflow
 2. Kubeflow 서비스 `시작하기` 버튼 클릭
 3. Kubeflow 탭 > `Kubeflow 만들기` 버튼 클릭
