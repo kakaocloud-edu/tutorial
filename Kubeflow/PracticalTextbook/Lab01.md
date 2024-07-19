@@ -113,7 +113,38 @@ Kubeflow 실습을 위한 프로젝트 기본 환경 실습을 진행합니다. 
 
 #### pool-worker 노드
 5. 노드 풀 탭 > 노드 풀 만들기 클릭
-6. poo용`
+6. pool-worker 노드 설정 정보
+    - 노드 풀 타입: `Virtual Machine`
+    - 기본 설정
+        - 노드 풀 이름: `pool-worker`
+        - 노드 풀 설명(선택): 빈칸
+    - Image: `Ubuntu 20.04`
+    - Instance 타입: `m2a.xlarge`
+    - Volume: SSD `100GB`
+    - 노드 수: `6`
+    - 노드 풀 Network 설정
+        - VPC: `vpc_k8s`
+        - Subnet: `Public 서브넷 2개` 선택
+    - 리소스 기반 오토 스케일 (선택): `미사용`
+    - Key Pair: `keypair`
+    - 고급 설정(선택): 빈칸
+    - `만들기` 버튼 클릭
+
+#### pool-gpu 노드
+7. 노드 풀 탭 > 노드 풀 만들기 클릭
+8. pool-worker 노드 설정 정보
+    - 노드 풀 타입: `GPU`
+    - 기본 설정
+        - 노드 풀 이름: `pool-gpu`
+        - 노드 풀 설명(선택): 빈칸
+    - Image: `Ubuntu 20.04`
+    - Instance 타입: `p2i.6xlarge`
+    - Volume: SSD `50GB`
+    - 노드 수: `1`
+    - 노드 풀 Network 설정
+        - VPC: `vpc_k8s`
+        - Subnet: `Public 서브넷 2개` 선택
+    - 리소스 기반 오토 스케일 (선택): `미사용`
     - Key Pair: `keypair`
     - 고급 설정(선택): 빈칸
     - `만들기` 버튼 클릭
