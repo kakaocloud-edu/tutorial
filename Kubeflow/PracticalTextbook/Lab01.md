@@ -92,7 +92,7 @@ Kubeflow 실습을 위한 프로젝트 기본 환경 실습을 진행합니다. 
 1. 생성된 `k8s-cluster` 클릭
 2. 생성된 k8s-cluster 세부 정보 확인
 
-#### pool-ingress 노드
+#### pool-ingress 노드풀 생성 (약 3분)
 3. 노드 풀 탭 > `노드 풀 만들기` 클릭
 4. pool-ingress 노드 풀 설정 정보
     - 노드 풀 타입: `Virtual Machine`
@@ -111,7 +111,7 @@ Kubeflow 실습을 위한 프로젝트 기본 환경 실습을 진행합니다. 
     - 고급 설정(선택): 빈칸
     - `만들기` 버튼 클릭
 
-#### pool-worker 노드
+#### pool-worker 노드풀 생성 (약 3분)
 5. 노드 풀 탭 > 노드 풀 만들기 클릭
 6. pool-worker 노드 설정 정보
     - 노드 풀 타입: `Virtual Machine`
@@ -130,7 +130,7 @@ Kubeflow 실습을 위한 프로젝트 기본 환경 실습을 진행합니다. 
     - 고급 설정(선택): 빈칸
     - `만들기` 버튼 클릭
 
-#### pool-gpu 노드
+#### pool-gpu 노드풀 생성 (약 3분)
 7. 노드 풀 탭 > 노드 풀 만들기 클릭
 8. pool-worker 노드 설정 정보
     - 노드 풀 타입: `GPU`
