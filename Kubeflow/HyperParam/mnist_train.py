@@ -8,7 +8,7 @@ import os
 def train_model(learning_rate=0.001, batch_size=32):
     (x_train, y_train), (x_test, y_test) = mnist.load_data()
     x_train, x_test = x_train / 255.0, x_test / 255.0
-
+    
     model = Sequential([
         Flatten(input_shape=(28, 28)),
         Dense(128, activation='relu'),
@@ -22,6 +22,8 @@ def train_model(learning_rate=0.001, batch_size=32):
     model.fit(x_train, y_train, epochs=5, batch_size=batch_size, validation_data=(x_test, y_test))
 
     test_loss, test_acc = model.evaluate(x_test, y_test, verbose=2)
+    print('\nTest learning_rate:', learning_rate)
+    print('\nTest batch_size:', batch_size)
     print('\nTest accuracy:', test_acc)
 
     # Log metrics to a file in the expected format
