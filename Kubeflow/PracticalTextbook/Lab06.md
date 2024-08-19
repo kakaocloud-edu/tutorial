@@ -230,6 +230,10 @@
    ```bash
    docker run -d hyperpram:1.0
    ```
+   #### **lab6-3-3-1**
+   ```bash
+   docker run -d hyperpram:1.0 python mnist_train.py --learning_rate 0.02 --batch_size 128
+   ```
 4. 도커 로그인
    - 접속 중인 Bastion VM 인스턴스에 명령어 입력
    #### **lab6-3-4**
