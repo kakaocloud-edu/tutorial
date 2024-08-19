@@ -258,9 +258,6 @@
 8. 카카오 클라우드 콘솔 > Container Pack > Container Resistry > Repository
 9. `kakao-registry` 클릭
 10. hyperpram 이미지 생성 확인
-
-   ![image](https://github.com/KOlizer/tutorial/assets/127844467/8473733e-5591-4dd8-af27-70d3bbe30c69)
-
 11. bastion VM 터미널에서 시크릿 키 생성
    #### **lab6-3-11**
    ```bash
