@@ -274,7 +274,7 @@
    kubectl get secret -n kbm-u-kubeflow-tutorial
    ```
 
-## 4. Kubeflow UI에서 Experiment 생성
+## 4. Kubeflow UI에서 Experiments (AutoML) 생성
 1. 깃허브 lab6-4-1 Experiment 설정 파일을 메모장에 붙여넣기
       - **Note**:아래 스크립트를 메모장에 붙여넣기
     #### **lab6-4-1**
