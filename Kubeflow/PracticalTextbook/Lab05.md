@@ -57,7 +57,7 @@ CPU, GPU Notebook을 각각 생성하고 Tensorboard, 하이퍼파라미터 튜�
    - 진행 상황 확인
 4. 결과 값 비교
    - Training time이 서로 다른 것을 확인
-## 4. Kubeflow Tensorboard
+## 4. Kubeflow Tensorboard (약 3분 소요)
 1. Notebooks 탭 > `gpu-notebook`의 `CONNECT` 클릭\
    **Note**: 위 실행에 의하여 log(logs/fit/) 날짜별로 생성됨을 확인
 2. Tensorboards 탭 > `+ New TensorBoard` 클릭
