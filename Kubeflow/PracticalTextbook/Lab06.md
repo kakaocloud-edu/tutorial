@@ -259,10 +259,11 @@
 9. `kakao-registry` 클릭
 10. hyperpram 이미지 생성 확인
 11. bastion VM 터미널에서 시크릿 키 생성
+   - {프로젝트 이름}을 카카오클라우드 콘솔 왼쪽 상단에 있는 프로젝트 이름으로 대체
    #### **lab6-3-11**
    ```bash
    kubectl create secret docker-registry regcred \
-   --docker-server=kakao-sw-club.kr-central-2.kcr.dev \
+   --docker-server={프로젝트 이름}.kr-central-2.kcr.dev \
    --docker-username=${ACC_KEY} \
    --docker-password=${SEC_KEY} \
    --docker-email=${EMAIL_ADDRESS} \
@@ -328,7 +329,7 @@
              spec:
                containers:
                  - name: mnist-training
-                   image: ${프로젝트 이름}.kr-central-2.kcr.dev/kakao-registry/hyperpram:1.0
+                   image: {프로젝트 이름}.kr-central-2.kcr.dev/kakao-registry/hyperpram:1.0
                    command:
                      - "python"
                      - "mnist_train.py"
