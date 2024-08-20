@@ -70,8 +70,7 @@ CPU, GPU Notebook을 각각 생성하고 Tensorboard, 하이퍼파라미터 튜�
 4. 생성된 TensorBoard의 `CONNECT` 클릭
 5. 생성된 Tensorboards 목록 확인
    - Scalars (스칼라)
-      - 훈련 및 검증 정확도 (Training and Validation Accuracy)
-      - 훈련 및 검증 손실 (Training and Validation Loss)
+      - 정확도 (Accuracy)와 손실 (Loss) 값 체크
       - TensorBoard 콜백을 설정하면, 모델 학습 시 각 에포크마다 loss와 accuracy 같은 지표가 자동으로 로그에 저장됨
    - Graphs (그래프)
       - 모델 그래프 시각화 (Model Graph Visualization)
