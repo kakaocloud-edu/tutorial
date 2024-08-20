@@ -38,8 +38,19 @@
 
 
 ## 3. 생성된 Notebook에 접속하여 namespace 내의 리소스들 확인
+- 아래 방법 중 3-1이나 3-2로 진행
 
-### 1. cpu-notebook과 관련된 k8s 리소스 확인하기
+### 3-1. 각 노트북에 .ipynb 파일 업로드
+1. Notebooks 탭 > `cpu-notebook`의 `CONNECT` 클릭
+2. Other 중 `Terminal` 클릭
+3. kubectl.ipynb 파일 다운로드
+   #### **Lab5-2-5**
+   ```bash
+   wget https://raw.githubusercontent.com/kakaocloud-edu/tutorial/main/Kubeflow/src/ipynb/kubectl.ipynb
+   ```
+   - kubectl.ipynb 파일 생성 확인 및 더블 클릭 후 내부 코드 실행
+
+### 3-2-1. cpu-notebook과 관련된 k8s 리소스 확인하기
 1. Notebooks 탭 > `cpu-notebook`의 `CONNECT` 클릭
 2. Other 중 `Terminal` 클릭
 3. 특정 네임스페이스의 리소스 확인
@@ -57,7 +68,7 @@
    kubectl get sts cpu-notebook -o yaml
    ```
 
-### 2. Service Accounts 목록 조회
+### 3-2-2. Service Accounts 목록 조회
 1. Kubernetes ServiceAccount 리소스 조회 
    - **Note**: 위에서 생성한 Notebook(`cpu-notebook`)에서 입력
    #### **lab4-3-3**
@@ -80,7 +91,7 @@
    kubectl get rolebinding default-editor -n kbm-u-kubeflow-tutorial -o yaml
    ```
 
-### 3. PVC 리소스 조회
+### 3-2-3. PVC 리소스 조회
 1. 현재 Namespace에서 모든 PersistentVolumeClaim(PVC) 리소스 조회
    - **Note**: 위에서 생성한 Notebook(`cpu-notebook`)에서 입력
    #### **lab4-3-6**
