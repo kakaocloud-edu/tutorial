@@ -59,6 +59,8 @@
     ```
     kubectl port-forward svc/istio-ingressgateway -n istio-system 8080:80 --address 0.0.0.0
     ```
+    - 포트 포워딩: 원격 서버의 특정 포트(e.g. 80)를 내 컴퓨터의 포트(e.g. 8080)로 연결
+    - istio-ingressgateway: Istio의 외부 진입점으로서 클러스터 외부에서 들어오는 트래픽(일반적으로 HTTP, HTTPS)을 받아서 내부 서비스로 전달
 2. 브라우저에서 로컬 호스트 8080 포트로 접속
    #### **lab2-3-2**
    - **Note**: 주소창에 입력해주세요
