@@ -24,7 +24,7 @@ graph LR
 
 
 1. 카카오 클라우드 콘솔 > 전체 서비스 > Virual Machine 접속
-2. bastion 인스턴스의 우측 메뉴바 클릭 > SSH 연결 버튼 클릭
+2. `bastion` 인스턴스의 우측 메뉴바 클릭 > SSH 연결 버튼 클릭
      - SSH 접속 명령어 복사(6. keypair.pem 파일이 있는 경로에서 아래 명령어를 실행합니다.)
        keypair를 다운받아놓은 Downloads 폴더로 이동
      - 터미널 열기
