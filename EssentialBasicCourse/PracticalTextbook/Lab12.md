@@ -45,10 +45,10 @@ graph LR
 
     #### **lab12-2-4**
     ```bash
-    wget https://objectstorage.kr-central-2.kakaocloud.com/v1/52867b7dc99d45fb808b5bc874cb5b79/kic-monitoring-agent/package/kic_monitor_agent_0.9.5_amd64.deb
+    wget https://objectstorage.kr-central-2.kakaocloud.com/v1/52867b7dc99d45fb808b5bc874cb5b79/kic-monitoring-agent/package/kic_monitor_agent_1.0.0_amd64.deb
     ```
     ```bash
-    sudo dpkg -i kic_monitor_agent_0.9.5_amd64.deb
+    sudo dpkg -i kic_monitor_agent_1.0.0_amd64.deb
     ```
 5. 모니터링 대시보드 생성을 위한 설정 - 터미널 명령어 입력
     - **note**: {사용자 액세스 키 ID} 값을 준비한 실제 액세스 키 ID로 수정
@@ -57,10 +57,16 @@ graph LR
     #### **lab12-2-5**
     ```bash
     sudo tee /etc/default/kic_monitor_agent <<EOF
-    C_LOG_FILE_PATH="/var/www/html/VMlog"
     KIC_MONITOR_ENDPOINT_URL="https://monitoring.kr-central-2.kakaocloud.com"
+
+    # 발급받은 사용자 API 키의 ID
     KIC_MONITOR_AGENT_AUTH_APPLICATION_CREDENTIAL_ID="{사용자 액세스 키 ID}"
+    # 발급받은 사용자 API 키의 Secret
     KIC_MONITOR_AGENT_AUTH_APPLICATION_CREDENTIAL_SECRET="{사용자 액세스 보안 키}"
+
+    # 전송할 로그 파일 경로
+    KIC_LOG_FILE_PATH=""
+
     ## 호스트가 직접 Public 망에 접속하지 못할 경우, HTTP Proxy 서버를 지정할 수 있습니다.
     # HTTP_PROXY=http://proxy
     # HTTPS_PROXY=https://proxy
