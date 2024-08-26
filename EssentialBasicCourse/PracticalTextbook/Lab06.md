@@ -57,21 +57,7 @@ graph LR
 7. 확인 버튼 클릭
 8. Web_server_2의 {Public IP} 복사 후 브라우저 창에 입력
     
-> 💡 고급설정에서 스크립트 입력을 못했을 경우 VM에 접속하여 아래 명령어 붙여넣기
-
-```bash
-#!/bin/bash        
-sudo apt-get update
-sudo apt-get -y remove mariadb-server mariadb-client        
-sudo apt-get -y install apache2 php mysql-client php-mysql wget    
-sudo systemctl enable apache2    
-sudo cd /var/www/html  
-sudo rm -f index.html   
-sudo wget https://github.com/kimjaehyeon0314/test/raw/main/kakao.tar.gz -O kakao.tar.gz
-sudo tar -xvf kakao.tar.gz    
-sudo mv kakao/{index.php,get_user_list.php,add_user.php} /var/www/html/ 
-sudo systemctl restart apache2
-```
+> 💡 고급설정에서 스크립트 입력을 못했을 경우 VM에 접속하여 **lab6-1-3** 명령어 붙여넣기
 
 ## 2. Web2 서버와 DB 연결
 
