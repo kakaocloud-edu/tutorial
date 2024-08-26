@@ -45,7 +45,7 @@ graph LR
      sudo systemctl enable apache2    
      cd /var/www/html  
      sudo rm -f index.html   
-     wget https://github.com/kimjaehyeon0314/test/raw/main/kakao.tar.gz -O kakao.tar.gz
+     wget https://github.com/kakaocloud-edu/tutorial/raw/main/EssentialBasicCourse/src/kakao.tar.gz -O kakao.tar.gz
      tar -xvf kakao.tar.gz    
      sudo mv kakao/{index.php,get_user_list.php,add_user.php} /var/www/html/ 
      sudo systemctl restart apache2
