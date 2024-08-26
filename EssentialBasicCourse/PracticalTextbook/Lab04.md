@@ -109,7 +109,7 @@ graph LR
      - bastion 인스턴스의 Private IP 복사
 2. Instance 만들기 버튼 클릭
      - 이름 : `web_server_1`
-     - Image : `Ubuntu 20.04 - 5.4.0-173`
+     - Image : `Ubuntu 20.04`
      - Instance 타입 : `m2a.large`
      - Volume : `30 GB`
      - Key Pair : `keypair`
