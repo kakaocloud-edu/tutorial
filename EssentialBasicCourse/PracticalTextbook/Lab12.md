@@ -1,6 +1,6 @@
 # Monitoring 실습
 
-콘솔에서 Monitoring 대시보드 환경에 대해서 살펴봅니다. 대시보드 활용을 위해 Bastion서버 VM에 Monitoring Agent를 설치하고 설정합니다. 콘솔에서 대시보드가 생성되었는지 확인해보는 실습을 진행합니다.
+콘솔에서 Monitoring 대시보드 환경에 대해서 살펴봅니다. 대시보드 활용을 위해 `Bastion`서버 VM에 `Monitoring Agent`를 설치하고 설정합니다. 콘솔에서 대시보드가 생성되었는지 확인해보는 실습을 진행합니다.
 ```mermaid
 graph LR
     시작(시작) --> 대시보드확인(콘솔에서 Monitoring 대시보드 확인)
@@ -28,7 +28,7 @@ graph LR
 1. IAM 실습에서 만들었던 사용자 엑세스 키 ID와 사용자 엑세스 보안 키 준비
 2. 카카오 클라우드 콘솔 > 전체 서비스 > Virtual Machine 접속
 3. 터미널 명령어 입력
-    - Bastion VM에 접속
+    - `Bastion` VM에 접속
 
     #### **lab12-2-3-1**
     ```bash
