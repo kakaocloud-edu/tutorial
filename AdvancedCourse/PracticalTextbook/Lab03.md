@@ -24,7 +24,9 @@
       ![image](https://github.com/kakaocloud-edu/tutorial/assets/128004136/689925d7-f6e4-4a1f-9765-186224867982)
 
 
-6. 사용자 스크립트 작성    
+6. 사용자 스크립트 작성
+   #### 아래를 진행하거나 http://script.kakaocloud-edu.com/ 에서 스크립트 생성
+   
    #### **lab3-1-6**
      - **Note**: 사용자는 export ACC_KEY부터 DOCKER_JAVA_VERSION까지만 입력해주세요.
      - **Note**: INPUT_DB_EP1에는 Primary의 엔드포인트, INPUT_DB_EP2에는 Standby의 엔드포인트를 붙여넣어주세요.
