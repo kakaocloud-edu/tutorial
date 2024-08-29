@@ -191,7 +191,7 @@
 - 모델 레이어 구성
     - 모델은 다양한 **레이어**로 구성됨
         - 레이어들은 모델의 예측 성능을 향상시키기 위해 데이터를 변환하고 처리하는 역할을 수행함
-    - **레이어(Layer)**란?
+    - **레이어(Layer)** 란?
         
         ![image.png](images/image%209.png)
         
@@ -199,7 +199,7 @@
         - 레이어는 다양한 형태가 있으며, 각 레이어가 수행하는 작업에 따라 모델의 성능과 기능이 달라짐
     - 주요 레이어 종류
         - Dense 레이어 (Fully Connected Layer): 모든 뉴런이 이전 레이어의 모든 뉴런과 연결되는 완전 연결 레이어
-        - Convolutional 레이어 (합성곱 레이어): ****이미지 처리 및 컴퓨터 비전에서 주로 사용됩니다. 이미지에서 특징을 추출하는 데 중요한 역할을 하며, 주로 CNN(Convolutional Neural Network)에서 사용됨
+        - Convolutional 레이어 (합성곱 레이어): 이미지 처리 및 컴퓨터 비전에서 주로 사용됩니다. 이미지에서 특징을 추출하는 데 중요한 역할을 하며, 주로 CNN(Convolutional Neural Network)에서 사용됨
         - Recurrent 레이어 (순환 레이어): 시계열 데이터나 자연어 처리와 같은 순서가 중요한 데이터에서 주로 사용함. RNN(Recurrent Neural Network) 계열의 모델에서는 데이터를 순차적으로 처리하고, 이전 단계의 정보를 현재 단계에 전달
         - Dropout 레이어: 과적합(overfitting)을 방지하기 위해 학습 과정에서 무작위로 일부 뉴런을 비활성화하는 레이어
         - Pooling 레이어 (MaxPooling, AveragePooling): 합성곱 레이어의 출력을 다운샘플링하여 데이터의 크기를 줄이는 레이어
