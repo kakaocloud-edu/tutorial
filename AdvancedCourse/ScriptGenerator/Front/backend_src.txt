@@ -1,0 +1,135 @@
+from fastapi import FastAPI, HTTPException, Body
+from pydantic import BaseModel
+import requests
+
+app = FastAPI()
+
+
+class UserCredentials(BaseModel):
+    access_key_id: str
+    access_key_secret: str
+
+
+def get_token_and_details(credentials: UserCredentials):
+    url = "https://iam.kakaocloud.com/identity/v3/auth/tokens"
+    payload = {
+        "auth": {
+            "identity": {
+                "methods": ["application_credential"],
+                "application_credential": {
+                    "id": credentials.access_key_id,
+                    "secret": credentials.access_key_secret,
+                },
+            }
+        }
+    }
+    headers = {"Content-Type": "application/json"}
+    response = requests.post(url, json=payload, headers=headers)
+    if response.status_code != 201:
+        raise HTTPException(status_code=response.status_code, detail=response.text)
+
+    token = response.headers.get("X-Subject-Token")
+    response_json = response.json()
+    user_id = response_json.get("token", {}).get("user", {}).get("id", {})
+    domain_id = (
+        response_json.get("token", {}).get("user", {}).get("domain", {}).get("id")
+    )
+    domain_name = (
+        response_json.get("token", {}).get("user", {}).get("domain", {}).get("name")
+    )
+    project_id = response_json.get("token", {}).get("project", {}).get("id")
+    project_name = response_json.get("token", {}).get("project", {}).get("name")
+
+    return {
+        "token": token,
+        "user_id": user_id,
+        "domain_id": domain_id,
+        "domain_name": domain_name,
+        "project_id": project_id,
+        "project_name": project_name,
+    }
+
+
+@app.post("/get-token-details")
+def get_token_details(credentials: UserCredentials):
+    return get_token_and_details(credentials)
+
+
+@app.post("/get-clusters")
+def get_clusters(credentials: UserCredentials):
+    details = get_token_and_details(credentials)
+    url = "https://d801c895-f7a2-4cae-9d6e-a4f7e68f1039.api.kr-central-2.kakaoi.io/api/v1/clusters"
+    headers = {
+        "Origin": "https://console.kakaocloud.com",
+        "Referer": "https://console.kakaocloud.com",
+        "X-Auth-token": details["token"],
+        "X-Kep-Project-Domain-Id": details["domain_id"],
+        "X-Kep-Project-Domain-Name": details["domain_name"],
+        "X-Kep-Project-Id": details["project_id"],
+        "X-Kep-Project-Name": details["project_name"],
+    }
+    response = requests.get(url, headers=headers)
+    if response.status_code != 200:
+        raise HTTPException(status_code=response.status_code, detail=response.text)
+    return response.json()
+
+
+@app.post("/get-kubeconfig")
+def get_kubeconfig(credentials: UserCredentials):
+    details = get_token_and_details(credentials)
+    url = "https://d801c895-f7a2-4cae-9d6e-a4f7e68f1039.api.kr-central-2.kakaoi.io/api/v1/clusters/k8s-cluster/kubeconfig"
+    headers = {
+        "Origin": "https://console.kakaocloud.com",
+        "Referer": "https://console.kakaocloud.com",
+        "X-Auth-token": details["token"],
+        "X-Kep-Project-Domain-Id": details["domain_id"],
+        "X-Kep-Project-Domain-Name": details["domain_name"],
+        "X-Kep-Project-Id": details["project_id"],
+        "X-Kep-Project-Name": details["project_name"],
+    }
+    response = requests.get(url, headers=headers)
+    if response.status_code != 200:
+        raise HTTPException(status_code=response.status_code, detail=response.text)
+    return response.text
+
+
+@app.post("/get-instance-endpoints")
+def get_instance_endpoints(credentials: UserCredentials):
+    details = get_token_and_details(credentials)
+    url = "https://231b3efe-0491-46d5-ba7f-5ec1679796e2.api.kr-central-2.kakaoi.io/instance-sets"
+    headers = {
+        "X-Auth-token": details["token"],
+        "X-Kep-Project-Domain-Id": details["domain_id"],
+        "X-Kep-Project-Domain-Name": details["domain_name"],
+        "X-Kep-Project-Id": details["project_id"],
+        "X-Kep-Project-Name": details["project_name"],
+    }
+    response = requests.get(url, headers=headers)
+    if response.status_code != 200:
+        raise HTTPException(status_code=response.status_code, detail=response.text)
+
+    data = response.json()
+    instance_set = data.get("instanceSetWithStatusList", [])[0]
+    endpoints = instance_set.get("instanceSet", {}).get("endpoint", [])
+    primary = endpoints[0] if endpoints else None
+    standby = endpoints[1] if len(endpoints) > 1 else None
+
+    return {"primary_endpoint": primary, "standby_endpoint": standby}
+
+
+@app.post("/get-projects")
+def get_projects(credentials: UserCredentials):
+    details = get_token_and_details(credentials)
+    url = f"https://iam.kakaocloud.com/identity/v3/users/{details['user_id']}/projects"
+    headers = {"X-Auth-token": details["token"]}
+    response = requests.get(url, headers=headers)
+    if response.status_code != 200:
+        raise HTTPException(status_code=response.status_code, detail=response.text)
+
+    return response.json()
+
+
+if __name__ == "__main__":
+    import uvicorn
+
+    uvicorn.run(app, host="0.0.0.0", port=8000)
