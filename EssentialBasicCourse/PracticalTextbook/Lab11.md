@@ -45,19 +45,34 @@ graph LR
 
 1. 실습을 위한 패키지 설치 - 터미널 명령어 입력
 
-    #### **lab11-2-1**
+    #### **lab11-2-1-1**
     ```bash
-    sudo apt install -y software-properties-common unzip
-    sudo apt install -y jq
-    curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
-    unzip awscliv2.zip
-    sudo ./aws/install
-    
+    sudo apt install -y software-properties-common unzip jq
+
     ```
+    
+    #### **lab11-2-1-2**
+    ```bash
+    curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+
+    ```
+
+    #### **lab11-2-1-3**
+    ```bash
+    unzip awscliv2.zip
+
+    ```
+
+    #### **lab11-2-1-4**
+    ```bash
+    sudo ./aws/install
+
+    ```
+    
     - kakaocloud의 Object Storage는 AWS S3 API와 호환됨
 
 
-2. 환경변수 셋팅 - env.sh 파일 생성 - 터미널 명령어 입력
+1. 환경변수 셋팅 - env.sh 파일 생성 - 터미널 명령어 입력
     - 아래 스크립트(**lab11-2-2**)를 메모장에 복사하여 {KAKAO_ACCESS_KEY}, {KAKAO_ACCESS_SECRET_KEY}, {USER_ID} 를 수정후 터미널에 입력
          - **Note**: {KAKAO_ACCESS_KEY} 값을 액세스 키 ID(Lab1 참고)로 수정
          - **Note**: {KAKAO_ACCESS_SECRET_KEY} 값을 액세스 보안키(Lab1 참고)로 수정
