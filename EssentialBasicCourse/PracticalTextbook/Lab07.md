@@ -41,7 +41,6 @@ graph LR
      - Volume : `30 GB`
      - Key Pair : `keypair`
      - VPC : `vpc_1`
-     - Subnet : `main-b(kr-cenrtral2-b의 Public 서브넷)`
 3. 새 Security Group 생성 클릭
      - Security Group 이름 : `vm_5`
      - Inbound 
@@ -50,24 +49,27 @@ graph LR
      - Outbound 
           - 프로토콜: `ALL`
           - 패킷 목적지: `0.0.0.0/0`
-4. 고급설정 버튼 클릭
+4. 새 인터페이스 클릭
+     - Subnet : `main-b`(kr-cenrtral2-b의 Public 서브넷)
+     - IP 할당 방식: `자동` 
+5. 고급설정 버튼 클릭
      - 사용자 스크립트에 아래 내용 붙여넣기
      #### **lab7-2-4**
      ```bash
      #!/bin/bash
      sudo apt update -y
-    sudo apt install -y apache2
-    sudo systemctl start apache2
-    sudo systemctl enable apache2
+     sudo apt install -y apache2
+     sudo systemctl start apache2
+     sudo systemctl enable apache2
      ```
-5. 만들기 버튼 클릭
-6. 카카오 클라우드 콘솔 > 전체 서비스 > Virtual Machine > Instance
-7. 생성된 vm_5 인스턴스의 우측 메뉴바 클릭 > Public IP 연결 클릭
+6. 만들기 버튼 클릭
+7. 카카오 클라우드 콘솔 > 전체 서비스 > Virtual Machine > Instance
+8. 생성된 vm_5 인스턴스의 우측 메뉴바 클릭 > Public IP 연결 클릭
      - `새로운 Public IP를 자동으로 할당` 선택
-8. 확인 버튼 클릭
-9. vm_5의 Public IP 복사
-10. 브라우저창에 입력
-11. apache 웹서버 Test페이지가 나오는 것을 확인
+9. 확인 버튼 클릭
+10. vm_5의 Public IP 복사
+11. 브라우저창에 입력
+12. apache 웹서버 Test페이지가 나오는 것을 확인
 
 ## 3. DNS 서비스 설정
 
