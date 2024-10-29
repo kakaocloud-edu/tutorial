@@ -31,7 +31,6 @@ graph LR
      - 만들기 클릭
 4. VPC 선택
      - VPC : `vpc_1`
-     - Subnet : `main`
      - SecurityGroup 선택
 5. 새 Security Group 생성 클릭
      - Security Group 이름: `bastion`
@@ -47,7 +46,10 @@ graph LR
           - 프로토콜 : `ALL` 
           - 패킷 목적지 : `0.0.0.0/0`
      - 만들기 버튼 클릭
-7. 고급설정 버튼 클릭
+7. 새 인터페이스 클릭
+     - Subnet : `main`
+     - IP 할당 방식: `자동` 
+8. 고급설정 버튼 클릭
      - 사용자 스크립트에 아래 내용 붙여넣기 (mysql client 사용을 위함)
        
      #### **lab4-1-7**
@@ -60,12 +62,12 @@ graph LR
 
      - **Note**: 고급 설정 스크립트 부분을 못하더라도 추후 설정할 수 있습니다. VM 접속 후 위 내용 붙여넣기
 
-8. 만들기 버튼 클릭
-9. Virtual Machine > Instance
-10. 생성된 인스턴스의 우측 메뉴바 > Public IP 연결 클릭
+9. 만들기 버튼 클릭
+10. Virtual Machine > Instance
+11. 생성된 인스턴스의 우측 메뉴바 > Public IP 연결 클릭
     - `새로운 Public IP를 생성하고 자동으로 할당` 
-11. 확인 버튼 클릭
-12. 생성된 인스턴스의 우측 메뉴바 > SSH 연결 클릭
+12. 확인 버튼 클릭
+13. 생성된 인스턴스의 우측 메뉴바 > SSH 연결 클릭
      - SSH 접속 명령어 복사(다운받은 keypair.pem 파일이 있는 경로에서 아래 명령어를 실행합니다.)
      - 터미널 열기
        keypair를 다운받아놓은 폴더로 이동
