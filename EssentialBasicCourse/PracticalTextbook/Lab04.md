@@ -117,7 +117,6 @@ graph LR
      - Key Pair : `keypair`
 3. VPC 선택
      - VPC : `vpc_1`
-     - Subnet : `main`
      - 새 Security Group 생성
 4. SecurityGroup 만들기
      - Security Group 이름 : `webserver`
@@ -131,9 +130,12 @@ graph LR
      - Outbound
           - 프로토콜 : `ALL` 
           - 패킷 목적지 : `0.0.0.0/0`
-6. 만들기 버튼 클릭
-7. 고급설정 버튼 클릭
-8. 사용자 스크립트에 아래 명령어 붙여넣기
+6. 새 인터페이스 클릭
+     - Subnet : `main`
+     - IP 할당 방식: `자동` 
+7. 만들기 버튼 클릭
+8. 고급설정 버튼 클릭
+9. 사용자 스크립트에 아래 명령어 붙여넣기
 
      #### **lab4-2-8**
      ```bash
@@ -153,10 +155,10 @@ graph LR
      - **Note**: 스크립트 설정을 못하더라도 추후 설정 가능합니다.
      - 멀티스레딩: 활성화
      
-9. 만들기 버튼 클릭
-10. Virtual Machine > Instance > 생성한 인스턴스 ( web_server_1 )의 우측 메뉴바 클릭 > Public IP 연결 클릭
+10. 만들기 버튼 클릭
+11. Virtual Machine > Instance > 생성한 인스턴스 ( web_server_1 )의 우측 메뉴바 클릭 > Public IP 연결 클릭
      - `새로운 Public IP를 자동으로 할당` 선택
-11. 확인 버튼 클릭
+12. 확인 버튼 클릭
 
 
 ## 3. Bastion VM 인스턴스를 통해 Web 서버 접속
