@@ -74,7 +74,7 @@
    - 이름 : `bastion`
    - Image : `Ubuntu 20.04 - 5.4.0-173`
    - Instance 타입 : `t1i.xlarge`
-   - Volume : `10 GB`
+   - Volume : `30 GB`
 10. Key Pair : `keypair`
 11. VPC 선택
     - VPC : `vpc_1`
