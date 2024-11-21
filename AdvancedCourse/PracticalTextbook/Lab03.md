@@ -25,7 +25,7 @@
 
 
 6. 사용자 스크립트 작성
-   #### 아래를 진행하거나 http://61.109.237.178/ 에서 스크립트 생성
+   #### 아래를 진행하거나 http://script.kakaocloud-edu.com/ 에서 스크립트 생성
    
    #### **lab3-1-6**
      - **Note**: 사용자는 export ACC_KEY부터 DOCKER_JAVA_VERSION까지만 입력해주세요.
