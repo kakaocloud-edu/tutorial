@@ -184,7 +184,7 @@ echo "========================================"
 echo "6. REST API 설치 및 설정"
 echo "========================================"
 
-REST_API_DIR="$USER_HOME/syu-DataAnalyze/TrafficGenerator/REST API"
+REST_API_DIR="$USER_HOME/syu-DataAnalyze/TrafficGenerator/REST_API"
 mkdir -p "$REST_API_DIR/VM1" "$REST_API_DIR/VM2"
 
 sudo apt install -y python3 python3-pip
