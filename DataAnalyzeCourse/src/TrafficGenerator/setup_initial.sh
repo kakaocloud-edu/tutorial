@@ -1,7 +1,8 @@
 #!/bin/bash
 # setup_initial.sh
-# 이 스크립트는 환경 변수를 설정하고, GitHub 저장소를 클론한 후,
-# 클론된 저장소 내의 TrafficGenerator/setup_all.sh 스크립트를 실행합니다.
+# 이 스크립트는 환경 변수를 설정한 후,
+# GitHub 저장소 전체를 클론하는 대신, DataAnalyzeCourse/src/TrafficGenerator/setup_all.sh 파일을 wget으로 다운로드 받고,
+# 다운로드한 스크립트를 실행합니다.
 #
 # (환경 변수들은 스크립트 내에서 직접 정의합니다.)
 
@@ -15,19 +16,19 @@ echo "========================================"
 # 1. 환경 변수 정의 (필요에 따라 실제 값으로 수정)
 # ----------------------------------------
 export PUBSUB_ENDPOINT="https://pub-sub.kr-central-2.kakaocloud.com"
-export DOMAIN_ID="{조직 ID}"
-export PROJECT_ID="{프로젝트 ID}"
-export TOPIC_NAME="콘솔에서 생성한 토픽 이름(test-topic)"
-export SUB_NAME="콘솔에서 생성한 서브 스크립션 이름(pull-subscription)"
+export DOMAIN_ID="fa22d0db818f48829cf8b7849e3a0a26"
+export PROJECT_ID="0aa67b93c3ec48e587a51c9f842ca407"
+export TOPIC_NAME="test-topic"
+export SUB_NAME="pull-subscription"
 export TOPIC_DESCRIPTION=""
 export TOPIC_RETENTION_DURATION="600s"
-export CREDENTIAL_ID="{액세스 키 ID}"
-export CREDENTIAL_SECRET="{보안 액세스 키}"
-export API_BASE_URL="{ALB 주소}"
+export CREDENTIAL_ID="23630c9edc9b4a1bad341eee37268557"
+export CREDENTIAL_SECRET="eb2e612b5c85450ece8838d76ea6bb2831d25eb3b00f5d33ee1debab8ab25ce197d94d"
+export API_BASE_URL="210.109.54.27"
 
-export TOPIC_NAME_MK="{실습용 토픽 이름(crate-topic)}"
-export OBJECT_STORAGE_SUBSCRIPTION_NAME="{실습용 서브스크립션 이름(objectstoragesubscription)"
-export OBJECT_STORAGE_BUCKET="{로그 적재용 ObjectStorage 버킷 이름}"
+export TOPIC_NAME_MK="crate-topic"
+export OBJECT_STORAGE_SUBSCRIPTION_NAME="objectstoragesubscription"
+export OBJECT_STORAGE_BUCKET="lb-accesslog"
 export EXPORT_INTERVAL_MIN=10
 export FILE_PREFIX=""
 export FILE_SUFFIX=".log"
@@ -62,51 +63,42 @@ done
 echo "~/.bashrc에 환경 변수 추가 완료."
 
 # ----------------------------------------
-# 2. GitHub 저장소 클론 (전체 저장소가 클론되어야 함)
+# 2. GitHub 파일 다운로드 (DataAnalyzeCourse/src/TrafficGenerator/setup_all.sh)
 # ----------------------------------------
 echo "========================================"
-echo "GitHub 저장소 클론 시작"
+echo "GitHub 파일 다운로드 시작"
 echo "========================================"
 
-REPO_URL="https://github.com/KOlizer/syu-DataAnalyze.git"
-CLONE_DIR="$HOME/syu-DataAnalyze"
+# 다운로드할 파일의 Raw URL (브랜치가 main이라고 가정)
+FILE_URL="https://raw.githubusercontent.com/kakaocloud-edu/tutorial/main/DataAnalyzeCourse/src/TrafficGenerator/setup_all.sh"
 
-if [ -d "$CLONE_DIR" ]; then
-  if [ -d "$CLONE_DIR/.git" ]; then
-    echo "저장소가 이미 클론되어 있습니다. 최신 상태로 업데이트합니다."
-    cd "$CLONE_DIR"
-    git pull origin main
-  else
-    echo "디렉토리가 존재하지만 Git 저장소가 아닙니다. 디렉토리를 삭제 후 다시 클론합니다."
-    rm -rf "$CLONE_DIR"
-    echo "저장소를 클론합니다: $REPO_URL"
-    git clone "$REPO_URL" "$CLONE_DIR"
-  fi
-else
-  echo "저장소를 클론합니다: $REPO_URL"
-  git clone "$REPO_URL" "$CLONE_DIR"
-fi
+# 다운로드할 위치 (원래 클론 디렉토리와 유사하게 구성)
+DEST_DIR="$HOME/syu-DataAnalyze/TrafficGenerator"
+mkdir -p "$DEST_DIR"
+DEST_FILE="$DEST_DIR/setup_all.sh"
 
-# 클론 후 ubuntu 소유로 변경 (모든 파일)
-sudo chown -R ubuntu:ubuntu "$CLONE_DIR"
+echo "파일 다운로드: $FILE_URL -> $DEST_FILE"
+wget "$FILE_URL" -O "$DEST_FILE"
 
-echo "GitHub 저장소 클론 완료."
+# 다운로드 받은 파일의 소유권을 ubuntu 사용자로 변경 (필요시)
+sudo chown -R ubuntu:ubuntu "$HOME/syu-DataAnalyze"
+
+echo "GitHub 파일 다운로드 완료."
 
 # ----------------------------------------
-# 3. setup_all.sh 실행 (TrafficGenerator 디렉토리 내부의 스크립트)
+# 3. setup_all.sh 실행
 # ----------------------------------------
 echo "========================================"
 echo "setup_all.sh 실행 시작"
 echo "========================================"
 
-SETUP_ALL_SCRIPT="$CLONE_DIR/TrafficGenerator/setup_all.sh"
-if [ -f "$SETUP_ALL_SCRIPT" ]; then
+if [ -f "$DEST_FILE" ]; then
     echo "setup_all.sh 스크립트를 실행합니다."
-    chmod +x "$SETUP_ALL_SCRIPT"
+    chmod +x "$DEST_FILE"
     # sudo -E를 사용하여 환경 변수 보존 및 ubuntu 사용자로 실행
-    sudo -E -u ubuntu bash "$SETUP_ALL_SCRIPT"
+    sudo -E -u ubuntu bash "$DEST_FILE"
 else
-    echo "setup_all.sh 스크립트를 찾을 수 없습니다: $SETUP_ALL_SCRIPT"
+    echo "setup_all.sh 스크립트를 찾을 수 없습니다: $DEST_FILE"
     echo "나중에 setup_all.sh를 수동으로 실행해 주시기 바랍니다."
 fi
 
