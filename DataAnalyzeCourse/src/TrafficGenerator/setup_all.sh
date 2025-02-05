@@ -163,9 +163,9 @@ mkdir -p "$CMD_DIR"
 cd "$CMD_DIR"
 
 echo "필요한 Go 파일 다운로드 중..."
-wget -O config.go https://raw.githubusercontent.com/KOlizer/syu-DataAnalyze/main/TrafficGenerator/GO_SDK/config.go
-wget -O publisher.go https://raw.githubusercontent.com/KOlizer/syu-DataAnalyze/main/TrafficGenerator/GO_SDK/publisher.go
-wget -O subscriber.go https://raw.githubusercontent.com/KOlizer/syu-DataAnalyze/main/TrafficGenerator/GO_SDK/subscriber.go
+wget -O config.go https://raw.githubusercontent.com/kakaocloud-edu/tutorial/main/DataAnalyzeCourse/src/TrafficGenerator/GO_SDK/config.go
+wget -O publisher.go https://raw.githubusercontent.com/kakaocloud-edu/tutorial/main/DataAnalyzeCourse/src/TrafficGenerator/GO_SDK/publisher.go
+wget -O subscriber.go https://raw.githubusercontent.com/kakaocloud-edu/tutorial/main/DataAnalyzeCourse/src/TrafficGenerator/GO_SDK/subscriber.go
 
 /usr/local/go/bin/go get gopkg.in/yaml.v2
 /usr/local/go/bin/go mod tidy
@@ -191,20 +191,19 @@ sudo apt install -y python3 python3-pip
 
 pip3 install --user requests pyyaml
 
-
 echo "VM1 Python 스크립트 다운로드 중..."
 cd "$REST_API_DIR/VM1"
-wget -O pub_sub_send.py https://raw.githubusercontent.com/KOlizer/syu-DataAnalyze/main/TrafficGenerator/REST%20API/VM1/pub_sub_send.py
-wget -O traffic_generator.py https://raw.githubusercontent.com/KOlizer/syu-DataAnalyze/main/TrafficGenerator/REST%20API/VM1/traffic_generator.py
+wget -O pub_sub_send.py https://raw.githubusercontent.com/kakaocloud-edu/tutorial/main/DataAnalyzeCourse/src/TrafficGenerator/REST_API/VM1/pub_sub_send.py
+wget -O traffic_generator.py https://raw.githubusercontent.com/kakaocloud-edu/tutorial/main/DataAnalyzeCourse/src/TrafficGenerator/REST_API/VM1/traffic_generator.py
 
 echo "VM2 Python 스크립트 다운로드 중..."
 cd "$REST_API_DIR/VM2"
-wget -O CreateSubscription.py https://raw.githubusercontent.com/KOlizer/syu-DataAnalyze/main/TrafficGenerator/REST%20API/VM2/CreateSubscription.py
-wget -O CreateTopic.py https://raw.githubusercontent.com/KOlizer/syu-DataAnalyze/main/TrafficGenerator/REST%20API/VM2/CreateTopic.py
-wget -O restapi_sub.py https://raw.githubusercontent.com/KOlizer/syu-DataAnalyze/main/TrafficGenerator/REST%20API/VM2/restapi_sub.py
+wget -O CreateSubscription.py https://raw.githubusercontent.com/kakaocloud-edu/tutorial/main/DataAnalyzeCourse/src/TrafficGenerator/REST_API/VM2/CreateSubscription.py
+wget -O CreateTopic.py https://raw.githubusercontent.com/kakaocloud-edu/tutorial/main/DataAnalyzeCourse/src/TrafficGenerator/REST_API/VM2/CreateTopic.py
+wget -O restapi_sub.py https://raw.githubusercontent.com/kakaocloud-edu/tutorial/main/DataAnalyzeCourse/src/TrafficGenerator/REST_API/VM2/restapi_sub.py
 
 cd "$REST_API_DIR"
-wget -O config.py https://raw.githubusercontent.com/KOlizer/syu-DataAnalyze/main/TrafficGenerator/REST%20API/config.py
+wget -O restapi_sub.py https://raw.githubusercontent.com/kakaocloud-edu/tutorial/main/DataAnalyzeCourse/src/TrafficGenerator/REST_API/config.py
 
 
 
