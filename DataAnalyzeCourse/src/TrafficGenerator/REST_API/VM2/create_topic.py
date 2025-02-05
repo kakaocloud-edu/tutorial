@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-CreateTopic.py
+create_topic.py
 
 - Kakao Cloud Pub/Sub에 새 토픽을 생성하는 스크립트
 - 모든 설정을 config.py에서 가져오며, 사용자 입력 없이 바로 생성
