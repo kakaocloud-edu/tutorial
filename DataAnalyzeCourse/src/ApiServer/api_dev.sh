@@ -10,6 +10,7 @@ CREDENTIAL_SECRET="{보안 액세스 키}"
 LOGSTASH_ENV_FILE="/etc/default/logstash"
 LOGSTASH_KAFKA_ENDPOINT="{Kafka 클러스터 부트스트랩 서버}"
 
+
 echo "kakaocloud: 1. ~/.bashrc에 환경 변수를 설정합니다."
 ##########################################################################
 # 1) .bashrc에 기록
