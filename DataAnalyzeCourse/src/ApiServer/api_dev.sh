@@ -10,7 +10,6 @@ CREDENTIAL_SECRET="{보안 액세스 키}"
 LOGSTASH_ENV_FILE="/etc/default/logstash"
 LOGSTASH_KAFKA_ENDPOINT="{Kafka 클러스터 부트스트랩 서버}"
 
-
 echo "kakaocloud: 1. ~/.bashrc에 환경 변수를 설정합니다."
 ##########################################################################
 # 1) .bashrc에 기록
@@ -110,13 +109,13 @@ fi
 
 echo "kakaocloud: 5. 스크립트 다운로드 링크 유효성 체크"
 curl --output /dev/null --silent --head --fail \
-  "https://github.com/KOlizer/syu-DataAnalyze/raw/refs/heads/main/ApiServer/main_script.sh" || {
+  "https://github.com/kakaocloud-edu/tutorial/raw/refs/heads/main/DataAnalyzeCourse/src/ApiServer/main_script.sh" || {
     echo "main_script.sh 다운로드 링크가 유효하지 않습니다."
     exit 1
   }
 
 curl --output /dev/null --silent --head --fail \
-  "https://github.com/KOlizer/syu-DataAnalyze/raw/refs/heads/main/ApiServer/setup_db.sh" || {
+  "https://github.com/kakaocloud-edu/tutorial/raw/refs/heads/main/DataAnalyzeCourse/src/ApiServer/setup_db.sh" || {
     echo "setup_db.sh 다운로드 링크가 유효하지 않습니다."
     exit 1
   }
@@ -125,10 +124,10 @@ echo "kakaocloud: 스크립트 다운로드 링크가 모두 유효합니다."
 echo "kakaocloud: 6. 실제 스크립트 다운로드 및 실행 권한 설정"
 
 wget -O main_script.sh \
-  "https://github.com/KOlizer/syu-DataAnalyze/raw/refs/heads/main/ApiServer/main_script.sh"
+  "https://github.com/kakaocloud-edu/tutorial/raw/refs/heads/main/DataAnalyzeCourse/src/ApiServer/main_script.sh"
 
 wget -O setup_db.sh \
-  "https://github.com/KOlizer/syu-DataAnalyze/raw/refs/heads/main/ApiServer/setup_db.sh"
+  "https://github.com/kakaocloud-edu/tutorial/raw/refs/heads/main/DataAnalyzeCourse/src/ApiServer/setup_db.sh"
 
 chmod +x main_script.sh
 chmod +x setup_db.sh
@@ -143,13 +142,13 @@ sudo -E ./setup_db.sh
 
 echo "kakaocloud: 3. filebeat.yml과 logs-to-pubsub.conf를 다운로드합니다."
 sudo wget -O /etc/filebeat/filebeat.yml \
-  "https://github.com/KOlizer/syu-DataAnalyze/raw/refs/heads/main/ApiServer/filebeat.yml"
+  "https://github.com/kakaocloud-edu/tutorial/raw/refs/heads/main/DataAnalyzeCourse/src/ApiServer/filebeat.yml"
 
 sudo wget -O /etc/logstash/conf.d/logs-to-pubsub.conf \
-  "https://github.com/KOlizer/syu-DataAnalyze/raw/refs/heads/main/ApiServer/logs-to-pubsub.conf"
+  "https://github.com/kakaocloud-edu/tutorial/raw/refs/heads/main/DataAnalyzeCourse/src/ApiServer/logs-to-pubsub.conf"
 
 sudo wget -O /etc/logstash/conf.d/logs-to-kafka.conf \
-  "https://github.com/KOlizer/syu-DataAnalyze/raw/refs/heads/main/ApiServer/logs-to-kafka.conf"
+  "https://github.com/kakaocloud-edu/tutorial/raw/refs/heads/main/DataAnalyzeCourse/src/ApiServer/logs-to-kafka.conf"
 
 echo "kakaocloud: filebeat.yml 및 logs-to-pubsub.conf 파일 다운로드 완료."
 
