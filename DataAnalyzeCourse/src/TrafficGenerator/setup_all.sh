@@ -200,7 +200,7 @@ echo "VM2 Python 스크립트 다운로드 중..."
 cd "$REST_API_DIR/VM2"
 wget -O create_subscription.py https://raw.githubusercontent.com/kakaocloud-edu/tutorial/main/DataAnalyzeCourse/src/TrafficGenerator/REST_API/VM2/create_subscription.py
 wget -O create_topic.py https://raw.githubusercontent.com/kakaocloud-edu/tutorial/main/DataAnalyzeCourse/src/TrafficGenerator/REST_API/VM2/create_topic.py
-wget -O restapi_sub.py https://raw.githubusercontent.com/kakaocloud-edu/tutorial/main/DataAnalyzeCourse/src/TrafficGenerator/REST_API/VM2/restapi_pull_sub.py
+wget -O restapi_pull_sub.py https://raw.githubusercontent.com/kakaocloud-edu/tutorial/main/DataAnalyzeCourse/src/TrafficGenerator/REST_API/VM2/restapi_pull_sub.py
 
 cd "$REST_API_DIR"
 wget -O config.py https://raw.githubusercontent.com/kakaocloud-edu/tutorial/main/DataAnalyzeCourse/src/TrafficGenerator/REST_API/config.py
