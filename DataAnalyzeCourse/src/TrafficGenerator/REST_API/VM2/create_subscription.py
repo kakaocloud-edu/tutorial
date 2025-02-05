@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-CreateSubscription.py
+create_subscription.py
 
 - Kakao Cloud Pub/Sub에 서브스크립션(Subscription)을 생성하는 스크립트
 - objectStorageConfig를 config.py에서 읽어와 설정
