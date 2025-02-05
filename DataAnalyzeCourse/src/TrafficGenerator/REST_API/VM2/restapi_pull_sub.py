@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-restapi_sub.py
+restapi_pull_sub.py
 
 - Pub/Sub Subscription에서 메시지를 Pull하고 처리하는 스크립트
 - 설정을 config.py에서 읽어옴
