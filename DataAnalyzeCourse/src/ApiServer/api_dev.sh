@@ -148,8 +148,6 @@ sudo wget -O /etc/filebeat/filebeat.yml \
 sudo wget -O /etc/logstash/conf.d/logs-to-pubsub.conf \
   "https://github.com/kakaocloud-edu/tutorial/raw/refs/heads/main/DataAnalyzeCourse/src/ApiServer/logs-to-pubsub.conf"
 
-sudo wget -O /etc/logstash/conf.d/logs-to-kafka.conf \
-  "https://github.com/kakaocloud-edu/tutorial/raw/refs/heads/main/DataAnalyzeCourse/src/ApiServer/logs-to-kafka.conf"
 
 echo "kakaocloud: filebeat.yml 및 logs-to-pubsub.conf 파일 다운로드 완료."
 
