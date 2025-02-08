@@ -15,6 +15,8 @@ fi
 
 mkdir -p /home/ubuntu/syu-DataAnalyze/TrafficGenerator/REST_API
 
+chmod +x /home/ubuntu/syu-DataAnalyze/TrafficGenerator/REST_API
+
 echo "Python 스크립트 다운로드 중..."
 wget -P "$HOME/syu-DataAnalyze/TrafficGenerator/REST_API" https://github.com/kakaocloud-edu/tutorial/raw/refs/heads/main/DataAnalyzeCourse/src/TrafficGenerator/REST_API/VM1/pub_sub_send.py
 wget -P "$HOME/syu-DataAnalyze/TrafficGenerator/REST_API" https://github.com/kakaocloud-edu/tutorial/raw/refs/heads/main/DataAnalyzeCourse/src/TrafficGenerator/REST_API/VM1/traffic_generator.py
@@ -24,8 +26,6 @@ wget -P "$HOME/syu-DataAnalyze/TrafficGenerator/REST_API" https://github.com/kak
 
 cd "$REST_API_DIR"
 wget -O config.py https://github.com/kakaocloud-edu/tutorial/raw/refs/heads/main/DataAnalyzeCourse/src/TrafficGenerator/REST_API/config.py
-
-chmod +x "$REST_API_DIR/"*.py "$REST_API_DIR/"*.py
 
 ###############################################################################
 # 4. config.yml 파일 생성 (~/syu-DataAnalyze/TrafficGenerator)
