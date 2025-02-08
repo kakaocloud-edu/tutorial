@@ -192,12 +192,10 @@ sudo apt install -y python3 python3-pip
 pip3 install --user requests pyyaml
 
 echo "VM1 Python 스크립트 다운로드 중..."
-cd "$REST_API_DIR/VM1"
 wget -O pub_sub_send.py https://raw.githubusercontent.com/kakaocloud-edu/tutorial/main/DataAnalyzeCourse/src/TrafficGenerator/REST_API/VM1/pub_sub_send.py
 wget -O traffic_generator.py https://raw.githubusercontent.com/kakaocloud-edu/tutorial/main/DataAnalyzeCourse/src/TrafficGenerator/REST_API/VM1/traffic_generator.py
 
 echo "VM2 Python 스크립트 다운로드 중..."
-cd "$REST_API_DIR/VM2"
 wget -O create_subscription.py https://github.com/kakaocloud-edu/tutorial/raw/refs/heads/main/DataAnalyzeCourse/src/TrafficGenerator/REST_API/VM2/create_subscription.py
 wget -O create_topic.py https://raw.githubusercontent.com/kakaocloud-edu/tutorial/main/DataAnalyzeCourse/src/TrafficGenerator/REST_API/VM2/create_topic.py
 wget -O restapi_pull_sub.py https://raw.githubusercontent.com/kakaocloud-edu/tutorial/main/DataAnalyzeCourse/src/TrafficGenerator/REST_API/VM2/restapi_pull_sub.py
