@@ -13,6 +13,7 @@ else
     USER_HOME="$HOME"
 fi
 
+mkdir -p /home/ubuntu/syu-DataAnalyze/TrafficGenerator/REST_API
 ###############################################################################
 # 4. config.yml 파일 생성 (~/syu-DataAnalyze/TrafficGenerator)
 ###############################################################################
