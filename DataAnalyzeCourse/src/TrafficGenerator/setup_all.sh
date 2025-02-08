@@ -4,6 +4,8 @@
 # Go SDK 및 REST API 환경 설정을 자동으로 진행합니다.
 # (환경 변수들은 setup_initial.sh에서 이미 설정된 상태라고 가정합니다.)
 
+set -e
+
 # 일반 사용자 홈 디렉토리 (예: ubuntu)
 if [ -d "/home/ubuntu" ]; then
     USER_HOME="/home/ubuntu"
@@ -201,7 +203,6 @@ wget -P /home/ubuntu/syu-DataAnalyze/TrafficGenerator/REST_API https://github.co
 wget -P /home/ubuntu/syu-DataAnalyze/TrafficGenerator/REST_API https://github.com/kakaocloud-edu/tutorial/raw/refs/heads/main/DataAnalyzeCourse/src/TrafficGenerator/REST_API/restapi_pull_sub.py
 
 wget -O config.py https://github.com/kakaocloud-edu/tutorial/raw/refs/heads/main/DataAnalyzeCourse/src/TrafficGenerator/REST_API/config.py
-
 
 echo "REST API 설정 완료."
 
