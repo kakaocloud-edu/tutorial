@@ -196,11 +196,11 @@ cd "$REST_API_DIR"
 
 sudo chmod -R 777 /home/ubuntu/syu-DataAnalyze/TrafficGenerator/REST_API
 
-wget https://github.com/kakaocloud-edu/tutorial/raw/refs/heads/main/DataAnalyzeCourse/src/TrafficGenerator/REST_API/pub_sub_send.py
-wget https://github.com/kakaocloud-edu/tutorial/raw/refs/heads/main/DataAnalyzeCourse/src/TrafficGenerator/REST_API/traffic_generator.py
-wget https://github.com/kakaocloud-edu/tutorial/raw/refs/heads/main/DataAnalyzeCourse/src/TrafficGenerator/REST_API/create_subscription.py
-wget https://github.com/kakaocloud-edu/tutorial/raw/refs/heads/main/DataAnalyzeCourse/src/TrafficGenerator/REST_API/create_topic.py
-wget https://github.com/kakaocloud-edu/tutorial/raw/refs/heads/main/DataAnalyzeCourse/src/TrafficGenerator/REST_API/restapi_pull_sub.py
+wget -P /home/ubuntu/syu-DataAnalyze/TrafficGenerator/REST_API https://github.com/kakaocloud-edu/tutorial/raw/refs/heads/main/DataAnalyzeCourse/src/TrafficGenerator/REST_API/pub_sub_send.py
+wget -P /home/ubuntu/syu-DataAnalyze/TrafficGenerator/REST_API https://github.com/kakaocloud-edu/tutorial/raw/refs/heads/main/DataAnalyzeCourse/src/TrafficGenerator/REST_API/traffic_generator.py
+wget -P /home/ubuntu/syu-DataAnalyze/TrafficGenerator/REST_API https://github.com/kakaocloud-edu/tutorial/raw/refs/heads/main/DataAnalyzeCourse/src/TrafficGenerator/REST_API/create_subscription.py
+wget -P /home/ubuntu/syu-DataAnalyze/TrafficGenerator/REST_API https://github.com/kakaocloud-edu/tutorial/raw/refs/heads/main/DataAnalyzeCourse/src/TrafficGenerator/REST_API/create_topic.py
+wget -P /home/ubuntu/syu-DataAnalyze/TrafficGenerator/REST_API https://github.com/kakaocloud-edu/tutorial/raw/refs/heads/main/DataAnalyzeCourse/src/TrafficGenerator/REST_API/restapi_pull_sub.py
 
 wget -O config.py https://github.com/kakaocloud-edu/tutorial/raw/refs/heads/main/DataAnalyzeCourse/src/TrafficGenerator/REST_API/config.py
 
