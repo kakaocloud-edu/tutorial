@@ -1,4 +1,3 @@
-
 #!/bin/bash
 # setup_all.sh
 # 이 스크립트는 ~/syu-DataAnalyze/TrafficGenerator 디렉토리에 config.yml을 생성하고,
