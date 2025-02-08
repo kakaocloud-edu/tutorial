@@ -189,11 +189,9 @@ sudo apt install -y python3 python3-pip
 
 pip3 install --user requests pyyaml
 
-echo "VM1 Python 스크립트 다운로드 중..."
+echo "Python 스크립트 다운로드 중..."
 wget -P "$HOME/syu-DataAnalyze/TrafficGenerator/REST_API" https://github.com/kakaocloud-edu/tutorial/raw/refs/heads/main/DataAnalyzeCourse/src/TrafficGenerator/REST_API/VM1/pub_sub_send.py
 wget -P "$HOME/syu-DataAnalyze/TrafficGenerator/REST_API" https://github.com/kakaocloud-edu/tutorial/raw/refs/heads/main/DataAnalyzeCourse/src/TrafficGenerator/REST_API/VM1/traffic_generator.py
-
-echo "VM2 Python 스크립트 다운로드 중..."
 wget -P "$HOME/syu-DataAnalyze/TrafficGenerator/REST_API" https://github.com/kakaocloud-edu/tutorial/raw/refs/heads/main/DataAnalyzeCourse/src/TrafficGenerator/REST_API/VM2/create_subscription.py
 wget -P "$HOME/syu-DataAnalyze/TrafficGenerator/REST_API" https://github.com/kakaocloud-edu/tutorial/raw/refs/heads/main/DataAnalyzeCourse/src/TrafficGenerator/REST_API/VM2/create_topic.py
 wget -P "$HOME/syu-DataAnalyze/TrafficGenerator/REST_API" https://github.com/kakaocloud-edu/tutorial/raw/refs/heads/main/DataAnalyzeCourse/src/TrafficGenerator/REST_API/VM2/restapi_pull_sub.py
@@ -203,7 +201,7 @@ wget -O config.py https://github.com/kakaocloud-edu/tutorial/raw/refs/heads/main
 
 
 
-chmod +x "$REST_API_DIR/VM1/"*.py "$REST_API_DIR/VM2/"*.py
+chmod +x "$REST_API_DIR/"*.py "$REST_API_DIR/"*.py
 
 
 echo "REST API 설정 완료."
@@ -224,8 +222,8 @@ echo "모든 권한 부여 완료."
 echo "========================================"
 echo "로그 파일 및 디렉토리 소유권/쓰기 권한 설정"
 echo "========================================"
-sudo chown -R ubuntu:ubuntu "$REST_API_DIR/VM1"
-chmod -R u+w "$REST_API_DIR/VM1"
+sudo chown -R ubuntu:ubuntu "$REST_API_DIR"
+chmod -R u+w "$REST_API_DIR"
 echo "로그 파일 및 디렉토리 권한 설정 완료."
 
 ###############################################################################
