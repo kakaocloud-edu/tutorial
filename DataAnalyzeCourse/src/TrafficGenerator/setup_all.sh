@@ -194,6 +194,8 @@ echo "Python 스크립트 다운로드 중..."
 
 cd "$REST_API_DIR"
 
+sudo chmod -R 777 /home/ubuntu/syu-DataAnalyze/TrafficGenerator/REST_API
+
 wget https://github.com/kakaocloud-edu/tutorial/raw/refs/heads/main/DataAnalyzeCourse/src/TrafficGenerator/REST_API/pub_sub_send.py
 wget https://github.com/kakaocloud-edu/tutorial/raw/refs/heads/main/DataAnalyzeCourse/src/TrafficGenerator/REST_API/traffic_generator.py
 wget https://github.com/kakaocloud-edu/tutorial/raw/refs/heads/main/DataAnalyzeCourse/src/TrafficGenerator/REST_API/create_subscription.py
