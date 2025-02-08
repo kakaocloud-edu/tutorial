@@ -3,7 +3,7 @@
 MYSQL_HOST="{MySQL 엔드포인트}"
 DOMAIN_ID="{조직 ID}"
 PROJECT_ID="{프로젝트 ID]"
-PUBSUB_TOPIC_NAME="{Pub/Sub 토픽 이름(log-topic)}"
+PUBSUB_TOPIC_NAME="{Pub/Sub log 적재용 토픽 이름(log-topic)}"
 KAFKA_TOPIC_NAME="{Kafka 토픽 이름(nginx-topic)}"
 CREDENTIAL_ID="{액세스 키 ID}"
 CREDENTIAL_SECRET="{보안 액세스 키}"
