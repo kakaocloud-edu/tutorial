@@ -196,15 +196,20 @@ cd "$REST_API_DIR"
 
 sudo chmod -R 777 /home/ubuntu/syu-DataAnalyze/TrafficGenerator/REST_API
 
-wget -P /home/ubuntu/syu-DataAnalyze/TrafficGenerator/REST_API https://github.com/kakaocloud-edu/tutorial/raw/refs/heads/main/DataAnalyzeCourse/src/TrafficGenerator/REST_API/pub_sub_send.py
-cd /home/ubuntu/syu-DataAnalyze/TrafficGenerator/REST_API
-wget -P /home/ubuntu/syu-DataAnalyze/TrafficGenerator/REST_API https://github.com/kakaocloud-edu/tutorial/raw/refs/heads/main/DataAnalyzeCourse/src/TrafficGenerator/REST_API/traffic_generator.py
-cd /home/ubuntu/syu-DataAnalyze/TrafficGenerator/REST_API
-wget -P /home/ubuntu/syu-DataAnalyze/TrafficGenerator/REST_API https://github.com/kakaocloud-edu/tutorial/raw/refs/heads/main/DataAnalyzeCourse/src/TrafficGenerator/REST_API/create_subscription.py
-cd /home/ubuntu/syu-DataAnalyze/TrafficGenerator/REST_API
-wget -P /home/ubuntu/syu-DataAnalyze/TrafficGenerator/REST_API https://github.com/kakaocloud-edu/tutorial/raw/refs/heads/main/DataAnalyzeCourse/src/TrafficGenerator/REST_API/create_topic.py
-cd /home/ubuntu/syu-DataAnalyze/TrafficGenerator/REST_API
-wget -P /home/ubuntu/syu-DataAnalyze/TrafficGenerator/REST_API https://github.com/kakaocloud-edu/tutorial/raw/refs/heads/main/DataAnalyzeCourse/src/TrafficGenerator/REST_API/restapi_pull_sub.py
+
+# 다운로드할 파일들의 URL 목록
+URLS=(
+  "https://github.com/kakaocloud-edu/tutorial/raw/refs/heads/main/DataAnalyzeCourse/src/TrafficGenerator/REST_API/pub_sub_send.py"
+  "https://github.com/kakaocloud-edu/tutorial/raw/refs/heads/main/DataAnalyzeCourse/src/TrafficGenerator/REST_API/traffic_generator.py"
+  "https://github.com/kakaocloud-edu/tutorial/raw/refs/heads/main/DataAnalyzeCourse/src/TrafficGenerator/REST_API/create_subscription.py"
+  "https://github.com/kakaocloud-edu/tutorial/raw/refs/heads/main/DataAnalyzeCourse/src/TrafficGenerator/REST_API/create_topic.py"
+  "https://github.com/kakaocloud-edu/tutorial/raw/refs/heads/main/DataAnalyzeCourse/src/TrafficGenerator/REST_API/restapi_pull_sub.py"
+)
+
+# 모든 파일을 백그라운드에서 동시에 다운로드
+for url in "${URLS[@]}"; do
+  wget -P "$REST_API_DIR" "$url" &
+done
 
 wget -O config.py https://github.com/kakaocloud-edu/tutorial/raw/refs/heads/main/DataAnalyzeCourse/src/TrafficGenerator/REST_API/config.py
 
