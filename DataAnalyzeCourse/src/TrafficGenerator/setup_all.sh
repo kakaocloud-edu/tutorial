@@ -191,11 +191,11 @@ sudo apt install -y python3 python3-pip
 pip3 install --user requests pyyaml
 
 echo "Python 스크립트 다운로드 중..."
-wget -P "/home/ubuntu/syu-DataAnalyze/TrafficGenerator/REST_API" https://github.com/kakaocloud-edu/tutorial/raw/refs/heads/main/DataAnalyzeCourse/src/TrafficGenerator/REST_API/VM1/pub_sub_send.py
-wget -P "/home/ubuntu/syu-DataAnalyze/TrafficGenerator/REST_API" https://github.com/kakaocloud-edu/tutorial/raw/refs/heads/main/DataAnalyzeCourse/src/TrafficGenerator/REST_API/VM1/traffic_generator.py
-wget -P "/home/ubuntu/syu-DataAnalyze/TrafficGenerator/REST_API" https://github.com/kakaocloud-edu/tutorial/raw/refs/heads/main/DataAnalyzeCourse/src/TrafficGenerator/REST_API/VM2/create_subscription.py
-wget -P "/home/ubuntu/syu-DataAnalyze/TrafficGenerator/REST_API" https://github.com/kakaocloud-edu/tutorial/raw/refs/heads/main/DataAnalyzeCourse/src/TrafficGenerator/REST_API/VM2/create_topic.py
-wget -P "/home/ubuntu/syu-DataAnalyze/TrafficGenerator/REST_API" https://github.com/kakaocloud-edu/tutorial/raw/refs/heads/main/DataAnalyzeCourse/src/TrafficGenerator/REST_API/VM2/restapi_pull_sub.py
+wget -P /home/ubuntu/syu-DataAnalyze/TrafficGenerator/REST_API https://github.com/kakaocloud-edu/tutorial/raw/refs/heads/main/DataAnalyzeCourse/src/TrafficGenerator/REST_API/VM1/pub_sub_send.py
+wget -P /home/ubuntu/syu-DataAnalyze/TrafficGenerator/REST_API https://github.com/kakaocloud-edu/tutorial/raw/refs/heads/main/DataAnalyzeCourse/src/TrafficGenerator/REST_API/VM1/traffic_generator.py
+wget -P /home/ubuntu/syu-DataAnalyze/TrafficGenerator/REST_API https://github.com/kakaocloud-edu/tutorial/raw/refs/heads/main/DataAnalyzeCourse/src/TrafficGenerator/REST_API/VM2/create_subscription.py
+wget -P /home/ubuntu/syu-DataAnalyze/TrafficGenerator/REST_API https://github.com/kakaocloud-edu/tutorial/raw/refs/heads/main/DataAnalyzeCourse/src/TrafficGenerator/REST_API/VM2/create_topic.py
+wget -P /home/ubuntu/syu-DataAnalyze/TrafficGenerator/REST_API https://github.com/kakaocloud-edu/tutorial/raw/refs/heads/main/DataAnalyzeCourse/src/TrafficGenerator/REST_API/VM2/restapi_pull_sub.py
 
 cd "$REST_API_DIR"
 wget -O config.py https://github.com/kakaocloud-edu/tutorial/raw/refs/heads/main/DataAnalyzeCourse/src/TrafficGenerator/REST_API/config.py
