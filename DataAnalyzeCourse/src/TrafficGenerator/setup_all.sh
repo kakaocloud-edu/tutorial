@@ -4,8 +4,6 @@
 # Go SDK 및 REST API 환경 설정을 자동으로 진행합니다.
 # (환경 변수들은 setup_initial.sh에서 이미 설정된 상태라고 가정합니다.)
 
-set -e
-
 # 일반 사용자 홈 디렉토리 (예: ubuntu)
 if [ -d "/home/ubuntu" ]; then
     USER_HOME="/home/ubuntu"
