@@ -14,13 +14,13 @@
    ```
       
 2. 디렉토리 이동
-    - **Traffic-Generator-VM1**
-    #### **lab2-1-2**
+    - Traffic-Generator-VM1에서 실행
+   #### **lab2-1-2**
    ```bash
    cd /home/ubuntu/syu-DataAnalyze/TrafficGenerator/REST_API/VM1
    ```
         
-    - **Traffic-Generator-VM2**
+    - Traffic-Generator-VM2에서 실행
    #### **lab2-1-3**
    ```bash
    cd /home/ubuntu/syu-DataAnalyze/TrafficGenerator/REST_API/VM2
@@ -60,19 +60,19 @@
 ## 2. Topic 및 Subscription 생성
 
 1. Traffic-Generator-VM2에서 토픽 생성
-    #### **lab2-2-1**
-    ```bash
-    python3 create_topic.py
-    ```
+   #### **lab2-2-1**
+   ```bash
+   python3 create_topic.py
+   ```
 
     - 카카오클라우드 콘솔 > Analytics > Pub/Sub > 토픽 메뉴 클릭
     - `log-topic` 토픽 생성 확인
       
 2. Traffic-Generator-VM2에서 Subscription 생성
-    #### **lab2-2-2**
-    ```bash
-    python3 create_subscription.py
-    ```
+   #### **lab2-2-2**
+   ```bash
+   python3 create_subscription.py
+   ```
     - 카카오클라우드 콘솔 > Analytics > Pub/Sub > 서브스크립션 메뉴 클릭
     - `objectstoragesubscription` 서브스크립션 생성 확인
   
