@@ -330,7 +330,7 @@
    7. 테이블에 파티션 추가
       ```
       ALTER TABLE {테이블 이름}
-      ADD PARTITION (partition_key='{특정값(5)')
+      ADD PARTITION (partition='{특정값(5)')
       LOCATION 's3a://kafka-data/topics/nginx-topic/partition=0';
       ```
    8. 테이블 파이션 키 삭제
