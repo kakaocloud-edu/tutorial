@@ -6,8 +6,8 @@
 
 ## 1. 기본 환경 설정
 1. Traffic Generator VM 1,2 접속
-    - Traffic Generator VM 1, 2에 public IP를 통해 연결합니다.
-    - 각 VM에 SSH로 접속합니다.
+    - Traffic Generator VM 1, 2에 public IP를 통해 연결
+    - 각 VM에 SSH로 접속
    #### **lab2-1-1**
    ```bash
    ssh -i {keypair}.pem ubuntu@{vm public ip}
@@ -26,7 +26,7 @@
    cd /home/ubuntu/syu-DataAnalyze/TrafficGenerator/REST_API/VM2
    ```
 
-    - **디렉토리 내부 파일 생성 여부 확인**
+3. 디렉토리 내부 파일 생성 여부 확인
    #### **lab2-1-4**
    ```bash
    ls -l
