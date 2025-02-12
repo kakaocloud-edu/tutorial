@@ -5,6 +5,10 @@ filebeat.inputs:
   enabled: true
   paths:
     - /var/log/nginx/flask_app_access.log
+  # Multiline 설정: 새 JSON 객체는 '{' 로 시작한다고 가정
+  multiline.pattern: '^\{'
+  multiline.negate: true
+  multiline.match: after
 
 filebeat.config.modules:
   path: ${path.config}/modules.d/*.yml
