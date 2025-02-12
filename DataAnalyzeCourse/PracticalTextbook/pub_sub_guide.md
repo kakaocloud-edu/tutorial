@@ -122,14 +122,14 @@
 
 ## 6. Go SDK 실습
 
-    - Go SDK로 메시지 송수신 테스트
-1. Go SDK 디렉토리로 이동(Traffic-Generator-VM1, 2)
+1. Go SDK로 메시지 송수신 테스트
+2. Go SDK 디렉토리로 이동(Traffic-Generator-VM1, 2)
     #### **lab2-5-1**
     ```bash
     cd /home/ubuntu/gosdk/cmd
     ```
 
-2. Traffic-Generator-VM1에서 pub/sub으로 메세지 전송
+3. Traffic-Generator-VM1에서 pub/sub으로 메세지 전송
     #### **lab2-5-2**
     ```bash
     go build -o publisher config.go publisher.go
@@ -138,7 +138,7 @@
     ./publisher
     ```
 
- 3. Traffic-Generator-VM2에서 pub/sub의 pull-subscription으로 수신
+ 4. Traffic-Generator-VM2에서 pub/sub의 pull-subscription으로 수신
     #### **lab2-5-3**
     ```bash
     go build -o subscriber config.go subscriber.go
