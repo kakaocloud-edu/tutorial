@@ -13,20 +13,19 @@
    ssh -i {keypair}.pem ubuntu@{vm public ip}
    ```
       
-2. 디렉토리 이동
-    - Traffic-Generator-VM1에서 실행하여 VM1로 디렉토리 이동
+2. Traffic-Generator-VM1에서 실행하여 VM1로 디렉토리 이동
    #### **lab2-1-2**
    ```bash
    cd /home/ubuntu/syu-DataAnalyze/TrafficGenerator/REST_API/VM1
    ```
         
-    - Traffic-Generator-VM2에서 실행하여 VM2로 디렉토리 이동
+3. Traffic-Generator-VM2에서 실행하여 VM2로 디렉토리 이동
    #### **lab2-1-3**
    ```bash
    cd /home/ubuntu/syu-DataAnalyze/TrafficGenerator/REST_API/VM2
    ```
 
-3. 디렉토리 내부 파일 생성 여부 확인
+4. 디렉토리 내부 파일 생성 여부 확인
    #### **lab2-1-4**
    ```bash
    ls -l
