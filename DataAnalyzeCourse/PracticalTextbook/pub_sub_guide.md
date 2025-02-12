@@ -154,7 +154,9 @@
 
 1. API Public ip를 이용하여 접속 후 로그 생성
     - web에
-   ```http://{alb public ip}```
+   ```bash
+   http://{alb public ip}
+   ```
     로 접속하여 웹페이지 내용 클릭하여 로그 생성
 
 ## 8. Pub/Sub용 Object Storage 콘솔 확인
