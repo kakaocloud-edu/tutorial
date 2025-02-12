@@ -14,13 +14,13 @@
    ```
       
 2. 디렉토리 이동
-    - Traffic-Generator-VM1에서 실행
+    - Traffic-Generator-VM1에서 실행하여 VM1로 디렉토리 이동
    #### **lab2-1-2**
    ```bash
    cd /home/ubuntu/syu-DataAnalyze/TrafficGenerator/REST_API/VM1
    ```
         
-    - Traffic-Generator-VM2에서 실행
+    - Traffic-Generator-VM2에서 실행하여 VM2로 디렉토리 이동
    #### **lab2-1-3**
    ```bash
    cd /home/ubuntu/syu-DataAnalyze/TrafficGenerator/REST_API/VM2
