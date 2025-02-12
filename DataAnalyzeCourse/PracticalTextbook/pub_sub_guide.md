@@ -121,6 +121,7 @@
     
 
 ## 6. Go SDK 실습
+
     - Go SDK로 메시지 송수신 테스트
 1. Go SDK 디렉토리로 이동(Traffic-Generator-VM1, 2)
     #### **lab2-5-1**
