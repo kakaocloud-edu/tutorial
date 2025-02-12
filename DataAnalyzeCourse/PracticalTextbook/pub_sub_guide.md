@@ -1,7 +1,7 @@
 
 # Pub/Sub 가이드
 
-이 가이드는 Pub/Sub 기능을 활용한 메시지 송수신, 트래픽 로그 생성, REST API 실습, Go SDK 실습, 그리고 NGINX 로그를 Object Storage에 적재하는 전체 과정을 설명합니다.
+이 가이드는 Pub/Sub 기능을 활용한 메시지 송수신, 트래픽 로그 생성하고 NGINX 로그를 Object Storage에 적재하는 실습입니다.
 
 
 ## 1. 기본 환경 설정
