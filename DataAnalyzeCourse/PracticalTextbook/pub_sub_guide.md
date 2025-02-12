@@ -8,29 +8,29 @@
 1. Traffic Generator VM 1,2 접속
     - Traffic Generator VM 1, 2에 public IP를 통해 연결합니다.
     - 각 VM에 SSH로 접속합니다.
-      #### **lab2-1-1**
-      ```bash
-      ssh -i {keypair}.pem ubuntu@{vm public ip}
-      ```
+   #### **lab2-1-1**
+   ```bash
+   ssh -i {keypair}.pem ubuntu@{vm public ip}
+   ```
       
 2. 디렉토리 이동
     - **Traffic-Generator-VM1**
-        #### **lab2-1-2**
-        ```bash
-        cd /home/ubuntu/syu-DataAnalyze/TrafficGenerator/REST_API/VM1
-        ```
+    #### **lab2-1-2**
+   ```bash
+   cd /home/ubuntu/syu-DataAnalyze/TrafficGenerator/REST_API/VM1
+   ```
         
     - **Traffic-Generator-VM2**
-        #### **lab2-1-3**
-        ```bash
-        cd /home/ubuntu/syu-DataAnalyze/TrafficGenerator/REST_API/VM2
-        ```
+   #### **lab2-1-3**
+   ```bash
+   cd /home/ubuntu/syu-DataAnalyze/TrafficGenerator/REST_API/VM2
+   ```
 
     - **디렉토리 내부 파일 생성 여부 확인**
-        #### **lab2-1-4**
-        ```bash
-        ls -l
-        ```
+   #### **lab2-1-4**
+   ```bash
+   ls -l
+   ```
 
 ---
 - **파일 생성이 안 되었을 시 아래 명령어 실행**
