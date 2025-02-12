@@ -8,38 +8,36 @@
   - Pub/Sub pull,push subscription
   - Traffice generator VM 2개
 
----
 
 # Pub/Sub 가이드
 
 이 가이드는 Pub/Sub 기능을 활용한 메시지 송수신, 트래픽 로그 생성, REST API 실습, Go SDK 실습, 그리고 NGINX 로그를 Object Storage에 적재하는 전체 과정을 설명합니다.
 
----
 
 ## 1. 기본 환경 설정
-
 1. **VM 접속**
     - Traffic Generator VM 1, 2에 public IP를 통해 연결합니다.
     - 각 VM에 SSH로 접속합니다.
+      #### **lab2-1-1**
       ```bash
       ssh -i {keypair}.pem ubuntu@{vm public ip}
       ```
       
 2. **디렉토리 이동**
     - **Traffic-Generator-VM1**
-        
+        #### **lab2-1-2**
         ```bash
         cd /home/ubuntu/syu-DataAnalyze/TrafficGenerator/REST_API/VM1
         ```
         
     - **Traffic-Generator-VM2**
-        
+        #### **lab2-1-3**
         ```bash
         cd /home/ubuntu/syu-DataAnalyze/TrafficGenerator/REST_API/VM2
         ```
 
     - **디렉토리 내부 파일 생성 여부 확인**
-
+        #### **lab2-1-4**
         ```bash
         ls -l
         ```
@@ -64,14 +62,14 @@
     https://github.com/kakaocloud-edu/tutorial/raw/refs/heads/main/DataAnalyzeCourse/src/TrafficGenerator/REST_API/VM2/create_topic.py \
     https://github.com/kakaocloud-edu/tutorial/raw/refs/heads/main/DataAnalyzeCourse/src/TrafficGenerator/REST_API/VM2/restapi_pull_sub.py
   ```
----
+  
 
 ## 2. Topic 및 Subscription 생성
 
 **Traffic-Generator-VM2에서 실행**
 
 1. **토픽 생성**
-    
+    #### **lab2-2-1**
     ```bash
     python3 create_topic.py
     ```
@@ -79,7 +77,7 @@
 2. **카카오클라우드 콘솔 > Analytics > Pub/Sub > 토픽 메뉴 클릭**
 3. **`log-topic` 토픽 생성 확인**
 4. **Subscription 생성**
-    
+    #### **lab2-2-2**
     ```bash
     python3 create_subscription.py
     ```
@@ -87,18 +85,16 @@
 6. **`obj-subscription` 서브스크립션 생성 확인**
     
 
----
-
 ## 3. 메시지 송수신 테스트
 
 1. **Traffic-Generator-VM1 (Publisher)에서 아래 명령어를 입력하여 Pub/Sub send 스크립트 실행**
-    
+    #### **lab2-3-1**
     ```bash
     python3 pub_sub_send.py
     ```
 2. **Traffic-Generator-VM1 터미널 창에 전송하고 싶은 메세지 입력 후 키보드의 `Enter`, `Ctrl+D` 키를 눌러 메세지 송신**
 3. **Traffic-Generator-VM2 (Subscriber)에서 아래 명령어를 입력하여 Pub/Sub receive 스크립트 실행**
-    
+    #### **lab2-3-2**
     ```bash
     python3 restapi_pull_sub.py
     ```
@@ -110,7 +106,7 @@
 ## 4. 웹 API로 메시지 확인
 
 1. 웹 브라우저에서 아래 URL에 접속합니다.
-    
+    #### **lab2-4-1**
     ```
     http://{alb public ip 주소}/push-messages
     ```
@@ -129,13 +125,13 @@
 **Traffic-Generator-VM1에서 아래 명령어 실행**
 
 1. 트래픽 생성 스크립트 실행
-    
+    #### **lab2-4-1**
     ```bash
     python3 traffic_generator.py
     ```
     
 2. 실행 완료 후, 생성된 로그 확인
-    
+    #### **lab2-4-2**
     ```bash
     cat traffic_generator.log
     ```
@@ -146,36 +142,37 @@
 ## 6. Go SDK 실습
 
 ### A. 작업 디렉토리 이동(VM1, 2)
-```bash
-cd /home/ubuntu/gosdk/cmd
-```
+  #### **lab2-5-1**
+  ```bash
+  cd /home/ubuntu/gosdk/cmd
+  ```
     
 
 ### B. Publisher 및 Subscriber 실행
 
 - **Traffic-Generator-VM1 (Publisher)**
-    
+    #### **lab2-5-2**
     ```bash
     go build -o publisher config.go publisher.go
     ```
+    #### **lab2-5-3**
     ```bash
     ./publisher
     ```
     
 - **Traffic-Generator-VM2 (Subscriber)**
-    
+    #### **lab2-5-4**
     ```bash
     go build -o subscriber config.go subscriber.go
     ```
+    #### **lab2-5-5**
     ```bash
     ./subscriber
     ```
     
 
 > 확인: VM1에서 입력한 메시지가 VM2에서 정상적으로 수신되는지 확인합니다.
-> 
 
----
 
 ## 7. NGINX 로그를 Object Storage에 적재
 
