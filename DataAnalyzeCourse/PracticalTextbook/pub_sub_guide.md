@@ -121,12 +121,12 @@
     
 
 ## 6. Go SDK 실습
-- Go SDK로 메시지 송수신 테스트
+    - Go SDK로 메시지 송수신 테스트
 1. Go SDK 디렉토리로 이동(Traffic-Generator-VM1, 2)
-  #### **lab2-5-1**
-  ```bash
-  cd /home/ubuntu/gosdk/cmd
-  ```
+    #### **lab2-5-1**
+    ```bash
+    cd /home/ubuntu/gosdk/cmd
+    ```
 
 2. Traffic-Generator-VM1에서 pub/sub으로 메세지 전송
     #### **lab2-5-2**
@@ -152,18 +152,19 @@
 ## 7. NGINX 로그를 Object Storage에 적재
 
 1. API Public ip를 이용하여 접속 후 로그 생성
-- web에 `http://alb public ip`로 접속하여 웹페이지 내용 클릭하여 로그 생성
+    - web에 `http://alb public ip`로 접속하여 웹페이지 내용 클릭하여 로그 생성
 
 ## 8. Pub/Sub용 Object Storage 콘솔 확인
-
-- NGINX 로그가 Object Storage에 정상적으로 쌓이는지 Pub/Sub용 Object Storage 콘솔을 통해 확인합니다.
+    
+1. NGINX 로그가 Object Storage에 정상적으로 쌓이는지 Pub/Sub용 Object Storage 콘솔을 통해 확인합니다.
+    - 카카오 클라우드 콘솔 > 전체 서비스 > Beyond Storage Service > Object Storage
 
 
 ---
 
 ### API Server 접속 및 설정 파일 확인(Object Storage에 적재 안될 시 확인)
 
-1. **API Server 1, 2에 SSH 접속**
+1. API Server 1, 2에 SSH 접속 후 디렉토리 이동
     
     ```bash
     cd /etc/logstash/conf.d
@@ -183,18 +184,18 @@
     
 4. 편집 후 저장 및 나가기(필요시)
 
-```jsx
-Esc -> :wq
-```
+    ```bash
+    Esc -> :wq
+    ```
 
 ### 서비스 상태 확인
 
-각 서비스를 아래 명령어로 확인합니다.
+1. 각 서비스를 아래 명령어로 확인합니다.
 
-```bash
-sudo systemctl status filebeat
-sudo systemctl status logstash
-sudo systemctl status nginx
-```
+    ```bash
+    sudo systemctl status filebeat
+    sudo systemctl status logstash
+    sudo systemctl status nginx
+    ```
 
 ---
