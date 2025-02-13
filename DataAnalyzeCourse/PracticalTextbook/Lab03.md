@@ -52,7 +52,7 @@
       - `필드추가` 클릭
       - 필드 정보
          - `파티션 키`: 사용
-         - 필드 이름: `partition`
+         - 필드 이름: `partition_key`
          - 데이터 유형: `string`
          - ---
     
@@ -385,29 +385,49 @@
    ```bash
    ssh -i {keypair}.pem ubuntu@{vm public ip}
    ```
+x. Hadoop 설정
+   - core-site.xml 설정 변경
+   #### **lab3-1-2**
+   ```
+   cd /etc/hadoop/conf
+   sudo vi core-site.xml
+   ```
+
+   - 아래 값으로 변경 
+   ```
+   <property>
+      <name>fs.s3a.endpoint</name>
+      <value>objectstorage.kr-central-2.kakaocloud.com</value>
+   </property>
+   <property>
+      <name>s3service.s3-endpoint</name>
+      <value>objectstorage.kr-central-2.kakaocloud.com</value>
+   </property>
+   ```
+   
 
 8. Hive 실행
-   #### **lab3-1-2**
+   #### **lab3-1-3**
    ```
    hive
    ```
    
 9. 사용할 데이터 베이스 선택
-   #### **lab3-1-3**
+   #### **lab3-1-4**
    ```
    use {database 이름};
    ```
    
 10. 테이블에 파티션 추가
-    #### **lab3-1-4**
+    #### **lab3-1-5**
     ```
     ALTER TABLE {테이블 이름}
-    ADD PARTITION (partition='{특정값(5)')
-    LOCATION 's3a://kafka-data/topics/nginx-topic/partition=0';
+    ADD PARTITION (partition='0')
+    LOCATION 's3a://kafka-nginx-log/topics/nginx-topic/partition=0';
     ```
    
 11. 테이블 파이션 키 삭제
-    #### **lab3-1-5**
+    #### **lab3-1-6**
     ```
     ALTER TABLE part_test_lsh DROP PARTITION (partition_key='{특정값(5)');
     ```
