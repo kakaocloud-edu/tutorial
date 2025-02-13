@@ -296,19 +296,19 @@ sudo apt install -y python3 python3-pip openjdk-21-jdk unzip jq
    ```bash
    echo "export API_TOKEN=${API_TOKEN}" >> ~/.bashrc
    ```
-        
-    - 발급받은 API 인증 토큰을 확인합니다.
-        
-        ```bash
-        echo $API_TOKEN
-        ```
+   
+   #### **lab2-6-3**
+       - 발급받은 API 인증 토큰을 확인합니다.  
+   ```bash
+   echo $API_TOKEN
+   ```
         
 3. 임시 자격 증명 발급 (STS AssumeRoleWithWebIdentity)
     - 발급받은 API 토큰을 사용하여 임시 자격 증명을 요청합니다
     - S3 API 사용을 위한 크리덴셜 발급을 위해서는 `사용자 고유 ID`, `프로젝트 ID`가 필요합니다.
         - [콘솔] > [계정 정보]에서 `사용자 고유 ID`를 확인합니다.
         - **카카오클라우드 콘솔 메인 화면** 상단의 **작업 중인 프로젝트**에서 `프로젝트 ID`를 확인합니다.
-        #### **lab2-6-3**
+        #### **lab2-6-4**
         ```bash
         echo $(curl -s -X POST -i https://iam.kakaocloud.com/identity/v3/users/{사용자 고유 ID}/credentials/OS-EC2 \
          -H "Content-Type: application/json" \
@@ -352,28 +352,27 @@ sudo apt install -y python3 python3-pip openjdk-21-jdk unzip jq
     ### [****](https://docs.kakaocloud.com/service/bss/object-storage/api/bss-api-os-s3#response-elements)
     
 4. ~/.bashrc에 자격 증명 추가
-    #### **lab2-6-4**
+    #### **lab2-6-5**
        - `.bashrc` 파일을 열어 AWS 자격 증명을 추가
    ```bash
    vi ~/.bashrc
    ```
-   #### **lab2-6-5**
-       - 다음 내용을 추가
-        
+   
+   #### **lab2-6-6**
+       - S3_ACCESS_KEY 입력
    ```bash
    export AWS_ACCESS_KEY_ID="{S3_ACCESS_KEY}"
    export AWS_SECRET_ACCESS_KEY="{S3_SECRET_ACCESS_KEY}"
    ```
-        
+   
    - 입력 예시
-
    ```bash
    export AWS_ACCESS_KEY_ID="95c6ad9b8eda493cbf536f203da0893f"
    export AWS_SECRET_ACCESS_KEY="fee9a69d46444b2c925d873358e2e023"
    ```
 
-   #### **lab2-6-6**    
-    - 파일을 저장하고 적용합니다.
+   #### **lab2-6-7**    
+       - 파일을 저장하고 적용합니다.
    ```bash
    source ~/.bashrc
    ```
