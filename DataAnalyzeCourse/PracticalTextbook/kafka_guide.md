@@ -6,7 +6,7 @@ Kafka를 활용하여 메시지를 송수신하고, Nginx 로그를 실시간으
 
 ## 1. 각 VM에 Kafka 클라이언트 설치
 1. Java 설치(Traffic-Generator-VM1, 2)
-   #### **lab2-3-1**
+   #### **lab3-1-1**
       - 홈 디렉토리로 이동
    ```bash
    cd
