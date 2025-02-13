@@ -172,3 +172,4 @@ A. 웹 API로 메시지 확인
 1. NGINX 로그가 Object Storage에 정상적으로 쌓이는지 Pub/Sub용 Object Storage 콘솔을 통해 확인
 2. 카카오 클라우드 콘솔 > 전체 서비스 > Beyond Storage Service > Object Storage
 
+---
