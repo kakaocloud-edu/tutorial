@@ -26,7 +26,7 @@
    - 경로
       - S3 연결: `체크`
       - 버킷 이름: `kafka-nginx-log`(카프카와 연동된 버킷)
-      - 디렉터리: `topics/nginx-topic/partition_0`// 현재 임의 설정 (경로에`=` 못 넣음, partition을 경로에서 빼면 오류) 
+      - 디렉터리: `topics/nginx-topic`// 현재 임의 설정, 아무 경로 상관 x (경로에`=` 못 넣음, partition을 경로에서 빼면 오류) 
 3. `생성` 클릭
 
 
@@ -40,8 +40,8 @@
       - 이름: `kafka_data`
    - 테이블 저장 경로
       - S3 연결: `미체크`
-      - 버킷 이름: `{kafka-nginx-log}`(카프카와 연동된 버킷)
-      - 디렉터리: `topics/nginx-topic` // 임의 테스트
+      - 버킷 이름: `kafka-nginx-log`(카프카와 연동된 버킷)
+      - 디렉터리: `topics/nginx-topic` // 임의 테스트(kafka 와 연동된 경로)
    - 데이터 유형
       - 데이터 유형: `JSON`
    - Pub/Sub 연동
@@ -51,6 +51,7 @@
    - 스키마
       - `필드추가` 클릭
       - 필드 정보
+      - **Note**: `파티션 키`는 `partition` 불가능, Hadoop 연동시 문제
          - `파티션 키`: 사용
          - 필드 이름: `partition_key`
          - 데이터 유형: `string`
