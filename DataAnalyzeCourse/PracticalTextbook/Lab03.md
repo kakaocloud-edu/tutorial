@@ -37,7 +37,7 @@
    - 데이터 베이스
       - 데이터 베이스: `dc_database`
    - 테이블 이름
-      - 이름: 'data_table'
+      - 이름: 'kafka_data'
    - 테이블 저장 경로
       - S3 연결: `미체크`
       - 버킷 이름: `{kafka-nginx-log}`(카프카와 연동된 버킷)
