@@ -6,12 +6,12 @@ Kafka를 활용하여 메시지를 송수신하고, Nginx 로그를 실시간으
 
 ## 1. 각 VM에 Kafka 클라이언트 설치
 1. Java 설치(Traffic-Generator-VM1, 2)
-   #### **lab3-1-1**
+   #### **lab2-1-1**
       - 홈 디렉토리로 이동
    ```bash
    cd
    ```
-   #### **lab3-1-2**
+   #### **lab2-1-2**
       - Java 설치
    ```bash
    sudo apt update
@@ -20,7 +20,7 @@ Kafka를 활용하여 메시지를 송수신하고, Nginx 로그를 실시간으
    ```
     
 2. Kafka 바이너리 다운로드 및 설치
-   #### **lab3-1-3**
+   #### **lab2-1-3**
    ```bash
    cd /opt
    sudo wget https://archive.apache.org/dist/kafka/3.7.1/kafka_2.13-3.7.1.tgz
@@ -30,7 +30,7 @@ Kafka를 활용하여 메시지를 송수신하고, Nginx 로그를 실시간으
    ```
 
 3. 환경 변수 설정
-   #### **lab3-1-4**
+   #### **lab2-1-4**
       - 카프카 부트스트랩 서버 환경에 맞게 입력
    ```bash
    echo 'export KAFKA_HOME=/opt/kafka' >> ~/.bashrc
@@ -40,7 +40,7 @@ Kafka를 활용하여 메시지를 송수신하고, Nginx 로그를 실시간으
    ```
 
 4. Python 환경 준비
-   #### **lab3-1-5**
+   #### **lab2-1-5**
       - Python, Kafka-Python 설치
    ```bash
    sudo apt update
@@ -51,7 +51,7 @@ Kafka를 활용하여 메시지를 송수신하고, Nginx 로그를 실시간으
    ```
 
 5. Kafka 클러스터와 통신 확인
-   #### **lab3-1-6**
+   #### **lab2-1-6**
       - 네트워크 통신 가능 여부 체크(각 클러스터의 부트스트랩 서버)
    ```bash
    nc -zv {각 클러스터의 부트스트랩 서버}
@@ -68,30 +68,30 @@ Kafka를 활용하여 메시지를 송수신하고, Nginx 로그를 실시간으
 
 ## 2. 콘솔 스크립트로 메시지 프로듀싱/컨슈밍 실습
 1. 카프카 디렉토리로 이동 (TG1, 2)
-   #### **lab3-2-1**
+   #### **lab2-2-1**
    ```
    cd kafka
    ```
 
 2. 토픽 생성 (TG1)
-   #### **lab3-2-2**
+   #### **lab2-2-2**
    ```
    bin/kafka-topics.sh --bootstrap-server ${KAFKA_BOOTSTRAP_SERVERS} --create --topic consol-topic --partitions 2 --replication-factor 2
    ```
 
 3. 프로듀서 실행(TG1)
-   #### **lab3-2-3**
+   #### **lab2-2-3**
    ```
    bin/kafka-console-producer.sh --broker-list ${KAFKA_BOOTSTRAP_SERVERS} --topic consol-topic
    ```
 
 4. 컨슈머 실행(TG2)
-   #### **lab3-2-4-1**
+   #### **lab2-2-4-1**
       a. earliest 설정
    ```
    bin/kafka-console-consumer.sh --bootstrap-server ${KAFKA_BOOTSTRAP_SERVERS} --topic consol-topic --group consumer-group-earliest --from-beginning
    ```
-   #### **lab3-2-4-2**
+   #### **lab2-2-4-2**
       b. latest 설정
    ```
    bin/kafka-console-consumer.sh --bootstrap-server ${KAFKA_BOOTSTRAP_SERVERS} --topic consol-topic --group consumer-group-latest
@@ -99,13 +99,13 @@ Kafka를 활용하여 메시지를 송수신하고, Nginx 로그를 실시간으
 
 ## 3. python 코드로 메시지 프로듀싱/컨슈밍 실습
 1. python 토픽 생성(TG1)
-   #### **lab3-3-1**
+   #### **lab2-3-1**
    ```
    bin/kafka-topics.sh --bootstrap-server ${KAFKA_BOOTSTRAP_SERVERS} --create --topic python-topic --partitions 2 --replication-factor 2
    ```
 
 2. producer.py실행(TG1)
-   #### **lab3-3-2**
+   #### **lab2-3-2**
    ```
    sudo wget -O producer.py "https://github.com/KOlizer/syu-DataAnalyze/raw/refs/heads/main/Kafka_Connect_VM/producer.py"
    sudo chmod +x producer.py
@@ -113,7 +113,7 @@ Kafka를 활용하여 메시지를 송수신하고, Nginx 로그를 실시간으
    ```
 
 3. consumer.py실행(TG2)
-   #### **lab3-3-3**
+   #### **lab2-3-3**
    ```
    sudo wget -O consumer.py "https://github.com/KOlizer/syu-DataAnalyze/raw/refs/heads/main/Kafka_Connect_VM/consumer.py"
    sudo chmod +x consumer.py
@@ -123,13 +123,13 @@ Kafka를 활용하여 메시지를 송수신하고, Nginx 로그를 실시간으
 
 ## 4. nginx 로그 → kafka로 프로듀싱 실습 (logstash 활용)
 1. 콘솔 스크립트(바이너리)로 새로운 토픽 생성(TG1)
-   #### **lab3-4-1**
+   #### **lab2-4-1**
    ```
    bin/kafka-topics.sh --bootstrap-server $KAFKA_BOOTSTRAP_SERVERS --create --topic nginx-topic --partitions 2 --replication-factor 2
    ```
 
 2. api서버에서 logstash 설정(API VM1, 2)
-   #### **lab3-4-2**
+   #### **lab2-4-2**
    ```
    cd /etc/logstash/
    sudo vi logstash.yml
@@ -143,7 +143,7 @@ Kafka를 활용하여 메시지를 송수신하고, Nginx 로그를 실시간으
    ```
 
 3. path.config 수정 필요 logs-to-pubsub.conf -> logs-to-kafka.conf
-   #### **lab3-4-3**
+   #### **lab2-4-3**
    ```bash
    i 클릭 후 방향키로 이동하여logs-to-pubsub.conf로 이동
    logs-to-pubsub.conf에서 pubsub 삭제 후 kafka 입력
@@ -151,14 +151,14 @@ Kafka를 활용하여 메시지를 송수신하고, Nginx 로그를 실시간으
    ```
 
 4. Logstash 재실행 및 상태 확인 (API VM1, 2)
-   #### **lab3-4-4**
+   #### **lab2-4-4**
    ```
    sudo systemctl restart logstash
    sudo systemctl status logstash
    ```
 
 5. TG에서 데이터 받기 (TG1)
-   #### **lab3-4-5**
+   #### **lab2-4-5**
    ```
    bin/kafka-console-consumer.sh --bootstrap-server $KAFKA_BOOTSTRAP_SERVERS --topic nginx-topic --from-beginning
    ```
