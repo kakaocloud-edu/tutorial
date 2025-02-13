@@ -361,8 +361,11 @@
       - **Note**: 보안 그룹 22번 포트 열기
    
    5-1. 마스터 노드 VM(HadoopMST) 옆의 ... 클릭 후 보안 그룹 수정 클릭
+   
    5-2. 보안 그룹 선택 클릭
+   
    5-3. `보안 그룹 생성` 버튼 클릭
+   
       - 보안 그룹 이름: `hadoop_mst`
       - 보안 그룹 설명: `없음`
       - 인바운드 규칙
@@ -370,9 +373,10 @@
       - 아웃바운드 규칙
         - 프로토콜: `ALL`, 출발지: `0.0.0.0/0`, 포트 번호: `ALL`
       - `생성` 버튼 클릭
+  
    5-4. `적용` 버튼 클릭
 
-6. 마스터 노드에 public IP 부여 후 ssh 접속
+7. 마스터 노드에 public IP 부여 후 ssh 접속
    #### **lab3-1-1**
    
        - 마스터 노드 VM(HadoopMST)에 SSH로 접속
@@ -381,19 +385,19 @@
    ssh -i {keypair}.pem ubuntu@{vm public ip}
    ```
 
-7. Hive 실행
+8. Hive 실행
    #### **lab3-1-2**
    ```
    hive
    ```
    
-8. 사용할 데이터 베이스 선택
+9. 사용할 데이터 베이스 선택
    #### **lab3-1-3**
    ```
    use {database 이름};
    ```
    
-9. 테이블에 파티션 추가
+10. 테이블에 파티션 추가
    #### **lab3-1-4**
    ```
    ALTER TABLE {테이블 이름}
@@ -401,7 +405,7 @@
    LOCATION 's3a://kafka-data/topics/nginx-topic/partition=0';
    ```
    
-10. 테이블 파이션 키 삭제
+11. 테이블 파이션 키 삭제
    #### **lab3-1-5**
    ```
    ALTER TABLE part_test_lsh DROP PARTITION (partition_key='{특정값(5)');
