@@ -143,7 +143,7 @@ Kafka를 활용하여 메시지를 송수신하고, Nginx 로그를 실시간으
    ```
 
 3. path.config 수정 필요 logs-to-pubsub.conf -> logs-to-kafka.conf
-   #### **lab2-4-3**
+      - path.config 수정
    ```bash
    i 클릭 후 방향키로 이동하여logs-to-pubsub.conf로 이동
    logs-to-pubsub.conf에서 pubsub 삭제 후 kafka 입력
@@ -151,14 +151,14 @@ Kafka를 활용하여 메시지를 송수신하고, Nginx 로그를 실시간으
    ```
 
 4. Logstash 재실행 및 상태 확인 (API VM1, 2)
-   #### **lab2-4-4**
+   #### **lab2-4-3**
    ```
    sudo systemctl restart logstash
    sudo systemctl status logstash
    ```
 
 5. TG에서 데이터 받기 (TG1)
-   #### **lab2-4-5**
+   #### **lab2-4-4**
    ```
    bin/kafka-console-consumer.sh --bootstrap-server $KAFKA_BOOTSTRAP_SERVERS --topic nginx-topic --from-beginning
    ```
