@@ -3,10 +3,10 @@
 ## 1. Object Storage 설정
 1. 카카오 클라우드 콘솔 > 전체 서비스 > Object Storage > 일반 버킷
 2. 권한 설정
-   1. data-query-result 클릭
-   2. 권한 클릭
-   3. 역할 추가 클릭
-   4. 역할 추가
+   - data-query-result 클릭
+   - 권한 클릭
+   - 역할 추가 클릭
+   - 역할 추가
       - 서비스 계정: `{프로젝트 이름}@data-query.kc.serviceaccount.com`
       - 역할: `스토리지 편집자`
 
