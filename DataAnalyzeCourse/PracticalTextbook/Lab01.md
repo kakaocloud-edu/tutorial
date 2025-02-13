@@ -8,7 +8,7 @@
 1. Traffic Generator VM 1,2 접속
     - Traffic Generator VM 1, 2에 public IP를 통해 연결
    #### **lab1-1-1**
-       - 각 VM에 SSH로 접속
+   - 각 VM에 SSH로 접속
    ```bash
    ssh -i {keypair}.pem ubuntu@{vm public ip}
    ```
@@ -115,7 +115,7 @@ A. 웹 API로 메시지 확인
     ```
 
     #### **lab1-4-1-2**
-        - publisher 실행 파일 생성
+    - publisher 실행 파일 생성
     ```bash
     go build -o publisher config.go publisher.go
     ```
@@ -127,22 +127,22 @@ A. 웹 API로 메시지 확인
 
  4. Traffic-Generator-VM2에서 pub/sub의 pull-subscription으로 수신
     #### **lab1-4-2-1**
-        - Go SDK 디렉토리로 이동
+    - Go SDK 디렉토리로 이동
     ```bash
     cd /home/ubuntu/gosdk/cmd
     ```
     #### **lab1-4-2-2**
-        - subscriber 실행 파일 생성
+    - subscriber 실행 파일 생성
     ```bash
     go build -o subscriber config.go subscriber.go
     ```
     #### **lab1-4-2-3**
-        - subscriber 실행 파일 실행
+    - subscriber 실행 파일 실행
     ```bash
     ./subscriber
     ```
     
-    > 확인: VM1에서 입력한 메시지가 VM2에서 정상적으로 수신되는지 확인합니다.
+    - 확인: VM1에서 입력한 메시지가 VM2에서 정상적으로 수신되는지 확인합니다.
 
 
 ## 5. NGINX 로그를 Object Storage에 적재
@@ -155,7 +155,7 @@ A. 웹 API로 메시지 확인
     
 2. 실행 완료 후, 생성된 로그 확인(Traffic-Generator-VM1)
     #### **lab1-5-2**
-       - cat 명령어로 로그 파일 내용 출력
+   - cat 명령어로 로그 파일 내용 출력
     ```bash
     cat traffic_generator.log
     ```
