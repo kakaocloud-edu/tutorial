@@ -379,7 +379,7 @@
 7. 마스터 노드에 public IP 부여 후 ssh 접속
    #### **lab3-1-1**
    
-       - 마스터 노드 VM(HadoopMST)에 SSH로 접속
+   - 마스터 노드 VM(HadoopMST)에 SSH로 접속
    
    ```bash
    ssh -i {keypair}.pem ubuntu@{vm public ip}
