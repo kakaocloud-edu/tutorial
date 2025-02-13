@@ -45,12 +45,13 @@
   ```
 
 ### 2. 쿼리 실습
-1. 콘솔 -> Analytics -> Data Query -> 쿼리 편집기
+1. 카카오 클라우드 콘솔 > 전체 서비스 > Data Query > 쿼리 편집기
 2. 편집기 설정 정보 확인하며 실습 진행
   
 3. 시간당 PV(페이지 뷰) count 쿼리
    - 데이터 원본: `data_orign`
    - 데이터 베이스: `shopdb`
+   #### **lab4-1-1**
    ```
    SELECT
     DATE_FORMAT(searched_at, '%Y-%m-%d %H:00:00') AS hour,
@@ -63,12 +64,11 @@
      hour DESC;
    ```
    ![image](https://github.com/user-attachments/assets/7cfcdc3b-dc3f-47b9-a400-9c7212846f96)
-</br>
 
-
-5. 세션 쿠키(session_id) 기반 방문자 수 추출
+4. 세션 쿠키(session_id) 기반 방문자 수 추출
    - 데이터 원본: `data_orign`
    - 데이터 베이스: `shopdb`
+   #### **lab4-1-2**
     ```
     SELECT
         session_id,
@@ -83,10 +83,10 @@
         visitors_count DESC;
     ```
     ![image](https://github.com/user-attachments/assets/417766ba-bca4-4214-b31a-e1210b9caead)
-</br>
 
-7. 상품 상세 페이지 접근 로그를 집계하여 인기 상품 상위 5개 추출
+5. 상품 상세 페이지 접근 로그를 집계하여 인기 상품 상위 5개 추출
    - 데이터 원본: `data_catalog`
+   #### **lab4-1-3**
    ```
 	 WITH parsed AS (
 	   SELECT 
@@ -115,12 +115,11 @@
 	 LIMIT 5;
     ```
    ![image](https://github.com/user-attachments/assets/e3024c3d-bc9f-47a9-8437-9a168c7cc34b)
-</br>
 
-
-8. HTTP status code별 count로 에러율 추출
+6. HTTP status code별 count로 에러율 추출
    - 데이터 원본: `data_catalog`
    - subcategory는 제외한 상태
+   #### **lab4-1-4**
     ```
 	WITH parsed AS (
 	  SELECT 
@@ -153,3 +152,5 @@
 
     ```
     ![image](https://github.com/user-attachments/assets/c4594cd2-9572-44db-8634-c1e174d4a2d6)
+
+---
