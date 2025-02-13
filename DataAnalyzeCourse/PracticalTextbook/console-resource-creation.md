@@ -95,7 +95,7 @@
 
 ## 5. Pub/Sub 토픽/서브스크립션 생성
 
-### 1. test-topic 생성
+### A. test-topic 생성
 1. 카카오 클라우드 콘솔 > 전체 서비스 > Pub/Sub > 토픽
 2. 토픽 생성 버튼 클릭
    
@@ -106,7 +106,7 @@
 3. 생성 버튼 클릭
 4. topic 생성 확인
 
-### 2. test-topic의 pull-subscription 생성
+### B. test-topic의 pull-subscription 생성
 1. 카카오 클라우드 콘솔 > 전체 서비스 > Pub/Sub > 서브스크립션
 2. 서브스크립션 생성 버튼 클릭
    
@@ -120,7 +120,7 @@
 3. 생성 버튼 클릭
 4. subscription 생성 확인
 
-### 3. test-topic의 push-subscription
+### C. test-topic의 push-subscription
 1. 카카오 클라우드 콘솔 > 전체 서비스 > Pub/Sub > 서브스크립션
 2. 서브스크립션 생성 버튼 클릭
    
