@@ -176,7 +176,10 @@
     - 이미지: `Ubuntu 22.04`
     - 인스턴스유형: `m2a.xlarge`
     - 볼륨: `30GB`
-    - 키 페어: 위에서 생성한 `keypair`
+    - 키 페어
+        - `키 페어 생성` 버튼 클릭
+        - 생성 방법: `신규 키 페어 생성하기`
+        - 이름: `keypair`
     - 네트워크
         - VPC: `kc-vpc`
         - 보안 그룹
@@ -201,67 +204,68 @@
             - IP 할당 방식: `자동`
     - 고급 설정
         - 사용자 스크립트: [`api_dev.sh`](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/ApiServer/api_dev.sh)의 쌍따옴표(“”) 사이에 자신의 리소스 값 입력
-    - `생성` 버튼 클릭
-    - `api-server-1`, `api-server-2` 상태 Actice 확인 후 `Public IP 연결`
+
+4. 생성 버튼 클릭
+5. `api-server-1`, `api-server-2` 상태 Actice 확인 후 `Public IP 연결`
 
 
+## 8. Traffic Generator VM 생성
+1. 카카오 클라우드 콘솔 > 전체 서비스 > Virtual Machine > 인스턴스
+2. 인스턴스 생성 버튼 클릭
 
-## 대상 그룹 생성
-
-- **로드 밸런서**
-    - **가용 영역**
-    - **로드 밸런서**: `kc-alb`
-    - **리스너**: `HTTP:80`
-- **기본 정보**
-    - **대상 그룹 이름**: `api-srv`
-    - **프로토콜**: `HTTP`
-    - **알고리즘**: `라운드 로빈`
-    - **고정 세션**: `미사용`
-- **상태 확인**: `미사용`
-- **대상 유형**: `인스턴스`
-- **네트워크**: `api-srv-1`, `api-srv-2`
-
-
-
-
-
-## Traffic Generator VM 생성
-
-- **기본 정보**
-    - **이름**: `trf-gen`
-    - **개수**: `2`
-- **이미지**: `Ubuntu 22.04`
-- **인스턴스유형**: `t1i.xlarge`
-- **볼륨**: `30`
-- **키 페어**
-    - `키 페어 생성` 버튼 클릭
-        - **생성 방법**: `신규 키 페어 생성하기`
-        - **이름**: `keypair`
-- **네트워크**
-    - **VPC**: `kc-vpc`
-    - **보안 그룹**
-        - `보안 그룹 생성` 버튼 클릭
-            - **보안 그룹 이름**: `tgen-sg`
-              - **인바운드**
+    - 기본 정보
+        - 이름: `trarffic-generator`
+        - 개수: `2`
+    - 이미지: `Ubuntu 22.04`
+    - 인스턴스유형: `m2a.xlarge`
+    - 볼륨: `30`
+    - 키 페어: 위에서 생성한 `keypair`
+    - 네트워크
+        - VPC: `kc-vpc`
+        - 보안 그룹
+            - `보안 그룹 생성` 버튼 클릭
+                - 보안 그룹 이름: `tg-sg`
+                  - 인바운드
+                  
+                      | 프로토콜 | 출발지 | 포트 번호 |
+                      | --- | --- | --- |
+                      | TCP | 0.0.0.0/0 | 22 |
               
-                  | 프로토콜 | 출발지 | 포트 번호 |
-                  | --- | --- | --- |
-                  | TCP | 0.0.0.0/0 | 22 |
-              
-              - **아웃바운드**
-              
-                  | 프로토콜 | 목적지 | 포트 번호 |
-                  | --- | --- | --- |
-                  | ALL | 0.0.0.0/0 | ALL |
-
-        - **네트워크 인터페이스**: `새 인터페이스`
-        - **서브넷**: `kr-central-2-a의 Public 서브넷`
-        - **IP 할당 방식**: `자동`
-- **고급 설정**
-    - **사용자 스크립트**: [`setup_initial.sh`](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/TrafficGenerator/setup_initial.sh)의 쌍따옴표(“”) 사이에 자신의 리소스 값 입력
-- `생성` 버튼 클릭
-- `trf-gen-1`, `trf-gen-2` 상태 Actice 확인 후 `Public IP 연결`
+                  - 아웃바운드
+                  
+                      | 프로토콜 | 목적지 | 포트 번호 |
+                      | --- | --- | --- |
+                      | ALL | 0.0.0.0/0 | ALL |
+    
+            - 네트워크 인터페이스: `새 인터페이스`
+            - 서브넷: `kr-central-2-a의 Public 서브넷`
+            - IP 할당 방식: `자동`
+    - 고급 설정
+        - 사용자 스크립트: [`setup_initial.sh`](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/TrafficGenerator/setup_initial.sh)의 쌍따옴표(“”) 사이에 자신의 리소스 값 입력
+3. 생성 버튼 클릭
+4. `traffic-generator-1`, `traffic-generator-2` 상태 Actice 확인 후 `Public IP 연결`
 
 
 
-
+## 9. 로드 밸런서 대상 그룹 생성
+1. 카카오 클라우드 콘솔 > 전체 서비스 > Load Balancing > 대상 그룹
+2. 대상 그룹 생성 버튼 클릭
+    - 로드 밸런서
+        - 가용 영역: `kr-central-2-a`
+        - 로드 밸런서: `api-lb`
+        - 리스너: `HTTP:80`
+    - 기본 정보
+        - 대상 그룹 이름: `api-server-group`
+        - 프로토콜: `HTTP`
+        - 알고리즘: `라운드 로빈`
+        - 고정 세션: `미사용`
+    - 상태 확인: `미사용`
+    - 다음 클릭
+    - 대상 유형: `인스턴스`
+    - 네트워크:
+        - `api-server-1`, `api-server-2` 선택
+        - 포트: `80`
+        - 대상 추가 버튼 클릭
+    -다음 버튼 클릭
+3. 생성 버튼 클릭
+4. 대상 그룹 프로비저닝 상태: Active, 운영 상태: Online 확인
