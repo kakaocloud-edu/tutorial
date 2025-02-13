@@ -135,7 +135,7 @@
 3. 생성 버튼 클릭
 4. subscription 생성 확인
 
-### D. test-topic의 push-subscription
+### D. data-catalog-topic 생성
 1. 카카오 클라우드 콘솔 > 전체 서비스 > Pub/Sub > 토픽
 2. 토픽 생성 버튼 클릭
    
