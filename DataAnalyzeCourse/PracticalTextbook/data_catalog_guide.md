@@ -399,18 +399,18 @@
    ```
    
 10. 테이블에 파티션 추가
-   #### **lab3-1-4**
-   ```
-   ALTER TABLE {테이블 이름}
-   ADD PARTITION (partition='{특정값(5)')
-   LOCATION 's3a://kafka-data/topics/nginx-topic/partition=0';
-   ```
+    #### **lab3-1-4**
+    ```
+    ALTER TABLE {테이블 이름}
+    ADD PARTITION (partition='{특정값(5)')
+    LOCATION 's3a://kafka-data/topics/nginx-topic/partition=0';
+    ```
    
 11. 테이블 파이션 키 삭제
-   #### **lab3-1-5**
-   ```
-   ALTER TABLE part_test_lsh DROP PARTITION (partition_key='{특정값(5)');
-   ```
+    #### **lab3-1-5**
+    ```
+    ALTER TABLE part_test_lsh DROP PARTITION (partition_key='{특정값(5)');
+    ```
    
 
 ## 6. 크롤러 생성
