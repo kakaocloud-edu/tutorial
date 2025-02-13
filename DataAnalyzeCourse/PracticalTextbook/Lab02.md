@@ -2,8 +2,6 @@
 
 Kafka를 활용하여 메시지를 송수신하고, Nginx 로그를 실시간으로 수집 및 처리하는 과정을 다룹니다. 또한, Kafka Connect와 S3 Sink Connector를 활용하여 수집된 데이터를 Object Storage에 저장하는 방법을 실습합니다.
 
----
-
 ## 1. 각 VM에 Kafka 클라이언트 설치
 1. Java 설치(Traffic-Generator-VM1, 2)
    #### **lab2-1-1**
