@@ -169,7 +169,9 @@ Kafka를 활용하여 메시지를 송수신하고, Nginx 로그를 실시간으
 
 
 # kafka → kafka connector → object storage 실습
+
       - kafka connector역할을 할 VM 생성
+   
 1. 카카오 클라우드 콘솔 > 전체 서비스 > Virtual Machine > 인스턴스
 2. 인스턴스 생성 버튼 클릭
 
