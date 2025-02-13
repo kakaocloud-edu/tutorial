@@ -168,7 +168,7 @@ Kafka를 활용하여 메시지를 송수신하고, Nginx 로그를 실시간으
 
 # kafka → kafka connector → object storage 실습
 
-      - kafka connector역할을 할 VM 생성
+- kafka connector역할을 할 VM 생성
    
 1. 카카오 클라우드 콘솔 > 전체 서비스 > Virtual Machine > 인스턴스
 2. 인스턴스 생성 버튼 클릭
@@ -204,15 +204,15 @@ Kafka를 활용하여 메시지를 송수신하고, Nginx 로그를 실시간으
             - IP 할당 방식: `자동`
     - 고급 설정
         - 아래 코드 입력
-```
-#!/bin/bash
-
-# apt 패키지 목록 업데이트
-sudo apt update
-
-# 필요한 패키지 설치
-sudo apt install -y python3 python3-pip openjdk-21-jdk unzip jq
-```
+      ```
+      #!/bin/bash
+      
+      # apt 패키지 목록 업데이트
+      sudo apt update
+      
+      # 필요한 패키지 설치
+      sudo apt install -y python3 python3-pip openjdk-21-jdk unzip jq
+      ```
 3. 생성 버튼 클릭
 4. `kafka-connector` 상태 Actice 확인 후 `Public IP 연결`
 
@@ -356,7 +356,7 @@ sudo apt install -y python3 python3-pip openjdk-21-jdk unzip jq
 5. ~/.bashrc에 자격 증명 추가
     #### **lab2-6-5**
    
-       - `.bashrc` 파일을 열어 AWS 자격 증명을 추가
+   - `.bashrc` 파일을 열어 AWS 자격 증명을 추가
    
    ```bash
    vi ~/.bashrc
@@ -380,7 +380,7 @@ sudo apt install -y python3 python3-pip openjdk-21-jdk unzip jq
 
    #### **lab2-6-7**
    
-       - 파일을 저장하고 적용
+   - 파일을 저장하고 적용
    
    ```bash
    source ~/.bashrc
@@ -490,7 +490,7 @@ sudo apt install -y python3 python3-pip openjdk-21-jdk unzip jq
 - `/opt/kafka/config/s3-sink-connector.properties`
     #### **lab2-10-3**
   
-        - {버킷 이름}, {S3_ACCESS_KEY}, {S3_SECRET_ACCESS_KEY} 사용자 사용 값으로 수정
+  - {버킷 이름}, {S3_ACCESS_KEY}, {S3_SECRET_ACCESS_KEY} 사용자 사용 값으로 수정
   
     ```bash
     # 커넥터 이름
@@ -576,7 +576,7 @@ sudo apt install -y python3 python3-pip openjdk-21-jdk unzip jq
 - `/opt/kafka/config/worker.properties`
     #### **lab2-11-2**
   
-        - {카프카 부트스트랩 서버} 사용자 사용 값으로 수정
+  - {카프카 부트스트랩 서버} 사용자 사용 값으로 수정
   
     ```bash
     # 워커 기본 설정
