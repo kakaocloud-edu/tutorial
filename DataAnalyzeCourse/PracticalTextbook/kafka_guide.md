@@ -1,168 +1,168 @@
-### **Kafka 기반 데이터 스트리밍 및 Object Storage 연동**
+# Kafka 기반 데이터 스트리밍 및 Object Storage 연동
 
 Kafka를 활용하여 메시지를 송수신하고, Nginx 로그를 실시간으로 수집 및 처리하는 과정을 다룹니다. 또한, Kafka Connect와 S3 Sink Connector를 활용하여 수집된 데이터를 Object Storage에 저장하는 방법을 실습합니다.
 
 ---
 
-        
-
-1. **홈 디렉토리로 이동**
-    ```bash
-    cd
-    ```
-
-### **각 VM에 Kafka 클라이언트(바이너리) 설치**
-
-1. **Java 설치**
+## 1. 각 VM에 Kafka 클라이언트 설치
+1. Java 설치(Traffic-Generator-VM1, 2)
+####lab3-1-1
+      - 홈 디렉토리로 이동
+   ```bash
+   cd
+   ```
+####lab3-1-2
+      - Java 설치
+   ```bash
+   sudo apt update
+   sudo apt install -y openjdk-21-jdk
+   java -version
+   ```
     
-    ```bash
-    sudo apt update
-    sudo apt install -y openjdk-21-jdk
-    java -version
-    ```
+2. Kafka 바이너리 다운로드 및 설치
+####lab3-1-3
+   ```bash
+   cd /opt
+   sudo wget https://archive.apache.org/dist/kafka/3.7.1/kafka_2.13-3.7.1.tgz
+   sudo tar -xzf kafka_2.13-3.7.1.tgz
+   sudo mv kafka_2.13-3.7.1 kafka
+   sudo rm kafka_2.13-3.7.1.tgz
+   ```
+
+3. 환경 변수 설정
+####lab3-1-4
+      - 카프카 부트스트랩 서버 환경에 맞게 입력
+   ```bash
+   echo 'export KAFKA_HOME=/opt/kafka' >> ~/.bashrc
+   echo 'export PATH=$PATH:$KAFKA_HOME/bin' >> ~/.bashrc
+   echo export KAFKA_BOOTSTRAP_SERVERS="{카프카 부트스트랩 서버}" >> ~/.bashrc
+   source ~/.bashrc
+   ```
+
+4. Python 환경 준비
+####lab3-1-5
+      - Python, Kafka-Python 설치
+   ```bash
+   sudo apt update
+   sudo apt install -y python3 python3-pip
+   python3 --version
+   pip3 --version
+   sudo pip3 install kafka-python
+   ```
+
+5. Kafka 클러스터와 통신 확인
+####lab3-1-6
+      - 네트워크 통신 가능 여부 체크(각 클러스터의 부트스트랩 서버)
+   ```bash
+   nc -zv {각 클러스터의 부트스트랩 서버}
+   nc -zv {각 클러스터의 부트스트랩 서버}
+   ```
+      - 예시
+   ```bash    
+   nc -zv 0.0.0.0 9092
+   nc -zv 0.0.0.0 9092
+   ```
     
-2. **Kafka 바이너리 다운로드 및 설치**
-    
-    ```bash
-    cd /opt
-    sudo wget https://archive.apache.org/dist/kafka/3.7.1/kafka_2.13-3.7.1.tgz
-    sudo tar -xzf kafka_2.13-3.7.1.tgz
-    sudo mv kafka_2.13-3.7.1 kafka
-    sudo rm kafka_2.13-3.7.1.tgz
-    ```
-    
-3. **환경 변수 설정**
-    
-    ```bash
-    echo 'export KAFKA_HOME=/opt/kafka' >> ~/.bashrc
-    echo 'export PATH=$PATH:$KAFKA_HOME/bin' >> ~/.bashrc
-    echo export KAFKA_BOOTSTRAP_SERVERS="{카프카 부트스트랩 서버}" >> ~/.bashrc
-    source ~/.bashrc
-    ```
-    
-
-### **1.4 Python 환경 준비**
-
-1. **Python, Kafka-Python 설치**
-    
-    ```bash
-    sudo apt update
-    sudo apt install -y python3 python3-pip
-    python3 --version
-    pip3 --version
-    sudo pip3 install kafka-python
-    ```
-    
-
-    
-
-### **1.5 Kafka 클러스터와 통신 확인**
-
-1. **네트워크 통신 가능 여부 체크(각 클러스터의 부트스트랩 서버)**
-    
-    ```bash
-    nc -zv {각 클러스터의 부트스트랩 서버}
-    nc -zv {각 클러스터의 부트스트랩 서버}
-    ```
-
-    ```
-    예시
-    nc -zv 0.0.0.0 9092
-    nc -zv 0.0.0.0 9092
-    ```
-    
-    - 실패 시 네트워크 및 보안 그룹 설정을 확인합니다.
----
-
-# 콘솔 스크립트(바이너리)로 메시지 프로듀싱/컨슈밍 실습
-카프카 디렉토리로 이동 (TG1, 2)
-```
-cd kafka
-```
-
-토픽 생성 (TG1)
-```
-bin/kafka-topics.sh --bootstrap-server ${KAFKA_BOOTSTRAP_SERVERS} --create --topic consol-topic --partitions 2 --replication-factor 2
-```
-
-프로듀서 실행(TG1)
-```
-bin/kafka-console-producer.sh --broker-list ${KAFKA_BOOTSTRAP_SERVERS} --topic consol-topic
-```
-
-컨슈머 실행(TG2)
-
-earliest 설정
-```
-bin/kafka-console-consumer.sh --bootstrap-server ${KAFKA_BOOTSTRAP_SERVERS} --topic consol-topic --group consumer-group-earliest --from-beginning
-```
-
-latest 설정
-```
-bin/kafka-console-consumer.sh --bootstrap-server ${KAFKA_BOOTSTRAP_SERVERS} --topic consol-topic --group consumer-group-latest
-```
-
-# python 코드로 메시지 프로듀싱/컨슈밍 실습
-python 토픽 생성(TG1)
-```
-bin/kafka-topics.sh --bootstrap-server ${KAFKA_BOOTSTRAP_SERVERS} --create --topic python-topic --partitions 2 --replication-factor 2
-```
-
-producer.py실행(TG1)
-```
-sudo wget -O producer.py "https://github.com/KOlizer/syu-DataAnalyze/raw/refs/heads/main/Kafka_Connect_VM/producer.py"
-sudo chmod +x producer.py
-sudo -E ./producer.py
-```
-
-consumer.py실행(TG2)
-```
-sudo wget -O consumer.py "https://github.com/KOlizer/syu-DataAnalyze/raw/refs/heads/main/Kafka_Connect_VM/consumer.py"
-sudo chmod +x consumer.py
-sudo -E ./consumer.py
-```
-
----
-# nginx 로그 → kafka로 프로듀싱 실습 (logstash 활용)
-콘솔 스크립트(바이너리)로 새로운 토픽 생성(TG1)
-```
-bin/kafka-topics.sh --bootstrap-server $KAFKA_BOOTSTRAP_SERVERS --create --topic nginx-topic --partitions 2 --replication-factor 2
-```
-
-api서버에서 logstash 설정(API VM1, 2)
-```
-cd /etc/logstash/
-sudo vi logstash.yml
-```
-
-보이는 파일
-```
-path.data: /var/lib/logstash
-path.logs: /var/log/logstash
-path.config: /etc/logstash/conf.d/logs-to-pubsub.conf
-```
-
-path.config 수정 필요 logs-to-pubsub.conf -> logs-to-kafka.conf
-```bash
-i 클릭 후 방향키로 이동하여logs-to-pubsub.conf로 이동
-logs-to-pubsub.conf에서 pubsub 삭제 후 kafka 입력
-esc 클릭 후 :wq 입력
-```
+      - 실패 시 네트워크 및 보안 그룹 설정을 확인합니다.
 
 
-Logstash 재실행 및 상태 확인 (API VM1, 2)
-```
-sudo systemctl restart logstash
-sudo systemctl status logstash
-```
+## 2. 콘솔 스크립트로 메시지 프로듀싱/컨슈밍 실습
+1. 카프카 디렉토리로 이동 (TG1, 2)
+####lab3-2-1
+   ```
+   cd kafka
+   ```
 
-TG에서 데이터 받기 (TG1)
-```
-bin/kafka-console-consumer.sh --bootstrap-server $KAFKA_BOOTSTRAP_SERVERS --topic nginx-topic --from-beginning
-```
+2. 토픽 생성 (TG1)
+####lab3-2-2
+   ```
+   bin/kafka-topics.sh --bootstrap-server ${KAFKA_BOOTSTRAP_SERVERS} --create --topic consol-topic --partitions 2 --replication-factor 2
+   ```
+
+3. 프로듀서 실행(TG1)
+####lab3-2-3
+   ```
+   bin/kafka-console-producer.sh --broker-list ${KAFKA_BOOTSTRAP_SERVERS} --topic consol-topic
+   ```
+
+4. 컨슈머 실행(TG2)
+####lab3-2-4-1
+      a. earliest 설정
+   ```
+   bin/kafka-console-consumer.sh --bootstrap-server ${KAFKA_BOOTSTRAP_SERVERS} --topic consol-topic --group consumer-group-earliest --from-beginning
+   ```
+####lab3-2-4-2
+      b. latest 설정
+   ```
+   bin/kafka-console-consumer.sh --bootstrap-server ${KAFKA_BOOTSTRAP_SERVERS} --topic consol-topic --group consumer-group-latest
+   ```
+
+## 3. python 코드로 메시지 프로듀싱/컨슈밍 실습
+1. python 토픽 생성(TG1)
+####lab3-3-1
+   ```
+   bin/kafka-topics.sh --bootstrap-server ${KAFKA_BOOTSTRAP_SERVERS} --create --topic python-topic --partitions 2 --replication-factor 2
+   ```
+
+2. producer.py실행(TG1)
+####lab3-3-2
+   ```
+   sudo wget -O producer.py "https://github.com/KOlizer/syu-DataAnalyze/raw/refs/heads/main/Kafka_Connect_VM/producer.py"
+   sudo chmod +x producer.py
+   sudo -E ./producer.py
+   ```
+
+3. consumer.py실행(TG2)
+####lab3-3-3
+   ```
+   sudo wget -O consumer.py "https://github.com/KOlizer/syu-DataAnalyze/raw/refs/heads/main/Kafka_Connect_VM/consumer.py"
+   sudo chmod +x consumer.py
+   sudo -E ./consumer.py
+   ```
 
 
-데이터가 쌓이고 있는지 체크(시간 좀 걸림)
+## 4. nginx 로그 → kafka로 프로듀싱 실습 (logstash 활용)
+1. 콘솔 스크립트(바이너리)로 새로운 토픽 생성(TG1)
+####lab3-4-1
+   ```
+   bin/kafka-topics.sh --bootstrap-server $KAFKA_BOOTSTRAP_SERVERS --create --topic nginx-topic --partitions 2 --replication-factor 2
+   ```
+
+2. api서버에서 logstash 설정(API VM1, 2)
+####lab3-4-2
+   ```
+   cd /etc/logstash/
+   sudo vi logstash.yml
+   ```
+
+      - 보이는 파일
+   ```
+   path.data: /var/lib/logstash
+   path.logs: /var/log/logstash
+   path.config: /etc/logstash/conf.d/logs-to-pubsub.conf
+   ```
+
+3. path.config 수정 필요 logs-to-pubsub.conf -> logs-to-kafka.conf
+####lab3-4-3
+   ```bash
+   i 클릭 후 방향키로 이동하여logs-to-pubsub.conf로 이동
+   logs-to-pubsub.conf에서 pubsub 삭제 후 kafka 입력
+   esc 클릭 후 :wq 입력
+   ```
+
+4. Logstash 재실행 및 상태 확인 (API VM1, 2)
+####lab3-4-4
+   ```
+   sudo systemctl restart logstash
+   sudo systemctl status logstash
+   ```
+
+5. TG에서 데이터 받기 (TG1)
+####lab3-4-5
+   ```
+   bin/kafka-console-consumer.sh --bootstrap-server $KAFKA_BOOTSTRAP_SERVERS --topic nginx-topic --from-beginning
+   ```
+      - Note: 데이터가 쌓이고 있는지 체크(시간 좀 걸림)
 
 ---
 # kafka → kafka connector → object storage 실습
