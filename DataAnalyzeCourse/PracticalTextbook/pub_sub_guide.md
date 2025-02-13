@@ -76,7 +76,7 @@
     - `objectstoragesubscription` 서브스크립션 생성 확인
   
 
-## 3. 콘솔 메시지 송수신 테스트
+## 3. Python을 활용한 Pub/Sub 실습
 
 1. Traffic-Generator-VM1에서 pub/sub으로 메세지 전송
     #### **lab2-3-1**
@@ -93,7 +93,7 @@
     - Traffic-Generator-VM2 터미널에서 Traffic-Generator-VM1에서 입력한 메세지 수신 확인
 
 
-## 4. 웹 API로 메시지 확인
+a. 웹 API로 메시지 확인
 
 1. 웹 브라우저에서 아래 URL에 접속합니다.
     ```
