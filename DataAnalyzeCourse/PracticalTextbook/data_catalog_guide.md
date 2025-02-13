@@ -46,7 +46,7 @@
       - 데이터 유형: `JSON`
    - Pub/Sub 연동
       - Pub/Sub 연동: `사용`
-      - 토픽 선택: `data-catalog-topic` // Lab.00에 추가 필요
+      - 토픽 선택: `data-catalog-topic`
    - 설명(선택): `없음`
    - 스키마
       - `필드추가` 클릭
@@ -77,11 +77,6 @@
 ---
 ## 4. 메시지 확인 실습
 1. pub/sub 연동을 통한 메시지 확인
-   ### 서브스크립션 생성
-   - 기본설정
-      - 이름: pull-subscription-cjm //임의 값
-      - 토픽: data-catalog-topic //임의 값
-      - 유형: Pull
 
    ### TG에서 메시지 확인 코드 실행
    - 기존에 쓰던 메시지 확인 코드에서 subscription 이름만 변경하는 방향이 나을것 같다는 생각
