@@ -437,34 +437,33 @@ sudo apt install -y python3 python3-pip openjdk-21-jdk unzip jq
    aws --version
    ```
 
----
 
+## 4. AWS CLI 구성
+1. `AWS_ACCESS_KEY_ID`와 `AWS_SECRET_ACCESS_KEY`를 `aws configure`에 입력
+   #### **lab2-9-1**
+   ```bash
+   aws configure
+   ```
 
-### 3-5. AWS CLI 구성
+   - AWS Access Key ID: 위에서 추가한 `AWS_ACCESS_KEY_ID`
+   - AWS Secret Access Key: 위에서 추가한 `AWS_SECRET_ACCESS_KEY`
+   - Default region name: `kr-central-2`
+   - Default output format: (생략-입력 없이 Enter)
 
-이미 `.bashrc`에 `AWS_ACCESS_KEY_ID`와 `AWS_SECRET_ACCESS_KEY`가 설정되어 있다면, `aws configure` 시 자동으로 입력 가능하다. 아니면 수동 입력 가능
+2. Bucket ACL 설정
+   #### **lab2-9-2**
+   
+      - 쓰기 권한 부여
+      - 버킷 이름 실제 생성 이름으로 수정
 
-```bash
-aws configure
-```
+   ```bash
+   aws s3api put-bucket-acl \
+     --bucket {버킷 이름} \
+     --grant-write 'uri="http://acs.amazonaws.com/groups/global/AllUsers"' \
+     --endpoint-url https://objectstorage.kr-central-2.kakaocloud.com
+   ```
 
-- AWS Access Key ID: 위에서 추가한 `AWS_ACCESS_KEY_ID`
-- AWS Secret Access Key: 위에서 추가한 `AWS_SECRET_ACCESS_KEY`
-- Default region name: `kr-central-2`
-- Default output format: (생략)
-
-### 3-6. Bucket ACL(쓰기 권한 부여)
-
-Kakao Cloud Object Storage 특성상 CORS 및 ACL 설정이 필요하다.
-
-```bash
-aws s3api put-bucket-acl \
-  --bucket {버킷 이름} \
-  --grant-write 'uri="http://acs.amazonaws.com/groups/global/AllUsers"' \
-  --endpoint-url https://objectstorage.kr-central-2.kakaocloud.com
-```
-
-- 입력 예시
+      - 입력 예시
     
     ```bash
     aws s3api put-bucket-acl \
@@ -474,28 +473,27 @@ aws s3api put-bucket-acl \
     ```
     
 
-*버킷이름*을 실제 생성한 버킷으로 교체 후 실행
+## 5. Standalone 모드와 Systemd를 이용한 커넥터 생성
 
----
+1. 연결 폴더 생성
+   #### **lab2-10-1**
+   ```bash
+   sudo mkdir -p /opt/kafka/config
+   sudo chown ubuntu:ubuntu /opt/kafka
+   sudo chown ubuntu:ubuntu /opt/kafka/config
+   ```
 
-## 4. Standalone 모드와 Systemd를 이용한 커넥터 생성
-
-### 4-1. 연결 폴더 생성
-
-```bash
-sudo mkdir -p /opt/kafka/config
-sudo chown ubuntu:ubuntu /opt/kafka
-sudo chown ubuntu:ubuntu /opt/kafka/config
-```
-
-### 4-2. S3 Sink Connector 전용 설정 파일 생성
-
-```bash
-vi /opt/kafka/config/s3-sink-connector.properties
-```
+2. S3 Sink Connector 전용 설정 파일 생성
+   #### **lab2-10-2**
+   ```bash
+   vi /opt/kafka/config/s3-sink-connector.properties
+   ```
 
 - `/opt/kafka/config/s3-sink-connector.properties`
-    
+    #### **lab2-10-3**
+  
+        - {버킷 이름}, {S3_ACCESS_KEY}, {S3_SECRET_ACCESS_KEY} 사용자 사용 값으로 수정
+  
     ```bash
     # 커넥터 이름
     name=s3-sink-connector
@@ -532,7 +530,7 @@ vi /opt/kafka/config/s3-sink-connector.properties
     flush.size=1
     ```
     
-- 입력 예시
+      - 입력 예시
     
     ```bash
     # 커넥터 이름
@@ -571,16 +569,17 @@ vi /opt/kafka/config/s3-sink-connector.properties
     ```
     
 
-### 4-3. Standalone Worker 설정 파일 생성
-
-`/opt/kafka/config/worker.properties` 파일은 Kafka Connect 워커의 기본 설정을 포함한다.
-
-```bash
-vi /opt/kafka/config/worker.properties
-```
+## 6. Standalone Worker 설정 파일 생성
+   #### **lab2-11-1**
+   ```bash
+   vi /opt/kafka/config/worker.properties
+   ```
 
 - `/opt/kafka/config/worker.properties`
-    
+    #### **lab2-11-2**
+  
+        - {카프카 부트스트랩 서버} 사용자 사용 값으로 수정
+  
     ```bash
     # 워커 기본 설정
     
@@ -601,7 +600,7 @@ vi /opt/kafka/config/worker.properties
     listeners=http://0.0.0.0:8083
     ```
     
-- 입력 예시
+      - 입력 예시
     
     ```bash
     # 워커 기본 설정
@@ -622,24 +621,22 @@ vi /opt/kafka/config/worker.properties
     # REST 인터페이스 리스너 (커넥터 상태 확인용)
     listeners=http://0.0.0.0:8083
     ```
+
     
+## 7. Systemd 서비스 파일 생성
+1. 시스템 서비스로 등록(상시 유지)
+   #### **lab2-12-1**
+   
+      - 항상 실행되도록 `systemd`에 등록한다.
 
----
+   ```bash
+   sudo vi /etc/systemd/system/kafka-connect.service
+   ```
 
-## 5. Systemd 서비스 파일 생성
+    #### **lab2-12-2**
 
-- Kafka Connect를 systemd 서비스로 관리하기 위해 `/etc/systemd/system/kafka-connect.service` 파일을 생성한다
-
-### 5-1. 시스템 서비스로 등록(상시 유지)
-
-항상 실행되도록 `systemd`에 등록한다.
-
-```bash
-sudo vi /etc/systemd/system/kafka-connect.service
-```
-
-- `/etc/systemd/system/kafka-connect.service` 파일 작성
-    
+      - `/etc/systemd/system/kafka-connect.service` 파일 작성
+   
     ```bash
     [Unit]
     Description=Kafka Connect Standalone Service
@@ -654,34 +651,24 @@ sudo vi /etc/systemd/system/kafka-connect.service
     [Install]
     WantedBy=multi-user.target
     ```
-    
 
-```bash
-sudo systemctl daemon-reload
-sudo systemctl enable kafka-connect
-sudo systemctl start kafka-connect
-sudo systemctl status kafka-connect
-```
+   #### **lab2-12-3**
+   
+      - kafka-connect 재실행
+   
+   ```bash
+   sudo systemctl daemon-reload
+   sudo systemctl enable kafka-connect
+   sudo systemctl start kafka-connect
+   sudo systemctl status kafka-connect
+   ```
+   
+      - 상태(Status)가 `active (running)`이면 실행 중
 
-상태(Status)가 `active (running)`이면 실행 중임을 의미한다.
+
+## 8. 데이터가 정상적으로 S3(Kakao Object Storage)에 쌓이는지 확인
+1. 카카오 클라우드 콘솔 > 전체 서비스 > Object Storage
+2. 카프카 용으로 생성한 `kafka-nginx-log' 클릭
+3. 실제 로그가 쌓이는지 확인
 
 ---
-
-## 6. 데이터가 정상적으로 S3(Kakao Object Storage)에 쌓이는지 확인
-
-1. Kakao Cloud 콘솔에 접속 → Object Storage → 버킷 이름 클릭 → 파일(오브젝트) 생성 여부 확인
-
-<aside>
-  
-**디렉터리 구조 생성 원리(**topics/nginx-logs/partition=0/**)**
-
-- **topics**: 커넥터는 별도로 저장 경로(prefix)를 지정하지 않으면 기본적으로 “topics” 폴더 아래에 각 토픽 이름을 가진 디렉터리를 생성한다
-- **nginx-logs:** 생성한 토픽 이름이 `nginx-logs`이면 버킷 내에 `topics/nginx-logs` 폴더가 만들어진다.
-- **partition=0:** 토픽 생성 시 `--partitions 1` 옵션을 사용하면 하나의 파티션이 생성되는데, 이 파티션의 번호는 0이다. 따라서 S3 Sink Connector는 토픽 `nginx-logs`의 유일한 파티션인 0번에 해당하는 데이터를 저장할 때, 디렉터리 이름을 `partition=0`으로 생성하게 된다.
-
-**파일 이름 생성 규칙**
-
-- 생성되는 파일 이름은 기본적으로 `[토픽명]+[파티션번호]+[시작 오프셋].json` 형식이다.
-- 예를 들어, `nginx-logs+0+0000000000.json` 파일은 토픽 `nginx-logs`, 파티션 0의 오프셋 0부터 시작된 데이터 파일임을 나타낸다
-- 이 규칙은 내부 라이브러리(예, `io.confluent.connect.s3.format.json.JsonFormat`)에서 정의되어 있으며, flush.size 등의 설정 값에 따라 파일이 롤오버된다
-</aside>
