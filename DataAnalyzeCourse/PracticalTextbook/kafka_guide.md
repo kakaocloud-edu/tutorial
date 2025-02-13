@@ -355,26 +355,33 @@ sudo apt install -y python3 python3-pip openjdk-21-jdk unzip jq
     
 5. ~/.bashrc에 자격 증명 추가
     #### **lab2-6-5**
+   
        - `.bashrc` 파일을 열어 AWS 자격 증명을 추가
+   
    ```bash
    vi ~/.bashrc
    ```
    
    #### **lab2-6-6**
+   
        - S3_ACCESS_KEY 입력
+   
    ```bash
    export AWS_ACCESS_KEY_ID="{S3_ACCESS_KEY}"
    export AWS_SECRET_ACCESS_KEY="{S3_SECRET_ACCESS_KEY}"
    ```
    
    - 입력 예시
+   
    ```bash
    export AWS_ACCESS_KEY_ID="95c6ad9b8eda493cbf536f203da0893f"
    export AWS_SECRET_ACCESS_KEY="fee9a69d46444b2c925d873358e2e023"
    ```
 
-   #### **lab2-6-7**    
-       - 파일을 저장하고 적용합니다.
+   #### **lab2-6-7**
+   
+       - 파일을 저장하고 적용
+   
    ```bash
    source ~/.bashrc
    ```
@@ -396,26 +403,34 @@ sudo apt install -y python3 python3-pip openjdk-21-jdk unzip jq
 
 3. AWS CLI 설치 및 설정 (Kakao Cloud Object Storage S3 API 연동용)
    #### **lab2-8-1**
+   
       - AWS CLI 2.22.0 다운로드
+   
    ```bash
    cd /home/ubuntu
    curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64-2.22.0.zip" -o "awscliv2.zip"
    ```
    
    #### **lab2-8-2**
+   
       - 압축 해제
+   
    ```bash
    unzip /home/ubuntu/awscliv2.zip
    ```
 
    #### **lab2-8-3**
+   
       - AWS CLI 설치
+   
    ```bash
    sudo /home/ubuntu/aws/install
    ```
    
    #### **lab2-8-4**
+   
       - AWS CLI 버전 확인
+  
    ```bash
    aws --version
    ```
