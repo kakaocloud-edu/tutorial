@@ -15,11 +15,11 @@
 1. 카카오 클라우드 콘솔 > 전체 서비스 > Data Query > 데이터 원본 관리
 2. 데이터 원본 생성 클릭
    - 기본 정보
-   	- 데이터 원본 이름: `data_origin`
-   	- 설명(선택): `없음`
+      - 데이터 원본 이름: `data_origin`
+      - 설명(선택): `없음`
    - 상세 정보
-   	- 데이터 원본 유형: `MySQL`
-   	- 인스턴스 그룹: `data_catalog` (data catalog에서 생성한 DB)
+      - 데이터 원본 유형: `MySQL`
+      - 인스턴스 그룹: `data_catalog` (data catalog에서 생성한 DB)
    - 연결 계정 정보
       - ID: `admin`
       - PW: `admin1234'
