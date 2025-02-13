@@ -135,6 +135,30 @@
 3. 생성 버튼 클릭
 4. subscription 생성 확인
 
+### D. test-topic의 push-subscription
+1. 카카오 클라우드 콘솔 > 전체 서비스 > Pub/Sub > 토픽
+2. 토픽 생성 버튼 클릭
+   
+    - 이름: `data-catalog-topic`
+    - 기본 서브스크립션: `생성 안함`
+    - 토픽 메세지 보존 기간: `0일 0시 10분`
+    - 설명: `없음`
+3. 생성 버튼 클릭
+4. topic 생성 확인
+
+### E. data-catalog-topic의 pull-subscription 생성
+1. 카카오 클라우드 콘솔 > 전체 서비스 > Pub/Sub > 서브스크립션
+2. 서브스크립션 생성 버튼 클릭
+   
+    - 기본 설정
+        - 이름: `data-catalog-top-pull`
+        - 토픽 선택: `data-catalog-topic`
+    - 유형: `Pull`
+    - 서브스크립션 메시지 보존 기간: `1일`
+    - 응답 대기 시간: `20초`
+    - 재처리 횟수: `횟수 지정`, `3번`
+3. 생성 버튼 클릭
+4. subscription 생성 확인
 
 ## 6. Kafka Cluster 생성
 1. 카카오 클라우드 콘솔 > 전체 서비스 > Advanced Managed Kafka
