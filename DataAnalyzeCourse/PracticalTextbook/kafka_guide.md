@@ -298,12 +298,14 @@ sudo apt install -y python3 python3-pip openjdk-21-jdk unzip jq
    ```
    
    #### **lab2-6-3**
-       - 발급받은 API 인증 토큰을 확인합니다.  
+   
+      - 발급받은 API 인증 토큰을 확인합니다.
+   
    ```bash
    echo $API_TOKEN
    ```
         
-3. 임시 자격 증명 발급 (STS AssumeRoleWithWebIdentity)
+4. 임시 자격 증명 발급 (STS AssumeRoleWithWebIdentity)
     - 발급받은 API 토큰을 사용하여 임시 자격 증명을 요청합니다
     - S3 API 사용을 위한 크리덴셜 발급을 위해서는 `사용자 고유 ID`, `프로젝트 ID`가 필요합니다.
         - [콘솔] > [계정 정보]에서 `사용자 고유 ID`를 확인합니다.
@@ -351,7 +353,7 @@ sudo apt install -y python3 python3-pip openjdk-21-jdk unzip jq
     
     ### [****](https://docs.kakaocloud.com/service/bss/object-storage/api/bss-api-os-s3#response-elements)
     
-4. ~/.bashrc에 자격 증명 추가
+5. ~/.bashrc에 자격 증명 추가
     #### **lab2-6-5**
        - `.bashrc` 파일을 열어 AWS 자격 증명을 추가
    ```bash
