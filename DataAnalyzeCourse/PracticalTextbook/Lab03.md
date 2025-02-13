@@ -2,7 +2,7 @@
 
 ## 1. 카탈로그 생성
 1. 카카오 클라우드 콘솔 > 전체 서비스 > Object Storage > 카탈로그
-2. 카탈로그 생성 클릭
+2. `카탈로그 생성` 클릭
 
    - 이름
       - 카탈로그 이름: `data_catalog`
@@ -11,7 +11,7 @@
    - 서브넷
       - 서브넷: `kr-central-2-a의 Public 서브넷`
 
-3. 생성 클릭
+3. `생성` 클릭
 
 ## 2. 데이터베이스 생성
 1. 카카오 클라우드 콘솔 > 전체 서비스 > Object Storage > 데이터베이스
@@ -27,12 +27,12 @@
       - S3 연결: `체크`
       - 버킷 이름: `kafka-nginx-log`(카프카와 연동된 버킷)
       - 디렉터리: `topics/nginx-topic/partition_0`// 현재 임의 설정 (경로에`=` 못 넣음, partition을 경로에서 빼면 오류) 
-3. 생성 클릭
+3. `생성` 클릭
 
 
 ## 3. 테이블 생성
 1. 카카오 클라우드 콘솔 > 전체 서비스 > Object Storage > 테이블
-2. 테이블 생성 클릭
+2. `테이블 생성` 클릭
 
    - 데이터 베이스
       - 데이터 베이스: `dc_database`
@@ -361,9 +361,9 @@
 
       - **Note**: 보안 그룹 22번 포트 열기
    
-   5-1. 마스터 노드 VM(HadoopMST) 옆의 ... 클릭 후 보안 그룹 수정 클릭
+   5-1. 마스터 노드 VM(HadoopMST) 옆의 `...` 클릭 후 `보안 그룹 수정` 클릭
    
-   5-2. 보안 그룹 선택 클릭
+   5-2. `보안 그룹 선택` 클릭
    
    5-3. `보안 그룹 생성` 버튼 클릭
    
@@ -385,7 +385,7 @@
    ```bash
    ssh -i {keypair}.pem ubuntu@{vm public ip}
    ```
-x. Hadoop 설정
+8. Hadoop 설정
    - core-site.xml 설정 변경
    #### **lab3-1-2**
    ```
@@ -406,19 +406,19 @@ x. Hadoop 설정
    ```
    
 
-8. Hive 실행
+9. Hive 실행
    #### **lab3-1-3**
    ```
    hive
    ```
    
-9. 사용할 데이터 베이스 선택
+10. 사용할 데이터 베이스 선택
    #### **lab3-1-4**
    ```
    use {database 이름};
    ```
    
-10. 테이블에 파티션 추가
+11. 테이블에 파티션 추가
     #### **lab3-1-5**
     ```
     ALTER TABLE {테이블 이름}
@@ -426,7 +426,7 @@ x. Hadoop 설정
     LOCATION 's3a://kafka-nginx-log/topics/nginx-topic/partition=0';
     ```
    
-11. 테이블 파이션 키 삭제
+12. 테이블 파이션 키 삭제
     #### **lab3-1-6**
     ```
     ALTER TABLE part_test_lsh DROP PARTITION (partition_key='{특정값(5)');
