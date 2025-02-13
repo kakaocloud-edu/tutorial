@@ -4,9 +4,13 @@
 1. 카카오 클라우드 콘솔 > 전체 서비스 > Object Storage > 카탈로그
 2. 카탈로그 생성 클릭
 
-   - 이름: `data_catalog`
-   - vpc: `kc-vpc`
-   - 서브넷: `kr-central-2-a의 Public 서브넷`
+   - 이름
+      - 카탈로그 이름: `data_catalog`
+   - vpc
+      - VPC: `kc-vpc`
+   - 서브넷
+      - 서브넷: `kr-central-2-a의 Public 서브넷`
+
 3. 생성 클릭
 
 ## 2. 데이터베이스 생성
