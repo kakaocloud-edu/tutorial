@@ -292,34 +292,53 @@
 ---
 
    
-## 2. Hadoop 연동을 통한 메시지 확인
+## 5. Hadoop 연동을 통한 메시지 확인
 ### Hadoop 생성
-   1. 콘솔에서 Analytics -> Hadoop Eco -> 클러스터 접속
-   2. `클러스터 생성` 클릭
-   3. 클러스터 정보
-      - 클러스터 이름: `core-hadoop-cluster`
-      - 클러스터 구성: `Core Hadoop`
-      - 관리자 설정
-        - 관리자 아이디: admin
-        - 관리자 비밀번호: Admin1234!
-      - vpc: `실습 환경`
-      - 서브넷: `실습 환경`
-      - 보안 그룹: `그대로`
-      - `다음` 클릭
-      - ---
-      - 마스터 노드 설정
-        - 인스턴스 유형: `m2a.xlarge`
-          
-      - 워커 노드 설정
-        - 인스턴스 개수: 2
-        - 인스턴스 유형: `m2a.xlarge`
-       
-      - `다음` 클릭
-      - ---
-      - 서비스 연동: `Data Catalog 연동`
-        - 카탈로그 이름: `data_catalog` 선택
-      - 클러스터 구성 설정:
-        ```
+1. 카카오 클라우드 콘솔 > 전체 서비스 > Hadoop Eco
+2. 클러스터 생성 클릭
+
+   - 클러스터 이름
+        - 클러스터 이름: `core-hadoop-cluster`
+   - 클러스터 구성
+        - 클러스터 버전: `Hadoop Eco 2.1.0`
+        - 클러스터 유형: `Core-Hadoop`
+        - 클러스터 가용성: `미체크`
+   - 관리자 설정
+        - 관리자 아이디: `admin`
+        - 관리자 비밀번호: `Admin1234!`
+        - 관리자 비밀번호 확인: `Admin1234!`
+   - VPC 설정
+        - VPC: `kc-vpc`
+        - 서브넷: `kr-central-2-a의 Public 서브넷`
+   - 보안 그룹 설정
+        - 보안 그룹 설정: `새 보안 그룹 생성`
+        - 보안 그룹 이름: `HDE-210-hadoop` {기본 입력 정보 사용}
+   - `다음` 클릭
+   - 마스터 노드 설정
+        - 마스터 노드 인스턴스 개수: `1`
+        - 마스터 노드 인스턴스 유형: `m2a.xlarge`
+        - 디스크 볼륨 유형 / 크기: `50`
+   - 워커 노드 설정
+        - 워커 노드 인스턴스 개수: `2`
+        - 마스터 노드 인스턴스 유형: `m2a.xlarge`
+        - 디스크 볼륨 유형 / 크기: `100`
+   - 총 YARN 사용량
+        - YARN Core: `6개` {입력 필요X}
+        - YARN Memory: `20GB` {입력 필요X}
+   - 키 페어
+        - 키 페어: {기존 생성 키 페어}
+   - 사용자 스크립트(선택)
+        - 사용자 스크립트: `없음`
+   - `다음` 클릭
+   - 모니터링 에이전트 설치: `설치 안함`
+   - 서비스 연동: `Data Catalog 연동`
+        - 카탈로그 이름: `data_catalog`
+   - HDFS 설정
+        - HDFS 블록 크기: `128`
+        - HDFS 복제 개수: `2`
+   - 클러스터 구성 설정(선택)
+        - 클러스터 구성 설정: {아래 코드 입력}
+      ```
          {
          "configurations": [
              {
@@ -332,56 +351,85 @@
          ]
          }
         ```
-   - **NOTE**: 보안 그룹 22번 포트 열어야함
-   4. 마스터 노드에 public IP 부여 후 ssh 접속
-   5. Hive 실행
-      ```
-      hive
-      ```
-   6. 사용할 데이터 베이스 선택
-      ```
-      use {database 이름};
-      ```
-   7. 테이블에 파티션 추가
-      ```
-      ALTER TABLE {테이블 이름}
-      ADD PARTITION (partition='{특정값(5)')
-      LOCATION 's3a://kafka-data/topics/nginx-topic/partition=0';
-      ```
-   8. 테이블 파이션 키 삭제
-      ```
-      ALTER TABLE part_test_lsh DROP PARTITION (partition_key='{특정값(5)');
-      ```
+   - Kerberos 설치: `설치 안함`
+   - Ranger 설치: `설치 안함`
+3. 생성 버튼 클릭
+4. Hadoop Eco 클러스터 생성 확인
+5. 마스터/워커 노드 VM 생성 확인
+      - 카카오 클라우드 콘솔 > 전체 서비스 > Virtual Machine > 인스턴스
+
+      - **Note**: 보안 그룹 22번 포트 열기
+   
+      A. 마스터 노드 VM(HadoopMST) 옆의 ... 클릭 후 보안 그룹 수정 클릭
+      B. 보안 그룹 선택 클릭
+      C. `보안 그룹 생성` 버튼 클릭
+   
+         - 보안 그룹 이름: `hadoop_mst`
+         - 보안 그룹 설명: `없음`
+         - 인바운드 규칙
+            - 프로토콜: `TCP`, 출발지: `0.0.0.0/0`, 포트 번호: `22`
+         - 아웃바운드 규칙
+            - 프로토콜: `ALL`, 출발지: `0.0.0.0/0`, 포트 번호: `ALL`
+         - `생성` 버튼 클릭
+   
+      D. `적용` 버튼 클릭
+
+6. 마스터 노드에 public IP 부여 후 ssh 접속
+   #### **lab3-1-1**
+   
+       - 마스터 노드 VM(HadoopMST)에 SSH로 접속
+   
+   ```bash
+   ssh -i {keypair}.pem ubuntu@{vm public ip}
+   ```
+
+7. Hive 실행
+   #### **lab3-1-2**
+   ```
+   hive
+   ```
+   
+8. 사용할 데이터 베이스 선택
+   #### **lab3-1-3**
+   ```
+   use {database 이름};
+   ```
+   
+9. 테이블에 파티션 추가
+   #### **lab3-1-4**
+   ```
+   ALTER TABLE {테이블 이름}
+   ADD PARTITION (partition='{특정값(5)')
+   LOCATION 's3a://kafka-data/topics/nginx-topic/partition=0';
+   ```
+   
+10. 테이블 파이션 키 삭제
+   #### **lab3-1-5**
+   ```
+   ALTER TABLE part_test_lsh DROP PARTITION (partition_key='{특정값(5)');
+   ```
    
 
-</br>
-
-# 크롤러
-
-## 1. 크롤러 생성
-
- 1.  콘솔에서 Analytics -> Data Catalog -> 크롤러 접속
-
- 2.  `크롤러 생성` 클릭
-
- 3.  생성 정보
-      - 데이터베이스: ` 콘솔에서 생성한 데이터베이스 `
-      - 크롤러 이름: ` crawler_test `
-      - MySQL 전체 경로
-         - 연결할 MySQL: ` {사전 생성한 MySQL} `
-         - MySQL 데이터베이스 이름: ` shopdb `
-      - MySQL 계정
-         - MySQL 계정 ID: ` admin `
-         - MySQL 계정 PW: ` admin1234 `
-         - 연결테스트 진행
-      - 설명 (선택):
-      - 테이블 Prefix (선택):
-      - 스케줄: 온디멘드
-   - 생성 클릭
-
-
+## 6. 크롤러 생성
+1. 카카오 클라우드 콘솔 > 전체 서비스 > Data catalog > 크롤러
+2. 크롤러 생성 버튼 클릭
+   
+    - 데이터베이스
+        - 데이터베이스: `dc_database`
+    - 크롤러 이름: `crawler`
+    - MySQL 전체 경로
+        - 연결할 MySQL: `database`
+        - MySQL 데이터베이스 이름: `shopdb`
+    - MySQL 계정
+        - ID: `admin`
+        - PW: `admin1234`
+        - 연결 테스트 버튼 클릭(연결 테스트 완료 후에 생성 가능)
+    - 설명 (선택): `없음`
+    - 테이블 Prefix (선택): `없음`
+    - 스케줄: `온디멘드`
+3. 생성 버튼 클릭
 4. 생성된 크롤러 선택 후 실행
-
-5. 테이블 클릭 후 생성된 테이블 확인
+5. 카카오 클라우드 콘솔 > 전체 서비스 > Data catalog > 테이블
+      - 생성된 테이블 확인
 
 ---
