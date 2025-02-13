@@ -164,28 +164,46 @@ Kafka를 활용하여 메시지를 송수신하고, Nginx 로그를 실시간으
    ```
       - Note: 데이터가 쌓이고 있는지 체크(시간 좀 걸림)
 
+
 ---
+
+
 # kafka → kafka connector → object storage 실습
+      - kafka connector역할을 할 VM 생성
+1. 카카오 클라우드 콘솔 > 전체 서비스 > Virtual Machine > 인스턴스
+2. 인스턴스 생성 버튼 클릭
 
-## kafka connector 역할을 할 새로운 VM 카카오클라우드 콘솔에서 생성
-
-Kafka Connector VM 생성
-이름: `kafka-connector`
-
-이미지: `Ubuntu 22.04`
-
-인스턴스유형: `m2a.xlarge`
-
-볼륨: `30GB`
-
-VPC: `실습 환경`
-
-보안 그룹(SG) 생성
-
-`22`, `80`, `9092`
-
-고급 스크립트 부분에 아래 코드 입력하여 생성
-
+    - 기본 정보
+        - 이름: `kafka-connector`
+        - 개수: `1`
+    - 이미지: `Ubuntu 22.04`
+    - 인스턴스유형: `m2a.xlarge`
+    - 볼륨: `30`
+    - 키 페어: 위에서 생성한 `keypair`
+    - 네트워크
+        - VPC: `kc-vpc`
+        - 보안 그룹
+            - `보안 그룹 생성` 버튼 클릭
+                - 보안 그룹 이름: `tg-sg`
+                  - 인바운드
+                  
+                      | 프로토콜 | 출발지 | 포트 번호 |
+                      | --- | --- | --- |
+                      | TCP | 0.0.0.0/0 | 22 |
+                      | TCP | 0.0.0.0/0 | 80 |
+                      | TCP | 0.0.0.0/0 | 9092 |
+              
+                  - 아웃바운드
+                  
+                      | 프로토콜 | 목적지 | 포트 번호 |
+                      | --- | --- | --- |
+                      | ALL | 0.0.0.0/0 | ALL |
+    
+            - 네트워크 인터페이스: `새 인터페이스`
+            - 서브넷: `kr-central-2-a의 Public 서브넷`
+            - IP 할당 방식: `자동`
+    - 고급 설정
+        - 아래 코드 입력
 ```
 #!/bin/bash
 
@@ -195,66 +213,67 @@ sudo apt update
 # 필요한 패키지 설치
 sudo apt install -y python3 python3-pip openjdk-21-jdk unzip jq
 ```
+3. 생성 버튼 클릭
+4. `kafka-connector` 상태 Actice 확인 후 `Public IP 연결`
+
 
 ## 1. 새로운 Kafka Connector VM에서 사전 준비
+1. Kafka Connector VM에 SSH 연결
+   #### **lab2-5-1**
+   ```bash
+   ssh -i {keypair}.pem ubuntu@{vm public ip}
+   ```
 
-### 1-1. 새로 생성한 Kafka Connector VM에 Public IP 부여 후 SSH 연결
-```bash
-ssh -i {keypair}.pem ubuntu@{vm public ip}
-```
+2. Kafka 다운로드 및 압축 해제
+   #### **lab2-5-2**
+   ```bash
+   cd /home/ubuntu
+   curl https://archive.apache.org/dist/kafka/3.7.1/kafka_2.13-3.7.1.tgz -o kafka_2.13-3.7.1.tgz
+   tar -xzf /home/ubuntu/kafka_2.13-3.7.1.tgz
+   rm /home/ubuntu/kafka_2.13-3.7.1.tgz
+   mv /home/ubuntu/kafka_2.13-3.7.1 /home/ubuntu/kafka
+   ```
 
-### 1-2. Kafka 다운로드 및 압축 해제
+3. Confluent Hub Client 설치
+   #### **lab2-5-3**
+   ```bash
+   cd /
+   sudo mkdir -p /confluent-hub/plugins && \
+   cd /confluent-hub && \
+   sudo curl -LO http://client.hub.confluent.io/confluent-hub-client-latest.tar.gz && \
+   sudo tar -zxvf confluent-hub-client-latest.tar.gz
+   ```
 
-```bash
-cd /home/ubuntu
-curl https://archive.apache.org/dist/kafka/3.7.1/kafka_2.13-3.7.1.tgz -o kafka_2.13-3.7.1.tgz
-tar -xzf /home/ubuntu/kafka_2.13-3.7.1.tgz
-rm /home/ubuntu/kafka_2.13-3.7.1.tgz
-mv /home/ubuntu/kafka_2.13-3.7.1 /home/ubuntu/kafka
-```
+4. 환경 변수 설정
+   #### **lab2-5-4**
+      - 환경 변수 폴더 열기
+   ```bash
+   vi /home/ubuntu/.bashrc
+   ```
+      - 아래 내용을 `.bashrc` 맨 아래에 추가
+   #### **lab2-5-5**
+   ```bash
+   # Confluent 설정
+   export CONFLUENT_HOME='/confluent-hub'
+   export PATH="$PATH:$CONFLUENT_HOME/bin"
+   
+   # Java 설정
+   export JAVA_HOME='/usr/lib/jvm/java-21-openjdk-amd64'
+   export PATH="$JAVA_HOME/bin:$PATH"
+   ```
 
-### 1-3. Confluent Hub Client 설치
+   #### **lab2-5-6**
+      - 변경 사항 적용
+   ```bash
+   source /home/ubuntu/.bashrc
+   ```
+   
 
-```bash
-cd /
-sudo mkdir -p /confluent-hub/plugins && \
-cd /confluent-hub && \
-sudo curl -LO http://client.hub.confluent.io/confluent-hub-client-latest.tar.gz && \
-sudo tar -zxvf confluent-hub-client-latest.tar.gz
-```
-
-### 1-4. 환경 변수 설정
-
-```bash
-vi /home/ubuntu/.bashrc
-```
-
-아래 내용을 `.bashrc` 맨 아래에 추가
-
-```bash
-# Confluent 설정
-export CONFLUENT_HOME='/confluent-hub'
-export PATH="$PATH:$CONFLUENT_HOME/bin"
-
-# Java 설정
-export JAVA_HOME='/usr/lib/jvm/java-21-openjdk-amd64'
-export PATH="$JAVA_HOME/bin:$PATH"
-```
-
-저장 후,
-
-```bash
-source /home/ubuntu/.bashrc
-```
-
----
-
-### **2. Object Storage 버킷의 CORS 정책으로 쓰기 접근 권한 허용**
-
-1. **API 인증 토큰 발급**
+## 2. Object Storage 버킷의 CORS 정책으로 쓰기 접근 권한 허용
+1. API 인증 토큰 발급
     - 사용자 로컬 머신의 터미널에 접속합니다. 아래 명령에서 `ACCESS_KEY`와 `ACCESS_SECRET_KEY`를 각각 '액세스 키'와 '보안 액세스 키' 값으로 수정합니다.
     - 그 다음 아래 API 인증 토큰을 발급받는 명령을 실행합니다.
-        
+   #### **lab2-6-1**
         ```bash
         export API_TOKEN=$(curl -s -X POST -i https://iam.kakaocloud.com/identity/v3/auth/tokens -H "Content-Type: application/json" -d \
         '{
@@ -272,11 +291,11 @@ source /home/ubuntu/.bashrc
         }' | grep x-subject-token | awk -v RS='\r\n' '{print $2}')
         ```
         
-    - API 인증 토큰을 환경변수로 등록합니다.
-        
-        ```bash
-        echo "export API_TOKEN=${API_TOKEN}" >> ~/.bashrc
-        ```
+2. API 인증 토큰을 환경변수로 등록합니다.
+   #### **lab2-6-2**
+   ```bash
+   echo "export API_TOKEN=${API_TOKEN}" >> ~/.bashrc
+   ```
         
     - 발급받은 API 인증 토큰을 확인합니다.
         
@@ -284,12 +303,12 @@ source /home/ubuntu/.bashrc
         echo $API_TOKEN
         ```
         
-2. **임시 자격 증명 발급 (STS AssumeRoleWithWebIdentity)**
+3. 임시 자격 증명 발급 (STS AssumeRoleWithWebIdentity)
     - 발급받은 API 토큰을 사용하여 임시 자격 증명을 요청합니다
     - S3 API 사용을 위한 크리덴셜 발급을 위해서는 `사용자 고유 ID`, `프로젝트 ID`가 필요합니다.
         - [콘솔] > [계정 정보]에서 `사용자 고유 ID`를 확인합니다.
         - **카카오클라우드 콘솔 메인 화면** 상단의 **작업 중인 프로젝트**에서 `프로젝트 ID`를 확인합니다.
-        
+        #### **lab2-6-3**
         ```bash
         echo $(curl -s -X POST -i https://iam.kakaocloud.com/identity/v3/users/{사용자 고유 ID}/credentials/OS-EC2 \
          -H "Content-Type: application/json" \
@@ -332,83 +351,76 @@ source /home/ubuntu/.bashrc
     
     ### [****](https://docs.kakaocloud.com/service/bss/object-storage/api/bss-api-os-s3#response-elements)
     
-3. **.bashrc에 자격 증명 추가**
-    - `.bashrc` 파일을 열어 AWS 자격 증명을 추가합니다.
+4. ~/.bashrc에 자격 증명 추가
+    #### **lab2-6-4**
+       - `.bashrc` 파일을 열어 AWS 자격 증명을 추가
+   ```bash
+   vi ~/.bashrc
+   ```
+   #### **lab2-6-5**
+       - 다음 내용을 추가
         
-        ```bash
-        vi ~/.bashrc
-        ```
+   ```bash
+   export AWS_ACCESS_KEY_ID="{S3_ACCESS_KEY}"
+   export AWS_SECRET_ACCESS_KEY="{S3_SECRET_ACCESS_KEY}"
+   ```
         
-    - 다음 내용을 추가합니다 .
-        
-        ```bash
-        export AWS_ACCESS_KEY_ID="{S3_ACCESS_KEY}"
-        export AWS_SECRET_ACCESS_KEY="{S3_SECRET_ACCESS_KEY}"
-        ```
-        
-        - 입력 예시
-            
-            ```bash
-            export AWS_ACCESS_KEY_ID="95c6ad9b8eda493cbf536f203da0893f"
-            export AWS_SECRET_ACCESS_KEY="fee9a69d46444b2c925d873358e2e023"
-            ```
-            
+   - 입력 예시
+
+   ```bash
+   export AWS_ACCESS_KEY_ID="95c6ad9b8eda493cbf536f203da0893f"
+   export AWS_SECRET_ACCESS_KEY="fee9a69d46444b2c925d873358e2e023"
+   ```
+
+   #### **lab2-6-6**    
     - 파일을 저장하고 적용합니다.
-        
-        ```bash
-        source ~/.bashrc
-        ```
-        
+   ```bash
+   source ~/.bashrc
+   ```
+
+
+## 3. S3 Sink Connector 설치
+
+1. 권한 변경
+   #### **lab2-7-1**
+   ```bash
+   sudo chown ubuntu:ubuntu /confluent-hub/plugins
+   ```
+
+2. Confluent Hub로 S3 Sink Connector 설치
+   #### **lab2-7-2**
+   ```bash
+   confluent-hub install confluentinc/kafka-connect-s3:latest --component-dir /confluent-hub/plugins --worker-configs /home/ubuntu/kafka/config/connect-standalone.properties
+   ```
+
+3. AWS CLI 설치 및 설정 (Kakao Cloud Object Storage S3 API 연동용)
+   #### **lab2-8-1**
+      - AWS CLI 2.22.0 다운로드
+   ```bash
+   cd /home/ubuntu
+   curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64-2.22.0.zip" -o "awscliv2.zip"
+   ```
+   
+   #### **lab2-8-2**
+      - 압축 해제
+   ```bash
+   unzip /home/ubuntu/awscliv2.zip
+   ```
+
+   #### **lab2-8-3**
+      - AWS CLI 설치
+   ```bash
+   sudo /home/ubuntu/aws/install
+   ```
+   
+   #### **lab2-8-4**
+      - AWS CLI 버전 확인
+   ```bash
+   aws --version
+   ```
 
 ---
 
-## 2. S3 Sink Connector 설치
-
-### 2-1. 권한 변경
-
-```bash
-sudo chown ubuntu:ubuntu /confluent-hub/plugins
-```
-
-### 2-2. Confluent Hub로 S3 Sink Connector 설치
-
-```bash
-confluent-hub install confluentinc/kafka-connect-s3:latest --component-dir /confluent-hub/plugins --worker-configs /home/ubuntu/kafka/config/connect-standalone.properties
-```
-
-- `-component-dir`: 플러그인이 설치될 위치를 지정
-- `-worker-configs`: 현재 사용 중인 커넥트 설정 파일 위치를 지정(단, 기본 파일이 없으면 무시될 수도 있음)
-
-설치 후 `/confluent-hub/plugins` 내부에 S3 Sink Connector 관련 폴더가 생성된다.
-
----
-
-## 3. AWS CLI 설치 및 설정 (Kakao Cloud Object Storage S3 API 연동용)
-
-### 3-1. AWS CLI 2.22.0 다운로드
-
-```bash
-cd /home/ubuntu
-curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64-2.22.0.zip" -o "awscliv2.zip"
-```
-
-### 3-2. 압축 해제
-
-```bash
-unzip /home/ubuntu/awscliv2.zip
-```
-
-### 3-3. AWS CLI 설치
-
-```bash
-sudo /home/ubuntu/aws/install
-```
-
-### 3-4. AWS CLI 버전 확인
-
-```bash
-aws --version
-```
 
 ### 3-5. AWS CLI 구성
 
