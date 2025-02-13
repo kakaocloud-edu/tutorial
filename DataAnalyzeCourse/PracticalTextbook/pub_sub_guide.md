@@ -148,22 +148,24 @@ A. 웹 API로 메시지 확인
 ## 5. NGINX 로그를 Object Storage에 적재
 
 1. Traffic-Generator-VM1에서 트래픽 로그 생성
-    #### **lab2-4-1**
+    #### **lab2-5-1**
     ```bash
     python3 traffic_generator.py
     ```
     
-2. 실행 완료 후, 생성된 로그 확인
-    #### **lab2-4-2**
+2. 실행 완료 후, 생성된 로그 확인(Traffic-Generator-VM1)
+    #### **lab2-5-2**
+       - cat 명령어로 로그 파일 내용 출력
     ```bash
     cat traffic_generator.log
     ```
 
 1. API Public ip를 이용하여 접속 후 로그 생성
+   - web에 이 주소로 접속하여 웹페이지 내용 클릭하여 로그 생성
    ```bash
    http://{alb public ip}
    ```
-   - web에 위 주소로 접속하여 웹페이지 내용 클릭하여 로그 생성
+   
 
 ## 6. Pub/Sub용 Object Storage 콘솔 확인
     
