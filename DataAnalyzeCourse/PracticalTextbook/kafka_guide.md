@@ -351,7 +351,7 @@ sudo apt install -y python3 python3-pip openjdk-21-jdk unzip jq
         | “access” | S3_ACCESS_KEY |
         | “secret” | S3_SECRET_ACCESS_KEY |
     
-    ### [****](https://docs.kakaocloud.com/service/bss/object-storage/api/bss-api-os-s3#response-elements)
+    ### (https://docs.kakaocloud.com/service/bss/object-storage/api/bss-api-os-s3#response-elements)
     
 5. ~/.bashrc에 자격 증명 추가
     #### **lab2-6-5**
