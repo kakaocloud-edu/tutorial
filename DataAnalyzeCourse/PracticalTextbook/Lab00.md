@@ -86,9 +86,6 @@
     - Data Query의 쿼리 결과 저장용 버킷
         - 이름: `data-query-result`
         - 암호화: `미사용`
-    - Spark, Hive 처리 결과에 대한 저장용 버킷
-        - 이름: `hive-result`
-        - 암호화: `미사용`
 3. 생성 버튼 클릭
 4. Object Storage 버킷 생성 확인
 
