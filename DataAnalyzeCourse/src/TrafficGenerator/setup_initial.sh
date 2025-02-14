@@ -37,7 +37,7 @@ export MAX_CHANNEL_COUNT=10
 export IS_EXPORT_ENABLED=true
 export LOG_FILENAME="traffic_generator.log"
 export LOG_LEVEL="INFO"
-export NUM_USERS=20
+export NUM_USERS=5
 export MAX_THREADS=5
 export ACTIONS_PER_USER=30
 
