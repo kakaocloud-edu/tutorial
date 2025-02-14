@@ -420,14 +420,23 @@
    ```
    
 11. 테이블에 파티션 추가
+    - **Note**: 사용하는 모든 테이블의 파티션을 추가해줘야함!!
     #### **lab3-1-5**
     ```
     ALTER TABLE {테이블 이름}
-    ADD PARTITION (partition='0')
-    LOCATION 's3a://kafka-nginx-log/topics/nginx-topic/partition=0';
+    ADD PARTITION (partition_key='0')
+    LOCATION 's3a://{Object Storage 경로}';
+    ```
+    
+
+    - 예시
+    ```
+    ALTER TABLE alb_data
+    ADD PARTITION (partition_key='0')
+    LOCATION 's3a://alb-logs/KCLogs/kr-central-2/2025'
     ```
    
-12. 테이블 파이션 키 삭제
+13. 테이블 파이션 키 삭제
     #### **lab3-1-6**
     ```
     ALTER TABLE part_test_lsh DROP PARTITION (partition_key='{특정값(5)');
