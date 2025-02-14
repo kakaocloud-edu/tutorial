@@ -33,15 +33,15 @@
 ## 3. 테이블 생성
 1. 카카오 클라우드 콘솔 > 전체 서비스 > Object Storage > 테이블
 2. `테이블 생성` 클릭
-
+- **kafka_data** 테이블
    - 데이터 베이스
       - 데이터 베이스: `dc_database`
    - 테이블 이름
       - 이름: `kafka_data`
    - 테이블 저장 경로
-      - S3 연결: `미체크`
+      - S3 연결: `체크`
       - 버킷 이름: `kafka-nginx-log`(카프카와 연동된 버킷)
-      - 디렉터리: `topics/nginx-topic` // 임의 테스트(kafka 와 연동된 경로)
+      - 디렉터리: `topics/nginx-topic` // 임의 테스트(kafka와 연동된 경로)
    - 데이터 유형
       - 데이터 유형: `JSON`
    - Pub/Sub 연동
@@ -58,22 +58,43 @@
          - ---
     
          - `파티션 키`: 미사용
-         - 필드 이름: `status`
+         - 필드 이름: `status`, `endpoint`, `request`, `query_params`, `http_referer`
          - 데이터 유형: `string`
          - ---
-         - `파티션 키`: 미사용
-         - 필드 이름: `endpoint`
-         - 데이터 유형: `string`
-         - ---
-         - `파티션 키`: 미사용
-         - 필드 이름: `request`
-         - 데이터 유형: `string`
-         - ---
-         - `파티션 키`: 미사용
-         - 필드 이름: `query_params`
-         - 데이터 유형: `string`
-3. 생성 버튼 클릭
 
+       
+3. `생성` 버튼 클릭
+
+
+5.  `테이블 생성` 클릭
+- **alb_data** 테이블
+   - 데이터 베이스
+      - 데이터 베이스: `dc_database`
+   - 테이블 이름
+      - 이름: `kafka_data`
+   - 테이블 저장 경로
+      - S3 연결: `체크`
+      - 버킷 이름: `alb-logs`(ALB로그와 연동된 버킷)
+      - 디렉터리: `KCLogs/kr-central-2/2025` // 임의 테스트(ALB로그 버킷과 연동된 경로)
+   - 데이터 유형
+      - 데이터 유형: `JSON`
+   - Pub/Sub 연동
+      - Pub/Sub 연동: `미사용`
+   - 설명(선택): `없음`
+   - 스키마
+      - `필드추가` 클릭
+      - 필드 정보
+      - `파티션 키`: 사용
+          - 필드 이름: `partition_key`
+          - 데이터 유형: `string`
+          - ---
+    
+          - `파티션 키`: 미사용
+          - 필드 이름: `project_id`, `time`, `client_port`, `target_port`, `target_status_code`, `request`, `request_creation_time`
+          - 데이터 유형: `string`
+          - ---
+  
+6. `생성` 버튼 클릭
 
 ---
 ## 4. 메시지 확인 실습
