@@ -8,7 +8,7 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 통한 메시�
 
 1. traffic-generator-2에서 VM2로 디렉터리 이동
     
-    ### **lab1-2-1**
+    #### **lab1-2-1**
     
     ```bash
     cd /home/ubuntu/syu-DataAnalyze/TrafficGenerator/REST_API/VM2
@@ -17,7 +17,7 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 통한 메시�
 - 이후 단계를 진행하기 위해 작업 디렉터리를 변경
 1. NGINX 로그 적재용 토픽 생성
     
-    ### **lab1-2-2**
+    #### **lab1-2-2**
     
     ```bash
     python3 create_topic.py
@@ -27,7 +27,7 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 통한 메시�
 3. `log-topic` 토픽 생성 확인
 4. Object Storage용 서브스크립션 생성
     
-    ### **lab1-2-3**
+    #### **lab1-2-3**
     
     ```bash
     python3 create_subscription.py
@@ -42,7 +42,7 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 통한 메시�
 
 1. traffic-generator-1에서 아래 명령을 실행하여 VM1 디렉터리로 이동
     
-    ### **lab1-3-1**
+    #### **lab1-3-1**
     
     ```bash
     cd /home/ubuntu/syu-DataAnalyze/TrafficGenerator/REST_API/VM1
@@ -52,7 +52,7 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 통한 메시�
 2. traffic-generator-1에서 `test-topic`으로 메시지 전송
     - 터미널 CLI를 통한 메시지 전송 스크립트 실행
     
-    ### **lab1-3-2**
+    #### **lab1-3-2**
     
     ```bash
     python3 pub_sub_send.py
@@ -62,7 +62,7 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 통한 메시�
 3. test-topic의 `pull-subscription` 메시지를 traffic-generator-2에서 수신
     - 터미널 CLI를 통한 메시지 수신 스크립트 실행
     
-    ### **lab1-3-3**
+    #### **lab1-3-3**
     
     ```bash
     python3 restapi_pull_sub.py
@@ -88,7 +88,7 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 통한 메시�
 1. traffic-generator-1에서 Pub/Sub으로 메시지 전송
     - Go SDK 실습용 디렉터리로 이동
         
-        ### **lab1-4-1-1**
+        #### **lab1-4-1-1**
         
         ```bash
         cd /home/ubuntu/gosdk/cmd
@@ -96,7 +96,7 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 통한 메시�
         
     - Publisher 실행 파일 생성
         
-        ### **lab1-4-1-2**
+        #### **lab1-4-1-2**
         
         ```bash
         go build -o publisher config.go publisher.go
@@ -104,7 +104,7 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 통한 메시�
         
     - Publisher 실행 파일을 이용해 `test-topic`으로 메시지 송신
         
-        ### **lab1-4-1-3**
+        #### **lab1-4-1-3**
         
         ```bash
         ./publisher
@@ -113,7 +113,7 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 통한 메시�
 2. test-topic의 `pull-subscription` 메시지를 traffic-generator-2에서 수신
     - Go SDK 실습용 디렉터리로 이동
         
-        ### **lab1-4-2-1**
+        #### **lab1-4-2-1**
         
         ```bash
         cd /home/ubuntu/gosdk/cmd
@@ -121,7 +121,7 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 통한 메시�
         
     - Subscriber 실행 파일 생성
         
-        ### **lab1-4-2-2**
+        #### **lab1-4-2-2**
         
         ```bash
         go build -o subscriber config.go subscriber.go
@@ -130,7 +130,7 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 통한 메시�
         
     - Subscriber 실행 파일을 이용해 `pull-subscription` 메시지 수신
         
-        ### **lab1-4-2-3**
+        #### **lab1-4-2-3**
         
         ```bash
         ./subscriber
@@ -143,7 +143,7 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 통한 메시�
 
 1. traffic-generator-1에서 트래픽 로그 생성
     
-    ### **lab1-5-1**
+    #### **lab1-5-1**
     
     ```bash
     python3 /home/ubuntu/syu-DataAnalyze/TrafficGenerator/REST_API/VM1/traffic_generator.py
@@ -152,7 +152,7 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 통한 메시�
     - 트래픽 로그가 자동으로 생성되어 NGINX 로그에 반영됨
 2. 실행 완료 후, 생성된 로그 확인
     
-    ### **lab1-5-2**
+    #### **lab1-5-2**
     
     ```bash
     cat /home/ubuntu/syu-DataAnalyze/TrafficGenerator/REST_API/VM1/traffic_generator.log
