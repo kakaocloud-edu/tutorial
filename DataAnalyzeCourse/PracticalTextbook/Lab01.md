@@ -12,7 +12,7 @@
    cd /home/ubuntu/syu-DataAnalyze/TrafficGenerator/REST_API/VM2
    ```
 
-2. Traffic-Generator-VM2에서 토픽 생성
+2. traffic-generator-2에서 토픽 생성
    #### **lab1-2-2**
        - nginx 로그 적재용 토픽 생성
    ```bash
@@ -21,7 +21,7 @@
     - 카카오클라우드 콘솔 > Analytics > Pub/Sub > 토픽 메뉴 클릭
     - `log-topic` 토픽 생성 확인
       
-3. Traffic-Generator-VM2에서 서브스크립션 생성
+3. traffic-generator-2에서 서브스크립션 생성
    #### **lab1-2-3**
        - object storage로 쌓는 서브스크립션 생성
    ```bash
@@ -33,25 +33,25 @@
 
 ## 2. Python을 활용한 Pub/Sub 실습
 
-1. Traffic-Generator-VM1에서 실행하여 VM1로 디렉터리 이동
+1. traffic-generator-1에서 실행하여 VM1로 디렉터리 이동
    #### **lab1-3-1**
    ```bash
    cd /home/ubuntu/syu-DataAnalyze/TrafficGenerator/REST_API/VM1
    ```
 
-2. Traffic-Generator-VM1에서 pub/sub으로 메세지 전송
+2. traffic-generator-1에서 pub/sub으로 메세지 전송
    #### **lab1-3-2**
    ```bash
    python3 pub_sub_send.py
    ```
-    - Traffic-Generator-VM1 터미널 창에 전송하고 싶은 메세지 입력 후 키보드의 `Enter`, `Ctrl+D` 키를 눌러 메세지 송신
+    - traffic-generator-1 터미널 창에 전송하고 싶은 메세지 입력 후 키보드의 `Enter`, `Ctrl+D` 키를 눌러 메세지 송신
 
-3. Traffic-Generator-VM2에서 pub/sub의 pull-subscription으로 수신
+3. traffic-generator-2에서 pub/sub의 pull-subscription으로 수신
     #### **lab1-3-3**
     ```bash
     python3 restapi_pull_sub.py
     ```
-    - Traffic-Generator-VM2 터미널에서 Traffic-Generator-VM1에서 입력한 메세지 수신 확인
+    - traffic-generator-2 터미널에서 traffic-generator-1에서 입력한 메세지 수신 확인
 
 
 A. 웹 API로 메시지 확인
@@ -67,7 +67,7 @@ A. 웹 API로 메시지 확인
     
 
 ## 3. Go SDK 메세지 송수신 테스트
-1. Traffic-Generator-VM1에서 pub/sub으로 메세지 전송
+1. traffic-generator-1에서 pub/sub으로 메세지 전송
     #### **lab1-4-1-1**
        - Go SDK 디렉터리로 이동
     ```bash
@@ -85,7 +85,7 @@ A. 웹 API로 메시지 확인
     ./publisher
     ```
 
- 4. Traffic-Generator-VM2에서 pub/sub의 pull-subscription으로 수신
+ 4. traffic-generator-2에서 pub/sub의 pull-subscription으로 수신
     #### **lab1-4-2-1**
     - Go SDK 디렉터리로 이동
     ```bash
@@ -107,13 +107,13 @@ A. 웹 API로 메시지 확인
 
 ## 4. NGINX 로그를 Object Storage에 적재
 
-1. Traffic-Generator-VM1에서 트래픽 로그 생성
+1. traffic-generator-1에서 트래픽 로그 생성
     #### **lab1-5-1**
     ```bash
     python3 traffic_generator.py
     ```
     
-2. 실행 완료 후, 생성된 로그 확인(Traffic-Generator-VM1)
+2. 실행 완료 후, 생성된 로그 확인(traffic-generator-1)
     #### **lab1-5-2**
    - cat 명령어로 로그 파일 내용 출력
     ```bash
