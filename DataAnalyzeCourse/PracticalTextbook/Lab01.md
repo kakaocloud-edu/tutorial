@@ -1,6 +1,6 @@
 # Pub/Sub 가이드
 
-Pub/Sub을 활용하여 메시지를 송수신하고, REST API 및 Go SDK를 사용해 메시지를 처리하며, NGINX 로그를 Object Storage에 적재하는 과정을 다룹니다. 이를 통해 실시간 데이터 스트리밍과 로그 수집 및 저장을 자동화하는 방법을 실습합니다.
+Pub/Sub을 활용하여 메시지를 송수신하고, REST API 및 Go SDK를 사용해 메시지를 처리하며, NGINX 로그를 Object Storage에 적재하는 실습입니다. 이를 통해 실시간 데이터 스트리밍과 로그 수집 및 저장을 자동화하는 방법을 학습합니다.
 ---
 
 ## 1. Topic 및 Subscription 생성
