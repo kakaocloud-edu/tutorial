@@ -227,7 +227,40 @@
         - 사용자 스크립트: [`api_dev.sh`](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/ApiServer/api_dev.sh)의 쌍따옴표(“”) 사이에 자신의 리소스 값 입력
 
 4. 생성 버튼 클릭
-5. `api-server-1`, `api-server-2` 상태 Actice 확인 후 `Public IP 연결`
+5. `api-server-1`, `api-server-2` 상태 Actice 확인 후 각 인스턴스의 우측 메뉴바 > `Public IP 연결` 클릭
+    - `새로운 퍼블릭 IP를 생성하고 자동으로 할당`
+6. 확인 버튼 클릭
+7. `api-server-1`, `api-server-2` 각 인스턴스의 우측 메뉴바 > `SSH 연결` 클릭
+   - SSH 접속 명령어 복사
+   - 터미널 열기
+   - keypair를 다운받아놓은 폴더로 이동
+   - 터미널에 명령어 붙여넣기
+   - yes 입력
+    #### **lab0-7-7-1**
+   ```bash
+   cd {keypair.pem 다운로드 위치}
+   ```
+   - 리눅스의 경우에 아래와 같이 키페어의 권한을 조정
+   #### **lab0-7-7-2**
+   ```bash
+   chmod 400 keypair.pem
+   ```
+   #### **lab0-7-7-3**
+   ```bash
+   ssh -i keypair.pem ubuntu@{api-server-1, 2의 public ip주소}
+   ```
+   - **Note**: {api-server-1, 2의 public ip주소} 부분을 복사한 IP 주소로 교체하세요.
+   #### **lab0-7-7-4**
+   ```bash
+   yes
+   ```
+   - **Note**: 윈도우에서 ssh 접근이 안될 경우에 cmd 창에서 keypair.pem가 있는 경로로 이동 후 아래 명령어 입력
+   #### **lab0-7-7-5**
+   ```bash
+   icacls.exe keypair.pem /reset
+   icacls.exe keypair.pem /grant:r %username%:(R)
+   icacls.exe keypair.pem /inheritance:r
+   ```
 
 
 ## 8. Traffic Generator VM 생성
@@ -264,8 +297,46 @@
     - 고급 설정
         - 사용자 스크립트: [`setup_initial.sh`](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/TrafficGenerator/setup_initial.sh)의 쌍따옴표(“”) 사이에 자신의 리소스 값 입력
 3. 생성 버튼 클릭
-4. `traffic-generator-1`, `traffic-generator-2` 상태 Actice 확인 후 `Public IP 연결`
+4. `traffic-generator-1`, `traffic-generator-2` 상태 Actice 확인 후 각 인스턴스의 우측 메뉴바 > `Public IP 연결` 클릭
+    - `새로운 퍼블릭 IP를 생성하고 자동으로 할당`
+5. 확인 버튼 클릭
+6. `traffic-generator-1`, `traffic-generator-2` 각 인스턴스의 우측 메뉴바 > `SSH 연결` 클릭
+   - SSH 접속 명령어 복사
+   - 터미널 열기
+   - keypair를 다운받아놓은 폴더로 이동
+   - 터미널에 명령어 붙여넣기
+   - yes 입력
+    #### **lab0-8-6-1**
+   ```bash
+   cd {keypair.pem 다운로드 위치}
+   ```
+   - 리눅스의 경우에 아래와 같이 키페어의 권한을 조정
+   #### **lab0-8-6-2**
+   ```bash
+   chmod 400 keypair.pem
+   ```
+   #### **lab0-8-6-3**
+   ```bash
+   ssh -i keypair.pem ubuntu@{traffic-generator-1, 2의 public ip주소}
+   ```
+   - **Note**: {traffic-generator-1, 2의 public ip주소} 부분을 복사한 IP 주소로 교체하세요.
+   #### **lab0-8-6-4**
+   ```bash
+   yes
+   ```
+   - **Note**: 윈도우에서 ssh 접근이 안될 경우에 cmd 창에서 keypair.pem가 있는 경로로 이동 후 아래 명령어 입력
+   #### **lab0-8-6-5**
+   ```bash
+   icacls.exe keypair.pem /reset
+   icacls.exe keypair.pem /grant:r %username%:(R)
+   icacls.exe keypair.pem /inheritance:r
+   ```
 
+7. 디렉토리 내부 파일 생성 여부 확인
+   #### **lab1-1-2**
+   ```bash
+   ls -l
+   ```
 
 
 ## 9. 로드 밸런서 대상 그룹 생성
@@ -287,7 +358,7 @@
         - `api-server-1`, `api-server-2` 선택
         - 포트: `80`
         - 대상 추가 버튼 클릭
-    -다음 버튼 클릭
+    - 다음 버튼 클릭
 3. 생성 버튼 클릭
 4. 대상 그룹 프로비저닝 상태: Active, 운영 상태: Online 확인
 
