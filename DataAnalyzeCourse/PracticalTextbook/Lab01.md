@@ -28,7 +28,7 @@ Pub/Sub을 활용하여 메시지 송수신, 트래픽 로그 생성, REST API �
    python3 create_subscription.py
    ```
     - 카카오클라우드 콘솔 > Analytics > Pub/Sub > 서브스크립션 메뉴 클릭
-    - `objectstoragesubscription` 서브스크립션 생성 확인
+    - `obj-subscription` 서브스크립션 생성 확인
   
 
 ## 2. REST API를 활용한 메시지 송수신
@@ -103,7 +103,7 @@ Pub/Sub을 활용하여 메시지 송수신, 트래픽 로그 생성, REST API �
     ```bash
     ./subscriber
     ```
-    - 확인: VM1에서 입력한 메시지가 VM2에서 정상적으로 수신되는지 확인합니다.
+    - **Note**: traffic-generator-1에서 입력한 메시지가 traffic-generator-2에서 정상적으로 수신되는지 확인
 
 
 ## 4. Object Storage에 NGINX 로그 적재
@@ -129,5 +129,5 @@ Pub/Sub을 활용하여 메시지 송수신, 트래픽 로그 생성, REST API �
 4. 콘솔에서 `pubsub-nginx-log` 버킷에 쌓인 NGINX 로그 확인
    - 카카오 클라우드 콘솔 > 전체 서비스 > Beyond Storage Service > Object Storage
    - `pubsub-nginx-log` 버킷 클릭
-   - 실습 당일 년/월/일 디렉터리로 이동하여 .log 파일 생성 확인
+   - 실습 당일 년/월/일 디렉터리로 이동하여 log 파일 생성 확인
 ---
