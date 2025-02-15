@@ -103,8 +103,7 @@ Pub/Sub을 활용하여 메시지 송수신, 트래픽 로그 생성, REST API �
     ```bash
     ./subscriber
     ```
-    - **Note**: traffic-generator-1에서 입력한 메시지가 traffic-generator-2에서 정상적으로 수신되는지 확인
-
+    
 
 ## 4. Object Storage에 NGINX 로그 적재
 
