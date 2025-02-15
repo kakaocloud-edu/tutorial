@@ -85,8 +85,8 @@ Pub/Sub을 활용하여 메시지 송수신, 트래픽 로그 생성, REST API �
     ```
 
  2. test-topic의 pull-subscription의 메세지를 traffic-generator-2에서 수신
-    #### **lab1-4-2-1**
     - Go SDK 메세지 송수신 실습용 디렉터리로 이동
+    #### **lab1-4-2-1**
     ```bash
     cd /home/ubuntu/gosdk/cmd
     ```
