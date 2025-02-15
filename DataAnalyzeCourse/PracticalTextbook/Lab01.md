@@ -2,49 +2,9 @@
 # Pub/Sub 가이드
 
 이 가이드는 Pub/Sub 기능을 활용한 메시지 송수신, 트래픽 로그 생성하고 NGINX 로그를 Object Storage에 적재하는 실습입니다.
-
-
-## 1. 기본 환경 설정
-1. Traffic Generator VM 1,2 접속
-    - Traffic Generator VM 1, 2에 public IP를 통해 연결
-   #### **lab1-1-1**
-   - 각 VM에 SSH로 접속
-   ```bash
-   ssh -i {keypair}.pem ubuntu@{vm public ip}
-   ```
-   
-2. 디렉토리 내부 파일 생성 여부 확인
-   #### **lab1-1-2**
-   ```bash
-   ls -l
-   ```
-
----
-- **파일 생성이 안 되었을 시 아래 명령어 실행**
-  - **Traffic-Generator-VM1,2 모두 실행**
-  ```bash
-  wget -nc -P /home/ubuntu/syu-DataAnalyze/TrafficGenerator/REST_API \
-    https://github.com/kakaocloud-edu/tutorial/raw/refs/heads/main/DataAnalyzeCourse/src/TrafficGenerator/REST_API/config.py
-  ```
-
-  - **Traffic-Generator-VM1에서 실행**
-  ```bash
-  wget -nc -P /home/ubuntu/syu-DataAnalyze/TrafficGenerator/REST_API/VM1 \
-    https://github.com/kakaocloud-edu/tutorial/raw/refs/heads/main/DataAnalyzeCourse/src/TrafficGenerator/REST_API/VM1/pub_sub_send.py \
-    https://github.com/kakaocloud-edu/tutorial/raw/refs/heads/main/DataAnalyzeCourse/src/TrafficGenerator/REST_API/VM1/traffic_generator.py
-  ```
-
-  - **Traffic-Generator-VM2에서 실행**
-  ```bash
-  wget -nc -P /home/ubuntu/syu-DataAnalyze/TrafficGenerator/REST_API/VM2 \
-    https://github.com/kakaocloud-edu/tutorial/raw/refs/heads/main/DataAnalyzeCourse/src/TrafficGenerator/REST_API/VM2/create_subscription.py \
-    https://github.com/kakaocloud-edu/tutorial/raw/refs/heads/main/DataAnalyzeCourse/src/TrafficGenerator/REST_API/VM2/create_topic.py \
-    https://github.com/kakaocloud-edu/tutorial/raw/refs/heads/main/DataAnalyzeCourse/src/TrafficGenerator/REST_API/VM2/restapi_pull_sub.py
-  ```
 ---
 
-
-## 2. Topic 및 Subscription 생성
+## 1. Topic 및 Subscription 생성
 
 1. Traffic-Generator-VM2에서 실행하여 VM2로 디렉토리 이동
    #### **lab1-2-1**
@@ -71,7 +31,7 @@
     - `objectstoragesubscription` 서브스크립션 생성 확인
   
 
-## 3. Python을 활용한 Pub/Sub 실습
+## 2. Python을 활용한 Pub/Sub 실습
 
 1. Traffic-Generator-VM1에서 실행하여 VM1로 디렉토리 이동
    #### **lab1-3-1**
@@ -106,7 +66,7 @@ A. 웹 API로 메시지 확인
         - Note: Traceback 메시지가 뜨는 것은 정상
     
 
-## 4. Go SDK 메세지 송수신 테스트
+## 3. Go SDK 메세지 송수신 테스트
 1. Traffic-Generator-VM1에서 pub/sub으로 메세지 전송
     #### **lab1-4-1-1**
        - Go SDK 디렉토리로 이동
@@ -145,7 +105,7 @@ A. 웹 API로 메시지 확인
     - 확인: VM1에서 입력한 메시지가 VM2에서 정상적으로 수신되는지 확인합니다.
 
 
-## 5. NGINX 로그를 Object Storage에 적재
+## 4. NGINX 로그를 Object Storage에 적재
 
 1. Traffic-Generator-VM1에서 트래픽 로그 생성
     #### **lab1-5-1**
@@ -167,7 +127,7 @@ A. 웹 API로 메시지 확인
    ```
    
 
-## 6. Pub/Sub용 Object Storage 콘솔 확인
+## 5. Pub/Sub용 Object Storage 콘솔 확인
     
 1. NGINX 로그가 Object Storage에 정상적으로 쌓이는지 Pub/Sub용 Object Storage 콘솔을 통해 확인
 2. 카카오 클라우드 콘솔 > 전체 서비스 > Beyond Storage Service > Object Storage
