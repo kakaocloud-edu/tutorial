@@ -6,7 +6,7 @@
 
 ## 1. Topic 및 Subscription 생성
 
-1. Traffic-Generator-VM2에서 실행하여 VM2로 디렉토리 이동
+1. traffic-generator-2에서 아래 명령을 실행하여 VM2로 디렉터리 이동
    #### **lab1-2-1**
    ```bash
    cd /home/ubuntu/syu-DataAnalyze/TrafficGenerator/REST_API/VM2
@@ -33,7 +33,7 @@
 
 ## 2. Python을 활용한 Pub/Sub 실습
 
-1. Traffic-Generator-VM1에서 실행하여 VM1로 디렉토리 이동
+1. Traffic-Generator-VM1에서 실행하여 VM1로 디렉터리 이동
    #### **lab1-3-1**
    ```bash
    cd /home/ubuntu/syu-DataAnalyze/TrafficGenerator/REST_API/VM1
@@ -69,7 +69,7 @@ A. 웹 API로 메시지 확인
 ## 3. Go SDK 메세지 송수신 테스트
 1. Traffic-Generator-VM1에서 pub/sub으로 메세지 전송
     #### **lab1-4-1-1**
-       - Go SDK 디렉토리로 이동
+       - Go SDK 디렉터리로 이동
     ```bash
     cd /home/ubuntu/gosdk/cmd
     ```
@@ -87,7 +87,7 @@ A. 웹 API로 메시지 확인
 
  4. Traffic-Generator-VM2에서 pub/sub의 pull-subscription으로 수신
     #### **lab1-4-2-1**
-    - Go SDK 디렉토리로 이동
+    - Go SDK 디렉터리로 이동
     ```bash
     cd /home/ubuntu/gosdk/cmd
     ```
