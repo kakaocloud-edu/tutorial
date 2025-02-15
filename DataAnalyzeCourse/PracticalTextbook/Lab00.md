@@ -249,7 +249,7 @@
    ```bash
    ssh -i keypair.pem ubuntu@{api-server-1, 2의 public ip주소}
    ```
-   - **Note**: {api-server-1, 2의 public ip주소} 부분을 복사한 IP 주소로 교체하세요.
+   - **Note**: {api-server-1, 2의 public ip 주소} 부분을 복사한 각 IP 주소로 교체하세요.
    #### **lab0-7-7-4**
    ```bash
    yes
@@ -319,7 +319,7 @@
    ```bash
    ssh -i keypair.pem ubuntu@{traffic-generator-1, 2의 public ip주소}
    ```
-   - **Note**: {traffic-generator-1, 2의 public ip주소} 부분을 복사한 IP 주소로 교체하세요.
+   - **Note**: {traffic-generator-1, 2의 public ip주소} 부분을 복사한 각 IP 주소로 교체하세요.
    #### **lab0-8-6-4**
    ```bash
    yes
