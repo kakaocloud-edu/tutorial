@@ -86,22 +86,22 @@ Pub/Sub을 활용하여 메시지 송수신, 트래픽 로그 생성, REST API �
 
  2. test-topic의 pull-subscription의 메세지를 traffic-generator-2에서 수신
     - Go SDK 메세지 송수신 실습용 디렉터리로 이동
-    #### **lab1-4-2-1**
-    ```bash
-    cd /home/ubuntu/gosdk/cmd
-    ```
+      #### **lab1-4-2-1**
+      ```bash
+      cd /home/ubuntu/gosdk/cmd
+      ```
 
    - subscriber 실행 파일 생성
-    #### **lab1-4-2-2**
-    ```bash
-    go build -o subscriber config.go subscriber.go
-    ```
+      #### **lab1-4-2-2**
+      ```bash
+      go build -o subscriber config.go subscriber.go
+      ```
 
    - subscriber 실행 파일을 실행하여 pull-subscription의 메세지 수신
-    #### **lab1-4-2-3**
-    ```bash
-    ./subscriber
-    ```
+      #### **lab1-4-2-3**
+      ```bash
+      ./subscriber
+      ```
     
 
 ## 4. Object Storage에 NGINX 로그 적재
