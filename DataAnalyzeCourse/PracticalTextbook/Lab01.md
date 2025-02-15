@@ -1,7 +1,8 @@
 
 # Pub/Sub 가이드
 
-이 가이드는 Pub/Sub 기능을 활용한 메시지 송수신, 트래픽 로그 생성하고 NGINX 로그를 Object Storage에 적재하는 실습입니다.
+Pub/Sub을 활용하여 메시지 송수신, 트래픽 로그 생성, REST API 실습, Go SDK 실습, 그리고 NGINX 로그를 Object Storage에 적재합니다.
+
 ---
 
 ## 1. Topic 및 Subscription 생성
@@ -12,9 +13,8 @@
    cd /home/ubuntu/syu-DataAnalyze/TrafficGenerator/REST_API/VM2
    ```
 
-2. traffic-generator-2에서 토픽 생성
+2. NGINX 로그 적재용 토픽 생성
    #### **lab1-2-2**
-       - nginx 로그 적재용 토픽 생성
    ```bash
    python3 create_topic.py
    ```
