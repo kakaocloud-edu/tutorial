@@ -23,7 +23,6 @@ Pub/Sub을 활용하여 메시지 송수신, 트래픽 로그 생성, REST API �
       
 3. object storage 유형 서브스크립션 생성
    #### **lab1-2-3**
-       - 
    ```bash
    python3 create_subscription.py
    ```
