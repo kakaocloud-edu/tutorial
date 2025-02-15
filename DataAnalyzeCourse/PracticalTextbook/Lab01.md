@@ -19,17 +19,17 @@ Pub/Sub을 활용하여 메시지 송수신, 트래픽 로그 생성, REST API �
    ```bash
    python3 create_topic.py
    ```
-   - 카카오클라우드 콘솔 > Analytics > Pub/Sub > 토픽 메뉴 클릭
-   - `log-topic` 토픽 생성 확인
+3. 카카오클라우드 콘솔 > Analytics > Pub/Sub > 토픽 메뉴 클릭
+4. `log-topic` 토픽 생성 확인
       
-3. object storage 유형 서브스크립션 생성
+5. object storage 유형 서브스크립션 생성
    
    #### **lab1-2-3**
    ```bash
    python3 create_subscription.py
    ```
-   - 카카오클라우드 콘솔 > Analytics > Pub/Sub > 서브스크립션 메뉴 클릭
-   - `obj-subscription` 서브스크립션 생성 확인
+6. 카카오클라우드 콘솔 > Analytics > Pub/Sub > 서브스크립션 메뉴 클릭
+7. `obj-subscription` 서브스크립션 생성 확인
   
 
 ## 2. REST API를 활용한 메시지 송수신
@@ -42,6 +42,7 @@ Pub/Sub을 활용하여 메시지 송수신, 트래픽 로그 생성, REST API �
    ```
 
 2. traffic-generator-1에서 test-topic으로 메시지 전송
+   - test-topic으로 메시지를 전송하는 CLI 프로그램 실행
    
    #### **lab1-3-2**
    ```bash
@@ -50,6 +51,7 @@ Pub/Sub을 활용하여 메시지 송수신, 트래픽 로그 생성, REST API �
    - traffic-generator-1 터미널 창에 전송하고 싶은 메시지 입력 후 키보드의 `Enter`, `Ctrl+D` 키를 눌러 메시지 송신
 
 3. test-topic의 pull-subscription의 메시지를 traffic-generator-2에서 수신
+   - pull-subscription의 메시지를 수신하는 CLI 프로그램 실행
    
    #### **lab1-3-3**
    ```bash
