@@ -109,7 +109,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     --topic consol-topic --group consumer-group-earliest --from-beginning
     ```
     
-    - *latest* 설정
+    - latest 설정
     
     ### lab2-2-1-5
     
