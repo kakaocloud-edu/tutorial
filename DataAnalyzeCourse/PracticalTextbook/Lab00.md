@@ -21,23 +21,27 @@
 3. 만들기 버튼 클릭
 4. VPC 생성 확인
 
+## 2. Object Storage 생성
+1. 카카오 클라우드 콘솔 > 전체 서비스 > Object Storage
+2. 버킷 생성 버튼 클릭
 
-## 2. 로드 밸런서(ALB) 생성
-
-1. 카카오 클라우드 콘솔 > 전체 서비스 > Load Balancing > 로드 밸런서
-2. 로드 밸런서 생성 버튼 클릭
-
-    - 유형 선택: `Application Load Balancer`
-    - 기본 정보
-        - 로드 밸런서 이름: `api-lb`
-        - 로드 밸런서 설명: `없음`
-    - 네트워크
-        - VPC: `kc-vpc`
-        - 서브넷: `kr-central-2-a의 Public 서브넷`
-    - 리스너
-        - 프로토콜: `HTTP`, 포트: `80`
+    - ALB Accesslog용 버킷
+        - 이름: `alb-log`
+        - 암호화: `미사용`
+    - Nginx 로그 수집용 버킷 (`Pub/Sub` 연동)
+        - 이름: `pubsub-nginx-log`
+        - 암호화: `미사용`
+    - Nginx 로그 수집용 버킷 (`kafka` 연동)
+        - 이름: `kafka-nginx-log`
+        - 암호화: `미사용`
+    - Data Query의 쿼리 결과 저장용 버킷
+        - 이름: `data-query-result`
+        - 암호화: `미사용`
+    - Data Catalog 경로
+        - 이름: `data-catalog`
+        - 암호화: `미사용`
 3. 생성 버튼 클릭
-4. 로드 밸런서 프로비저닝 상태: Active, 운영 상태: Online 확인 후 `Public IP 연결`
+4. Object Storage 버킷 생성 확인
 
 
 ## 3. MySQL 생성
@@ -70,24 +74,30 @@
 4. MySQL 인스턴스 생성 확인
 
 
-## 4. Object Storage 생성
-1. 카카오 클라우드 콘솔 > 전체 서비스 > Object Storage
-2. 버킷 생성 버튼 클릭
+## 4. 로드 밸런서(ALB) 생성
 
-    - LB Accesslog용 버킷
-        - 이름: `lb-accesslog`
-        - 암호화: `미사용`
-    - Nginx 로그 수집용 버킷 (`Pub/Sub` 연동)
-        - 이름: `pubsub-nginx-log`
-        - 암호화: `미사용`
-    - Nginx 로그 수집용 버킷 (`kafka` 연동)
-        - 이름: `kafka-nginx-log`
-        - 암호화: `미사용`
-    - Data Query의 쿼리 결과 저장용 버킷
-        - 이름: `data-query-result`
-        - 암호화: `미사용`
+1. 카카오 클라우드 콘솔 > 전체 서비스 > Load Balancing > 로드 밸런서
+2. 로드 밸런서 생성 버튼 클릭
+
+    - 유형 선택: `Application Load Balancer`
+    - 기본 정보
+        - 로드 밸런서 이름: `api-lb`
+        - 로드 밸런서 설명: `없음`
+    - 네트워크
+        - VPC: `kc-vpc`
+        - 서브넷: `kr-central-2-a의 Public 서브넷`
+    - 리스너
+        - 프로토콜: `HTTP`, 포트: `80`
 3. 생성 버튼 클릭
-4. Object Storage 버킷 생성 확인
+4. 로드 밸런서 프로비저닝 상태: Active, 운영 상태: Online 확인 후 `Public IP 연결`
+5. `액세스 로그 설정` 클릭
+   - 액세스 로그: `사용`
+   - 버킷: `alb-log`
+     - `키 페어 생성` 버튼 클릭
+        - 생성 방법: `신규 키 페어 생성하기`
+        - 이름: `keypair`
+   - 액세스 키: `액세스 키`
+   - 보안 액세스 키: `보안 엑세스 키`
 
 
 ## 5. Pub/Sub 토픽/서브스크립션 생성
@@ -197,9 +207,7 @@
     - 인스턴스유형: `m2a.xlarge`
     - 볼륨: `30GB`
     - 키 페어
-        - `키 페어 생성` 버튼 클릭
-        - 생성 방법: `신규 키 페어 생성하기`
-        - 이름: `keypair`
+        - `생성된 키페어` 클릭
     - 네트워크
         - VPC: `kc-vpc`
         - 보안 그룹
