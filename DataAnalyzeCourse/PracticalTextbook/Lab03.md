@@ -416,21 +416,18 @@
    </property>
    ```
    
-
 9. Hive 실행
-
    #### **lab3-1-3**
    ```
    hive
    ```
 
 10. 사용할 데이터 베이스 선택
-
    #### **lab3-1-4** 
    ```
    use {database 이름};
    ```
-   
+
 11. 테이블에 파티션 추가
 
     - **Note**: 사용하는 모든 테이블의 파티션을 추가해줘야함!!
@@ -442,7 +439,6 @@
     LOCATION 's3a://{Object Storage 경로}';
     ```
     
-
     - 예시
     ```
     ALTER TABLE alb_data
@@ -450,7 +446,7 @@
     LOCATION 's3a://alb-logs/KCLogs/kr-central-2/2025'
     ```
    
-13. 테이블 파이션 키 삭제
+12. 테이블 파이션 키 삭제
     #### **lab3-1-6**
     ```
     ALTER TABLE part_test_lsh DROP PARTITION (partition_key='{특정값(5)');
