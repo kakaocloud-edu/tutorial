@@ -4,11 +4,9 @@
 1. 카카오 클라우드 콘솔 > 전체 서비스 > Object Storage > 카탈로그
 2. `카탈로그 생성` 클릭
 
-   - 이름
-      - 카탈로그 이름: `data_catalog`
-   - vpc
+   - 이름: `data_catalog`
+   - VPC 설정
       - VPC: `kc-vpc`
-   - 서브넷
       - 서브넷: `kr-central-2-a의 Public 서브넷`
 
 3. `생성` 클릭
@@ -19,10 +17,8 @@
    
 - **Note**: 연결할 Object Storage 버킷의 권한 - 접근 - 퍼블릭 액세스 허용 필요
 
-   - 카탈로그
-      - 카탈로그: `data_catalog`
-   - 이름
-      - 이름: `dc_database`
+   - 카탈로그: `data_catalog`
+   - 이름: `dc_database`
    - 경로
       - S3 연결: `체크`
       - 버킷 이름: `kafka-nginx-log`(카프카와 연동된 버킷)
@@ -34,18 +30,14 @@
 1. 카카오 클라우드 콘솔 > 전체 서비스 > Object Storage > 테이블
 2. `테이블 생성` 클릭
 - **kafka_data** 테이블
-   - 데이터 베이스
-      - 데이터 베이스: `dc_database`
-   - 테이블 이름
-      - 이름: `kafka_data`
+   - 데이터 베이스: `dc_database`
+   - 테이블 이름: `kafka_data`
    - 테이블 저장 경로
       - S3 연결: `체크`
       - 버킷 이름: `kafka-nginx-log`(카프카와 연동된 버킷)
       - 디렉터리: `topics/nginx-topic` // 임의 테스트(kafka와 연동된 경로)
-   - 데이터 유형
-      - 데이터 유형: `JSON`
-   - Pub/Sub 연동
-      - Pub/Sub 연동: `사용`
+   - 데이터 유형: `JSON`
+   - Pub/Sub 연동: `사용`
       - 토픽 선택: `data-catalog-topic`
    - 설명(선택): `없음`
    - 스키마
