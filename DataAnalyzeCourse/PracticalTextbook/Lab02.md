@@ -229,7 +229,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     - 고급 설정
         - 아래 코드 입력
         
-        ### **lab2-4-2**
+        #### **lab2-4-2**
         
         ```
         #!/bin/bash
@@ -253,7 +253,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     - 터미널에 명령어 붙여넣기
     - yes 입력
     
-    ### **lab2-4-6-1**
+    #### **lab2-4-6-1**
     
     ```bash
     cd {keypair.pem 다운로드 위치}
@@ -261,13 +261,13 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     
     - 리눅스의 경우에 아래와 같이 키페어의 권한을 조정
     
-    ### **lab2-4-6-2**
+    #### **lab2-4-6-2**
     
     ```bash
     chmod 400 keypair.pem
     ```
     
-    ### **lab2-4-6-3**
+    #### **lab2-4-6-3**
     
     ```bash
     ssh -i keypair.pem ubuntu@{kafka-connector의 public ip주소}
@@ -275,7 +275,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     
     - **Note**: {kafka-connector의 public ip주소} 부분을 복사한 각 IP 주소로 교체하세요.
     
-    ### **lab2-4-6-4**
+    #### **lab2-4-6-4**
     
     ```bash
     yes
@@ -283,7 +283,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     
     - **Note**: 윈도우에서 ssh 접근이 안될 경우에 cmd 창에서 keypair.pem가 있는 경로로 이동 후 아래 명령어 입력
     
-    ### **lab2-4-6-5**
+    #### **lab2-4-6-5**
     
     ```bash
     icacls.exe keypair.pem /reset
