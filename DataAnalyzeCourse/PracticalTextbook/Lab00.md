@@ -123,7 +123,7 @@
     - 카카오 클라우드 콘솔 > 전체 서비스 > Pub/Sub > 서브스크립션
     - 서브스크립션 생성 버튼 클릭
         - 기본 설정
-            - 이름: `test-pull`
+            - 이름: `test-pull-sub`
             - 토픽 선택: `test-topic`
         - 유형: `Pull`
         - 서브스크립션 메시지 보존 기간: `10분`
@@ -134,7 +134,7 @@
 3. test-topic의 push-subscription
     - 서브스크립션 생성 버튼 클릭
         - 기본 설정
-            - 이름: `test-top-push-sub`
+            - 이름: `test-push-sub`
             - 토픽 선택: `test-topic`
         - 유형: `Push`
             - 엔드포인트: `http://`, `{ALB Public IP}`, `push-subscription`
@@ -187,7 +187,7 @@
                 - 프로토콜: `ALL`, 출발지: `0.0.0.0/0`, 포트 번호: `ALL`
             - `생성` 버튼 클릭
     - 브로커 구성 설정
-        - 지정된 가용 영역 수: `0`
+        - 지정된 가용 영역 수: `1`
         - 브로커 수: `2`
         - 볼륨 유형/크기: `SSD`/`50`
         - 최대 IOPS: `3000`
