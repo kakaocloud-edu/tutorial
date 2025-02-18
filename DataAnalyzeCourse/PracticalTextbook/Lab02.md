@@ -321,16 +321,9 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
 3. .bashrc에 Confluent, Java Home 등 환경 변수 등록
     
     ### lab2-5-3-1
-    
+   
     ```bash
-    vi /home/ubuntu/.bashrc
-    ```
-    
-    - 아래 내용 추가
-    
-    ### lab2-5-3-2
-    
-    ```bash
+    cat <<'EOF' >> /home/ubuntu/.bashrc
     # Confluent 설정
     export CONFLUENT_HOME='/confluent-hub'
     export PATH="$PATH:$CONFLUENT_HOME/bin"
@@ -338,6 +331,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     # Java 설정
     export JAVA_HOME='/usr/lib/jvm/java-21-openjdk-amd64'
     export PATH="$JAVA_HOME/bin:$PATH"
+    EOF
     ```
     
     ### lab2-5-3-3
@@ -346,7 +340,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     source /home/ubuntu/.bashrc
     ```
     
-4. API 인증 토큰 발급
+5. API 인증 토큰 발급
     
     ### lab2-5-4
     
@@ -370,7 +364,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     
     - {액세스 키 ID}: 현재 프로젝트의 액세스 키 ID
     - {보안 액세스 키}: 현재 프로젝트의 보안 액세스 키
-5. 발급받은 인증 토큰 환경 변수 등록
+6. 발급받은 인증 토큰 환경 변수 등록
     
     ### lab2-5-5
     
@@ -378,7 +372,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     echo "export API_TOKEN=${API_TOKEN}" >> ~/.bashrc
     ```
     
-6. 발급된 토큰 확인
+7. 발급된 토큰 확인
     
     ### lab2-5-6
     
@@ -386,7 +380,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     echo $API_TOKEN
     ```
     
-7. 임시 자격 증명 발급
+8. 임시 자격 증명 발급
     - 사용자 고유 ID, 프로젝트 ID 확인 후 아래 명령어 실행
     
     ### lab2-5-7
@@ -400,7 +394,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     }')
     ```
     
-8. 임시 자격 증명의 S3_ACCESS_KEY, S3_SECRET_ACCESS_KEY 등록
+9. 임시 자격 증명의 S3_ACCESS_KEY, S3_SECRET_ACCESS_KEY 등록
     
     ### lab2-5-8-1
     
@@ -426,7 +420,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     source ~/.bashrc
     ```
     
-9. Confluent Hub Plugins 폴더 권한 변경
+10. Confluent Hub Plugins 폴더 권한 변경
     
     ### lab2-5-9
     
@@ -434,7 +428,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     sudo chown ubuntu:ubuntu /confluent-hub/plugins
     ```
     
-10. S3 Sink Connector 설치
+11. S3 Sink Connector 설치
     
     ### lab2-5-10
     
@@ -444,7 +438,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     --worker-configs /home/ubuntu/kafka/config/connect-standalone.properties
     ```
     
-11. AWS CLI 설치
+12. AWS CLI 설치
     - Object Storage S3 API 연동 위해 AWS CLI 2.22.0 다운로드 및 설치
     
     ### lab2-5-11-1
@@ -474,7 +468,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     aws --version
     ```
     
-12. AWS CLI 환경 설정
+13. AWS CLI 환경 설정
     
     ### lab2-5-12
     
@@ -486,7 +480,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     - AWS Secret Access Key: lab2-5-7의 응답에서 확인한 `secret` 값
     - Default region name: `kr-central-2`
     - Default output format: (생략)
-13. 버킷에 쓰기 권한 부여
+14. 버킷에 쓰기 권한 부여
     
     ### lab2-5-13
     
