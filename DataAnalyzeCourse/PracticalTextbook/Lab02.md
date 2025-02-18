@@ -337,7 +337,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     ### lab2-5-3-3
     
     ```bash
-    source /home/ubuntu/.bashrc
+    source ~/.bashrc
     ```
     
 5. API 인증 토큰 발급
@@ -399,16 +399,10 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     ### lab2-5-8-1
     
     ```bash
-    vi ~/.bashrc
-    ```
-    
-    - 아래 내용 추가
-    
-    ### lab2-5-8-2
-    
-    ```bash
+    cat <<'EOF' >> ~/.bashrc
     export AWS_ACCESS_KEY_ID="{S3_ACCESS_KEY}"
     export AWS_SECRET_ACCESS_KEY="{S3_SECRET_ACCESS_KEY}"
+    EOF
     ```
     
     - {S3_ACCESS_KEY}: lab2-5-7의 응답에서 확인한 `access` 값
