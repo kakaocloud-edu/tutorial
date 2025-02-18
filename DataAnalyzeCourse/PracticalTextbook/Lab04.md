@@ -9,7 +9,7 @@
    - 역할 추가
       - 서비스 계정: `{프로젝트 이름}@data-query.kc.serviceaccount.com`
       - 역할: `스토리지 편집자`
-
+3. `kafka-nginx-log`, `alb_data` 버킷도 동일하게 권한 설정 진행
 
 ## 2. 데이터 원본 생성
 1. 카카오 클라우드 콘솔 > 전체 서비스 > Data Query > 데이터 원본 관리
