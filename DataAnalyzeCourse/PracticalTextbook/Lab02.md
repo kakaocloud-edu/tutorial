@@ -334,7 +334,6 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     #### lab2-5-2
     
     ```bash
-    cd /
     sudo mkdir -p /confluent-hub/plugins && \
     cd /confluent-hub && \
     sudo curl -LO http://client.hub.confluent.io/confluent-hub-client-latest.tar.gz && \
