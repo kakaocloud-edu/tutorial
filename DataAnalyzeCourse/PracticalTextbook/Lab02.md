@@ -47,7 +47,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     source ~/.bashrc
     ```
     
-4. python3, pip3 및 kafka-python 라이브러리를 설치하여 Python 환경 준비
+4. kafka-python 라이브러리 설치
     
     ### lab2-1-4
     
