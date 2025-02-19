@@ -569,6 +569,9 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     # 커스텀 파티셔너 클래스 지정
     partitioner.class=com.mycompany.connect.FlexibleTimeBasedPartitioner
 
+    # 최상위 디렉터리명 변경
+    topics.dir=nginx-log
+    
     # Time-based 필수 설정
     # partition.duration.ms: 파티션 구간(밀리초). 예: 1시간 = 3600000ms
     partition.duration.ms=3600000
