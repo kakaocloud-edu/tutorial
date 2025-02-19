@@ -204,24 +204,24 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 통한 메시�
     cd /home/ubuntu/syu-DataAnalyze/TrafficGenerator/REST_API/VM1
     
     ```
-1. traffic-generator-1에서 트래픽 로그 생성
+2. traffic-generator-1에서 트래픽 로그 생성
     
-    #### **lab1-5-1**
+    #### **lab1-5-2**
     
     ```bash
     python3 traffic_generator.py
     ```
     
     - 트래픽 로그가 자동으로 생성되어 NGINX 로그에 반영됨
-2. 실행 완료 후, 생성된 로그 확인
+3. 실행 완료 후, 생성된 로그 확인
     
-    #### **lab1-5-2**
+    #### **lab1-5-3**
     
     ```bash
     cat traffic_generator.log
     ```
     
-3. ALB Public IP로 접속하여 로그 생성
+4. ALB Public IP로 접속하여 로그 생성
     - 웹 브라우저 주소창에 아래 URL 입력
         
         ```
