@@ -108,64 +108,9 @@
             - **Note**: 사용자 액세스 키 만들기 팝업창을 닫은 이후 사용자 액세스 보안 키 정보 다시 조회 불가
     - 입력할 보안 액세스 키: 위에서 생성한 `보안 엑세스 키` 입력
 
-## 5. Pub/Sub 토픽/서브스크립션 생성
 
-1. test-topic 생성
-    - 카카오 클라우드 콘솔 > 전체 서비스 > Pub/Sub > 토픽
-    - 토픽 생성 버튼 클릭
-        - 이름: `test-topic`
-        - 기본 서브스크립션: `생성 안함`
-        - 토픽 메세지 보존 기간: `0일 0시 10분`
-        - 설명: `없음`
-    - 생성 버튼 클릭
-    - `test-topic` 생성 확인
-2. test-topic의 pull-subscription 생성
-    - 카카오 클라우드 콘솔 > 전체 서비스 > Pub/Sub > 서브스크립션
-    - 서브스크립션 생성 버튼 클릭
-        - 기본 설정
-            - 이름: `test-pull-sub`
-            - 토픽 선택: `test-topic`
-        - 유형: `Pull`
-        - 서브스크립션 메시지 보존 기간: `10분`
-        - 응답 대기 시간: `20초`
-        - 재처리 횟수: `횟수 지정`, `3번`
-    - 생성 버튼 클릭
-    - `test-top-pull` 생성 확인
-3. test-topic의 push-subscription
-    - 서브스크립션 생성 버튼 클릭
-        - 기본 설정
-            - 이름: `test-push-sub`
-            - 토픽 선택: `test-topic`
-        - 유형: `Push`
-            - 엔드포인트: `http://`, `{ALB Public IP}/push-subscription`
-        - 서브스크립션 메시지 보존 기간: `1일`
-        - 응답 대기 시간: `20초`
-        - 재처리 횟수: `횟수 지정`, `3번`
-    - 생성 버튼 클릭
-    - `test-top-push-sub` 생성 확인
-4. data-catalog-topic 생성
-    - 카카오 클라우드 콘솔 > 전체 서비스 > Pub/Sub > 토픽
-    - 토픽 생성 버튼 클릭
-        - 이름: `data-catalog-topic`
-        - 기본 서브스크립션: `생성 안함`
-        - 토픽 메세지 보존 기간: `0일 0시 10분`
-        - 설명: `없음`
-    - 생성 버튼 클릭
-    - `data-catalog-topic` 생성 확인
-5. data-catalog-topic의 pull-subscription 생성
-    - 카카오 클라우드 콘솔 > 전체 서비스 > Pub/Sub > 서브스크립션
-    - 서브스크립션 생성 버튼 클릭
-        - 기본 설정
-            - 이름: `data-catalog-top-pull`
-            - 토픽 선택: `data-catalog-topic`
-        - 유형: `Pull`
-        - 서브스크립션 메시지 보존 기간: `1일`
-        - 응답 대기 시간: `20초`
-        - 재처리 횟수: `횟수 지정`, `3번`
-    - 생성 버튼 클릭
-    - `data-catalog-top-pull` 생성 확인
 
-## 6. Kafka Cluster 생성
+## 5. Kafka Cluster 생성
 
 1. 카카오 클라우드 콘솔 > 전체 서비스 > Advanced Managed Kafka
 2. 클러스터 생성 버튼 클릭
@@ -195,7 +140,7 @@
 4. `kafka` 생성 확인 후 클릭
 5. `부트스트랩 서버` 복사 후 클립보드 등에 붙여넣기
 
-## 7. API Server VM 생성
+## 6. API Server VM 생성
 
 1. 카카오 클라우드 콘솔 상단 중앙의 `프로젝트 ID` 복사 후 메모장에 붙여넣기
 2. 카카오 클라우드 콘솔 > 전체 서비스 > Virtual Machine > 인스턴스
@@ -274,7 +219,7 @@
     ```
     
 
-## 8. Traffic Generator VM 생성
+## 7. Traffic Generator VM 생성
 
 1. 카카오 클라우드 콘솔 > 전체 서비스 > Virtual Machine > 인스턴스
 2. 인스턴스 생성 버튼 클릭
@@ -358,7 +303,7 @@
     ```
     
 
-## 9. 로드 밸런서 대상 그룹 생성
+## 8. 로드 밸런서 대상 그룹 생성
 
 1. 카카오 클라우드 콘솔 > 전체 서비스 > Load Balancing > 대상 그룹
 2. 대상 그룹 생성 버튼 클릭
