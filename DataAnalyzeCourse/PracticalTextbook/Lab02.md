@@ -506,11 +506,19 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     ```bash
     sudo mkdir -p /opt/kafka/config && sudo chown -R ubuntu:ubuntu /opt/kafka
     ```
+
+2. 커스텀 파티셔너, 파일네임 플러그인을 Kafka Connect가 사용하는 플러그인 디렉터리 /confluent-hub/plugins/confluentinc-kafka-connect-s3/lib 에 다운로드
+
+    #### lab2-6-2
     
-2. S3 Sink Connector 설정 파일 생성
+    ```bash
+    wget -O /confluent-hub/plugins/confluentinc-kafka-connect-s3/lib/custom-partitioner-1.0-SNAPSHOT.jar "https://github.com/kakaocloud-edu/tutorial/raw/refs/heads/main/DataAnalyzeCourse/src/KafkaConnector/custom-partitioner-1.0-SNAPSHOT.jar" && wget -O /confluent-hub/plugins/confluentinc-kafka-connect-s3/lib/custom-filename-1.0-SNAPSHOT.jar "https://github.com/kakaocloud-edu/tutorial/raw/refs/heads/main/DataAnalyzeCourse/src/KafkaConnector/custom-filename-1.0-SNAPSHOT.jar"
+    ```
+    
+3. S3 Sink Connector 설정 파일 생성
     - `/opt/kafka/config/s3-sink-connector.properties` 파일 생성
     
-    #### lab2-6-2
+    #### lab2-6-3-1
     
     ```bash
     vi /opt/kafka/config/s3-sink-connector.properties
@@ -518,7 +526,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     
     - 아래 내용 추가
       - **Note**: `{버킷 이름}`, `{S3_ACCESS_KEY}`, `{S3_SECRET_ACCESS_KEY}` 수정 후 붙여넣기
-    #### lab2-6-2-2
+    #### lab2-6-3-2
     
     ```java
     # 커넥터 이름
@@ -578,16 +586,16 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     custom.topic.dir=CustomTopicDir
     ```
     
-3. Standalone Worker 설정
+4. Standalone Worker 설정
     - `/opt/kafka/config/worker.properties` 파일 생성
     
-    #### lab2-6-3-1
+    #### lab2-6-4-1
     
     ```bash
     vi /opt/kafka/config/worker.properties
     ```
     
-    #### lab2-6-3-2
+    #### lab2-6-4-2
     
     ```bash
     # 워커 기본 설정
@@ -612,7 +620,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
 5. kafka-connect 시스템 서비스 등록
     - `/etc/systemd/system/kafka-connect.service` 파일 생성
     
-    #### lab2-6-4-1
+    #### lab2-6-5-1
     
     ```bash
     sudo vi /etc/systemd/system/kafka-connect.service
@@ -620,7 +628,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     
     - 아래 내용 입력
     
-    #### lab2-6-4-2
+    #### lab2-6-5-2
     
     ```bash
     [Unit]
@@ -641,7 +649,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     
 6. 데몬 리로드 및 서비스 시작
     
-    #### lab2-6-5
+    #### lab2-6-6
     
     ```bash
     sudo systemctl daemon-reload
