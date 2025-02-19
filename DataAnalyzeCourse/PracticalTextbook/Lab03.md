@@ -22,7 +22,7 @@
    - 경로
       - S3 연결: `체크`
       - 버킷 이름: `kafka-nginx-log`(카프카와 연동된 버킷)
-      - 디렉터리: `topics/nginx-topic`// 현재 임의 설정, 아무 경로 상관 x (경로에`=` 못 넣음, partition을 경로에서 빼면 오류) 
+      - 디렉터리: `topics/nginx-topic`// 경로 수정할 부분
 3. `생성` 클릭
 
 
@@ -35,7 +35,7 @@
    - 테이블 저장 경로
       - S3 연결: `체크`
       - 버킷 이름: `kafka-nginx-log`(카프카와 연동된 버킷)
-      - 디렉터리: `topics/nginx-topic` // 임의 테스트(kafka와 연동된 경로)
+      - 디렉터리: `topics/nginx-topic` // 경로 수정할 부분
    - 데이터 유형: `JSON`
    - Pub/Sub 연동: `사용`
       - 토픽 선택: `data-catalog-topic`
