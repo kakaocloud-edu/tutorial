@@ -193,7 +193,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
         ```
     
 2. Logstash 설정 파일 수정
-    - `api-server-1, 2`에서 `/etc/logstash/logstash.yml` 열기
+    - `api-server-1`에서 `/etc/logstash/logstash.yml` 열기
     
         #### lab2-3-2
         
@@ -219,8 +219,9 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     bin/kafka-console-consumer.sh --bootstrap-server $KAFKA_BOOTSTRAP_SERVERS \
     --topic nginx-topic --from-beginning
     ```
-5. 웹 브라우저에서 {ALB의 public IP}로 접속 후 링크 클릭 등을 통해 임의로 트래픽 생성
-6. trarffic-generator-1의 터미널에서 로그 확인
+    
+5. 웹 브라우저 주소창에 `http://{ALB의 Public IP}`를 입력하여 접속 후 링크 클릭 등을 통해 임의로 트래픽 생성
+6. `trarffic-generator-1`의 터미널에서 NGINX 로그 확인
     
 
 # 4. Kafka Connector VM 생성
