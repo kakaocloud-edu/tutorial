@@ -51,39 +51,40 @@
    - https://fantasy-brand-461.notion.site/19adbb08775280979a70d7d671c03a1e?pvs=4
      
   
-4. 시간당 PV(페이지 뷰) count 쿼리
+3. 신규 사용자 수 (New Users)
    - 데이터 원본: `data_orign`
    - 데이터 베이스: `shopdb`
    #### **lab4-1-1**
    ```
-   SELECT
-    DATE_FORMAT(searched_at, '%Y-%m-%d %H:00:00') AS hour,
-    COUNT(*) AS pv_count
-   FROM
-       search_logs
-   GROUP BY
-       DATE_FORMAT(searched_at, '%Y-%m-%d %H:00:00')
-   ORDER BY
-     hour DESC;
+   SELECT 
+   	COUNT(DISTINCT user_id) AS new_users
+   FROM users_logs
+   WHERE event_type = 'CREATED'
+   AND event_time BETWEEN TIMESTAMP '2025-02-14 00:00:00'
+   	AND TIMESTAMP '2025-02-14 23:59:59';
    ```
-   ![image](https://github.com/user-attachments/assets/7cfcdc3b-dc3f-47b9-a400-9c7212846f96)
+   ![image.png](attachment:aa3bf6e9-af5a-42ce-9c74-658de18a8270:image.png)
 
-5. 세션 쿠키(session_id) 기반 방문자 수 추출
-   - 데이터 원본: `data_orign`
-   - 데이터 베이스: `shopdb`
+4. 인기 상품 클릭 수 (Product Clicks)
+   - 데이터 원본: `kafka_data`
+   - 데이터 베이스: `dc_database`
    #### **lab4-1-2**
     ```
-    SELECT
-        session_id,
-        COUNT(DISTINCT user_id) AS visitors_count
-    FROM
-        sessions
-    WHERE
-        login_time IS NOT NULL
-    GROUP BY
-        session_id
-    ORDER BY
-        visitors_count DESC;
+    SELECT 
+    pc.product_id,
+    p.name,
+    pc.click_count
+FROM (
+    SELECT 
+        regexp_extract(query_params, 'id=([0-9]+)', 1) AS product_id,
+        COUNT(*) AS click_count
+    FROM data_catalog.dc_database.kafka_data
+    WHERE endpoint = '/product'
+    GROUP BY regexp_extract(query_params, 'id=([0-9]+)', 1)
+) AS pc
+JOIN data_origin.shopdb.products AS p
+    ON pc.product_id = p.id
+ORDER BY pc.click_count DESC;
     ```
     ![image](https://github.com/user-attachments/assets/417766ba-bca4-4214-b31a-e1210b9caead)
 
