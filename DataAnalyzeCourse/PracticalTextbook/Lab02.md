@@ -5,7 +5,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
 ---
 
 ## 1. Kafka 기본 환경 설정
-- **Note**: `trarffic-generator-1, 2`에서 설치 진행
+- **Note**: `trarffic-generator-1, 2`에서 설치 진행  
 
 1. Java 설치
     
@@ -14,7 +14,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
         ```bash
         cd
         ```
-    
+
         #### lab2-1-1-2
         
         ```bash
@@ -23,7 +23,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
         java -version
         ```
     
-2. Kafka 바이너리 다운로드 및 설치
+3. Kafka 바이너리 다운로드 및 설치
     - /opt 디렉터리로 이동 후 압축 풀어서 kafka 폴더 구성
     
         #### lab2-1-2
@@ -33,7 +33,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
         ```
         - **Note**: 정지한 상태로 보일 수 있으나 명령어 실행 중이므로 약 10분정도 대기 필요
     
-3. ~/.bashrc에 환경 변수 및 부트스트랩 서버 주소를 설정하여 Kafka 실행에 필요한 경로와 정보 등록
+4. ~/.bashrc에 환경 변수 및 부트스트랩 서버 주소를 설정하여 Kafka 실행에 필요한 경로와 정보 등록
     
     #### lab2-1-3-1
     
@@ -52,7 +52,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     source ~/.bashrc
     ```
     
-4. kafka-python 라이브러리 설치
+5. kafka-python 라이브러리 설치
     
     #### lab2-1-4
     
@@ -61,7 +61,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     sudo pip3 install kafka-python
     ```
     
-5. Kafka 클러스터와 통신 확인
+6. Kafka 클러스터와 통신 확인
     
     #### lab2-1-5
     
