@@ -461,25 +461,12 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     #### lab2-5-11-1
     
     ```bash
-    cd /home/ubuntu
-    curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64-2.22.0.zip" -o "awscliv2.zip"
-    ```
-    
-    #### lab2-5-11-2
-    
-    ```bash
-    unzip /home/ubuntu/awscliv2.zip
-    ```
-    
-    #### lab2-5-11-3
-    
-    ```bash
-    sudo /home/ubuntu/aws/install
+    cd /home/ubuntu && curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64-2.22.0.zip" -o "awscliv2.zip" && unzip awscliv2.zip && sudo ./aws/install
     ```
     
     - AWS CLI 버전 확인
     
-    #### lab2-5-11-4
+    #### lab2-5-11-2
     
     ```bash
     aws --version
