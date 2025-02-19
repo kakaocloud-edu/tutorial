@@ -9,13 +9,13 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
 1. Java 설치
     - `trarffic-generator-1, 2`에서 설치 진행
     
-    ### lab2-1-1-1
+    #### lab2-1-1-1
     
     ```bash
     cd
     ```
     
-    ### lab2-1-1-2
+    #### lab2-1-1-2
     
     ```bash
     sudo apt update
@@ -26,7 +26,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
 2. Kafka 바이너리 다운로드 및 설치
     - /opt 디렉터리로 이동 후 압축 풀어서 kafka 폴더 구성
     
-    ### lab2-1-2
+    #### lab2-1-2
     
     ```bash
     cd /opt && sudo wget -qO- https://archive.apache.org/dist/kafka/3.7.1/kafka_2.13-3.7.1.tgz | sudo tar -xz && sudo mv kafka_2.13-3.7.1 kafka
@@ -35,7 +35,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     
 3. ~/.bashrc에 환경 변수 및 부트스트랩 서버 주소를 설정하여 Kafka 실행에 필요한 경로와 정보 등록
     
-    ### lab2-1-3-1
+    #### lab2-1-3-1
     
     ```bash
     cat << 'EOF' >> ~/.bashrc
@@ -46,7 +46,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     ```
     - {Kafka 부트스트랩 서버}: `kafka` 클러스터의 부트스트랩 서버 입력
 
-   ### lab2-1-3-2
+   #### lab2-1-3-2
     
     ```bash
     source ~/.bashrc
@@ -54,7 +54,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     
 4. kafka-python 라이브러리 설치
     
-    ### lab2-1-4
+    #### lab2-1-4
     
     ```bash
     sudo apt update
@@ -63,7 +63,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     
 5. Kafka 클러스터와 통신 확인
     
-    ### lab2-1-5
+    #### lab2-1-5
     
     ```bash
     nc -zv {Kafka 클러스터의 부트스트랩 서버}
@@ -80,7 +80,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
 1. 콘솔 스크립트로 메시지 송수신
     - `traffic-generator-1`에서 Kafka 디렉터리로 이동
     
-    ### lab2-2-1-1
+    #### lab2-2-1-1
     
     ```bash
     cd /opt/kafka
@@ -88,7 +88,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     
     - 새 토픽(`consol-topic`) 생성
     
-    ### lab2-2-1-2
+    #### lab2-2-1-2
     
     ```bash
     bin/kafka-topics.sh --bootstrap-server ${KAFKA_BOOTSTRAP_SERVERS} \
@@ -97,7 +97,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     
     - 콘솔 프로듀서 실행 후 송신할 메세지 입력 후 `Enter` 키 입력
     
-    ### lab2-2-1-3
+    #### lab2-2-1-3
     
     ```bash
     bin/kafka-console-producer.sh --broker-list ${KAFKA_BOOTSTRAP_SERVERS} --topic consol-topic
@@ -105,7 +105,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     
     - `traffic-generator-2`에서 Kafka 디렉터리로 이동
     
-    ### lab2-2-1-4
+    #### lab2-2-1-4
     
     ```bash
     cd /opt/kafka
@@ -113,7 +113,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     
     - Kafka 콘솔 컨슈머를 실행해 consumer-group-earliest 그룹으로 `consol-topic` 토픽의 메시지를 처음부터 수신
     
-    ### lab2-2-1-5
+    #### lab2-2-1-5
     
     ```bash
     bin/kafka-console-consumer.sh --bootstrap-server ${KAFKA_BOOTSTRAP_SERVERS} \
@@ -124,7 +124,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     - `traffic-generator-2` 터미널 창에서 `traffic-generator-1`에서 입력했던 메세지 수신 확인
     - `traffic-generator-2`에서 Kafka 콘솔 컨슈머 실행
    
-    ### lab2-2-1-6
+    #### lab2-2-1-6
     
     ```bash
     bin/kafka-console-consumer.sh --bootstrap-server ${KAFKA_BOOTSTRAP_SERVERS} \
@@ -137,7 +137,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     - `traffic-generator-1, 2`에서 `Ctrl`+`c` 키를 입력하여 종료
     - `consumer-group-latest`, `consumer-group-earliest` 컨슈머 그룹 목록 확인
     
-    ### lab2-2-1-7
+    #### lab2-2-1-7
     
     ```bash
     bin/kafka-consumer-groups.sh --bootstrap-server ${KAFKA_BOOTSTRAP_SERVERS} --list
@@ -146,7 +146,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
 1. Python 코드로 메시지 송수신
     - `traffic-generator-1`에서 새 토픽(python-topic) 생성
     
-    ### lab2-2-2-1
+    #### lab2-2-2-1
     
     ```bash
     bin/kafka-topics.sh --bootstrap-server ${KAFKA_BOOTSTRAP_SERVERS} \
@@ -155,7 +155,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     
     - `traffic-generator-1`에서 Python 프로듀서 코드 실행
     
-    ### lab2-2-2-2
+    #### lab2-2-2-2
     
     ```bash
     sudo wget -O producer.py \
@@ -166,7 +166,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     
     - `traffic-generator-2`에서 Python 컨슈머 코드 실행
     
-    ### lab2-2-2-3
+    #### lab2-2-2-3
     
     ```bash
     sudo wget -O consumer.py \
@@ -181,7 +181,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
 1. Nginx 로그 토픽 생성
     - `trarffic-generator-1`에서 nginx-topic 생성
     
-    ### lab2-3-1
+    #### lab2-3-1
     
     ```bash
     bin/kafka-topics.sh --bootstrap-server $KAFKA_BOOTSTRAP_SERVERS \
@@ -191,7 +191,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
 2. Logstash 설정 파일 수정
     - `api-server-1, 2`에서 `/etc/logstash/logstash.yml` 열기
     
-    ### lab2-3-2
+    #### lab2-3-2
     
     ```bash
     sudo vi /etc/logstash/logstash.yml
@@ -200,7 +200,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     - `path.config` 항목을 `logs-to-kafka.conf`로 변경 후 저장
 3. Logstash 재실행 및 상태 확인
     
-    ### lab2-3-3
+    #### lab2-3-3
     
     ```bash
     sudo systemctl restart logstash
@@ -209,7 +209,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     
 4. `trarffic-generator-1`에서 콘솔 컨슈머 실행
     
-    ### lab2-3-4
+    #### lab2-3-4
     
     ```bash
     bin/kafka-console-consumer.sh --bootstrap-server $KAFKA_BOOTSTRAP_SERVERS \
@@ -314,7 +314,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
 
 1. Kafka 다운로드 및 /home/ubuntu/kafka 경로에 배치
     
-    ### lab2-5-1
+    #### lab2-5-1
     
     ```bash
     curl -o /home/ubuntu/kafka_2.13-3.7.1.tgz \
@@ -326,7 +326,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     
 2. Confluent Hub Client 설치
     
-    ### lab2-5-2
+    #### lab2-5-2
     
     ```bash
     cd /
@@ -338,7 +338,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     
 3. .bashrc에 Confluent, Java Home 등 환경 변수 등록
     
-    ### lab2-5-3-1
+    #### lab2-5-3-1
    
     ```bash
     cat <<'EOF' >> /home/ubuntu/.bashrc
@@ -352,7 +352,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     EOF
     ```
     
-    ### lab2-5-3-3
+    #### lab2-5-3-3
     
     ```bash
     source ~/.bashrc
@@ -360,7 +360,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     
 5. API 인증 토큰 발급
     
-    ### lab2-5-4
+    #### lab2-5-4
     
     ```bash
     export API_TOKEN=$(curl -s -X POST -i https://iam.kakaocloud.com/identity/v3/auth/tokens \
@@ -384,7 +384,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     - {보안 액세스 키}: 현재 프로젝트의 보안 액세스 키
 6. 발급받은 인증 토큰 환경 변수 등록
     
-    ### lab2-5-5
+    #### lab2-5-5
     
     ```bash
     echo "export API_TOKEN=${API_TOKEN}" >> ~/.bashrc
@@ -392,7 +392,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     
 7. 발급된 토큰 확인
     
-    ### lab2-5-6
+    #### lab2-5-6
     
     ```bash
     echo $API_TOKEN
@@ -401,7 +401,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
 8. 임시 자격 증명 발급
     - 사용자 고유 ID, 프로젝트 ID 확인 후 아래 명령어 실행
     
-    ### lab2-5-7
+    #### lab2-5-7
     
     ```bash
     echo $(curl -s -X POST -i https://iam.kakaocloud.com/identity/v3/users/{사용자 고유 ID}/credentials/OS-EC2 \
@@ -414,7 +414,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     
 9. 임시 자격 증명의 S3_ACCESS_KEY, S3_SECRET_ACCESS_KEY 등록
     
-    ### lab2-5-8-1
+    #### lab2-5-8-1
     
     ```bash
     cat <<'EOF' >> ~/.bashrc
@@ -426,7 +426,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     - {S3_ACCESS_KEY}: lab2-5-7의 응답에서 확인한 `access` 값
     - {S3_SECRET_ACCESS_KEY}: lab2-5-7의 응답에서 확인한 `secret` 값
     
-    ### lab2-5-8-3
+    #### lab2-5-8-3
     
     ```bash
     source ~/.bashrc
@@ -434,7 +434,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     
 10. Confluent Hub Plugins 폴더 권한 변경
     
-    ### lab2-5-9
+    #### lab2-5-9
     
     ```bash
     sudo chown ubuntu:ubuntu /confluent-hub/plugins
@@ -442,7 +442,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     
 11. S3 Sink Connector 설치
     
-    ### lab2-5-10
+    #### lab2-5-10
     
     ```bash
     confluent-hub install confluentinc/kafka-connect-s3:latest \
@@ -453,20 +453,20 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
 12. AWS CLI 설치
     - Object Storage S3 API 연동 위해 AWS CLI 2.22.0 다운로드 및 설치
     
-    ### lab2-5-11-1
+    #### lab2-5-11-1
     
     ```bash
     cd /home/ubuntu
     curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64-2.22.0.zip" -o "awscliv2.zip"
     ```
     
-    ### lab2-5-11-2
+    #### lab2-5-11-2
     
     ```bash
     unzip /home/ubuntu/awscliv2.zip
     ```
     
-    ### lab2-5-11-3
+    #### lab2-5-11-3
     
     ```bash
     sudo /home/ubuntu/aws/install
@@ -474,7 +474,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     
     - AWS CLI 버전 확인
     
-    ### lab2-5-11-4
+    #### lab2-5-11-4
     
     ```bash
     aws --version
@@ -482,7 +482,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     
 13. AWS CLI 환경 설정
     
-    ### lab2-5-12
+    #### lab2-5-12
     
     ```bash
     aws configure
@@ -494,7 +494,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     - Default output format: (생략)
 14. 버킷에 쓰기 권한 부여
     
-    ### lab2-5-13
+    #### lab2-5-13
     
     ```bash
     aws s3api put-bucket-acl \
@@ -509,7 +509,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
 
 1. Kafka 설정 폴더 생성 및 권한 부여
     
-    ### lab2-6-1
+    #### lab2-6-1
     
     ```bash
     sudo mkdir -p /opt/kafka/config && sudo chown -R ubuntu:ubuntu /opt/kafka
@@ -518,7 +518,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
 2. S3 Sink Connector 설정 파일 생성
     - `/opt/kafka/config/s3-sink-connector.properties` 파일 생성
     
-    ### lab2-6-2
+    #### lab2-6-2
     
     ```bash
     vi /opt/kafka/config/s3-sink-connector.properties
@@ -526,7 +526,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     
     - 아래 내용 추가
       - **Note**: `{버킷 이름}`, `{S3_ACCESS_KEY}`, `{S3_SECRET_ACCESS_KEY}` 수정 후 붙여넣기
-    ### lab2-6-2-2
+    #### lab2-6-2-2
     
     ```java
     # 커넥터 이름
@@ -590,13 +590,13 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
 3. Standalone Worker 설정
     - `/opt/kafka/config/worker.properties` 파일 생성
     
-    ### lab2-6-3-1
+    #### lab2-6-3-1
     
     ```bash
     vi /opt/kafka/config/worker.properties
     ```
     
-    ### lab2-6-3-2
+    #### lab2-6-3-2
    - **Note**:`{Kafka 부트스트랩 서버}`: Kafka 클러스터의 부트스트랩 서버 값으로 변경
     
     ```bash
@@ -616,7 +616,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
 5. kafka-connect 시스템 서비스 등록
     - `/etc/systemd/system/kafka-connect.service` 파일 생성
     
-    ### lab2-6-4-1
+    #### lab2-6-4-1
     
     ```bash
     sudo vi /etc/systemd/system/kafka-connect.service
@@ -624,7 +624,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     
     - 아래 내용 입력
     
-    ### lab2-6-4-2
+    #### lab2-6-4-2
     
     ```bash
     [Unit]
@@ -645,7 +645,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     
 6. 데몬 리로드 및 서비스 시작
     
-    ### lab2-6-5
+    #### lab2-6-5
     
     ```bash
     sudo systemctl daemon-reload
