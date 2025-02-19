@@ -5,9 +5,9 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
 ---
 
 ## 1. Kafka 기본 환경 설정
+- **Note**: `trarffic-generator-1, 2`에서 설치 진행
 
 1. Java 설치
-    - `trarffic-generator-1, 2`에서 설치 진행
     
         #### lab2-1-1-1
         
@@ -146,34 +146,34 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
 1. Python 코드로 메시지 송수신
     - `traffic-generator-1`에서 새 토픽(python-topic) 생성
     
-    #### lab2-2-2-1
-    
-    ```bash
-    bin/kafka-topics.sh --bootstrap-server ${KAFKA_BOOTSTRAP_SERVERS} \
-    --create --topic python-topic --partitions 2 --replication-factor 2
-    ```
+        #### lab2-2-2-1
+        
+        ```bash
+        bin/kafka-topics.sh --bootstrap-server ${KAFKA_BOOTSTRAP_SERVERS} \
+        --create --topic python-topic --partitions 2 --replication-factor 2
+        ```
     
     - `traffic-generator-1`에서 Python 프로듀서 코드 실행
     
-    #### lab2-2-2-2
-    
-    ```bash
-    sudo wget -O producer.py \
-    "https://github.com/KOlizer/syu-DataAnalyze/raw/refs/heads/main/Kafka_Connect_VM/producer.py"
-    sudo chmod +x producer.py
-    sudo -E ./producer.py
-    ```
+        #### lab2-2-2-2
+        
+        ```bash
+        sudo wget -O producer.py \
+        "https://github.com/KOlizer/syu-DataAnalyze/raw/refs/heads/main/Kafka_Connect_VM/producer.py"
+        sudo chmod +x producer.py
+        sudo -E ./producer.py
+        ```
     
     - `traffic-generator-2`에서 Python 컨슈머 코드 실행
     
-    #### lab2-2-2-3
-    
-    ```bash
-    sudo wget -O consumer.py \
-    "https://github.com/KOlizer/syu-DataAnalyze/raw/refs/heads/main/Kafka_Connect_VM/consumer.py"
-    sudo chmod +x consumer.py
-    sudo -E ./consumer.py
-    ```
+        #### lab2-2-2-3
+        
+        ```bash
+        sudo wget -O consumer.py \
+        "https://github.com/KOlizer/syu-DataAnalyze/raw/refs/heads/main/Kafka_Connect_VM/consumer.py"
+        sudo chmod +x consumer.py
+        sudo -E ./consumer.py
+        ```
     
 
 # 3. Nginx 로그 수집 및 Kafka 전송
@@ -181,21 +181,21 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
 1. Nginx 로그 토픽 생성
     - `trarffic-generator-1`에서 nginx-topic 생성
     
-    #### lab2-3-1
-    
-    ```bash
-    bin/kafka-topics.sh --bootstrap-server $KAFKA_BOOTSTRAP_SERVERS \
-    --create --topic nginx-topic --partitions 2 --replication-factor 2
-    ```
+        #### lab2-3-1
+        
+        ```bash
+        bin/kafka-topics.sh --bootstrap-server $KAFKA_BOOTSTRAP_SERVERS \
+        --create --topic nginx-topic --partitions 2 --replication-factor 2
+        ```
     
 2. Logstash 설정 파일 수정
     - `api-server-1, 2`에서 `/etc/logstash/logstash.yml` 열기
     
-    #### lab2-3-2
-    
-    ```bash
-    sudo vi /etc/logstash/logstash.yml
-    ```
+        #### lab2-3-2
+        
+        ```bash
+        sudo vi /etc/logstash/logstash.yml
+        ```
     
     - `path.config` 항목을 `logs-to-kafka.conf`로 변경 후 저장
 3. Logstash 재실행 및 상태 확인
