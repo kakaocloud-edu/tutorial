@@ -86,7 +86,7 @@
       ON pc.product_id = p.id
    ORDER BY pc.click_count DESC;
    ```
-   ![인기 상품 클릭 수.png](attachment:f662b20c-f16c-4b7c-8033-b3257b757747:280985d4-0693-4c41-b513-52359c54fcdf.png)
+   ![Image](https://github.com/user-attachments/assets/0aec3dc0-a9ba-4a3b-b0ab-6a82c34e8aa0)
 
 5. 카테고리별 페이지뷰 수 (Page Views by Category)
    - 데이터 원본: `kafka_data`
@@ -101,6 +101,6 @@
    GROUP BY regexp_extract(query_params, 'name=([^&]+)', 1)
    ORDER BY pageview_count DESC;
    ```
-   ![image.png](attachment:d254cdee-1db8-4133-ba31-ce92ab056e38:image.png)
+   ![Image](https://github.com/user-attachments/assets/15df43b4-7c0f-4be3-bd97-299624e095b1)
 
 ---
