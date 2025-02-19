@@ -19,7 +19,7 @@
       - 설명(선택): `없음`
    - 상세 정보
       - 데이터 원본 유형: `MySQL`
-      - 인스턴스 그룹: `shopdb` (MySQL에서 생성한 DB)
+      - 인스턴스 그룹: `database` (MySQL에서 생성한 DB)
    - 연결 계정 정보
       - ID: `admin`
       - PW: `admin1234`
