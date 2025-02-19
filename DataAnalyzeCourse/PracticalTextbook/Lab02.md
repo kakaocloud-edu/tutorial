@@ -143,7 +143,8 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
         bin/kafka-consumer-groups.sh --bootstrap-server ${KAFKA_BOOTSTRAP_SERVERS} --list
         ```
     
-1. Python 코드로 메시지 송수신
+
+2. Python 코드로 메시지 송수신
     - `traffic-generator-1`에서 새 토픽(`python-topic`) 생성
     
         #### lab2-2-2-1
