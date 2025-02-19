@@ -34,12 +34,19 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     
 3. ~/.bashrc에 환경 변수 및 부트스트랩 서버 주소를 설정하여 Kafka 실행에 필요한 경로와 정보 등록
     
-    ### lab2-1-3
+    ### lab2-1-3-1
     
     ```bash
-    echo 'export KAFKA_HOME=/opt/kafka' >> ~/.bashrc
-    echo 'export PATH=$PATH:$KAFKA_HOME/bin' >> ~/.bashrc
-    echo export KAFKA_BOOTSTRAP_SERVERS="{Kafka 부트스트랩 서버}" >> ~/.bashrc
+    cat << 'EOF' >> ~/.bashrc
+    export KAFKA_HOME=/opt/kafka
+    export PATH=$PATH:$KAFKA_HOME/bin
+    export KAFKA_BOOTSTRAP_SERVERS="{Kafka 부트스트랩 서버}"
+    EOF
+    ```
+
+   ### lab2-1-3-2
+    
+    ```bash
     source ~/.bashrc
     ```
     
