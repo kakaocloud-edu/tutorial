@@ -43,6 +43,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     export KAFKA_BOOTSTRAP_SERVERS="{Kafka 부트스트랩 서버}"
     EOF
     ```
+    - {Kafka 부트스트랩 서버}: `kafka` 클러스터의 부트스트랩 서버 입력
 
    ### lab2-1-3-2
     
@@ -267,7 +268,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     ssh -i keypair.pem ubuntu@{kafka-connector의 public ip주소}
     ```
     
-    - **Note**: {kafka-connector의 public ip주소} 부분을 복사한 각 IP 주소로 교체하세요.
+    - {kafka-connector의 public ip주소}: 복사한 각 IP 주소 입력
     
     #### **lab2-4-6-4**
     
