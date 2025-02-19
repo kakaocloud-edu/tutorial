@@ -69,92 +69,38 @@
    - 데이터 원본: `kafka_data`
    - 데이터 베이스: `dc_database`
    #### **lab4-1-2**
-    ```
-    SELECT 
-    pc.product_id,
-    p.name,
-    pc.click_count
-FROM (
-    SELECT 
-        regexp_extract(query_params, 'id=([0-9]+)', 1) AS product_id,
-        COUNT(*) AS click_count
-    FROM data_catalog.dc_database.kafka_data
-    WHERE endpoint = '/product'
-    GROUP BY regexp_extract(query_params, 'id=([0-9]+)', 1)
-) AS pc
-JOIN data_origin.shopdb.products AS p
-    ON pc.product_id = p.id
-ORDER BY pc.click_count DESC;
-    ```
+   ```
+   SELECT 
+      pc.product_id,
+      p.name,
+      pc.click_count
+   FROM (
+      SELECT 
+         regexp_extract(query_params, 'id=([0-9]+)', 1) AS product_id,
+         COUNT(*) AS click_count
+      FROM data_catalog.dc_database.kafka_data
+      WHERE endpoint = '/product'
+      GROUP BY regexp_extract(query_params, 'id=([0-9]+)', 1)
+   ) AS pc
+   JOIN data_origin.shopdb.products AS p
+      ON pc.product_id = p.id
+   ORDER BY pc.click_count DESC;
+   ```
     ![image](https://github.com/user-attachments/assets/417766ba-bca4-4214-b31a-e1210b9caead)
 
-6. 상품 상세 페이지 접근 로그를 집계하여 인기 상품 상위 5개 추출
-   - 데이터 원본: `data_catalog`
+5. 카테고리별 페이지뷰 수 (Page Views by Category)
+   - 데이터 원본: `kafka_data`
+   - 데이터 베이스: `dc_database`
    #### **lab4-1-3**
    ```
-	 WITH parsed AS (
-	   SELECT 
-	     endpoint,
-	     query_params,
-	     CAST(status AS integer) AS status_int
-	   FROM db3_lsh.partition_test
-	   WHERE endpoint = '/search'
-	 ),
-	 extracted AS (
-	   SELECT 
-	     endpoint,
-	     -- query_params가 "query=Bluetooth"와 같은 형식일 때, 정규식을 통해 "Bluetooth"만 추출
-	     regexp_extract(query_params, 'query=([^&]+)', 1) AS search_term,
-	     status_int
-	   FROM parsed
-	 )
-	 SELECT 
-	   endpoint,
-	   search_term AS subcategory,
-	   COUNT(*) AS total;
-	
-	 FROM extracted
-	 GROUP BY endpoint, search_term
-	 ORDER BY total DESC
-	 LIMIT 5;
-    ```
+   SELECT
+      regexp_extract(query_params, 'name=([^&]+)', 1) AS category,
+      COUNT(*) AS pageview_count
+   FROM data_catalog.dc_database.kafka_data
+   WHERE endpoint = '/category'
+   GROUP BY regexp_extract(query_params, 'name=([^&]+)', 1)
+   ORDER BY pageview_count DESC;
+   ```
    ![image](https://github.com/user-attachments/assets/e3024c3d-bc9f-47a9-8437-9a168c7cc34b)
-
-7. HTTP status code별 count로 에러율 추출
-   - 데이터 원본: `data_catalog`
-   - subcategory는 제외한 상태
-   #### **lab4-1-4**
-    ```
-	WITH parsed AS (
-	  SELECT 
-	    endpoint,
-	    request,
-	    CAST(status AS integer) AS status_int
-	  FROM db3_lsh.partition_test
-	),
-	extracted AS (
-	  SELECT 
-	    endpoint,
-	    -- /search인 경우, request에서 ?query= 이후의 값을 추출하여 subcategory로 사용하고, 아니면 '-'로 처리
-	    CASE 
-	      WHEN endpoint = '/search'
-	      THEN regexp_extract(request, '^(?:GET|POST|PUT|DELETE)\\s+[^\\s\\?]+\\?query=([^\\s]+)', 1)
-	      ELSE '-' 
-	    END AS subcategory,
-	    status_int
-	  FROM parsed
-	)
-	SELECT 
-	  endpoint,
-	  subcategory,
-	  COUNT(*) AS total,
-	  SUM(CASE WHEN status_int >= 400 THEN 1 ELSE 0 END) AS error_count,
-	  ROUND(SUM(CASE WHEN status_int >= 400 THEN 1 ELSE 0 END) * 100.0 / COUNT(*), 2) AS error_rate_percentage
-	FROM extracted
-	GROUP BY endpoint, subcategory
-	ORDER BY endpoint;
-
-    ```
-    ![image](https://github.com/user-attachments/assets/c4594cd2-9572-44db-8634-c1e174d4a2d6)
 
 ---
