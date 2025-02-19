@@ -193,7 +193,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
         ```
     
 2. Logstash 설정 파일 수정
-    - `api-server-1`에서 `/etc/logstash/logstash.yml` 열기
+    - `api-server-1, 2`에서 `/etc/logstash/logstash.yml` 열기
     
         #### lab2-3-2
         
