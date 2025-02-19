@@ -50,7 +50,7 @@
          - ---
     
          - `파티션 키`: 미사용
-         - 필드 이름: `request`, `method`, `session_id`, `endpoint`, `http_referer`, `query_params`, `status`, `endpoint`, `timestamp`
+         - 필드 이름: `request`, `method`, `session_id`, `endpoint`, `http_referer`, `query_params`, `status`, `timestamp`
          - 데이터 유형: `string`
          - ---
 
