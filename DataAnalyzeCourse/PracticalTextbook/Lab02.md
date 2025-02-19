@@ -78,7 +78,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
 # 2. Kafka 메시지 송수신 확인
 
 1. 콘솔 스크립트로 메시지 송수신
-    - traffic-generator-1, 2에서 Kafka 디렉터리로 이동
+    - `traffic-generator-1`에서 Kafka 디렉터리로 이동
     
     ### lab2-2-1-1
     
@@ -95,7 +95,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     --create --topic consol-topic --partitions 2 --replication-factor 2
     ```
     
-    - `traffic-generator-1`에서 콘솔 프로듀서 실행 후 메시지 전송
+    - 콘솔 프로듀서 실행 후 송신할 메세지 입력 후 `Enter` 키 입력
     
     ### lab2-2-1-3
     
@@ -103,26 +103,47 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     bin/kafka-console-producer.sh --broker-list ${KAFKA_BOOTSTRAP_SERVERS} --topic consol-topic
     ```
     
-    - `traffic-generator-2`에서 콘솔 컨슈머 실행 후 메시지 수신
-        - earliest 설정
-        
-        ### lab2-2-1-4
-        
-        ```bash
-        bin/kafka-console-consumer.sh --bootstrap-server ${KAFKA_BOOTSTRAP_SERVERS} \
-        --topic consol-topic --group consumer-group-earliest --from-beginning
-        ```
-        
-        - latest 설정
-        
-        ### lab2-2-1-5
-        
-        ```bash
-        bin/kafka-console-consumer.sh --bootstrap-server ${KAFKA_BOOTSTRAP_SERVERS} \
-        --topic consol-topic --group consumer-group-latest
-        ```
+    - `traffic-generator-2`에서 Kafka 디렉터리로 이동
     
-2. Python 코드로 메시지 송수신
+    ### lab2-2-1-4
+    
+    ```bash
+    cd /opt/kafka
+    ```
+    
+    - Kafka 콘솔 컨슈머를 실행해 consumer-group-earliest 그룹으로 `consol-topic` 토픽의 메시지를 처음부터 수신
+    
+    ### lab2-2-1-5
+    
+    ```bash
+    bin/kafka-console-consumer.sh --bootstrap-server ${KAFKA_BOOTSTRAP_SERVERS} \
+        --topic consol-topic --group consumer-group-earliest \
+        --consumer-property auto.offset.reset=earliest
+    ```
+
+    - `traffic-generator-2` 터미널 창에서 `traffic-generator-1`에서 입력했던 메세지 수신 확인
+    - `traffic-generator-2`에서 Kafka 콘솔 컨슈머 실행
+   
+    ### lab2-2-1-6
+    
+    ```bash
+    bin/kafka-console-consumer.sh --bootstrap-server ${KAFKA_BOOTSTRAP_SERVERS} \
+        --topic consol-topic --group consumer-group-latest \
+        --consumer-property auto.offset.reset=latest
+    ```
+    
+    - `traffic-generator-1`에서 송신할 새로운 메세지 입력 후 `Enter` 키 입력
+    - `traffic-generator-2` 터미널 창에서 consumer-group-latest 그룹으로 `consol-topic` 토픽의 메시지를 콘솔 컨슈머를 실행한 이후 생성된 메시지부터 수신 확인
+    - `traffic-generator-1, 2`에서 `Ctrl`+`c` 키를 입력하여 종료
+    - `consumer-group-latest`, `consumer-group-earliest` 컨슈머 그룹 목록 확인
+    
+    ### lab2-2-1-7
+    
+    ```bash
+    bin/kafka-consumer-groups.sh --bootstrap-server ${KAFKA_BOOTSTRAP_SERVERS} --list
+    ```
+    
+1. Python 코드로 메시지 송수신
     - `traffic-generator-1`에서 새 토픽(python-topic) 생성
     
     ### lab2-2-2-1
