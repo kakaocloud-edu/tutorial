@@ -508,7 +508,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     ```
     
     - 아래 내용 추가
-    **Note**:`{버킷 이름}`, `{S3_ACCESS_KEY}`, `{S3_SECRET_ACCESS_KEY}` 수정 후 붙여넣기
+      - **Note**:`{버킷 이름}`, `{S3_ACCESS_KEY}`, `{S3_SECRET_ACCESS_KEY}` 수정 후 붙여넣기
     ### lab2-6-2-2
     
     ```java
@@ -580,6 +580,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     ```
     
     ### lab2-6-3-2
+       - **Note**:`{Kafka 부트스트랩 서버}`: Kafka 클러스터의 부트스트랩 서버 값으로 변경
     
     ```bash
     bootstrap.servers={Kafka 부트스트랩 서버}
@@ -595,9 +596,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     
     listeners=http://0.0.0.0:8083
     ```
-    
-    - `{Kafka 부트스트랩 서버}`: Kafka 클러스터의 부트스트랩 서버 값으로 변경
-4. kafka-connect 시스템 서비스 등록
+5. kafka-connect 시스템 서비스 등록
     - `/etc/systemd/system/kafka-connect.service` 파일 생성
     
     ### lab2-6-4-1
@@ -627,7 +626,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     WantedBy=multi-user.target
     ```
     
-5. 데몬 리로드 및 서비스 시작
+6. 데몬 리로드 및 서비스 시작
     
     ### lab2-6-5
     
@@ -639,6 +638,6 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     ```
     
     - 상태가 `active (running)`이면 정상
-6. Object Storage에서 결과 확인
+7. Object Storage에서 결과 확인
     - 카카오 클라우드 콘솔 > 전체 서비스 > Object Storage
     - `kafka-nginx-log` 버킷 내에 데이터가 적재되는지 확인
