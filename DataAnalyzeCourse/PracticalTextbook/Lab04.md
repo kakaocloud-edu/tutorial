@@ -63,7 +63,7 @@
    AND event_time BETWEEN TIMESTAMP '2025-02-14 00:00:00'
    	AND TIMESTAMP '2025-02-14 23:59:59';
    ```
-   ![총 요청수.png](attachment:0e9398ce-44bb-43ae-934e-39d6fa661f67:총_요청수.png)
+   ![총 요청수.png](https://github.com/user-attachments/assets/0e9398ce-44bb-43ae-934e-39d6fa661f67)
 
 4. 인기 상품 클릭 수 (Product Clicks)
    - 데이터 원본: `kafka_data`
