@@ -31,7 +31,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     ```bash
     cd /opt && sudo wget -qO- https://archive.apache.org/dist/kafka/3.7.1/kafka_2.13-3.7.1.tgz | sudo tar -xz && sudo mv kafka_2.13-3.7.1 kafka
     ```
-    - **Note**: 정지한 상태로 보일 수 있으나 명령어 실행 중이므로 대기 필요
+    - **Note**: 정지한 상태로 보일 수 있으나 명령어 실행 중이므로 약 10분정도 대기 필요
     
 3. ~/.bashrc에 환경 변수 및 부트스트랩 서버 주소를 설정하여 Kafka 실행에 필요한 경로와 정보 등록
     
