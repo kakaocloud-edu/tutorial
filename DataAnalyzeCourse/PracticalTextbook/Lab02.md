@@ -7,7 +7,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
 ## 1. Kafka 기본 환경 설정
 
 1. Java 설치
-    - trarffic-generator-1, 2에서 설치 진행
+    - `trarffic-generator-1, 2`에서 설치 진행
     
     ### lab2-1-1-1
     
@@ -31,6 +31,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     ```bash
     cd /opt && sudo wget -qO- https://archive.apache.org/dist/kafka/3.7.1/kafka_2.13-3.7.1.tgz | sudo tar -xz && sudo mv kafka_2.13-3.7.1 kafka
     ```
+    - **Note**: 정지한 상태로 보일 수 있으나 명령어 실행 중이므로 대기 필요
     
 3. ~/.bashrc에 환경 변수 및 부트스트랩 서버 주소를 설정하여 Kafka 실행에 필요한 경로와 정보 등록
     
@@ -94,7 +95,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     --create --topic consol-topic --partitions 2 --replication-factor 2
     ```
     
-    - 콘솔 프로듀서 실행 후 메시지 전송 (traffic-generator-1)
+    - `traffic-generator-1`에서 콘솔 프로듀서 실행 후 메시지 전송
     
     ### lab2-2-1-3
     
@@ -102,7 +103,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     bin/kafka-console-producer.sh --broker-list ${KAFKA_BOOTSTRAP_SERVERS} --topic consol-topic
     ```
     
-    - 콘솔 컨슈머 실행 후 메시지 수신 (traffic-generator-2)
+    - `traffic-generator-2`에서 콘솔 컨슈머 실행 후 메시지 수신
         - earliest 설정
         
         ### lab2-2-1-4
@@ -122,7 +123,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
         ```
     
 2. Python 코드로 메시지 송수신
-    - 새 토픽(python-topic) 생성 (traffic-generator-1)
+    - `traffic-generator-1`에서 새 토픽(python-topic) 생성
     
     ### lab2-2-2-1
     
@@ -131,7 +132,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     --create --topic python-topic --partitions 2 --replication-factor 2
     ```
     
-    - Python 프로듀서 코드 실행 (traffic-generator-1)
+    - `traffic-generator-1`에서 Python 프로듀서 코드 실행
     
     ### lab2-2-2-2
     
@@ -142,7 +143,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     sudo -E ./producer.py
     ```
     
-    - Python 컨슈머 코드 실행 (traffic-generator-2)
+    - `traffic-generator-2`에서 Python 컨슈머 코드 실행
     
     ### lab2-2-2-3
     
@@ -157,7 +158,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
 # 3. Nginx 로그 수집 및 Kafka 전송
 
 1. Nginx 로그 토픽 생성
-    - trarffic-generator-1에서 nginx-topic 생성
+    - `trarffic-generator-1`에서 nginx-topic 생성
     
     ### lab2-3-1
     
@@ -167,7 +168,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     ```
     
 2. Logstash 설정 파일 수정
-    - api-server-1, 2에서 `/etc/logstash/logstash.yml` 열기
+    - `api-server-1, 2`에서 `/etc/logstash/logstash.yml` 열기
     
     ### lab2-3-2
     
@@ -185,7 +186,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     sudo systemctl status logstash
     ```
     
-4. trarffic-generator-1에서 콘솔 컨슈머 실행
+4. `trarffic-generator-1`에서 콘솔 컨슈머 실행
     
     ### lab2-3-4
     
