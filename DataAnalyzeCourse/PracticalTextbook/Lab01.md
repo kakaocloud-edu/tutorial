@@ -202,7 +202,7 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 통한 메시�
     #### **lab1-5-1**
     
     ```bash
-    python3 /home/ubuntu/syu-DataAnalyze/TrafficGenerator/REST_API/VM1/traffic_generator.py
+    python3 traffic_generator.py
     ```
     
     - 트래픽 로그가 자동으로 생성되어 NGINX 로그에 반영됨
