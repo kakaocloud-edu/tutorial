@@ -585,7 +585,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     # "=" 대신 "_" 사용, 혹은 파티션 디렉터리를 커스텀 접두어로 생성
     custom.partition.prefix=MyPartition_
     
-    # 토픽 디렉터리를 기본 토픽 이름 대신 다른 이름으로 대체 (예: "CustomTopicDir")
+    # 토픽 디렉터리를 기본 토픽 이름 대신 다른 이름으로 대체
     custom.topic.dir=CustomTopicDir
     ```
     
@@ -652,16 +652,22 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     
 6. 데몬 리로드 및 서비스 시작
     
-    #### lab2-6-6
+    #### lab2-6-6-1
     
     ```bash
     sudo systemctl daemon-reload
     sudo systemctl enable kafka-connect
     sudo systemctl start kafka-connect
-    sudo systemctl status kafka-connect
     ```
+
+    - s3-sink-connector 상태 정보 조회
+   
+    #### lab2-6-6-2
     
-    - 상태가 `active (running)`이면 정상
+    ```bash
+    curl -s http://localhost:8083/connectors/s3-sink-connector/status | jq
+    ```
+
 7. Object Storage에서 결과 확인
     - 카카오 클라우드 콘솔 > 전체 서비스 > Object Storage
     - `kafka-nginx-log` 버킷 내에 데이터가 적재되는지 확인
