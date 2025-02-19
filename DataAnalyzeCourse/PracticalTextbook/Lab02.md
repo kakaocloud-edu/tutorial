@@ -589,22 +589,27 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     ```
     
     #### lab2-6-3-2
-   - **Note**:`{Kafka 부트스트랩 서버}`: Kafka 클러스터의 부트스트랩 서버 값으로 변경
     
     ```bash
+    # 워커 기본 설정
     bootstrap.servers={Kafka 부트스트랩 서버}
     key.converter=org.apache.kafka.connect.json.JsonConverter
     value.converter=org.apache.kafka.connect.json.JsonConverter
     key.converter.schemas.enable=false
     value.converter.schemas.enable=false
     
+    # Offset 저장 관련 설정 (standalone 모드 필수)
     offset.storage.file.filename=/tmp/connect.offsets
     offset.flush.interval.ms=10000
     
+    # 플러그인 경로 (S3 Sink Connector가 설치된 경로)
     plugin.path=/confluent-hub/plugins
     
+    # REST 인터페이스 리스너 (커넥터 상태 확인용)
     listeners=http://0.0.0.0:8083
     ```
+    
+    - {Kafka 부트스트랩 서버}: Kafka 클러스터의 부트스트랩 서버 값으로 변경
 5. kafka-connect 시스템 서비스 등록
     - `/etc/systemd/system/kafka-connect.service` 파일 생성
     
