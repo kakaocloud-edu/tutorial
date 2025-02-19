@@ -555,7 +555,10 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     # flush.size: 지정한 메시지 수만큼 누적 시 S3에 업로드
     flush.size=1
 
-    # 커스텀 파티셔너 클래스 지정 (직접 작성한 FlexibleTimeBasedPartitioner)
+    # 커스텀 파일네임 클래스 지정
+    format.class=com.mycompany.connect.CustomJsonFormat
+
+    # 커스텀 파티셔너 클래스 지정
     partitioner.class=com.mycompany.connect.FlexibleTimeBasedPartitioner
 
     # Time-based 필수 설정
@@ -573,10 +576,6 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     
     # 토픽 디렉터리를 기본 토픽 이름 대신 다른 이름으로 대체 (예: "CustomTopicDir")
     custom.topic.dir=CustomTopicDir
-    
-    # 예약어 치환 규칙 (예: "A:B,C:D" → 경로 문자열 내 "A"를 "B"로, "C"를 "D"로 치환)
-    custom.replacements=A:B,C:D
-    
     ```
     
 3. Standalone Worker 설정
