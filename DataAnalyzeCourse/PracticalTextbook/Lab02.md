@@ -81,7 +81,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     ### lab2-2-1-1
     
     ```bash
-    cd kafka
+    cd /opt/kafka
     ```
     
     - 새 토픽(`consol-topic`) 생성
