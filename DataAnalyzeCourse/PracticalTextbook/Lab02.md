@@ -7,7 +7,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
 ## 1. Kafka 기본 환경 설정
 
 1. Java 설치
-    - traffic-generator-1, 2 각각에서 설치 진행
+    - Traffic_Generator_VM1에서 설치 진행
     
     ### lab2-1-1-1
     
@@ -155,7 +155,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
 # 3. Nginx 로그 수집 및 Kafka 전송
 
 1. Nginx 로그 토픽 생성
-    - traffic-generator-1에서 nginx-topic 생성
+    - Traffic_Generator_VM1에서 nginx-topic 생성
     
     ### lab2-3-1
     
@@ -183,8 +183,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     sudo systemctl status logstash
     ```
     
-4. nginx-topic 데이터 확인
-    - traffic-generator-1에서 콘솔 컨슈머 실행
+4. Traffic_Generator_VM1에서 콘솔 컨슈머 실행
     
     ### lab2-3-4
     
@@ -192,6 +191,8 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     bin/kafka-console-consumer.sh --bootstrap-server $KAFKA_BOOTSTRAP_SERVERS \
     --topic nginx-topic --from-beginning
     ```
+5. 웹 브라우저에서 {ALB의 public IP}로 접속 후 임의로 트래픽 생성(링크 아무거나 클릭)
+6. Traffic_Generator_VM1의 터미널에서 로그 확인
     
 
 # 4. Kafka Connector VM 생성
