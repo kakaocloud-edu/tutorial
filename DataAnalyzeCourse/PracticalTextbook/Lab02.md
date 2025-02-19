@@ -9,19 +9,19 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
 
 1. Java 설치
     
-        #### lab2-1-1-1
-        
-        ```bash
-        cd
-        ```
-
-        #### lab2-1-1-2
-        
-        ```bash
-        sudo apt update
-        sudo apt install -y openjdk-21-jdk
-        java -version
-        ```
+    #### lab2-1-1-1
+    
+    ```bash
+    cd
+    ```
+    
+    #### lab2-1-1-2
+    
+    ```bash
+    sudo apt update
+    sudo apt install -y openjdk-21-jdk
+    java -version
+    ```
     
 3. Kafka 바이너리 다운로드 및 설치
     - /opt 디렉터리로 이동 후 압축 풀어서 kafka 폴더 구성
