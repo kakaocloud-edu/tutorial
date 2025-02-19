@@ -508,7 +508,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     ```
     
     - 아래 내용 추가
-      - **Note**:`{버킷 이름}`, `{S3_ACCESS_KEY}`, `{S3_SECRET_ACCESS_KEY}` 수정 후 붙여넣기
+      - **Note**: `{버킷 이름}`, `{S3_ACCESS_KEY}`, `{S3_SECRET_ACCESS_KEY}` 수정 후 붙여넣기
     ### lab2-6-2-2
     
     ```java
@@ -580,7 +580,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     ```
     
     ### lab2-6-3-2
-       - **Note**:`{Kafka 부트스트랩 서버}`: Kafka 클러스터의 부트스트랩 서버 값으로 변경
+   - **Note**:`{Kafka 부트스트랩 서버}`: Kafka 클러스터의 부트스트랩 서버 값으로 변경
     
     ```bash
     bootstrap.servers={Kafka 부트스트랩 서버}
