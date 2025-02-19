@@ -160,7 +160,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
         
         ```bash
         sudo wget -O producer.py \
-        "https://github.com/KOlizer/syu-DataAnalyze/raw/refs/heads/main/Kafka_Connect_VM/producer.py"
+        "https://github.com/kakaocloud-edu/tutorial/raw/refs/heads/main/DataAnalyzeCourse/src/TrafficGenerator/producer.py"
         sudo chmod +x producer.py
         sudo -E ./producer.py
         ```
@@ -172,7 +172,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
         
         ```bash
         sudo wget -O consumer.py \
-        "https://github.com/KOlizer/syu-DataAnalyze/raw/refs/heads/main/Kafka_Connect_VM/consumer.py"
+        "https://github.com/kakaocloud-edu/tutorial/raw/refs/heads/main/DataAnalyzeCourse/src/TrafficGenerator/consumer.py"
         sudo chmod +x consumer.py
         sudo -E ./consumer.py
         ```
