@@ -9,29 +9,29 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
 1. Java 설치
     - `trarffic-generator-1, 2`에서 설치 진행
     
-    #### lab2-1-1-1
+        #### lab2-1-1-1
+        
+        ```bash
+        cd
+        ```
     
-    ```bash
-    cd
-    ```
-    
-    #### lab2-1-1-2
-    
-    ```bash
-    sudo apt update
-    sudo apt install -y openjdk-21-jdk
-    java -version
-    ```
+        #### lab2-1-1-2
+        
+        ```bash
+        sudo apt update
+        sudo apt install -y openjdk-21-jdk
+        java -version
+        ```
     
 2. Kafka 바이너리 다운로드 및 설치
     - /opt 디렉터리로 이동 후 압축 풀어서 kafka 폴더 구성
     
-    #### lab2-1-2
-    
-    ```bash
-    cd /opt && sudo wget -qO- https://archive.apache.org/dist/kafka/3.7.1/kafka_2.13-3.7.1.tgz | sudo tar -xz && sudo mv kafka_2.13-3.7.1 kafka
-    ```
-    - **Note**: 정지한 상태로 보일 수 있으나 명령어 실행 중이므로 약 10분정도 대기 필요
+        #### lab2-1-2
+        
+        ```bash
+        cd /opt && sudo wget -qO- https://archive.apache.org/dist/kafka/3.7.1/kafka_2.13-3.7.1.tgz | sudo tar -xz && sudo mv kafka_2.13-3.7.1 kafka
+        ```
+        - **Note**: 정지한 상태로 보일 수 있으나 명령어 실행 중이므로 약 10분정도 대기 필요
     
 3. ~/.bashrc에 환경 변수 및 부트스트랩 서버 주소를 설정하여 Kafka 실행에 필요한 경로와 정보 등록
     
@@ -80,68 +80,68 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
 1. 콘솔 스크립트로 메시지 송수신
     - `traffic-generator-1`에서 Kafka 디렉터리로 이동
     
-    #### lab2-2-1-1
-    
-    ```bash
-    cd /opt/kafka
-    ```
+        #### lab2-2-1-1
+        
+        ```bash
+        cd /opt/kafka
+        ```
     
     - 새 토픽(`consol-topic`) 생성
     
-    #### lab2-2-1-2
-    
-    ```bash
-    bin/kafka-topics.sh --bootstrap-server ${KAFKA_BOOTSTRAP_SERVERS} \
-    --create --topic consol-topic --partitions 2 --replication-factor 2
-    ```
+        #### lab2-2-1-2
+        
+        ```bash
+        bin/kafka-topics.sh --bootstrap-server ${KAFKA_BOOTSTRAP_SERVERS} \
+        --create --topic consol-topic --partitions 2 --replication-factor 2
+        ```
     
     - 콘솔 프로듀서 실행 후 송신할 메세지 입력 후 `Enter` 키 입력
     
-    #### lab2-2-1-3
-    
-    ```bash
-    bin/kafka-console-producer.sh --broker-list ${KAFKA_BOOTSTRAP_SERVERS} --topic consol-topic
-    ```
+        #### lab2-2-1-3
+        
+        ```bash
+        bin/kafka-console-producer.sh --broker-list ${KAFKA_BOOTSTRAP_SERVERS} --topic consol-topic
+        ```
     
     - `traffic-generator-2`에서 Kafka 디렉터리로 이동
     
-    #### lab2-2-1-4
-    
-    ```bash
-    cd /opt/kafka
-    ```
+        #### lab2-2-1-4
+        
+        ```bash
+        cd /opt/kafka
+        ```
     
     - Kafka 콘솔 컨슈머를 실행해 consumer-group-earliest 그룹으로 `consol-topic` 토픽의 메시지를 처음부터 수신
     
-    #### lab2-2-1-5
-    
-    ```bash
-    bin/kafka-console-consumer.sh --bootstrap-server ${KAFKA_BOOTSTRAP_SERVERS} \
-        --topic consol-topic --group consumer-group-earliest \
-        --consumer-property auto.offset.reset=earliest
-    ```
+        #### lab2-2-1-5
+        
+        ```bash
+        bin/kafka-console-consumer.sh --bootstrap-server ${KAFKA_BOOTSTRAP_SERVERS} \
+            --topic consol-topic --group consumer-group-earliest \
+            --consumer-property auto.offset.reset=earliest
+        ```
 
     - `traffic-generator-2` 터미널 창에서 `traffic-generator-1`에서 입력했던 메세지 수신 확인
     - `traffic-generator-2`에서 Kafka 콘솔 컨슈머 실행
    
-    #### lab2-2-1-6
-    
-    ```bash
-    bin/kafka-console-consumer.sh --bootstrap-server ${KAFKA_BOOTSTRAP_SERVERS} \
-        --topic consol-topic --group consumer-group-latest \
-        --consumer-property auto.offset.reset=latest
-    ```
+        #### lab2-2-1-6
+        
+        ```bash
+        bin/kafka-console-consumer.sh --bootstrap-server ${KAFKA_BOOTSTRAP_SERVERS} \
+            --topic consol-topic --group consumer-group-latest \
+            --consumer-property auto.offset.reset=latest
+        ```
     
     - `traffic-generator-1`에서 송신할 새로운 메세지 입력 후 `Enter` 키 입력
     - `traffic-generator-2` 터미널 창에서 consumer-group-latest 그룹으로 `consol-topic` 토픽의 메시지를 콘솔 컨슈머를 실행한 이후 생성된 메시지부터 수신 확인
     - `traffic-generator-1, 2`에서 `Ctrl`+`c` 키를 입력하여 종료
     - `consumer-group-latest`, `consumer-group-earliest` 컨슈머 그룹 목록 확인
     
-    #### lab2-2-1-7
-    
-    ```bash
-    bin/kafka-consumer-groups.sh --bootstrap-server ${KAFKA_BOOTSTRAP_SERVERS} --list
-    ```
+        #### lab2-2-1-7
+        
+        ```bash
+        bin/kafka-consumer-groups.sh --bootstrap-server ${KAFKA_BOOTSTRAP_SERVERS} --list
+        ```
     
 1. Python 코드로 메시지 송수신
     - `traffic-generator-1`에서 새 토픽(python-topic) 생성
