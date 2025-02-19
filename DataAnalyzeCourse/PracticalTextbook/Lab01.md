@@ -102,7 +102,6 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 통한 메시�
     
     ```bash
     cd /home/ubuntu/syu-DataAnalyze/TrafficGenerator/REST_API/VM1
-    
     ```
     
 2. traffic-generator-1에서 `test-topic`으로 메시지 전송
@@ -159,12 +158,15 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 통한 메시�
         ```
         
     - Publisher 실행 파일을 이용해 `test-topic`으로 메시지 송신
+        - 아래 명령어를 이용하여 실행 파일 실행
         
-        #### **lab1-4-1-3**
-        
-        ```bash
-        ./publisher
-        ```
+            #### **lab1-4-1-3**
+            
+            ```bash
+            ./publisher
+            ```
+            
+        - 송신하려는 메세지 입력 후 `Enter` 키 입력
         
 2. test-topic의 `pull-subscription` 메시지를 traffic-generator-2에서 수신
     - Go SDK 실습용 디렉터리로 이동
@@ -184,7 +186,7 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 통한 메시�
         
         ```
         
-    - Subscriber 실행 파일을 이용해 `pull-subscription` 메시지 수신
+    - Subscriber 실행 파일을 이용해 `pull-subscription` 메시지 수신 확인
         
         #### **lab1-4-2-3**
         
