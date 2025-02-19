@@ -57,11 +57,11 @@
    #### **lab4-1-1**
    ```
    SELECT 
-   	COUNT(DISTINCT user_id) AS new_users
+      COUNT(DISTINCT user_id) AS new_users
    FROM users_logs
    WHERE event_type = 'CREATED'
    AND event_time BETWEEN TIMESTAMP '2025-02-14 00:00:00'
-   	AND TIMESTAMP '2025-02-14 23:59:59';
+      AND TIMESTAMP '2025-02-14 23:59:59';
    ```
    ![Image](https://github.com/user-attachments/assets/8016af05-788b-4548-8a60-a47aeae6aff4)
 
