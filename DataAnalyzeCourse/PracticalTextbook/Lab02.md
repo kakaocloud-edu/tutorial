@@ -102,23 +102,24 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     bin/kafka-console-producer.sh --broker-list ${KAFKA_BOOTSTRAP_SERVERS} --topic consol-topic
     ```
     
-    - 콘솔 컨슈머 실행 후 메시지 수신 (traffic-generator-2)earliest 설정
-    
-    ### lab2-2-1-4
-    
-    ```bash
-    bin/kafka-console-consumer.sh --bootstrap-server ${KAFKA_BOOTSTRAP_SERVERS} \
-    --topic consol-topic --group consumer-group-earliest --from-beginning
-    ```
-    
-    - latest 설정
-    
-    ### lab2-2-1-5
-    
-    ```bash
-    bin/kafka-console-consumer.sh --bootstrap-server ${KAFKA_BOOTSTRAP_SERVERS} \
-    --topic consol-topic --group consumer-group-latest
-    ```
+    - 콘솔 컨슈머 실행 후 메시지 수신 (traffic-generator-2)
+        - earliest 설정
+        
+        ### lab2-2-1-4
+        
+        ```bash
+        bin/kafka-console-consumer.sh --bootstrap-server ${KAFKA_BOOTSTRAP_SERVERS} \
+        --topic consol-topic --group consumer-group-earliest --from-beginning
+        ```
+        
+        - latest 설정
+        
+        ### lab2-2-1-5
+        
+        ```bash
+        bin/kafka-console-consumer.sh --bootstrap-server ${KAFKA_BOOTSTRAP_SERVERS} \
+        --topic consol-topic --group consumer-group-latest
+        ```
     
 2. Python 코드로 메시지 송수신
     - 새 토픽(python-topic) 생성 (traffic-generator-1)
