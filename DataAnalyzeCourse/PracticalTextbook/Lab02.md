@@ -78,7 +78,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
 # 2. Kafka 메시지 송수신 확인
 
 1. 콘솔 스크립트로 메시지 송수신
-    - `traffic-generator-1`에서 Kafka 디렉터리로 이동
+    - `traffic-generator-1`에서 `/opt/kafka` 디렉터리로 이동
     
         #### lab2-2-1-1
         
@@ -219,7 +219,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     bin/kafka-console-consumer.sh --bootstrap-server $KAFKA_BOOTSTRAP_SERVERS \
     --topic nginx-topic --from-beginning
     ```
-5. 웹 브라우저에서 {ALB의 public IP}로 접속 후 임의로 트래픽 생성(링크 아무거나 클릭)
+5. 웹 브라우저에서 {ALB의 public IP}로 접속 후 링크 클릭 등을 통해 임의로 트래픽 생성
 6. trarffic-generator-1의 터미널에서 로그 확인
     
 
