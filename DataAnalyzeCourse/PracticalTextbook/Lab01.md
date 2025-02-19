@@ -196,7 +196,14 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 통한 메시�
 ---
 
 ## 5. Object Storage에 NGINX 로그 적재
-
+1. traffic-generator-1에서 아래 명령을 실행하여 VM1 디렉터리로 이동
+    
+    #### **lab1-5-1**
+    
+    ```bash
+    cd /home/ubuntu/syu-DataAnalyze/TrafficGenerator/REST_API/VM1
+    
+    ```
 1. traffic-generator-1에서 트래픽 로그 생성
     
     #### **lab1-5-1**
@@ -211,7 +218,7 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 통한 메시�
     #### **lab1-5-2**
     
     ```bash
-    cat /home/ubuntu/syu-DataAnalyze/TrafficGenerator/REST_API/VM1/traffic_generator.log
+    cat traffic_generator.log
     ```
     
 3. ALB Public IP로 접속하여 로그 생성
