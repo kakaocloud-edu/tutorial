@@ -164,7 +164,8 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
         sudo chmod +x producer.py
         sudo -E ./producer.py
         ```
-    
+
+    - `python-topic`으로 메세지 전송 확인
     - `traffic-generator-2`에서 Python 컨슈머 코드 실행
     
         #### lab2-2-2-3
@@ -175,6 +176,8 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
         sudo chmod +x consumer.py
         sudo -E ./consumer.py
         ```
+        
+    - `python-topic`으로 메세지 수신 확인 후 `Ctrl`+`c` 키를 입력하여 종료
     
 
 # 3. Nginx 로그 수집 및 Kafka 전송
