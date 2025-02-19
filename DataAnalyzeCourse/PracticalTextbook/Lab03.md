@@ -60,22 +60,24 @@
 ## 4. 메시지 확인 실습(수정 중)
 1. pub/sub 연동을 통한 메시지 확인
 
-   ### TG에서 메시지 확인 코드 실행
-   - 기존에 쓰던 메시지 확인 코드에서 subscription 이름만 변경하여 메시지 확인
-   - 
-   - https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/TrafficGenerator/REST_API/VM2/restapi_pull_sub.py
+
+   ### Traffic Generator VM2에서 메시지 확인 코드 실행
+   - 기존에 쓰던 `restapi_pull_sub.py`에서 subscription 이름만 `data-catalog-pull-sub`로 변경
+   - [`restapi_pull_sub.py`](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/TrafficGenerator/REST_API/VM2/restapi_pull_sub.py)
+
+
    ```
    def main():
     # Pull Subscription 이름 설정
-    subscription_name = {SUB_NAME}  # 실제 Subscription 
-
+    subscription_name = data-catalog-pull-sub
    ```
 
-   ### 콘솔에서 이벤트 발생
+2. 콘솔에서 이벤트 발생
    - 데이터 속성 추가
    - 스키마 필드 추가
    - 스키마 필드 삭제
-   - 터미널 창에서 실시간 메시지 수신 확인
+     
+3. Traffic Generator VM2의 터미널 창에서 실시간 메시지 수신 확인
 
 ---
 
