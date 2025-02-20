@@ -228,15 +228,15 @@
     
     - 예시
     ```
-    ALTER TABLE alb_data
+    ALTER TABLE kafka_data
     ADD PARTITION (partition_key='0')
-    LOCATION 's3a://alb-logs/KCLogs/kr-central-2/2025'
+    LOCATION 's3a://kafka-nginx-log/nginx-log/CustomTopicDir/MyPartition_0';
     ```
    
 12. 테이블 파이션 키 삭제
     #### **lab3-1-6**
     ```
-    ALTER TABLE part_test_lsh DROP PARTITION (partition_key='0');
+    ALTER TABLE {테이블 이름} DROP PARTITION (partition_key='0');
     ```
    
 
