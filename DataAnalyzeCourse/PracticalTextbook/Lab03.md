@@ -232,13 +232,7 @@
     ADD PARTITION (partition_key='0')
     LOCATION 's3a://kafka-nginx-log/nginx-log/CustomTopicDir/MyPartition_0';
     ```
-   
-12. 테이블 파이션 키 삭제
-    #### **lab3-1-6**
-    ```
-    ALTER TABLE {테이블 이름} DROP PARTITION (partition_key='0');
-    ```
-   
+
 
 ## 7. 크롤러 생성
 1. 카카오 클라우드 콘솔 > 전체 서비스 > Data catalog > 크롤러
