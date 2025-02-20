@@ -13,7 +13,7 @@
 
 
 ## 2. 연결할 Object Storage 버킷 퍼블릭 액세스 허용
-1. 카카오 클라우드 콘솔 > 전체 서비스 > Object Storage
+1. 카카오 클라우드 콘솔 > 전체 서비스 > Object Storage > 일반 버킷
 
    - kafka-nginx-log 클릭
    - 권한 클릭
