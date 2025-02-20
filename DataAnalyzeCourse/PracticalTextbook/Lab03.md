@@ -237,7 +237,7 @@
 12. 테이블 파이션 키 삭제
     #### **lab3-1-6**
     ```
-    ALTER TABLE part_test_lsh DROP PARTITION (partition_key='{특정값(5)');
+    ALTER TABLE part_test_lsh DROP PARTITION (partition_key='0');
     ```
    
 
