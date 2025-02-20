@@ -193,7 +193,6 @@ def main():
     # Pull Subscription 이름 설정
     subscription_name = SUB_NAME  # 실제 Subscription 
 
-    print(f"현재 사용하는 Topic: {TOPIC_NAME}")
     print(f"현재 사용하는 Subscription: {subscription_name}")
 
     while True:
