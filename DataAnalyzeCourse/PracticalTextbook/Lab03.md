@@ -78,7 +78,7 @@
    ```
    def main():
     # Pull Subscription 이름 설정
-    subscription_name = data-catalog-pull-sub
+    subscription_name = 'data-catalog-pull-sub'
    ```
 
 2. 콘솔에서 이벤트 발생
