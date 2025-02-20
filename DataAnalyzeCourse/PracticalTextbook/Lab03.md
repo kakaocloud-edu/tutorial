@@ -15,10 +15,10 @@
 ## 2. 연결할 Object Storage 버킷 퍼블릭 액세스 허용
 1. 카카오 클라우드 콘솔 > 전체 서비스 > Object Storage
 
-   - `kafka-nginx-log` 클릭
-   - `권한` 클릭
-   - `접근` 클릭
-      - `접근 설정` 클릭
+   - kafka-nginx-log 클릭
+   - 권한 클릭
+   - 접근 클릭
+      - 접근 설정 클릭
          - `퍼블릭 액세스 허용 (Read Only) 클릭
 2. 저장 버튼 클릭
 
@@ -38,7 +38,7 @@
 
 ## 4. 테이블 생성
 1. 카카오 클라우드 콘솔 > 전체 서비스 > Data Catalog > 테이블
-2. `테이블 생성` 클릭
+2. 테이블 생성 버튼 클릭
 - **kafka_data** 테이블
    - 데이터 베이스: `dc_database`
    - 테이블 이름: `kafka_data`
@@ -51,15 +51,15 @@
       - 토픽 선택: `data-catalog-topic`
    - 설명(선택): `없음`
    - 스키마
-      - `필드추가` 클릭
+      - 필드 추가 버튼 클릭
       - 필드 정보
-      - **Note**: `파티션 키`는 `partition` 불가능, Hadoop 연동시 문제
-         - `파티션 키`: 사용
+      - **Note**: 파티션 키는 `partition` 사용 불가능, Hadoop 연동시 문제
+         - 파티션 키: `사용`
          - 필드 이름: `partition_key`
          - 데이터 유형: `string`
          - ---
     
-         - `파티션 키`: 미사용
+         - 파티션 키: `미사용`
          - 필드 이름: `request`, `method`, `session_id`, `endpoint`, `http_referer`, `query_params`, `status`, `timestamp`
          - 데이터 유형: `string`
          - ---
@@ -252,7 +252,8 @@
     - MySQL 계정
         - ID: `admin`
         - PW: `admin1234`
-        - 연결 테스트 버튼 클릭(연결 테스트 완료 후에 생성 가능)
+        - 연결 테스트 버튼 클릭
+        - **Note**: 연결 테스트 완료 후에 생성 가능
     - 설명 (선택): `없음`
     - 테이블 Prefix (선택): `없음`
     - 스케줄: `온디멘드`
