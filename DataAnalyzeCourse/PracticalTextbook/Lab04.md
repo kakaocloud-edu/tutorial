@@ -7,6 +7,7 @@
    - 권한 클릭
    - 역할 추가 버튼 클릭
    - 역할 추가
+      - 사용자 계정: `없음`
       - 서비스 계정: `{프로젝트 이름}@data-query.kc.serviceaccount.com`
       - 역할: `스토리지 편집자`
 3. `kafka-nginx-log`, `alb_data` 버킷도 동일하게 권한 설정 진행
