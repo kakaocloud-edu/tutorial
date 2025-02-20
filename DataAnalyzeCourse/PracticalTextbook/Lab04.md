@@ -67,7 +67,7 @@
    ![Image](https://github.com/user-attachments/assets/8016af05-788b-4548-8a60-a47aeae6aff4)
 
 4. 인기 상품 클릭 수 (Product Clicks)
-   - 데이터 원본: `kafka_data`
+   - 데이터 원본: `data_catalog`
    - 데이터 베이스: `dc_database`
    #### **lab4-1-2**
    ```
@@ -90,7 +90,7 @@
    ![Image](https://github.com/user-attachments/assets/0aec3dc0-a9ba-4a3b-b0ab-6a82c34e8aa0)
 
 5. 카테고리별 페이지뷰 수 (Page Views by Category)
-   - 데이터 원본: `kafka_data`
+   - 데이터 원본: `data_catalog`
    - 데이터 베이스: `dc_database`
    #### **lab4-1-3**
    ```
