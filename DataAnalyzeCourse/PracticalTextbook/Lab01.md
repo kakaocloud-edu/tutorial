@@ -114,18 +114,28 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 통한 메시�
     ```
     
     - 실행 후 원하는 메시지를 입력하고, `Enter` 및 `Ctrl+D` 키로 전송 완료
-3. test-topic의 `pull-subscription` 메시지를 traffic-generator-2에서 수신
-    - 터미널 CLI를 통한 메시지 수신 스크립트 실행
+3. traffic-generator-2에서 아래 명령을 실행하여 VM2 디렉터리로 이동
     
     #### **lab1-3-3**
+    
+    ```bash
+    cd /home/ubuntu/syu-DataAnalyze/TrafficGenerator/REST_API/VM2
+    ```
+    
+4. test-topic의 `pull-subscription` 메시지를 traffic-generator-2에서 수신
+    - 터미널 CLI를 통한 메시지 수신 스크립트 실행
+    
+    #### **lab1-3-4**
     
     ```bash
     python3 restapi_pull_sub.py
     ```
     
     - traffic-generator-2 터미널에서 방금 전송한 메시지가 정상적으로 수신되는지 확인
-4. 웹 API로 메시지 확인
+5. 웹 API로 메시지 확인
     - 웹 브라우저 주소창에 아래 URL 입력
+
+        #### **lab1-3-5**
         
         ```
         http://{ALB public ip 주소}/push-messages
