@@ -51,6 +51,8 @@
    - **Note**: 더 다양한 쿼리문은 아래 링크 참고
    - https://fantasy-brand-461.notion.site/19adbb08775280979a70d7d671c03a1e?pvs=4
      
+---
+
 3. 월 별 요청 분석
    - 데이터 원본: `data_catalog`
    - 데이터 베이스: `dc_database`
@@ -192,4 +194,3 @@
    ```
    ![Image](https://github.com/user-attachments/assets/8016af05-788b-4548-8a60-a47aeae6aff4)
 
----
