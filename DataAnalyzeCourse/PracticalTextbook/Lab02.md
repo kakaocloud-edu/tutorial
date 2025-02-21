@@ -584,7 +584,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     timezone=Asia/Seoul
     timestamp.extractor=Wallclock
     
-    # "=" 대신 "_" 사용, 혹은 파티션 디렉터리를 커스텀 접두어 생성
+    # 파티션 디렉터리를 커스텀 접두어 생성
     custom.partition.prefix=MyPartition_
     
     # 토픽 디렉터리를 기본 토픽 이름 대신 다른 이름으로 대체
