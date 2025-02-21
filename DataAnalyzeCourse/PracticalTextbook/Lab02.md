@@ -576,17 +576,20 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     # partition.duration.ms: 파티션 구간(밀리초). 예: 1시간 = 3600000ms
     partition.duration.ms=3600000
     # path.format: year=YYYY/month=MM/day=dd/hour=HH 등 원하는 시/일/월/년 형식
-    path.format='year='yyyy/'month='MM/'day='dd/'hour='HH
+    path.format='year_'yyyy/'month_'MM/'day='dd/'hour_'HH
     # locale, timezone, timestamp.extractor: TimeBasedPartitioner에서 요구하는 설정
     locale=en-US
     timezone=Asia/Seoul
     timestamp.extractor=Wallclock
     
-    # "=" 대신 "_" 사용, 혹은 파티션 디렉터리를 커스텀 접두어로 생성
+    # "=" 대신 "_" 사용, 혹은 파티션 디렉터리를 커스텀 접두어 생성
     custom.partition.prefix=MyPartition_
     
     # 토픽 디렉터리를 기본 토픽 이름 대신 다른 이름으로 대체
     custom.topic.dir=CustomTopicDir
+
+    # 5) 예약어 치환 규칙 (예: "A:B,C:D" → 경로 문자열 내 "A"를 "B"로, "C"를 "D"로 치환)
+    custom.replacements==:_
     ```
     
 4. Standalone Worker 설정
