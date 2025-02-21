@@ -70,7 +70,7 @@
    ![Image](https://github.com/user-attachments/assets/5fd20908-dc5b-4560-843f-ec762896b956)
 
 
-4. HTTP 상태 코드 분포
+4. HTTP 상태 분석
    1. HTTP 상태 코드 분포(ALB Access Log)
    - 데이터 원본: `data_catalog`
    - 데이터 베이스: `dc_database`
