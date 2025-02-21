@@ -33,9 +33,13 @@
     - Nginx 로그 수집용 버킷 (`kafka` 연동)
         - 이름: `kafka-nginx-log`
         - 암호화: `미사용`
+    - Data Catalog 경로
+        - 이름: `data-catalog`
+        - 암호화: `미사용`
     - Data Query의 쿼리 결과 저장용 버킷
         - 이름: `data-query-result`
         - 암호화: `미사용`
+
 3. 생성 버튼 클릭
 4. Object Storage 버킷 생성 확인
 
