@@ -65,9 +65,8 @@
    - **Note**: 더 다양한 쿼리문은 아래 링크 참고
    - https://fantasy-brand-461.notion.site/19adbb08775280979a70d7d671c03a1e?pvs=4
      
----
 
-3. 월 별 요청 분석
+3. 월 별 요청 분석(ALB Access Log)
    - 데이터 원본: `data_catalog`
    - 데이터 베이스: `dc_database`
    #### **lab4-1-1**
@@ -82,10 +81,9 @@
    ORDER BY SUBSTRING(time, 1, 7);
    ```
    ![Image](https://github.com/user-attachments/assets/5fd20908-dc5b-4560-843f-ec762896b956)
+---
 
-
-4. HTTP 상태 분석
-   1. HTTP 상태 코드 분포(ALB Access Log)
+4. HTTP 상태 코드 분포(ALB Access Log)
    - 데이터 원본: `data_catalog`
    - 데이터 베이스: `dc_database`
    #### **lab4-1-2-1**
@@ -104,28 +102,27 @@
    ```
    ![Image](https://github.com/user-attachments/assets/c65cb408-a313-490e-bf64-edf978b1f44b)
 
-
-   2. HTTP 상태 코드 분포(NGINX Log)
-   - 데이터 원본: `data_catalog`
-   - 데이터 베이스: `dc_database`
-   #### **lab4-1-2-2**
-   ```
-   SELECT 
-      status,
-      COUNT(*) AS code_count,
-      ROUND(COUNT(*) * 100.0 / total.total_count, 2) AS percentage
-   FROM kafka_data
-   CROSS JOIN (
-      SELECT COUNT(*) AS total_count
+---
+5.  HTTP 상태 코드 분포(NGINX Log)
+      - 데이터 원본: `data_catalog`
+      - 데이터 베이스: `dc_database`
+      #### **lab4-1-2-2**
+      ```
+      SELECT 
+         status,
+         COUNT(*) AS code_count,
+         ROUND(COUNT(*) * 100.0 / total.total_count, 2) AS percentage
       FROM kafka_data
-   ) AS total
-   GROUP BY status, total.total_count
-   ORDER BY status; 
-   ```
-   ![Image](https://github.com/user-attachments/assets/875aa029-90c6-4644-9d50-da5859a4be0a)
-
-
-   3. HTTP 성공 에러 분포(ALB Access Log + NGINX Log)
+      CROSS JOIN (
+         SELECT COUNT(*) AS total_count
+         FROM kafka_data
+      ) AS total
+      GROUP BY status, total.total_count
+      ORDER BY status; 
+      ```
+      ![Image](https://github.com/user-attachments/assets/875aa029-90c6-4644-9d50-da5859a4be0a)
+---
+6. HTTP 성공 에러 분포(ALB Access Log + NGINX Log)
    - 데이터 원본: `data_catalog`
    - 데이터 베이스: `dc_database`
    #### **lab4-1-2-3**
@@ -152,9 +149,8 @@
    ```
    ![Image](https://github.com/user-attachments/assets/12e28c1b-a215-4beb-a078-4dddc6489573)
 
-
-5. 인기 상품 클릭 수
-   1. 인기 상품 클릭 수(NGINX Log)
+---
+7. 인기 상품 클릭 수(NGINX Log)
    - 데이터 원본: `data_catalog`
    - 데이터 베이스: `dc_database`
    #### **lab4-1-3-1**
@@ -168,9 +164,9 @@
    ORDER BY click_count DESC;
    ```
    ![Image](https://github.com/user-attachments/assets/1af8302f-a7f7-4f74-b13d-3cbdee723af5)
+---
 
-
-   2. 인기 상품 클릭 수(NGINX Log+MySQL)
+8. 인기 상품 클릭 수(NGINX Log + MySQL)
    - 데이터 원본: `data_catalog`
    - 데이터 베이스: `dc_database`
    #### **lab4-1-3-2**
@@ -192,9 +188,10 @@
    ORDER BY pc.click_count DESC;
    ```
    ![Image](https://github.com/user-attachments/assets/7f469340-443d-4ad7-b9b9-63f7b19bcfcf)
+---
 
 
-6. 신규 사용자 수 (New Users)
+9. 신규 사용자 수(MySQL)
    - 데이터 원본: `data_orign`
    - 데이터 베이스: `shopdb`
    #### **lab4-1-4**
