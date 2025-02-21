@@ -583,7 +583,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     # Time-based 필수 설정
     # partition.duration.ms: 파티션 구간(밀리초). 예: 1시간 = 3600000ms
     partition.duration.ms=3600000
-    # path.format: year=YYYY/month=MM/day=dd/hour=HH 등 원하는 시/일/월/년 형식
+    # path.format: year=YYYY/month=MM/day=dd/hour=HH 등 원하는 년/월/일/시 형식
     path.format='year_'yyyy/'month_'MM/'day_'dd/'hour_'HH
     # locale, timezone, timestamp.extractor: TimeBasedPartitioner에서 요구하는 설정
     locale=en-US
@@ -678,5 +678,5 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
 9. Object Storage 버킷 내 NGINX 로그 적재 확인
     - 카카오 클라우드 콘솔 > 전체 서비스 > Object Storage
     - `kafka-nginx-log` 버킷 클릭
-    - `/topics/nginx-topic/partition_0/year_2025/month_{실습일 월}/day_{실습일 일}/hour_{실습일 시}` 디렉터리로 이동
+    - `/topics/nginx-topic/partition_0/year_{현재 연도}/month_{현재 월}/day_{현재 일}/hour_{현재 시}` 디렉터리로 이동
     - 버킷 내 적재된 NGINX 로그 적재 확인
