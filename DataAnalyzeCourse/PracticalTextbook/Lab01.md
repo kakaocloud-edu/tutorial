@@ -133,7 +133,7 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 통한 메시�
         
     - 새로고침을 여러 번 시도하여 메시지 수신 내용을 확인
         - 메시지가 안 보일 경우 전송에 시간이 걸릴 수 있으므로 잠시 대기 후 다시 시도
-    - `Ctrl` + `c` 키로 프로그램 종료
+    - `Ctrl` + `c` 키로 종료
       
 
 ---
@@ -167,7 +167,7 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 통한 메시�
             ```
             
         - 송신하려는 메세지 입력 후 `Enter` 키 입력
-    - `Ctrl` + `c` 키로 프로그램 종료
+    - `Ctrl` + `c` 키로 종료
         
 2. test-topic의 `pull-subscription` 메시지를 traffic-generator-2에서 수신
     - Go SDK 실습용 디렉터리로 이동
@@ -195,7 +195,7 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 통한 메시�
         ./subscriber
         ```
         
-    - `Ctrl` + `c` 키로 프로그램 종료
+    - `Ctrl` + `c` 키로 종료
         
 
 ---
