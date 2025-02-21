@@ -65,10 +65,11 @@
    GROUP BY SUBSTRING(time, 1, 7)
    ORDER BY SUBSTRING(time, 1, 7);
    ```
+   ![Image](https://github.com/user-attachments/assets/5fd20908-dc5b-4560-843f-ec762896b956)
+
 
 4. HTTP 상태 코드 분포
    1. HTTP 상태 코드 분포(ALB Access Log)
-
    - 데이터 원본: `data_catalog`
    - 데이터 베이스: `dc_database`
    #### **lab4-1-2-1**
@@ -85,6 +86,7 @@
    GROUP BY target_status_code, total.total_count
    ORDER BY target_status_code;
    ```
+   ![Image](https://github.com/user-attachments/assets/c65cb408-a313-490e-bf64-edf978b1f44b)
 
 
    2. HTTP 상태 코드 분포(NGINX Log)
@@ -104,6 +106,7 @@
    GROUP BY status, total.total_count
    ORDER BY status; 
    ```
+   ![Image](https://github.com/user-attachments/assets/875aa029-90c6-4644-9d50-da5859a4be0a)
 
 
    3. HTTP 성공 에러 분포(ALB Access Log + NGINX Log)
@@ -131,12 +134,11 @@
       ROUND((error_alb + error_nginx) * 100.0 / (total_alb + total_nginx), 2) AS total_error_percentage
    FROM alb_stats, nginx_stats;
    ```
-
+   ![Image](https://github.com/user-attachments/assets/12e28c1b-a215-4beb-a078-4dddc6489573)
 
 
 5. 인기 상품 클릭 수
    1. 인기 상품 클릭 수(NGINX Log)
-
    - 데이터 원본: `data_catalog`
    - 데이터 베이스: `dc_database`
    #### **lab4-1-3-1**
@@ -149,10 +151,10 @@
    GROUP BY regexp_extract(query_params, 'id=([0-9]+)', 1)
    ORDER BY click_count DESC;
    ```
+   ![Image](https://github.com/user-attachments/assets/1af8302f-a7f7-4f74-b13d-3cbdee723af5)
 
 
    2. 인기 상품 클릭 수(NGINX Log+MySQL)
-   
    - 데이터 원본: `data_catalog`
    - 데이터 베이스: `dc_database`
    #### **lab4-1-3-2**
@@ -173,8 +175,7 @@
       ON pc.product_id = p.id
    ORDER BY pc.click_count DESC;
    ```
-
-
+   ![Image](https://github.com/user-attachments/assets/7f469340-443d-4ad7-b9b9-63f7b19bcfcf)
 
 
 6. 신규 사용자 수 (New Users)
