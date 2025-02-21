@@ -223,6 +223,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     
 5. 웹 브라우저 주소창에 `http://{ALB의 Public IP}`를 입력하여 접속 후 링크 클릭 등을 통해 임의로 트래픽 생성
 6. `trarffic-generator-1`의 터미널에서 NGINX 로그 확인
+7. `Ctrl`+`c` 키를 입력하여 종료
     
 
 # 4. Kafka Connector VM 생성
