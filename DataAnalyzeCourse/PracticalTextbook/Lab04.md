@@ -51,25 +51,111 @@
    - **Note**: 더 다양한 쿼리문은 아래 링크 참고
    - https://fantasy-brand-461.notion.site/19adbb08775280979a70d7d671c03a1e?pvs=4
      
-  
-3. 신규 사용자 수 (New Users)
-   - 데이터 원본: `data_orign`
-   - 데이터 베이스: `shopdb`
-   #### **lab4-1-1**
-   ```
-   SELECT 
-      COUNT(DISTINCT user_id) AS new_users
-   FROM users_logs
-   WHERE event_type = 'CREATED'
-   AND event_time BETWEEN TIMESTAMP '2025-02-14 00:00:00'
-      AND TIMESTAMP '2025-02-14 23:59:59';
-   ```
-   ![Image](https://github.com/user-attachments/assets/8016af05-788b-4548-8a60-a47aeae6aff4)
-
-4. 인기 상품 클릭 수 (Product Clicks)
+3. 월 별 요청 분석
    - 데이터 원본: `data_catalog`
    - 데이터 베이스: `dc_database`
-   #### **lab4-1-2**
+   #### **lab4-1-1**
+   ```
+   SELECT
+      SUBSTRING(time, 1, 7) AS request_time,
+      COUNT(*) AS total_requests,
+      COUNT(CASE WHEN target_status_code = '200' THEN 1 END) AS success_requests,
+      COUNT(CASE WHEN target_status_code <> '200' THEN 1 END) AS error_requests
+   FROM alb_data
+   GROUP BY SUBSTRING(time, 1, 7)
+   ORDER BY SUBSTRING(time, 1, 7);
+   ```
+
+4. HTTP 상태 코드 분포
+   1. HTTP 상태 코드 분포(ALB Access Log)
+
+   - 데이터 원본: `data_catalog`
+   - 데이터 베이스: `dc_database`
+   #### **lab4-1-2-1**
+   ```
+   SELECT 
+      target_status_code,
+      COUNT(*) AS code_count,
+      ROUND(COUNT(*) * 100.0 / total.total_count, 2) AS percentage
+   FROM alb_data
+   CROSS JOIN (
+      SELECT COUNT(*) AS total_count
+      FROM alb_data
+   ) AS total
+   GROUP BY target_status_code, total.total_count
+   ORDER BY target_status_code;
+   ```
+
+
+   2. HTTP 상태 코드 분포(NGINX Log)
+   - 데이터 원본: `data_catalog`
+   - 데이터 베이스: `dc_database`
+   #### **lab4-1-2-2**
+   ```
+   SELECT 
+      status,
+      COUNT(*) AS code_count,
+      ROUND(COUNT(*) * 100.0 / total.total_count, 2) AS percentage
+   FROM kafka_data
+   CROSS JOIN (
+      SELECT COUNT(*) AS total_count
+      FROM kafka_data
+   ) AS total
+   GROUP BY status, total.total_count
+   ORDER BY status; 
+   ```
+
+
+   3. HTTP 성공 에러 분포(ALB Access Log + NGINX Log)
+   - 데이터 원본: `data_catalog`
+   - 데이터 베이스: `dc_database`
+   #### **lab4-1-2-3**
+   ```
+   WITH alb_stats AS (
+      SELECT 
+         COUNT(*) AS total_alb,
+         COUNT(CASE WHEN target_status_code LIKE '4%' THEN 1 END) AS error_alb
+      FROM alb_data
+   ),
+   nginx_stats AS (
+      SELECT 
+         COUNT(*) AS total_nginx,
+         COUNT(CASE WHEN status LIKE '4%' THEN 1 END) AS error_nginx
+      FROM kafka_data
+   )
+   SELECT 
+      total_alb + total_nginx AS total_count,
+      (total_alb + total_nginx) - (error_alb + error_nginx) AS total_success_count,
+      error_alb + error_nginx AS total_error_count,
+      ROUND(((total_alb + total_nginx) - (error_alb + error_nginx)) * 100.0 / (total_alb + total_nginx), 2) AS total_success_percentage,
+      ROUND((error_alb + error_nginx) * 100.0 / (total_alb + total_nginx), 2) AS total_error_percentage
+   FROM alb_stats, nginx_stats;
+   ```
+
+
+
+5. 인기 상품 클릭 수
+   1. 인기 상품 클릭 수(NGINX Log)
+
+   - 데이터 원본: `data_catalog`
+   - 데이터 베이스: `dc_database`
+   #### **lab4-1-3-1**
+   ```
+   SELECT 
+      regexp_extract(query_params, 'id=([0-9]+)', 1) AS product_id,
+      COUNT(*) AS click_count
+   FROM data_catalog.dc_database.kafka_data
+   WHERE endpoint = '/product'
+   GROUP BY regexp_extract(query_params, 'id=([0-9]+)', 1)
+   ORDER BY click_count DESC;
+   ```
+
+
+   2. 인기 상품 클릭 수(NGINX Log+MySQL)
+   
+   - 데이터 원본: `data_catalog`
+   - 데이터 베이스: `dc_database`
+   #### **lab4-1-3-2**
    ```
    SELECT 
       pc.product_id,
@@ -87,21 +173,22 @@
       ON pc.product_id = p.id
    ORDER BY pc.click_count DESC;
    ```
-   ![Image](https://github.com/user-attachments/assets/0aec3dc0-a9ba-4a3b-b0ab-6a82c34e8aa0)
 
-5. 카테고리별 페이지뷰 수 (Page Views by Category)
-   - 데이터 원본: `data_catalog`
-   - 데이터 베이스: `dc_database`
-   #### **lab4-1-3**
+
+
+
+6. 신규 사용자 수 (New Users)
+   - 데이터 원본: `data_orign`
+   - 데이터 베이스: `shopdb`
+   #### **lab4-1-4**
    ```
-   SELECT
-      regexp_extract(query_params, 'name=([^&]+)', 1) AS category,
-      COUNT(*) AS pageview_count
-   FROM data_catalog.dc_database.kafka_data
-   WHERE endpoint = '/category'
-   GROUP BY regexp_extract(query_params, 'name=([^&]+)', 1)
-   ORDER BY pageview_count DESC;
+   SELECT 
+      COUNT(DISTINCT user_id) AS new_users
+   FROM users_logs
+   WHERE event_type = 'CREATED'
+   AND event_time BETWEEN TIMESTAMP '2025-02-14 00:00:00'
+      AND TIMESTAMP '2025-02-14 23:59:59';
    ```
-   ![Image](https://github.com/user-attachments/assets/15df43b4-7c0f-4be3-bd97-299624e095b1)
+   ![Image](https://github.com/user-attachments/assets/8016af05-788b-4548-8a60-a47aeae6aff4)
 
 ---
