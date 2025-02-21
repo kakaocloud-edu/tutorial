@@ -657,7 +657,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     
 6. 데몬 리로드 및 서비스 시작
     
-    #### lab2-6-6-1
+    #### lab2-6-6
     
     ```bash
     sudo systemctl daemon-reload
@@ -665,14 +665,18 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     sudo systemctl start kafka-connect
     ```
 
-    - s3-sink-connector 상태 정보 조회
+7. s3-sink-connector 상태 정보 조회
    
     #### lab2-6-6-2
     
     ```bash
-    curl -s http://localhost:8083/connectors/s3-sink-connector/status | jq
+    watch -n 1 "curl -s http://localhost:8083/connectors/s3-sink-connector/status | jq"
     ```
 
-7. Object Storage에서 결과 확인
+8. `connector`, `tasks`의 `state` 값이 `RUNNING`인 것을 확인
+
+9. Object Storage 버킷 내 NGINX 로그 적재 확인
     - 카카오 클라우드 콘솔 > 전체 서비스 > Object Storage
-    - `kafka-nginx-log` 버킷 내에 데이터가 적재되는지 확인
+    - `kafka-nginx-log` 버킷 클릭
+    - `/topics/nginx-topic/partition_0/year_2025/month_{실습일 월}/day_{실습일 일}/hour_{실습일 시}` 디렉터리로 이동
+    - 버킷 내 적재된 NGINX 로그 적재 확인
