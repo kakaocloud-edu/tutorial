@@ -530,7 +530,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
       - **Note**: `{버킷 이름}`, `{S3_ACCESS_KEY}`, `{S3_SECRET_ACCESS_KEY}` 수정 후 붙여넣기
     #### lab2-6-3-2
     
-    ```java
+    ```
     # 커넥터 이름
     name=s3-sink-connector
     
@@ -564,15 +564,21 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     
     # flush.size: 지정한 메시지 수만큼 누적 시 S3에 업로드
     flush.size=1
-
+    
     # 커스텀 파일네임 클래스 지정
     format.class=com.mycompany.connect.CustomJsonFormat
-
+    
     # 커스텀 파티셔너 클래스 지정
     partitioner.class=com.mycompany.connect.FlexibleTimeBasedPartitioner
-
+    
     # 최상위 디렉터리명 변경
-    topics.dir=nginx-log
+    topics.dir=topics
+    
+    # 토픽 디렉터리를 기본 토픽 이름 대신 다른 이름으로 대체
+    custom.topic.dir=nginx-topic
+    
+    # 파티션 디렉터리를 커스텀 접두어 생성
+    custom.partition.prefix=partition_
     
     # Time-based 필수 설정
     # partition.duration.ms: 파티션 구간(밀리초). 예: 1시간 = 3600000ms
@@ -584,12 +590,6 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     timezone=Asia/Seoul
     timestamp.extractor=Wallclock
     
-    # 파티션 디렉터리를 커스텀 접두어 생성
-    custom.partition.prefix=MyPartition_
-    
-    # 토픽 디렉터리를 기본 토픽 이름 대신 다른 이름으로 대체
-    custom.topic.dir=CustomTopicDir
-
     # 5) 예약어 치환 규칙 (예: "A:B,C:D" → 경로 문자열 내 "A"를 "B"로, "C"를 "D"로 치환)
     custom.replacements==:_
     ```
