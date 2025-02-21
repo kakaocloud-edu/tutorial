@@ -565,11 +565,11 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     # flush.size: 지정한 메시지 수만큼 누적 시 S3에 업로드
     flush.size=1
     
-    # 커스텀 파일네임 클래스 지정
-    format.class=com.mycompany.connect.CustomJsonFormat
-    
     # 커스텀 파티셔너 클래스 지정
     partitioner.class=com.mycompany.connect.FlexibleTimeBasedPartitioner
+    
+    # 커스텀 파일네임 클래스 지정
+    format.class=com.mycompany.connect.CustomJsonFormat
     
     # 최상위 디렉터리명 변경
     topics.dir=topics
