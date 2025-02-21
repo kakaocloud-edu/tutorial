@@ -1,16 +1,30 @@
 # Data Query 가이드
 
-## 1. Object Storage 설정
+## 1. Object Storage 버킷 설정
 1. 카카오 클라우드 콘솔 > 전체 서비스 > Object Storage > 일반 버킷
 2. 권한 설정
-   - data-query-result 클릭
-   - 권한 클릭
-   - 역할 추가 버튼 클릭
-   - 역할 추가
-      - 사용자 계정: `없음`
-      - 서비스 계정: `{프로젝트 이름}@data-query.kc.serviceagent.com`
-      - 역할: `스토리지 편집자`
-3. `kafka-nginx-log`, `alb_log` 버킷도 동일하게 권한 설정 진행
+   #### kafka-nginx-log 권한 설정
+   - `kafka-nginx-log` 버킷 클릭
+      - 권한 버튼 클릭
+      - 역할 추가 버튼 클릭
+      - 역할 추가
+         - 사용자 계정: `없음`
+         - 서비스 계정: `{프로젝트 이름}@data-query.kc.serviceagent.com`
+         - 역할: `스토리지 편집자`
+       - 저장 버튼 클릭
+
+
+   #### alb_log 권한 설정
+   - 왼쪽의 일반 버킷 클릭
+   - `alb_log` 버킷 클릭 
+      - 권한 버튼 클릭
+      - 역할 추가 버튼 클릭
+      - 역할 추가
+         - 사용자 계정: `없음`
+         - 서비스 계정: `{프로젝트 이름}@data-query.kc.serviceagent.com`
+         - 역할: `스토리지 편집자`
+      - 저장 버튼 클릭
+
 
 ## 2. 데이터 원본 생성
 1. 카카오 클라우드 콘솔 > 전체 서비스 > Data Query > 데이터 원본 관리
