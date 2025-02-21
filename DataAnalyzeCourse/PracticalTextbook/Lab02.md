@@ -576,7 +576,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     # partition.duration.ms: 파티션 구간(밀리초). 예: 1시간 = 3600000ms
     partition.duration.ms=3600000
     # path.format: year=YYYY/month=MM/day=dd/hour=HH 등 원하는 시/일/월/년 형식
-    path.format='year_'yyyy/'month_'MM/'day='dd/'hour_'HH
+    path.format='year_'yyyy/'month_'MM/'day_'dd/'hour_'HH
     # locale, timezone, timestamp.extractor: TimeBasedPartitioner에서 요구하는 설정
     locale=en-US
     timezone=Asia/Seoul
