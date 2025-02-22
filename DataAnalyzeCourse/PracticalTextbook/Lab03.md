@@ -106,7 +106,7 @@
       - `kafka_data` 테이블 클릭
       - 테이블 속성 탭 클릭
       - 테이블 속성 추가하기 버튼 클릭
-         - Key: `test-key`
+         - Key: `test_key`
          - Value: `test_value`
       - 추가 버튼 클릭
       - `traffic-generator-2` 터미널 창에서 메시지 정상 수신 및 처리 로그 확인
