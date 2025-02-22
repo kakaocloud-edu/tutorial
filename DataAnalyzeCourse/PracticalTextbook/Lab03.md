@@ -25,7 +25,7 @@
        
 4.  `data-catalog` 버킷 클릭
    - 폴더 생성 버튼 클릭
-      - 폴더 이름: `data`
+      - 폴더 이름: `dc-edu`
    - 생성 버튼 클릭
      
 
@@ -49,7 +49,7 @@
    - 경로
       - S3 연결: `체크`
       - 버킷 이름: `data-catalog`
-      - 경로: `test`
+      - 경로: `dc-edu`
 3. 생성 버튼 클릭
 
 
@@ -84,26 +84,47 @@
    ### Traffic Generator VM2에서 메시지 확인 코드 실행
    - 기존에 사용하던 `restapi_pull_sub.py`에서 subscription 이름만 `data-catalog-pull-sub`로 변경
    - **Note**:[`restapi_pull_sub.py`](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/TrafficGenerator/REST_API/VM2/restapi_pull_sub.py) 코드 재사용
-     ```
+      ```
       cd /home/ubuntu/syu-DataAnalyze/TrafficGenerator/REST_API/VM2
-     ```
-     ```
+      ```
+      ```
       vi restapi_pull_sub.py
-     ```
-     - 아래와 같이 코드 수정
+      ```
+      - 아래와 같이 코드 수정
       ```
       def main():
        # Pull Subscription 이름 설정
        subscription_name = 'data-catalog-pull-sub'
       ```
+      - 터미널 CLI를 통한 메시지 수신 스크립트 실행
+      ```
+      python3 restapi_pull_sub.py
+      ```
 
 1. 콘솔에서 이벤트 발생
    - 데이터 속성 추가
-   - 스키마 필드 추가
-   - 스키마 필드 삭제
-     
-2. Traffic Generator VM2의 터미널 창에서 실시간 메시지 수신 확인
+      - `kafka_data_lys` 테이블 클릭
+      - 테이블 속성 탭 클릭
+      - 테이블 속성 추가하기 버튼 클릭
+         - Key: `test-key`
+         - Value: `test_value`
+      - 추가 버튼 클릭
+      - `traffic-generator-2` 터미널 창에서 메시지 정상 수신 및 처리 로그 확인
 
+   - 스키마 필드 추가
+      - 스키마 탭 클릭
+      - 필드 추가 버튼 클릭
+         - 컬럼 번호: `9`
+         - 필드 이름: `test_field`
+         - 데이터 유형: `string`
+         - 설명: `빈칸`
+      - 생성 버튼 클릭
+      - `traffic-generator-2` 터미널 창에서 메시지 정상 수신 및 처리 로그 확인
+
+   - 스키마 필드 삭제
+      - `test_field` 스키마 우측 `⋮` 버튼 클릭
+      - 삭제 버튼 클릭
+      - `traffic-generator-2` 터미널 창에서 메시지 정상 수신 및 처리 로그 확인
    
 
 ## 6. 크롤러 생성
