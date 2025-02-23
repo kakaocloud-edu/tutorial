@@ -156,7 +156,7 @@
    SELECT 
       regexp_extract(query_params, 'id=([0-9]+)', 1) AS product_id,
       COUNT(*) AS click_count
-   FROM data_catalog.dc_database.kafka_data
+   FROM kafka_data
    WHERE endpoint = '/product'
    GROUP BY regexp_extract(query_params, 'id=([0-9]+)', 1)
    ORDER BY click_count DESC;
