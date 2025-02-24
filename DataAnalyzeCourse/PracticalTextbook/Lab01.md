@@ -7,40 +7,40 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 통한 메시�
 
 1. 카카오 클라우드 콘솔 > 전체 서비스 > Pub/Sub > 토픽
 2. 토픽 서비스 시작하기
-3. `test-topic` 생성
+3. `test-topic` 토픽 생성
     - 토픽 생성 버튼 클릭
         - 이름: `test-topic`
         - 기본 서브스크립션: `생성 안함`
         - 토픽 메세지 보존 기간: `0일 0시 10분`
         - 설명: `없음`
     - 생성 버튼 클릭
-4. `test-topic` 생성 확인
-5. test-topic의 pull-subscription 생성
-    - 카카오 클라우드 콘솔 > 전체 서비스 > Pub/Sub > 서브스크립션
+4. `test-topic` 토픽 생성 확인 후 클릭
+5. 서브스크립션 탭 클릭
+6. `test-topic`의 Pull 서브스크립션 생성
     - 서브스크립션 생성 버튼 클릭
         - 기본 설정
             - 이름: `test-pull-sub`
             - 토픽 선택: `test-topic`
         - 유형: `Pull`
-        - 서브스크립션 메시지 보존 기간: `10분`
+        - 서브스크립션 메시지 보존 기간: `0일 0시 10분`
         - 응답 대기 시간: `20초`
         - 재처리 횟수: `횟수 지정`, `3번`
     - 생성 버튼 클릭
-    - `test-pull-sub` 생성 확인
-6. test-topic의 push-subscription
+7. `test-pull-sub` 서브스크립션 생성 확인
+8. `test-topic`의 Push 서브스크립션 생성
     - 서브스크립션 생성 버튼 클릭
         - 기본 설정
             - 이름: `test-push-sub`
             - 토픽 선택: `test-topic`
         - 유형: `Push`
             - 엔드포인트: `http://`, `{ALB Public IP}/push-subscription`
-        - 서브스크립션 메시지 보존 기간: `1일`
+        - 서브스크립션 메시지 보존 기간: `0일 0시 10분`
         - 응답 대기 시간: `20초`
         - 재처리 횟수: `횟수 지정`, `3번`
     - 생성 버튼 클릭
-    - `test-push-sub` 생성 확인
-7. data-catalog-topic 생성
-    - 카카오 클라우드 콘솔 > 전체 서비스 > Pub/Sub > 토픽
+9. `test-push-sub` 생성 확인
+10. `data-catalog-topic` 토픽 생성
+    - 좌측 토픽 탭 클릭
     - 토픽 생성 버튼 클릭
         - 이름: `data-catalog-topic`
         - 기본 서브스크립션: `생성 안함`
@@ -48,7 +48,7 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 통한 메시�
         - 설명: `없음`
     - 생성 버튼 클릭
     - `data-catalog-topic` 생성 확인
-8. data-catalog-topic의 pull-subscription 생성
+11. data-catalog-topic의 pull-subscription 생성
     - 카카오 클라우드 콘솔 > 전체 서비스 > Pub/Sub > 서브스크립션
     - 서브스크립션 생성 버튼 클릭
         - 기본 설정
