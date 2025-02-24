@@ -263,4 +263,10 @@
       FROM {Data Catalog 데이터베이스명}.{원본 Data Catalog 테이블명};
       -- ↑ 기존 테이블에서 데이터를 읽어와 새 파티션 테이블에 한 번에 적재
       ```
-   - 
+
+4. 카카오 클라우드 콘솔 > 전체 서비스 > Data Catalog > 카탈로그
+5. `kafka_nginx_partitioned` 테이블 클릭
+6. 파티션 탭 클릭
+7. `status` 값에 따라 생성된 파티션 확인
+8. `status` 값 우측 파일 보기 버튼 클릭
+9. 파티션에 따라 External 타입으로 저장된 NGINX 로그 데이터 확인
