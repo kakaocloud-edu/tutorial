@@ -27,10 +27,10 @@
     - ALB Access Log 수집용 버킷
         - 이름: `alb-log`
         - 암호화: `미사용`
-    - Nginx 로그 수집용 버킷 (`Pub/Sub` 연동)
+    - Nginx Log 수집용 버킷 (`Pub/Sub` 연동)
         - 이름: `pubsub-nginx-log`
         - 암호화: `미사용`
-    - Nginx 로그 수집용 버킷 (`kafka` 연동)
+    - Nginx Log 수집용 버킷 (`kafka` 연동)
         - 이름: `kafka-nginx-log`
         - 암호화: `미사용`
     - Data Query의 쿼리 결과 저장용 버킷
