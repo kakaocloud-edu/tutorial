@@ -22,11 +22,6 @@
       - 접근 허용 IP 주소: 빈칸
    - 저장 버튼 클릭
    - 확인 버튼 클릭
-       
-4.  `data-catalog` 버킷 클릭
-   - 폴더 생성 버튼 클릭
-      - 폴더 이름: `tables`
-   - 생성 버튼 클릭
      
 
 ## 2. 카탈로그 생성
@@ -45,11 +40,11 @@
 1. 카카오 클라우드 콘솔 > 전체 서비스 > Data Catalog > 데이터베이스
 2. 데이터베이스 생성 버튼 클릭
    - 카탈로그: `data_catalog`
-   - 이름: `dc_database`
+   - 이름: `kafka_nginx_db`
    - 경로
       - S3 연결: `체크`
-      - 버킷 이름: `data-catalog`
-      - 경로: `tables`
+      - 버킷 이름: `kafka-nginx-log`
+      - 경로: `dc-table`
 3. 생성 버튼 클릭
 
 
@@ -57,23 +52,65 @@
 1. 카카오 클라우드 콘솔 > 전체 서비스 > Data Catalog > 테이블
 2. 테이블 생성 버튼 클릭
 - **kafka_data** 테이블
-   - 데이터 베이스: `dc_database`
-   - 테이블 이름: `kafka_data`
+   - 데이터 베이스: `kafka_nginx_db`
+   - 테이블 이름: `kafka_nginx_raw`
    - 테이블 저장 경로
       - S3 연결: `체크`
       - 버킷 이름: `kafka-nginx-log`(카프카와 연동된 버킷)
-      - 디렉터리: `topics/nginx-topic/partition_0/year_2025/month_02`// 날짜에 맞게 수정
+      - 디렉터리: `topics/nginx-topic/partition_0/year_{현재 연도}/month_{현재 월}/day_{현재 일}`
    - 데이터 유형: `JSON`
    - Pub/Sub 연동: `사용`
       - 토픽 선택: `data-catalog-topic`
    - 설명(선택): `없음`
    - 스키마
       - 필드 추가 버튼 클릭
-      - 필드 정보
          - 파티션 키: `미사용`
-         - 필드 이름: `request`, `method`, `session_id`, `endpoint`, `http_referer`, `query_params`, `status`, `timestamp`
+         - 컬럼 번호: `1
+         - 필드 이름: `request`
          - 데이터 유형: `string`
-         - ---
+      - 생성 버튼 클릭
+      - 필드 추가 버튼 클릭
+         - 파티션 키: `미사용`
+         - 컬럼 번호: `2`
+         - 필드 이름: `method`
+         - 데이터 유형: `string`
+      - 생성 버튼 클릭
+      - 필드 추가 버튼 클릭
+         - 파티션 키: `미사용`
+         - 컬럼 번호: `3`
+         - 필드 이름: `session_id`
+         - 데이터 유형: `string`
+      - 생성 버튼 클릭
+      - 필드 추가 버튼 클릭
+         - 파티션 키: `미사용`
+         - 컬럼 번호: `4`
+         - 필드 이름: `endpoint`
+         - 데이터 유형: `string`
+      - 생성 버튼 클릭
+      - 필드 추가 버튼 클릭
+         - 파티션 키: `미사용`
+         - 컬럼 번호: `5`
+         - 필드 이름: `http_referer`
+         - 데이터 유형: `string`
+      - 생성 버튼 클릭
+      - 필드 추가 버튼 클릭
+         - 파티션 키: `미사용`
+         - 컬럼 번호: `6`
+         - 필드 이름: `query_params`
+         - 데이터 유형: `string`
+      - 생성 버튼 클릭
+      - 필드 추가 버튼 클릭
+         - 파티션 키: `미사용`
+         - 컬럼 번호: `7`
+         - 필드 이름: `status`
+         - 데이터 유형: `string`
+      - 생성 버튼 클릭
+      - 필드 추가 버튼 클릭
+         - 파티션 키: `미사용`
+         - 컬럼 번호: `8`
+         - 필드 이름: `timestamp`
+         - 데이터 유형: `string`
+      - 생성 버튼 클릭
 3. 생성 버튼 클릭
 
 
