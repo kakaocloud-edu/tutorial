@@ -230,6 +230,9 @@
     - 키 페어: 위에서 생성한 `keypair` 선택
     - 네트워크
         - VPC: `kc-vpc`
+        - 서브넷: `kr-central-2-a의 Public 서브넷`
+        - 유형: `새 인터페이스`
+        - IP 할당 방식: `자동`
         - 보안 그룹
             - `보안 그룹 생성` 버튼 클릭
                 - 보안 그룹 이름: `tg-sg`
@@ -238,9 +241,6 @@
                         - 프로토콜: `TCP`, 출발지: `0.0.0.0/0`, 포트 번호: `9092`
                     - 아웃바운드 규칙
                         - 프로토콜: `ALL`, 출발지: `0.0.0.0/0`, 포트 번호: `ALL`
-            - 네트워크 인터페이스: `새 인터페이스`
-            - 서브넷: `kr-central-2-a의 Public 서브넷`
-            - IP 할당 방식: `자동`
     - 고급 설정
         - 사용자 스크립트: [`setup_initial.sh`](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/TrafficGenerator/setup_initial.sh)의 쌍따옴표(“”) 사이에 자신의 리소스 값 입력
         - CPU 멀티스레딩: `활성화`
