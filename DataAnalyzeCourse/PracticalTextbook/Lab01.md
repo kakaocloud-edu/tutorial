@@ -3,7 +3,7 @@
 Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 통한 메시지 처리, Object Storage로의 NGINX 로그 적재를 다루는 실습입니다. 이를 통해 실시간 데이터 스트리밍과 로그 수집 및 저장 자동화 과정을 학습합니다.
 
 ---
-## 1. Pub/Sub 토픽, 서브스크립션 생성
+## 1. 콘솔을 통한 토픽, 서브스크립션 생성
 
 1. test-topic 생성
     - 카카오 클라우드 콘솔 > 전체 서비스 > Pub/Sub > 토픽
@@ -60,7 +60,7 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 통한 메시�
     - 생성 버튼 클릭
     - `data-catalog-pull-sub` 생성 확인
 
-## 2. Topic 및 Subscription 생성
+## 2. CLI를 통한 토픽, 서브스크립션 생성
 
 1. traffic-generator-2에서 VM2로 디렉터리 이동
     
