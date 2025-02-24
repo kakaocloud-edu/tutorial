@@ -47,9 +47,9 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 통한 메시�
         - 토픽 메세지 보존 기간: `0일 0시 10분`
         - 설명: `없음`
     - 생성 버튼 클릭
-    - `data-catalog-topic` 생성 확인
-11. data-catalog-topic의 pull-subscription 생성
-    - 카카오 클라우드 콘솔 > 전체 서비스 > Pub/Sub > 서브스크립션
+11. `data-catalog-topic` 생성 확인 후 클릭
+12. 서브스크립션 탭 클릭
+13. `data-catalog-topic`의 Pull 서브스크립션 생성
     - 서브스크립션 생성 버튼 클릭
         - 기본 설정
             - 이름: `data-catalog-pull-sub`
@@ -59,7 +59,8 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 통한 메시�
         - 응답 대기 시간: `20초`
         - 재처리 횟수: `횟수 지정`, `3번`
     - 생성 버튼 클릭
-    - `data-catalog-pull-sub` 생성 확인
+14. `data-catalog-pull-sub` 생성 확인
+
 
 ## 2. CLI를 통한 토픽, 서브스크립션 생성
 
