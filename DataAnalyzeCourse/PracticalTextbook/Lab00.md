@@ -24,7 +24,7 @@
 
 1. 카카오 클라우드 콘솔 > 전체 서비스 > Object Storage
 2. 버킷 생성 버튼 클릭
-    - ALB Accesslog용 버킷
+    - ALB Access Log 수집용 버킷
         - 이름: `alb-log`
         - 암호화: `미사용`
     - Nginx 로그 수집용 버킷 (`Pub/Sub` 연동)
