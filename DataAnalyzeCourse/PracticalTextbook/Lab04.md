@@ -203,3 +203,64 @@
    ```
    ![Image](https://github.com/user-attachments/assets/8016af05-788b-4548-8a60-a47aeae6aff4)
 
+
+## 4. 테이블 파티션 생성 실습
+1. `kafka_nginx_db` 테이블 데이터 조회로 NGINX 로그 존재 확인
+   - 데이터 원본: `data_origin`
+   - 데이터베이스: `kafka_nginx_db`
+   - `kafka_nginx_raw` 테이블 우측 `⋮` 버튼 클릭
+   - 테이블 미리보기 버튼 클릭
+   - 쿼리 결과 탭에서 쿼리 결과로 산출된 NGINX 로그 확인
+2. 쿼리 입력란 상단 `+` 버튼 클릭
+3. 아래 쿼리를 입력하여 `kafka_nginx_raw` 테이블을 status 컬럼을 기준으로 파티션을 나누어 저장하는 새 파티션 테이블 생성
+   ```
+   CREATE TABLE kafka_nginx_db.kafka_nginx_partitioned
+   WITH (
+     format = 'JSON',
+     external_location = 's3a://kafka-nginx-lys/dc-table/partitioned',
+     partitioned_by = ARRAY['status']
+   )
+   AS
+   SELECT
+     request,
+     method,
+     session_id,
+     endpoint,
+     http_referer,
+     query_params,
+     timestamp,
+     status
+   FROM kafka_nginx_db.kafka_nginx_raw;
+   ```
+   - 형식 설명
+      ```
+      -- (1) 새로운 테이블 생성 선언
+      CREATE TABLE {Data Catalog 데이터베이스명}.{생성할 Data Catalog 테이블명}
+      
+      -- (2) 테이블 속성 지정
+      WITH (
+        format = 'JSON',                          -- 파일 형식을 JSON으로 설정
+        external_location = 's3a://{Data Catalog에서 설정한 버킷/경로}/{생성할 디렉터리명}',
+        -- ↑ 실제 버킷의 경로로, 테이블 데이터가 저장됨
+        --   'external_location'을 지정으로 카카오클라우드가 지원하는 Data Catalog 테이블을 External 타입으로 다룸
+        
+        partitioned_by = ARRAY['status']
+        -- ↑ 'status' 컬럼을 기준으로 파티션 생성
+      )
+      
+      AS
+      SELECT
+        request,
+        method,
+        session_id,
+        endpoint,
+        http_referer,
+        query_params,
+        timestamp,
+        status
+      -- ↑ 원본 테이블에서 가져올 컬럼들
+      
+      FROM {Data Catalog 데이터베이스명}.{원본 Data Catalog 테이블명};
+      -- ↑ 기존 테이블에서 데이터를 읽어와 새 파티션 테이블에 한 번에 적재
+      ```
+   - 
