@@ -268,5 +268,5 @@
 5. `kafka_nginx_partitioned` 테이블 클릭
 6. 파티션 탭 클릭
 7. `status` 값에 따라 생성된 파티션 확인
-8. `status` 값 우측 파일 보기 버튼 클릭
+8. 각 `status` 값 우측 파일 보기 클릭
 9. 파티션에 따라 External 타입으로 저장된 NGINX 로그 데이터 확인
