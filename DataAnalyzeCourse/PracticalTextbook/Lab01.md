@@ -107,7 +107,7 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 통한 메시�
     ```
     
 2. traffic-generator-1에서 `test-topic`으로 메시지 전송
-    - 터미널 CLI를 통한 메시지 전송 스크립트 실행
+    - 터미널 CLI를 통한 메시지 전송 스크립트 실행 후 원하는 메시지를 입력하고, `Enter` 및 `Ctrl+D` 키로 전송 완료
     
     #### **lab1-3-2**
     
@@ -115,9 +115,8 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 통한 메시�
     python3 pub_sub_send.py
     ```
     
-    - 실행 후 원하는 메시지를 입력하고, `Enter` 및 `Ctrl+D` 키로 전송 완료
 3. test-topic의 `pull-subscription` 메시지를 traffic-generator-2에서 수신
-    - 터미널 CLI를 통한 메시지 수신 스크립트 실행
+    - 터미널 CLI를 통한 메시지 수신 스크립트 실행하여 traffic-generator-2 터미널에서 방금 전송한 메시지가 정상적으로 수신되는지 확인
     
     #### **lab1-3-3**
     
@@ -125,7 +124,6 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 통한 메시�
     python3 restapi_pull_sub.py
     ```
     
-    - traffic-generator-2 터미널에서 방금 전송한 메시지가 정상적으로 수신되는지 확인
 4. 웹 API로 메시지 확인
     - 웹 브라우저 주소창에 아래 URL 입력
         
