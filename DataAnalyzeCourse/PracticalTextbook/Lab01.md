@@ -14,8 +14,8 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 통한 메시�
         - 토픽 메세지 보존 기간: `0일 0시 10분`
         - 설명: `없음`
     - 생성 버튼 클릭
-    - `test-topic` 생성 확인
-4. test-topic의 pull-subscription 생성
+4. `test-topic` 생성 확인
+5. test-topic의 pull-subscription 생성
     - 카카오 클라우드 콘솔 > 전체 서비스 > Pub/Sub > 서브스크립션
     - 서브스크립션 생성 버튼 클릭
         - 기본 설정
@@ -27,7 +27,7 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 통한 메시�
         - 재처리 횟수: `횟수 지정`, `3번`
     - 생성 버튼 클릭
     - `test-pull-sub` 생성 확인
-5. test-topic의 push-subscription
+6. test-topic의 push-subscription
     - 서브스크립션 생성 버튼 클릭
         - 기본 설정
             - 이름: `test-push-sub`
@@ -39,7 +39,7 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 통한 메시�
         - 재처리 횟수: `횟수 지정`, `3번`
     - 생성 버튼 클릭
     - `test-push-sub` 생성 확인
-6. data-catalog-topic 생성
+7. data-catalog-topic 생성
     - 카카오 클라우드 콘솔 > 전체 서비스 > Pub/Sub > 토픽
     - 토픽 생성 버튼 클릭
         - 이름: `data-catalog-topic`
@@ -48,7 +48,7 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 통한 메시�
         - 설명: `없음`
     - 생성 버튼 클릭
     - `data-catalog-topic` 생성 확인
-7. data-catalog-topic의 pull-subscription 생성
+8. data-catalog-topic의 pull-subscription 생성
     - 카카오 클라우드 콘솔 > 전체 서비스 > Pub/Sub > 서브스크립션
     - 서브스크립션 생성 버튼 클릭
         - 기본 설정
