@@ -72,7 +72,6 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 통한 메시�
     cd /home/ubuntu/syu-DataAnalyze/TrafficGenerator/REST_API/VM2
     ```
     
-    - 이후 단계를 진행하기 위해 작업 디렉터리를 변경
 2. NGINX 로그 적재용 토픽 생성
     
     #### **lab1-2-2**
@@ -81,18 +80,16 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 통한 메시�
     python3 create_topic.py
     ```
     
-3. 카카오 클라우드 콘솔 > **Analytics > Pub/Sub** > **토픽** 메뉴로 이동
-4. `log-topic` 토픽 생성 확인
-5. Object Storage용 서브스크립션 생성
+3. 카카오 클라우드 콘솔 > Analytics > Pub/Sub > 토픽 메뉴로 이동 후 `log-topic` 토픽 생성 확인
+4. Object Storage용 서브스크립션 생성
     
-    #### **lab1-2-5**
+    #### **lab1-2-4**
     
     ```bash
     python3 create_subscription.py
     ```
     
-6. 카카오 클라우드 콘솔 > **Analytics > Pub/Sub** > **서브스크립션** 메뉴로 이동
-7. `obj-subscription` 서브스크립션 생성 확인
+5. 서브스크립션 탭 클릭 후 `obj-subscription` 서브스크립션 생성 확인
 
 ---
 
