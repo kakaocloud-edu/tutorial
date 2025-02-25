@@ -203,7 +203,7 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 통한 메시�
 ---
 
 ## 5. Object Storage에 NGINX 로그 적재
-1. traffic-generator-1에서 아래 명령을 실행하여 VM1 디렉터리로 이동
+1. `traffic-generator-1` 터미널 창에서 아래 명령을 실행하여 VM1 디렉터리로 이동
     
     #### **lab1-5-1**
     
@@ -211,7 +211,8 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 통한 메시�
     cd /home/ubuntu/syu-DataAnalyze/TrafficGenerator/REST_API/VM1
     
     ```
-2. traffic-generator-1에서 트래픽 로그 생성
+2. `traffic-generator-1`에서 트래픽 로그 생성
+    - 트래픽 로그가 자동으로 생성되어 NGINX 로그에 반영됨
     
     #### **lab1-5-2**
     
@@ -219,7 +220,6 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 통한 메시�
     python3 traffic_generator.py
     ```
     
-    - 트래픽 로그가 자동으로 생성되어 NGINX 로그에 반영됨
 3. 실행 완료 후, 생성된 로그 확인
     
     #### **lab1-5-3**
