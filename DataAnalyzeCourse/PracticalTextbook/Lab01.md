@@ -126,17 +126,17 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 통한 메시�
     ```bash
     python3 restapi_pull_sub.py
     ```
-    
-4. 웹 API로 메시지 확인
-    - 웹 브라우저 주소창에 아래 URL 입력
+
+4. `Ctrl` + `c` 키로 종료
+5. 웹 브라우저 주소창에 아래 URL 입력
+
+    #### **lab1-3-5**
+    ```
+    http://{ALB public ip 주소}/push-messages
+    ```
         
-        ```
-        http://{ALB public ip 주소}/push-messages
-        ```
-        
-    - 새로고침을 여러 번 시도하여 메시지 수신 내용을 확인
-        - 메시지가 안 보일 경우 전송에 시간이 걸릴 수 있으므로 잠시 대기 후 다시 시도
-    - `Ctrl` + `c` 키로 종료
+6. 새로고침하여 웹 브라우저에서 메시지 확인
+    - **Note**: 메시지가 안 보일 경우 전송에 시간이 걸릴 수 있으므로 잠시 대기 후 다시 시도
       
 
 ---
