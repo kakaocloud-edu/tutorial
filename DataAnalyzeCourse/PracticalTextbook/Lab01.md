@@ -238,4 +238,4 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 통한 메시�
 
 5. 사용자 등록, 상품 목록 확인 등을 수행하여 로그 생성
 6. 카카오 클라우드 콘솔 > Beyond Storage Service > Object Storage 으로 이동 후 `pubsub-nginx-log` 버킷 클릭
-7. 해당 날짜(년/월/일) 디렉터리로 이동하여 생성된 NGINX 로그 확인
+7. 해당 연도/월/일/시 디렉터리로 이동하여 생성된 NGINX 로그 확인
