@@ -119,7 +119,7 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 통한 메시�
     ```
     
 3. test-topic의 `pull-subscription` 메시지를 traffic-generator-2에서 수신
-    - 터미널 CLI를 통한 메시지 수신 스크립트 실행하여 traffic-generator-2 터미널에서 방금 전송한 메시지가 정상적으로 수신되는지 확인
+    - 터미널 CLI를 통한 메시지 수신 스크립트 실행하여 traffic-generator-2 터미널에서 방금 전송한 메시지가 정상적으로 수신되는지 확인 후 `Ctrl` + `c` 키로 종료
     
     #### **lab1-3-3**
     
@@ -127,15 +127,14 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 통한 메시�
     python3 restapi_pull_sub.py
     ```
 
-4. `Ctrl` + `c` 키로 종료
-5. 웹 브라우저 주소창에 아래 URL 입력
+4. 웹 브라우저 주소창에 아래 URL 입력
 
     #### **lab1-3-5**
     ```
     http://{ALB public ip 주소}/push-messages
     ```
         
-6. 새로고침하여 웹 브라우저에서 메시지 확인
+5. 새로고침하여 웹 브라우저에서 메시지 확인
     - **Note**: 메시지가 안 보일 경우 전송에 시간이 걸릴 수 있으므로 잠시 대기 후 다시 시도
       
 
