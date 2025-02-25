@@ -161,11 +161,18 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 통한 메시�
 3. Publisher 실행 파일을 이용해 `traffic-generator-1`에서 `test-topic`으로 메시지 송신
     - 아래 명령어를 이용하여 Publisher 실행 파일 실행 후 송신할 메세지를 입력하고, `Enter`로 송신 및 `Ctrl` + `c`로 종료
     
-        #### **lab1-4-1-3**
+        #### **lab1-4-1-3-1**
         
         ```bash
         ./publisher
         ```
+
+        #### **lab1-4-1-3-2**
+        
+        ```bash
+        Publish a message to the test-topic in Pub/Sub using the Go SDK
+        ```
+        
         
 4. `traffic-generator-2` 터미널 창에서 아래 명령어를 실행하여 Go SDK 실습용 디렉터리로 이동
         
