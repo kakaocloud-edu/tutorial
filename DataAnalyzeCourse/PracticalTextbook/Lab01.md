@@ -64,7 +64,7 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 통한 메시�
 
 ## 2. CLI를 통한 토픽, 서브스크립션 생성
 
-1. traffic-generator-2에서 VM2로 디렉터리 이동
+1. `traffic-generator-2` 터미널 창에서 아래 명령어 실행
     
     #### **lab1-2-1**
     
@@ -95,7 +95,7 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 통한 메시�
 
 ## 3. REST API를 활용한 메시지 송수신
 
-1. traffic-generator-1에서 아래 명령을 실행하여 VM1 디렉터리로 이동
+1. `traffic-generator-1` 터미널 창에서 아래 명령어 실행
     
     #### **lab1-3-1**
     
@@ -103,29 +103,29 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 통한 메시�
     cd /home/ubuntu/syu-DataAnalyze/TrafficGenerator/REST_API/VM1
     ```
     
-2. traffic-generator-1에서 `test-topic`으로 메시지 전송
-    - 터미널 CLI를 통한 메시지 전송 스크립트 실행 후 메시지를 입력하고, `Enter` 및 `Ctrl+D` 키로 전송 완료
+2. `traffic-generator-1`에서 `test-topic`으로 메시지 전송
+    - 메시지 전송 스크립트 실행 후 메시지를 입력하고, `Enter` 후 `Ctrl+D` 키로 전송 완료
     
-    #### **lab1-3-2-1**
+        #### **lab1-3-2-1**
+        
+        ```bash
+        python3 pub_sub_send.py
+        ```
+        
+        #### **lab1-3-2-2**
+        
+        ```bash
+        Publish a message to the test-topic in Pub/Sub using the REST API
+        ```
     
-    ```bash
-    python3 pub_sub_send.py
-    ```
+3. `test-topic`의 메시지를 `test-pull-sub`서브스크립션을 통해 `traffic-generator-2`에서 수신
+    - 메시지 수신 스크립트 실행하여 `traffic-generator-2` 터미널에서 메시지가 정상적으로 수신되는지 확인 후 `Ctrl` + `C` 키로 종료
     
-    #### **lab1-3-2-2**
-    
-    ```bash
-    Publishing a message to test-topic in Pub/Sub
-    ```
-    
-3. test-topic의 `pull-subscription` 메시지를 traffic-generator-2에서 수신
-    - 터미널 CLI를 통한 메시지 수신 스크립트 실행하여 traffic-generator-2 터미널에서 방금 전송한 메시지가 정상적으로 수신되는지 확인 후 `Ctrl` + `c` 키로 종료
-    
-    #### **lab1-3-3**
-    
-    ```bash
-    python3 restapi_pull_sub.py
-    ```
+        #### **lab1-3-3**
+        
+        ```bash
+        python3 restapi_pull_sub.py
+        ```
 
 4. 웹 브라우저 주소창에 아래 URL 입력
 
@@ -142,63 +142,56 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 통한 메시�
 
 ## 4. Go SDK를 활용한 메시지 송수신
 
-1. traffic-generator-1에서 Pub/Sub으로 메시지 전송
-    - Go SDK 실습용 디렉터리로 이동
+1. `traffic-generator-1` 터미널 창에서 아래 명령어를 실행하여 Go SDK 실습용 디렉터리로 이동
+    
+    #### **lab1-4-1**
+    
+    ```bash
+    cd /home/ubuntu/gosdk/cmd
+    ```
         
-        #### **lab1-4-1-1**
+2. Publisher 실행 파일 생성
         
-        ```bash
-        cd /home/ubuntu/gosdk/cmd
-        ```
+    #### **lab1-4-2**
+    
+    ```bash
+    go build -o publisher config.go publisher.go
+    ```
         
-    - Publisher 실행 파일 생성
-        
-        #### **lab1-4-1-2**
-        
-        ```bash
-        go build -o publisher config.go publisher.go
-        ```
-        
-    - Publisher 실행 파일을 이용해 `test-topic`으로 메시지 송신
-        - 아래 명령어를 이용하여 실행 파일 실행
-        
-            #### **lab1-4-1-3**
-            
-            ```bash
-            ./publisher
-            ```
-            
-        - 송신하려는 메세지 입력 후 `Enter` 키 입력
-    - `Ctrl` + `c` 키로 종료
-        
-2. test-topic의 `pull-subscription` 메시지를 traffic-generator-2에서 수신
-    - Go SDK 실습용 디렉터리로 이동
-        
-        #### **lab1-4-2-1**
+3. Publisher 실행 파일을 이용해 `traffic-generator-1`에서 `test-topic`으로 메시지 송신
+    - 아래 명령어를 이용하여 Publisher 실행 파일 실행 후 송신할 메세지를 입력하고, `Enter`로 송신 및 `Ctrl` + `c`로 종료
+    
+        #### **lab1-4-1-3**
         
         ```bash
-        cd /home/ubuntu/gosdk/cmd
+        ./publisher
         ```
         
-    - Subscriber 실행 파일 생성
+4. `traffic-generator-2` 터미널 창에서 아래 명령어를 실행하여 Go SDK 실습용 디렉터리로 이동
         
-        #### **lab1-4-2-2**
+    #### **lab1-4-2-4**
+    
+    ```bash
+    cd /home/ubuntu/gosdk/cmd
+    ```
         
-        ```bash
-        go build -o subscriber config.go subscriber.go
+5. Subscriber 실행 파일 생성
         
-        ```
+    #### **lab1-4-2-5**
+    
+    ```bash
+    go build -o subscriber config.go subscriber.go
+    ```
         
-    - Subscriber 실행 파일을 이용해 `pull-subscription` 메시지 수신 확인
+6. Subscriber 실행 파일을 이용하여 `test-topic`의 메시지를 `test-pull-sub`서브스크립션을 통해 `traffic-generator-2`에서 수신
+    - `traffic-generator-2` 터미널에서 메시지가 정상적으로 수신되는지 확인 후 `Ctrl` + `C` 키로 종료
         
-        #### **lab1-4-2-3**
+        #### **lab1-4-2-6**
         
         ```bash
         ./subscriber
         ```
-        
-    - `Ctrl` + `c` 키로 종료
-        
+            
 
 ---
 
