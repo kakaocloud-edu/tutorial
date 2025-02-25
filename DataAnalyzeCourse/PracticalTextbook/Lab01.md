@@ -134,7 +134,7 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 통한 메시�
     http://{복사해둔 ALB Public IP 주소}/push-messages
     ```
         
-5. 웹 브라우저에서 `test-push-sub`을 통한 메시지 확인
+5. `test-push-sub`서브스크립션에서 송신한 메시지 확인
     - **Note**: 메시지가 보이지 않을 경우 전송에 시간이 걸릴 수 있으므로 잠시 대기 후 다시 시도
       
 
