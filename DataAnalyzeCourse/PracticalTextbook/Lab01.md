@@ -131,7 +131,7 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 통한 메시�
 
     #### **lab1-3-5**
     ```
-    http://{ALB public ip 주소}/push-messages
+    http://{복사해둔 ALB Public IP 주소}/push-messages
     ```
         
 5. 새로고침하여 웹 브라우저에서 메시지 확인
@@ -232,7 +232,7 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 통한 메시�
     - 웹 브라우저 주소창에 아래 URL 입력
         
         ```
-        http://{ALB의 Public IP}
+        http://{복사해둔 ALB Public IP 주소}
         ```
         
 4. 카카오 클라우드 콘솔에서 `pubsub-nginx-log` 버킷에 쌓인 NGINX 로그 확인
