@@ -23,7 +23,7 @@ export API_BASE_URL="{ALB의 Public IP}"
 export TOPIC_NAME="{콘솔에서 생성한 토픽 이름(test-topic)}"
 export SUB_NAME="{콘솔에서 생성한 Pull Subscription 이름(test-pull-sub)}"
 export TOPIC_NAME_MK="{log 적재용 토픽 이름(log-topic)}"
-export OBJECT_STORAGE_SUBSCRIPTION_NAME="{실습용 Object Storage Subscription 이름(log-pull-sub)}"
+export OBJECT_STORAGE_SUBSCRIPTION_NAME="{실습용 Object Storage Subscription 이름(obj-subscription)}"
 export OBJECT_STORAGE_BUCKET="{로그 적재용 Object Storage 버킷 이름(pubsub-nginx-log)}"
 
 export PUBSUB_ENDPOINT="https://pub-sub.kr-central-2.kakaocloud.com"
