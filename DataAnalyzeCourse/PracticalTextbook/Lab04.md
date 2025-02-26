@@ -34,12 +34,12 @@
 
 ### 2. 쿼리 실습
 1. `편집기` 탭 클릭
-2. 편집기 설정 정보 확인하며 실습 진행
+   - 편집기 설정 정보 확인하며 실습 진행
    - **Note**: 더 다양한 쿼리문은 아래 링크 참고
    - https://fantasy-brand-461.notion.site/19adbb08775280979a70d7d671c03a1e?pvs=4
      
 
-3. 월 별 요청 분석(ALB Access Log)
+2. 월 별 요청 분석(ALB Access Log)
    - 데이터 원본: `data_catalog`
    - 데이터 베이스: `data_catalog_database`
    #### **lab4-1-1**
@@ -56,7 +56,7 @@
    ![Image](https://github.com/user-attachments/assets/5fd20908-dc5b-4560-843f-ec762896b956)
 ---
 
-4. HTTP 상태 코드 분포(ALB Access Log)
+3. HTTP 상태 코드 분포(ALB Access Log)
    - 데이터 원본: `data_catalog`
    - 데이터 베이스: `data_catalog_database`
    #### **lab4-1-2-1**
@@ -76,7 +76,7 @@
    ![Image](https://github.com/user-attachments/assets/c65cb408-a313-490e-bf64-edf978b1f44b)
 
 ---
-5.  HTTP 상태 코드 분포(NGINX Log)
+4.  HTTP 상태 코드 분포(NGINX Log)
       - 데이터 원본: `data_catalog`
       - 데이터 베이스: `data_catalog_database`
       #### **lab4-1-2-2**
@@ -95,7 +95,7 @@
       ```
       ![Image](https://github.com/user-attachments/assets/875aa029-90c6-4644-9d50-da5859a4be0a)
 ---
-6. HTTP 성공 에러 분포(ALB Access Log + NGINX Log)
+5. HTTP 성공 에러 분포(ALB Access Log + NGINX Log)
    - 데이터 원본: `data_catalog`
    - 데이터 베이스: `data_catalog_database`
    #### **lab4-1-2-3**
@@ -123,7 +123,7 @@
    ![Image](https://github.com/user-attachments/assets/12e28c1b-a215-4beb-a078-4dddc6489573)
 
 ---
-7. 인기 상품 클릭 수(NGINX Log)
+6. 인기 상품 클릭 수(NGINX Log)
    - 데이터 원본: `data_catalog`
    - 데이터 베이스: `data_catalog_database`
    #### **lab4-1-3-1**
@@ -139,7 +139,7 @@
    ![Image](https://github.com/user-attachments/assets/1af8302f-a7f7-4f74-b13d-3cbdee723af5)
 ---
 
-8. 인기 상품 클릭 수(NGINX Log + MySQL)
+7. 인기 상품 클릭 수(NGINX Log + MySQL)
    - 데이터 원본: `data_catalog`
    - 데이터 베이스: `data_catalog_database`
    #### **lab4-1-3-2**
@@ -164,7 +164,7 @@
 ---
 
 
-9. 신규 사용자 수(MySQL)
+8. 신규 사용자 수(MySQL)
    - **Note**: 데이터 원본에 다른 값 사용 주의
    - 데이터 원본: `data_orign`
    - 데이터 베이스: `shopdb`
@@ -180,7 +180,7 @@
    ![Image](https://github.com/user-attachments/assets/8016af05-788b-4548-8a60-a47aeae6aff4)
 
 
-## 4. 테이블 파티션 생성 실습
+## 3. 테이블 파티션 생성 실습
 1. `kafka_data_table` 테이블 데이터 조회로 NGINX 로그 존재 확인
    - 데이터 원본: `data_origin`
    - 데이터베이스: `data_catalog_database`
