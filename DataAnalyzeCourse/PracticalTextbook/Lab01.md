@@ -111,14 +111,19 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 통한 메시�
         ```bash
         python3 pub_sub_send.py
         ```
+       - 아래와 같은 결과 확인
+           - <img width="472" alt="image" src="https://github.com/user-attachments/assets/cb987d3a-a797-43ea-b409-1d0fc7ce11c3" />
+
         
         #### **lab1-3-2-2**
+      - **Note**: 아래 값은 하나의 예시, 다른 값을 입력해도 무관
         
         ```bash
         Publish a message to the test-topic in Pub/Sub using the REST API
         ```
+
     
-3. `test-topic`의 메시지를 `test-pull-sub`서브스크립션을 통해 `traffic-generator-2`에서 수신
+4. `test-topic`의 메시지를 `test-pull-sub`서브스크립션을 통해 `traffic-generator-2`에서 수신
     - 메시지 수신 스크립트 실행하여 `traffic-generator-2` 터미널에서 메시지가 정상적으로 수신되는지 확인 후 `Ctrl` + `C` 키로 종료
     
         #### **lab1-3-3**
@@ -127,14 +132,14 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 통한 메시�
         python3 restapi_pull_sub.py
         ```
 
-4. 웹 브라우저 주소창에 아래 URL 입력
+5. 웹 브라우저 주소창에 아래 URL 입력
 
     #### **lab1-3-5**
     ```
     http://{복사해둔 ALB Public IP 주소}/push-messages
     ```
         
-5. `test-push-sub`서브스크립션에서 송신한 메시지 확인
+6. `test-push-sub`서브스크립션에서 송신한 메시지 확인
     - **Note**: 메시지가 보이지 않을 경우 전송에 시간이 걸릴 수 있으므로 잠시 대기 후 다시 시도
       
 
@@ -166,6 +171,9 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 통한 메시�
         ```bash
         ./publisher
         ```
+        - 아래와 같은 결과 확인
+        - <img width="472" alt="image" src="https://github.com/user-attachments/assets/78dd3992-e573-43c8-8078-969fd4cfaa7c" />
+
 
         #### **lab1-4-1-3-2**
         
@@ -211,32 +219,44 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 통한 메시�
     cd /home/ubuntu/syu-DataAnalyze/TrafficGenerator/REST_API/VM1
     
     ```
-2. `traffic-generator-1`에서 트래픽 로그 생성
+
+    - 로그 생성 전 디렉터리 구조 확인
+   #### **lab1-5-2**
+   ```
+   ls
+   ```
+
+3. `traffic-generator-1`에서 트래픽 로그 생성
     - 트래픽 로그가 자동으로 생성되어 NGINX 로그에 반영됨
     
-    #### **lab1-5-2**
+    #### **lab1-5-3**
     
     ```bash
     python3 traffic_generator.py
     ```
     
-3. 실행 완료 후, 생성된 로그 확인
+4. 실행 완료 후 생성된 로그 확인
+    #### **lab1-5-4**
     
-    #### **lab1-5-3**
+    ```bash
+    ls
+    ```
+    
+    #### **lab1-5-5**
     
     ```bash
     cat traffic_generator.log
     ```
     
-4. 웹 브라우저 주소창에 아래 URL 입력
+5. 웹 브라우저 주소창에 아래 URL 입력
 
-    #### **lab1-5-4**
+    #### **lab1-5-5**
     
     ```
     http://{복사해둔 ALB Public IP 주소}
     ```
 
-5. 사용자 등록, 상품 목록 확인 등을 수행하여 로그 생성
-6. 카카오 클라우드 콘솔 > Beyond Storage Service > Object Storage 으로 이동
-7. `pubsub-nginx-log` 버킷 클릭
-8. 현재 연도/월/일/시 디렉터리로 이동하여 생성된 NGINX 로그 확인
+6. 사용자 등록, 상품 목록 확인 등을 수행하여 로그 생성
+7. 카카오 클라우드 콘솔 > Beyond Storage Service > Object Storage 으로 이동
+8. `pubsub-nginx-log` 버킷 클릭
+9. 현재 연도/월/일/시 디렉터리로 이동하여 생성된 NGINX 로그 확인
