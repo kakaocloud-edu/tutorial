@@ -59,7 +59,7 @@
 3. HTTP 상태 코드 분포(ALB Access Log)
    - 데이터 원본: `data_catalog`
    - 데이터 베이스: `data_catalog_database`
-   #### **lab4-1-2-1**
+   #### **lab4-1-2**
    ```
    SELECT 
       target_status_code,
@@ -79,7 +79,7 @@
 4.  HTTP 상태 코드 분포(NGINX Log)
       - 데이터 원본: `data_catalog`
       - 데이터 베이스: `data_catalog_database`
-      #### **lab4-1-2-2**
+   #### **lab4-1-3**
       ```
       SELECT 
          status,
@@ -98,7 +98,7 @@
 5. HTTP 성공 에러 분포(ALB Access Log + NGINX Log)
    - 데이터 원본: `data_catalog`
    - 데이터 베이스: `data_catalog_database`
-   #### **lab4-1-2-3**
+   #### **lab4-1-4**
    ```
    WITH alb_stats AS (
       SELECT 
@@ -126,7 +126,7 @@
 6. 인기 상품 클릭 수(NGINX Log)
    - 데이터 원본: `data_catalog`
    - 데이터 베이스: `data_catalog_database`
-   #### **lab4-1-3-1**
+    #### **lab4-1-5**
    ```
    SELECT 
       regexp_extract(query_params, 'id=([0-9]+)', 1) AS product_id,
@@ -142,7 +142,7 @@
 7. 인기 상품 클릭 수(NGINX Log + MySQL)
    - 데이터 원본: `data_catalog`
    - 데이터 베이스: `data_catalog_database`
-   #### **lab4-1-3-2**
+   #### **lab4-1-6**
    ```
    SELECT 
       pc.product_id,
@@ -168,7 +168,7 @@
    - **Note**: 데이터 원본에 다른 값 사용 주의
    - 데이터 원본: `data_orign`
    - 데이터 베이스: `shopdb`
-   #### **lab4-1-4**
+   #### **lab4-1-7**
    ```
    SELECT 
       COUNT(DISTINCT user_id) AS new_users
@@ -189,6 +189,7 @@
    - 쿼리 결과 탭에서 쿼리 결과로 산출된 NGINX 로그 확인
 2. 쿼리 입력란 상단 `+` 버튼 클릭
 3. 아래 쿼리를 입력하여 `kafka_data_table` 테이블을 status 컬럼을 기준으로 파티션을 나누어 저장하는 새 파티션 테이블 생성
+   #### **lab4-2-1**
    ```
    CREATE TABLE data_catalog_database.kafka_nginx_partitioned
    WITH (
