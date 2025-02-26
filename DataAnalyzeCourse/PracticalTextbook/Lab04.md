@@ -185,10 +185,11 @@
    - 데이터 원본: `data_origin`
    - 데이터베이스: `data_catalog_database`
    - `kafka_data_table` 테이블 우측 `⋮` 버튼 클릭
-   - 테이블 미리보기 버튼 클릭
+      - 테이블 미리보기 버튼 클릭
    - 쿼리 결과 탭에서 쿼리 결과로 산출된 NGINX 로그 확인
 2. 쿼리 입력란 상단 `+` 버튼 클릭
-3. 아래 쿼리를 입력하여 `kafka_data_table` 테이블을 status 컬럼을 기준으로 파티션을 나누어 저장하는 새 파티션 테이블 생성
+3. 아래 코드를 입력하여 쿼리 실행
+   - **Note**: `kafka_data_table` 테이블을 status 컬럼을 기준으로 파티션을 나누어 저장하는 새 파티션 테이블 생성
    #### **lab4-2-1**
    ```
    CREATE TABLE data_catalog_database.kafka_nginx_partitioned
@@ -204,36 +205,11 @@
      status
    FROM data_catalog_database.kafka_data_table;
    ```
-   - 형식 설명
-      ```
-      -- (1) 새로운 테이블 생성 선언
-      CREATE TABLE {Data Catalog 데이터베이스명}.{생성할 Data Catalog 테이블명}
-      
-      -- (2) 테이블 속성 지정
-      WITH (
-        format = 'JSON',                          -- 파일 형식을 JSON으로 설정
-        external_location = 's3a://{Data Catalog에서 설정한 버킷/경로}/{생성할 디렉터리명}',
-        -- ↑ 실제 버킷의 경로로, 테이블 데이터가 저장됨
-        --   'external_location'을 지정으로 카카오클라우드가 지원하는 Data Catalog 테이블을 External 타입으로 다룸
-        
-        partitioned_by = ARRAY['status']
-        -- ↑ 'status' 컬럼을 기준으로 파티션 생성
-      )
-      
-      AS
-      SELECT
-        endpoint,
-        query_params,
-        status
-      -- ↑ 원본 테이블에서 가져올 컬럼들
-      
-      FROM {Data Catalog 데이터베이스명}.{원본 Data Catalog 테이블명};
-      -- ↑ 기존 테이블에서 데이터를 읽어와 새 파티션 테이블에 한 번에 적재
-      ```
+  
 
-4. 카카오 클라우드 콘솔 > 전체 서비스 > Data Catalog > 카탈로그
-5. `kafka_nginx_partitioned` 테이블 클릭
-6. 파티션 탭 클릭
-7. `status` 값에 따라 생성된 파티션 확인
-8. 각 `status` 값 우측 파일 보기 클릭
-9. 파티션에 따라 External 타입으로 저장된 NGINX 로그 데이터 확인
+5. 카카오 클라우드 콘솔 > 전체 서비스 > Data Catalog > 카탈로그
+6. `kafka_nginx_partitioned` 테이블 클릭
+7. 파티션 탭 클릭
+8. `status` 값에 따라 생성된 파티션 확인
+9. 각 `status` 값 우측 파일 보기 클릭
+10. 파티션에 따라 External 타입으로 저장된 NGINX 로그 데이터 확인
