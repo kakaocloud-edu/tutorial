@@ -29,7 +29,6 @@
 ## 2. 카탈로그 생성
 1. 카카오 클라우드 콘솔 > 전체 서비스 > Data Catalog > 카탈로그
 2. 카탈로그 생성 버튼 클릭
-
    - 이름: `data_catalog`
    - VPC 설정
       - VPC: `kc-vpc`
