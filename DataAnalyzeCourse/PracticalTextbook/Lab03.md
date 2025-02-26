@@ -3,17 +3,19 @@
 
 ## 1. Object Storage 버킷 설정
 1. 카카오 클라우드 콘솔 > 전체 서비스 > Object Storage > 일반 버킷
-2.  `kafka-nginx-log` 버킷 클릭
-   - 권한 탭 클릭
-   - 접근 탭 클릭
-   - 접근 설정 버튼 클릭
-      - 액세스 권한
-         - `퍼블릭 액세스 허용 (Read Only)` 선택
-      - 접근 허용 IP 주소: 빈칸
-   - 저장 버튼 클릭
-   - 확인 버튼 클릭
+2. `kafka-nginx-log` 버킷 설정
+      - kafka-nginx-log` 버킷 클릭
+      - 권한 탭 클릭
+      - 접근 탭 클릭
+      - 접근 설정 버튼 클릭
+         - 액세스 권한
+            - `퍼블릭 액세스 허용 (Read Only)` 선택
+         - 접근 허용 IP 주소: 빈칸
+      - 저장 버튼 클릭
+      - 확인 버튼 클릭
 
-3.  `alb-log` 버킷 클릭
+3. `alb-log` 버킷 설정
+   - `alb-log` 버킷 클릭
    - 권한 탭 클릭
    - 접근 탭 클릭
    - 접근 설정 버튼 클릭
@@ -40,29 +42,29 @@
 1. 카카오 클라우드 콘솔 > 전체 서비스 > Data Catalog > 데이터베이스
 2. 데이터베이스 생성 버튼 클릭
    - 카탈로그: `data_catalog`
-   - 이름: `kafka_nginx_db`
+   - 이름: `data_catalog_database`
    - 경로
       - S3 연결: `체크`
-      - 버킷 이름: `kafka-nginx-log`
-      - 경로: `dc-table`
+      - 버킷 이름: `data-catalog`
+      - 경로: `tables`
 3. 생성 버튼 클릭
 
 
 ## 4. 테이블 생성
 1. 카카오 클라우드 콘솔 > 전체 서비스 > Data Catalog > 테이블
 2. 테이블 생성 버튼 클릭
-- **kafka_data** 테이블
-   - 데이터 베이스: `kafka_nginx_db`
-   - 테이블 이름: `kafka_nginx_raw`
+- **kafka_data_table** 테이블 정보
+   - 데이터 베이스: `data_catalog_database`
+   - 테이블 이름: `kafka_data_table`
    - 테이블 저장 경로
       - S3 연결: `체크`
       - 버킷 이름: `kafka-nginx-log`(카프카와 연동된 버킷)
-      - 디렉터리: `topics/nginx-topic/partition_0/year_{현재 연도}/month_{현재 월}/day_{현재 일}`
+      - 디렉터리: `topics/nginx-topic/partition_0/year_{현재 연도}/month_{현재 월}`
    - 데이터 유형: `JSON`
    - Pub/Sub 연동: `사용`
       - 토픽 선택: `data-catalog-topic`
-   - 설명(선택): `없음`
-   - 스키마
+   - 설명(선택): `없음` 
+   - 스키마 (## 지만 - 보기 좋게 수정, 필요한 값들 넣기, alb_data_table 테이블 정보 넣기##)
       - 필드 추가 버튼 클릭
          - 파티션 키: `미사용`
          - 컬럼 번호: `1`
@@ -111,6 +113,10 @@
          - 필드 이름: `timestamp`
          - 데이터 유형: `string`
       - 생성 버튼 클릭
+
+
+- **alb_data_table** 테이블 정보
+
 3. 생성 버튼 클릭
 
 
@@ -127,6 +133,8 @@
       ```
       vi restapi_pull_sub.py
       ```
+      - **Note**: i(입력 모드) 누른 후 화면 하단에--INSERT-- 확인 후 수정
+      - **Note**: esc(명령 모드) 누른 후 :wq로 저장
       - 아래와 같이 코드 수정
       ```
       def main():
@@ -172,7 +180,7 @@
 ## 6. 크롤러 생성
 1. 카카오 클라우드 콘솔 > 전체 서비스 > Data catalog > 크롤러
 2. 크롤러 생성 버튼 클릭
-    - 데이터베이스: `dc_database`
+    - 데이터베이스: `data_catalog_database`
     - 크롤러 이름: `crawler`
     - MySQL 전체 경로
         - 연결할 MySQL: `database`
