@@ -59,6 +59,7 @@
 3. HTTP 상태 코드 분포(ALB Access Log)
    - 데이터 원본: `data_catalog`
    - 데이터 베이스: `data_catalog_database`
+   - 쿼리 입력란 상단 `+` 버튼 클릭
    #### **lab4-1-2**
    ```
    SELECT 
@@ -77,8 +78,9 @@
 
 ---
 4.  HTTP 상태 코드 분포(NGINX Log)
-      - 데이터 원본: `data_catalog`
-      - 데이터 베이스: `data_catalog_database`
+   - 데이터 원본: `data_catalog`
+   - 데이터 베이스: `data_catalog_database`
+   - 쿼리 입력란 상단 `+` 버튼 클릭
    #### **lab4-1-3**
       ```
       SELECT 
@@ -98,6 +100,7 @@
 5. HTTP 성공 에러 분포(ALB Access Log + NGINX Log)
    - 데이터 원본: `data_catalog`
    - 데이터 베이스: `data_catalog_database`
+   - 쿼리 입력란 상단 `+` 버튼 클릭
    #### **lab4-1-4**
    ```
    WITH alb_stats AS (
@@ -126,6 +129,7 @@
 6. 인기 상품 클릭 수(NGINX Log)
    - 데이터 원본: `data_catalog`
    - 데이터 베이스: `data_catalog_database`
+   - 쿼리 입력란 상단 `+` 버튼 클릭
     #### **lab4-1-5**
    ```
    SELECT 
@@ -142,6 +146,7 @@
 7. 인기 상품 클릭 수(NGINX Log + MySQL)
    - 데이터 원본: `data_catalog`
    - 데이터 베이스: `data_catalog_database`
+   - 쿼리 입력란 상단 `+` 버튼 클릭
    #### **lab4-1-6**
    ```
    SELECT 
@@ -168,6 +173,7 @@
    - **Note**: 데이터 원본에 다른 값 사용 주의
    - 데이터 원본: `data_orign`
    - 데이터 베이스: `shopdb`
+   - 쿼리 입력란 상단 `+` 버튼 클릭
    #### **lab4-1-7**
    ```
    SELECT 
@@ -209,7 +215,7 @@
 
 5. 카카오 클라우드 콘솔 > 전체 서비스 > Data Catalog > 카탈로그
 6. `kafka_nginx_partitioned` 테이블 클릭
-7. 파티션 탭 클릭
-8. `status` 값에 따라 생성된 파티션 확인
-9. 각 `status` 값 우측 파일 보기 클릭
-10. 파티션에 따라 External 타입으로 저장된 NGINX 로그 데이터 확인
+   - 파티션 탭 클릭
+   - `status` 값에 따라 생성된 파티션 확인
+   - 각 `status` 값 우측 파일 보기 클릭
+   - 파티션에 따라 External 타입으로 저장된 NGINX 로그 데이터 확인
