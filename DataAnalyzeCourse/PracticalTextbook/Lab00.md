@@ -37,7 +37,7 @@
         - 이름: `data-query-result`
         - 암호화: `미사용`
     - Data Catalog의 데이터 저장용 버킷
-        - 이름: `data-catalog-result`
+        - 이름: `data-catalog`
         - 암호화: `미사용`
 
 3. 생성 버튼 클릭
