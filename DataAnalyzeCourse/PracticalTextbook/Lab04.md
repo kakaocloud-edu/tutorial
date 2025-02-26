@@ -1,32 +1,6 @@
 # Data Query 가이드
 
-## 1. Object Storage 버킷 설정
-1. 카카오 클라우드 콘솔 > 전체 서비스 > Object Storage > 일반 버킷
-2. 권한 설정
-   #### kafka-nginx-log 권한 설정
-   - `kafka-nginx-log` 버킷 클릭
-      - 권한 탭 클릭
-      - 역할 추가 버튼 클릭
-      - 역할 추가 (지만 - 삭제 예정)
-         - 사용자 계정: `없음`
-         - 서비스 계정: `{프로젝트 이름}@data-query.kc.serviceagent.com`
-         - 역할: `스토리지 편집자`
-       - 저장 버튼 클릭
-
-
-   #### alb_log 권한 설정
-   - 좌측 상단의 일반 버킷 탭 클릭
-   - `alb_log` 버킷 클릭 
-      - 권한 탭 클릭
-      - 역할 추가 버튼 클릭
-      - 역할 추가 (지만 - 삭제 예정)
-         - 사용자 계정: `없음`
-         - 서비스 계정: `{프로젝트 이름}@data-query.kc.serviceagent.com`
-         - 역할: `스토리지 편집자`
-      - 저장 버튼 클릭
-
-
-## 2. 데이터 원본 생성
+## 1. 데이터 원본 생성
 1. 카카오 클라우드 콘솔 > 전체 서비스 > Data Query > 데이터 원본 관리
 2. 데이터 원본 생성 버튼 클릭
    - 기본 정보
@@ -39,10 +13,10 @@
       - ID: `admin`
       - PW: `admin1234`
       - `연결 테스트` 클릭 (연결 테스트 완료 후에 생성 가능)
-4. 생성 버튼 클릭
+   - 생성 버튼 클릭
 
 
-## 3. Data Query 실습
+## 2. Data Query 실습
 ### 1. 쿼리 결과 저장 위치 설정
 1. 카카오 클라우드 콘솔 > 전체 서비스 > Data Query > 쿼리 편집기
 2. 설정 탭 클릭 
@@ -74,7 +48,7 @@
       COUNT(*) AS total_requests,
       COUNT(CASE WHEN target_status_code = '200' THEN 1 END) AS success_requests,
       COUNT(CASE WHEN target_status_code <> '200' THEN 1 END) AS error_requests
-   FROM alb_data
+   FROM alb_data_table
    GROUP BY SUBSTRING(time, 1, 7)
    ORDER BY SUBSTRING(time, 1, 7);
    ```
@@ -90,10 +64,10 @@
       target_status_code,
       COUNT(*) AS code_count,
       ROUND(COUNT(*) * 100.0 / total.total_count, 2) AS percentage
-   FROM alb_data
+   FROM alb_data_table
    CROSS JOIN (
       SELECT COUNT(*) AS total_count
-      FROM alb_data
+      FROM alb_data_table
    ) AS total
    GROUP BY target_status_code, total.total_count
    ORDER BY target_status_code;
@@ -110,10 +84,10 @@
          status,
          COUNT(*) AS code_count,
          ROUND(COUNT(*) * 100.0 / total.total_count, 2) AS percentage
-      FROM kafka_data
+      FROM kafka_data_table
       CROSS JOIN (
          SELECT COUNT(*) AS total_count
-         FROM kafka_data
+         FROM kafka_data_table
       ) AS total
       GROUP BY status, total.total_count
       ORDER BY status; 
@@ -129,13 +103,13 @@
       SELECT 
          COUNT(*) AS total_alb,
          COUNT(CASE WHEN target_status_code LIKE '4%' THEN 1 END) AS error_alb
-      FROM alb_data
+      FROM alb_data_table
    ),
    nginx_stats AS (
       SELECT 
          COUNT(*) AS total_nginx,
          COUNT(CASE WHEN status LIKE '4%' THEN 1 END) AS error_nginx
-      FROM kafka_data
+      FROM kafka_data_table
    )
    SELECT 
       total_alb + total_nginx AS total_count,
@@ -156,7 +130,7 @@
    SELECT 
       regexp_extract(query_params, 'id=([0-9]+)', 1) AS product_id,
       COUNT(*) AS click_count
-   FROM kafka_data
+   FROM kafka_data_table
    WHERE endpoint = '/product'
    GROUP BY regexp_extract(query_params, 'id=([0-9]+)', 1)
    ORDER BY click_count DESC;
@@ -177,7 +151,7 @@
       SELECT 
          regexp_extract(query_params, 'id=([0-9]+)', 1) AS product_id,
          COUNT(*) AS click_count
-      FROM kafka_data
+      FROM kafka_data_table
       WHERE endpoint = '/product'
       GROUP BY regexp_extract(query_params, 'id=([0-9]+)', 1)
    ) AS pc
@@ -199,8 +173,8 @@
       COUNT(DISTINCT user_id) AS new_users
    FROM users_logs
    WHERE event_type = 'CREATED'
-   AND event_time BETWEEN TIMESTAMP '2025-02-14 00:00:00'
-      AND TIMESTAMP '2025-02-14 23:59:59';
+   AND event_time BETWEEN TIMESTAMP '2025-02-00 00:00:00'
+      AND TIMESTAMP '2025-02-28 23:59:59';
    ```
    ![Image](https://github.com/user-attachments/assets/8016af05-788b-4548-8a60-a47aeae6aff4)
 
@@ -223,13 +197,8 @@
    )
    AS
    SELECT
-     request,
-     method,
-     session_id,
      endpoint,
-     http_referer,
      query_params,
-     timestamp,
      status
    FROM data_catalog_database.kafka_data_table;
    ```
@@ -251,13 +220,8 @@
       
       AS
       SELECT
-        request,
-        method,
-        session_id,
         endpoint,
-        http_referer,
         query_params,
-        timestamp,
         status
       -- ↑ 원본 테이블에서 가져올 컬럼들
       
