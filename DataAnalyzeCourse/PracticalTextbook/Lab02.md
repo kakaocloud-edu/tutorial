@@ -5,7 +5,8 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
 ---
 
 ## 1. Kafka 기본 환경 설정
-- **Note**: `trarffic-generator-1, 2`에서 설치 진행  
+- **Note**: `trarffic-generator-1, 2`에서 설치 진행
+- **Note**: 설치 중간에 보라색 화면이 뜨면 'Enter`로 진행
 
 1. Java 설치
     
@@ -36,6 +37,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
 4. ~/.bashrc에 환경 변수 및 부트스트랩 서버 주소를 설정하여 Kafka 실행에 필요한 경로와 정보 등록
     
     #### lab2-1-3-1
+   - **Note**: `{Kafka 부트스트랩 서버}`: `kafka` 클러스터의 부트스트랩 서버 입력
     
     ```bash
     cat << 'EOF' >> ~/.bashrc
@@ -44,7 +46,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     export KAFKA_BOOTSTRAP_SERVERS="{Kafka 부트스트랩 서버}"
     EOF
     ```
-    - {Kafka 부트스트랩 서버}: `kafka` 클러스터의 부트스트랩 서버 입력
+    
 
    #### lab2-1-3-2
     
@@ -52,7 +54,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     source ~/.bashrc
     ```
     
-5. kafka-python 라이브러리 설치
+6. kafka-python 라이브러리 설치
     
     #### lab2-1-4
     
@@ -61,9 +63,11 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     sudo pip3 install kafka-python
     ```
     
-6. Kafka 클러스터와 통신 확인
+7. Kafka 클러스터와 통신 확인
     
     #### lab2-1-5
+    - **Note**: 콤마(,) 기준으로 kafka 클러스터의 부트스트랩 서버 주소 하나씩 입력
+    - **Note**: 실패 시 네트워크 및 보안 그룹 설정 확인
     
     ```bash
     nc -zv {Kafka 클러스터의 부트스트랩 서버}
@@ -72,8 +76,10 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
       ```
       nc -zv 10.0.0.27 9092
       ```
+   - 아래와 같은 정상적인 화면 확인 후 진행
+   - ![image](https://github.com/user-attachments/assets/e769ee52-5a32-49f6-8124-f20c9ed60227)
+
     
-    - **Note**: 실패 시 네트워크 및 보안 그룹 설정 확인
 
 # 2. Kafka 메시지 송수신 확인
 
@@ -102,6 +108,13 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
         ```bash
         bin/kafka-console-producer.sh --broker-list ${KAFKA_BOOTSTRAP_SERVERS} --topic consol-topic
         ```
+
+        - 메시지 입력
+          ```
+          test1
+          test2
+          test3
+          ```
     
     - `traffic-generator-2`에서 Kafka 디렉터리로 이동
     
@@ -136,16 +149,19 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     - `traffic-generator-1`에서 송신할 새로운 메세지 입력 후 `Enter` 키 입력
     - `traffic-generator-2` 터미널 창에서 consumer-group-latest 그룹으로 `consol-topic` 토픽의 메시지를 콘솔 컨슈머를 실행한 이후 생성된 메시지부터 수신 확인
     - `traffic-generator-1, 2`에서 `Ctrl`+`c` 키를 입력하여 종료
-    - `consumer-group-latest`, `consumer-group-earliest` 컨슈머 그룹 목록 확인
+    - `traffic-generator-2`에서 컨슈머 그룹 목록 확인
     
         #### lab2-2-1-7
         
         ```bash
         bin/kafka-consumer-groups.sh --bootstrap-server ${KAFKA_BOOTSTRAP_SERVERS} --list
         ```
+    - `consumer-group-latest`, `consumer-group-earliest` 두 값이 뜨는거 확인
+
+
     
 
-2. Python 코드로 메시지 송수신
+1. Python 코드로 메시지 송수신
     - `traffic-generator-1`에서 새 토픽(`python-topic`) 생성
     
         #### lab2-2-2-1
@@ -195,14 +211,16 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     
 2. Logstash 설정 파일 수정
     - `api-server-1, 2`에서 `/etc/logstash/logstash.yml` 열기
+    - `path.config` 항목을 `logs-to-kafka.conf`로 변경 후 저장
     
         #### lab2-3-2
         
         ```bash
         sudo vi /etc/logstash/logstash.yml
         ```
-    
-    - `path.config` 항목을 `logs-to-kafka.conf`로 변경 후 저장
+    - **Note**: `i`(입력 모드) 누른 후 화면 하단에`--INSERT-- 확인` 후 수정
+    - **Note**: `esc`(명령 모드) 누른 후 `:wq`로 저장
+
 3. Logstash 재실행 및 상태 확인
     
     #### lab2-3-3
@@ -211,8 +229,10 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     sudo systemctl restart logstash
     sudo systemctl status logstash
     ```
+
+    - `Active:active (running)` 확인
     
-4. `trarffic-generator-1`에서 콘솔 컨슈머 실행
+4. `trarffic-generator-2`에서 콘솔 컨슈머 실행
     
     #### lab2-3-4
     
@@ -222,7 +242,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     ```
     
 5. 웹 브라우저 주소창에 `http://{ALB의 Public IP}`를 입력하여 접속 후 링크 클릭 등을 통해 임의로 트래픽 생성
-6. `trarffic-generator-1`의 터미널에서 NGINX 로그 확인
+6. `trarffic-generator-2`의 터미널에서 NGINX 로그 확인
 7. `Ctrl`+`c` 키를 입력하여 종료
     
 
