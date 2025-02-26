@@ -66,7 +66,7 @@
 
 3. 월 별 요청 분석(ALB Access Log)
    - 데이터 원본: `data_catalog`
-   - 데이터 베이스: `dc_database`
+   - 데이터 베이스: `data_catalog_database`
    #### **lab4-1-1**
    ```
    SELECT
@@ -83,7 +83,7 @@
 
 4. HTTP 상태 코드 분포(ALB Access Log)
    - 데이터 원본: `data_catalog`
-   - 데이터 베이스: `dc_database`
+   - 데이터 베이스: `data_catalog_database`
    #### **lab4-1-2-1**
    ```
    SELECT 
@@ -103,7 +103,7 @@
 ---
 5.  HTTP 상태 코드 분포(NGINX Log)
       - 데이터 원본: `data_catalog`
-      - 데이터 베이스: `dc_database`
+      - 데이터 베이스: `data_catalog_database`
       #### **lab4-1-2-2**
       ```
       SELECT 
@@ -122,7 +122,7 @@
 ---
 6. HTTP 성공 에러 분포(ALB Access Log + NGINX Log)
    - 데이터 원본: `data_catalog`
-   - 데이터 베이스: `dc_database`
+   - 데이터 베이스: `data_catalog_database`
    #### **lab4-1-2-3**
    ```
    WITH alb_stats AS (
@@ -150,7 +150,7 @@
 ---
 7. 인기 상품 클릭 수(NGINX Log)
    - 데이터 원본: `data_catalog`
-   - 데이터 베이스: `dc_database`
+   - 데이터 베이스: `data_catalog_database`
    #### **lab4-1-3-1**
    ```
    SELECT 
@@ -166,7 +166,7 @@
 
 8. 인기 상품 클릭 수(NGINX Log + MySQL)
    - 데이터 원본: `data_catalog`
-   - 데이터 베이스: `dc_database`
+   - 데이터 베이스: `data_catalog_database`
    #### **lab4-1-3-2**
    ```
    SELECT 
@@ -190,6 +190,7 @@
 
 
 9. 신규 사용자 수(MySQL)
+   - **Note**: 데이터 원본에 다른 값 사용 주의
    - 데이터 원본: `data_orign`
    - 데이터 베이스: `shopdb`
    #### **lab4-1-4**
@@ -205,7 +206,7 @@
 
 
 ## 4. 테이블 파티션 생성 실습
-1. `kafka_nginx_db` 테이블 데이터 조회로 NGINX 로그 존재 확인
+1. `kafka_data_table` 테이블 데이터 조회로 NGINX 로그 존재 확인
    - 데이터 원본: `data_origin`
    - 데이터베이스: `data_catalog_database`
    - `kafka_data_table` 테이블 우측 `⋮` 버튼 클릭
