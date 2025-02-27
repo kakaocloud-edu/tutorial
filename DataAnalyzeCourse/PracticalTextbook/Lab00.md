@@ -25,8 +25,8 @@
 1. 카카오 클라우드 콘솔 > 전체 서비스 > Object Storage
 2. 버킷 생성 버튼 클릭
 
-3. Nginx Log 수집용 버킷 (`kafka` 연동)
-    - 이름: `kafka-nginx-log`
+3. Nginx Log 수집용 버킷 (Pub/Sub 연동)
+    - 이름: `pubsub-nginx-log`
     - 암호화: `미사용`
     - 생성 버튼 클릭
 
