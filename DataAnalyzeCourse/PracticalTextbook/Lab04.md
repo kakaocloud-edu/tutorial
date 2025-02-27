@@ -21,8 +21,8 @@
 1. 카카오 클라우드 콘솔 > 전체 서비스 > Data Query > 쿼리 편집기
 2. 설정 탭 클릭 
    - 관리 버튼 클릭
-      - 버킷: `data-query-result`
-      - 상세 경로(선택): `없음`
+      - 버킷: `data-catalog`
+      - 상세 경로(선택): `data-query-result`
    - 저장 버튼 클릭
 
 - **Note**: 예상 파일 저장 형식
@@ -201,7 +201,7 @@
    CREATE TABLE data_catalog_database.kafka_nginx_partitioned
    WITH (
      format = 'JSON',
-     external_location = 's3a://data-catalog/tables/partitioned',
+     external_location = 's3a://data-catalog/data-catalog/tables/partitioned',
      partitioned_by = ARRAY['status']
    )
    AS
