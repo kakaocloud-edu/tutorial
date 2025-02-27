@@ -3,19 +3,8 @@
 
 ## 1. Object Storage 버킷 설정
 1. 카카오 클라우드 콘솔 > 전체 서비스 > Object Storage > 일반 버킷
-2. `kafka-nginx-log` 버킷 설정
+2. `data-catalog` 버킷 설정
       - `kafka-nginx-log` 버킷 클릭
-         - 권한 탭 클릭
-         - 접근 탭 클릭
-         - 접근 설정 버튼 클릭
-            - 액세스 권한
-               - `퍼블릭 액세스 허용 (Read Only)` 선택
-               - 접근 허용 IP 주소: 빈칸
-               - 저장 버튼 클릭
-         - 확인 버튼 클릭
-
-3. `alb-log` 버킷 설정
-      - `alb-log` 버킷 클릭
          - 권한 탭 클릭
          - 접근 탭 클릭
          - 접근 설정 버튼 클릭
@@ -44,7 +33,7 @@
    - 경로
       - S3 연결: `체크`
       - 버킷 이름: `data-catalog`
-      - 경로: `tables`
+      - 경로: `data-catalog`
    - 생성 버튼 클릭
 
 
@@ -56,8 +45,8 @@
    - 테이블 이름: `alb_data_table`
    - 테이블 저장 경로
       - S3 연결: `체크`
-      - 버킷 이름: `alb-log`(로드밸런서 액세스 로그 적재용 버킷)
-      - 디렉터리: `KCLogs/kr-central-2/2025`
+      - 버킷 이름: `data-catalog`(로드밸런서 액세스 로그 적재용 버킷)
+      - 디렉터리: `KCLogs/kr-central-2/2025/{월}`
    - 데이터 유형: `JSON`
    - Pub/Sub 연동: `미사용`
    - 설명(선택): `없음` 
@@ -75,8 +64,8 @@
    - 테이블 이름: `kafka_data_table`
    - 테이블 저장 경로
       - S3 연결: `체크`
-      - 버킷 이름: `kafka-nginx-log`(카프카와 연동된 버킷)
-      - 디렉터리: `topics/nginx-topic/partition_0/year_{현재 연도}/month_{현재 월}`
+      - 버킷 이름: `data-catalog`
+      - 디렉터리: `kafka-nginx-log/topics/nginx-topic/partition_0/year_{현재 연도}/month_{현재 월}`
    - 데이터 유형: `JSON`
    - Pub/Sub 연동: `사용`
       - 토픽 선택: `data-catalog-topic`
