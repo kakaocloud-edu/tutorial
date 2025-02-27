@@ -24,27 +24,17 @@
 
 1. 카카오 클라우드 콘솔 > 전체 서비스 > Object Storage
 2. 버킷 생성 버튼 클릭
-3. ALB Access Log 수집용 버킷
-    - 이름: `alb-log`
-    - 암호화: `미사용`
-    - 생성 버튼 클릭
-4. Nginx Log 수집용 버킷 (`Pub/Sub` 연동)
-    - 이름: `pubsub-nginx-log`
-    - 암호화: `미사용`
-    - 생성 버튼 클릭
-5. Nginx Log 수집용 버킷 (`kafka` 연동)
+
+3. Nginx Log 수집용 버킷 (`kafka` 연동)
     - 이름: `kafka-nginx-log`
     - 암호화: `미사용`
     - 생성 버튼 클릭
-6. Data Query의 쿼리 결과 저장용 버킷
-    - 이름: `data-query-result`
-    - 암호화: `미사용`
-    - 생성 버튼 클릭
-7. Data Catalog의 데이터 저장용 버킷
+
+4. Data Catalog의 데이터 저장용 버킷
     - 이름: `data-catalog`
     - 암호화: `미사용`
     - 생성 버튼 클릭
-8. Object Storage 버킷 생성 확인
+5. Object Storage 버킷 생성 확인
 
 ## 3. MySQL 생성
 
