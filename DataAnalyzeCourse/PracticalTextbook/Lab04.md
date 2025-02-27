@@ -201,7 +201,7 @@
    CREATE TABLE data_catalog_database.kafka_nginx_partitioned
    WITH (
      format = 'JSON',
-     external_location = 's3a://data-catalog/data-catalog/tables/partitioned',
+     external_location = 's3a://data-catalog/data-catalog-dir/tables/partitioned',
      partitioned_by = ARRAY['status']
    )
    AS
