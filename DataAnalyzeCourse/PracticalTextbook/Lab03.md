@@ -59,9 +59,9 @@
          - 데이터 유형: `string`
       - 생성 버튼 클릭
 
-- **kafka_log_table** 테이블 정보
+- **kafka_nlog_table** 테이블 정보
    - 데이터 베이스: `data_catalog_database`
-   - 테이블 이름: `kafka_log_table`
+   - 테이블 이름: `kafka_nlog_table`
    - 테이블 저장 경로
       - S3 연결: `체크`
       - 버킷 이름: `data-catalog`
