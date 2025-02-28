@@ -24,7 +24,7 @@ export TOPIC_NAME="{콘솔에서 생성한 토픽 이름(test-topic)}"
 export SUB_NAME="{콘솔에서 생성한 Pull Subscription 이름(test-pull-sub)}"
 export TOPIC_NAME_MK="{log 적재용 토픽 이름(log-topic)}"
 export OBJECT_STORAGE_SUBSCRIPTION_NAME="{생성할 Object Storage Subscription 이름(log-obj-sub)}"
-export OBJECT_STORAGE_BUCKET="{데이터 카탈로그 테이블 저장용 버킷(data-catalog-bkt)}"
+export OBJECT_STORAGE_BUCKET="{Pub/Sub NGINX 로그 저장용 버킷(pubsub-nginx-log)}"
 
 export PUBSUB_ENDPOINT="https://pub-sub.kr-central-2.kakaocloud.com"
 export TOPIC_DESCRIPTION=""
