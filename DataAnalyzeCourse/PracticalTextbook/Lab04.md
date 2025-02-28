@@ -87,10 +87,10 @@
          status,
          COUNT(*) AS code_count,
          ROUND(COUNT(*) * 100.0 / total.total_count, 2) AS percentage
-      FROM kafka_data_table
+      FROM kafka_nlog_table
       CROSS JOIN (
          SELECT COUNT(*) AS total_count
-         FROM kafka_data_table
+         FROM kafka_nlog_table
       ) AS total
       GROUP BY status, total.total_count
       ORDER BY status; 
@@ -113,7 +113,7 @@
       SELECT 
          COUNT(*) AS total_nginx,
          COUNT(CASE WHEN status LIKE '4%' THEN 1 END) AS error_nginx
-      FROM kafka_data_table
+      FROM kafka_nlog_table
    )
    SELECT 
       total_alb + total_nginx AS total_count,
@@ -135,7 +135,7 @@
    SELECT 
       regexp_extract(query_params, 'id=([0-9]+)', 1) AS product_id,
       COUNT(*) AS click_count
-   FROM kafka_data_table
+   FROM kafka_nlog_table
    WHERE endpoint = '/product'
    GROUP BY regexp_extract(query_params, 'id=([0-9]+)', 1)
    ORDER BY click_count DESC;
@@ -157,7 +157,7 @@
       SELECT 
          regexp_extract(query_params, 'id=([0-9]+)', 1) AS product_id,
          COUNT(*) AS click_count
-      FROM kafka_data_table
+      FROM kafka_nlog_table
       WHERE endpoint = '/product'
       GROUP BY regexp_extract(query_params, 'id=([0-9]+)', 1)
    ) AS pc
@@ -187,15 +187,15 @@
 
 
 ## 3. 테이블 파티션 생성 실습
-1. `kafka_data_table` 테이블 데이터 조회로 NGINX 로그 존재 확인
+1. `kafka_nlog_table` 테이블 데이터 조회로 NGINX 로그 존재 확인
    - 데이터 원본: `data_origin`
    - 데이터베이스: `data_catalog_database`
-   - `kafka_data_table` 테이블 우측 `⋮` 버튼 클릭
+   - `kafka_nlog_table` 테이블 우측 `⋮` 버튼 클릭
       - 테이블 미리보기 버튼 클릭
 2. 쿼리 결과 탭에서 쿼리 결과로 산출된 NGINX 로그 확인
 3. 아래 코드를 입력하여 쿼리 실행
    - 쿼리 입력란 상단 `+` 버튼 클릭
-   - **Note**: `kafka_data_table` 테이블을 status 컬럼을 기준으로 파티션을 나누어 저장하는 새 파티션 테이블 생성
+   - **Note**: `kafka_nlog_table` 테이블을 status 컬럼을 기준으로 파티션을 나누어 저장하는 새 파티션 테이블 생성
    #### **lab4-2-1**
    ```
    CREATE TABLE data_catalog_database.kafka_nginx_partitioned
@@ -209,7 +209,7 @@
      endpoint,
      query_params,
      status
-   FROM data_catalog_database.kafka_data_table;
+   FROM data_catalog_database.kafka_nlog_table;
    ```
   
 
