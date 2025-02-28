@@ -198,7 +198,7 @@
    - **Note**: `kafka_nlog_table` 테이블을 status 컬럼을 기준으로 파티션을 나누어 저장하는 새 파티션 테이블 생성
    #### **lab4-2-1**
    ```
-   CREATE TABLE data_catalog_database.kafka_nginx_partitioned
+   CREATE TABLE data_catalog_database.kafka_nlog_partitioned
    WITH (
      format = 'JSON',
      external_location = 's3a://data-catalog/data-catalog-dir/tables/partitioned',
@@ -214,7 +214,7 @@
   
 
 5. 카카오 클라우드 콘솔 > 전체 서비스 > Data Catalog > 카탈로그
-6. `kafka_nginx_partitioned` 테이블 클릭
+6. `kafka_nlog_partitioned` 테이블 클릭
    - 파티션 탭 클릭
    - `status` 값에 따라 생성된 파티션 확인
    - 각 `status` 값 우측 파일 보기 클릭
