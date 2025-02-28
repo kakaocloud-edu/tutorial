@@ -571,7 +571,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     
     # Object Storage/S3 관련 설정
     s3.region=kr-central-2
-    s3.bucket.name={버킷 이름}
+    s3.bucket.name={버킷 이름(data-catalog)}
     s3.part.size=5242880
     
     aws.access.key.id={S3_ACCESS_KEY}
@@ -598,7 +598,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     format.class=com.mycompany.connect.CustomJsonFormat
     
     # 최상위 디렉터리명 변경
-    topics.dir=topics
+    topics.dir=kafka-nginx-log
     
     # 토픽 디렉터리를 기본 토픽 이름 대신 다른 이름으로 대체
     custom.topic.dir=nginx-topic
