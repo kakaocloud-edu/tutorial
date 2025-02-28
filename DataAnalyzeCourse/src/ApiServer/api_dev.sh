@@ -2,13 +2,13 @@
 
 MYSQL_HOST="{MySQL 엔드포인트}"
 DOMAIN_ID="{조직 ID}"
-PROJECT_ID="{프로젝트 ID]"
-PUBSUB_TOPIC_NAME="{Pub/Sub log 적재용 토픽 이름(log-topic)}"
-KAFKA_TOPIC_NAME="{Kafka 토픽 이름(nginx-topic)}"
+PROJECT_ID="{프로젝트 ID}"
 CREDENTIAL_ID="{액세스 키 ID}"
 CREDENTIAL_SECRET="{보안 액세스 키}"
-LOGSTASH_ENV_FILE="/etc/default/logstash"
 LOGSTASH_KAFKA_ENDPOINT="{Kafka 클러스터 부트스트랩 서버}"
+PUBSUB_TOPIC_NAME="{Pub/Sub log 적재용 토픽 이름(log-topic)}"
+KAFKA_TOPIC_NAME="nginx-topic"
+LOGSTASH_ENV_FILE="/etc/default/logstash"
 
 
 echo "kakaocloud: 1. ~/.bashrc에 환경 변수를 설정합니다."
