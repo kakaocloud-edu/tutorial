@@ -65,7 +65,7 @@
    - 테이블 저장 경로
       - S3 연결: `체크`
       - 버킷 이름: `data-catalog`
-      - 디렉터리: `kafka-nginx-log/topics/nginx-topic/partition_0/year_{현재 연도}/month_{현재 월}`
+      - 디렉터리: `kafka-nginx-log/nginx-topic/partition_0/year_{현재 연도}/month_{현재 월}`
    - 데이터 유형: `JSON`
    - Pub/Sub 연동: `사용`
       - 토픽 선택: `data-catalog-topic`
