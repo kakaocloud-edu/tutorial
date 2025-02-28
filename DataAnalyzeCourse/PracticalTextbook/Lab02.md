@@ -511,13 +511,13 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     - Default region name: `kr-central-2`
     - Default output format: (생략)
 15. 버킷에 쓰기 권한 부여
-    - **Note**: `{버킷 이름}`: 실제 생성한 버킷 이름(`kafka-nginx-log`)으로 변경
+    - **Note**: `{버킷 이름}`: 실제 생성한 버킷 이름(`data-catalog`)으로 변경
 
     #### lab2-5-13
     
     ```bash
     aws s3api put-bucket-acl \
-      --bucket {버킷 이름} \
+      --bucket {버킷 이름(data-catalog)} \
       --grant-write 'uri="http://acs.amazonaws.com/groups/global/AllUsers"' \
       --endpoint-url https://objectstorage.kr-central-2.kakaocloud.com
     ```
@@ -703,6 +703,6 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
 
 9. Object Storage 버킷 내 NGINX 로그 적재 확인
     - 카카오 클라우드 콘솔 > 전체 서비스 > Object Storage
-    - `kafka-nginx-log` 버킷 클릭
+    - `data-catalog` 버킷 클릭
     - `/topics/nginx-topic/partition_0/year_{현재 연도}/month_{현재 월}/day_{현재 일}/hour_{현재 시}` 디렉터리로 이동
     - 버킷 내 적재된 NGINX 로그 적재 확인
