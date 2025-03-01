@@ -104,6 +104,9 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     3) 콘솔 프로듀서 실행(1) 후 송신할 메세지 입력 후 `Enter` 키 입력
     
         #### lab2-2-1-3
+
+        - **Note**: 메세지가 입력될 때 마다 offset에 쌓임
+        - **Note**: offset0 부터 시작
         
         ```bash
         bin/kafka-console-producer.sh --broker-list ${KAFKA_BOOTSTRAP_SERVERS} --topic consol-topic
@@ -125,7 +128,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
         cd /opt/kafka
         ```
     
-    - Kafka 콘솔 컨슈머를 실행해 consumer-group-earliest 그룹으로 `consol-topic` 토픽의 메시지를 처음부터 수신
+    5) Kafka 콘솔 컨슈머를 실행해 consumer-group-earliest 그룹으로 `consol-topic` 토픽의 메시지를 수신
     
         #### lab2-2-1-5
         
@@ -136,11 +139,11 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
             --property print.offset=true
         ```
 
-    - `traffic-generator-2` 터미널 창에서 `traffic-generator-1`에서 입력했던 메세지 수신 확인
+    - `traffic-generator-2` 터미널 창에서 `traffic-generator-1`에서 입력했던 메세지와 offset 수신 확인
     - `traffic-generator-2`에서 `Ctrl` + `c` 키로 종료
 
 
-    - 콘솔 프로듀서 실행(2) 후 송신할 메세지 입력 후 `Enter` 키 입력
+    6) 콘솔 프로듀서 실행(2) 후 송신할 메세지 입력 후 `Enter` 키 입력
     
         #### lab2-2-1-6
         
@@ -154,11 +157,11 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
           test5
           test6
           ```
+    - `traffic-generator-1`에서 `Ctrl` + `c` 키로 종료
 
-
-    - `traffic-generator-2`에서 Kafka 콘솔 컨슈머 실행
+    7) Kafka 콘솔 컨슈머를 실행해 consumer-group-latest 그룹으로 `consol-topic` 토픽의 메시지를 수신
    
-        #### lab2-2-1-6
+        #### lab2-2-1-7
         
         ```bash
         bin/kafka-console-consumer.sh --bootstrap-server ${KAFKA_BOOTSTRAP_SERVERS} \
@@ -166,11 +169,28 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
             --consumer-property auto.offset.reset=latest
             --property print.offset=true
         ```
+    - **Note**: 이후 실행할 producer 메세지 받아야하므로 종료하면 안됨
+    - auto.offset.reset의 latest 옵션은 consumer 실행 이후 producer로 들어오는 offset부터 읽기 때문에 이전에 실행된 producer의 메세지 'test1~6'은 출력 X
+
+    8) 콘솔 프로듀서 실행(3) 후 송신할 메세지 입력 후 `Enter` 키 입력
     
-    - `traffic-generator-1`에서 송신할 새로운 메세지 입력 후 `Enter` 키 입력
-    - `traffic-generator-2` 터미널 창에서 consumer-group-latest 그룹으로 `consol-topic` 토픽의 메시지를 콘솔 컨슈머를 실행한 이후 생성된 메시지부터 수신 확인
-    - `traffic-generator-1, 2`에서 `Ctrl`+`c` 키를 입력하여 종료
-    - `traffic-generator-2`에서 컨슈머 그룹 목록 확인
+        #### lab2-2-1-8
+        
+        ```bash
+        bin/kafka-console-producer.sh --broker-list ${KAFKA_BOOTSTRAP_SERVERS} --topic consol-topic
+        ```
+
+        - 메시지 입력
+          ```
+          test7
+          test8
+          test9
+          ```
+    - **Note**: test를 입력할 때마다 consumer latest에서 출력되는 것 확인
+    - `traffic-generator-1`에서 `Ctrl` + `c` 키로 종료
+ 
+
+    9) `traffic-generator-2`에서 컨슈머 그룹 목록 확인
     
         #### lab2-2-1-7
         
