@@ -84,7 +84,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
 # 2. Kafka 메시지 송수신 확인 (지만 - 수정 예정)
 
 1. 콘솔 스크립트로 메시지 송수신
-    - `traffic-generator-1`에서 `/opt/kafka` 디렉터리로 이동
+    1) `traffic-generator-1`에서 `/opt/kafka` 디렉터리로 이동
     
         #### lab2-2-1-1
         
@@ -92,7 +92,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
         cd /opt/kafka
         ```
     
-    - 새 토픽(`consol-topic`) 생성
+    2) 새 토픽(`consol-topic`) 생성
     
         #### lab2-2-1-2
         
@@ -101,7 +101,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
         --create --topic consol-topic --partitions 2 --replication-factor 2
         ```
     
-    - 콘솔 프로듀서 실행 후 송신할 메세지 입력 후 `Enter` 키 입력
+    3) 콘솔 프로듀서 실행(1) 후 송신할 메세지 입력 후 `Enter` 키 입력
     
         #### lab2-2-1-3
         
@@ -115,8 +115,9 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
           test2
           test3
           ```
+    - `traffic-generator-1`에서 `Ctrl` + `c` 키로 종료
     
-    - `traffic-generator-2`에서 Kafka 디렉터리로 이동
+    4) `traffic-generator-2`에서 Kafka 디렉터리로 이동
     
         #### lab2-2-1-4
         
@@ -131,11 +132,30 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
         ```bash
         bin/kafka-console-consumer.sh --bootstrap-server ${KAFKA_BOOTSTRAP_SERVERS} \
             --topic consol-topic --group consumer-group-earliest \
-            --consumer-property auto.offset.reset=earliest
+            --consumer-property auto.offset.reset=earliest \
+            --property print.offset=true
         ```
 
     - `traffic-generator-2` 터미널 창에서 `traffic-generator-1`에서 입력했던 메세지 수신 확인
     - `traffic-generator-2`에서 `Ctrl` + `c` 키로 종료
+
+
+    - 콘솔 프로듀서 실행(2) 후 송신할 메세지 입력 후 `Enter` 키 입력
+    
+        #### lab2-2-1-6
+        
+        ```bash
+        bin/kafka-console-producer.sh --broker-list ${KAFKA_BOOTSTRAP_SERVERS} --topic consol-topic
+        ```
+
+        - 메시지 입력
+          ```
+          test4
+          test5
+          test6
+          ```
+
+
     - `traffic-generator-2`에서 Kafka 콘솔 컨슈머 실행
    
         #### lab2-2-1-6
@@ -144,6 +164,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
         bin/kafka-console-consumer.sh --bootstrap-server ${KAFKA_BOOTSTRAP_SERVERS} \
             --topic consol-topic --group consumer-group-latest \
             --consumer-property auto.offset.reset=latest
+            --property print.offset=true
         ```
     
     - `traffic-generator-1`에서 송신할 새로운 메세지 입력 후 `Enter` 키 입력
