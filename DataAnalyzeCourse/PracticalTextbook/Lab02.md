@@ -106,7 +106,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     
     #### lab2-2-1-3
 
-    - **Note**: 메세지가 입력될 때 마다 offset에 쌓임
+    - **Note**: 메세지가 입력될 때 마다 `offset`에 쌓임
     - **Note**: `offset 0` 부터 시작
         
     ```bash
@@ -169,8 +169,8 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     --consumer-property auto.offset.reset=latest
     --property print.offset=true
     ```
-    - **Note**: 이후 실행할 producer 메세지 받아야하므로 종료하면 안됨
-    - auto.offset.reset의 latest 옵션은 consumer 실행 이후 producer로 들어오는 offset부터 읽기 때문에 이전에 실행된 producer의 메세지 'test1~6'은 출력 X
+    - **Note**: 이후 실행할 `producer` 메세지 받아야하므로 종료하면 안됨
+    - `auto.offset.reset`의 `latest` 옵션은 `consumer` 실행 이후 `producer`로 들어오는 `offset`부터 읽기 때문에 이전에 실행된 `producer`의 메세지 'test1~6'은 출력 X
 
     H. 콘솔 프로듀서 실행 후 송신할 메세지 입력 후 `Enter` 키 입력(3)
     
@@ -186,7 +186,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     test8
     test9
     ```
-    - **Note**: test를 입력할 때마다 consumer latest에서 출력되는 것 확인
+    - **Note**: test를 입력할 때마다 `consumer latest`에서 출력되는 것 확인
     - `traffic-generator-1`에서 `Ctrl` + `c` 키로 종료
  
 
