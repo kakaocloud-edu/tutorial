@@ -106,7 +106,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
         #### lab2-2-1-3
 
         - **Note**: 메세지가 입력될 때 마다 offset에 쌓임
-        - **Note**: offset0 부터 시작
+        - **Note**: `offset 0` 부터 시작
         
         ```bash
         bin/kafka-console-producer.sh --broker-list ${KAFKA_BOOTSTRAP_SERVERS} --topic consol-topic
