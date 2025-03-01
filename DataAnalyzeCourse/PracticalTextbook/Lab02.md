@@ -461,6 +461,14 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     icacls.exe keypair.pem /grant:r %username%:(R)
     icacls.exe keypair.pem /inheritance:r
     ```
+
+7. 스크립트 적용 확인
+
+    #### **lab2-4-7**
+   
+    ```
+    tail -f /home/ubuntu/setup.log
+    ```
     
 
 # 5. S3 Sink Connector 설치 및 연동
