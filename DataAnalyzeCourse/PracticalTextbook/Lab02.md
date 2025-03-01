@@ -84,7 +84,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
 # 2. Kafka 메시지 송수신 확인 (지만 - 수정 예정)
 
 1. 콘솔 스크립트로 메시지 송수신
-    1) `traffic-generator-1`에서 `/opt/kafka` 디렉터리로 이동
+    A. `traffic-generator-1`에서 `/opt/kafka` 디렉터리로 이동
     
         #### lab2-2-1-1
         
@@ -92,7 +92,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
         cd /opt/kafka
         ```
     
-    2) 새 토픽(`consol-topic`) 생성
+    B. 새 토픽(`consol-topic`) 생성
     
         #### lab2-2-1-2
         
@@ -101,7 +101,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
         --create --topic consol-topic --partitions 2 --replication-factor 2
         ```
     
-    3) 콘솔 프로듀서 실행(1) 후 송신할 메세지 입력 후 `Enter` 키 입력
+    C. 콘솔 프로듀서 실행(1) 후 송신할 메세지 입력 후 `Enter` 키 입력
     
         #### lab2-2-1-3
 
@@ -120,7 +120,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
           ```
     - `traffic-generator-1`에서 `Ctrl` + `c` 키로 종료
     
-    4) `traffic-generator-2`에서 Kafka 디렉터리로 이동
+    D. `traffic-generator-2`에서 Kafka 디렉터리로 이동
     
         #### lab2-2-1-4
         
@@ -128,7 +128,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
         cd /opt/kafka
         ```
     
-    5) Kafka 콘솔 컨슈머를 실행해 consumer-group-earliest 그룹으로 `consol-topic` 토픽의 메시지를 수신
+    E. Kafka 콘솔 컨슈머를 실행해 consumer-group-earliest 그룹으로 `consol-topic` 토픽의 메시지를 수신
     
         #### lab2-2-1-5
         
@@ -143,7 +143,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     - `traffic-generator-2`에서 `Ctrl` + `c` 키로 종료
 
 
-    6) 콘솔 프로듀서 실행(2) 후 송신할 메세지 입력 후 `Enter` 키 입력
+    F. 콘솔 프로듀서 실행(2) 후 송신할 메세지 입력 후 `Enter` 키 입력
     
         #### lab2-2-1-6
         
@@ -159,7 +159,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
           ```
     - `traffic-generator-1`에서 `Ctrl` + `c` 키로 종료
 
-    7) Kafka 콘솔 컨슈머를 실행해 consumer-group-latest 그룹으로 `consol-topic` 토픽의 메시지를 수신
+    G. Kafka 콘솔 컨슈머를 실행해 consumer-group-latest 그룹으로 `consol-topic` 토픽의 메시지를 수신
    
         #### lab2-2-1-7
         
@@ -172,7 +172,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     - **Note**: 이후 실행할 producer 메세지 받아야하므로 종료하면 안됨
     - auto.offset.reset의 latest 옵션은 consumer 실행 이후 producer로 들어오는 offset부터 읽기 때문에 이전에 실행된 producer의 메세지 'test1~6'은 출력 X
 
-    8) 콘솔 프로듀서 실행(3) 후 송신할 메세지 입력 후 `Enter` 키 입력
+    H. 콘솔 프로듀서 실행(3) 후 송신할 메세지 입력 후 `Enter` 키 입력
     
         #### lab2-2-1-8
         
@@ -190,7 +190,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     - `traffic-generator-1`에서 `Ctrl` + `c` 키로 종료
  
 
-    9) `traffic-generator-2`에서 컨슈머 그룹 목록 확인
+    I. `traffic-generator-2`에서 컨슈머 그룹 목록 확인
     
         #### lab2-2-1-7
         
