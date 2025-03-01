@@ -102,7 +102,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     --create --topic consol-topic --partitions 2 --replication-factor 2
     ```
     
-    C. 콘솔 프로듀서 실행(1) 후 송신할 메세지 입력 후 `Enter` 키 입력
+    C. 콘솔 프로듀서 실행 후 송신할 메세지 입력 후 `Enter` 키 입력(1)
     
     #### lab2-2-1-3
 
@@ -143,7 +143,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     - `traffic-generator-2` 터미널 창에서 `traffic-generator-1`에서 입력했던 메세지와 offset 수신 확인
     - `traffic-generator-2`에서 `Ctrl` + `c` 키로 종료
 
-    F. 콘솔 프로듀서 실행(2) 후 송신할 메세지 입력 후 `Enter` 키 입력
+    F. 콘솔 프로듀서 실행 후 송신할 메세지 입력 후 `Enter` 키 입력(2)
     
     #### lab2-2-1-6
         
@@ -172,7 +172,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     - **Note**: 이후 실행할 producer 메세지 받아야하므로 종료하면 안됨
     - auto.offset.reset의 latest 옵션은 consumer 실행 이후 producer로 들어오는 offset부터 읽기 때문에 이전에 실행된 producer의 메세지 'test1~6'은 출력 X
 
-    H. 콘솔 프로듀서 실행(3) 후 송신할 메세지 입력 후 `Enter` 키 입력
+    H. 콘솔 프로듀서 실행 후 송신할 메세지 입력 후 `Enter` 키 입력(3)
     
     #### lab2-2-1-8
         
