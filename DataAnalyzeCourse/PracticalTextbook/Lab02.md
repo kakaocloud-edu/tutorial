@@ -248,19 +248,15 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
         --create --topic nginx-topic --partitions 2 --replication-factor 2
         ```
     
-2. Logstash 설정 파일 수정
-    - `api-server-1, 2`에서 `/etc/logstash/logstash.yml` 열기
-    - `path.config` 항목을 `logs-to-kafka.conf`로 변경 후 저장
-    
-        #### lab2-3-2
-        
-        ```bash
-        sudo vi /etc/logstash/logstash.yml
-        ```
-    - **Note**: `i`(입력 모드) 누른 후 화면 하단에`--INSERT-- 확인` 후 수정
-    - **Note**: `esc`(명령 모드) 누른 후 `:wq`로 저장
+2. Logstash 설정 파일을 수정하여 Kafka로 송신하도록 설정
 
-3. Logstash 재실행 및 상태 확인
+    #### lab2-3-2
+   
+    ```
+    sudo sed -i 's/logs-to-pubsub.conf/logs-to-kafka.conf/g' /etc/logstash/logstash.yml
+    ```
+
+4. Logstash 재실행 및 상태 확인
     
     #### lab2-3-3
     
@@ -271,7 +267,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
 
     - `Active:active (running)` 확인
     
-4. `trarffic-generator-2`에서 콘솔 컨슈머 실행
+5. `trarffic-generator-2`에서 콘솔 컨슈머 실행
     
     #### lab2-3-4
     
@@ -280,9 +276,9 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     --topic nginx-topic --from-beginning
     ```
     
-5. 웹 브라우저 주소창에 `http://{ALB의 Public IP}`를 입력하여 접속 후 링크 클릭 등을 통해 임의로 트래픽 생성
-6. `trarffic-generator-2`의 터미널에서 NGINX 로그 확인
-7. `Ctrl`+`c` 키를 입력하여 종료
+6. 웹 브라우저 주소창에 `http://{ALB의 Public IP}`를 입력하여 접속 후 링크 클릭 등을 통해 임의로 트래픽 생성
+7. `trarffic-generator-2`의 터미널에서 NGINX 로그 확인
+8. `Ctrl`+`c` 키를 입력하여 종료
     
 
 # 4. Kafka Connector VM 생성
