@@ -192,7 +192,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
 
     I. `traffic-generator-2`에서 컨슈머 그룹 목록 확인
     
-    #### lab2-2-1-7
+    #### lab2-2-1-9
         
     ```bash
     bin/kafka-consumer-groups.sh --bootstrap-server ${KAFKA_BOOTSTRAP_SERVERS} --list
