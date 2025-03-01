@@ -87,7 +87,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
 
     A. `traffic-generator-1`에서 `/opt/kafka` 디렉터리로 이동
     
-        #### lab2-2-1-1
+    #### lab2-2-1-1
         
         ```bash
         cd /opt/kafka
@@ -95,7 +95,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     
     B. 새 토픽(`consol-topic`) 생성
     
-        #### lab2-2-1-2
+    #### lab2-2-1-2
         
         ```bash
         bin/kafka-topics.sh --bootstrap-server ${KAFKA_BOOTSTRAP_SERVERS} \
@@ -104,7 +104,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     
     C. 콘솔 프로듀서 실행(1) 후 송신할 메세지 입력 후 `Enter` 키 입력
     
-        #### lab2-2-1-3
+    #### lab2-2-1-3
 
         - **Note**: 메세지가 입력될 때 마다 offset에 쌓임
         - **Note**: `offset 0` 부터 시작
@@ -123,7 +123,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     
     D. `traffic-generator-2`에서 Kafka 디렉터리로 이동
     
-        #### lab2-2-1-4
+    #### lab2-2-1-4
         
         ```bash
         cd /opt/kafka
@@ -131,7 +131,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     
     E. Kafka 콘솔 컨슈머를 실행해 consumer-group-earliest 그룹으로 `consol-topic` 토픽의 메시지를 수신
     
-        #### lab2-2-1-5
+    #### lab2-2-1-5
         
         ```bash
         bin/kafka-console-consumer.sh --bootstrap-server ${KAFKA_BOOTSTRAP_SERVERS} \
@@ -146,7 +146,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
 
     F. 콘솔 프로듀서 실행(2) 후 송신할 메세지 입력 후 `Enter` 키 입력
     
-        #### lab2-2-1-6
+    #### lab2-2-1-6
         
         ```bash
         bin/kafka-console-producer.sh --broker-list ${KAFKA_BOOTSTRAP_SERVERS} --topic consol-topic
@@ -162,7 +162,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
 
     G. Kafka 콘솔 컨슈머를 실행해 consumer-group-latest 그룹으로 `consol-topic` 토픽의 메시지를 수신
    
-        #### lab2-2-1-7
+    #### lab2-2-1-7
         
         ```bash
         bin/kafka-console-consumer.sh --bootstrap-server ${KAFKA_BOOTSTRAP_SERVERS} \
@@ -175,7 +175,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
 
     H. 콘솔 프로듀서 실행(3) 후 송신할 메세지 입력 후 `Enter` 키 입력
     
-        #### lab2-2-1-8
+    #### lab2-2-1-8
         
         ```bash
         bin/kafka-console-producer.sh --broker-list ${KAFKA_BOOTSTRAP_SERVERS} --topic consol-topic
@@ -193,7 +193,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
 
     I. `traffic-generator-2`에서 컨슈머 그룹 목록 확인
     
-        #### lab2-2-1-7
+    #### lab2-2-1-7
         
         ```bash
         bin/kafka-consumer-groups.sh --bootstrap-server ${KAFKA_BOOTSTRAP_SERVERS} --list
