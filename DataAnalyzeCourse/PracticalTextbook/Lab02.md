@@ -467,6 +467,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     #### **lab2-4-7**
    
     ```
+    cat /home/ubuntu/setup.log
     tail -f /home/ubuntu/setup.log
     ```
     
