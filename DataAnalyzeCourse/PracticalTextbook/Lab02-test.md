@@ -510,101 +510,9 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
 
 # 5. S3 Sink Connector 설치 및 연동
 
-1. Kafka 다운로드 및 /home/ubuntu/kafka 경로에 배치
+1. AWS CLI 환경 설정
     
     #### lab2-5-1
-    
-    ```bash
-    curl -o /home/ubuntu/kafka_2.13-3.7.1.tgz \
-    https://archive.apache.org/dist/kafka/3.7.1/kafka_2.13-3.7.1.tgz && \
-    tar -xzf /home/ubuntu/kafka_2.13-3.7.1.tgz -C /home/ubuntu && \
-    rm /home/ubuntu/kafka_2.13-3.7.1.tgz && \
-    mv /home/ubuntu/kafka_2.13-3.7.1 /home/ubuntu/kafka
-    ```
-    
-2. Confluent Hub Client 설치
-    
-    #### lab2-5-2
-    
-    ```bash
-    cd /
-    sudo mkdir -p /confluent-hub/plugins && \
-    cd /confluent-hub && \
-    sudo curl -LO http://client.hub.confluent.io/confluent-hub-client-latest.tar.gz && \
-    sudo tar -zxvf confluent-hub-client-latest.tar.gz
-    ```
-    
-3. .bashrc에 Confluent, Java Home 등 환경 변수 등록
-    
-    #### lab2-5-3-1
-   
-    ```bash
-    cat <<'EOF' >> /home/ubuntu/.bashrc
-    # Confluent 설정
-    export CONFLUENT_HOME='/confluent-hub'
-    export PATH="$PATH:$CONFLUENT_HOME/bin"
-    
-    # Java 설정
-    export JAVA_HOME='/usr/lib/jvm/java-21-openjdk-amd64'
-    export PATH="$JAVA_HOME/bin:$PATH"
-    EOF
-    ```
-    
-    #### lab2-5-3-2
-    
-    ```bash
-    source ~/.bashrc
-    ```
-    
-    
-4. Confluent Hub Plugins 폴더 권한 변경
-    
-    #### lab2-5-4
-    
-    ```bash
-    sudo chown ubuntu:ubuntu /confluent-hub/plugins
-    ```
-    
-5. S3 Sink Connector 설치
-
-    #### lab2-5-5-1
-    
-    ```bash
-    sudo chown ubuntu:ubuntu /home/ubuntu/kafka/config/connect-standalone.properties
-    ```
-    
-    #### lab2-5-5-2
-    
-    ```bash
-    confluent-hub install confluentinc/kafka-connect-s3:latest \
-    --component-dir /confluent-hub/plugins \
-    --worker-configs /home/ubuntu/kafka/config/connect-standalone.properties \
-    --no-prompt
-    ```
-    
-6. AWS CLI 설치
-    - Object Storage S3 API 연동 위해 AWS CLI 2.22.0 다운로드 및 설치
-    
-    #### lab2-5-6-1
-    
-    ```bash
-    cd /home/ubuntu && \
-    curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64-2.22.0.zip" -o "awscliv2.zip" && \
-    unzip awscliv2.zip && \
-    sudo ./aws/install
-    ```
-    
-    - AWS CLI 버전 확인
-    
-    #### lab2-5-6-2
-    
-    ```bash
-    aws --version
-    ```
-    
-7. AWS CLI 환경 설정
-    
-    #### lab2-5-7
     
     ```bash
     aws configure
@@ -614,10 +522,10 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     - AWS Secret Access Key: 콘솔에서 발급한 S3 액세스 키의 `보안 액세스 키` 값
     - Default region name: `kr-central-2`
     - Default output format: (생략)
-8. 버킷에 쓰기 권한 부여
+2. 버킷에 쓰기 권한 부여
     - **Note**: `{버킷 이름}`: 실제 생성한 버킷 이름(`data-catalog`)으로 변경
 
-    #### lab2-5-8
+    #### lab2-5-2
     
     ```bash
     aws s3api put-bucket-acl \
