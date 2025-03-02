@@ -575,8 +575,8 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     aws configure
     ```
     
-    - AWS Access Key ID: 콘솔에서 발급한 S3 액세스 키의 인증 키 값
-    - AWS Secret Access Key: 콘솔에서 발급한 S3 액세스 키의 보안 액세스 키 값
+    - AWS Access Key ID: 콘솔에서 발급한 S3 액세스 키의 `인증 키` 값
+    - AWS Secret Access Key: 콘솔에서 발급한 S3 액세스 키의 `보안 액세스 키` 값
     - Default region name: `kr-central-2`
     - Default output format: (생략)
 8. 버킷에 쓰기 권한 부여
@@ -622,7 +622,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     - **Note**: `esc`(명령 모드) 누른 후 `:wq`로 저장
     
     - 아래 내용 추가
-      - **Note**: `{버킷 이름}`, `{S3_ACCESS_KEY}`, `{S3_SECRET_ACCESS_KEY}` 수정 후 붙여넣기
+      - **Note**: `{버킷 이름(data-catalog)}`, `{콘솔에서 발급한 S3 액세스 키의 인증 키 값}`, `{콘솔에서 발급한 S3 액세스 키의 보안 액세스 키 값}` 수정 후 붙여넣기
     #### lab2-6-3-2
     
     ```
@@ -643,8 +643,8 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     s3.bucket.name={버킷 이름(data-catalog)}
     s3.part.size=5242880
     
-    aws.access.key.id={S3_ACCESS_KEY}
-    aws.secret.access.key={S3_SECRET_ACCESS_KEY}
+    aws.access.key.id={콘솔에서 발급한 S3 액세스 키의 인증 키 값}
+    aws.secret.access.key={콘솔에서 발급한 S3 액세스 키의 보안 액세스 키 값}
     store.url=https://objectstorage.kr-central-2.kakaocloud.com
     
     # Key/Value Converter 설정
