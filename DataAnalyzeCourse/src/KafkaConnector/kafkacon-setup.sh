@@ -1,10 +1,6 @@
 #!/bin/bash
 
-################################################################################
-# 0. 초기 설정
-################################################################################
-
-# 원하는 Kakao i Cloud S3 Credentials
+# 원하는 kakaocloud S3 Credentials
 AWS_ACCESS_KEY_ID_VALUE="{콘솔에서 발급한 S3 액세스 키의 인증 키 값}"
 AWS_SECRET_ACCESS_KEY_VALUE="{콘솔에서 발급한 S3 액세스 키의 보안 액세스 키 값}"
 AWS_DEFAULT_REGION_VALUE="kr-central-2"
@@ -14,11 +10,16 @@ AWS_DEFAULT_OUTPUT_VALUE="json"
 KAFKA_BOOTSTRAP_SERVER="{Kafka 부트스트랩 서버 값}"
 BUCKET_NAME="{Kafka와 연동된 버킷 이름(data-catalog)}"
 
-LOGFILE="/home/ubuntu/setup.log"
-exec &> >(tee -a "$LOGFILE")  # 모든 echo 출력도 setup.log에 기록
+################################################################################
+# 0. 초기 설정
+################################################################################
 
+# 로그 파일 경로 설정
+LOGFILE="/home/ubuntu/setup.log"
+
+# 로그 기록 함수
 log() {
-  echo "$(date '+%Y-%m-%d %H:%M:%S') - $1"
+    echo "$(date '+%Y-%m-%d %H:%M:%S') - $1" | tee -a "$LOGFILE"
 }
 
 log "Start setup script"
