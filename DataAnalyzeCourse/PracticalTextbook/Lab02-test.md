@@ -659,7 +659,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     ```
    
     
-# 5. Worker 구성 및 Object Storage 테스트
+# 5. S3 Sink Connector 생성
 
 1. 버킷에 쓰기 권한 부여
     - **Note**: `{버킷 이름}`: 실제 생성한 버킷 이름(`data-catalog`)으로 변경
@@ -668,154 +668,35 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     
     ```bash
     aws s3api put-bucket-acl \
-      --bucket {버킷 이름(data-catalog)} \
+      --bucket {Kafka와 연동된 버킷 이름(data-catalog)} \
       --grant-write 'uri="http://acs.amazonaws.com/groups/global/AllUsers"' \
       --endpoint-url https://objectstorage.kr-central-2.kakaocloud.com
     ```
     
-3. S3 Sink Connector 설정 파일 생성
-    - `/opt/kafka/config/s3-sink-connector.properties` 파일 생성
+3. S3 Sink Connector, Standalone Worker 설정 파일 확인
+
+    #### lab2-5-3
     
-    #### lab2-5-3-1
+    ```
+    ls /opt/kafka/config
+    ```
+    ![image](https://github.com/user-attachments/assets/2bdefc88-31aa-4d5e-8498-0a7ff3619da6)
+    - **Note**: `s3-sink-connector.properties`, `worker.properties` 파일 존재 확인
+    
+
+4. kafka-connect 시스템 서비스 파일 확인
+    
+    #### lab2-5-4
     
     ```bash
-    vi /opt/kafka/config/s3-sink-connector.properties
+    ls /etc/systemd/system | grep kafka-connect.service
     ```
-    - **Note**: `i`(입력 모드) 누른 후 화면 하단에`--INSERT-- 확인` 후 수정
-    - **Note**: `esc`(명령 모드) 누른 후 `:wq`로 저장
+    - **Note**: `kafka-connect.service` 파일 존재 확인
+
     
-    - 아래 내용 추가
-      - **Note**: `{버킷 이름(data-catalog)}`, `{콘솔에서 발급한 S3 액세스 키의 인증 키 값}`, `{콘솔에서 발급한 S3 액세스 키의 보안 액세스 키 값}` 수정 후 붙여넣기
-    #### lab2-5-3-2
+5. 데몬 리로드 및 서비스 시작
     
-    ```
-    # 커넥터 이름
-    name=s3-sink-connector
-    
-    # S3 Sink Connector 클래스
-    connector.class=io.confluent.connect.s3.S3SinkConnector
-    
-    # 태스크 수
-    tasks.max=1
-    
-    # 연결할 토픽
-    topics=nginx-topic
-    
-    # Object Storage/S3 관련 설정
-    s3.region=kr-central-2
-    s3.bucket.name={버킷 이름(data-catalog)}
-    s3.part.size=5242880
-    
-    aws.access.key.id={콘솔에서 발급한 S3 액세스 키의 인증 키 값}
-    aws.secret.access.key={콘솔에서 발급한 S3 액세스 키의 보안 액세스 키 값}
-    store.url=https://objectstorage.kr-central-2.kakaocloud.com
-    
-    # Key/Value Converter 설정
-    key.converter=org.apache.kafka.connect.json.JsonConverter
-    value.converter=org.apache.kafka.connect.json.JsonConverter
-    key.converter.schemas.enable=false
-    value.converter.schemas.enable=false
-    
-    # 스토리지 및 포맷 설정
-    storage.class=io.confluent.connect.s3.storage.S3Storage
-    format.class=io.confluent.connect.s3.format.json.JsonFormat
-    
-    # flush.size: 지정한 메시지 수만큼 누적 시 S3에 업로드
-    flush.size=1
-    
-    # 커스텀 파티셔너 클래스 지정
-    partitioner.class=com.mycompany.connect.FlexibleTimeBasedPartitioner
-    
-    # 커스텀 파일네임 클래스 지정
-    format.class=com.mycompany.connect.CustomJsonFormat
-    
-    # 최상위 디렉터리명 변경
-    topics.dir=kafka-nginx-log
-    
-    # 토픽 디렉터리를 기본 토픽 이름 대신 다른 이름으로 대체
-    custom.topic.dir=nginx-topic
-    
-    # 파티션 디렉터리를 커스텀 접두어 생성
-    custom.partition.prefix=partition_
-    
-    # Time-based 필수 설정
-    # partition.duration.ms: 파티션 구간(밀리초). 예: 1시간 = 3600000ms
-    partition.duration.ms=3600000
-    # path.format: year=YYYY/month=MM/day=dd/hour=HH 등 원하는 년/월/일/시 형식
-    path.format='year_'yyyy/'month_'MM/'day_'dd/'hour_'HH
-    # locale, timezone, timestamp.extractor: TimeBasedPartitioner에서 요구하는 설정
-    locale=en-US
-    timezone=Asia/Seoul
-    timestamp.extractor=Wallclock
-    
-    # 5) 예약어 치환 규칙 (예: "A:B,C:D" → 경로 문자열 내 "A"를 "B"로, "C"를 "D"로 치환)
-    custom.replacements==:_
-    ```
-    
-4. Standalone Worker 설정
-    - `/opt/kafka/config/worker.properties` 파일 생성
-    
-    #### lab2-5-4-1
-    
-    ```bash
-    vi /opt/kafka/config/worker.properties
-    ```
-    
-    #### lab2-5-4-2
-    
-    ```bash
-    # 워커 기본 설정
-    bootstrap.servers={Kafka 부트스트랩 서버}
-    key.converter=org.apache.kafka.connect.json.JsonConverter
-    value.converter=org.apache.kafka.connect.json.JsonConverter
-    key.converter.schemas.enable=false
-    value.converter.schemas.enable=false
-    
-    # Offset 저장 관련 설정 (standalone 모드 필수)
-    offset.storage.file.filename=/tmp/connect.offsets
-    offset.flush.interval.ms=10000
-    
-    # 플러그인 경로 (S3 Sink Connector가 설치된 경로)
-    plugin.path=/confluent-hub/plugins
-    
-    # REST 인터페이스 리스너 (커넥터 상태 확인용)
-    listeners=http://0.0.0.0:8083
-    ```
-    
-    - {Kafka 부트스트랩 서버}: Kafka 클러스터의 부트스트랩 서버 값으로 변경
-5. kafka-connect 시스템 서비스 등록
-    - `/etc/systemd/system/kafka-connect.service` 파일 생성
-    
-    #### lab2-5-5-1
-    
-    ```bash
-    sudo vi /etc/systemd/system/kafka-connect.service
-    ```
-    
-    - 아래 내용 입력
-    
-    #### lab2-5-5-2
-    
-    ```bash
-    [Unit]
-    Description=Kafka Connect Standalone Service
-    After=network.target
-    
-    [Service]
-    User=ubuntu
-    ExecStart=/home/ubuntu/kafka/bin/connect-standalone.sh \
-    /opt/kafka/config/worker.properties \
-    /opt/kafka/config/s3-sink-connector.properties
-    Restart=on-failure
-    RestartSec=5
-    
-    [Install]
-    WantedBy=multi-user.target
-    ```
-    
-6. 데몬 리로드 및 서비스 시작
-    
-    #### lab2-5-7
+    #### lab2-5-5
     
     ```bash
     sudo systemctl daemon-reload
@@ -823,17 +704,17 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     sudo systemctl start kafka-connect
     ```
 
-7. s3-sink-connector 상태 정보 조회
+6. s3-sink-connector 상태 정보 조회
    
-    #### lab2-5-8
+    #### lab2-5-6
     
     ```bash
     watch -n 1 "curl -s http://localhost:8083/connectors/s3-sink-connector/status | jq"
     ```
 
-8. `connector`, `tasks`의 `state` 값이 `RUNNING`인 것을 확인
+7. `connector`, `tasks`의 `state` 값이 `RUNNING`인 것을 확인
 
-9. Object Storage 버킷 내 NGINX 로그 적재 확인
+8. Object Storage 버킷 내 NGINX 로그 적재 확인
     - 카카오 클라우드 콘솔 > 전체 서비스 > Object Storage
     - `data-catalog` 버킷 클릭
     - `/topics/nginx-topic/partition_0/year_{현재 연도}/month_{현재 월}/day_{현재 일}/hour_{현재 시}` 디렉터리로 이동
