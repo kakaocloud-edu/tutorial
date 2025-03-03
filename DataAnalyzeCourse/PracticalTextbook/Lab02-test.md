@@ -318,17 +318,17 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
             # 0. 초기 설정
             ################################################################################
             
-            # 원하는 카카오클라우드 S3 Credentials
+            # 원하는 Kakao i Cloud S3 Credentials
             AWS_ACCESS_KEY_ID_VALUE="{콘솔에서 발급한 S3 액세스 키의 인증 키 값}"
             AWS_SECRET_ACCESS_KEY_VALUE="{콘솔에서 발급한 S3 액세스 키의 보안 액세스 키 값}"
             AWS_DEFAULT_REGION_VALUE="kr-central-2"
             AWS_DEFAULT_OUTPUT_VALUE="json"
             
             LOGFILE="/home/ubuntu/setup.log"
+            exec &> >(tee -a "$LOGFILE")  # 모든 echo 출력도 setup.log에 기록
             
-            # 로그 기록 함수
             log() {
-                echo "$(date '+%Y-%m-%d %H:%M:%S') - $1" | tee -a "$LOGFILE"
+              echo "$(date '+%Y-%m-%d %H:%M:%S') - $1"
             }
             
             log "Start setup script"
@@ -349,12 +349,9 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
             ################################################################################
             log "Step 3: Kafka 다운로드 및 설치 시작"
             
-            KAFKA_URL="https://dlcdn.apache.org/kafka/3.7.1/kafka_2.13-3.7.1.tgz"
-            KAFKA_TGZ="/home/ubuntu/kafka_2.13-3.7.1.tgz"
-            
-            aria2c -x 16 -s 16 -d /home/ubuntu -o kafka_2.13-3.7.1.tgz "$KAFKA_URL"
-            tar -xzf "$KAFKA_TGZ" -C /home/ubuntu
-            rm "$KAFKA_TGZ"
+            aria2c -x 16 -s 16 -d /home/ubuntu -o kafka_2.13-3.7.1.tgz "https://archive.apache.org/dist/kafka/3.7.1/kafka_2.13-3.7.1.tgz"
+            tar -xzf /home/ubuntu/kafka_2.13-3.7.1.tgz -C /home/ubuntu
+            rm /home/ubuntu/kafka_2.13-3.7.1.tgz
             mv /home/ubuntu/kafka_2.13-3.7.1 /home/ubuntu/kafka
             
             log "Step 3: Kafka 다운로드 및 설치 완료"
@@ -393,7 +390,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
             # 4-2) 실제 값 치환해서 추가
             cat <<EOF >> /home/ubuntu/.bashrc
             
-            # 카카오클라우드 S3 Credentials
+            # Kakao i Cloud S3 Credentials
             export AWS_ACCESS_KEY_ID="$AWS_ACCESS_KEY_ID_VALUE"
             export AWS_SECRET_ACCESS_KEY="$AWS_SECRET_ACCESS_KEY_VALUE"
             export AWS_DEFAULT_REGION="$AWS_DEFAULT_REGION_VALUE"
@@ -521,7 +518,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     ```
 
 7. 스크립트 적용 확인
-    - **Note**: 스크립트 적용에 45분정도 소요
+    - **Note**: 스크립트 적용에 10~15분 소요
 
     #### **lab2-4-7**
    
