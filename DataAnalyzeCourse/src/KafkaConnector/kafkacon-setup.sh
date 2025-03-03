@@ -4,7 +4,7 @@
 # 0. 초기 설정
 ################################################################################
 LOGFILE="/home/ubuntu/setup.log"
-exec &> >(tee -a "$LOGFILE")  # 모든 echo 출력도 setup.log에 기록(원한다면)
+exec &> >(tee -a "$LOGFILE")  # 모든 echo 출력도 setup.log에 기록
 
 log() {
   echo "$(date '+%Y-%m-%d %H:%M:%S') - $1"
