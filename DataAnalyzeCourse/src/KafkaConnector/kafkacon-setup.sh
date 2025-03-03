@@ -147,6 +147,24 @@ log "Step 8: AWS CLI configure 설정 완료"
 source /home/ubuntu/.bashrc
 
 ################################################################################
+# 9. Kafka 설정 폴더 생성 및 권한 부여
+################################################################################
+log "Step 9: Kafka 설정 폴더 생성 및 권한 부여"
+
+sudo mkdir -p /opt/kafka/config
+sudo chown -R ubuntu:ubuntu /opt/kafka
+
+################################################################################
+# 10. 커스텀 파티셔너, 파일네임 플러그인을 다운로드
+################################################################################
+log "Step 10: 커스텀 파티셔너, 파일네임 플러그인 다운로드"
+
+sudo wget -O /confluent-hub/plugins/confluentinc-kafka-connect-s3/lib/custom-partitioner-1.0-SNAPSHOT.jar \
+  "https://github.com/kakaocloud-edu/tutorial/raw/refs/heads/main/DataAnalyzeCourse/src/KafkaConnector/custom-partitioner-1.0-SNAPSHOT.jar" && \
+sudo wget -O /confluent-hub/plugins/confluentinc-kafka-connect-s3/lib/custom-filename-1.0-SNAPSHOT.jar \
+  "https://github.com/kakaocloud-edu/tutorial/raw/refs/heads/main/DataAnalyzeCourse/src/KafkaConnector/custom-filename-1.0-SNAPSHOT.jar"
+
+################################################################################
 # 완료
 ################################################################################
 log "Setup 완료"
