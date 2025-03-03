@@ -425,7 +425,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
             sudo chown ubuntu:ubuntu /home/ubuntu/kafka/config/connect-standalone.properties
             
             # (2) S3 Sink Connector 설치
-            confluent-hub install confluentinc/kafka-connect-s3:latest \
+            /confluent-hub/bin/confluent-hub install confluentinc/kafka-connect-s3:latest \
               --component-dir /confluent-hub/plugins \
               --worker-configs /home/ubuntu/kafka/config/connect-standalone.properties \
               --no-prompt
