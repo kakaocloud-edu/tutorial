@@ -10,6 +10,10 @@ AWS_SECRET_ACCESS_KEY_VALUE="{콘솔에서 발급한 S3 액세스 키의 보안 
 AWS_DEFAULT_REGION_VALUE="kr-central-2"
 AWS_DEFAULT_OUTPUT_VALUE="json"
 
+# Kafka용 설정 변수
+KAFKA_BOOTSTRAP_SERVER="{Kafka 부트스트랩 서버 값}"
+BUCKET_NAME="{Kafka와 연동된 버킷 이름(data-catalog)}"
+
 LOGFILE="/home/ubuntu/setup.log"
 exec &> >(tee -a "$LOGFILE")  # 모든 echo 출력도 setup.log에 기록
 
@@ -96,10 +100,7 @@ log "Step 5: .bashrc 환경 변수 등록 완료"
 ################################################################################
 # 5. .bashrc 적용 → confluent-hub / AWS CLI 에서 쓸 수 있도록
 ################################################################################
-# log "Step 6: 소스 적용 (source /home/ubuntu/.bashrc)"
-# 주의: 이 `source` 명령은 현재 root 쉘에서 /home/ubuntu/.bashrc를 읽게 합니다.
-# 실제 ubuntu 계정의 로그인 쉘과 완전히 동일하게 동작하는 것은 아니지만,
-# PATH나 export 변수 정도는 반영됩니다.
+# 주의: cloud-init 등 비인터랙티브 실행 시 .bashrc가 자동 적용되지 않을 수 있으므로, 직접 source.
 source /home/ubuntu/.bashrc
 
 ################################################################################
@@ -108,7 +109,7 @@ source /home/ubuntu/.bashrc
 log "Step 6: S3 Sink Connector 설치 시작"
 
 # (1) connect-standalone.properties 권한 변경
-sudo chown ubuntu:ubuntu /home/ubuntu/kafka/config/connect-standalone.properties
+sudo chown ubuntu:ubuntu /home/ubuntu/kafka/config/connect-standalone.properties 2>/dev/null
 
 # (2) S3 Sink Connector 설치
 /confluent-hub/bin/confluent-hub install confluentinc/kafka-connect-s3:latest \
@@ -163,6 +164,118 @@ sudo wget -O /confluent-hub/plugins/confluentinc-kafka-connect-s3/lib/custom-par
   "https://github.com/kakaocloud-edu/tutorial/raw/refs/heads/main/DataAnalyzeCourse/src/KafkaConnector/custom-partitioner-1.0-SNAPSHOT.jar" && \
 sudo wget -O /confluent-hub/plugins/confluentinc-kafka-connect-s3/lib/custom-filename-1.0-SNAPSHOT.jar \
   "https://github.com/kakaocloud-edu/tutorial/raw/refs/heads/main/DataAnalyzeCourse/src/KafkaConnector/custom-filename-1.0-SNAPSHOT.jar"
+
+################################################################################
+# 11. s3-sink-connector.properties 생성
+################################################################################
+log "Step 11: /opt/kafka/config/s3-sink-connector.properties 파일 생성"
+
+cat <<EOF > /opt/kafka/config/s3-sink-connector.properties
+# 커넥터 이름
+name=s3-sink-connector
+
+# S3 Sink Connector 클래스
+connector.class=io.confluent.connect.s3.S3SinkConnector
+tasks.max=1
+
+# 연결할 토픽
+topics=nginx-topic
+
+# Object Storage/S3 관련 설정
+s3.region=kr-central-2
+s3.bucket.name=${BUCKET_NAME}
+s3.part.size=5242880
+
+aws.access.key.id=${AWS_ACCESS_KEY_ID_VALUE}
+aws.secret.access.key=${AWS_SECRET_ACCESS_KEY_VALUE}
+store.url=https://objectstorage.kr-central-2.kakaocloud.com
+
+# Key/Value Converter 설정
+key.converter=org.apache.kafka.connect.json.JsonConverter
+value.converter=org.apache.kafka.connect.json.JsonConverter
+key.converter.schemas.enable=false
+value.converter.schemas.enable=false
+
+# 스토리지 및 포맷 설정
+storage.class=io.confluent.connect.s3.storage.S3Storage
+format.class=io.confluent.connect.s3.format.json.JsonFormat
+
+# flush.size: 지정한 메시지 수만큼 누적 시 S3에 업로드
+flush.size=1
+
+# 커스텀 파티셔너 클래스 지정
+partitioner.class=com.mycompany.connect.FlexibleTimeBasedPartitioner
+
+# 커스텀 파일네임 클래스 지정
+format.class=com.mycompany.connect.CustomJsonFormat
+
+# 최상위 디렉터리명 변경
+topics.dir=kafka-nginx-log
+
+# 토픽 디렉터리를 기본 토픽 이름 대신 다른 이름으로 대체
+custom.topic.dir=nginx-topic
+
+# 파티션 디렉터리를 커스텀 접두어 생성
+custom.partition.prefix=partition_
+
+# Time-based 파티셔너 필수 설정
+partition.duration.ms=3600000
+path.format='year_'yyyy/'month_'MM/'day_'dd/'hour_'HH
+locale=en-US
+timezone=Asia/Seoul
+timestamp.extractor=Wallclock
+
+# 예약어 치환 규칙
+custom.replacements==:_
+EOF
+
+################################################################################
+# 12. worker.properties 생성
+################################################################################
+log "Step 12: /opt/kafka/config/worker.properties 생성"
+
+cat <<EOF > /opt/kafka/config/worker.properties
+# 워커 기본 설정
+bootstrap.servers=${KAFKA_BOOTSTRAP_SERVER}
+key.converter=org.apache.kafka.connect.json.JsonConverter
+value.converter=org.apache.kafka.connect.json.JsonConverter
+key.converter.schemas.enable=false
+value.converter.schemas.enable=false
+
+# Offset 저장 관련 설정 (standalone 모드 필수)
+offset.storage.file.filename=/tmp/connect.offsets
+offset.flush.interval.ms=10000
+
+# 플러그인 경로 (S3 Sink Connector가 설치된 경로)
+plugin.path=/confluent-hub/plugins
+
+# REST 인터페이스 리스너 (커넥터 상태 확인용)
+listeners=http://0.0.0.0:8083
+EOF
+
+################################################################################
+# 13. kafka-connect systemd 서비스 등록
+################################################################################
+log "Step 13: kafka-connect systemd 서비스 등록"
+
+cat <<EOF | sudo tee /etc/systemd/system/kafka-connect.service
+[Unit]
+Description=Kafka Connect Standalone Service
+After=network.target
+
+[Service]
+User=ubuntu
+ExecStart=/home/ubuntu/kafka/bin/connect-standalone.sh \
+  /opt/kafka/config/worker.properties \
+  /opt/kafka/config/s3-sink-connector.properties
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
+EOF
+
+log "Step 13: systemd 등록 완료 (kafka-connect.service)"
 
 ################################################################################
 # 완료
