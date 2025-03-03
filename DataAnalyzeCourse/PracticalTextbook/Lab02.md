@@ -114,12 +114,12 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     ```
 
     - 메시지 입력
+    - **Note**: 전송되는 시간이 필요하므로 전송 후 10초 정도 대기
     ```
     test1
     test2
     test3
     ```
-    - **Note**: 전송되는 시간이 필요하므로 10초 정도 대기
     - `traffic-generator-1`에서 `Ctrl` + `c` 키로 종료
     
     D. `traffic-generator-2`에서 Kafka 디렉터리로 이동
