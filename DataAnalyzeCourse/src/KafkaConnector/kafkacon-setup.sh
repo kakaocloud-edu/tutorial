@@ -11,7 +11,7 @@ AWS_DEFAULT_REGION_VALUE="kr-central-2"
 AWS_DEFAULT_OUTPUT_VALUE="json"
 
 LOGFILE="/home/ubuntu/setup.log"
-exec &> >(tee -a "$LOGFILE")  # 모든 echo 출력도 setup.log에 기록(원한다면)
+exec &> >(tee -a "$LOGFILE")  # 모든 echo 출력도 setup.log에 기록
 
 log() {
   echo "$(date '+%Y-%m-%d %H:%M:%S') - $1"
