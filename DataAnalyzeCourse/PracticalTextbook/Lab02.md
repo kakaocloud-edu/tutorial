@@ -166,7 +166,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     ```bash
     bin/kafka-console-consumer.sh --bootstrap-server ${KAFKA_BOOTSTRAP_SERVERS} \
     --topic consol-topic --group consumer-group-latest \
-    --consumer-property auto.offset.reset=latest
+    --consumer-property auto.offset.reset=latest \
     --property print.offset=true
     ```
     - **Note**: 이후 실행할 `producer` 메세지 받아야하므로 종료하면 안됨
