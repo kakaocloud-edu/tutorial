@@ -531,7 +531,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     ```
    
     
-# 6. Worker 구성 및 Object Storage 테스트
+# 5. Worker 구성 및 Object Storage 테스트
 
 1. 버킷에 쓰기 권한 부여
     - **Note**: `{버킷 이름}`: 실제 생성한 버킷 이름(`data-catalog`)으로 변경
