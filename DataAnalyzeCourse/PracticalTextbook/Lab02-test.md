@@ -673,7 +673,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
       --endpoint-url https://objectstorage.kr-central-2.kakaocloud.com
     ```
     
-3. S3 Sink Connector, Standalone Worker 설정 파일 확인
+3. S3 Sink Connector(`s3-sink-connector.properties`), Standalone Worker(`worker.properties`) 설정 파일 확인
 
     #### lab2-5-3
     
@@ -681,17 +681,15 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     ls /opt/kafka/config
     ```
     ![image](https://github.com/user-attachments/assets/2bdefc88-31aa-4d5e-8498-0a7ff3619da6)
-    - **Note**: `s3-sink-connector.properties`, `worker.properties` 파일 존재 확인
     
 
-4. kafka-connect 시스템 서비스 파일 확인
+4. kafka-connect 시스템 서비스 파일(`kafka-connect.service`) 확인
     
     #### lab2-5-4
     
     ```bash
     ls /etc/systemd/system | grep kafka-connect.service
     ```
-    - **Note**: `kafka-connect.service` 파일 존재 확인
 
     
 5. 데몬 리로드 및 서비스 시작
