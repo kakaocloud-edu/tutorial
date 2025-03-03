@@ -252,7 +252,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
         --create --topic nginx-topic --partitions 2 --replication-factor 2
         ```
     
-2. Logstash 설정 파일을 수정하여 Kafka로 송신하도록 설정
+2. `api-server-1`에서 Logstash 설정 파일을 수정하여 Kafka로 송신하도록 설정
 
     #### lab2-3-2
    
