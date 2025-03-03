@@ -172,7 +172,8 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     --property print.offset=true
     ```
     - **Note**: 이후 실행할 `producer` 메세지 받아야하므로 종료하면 안됨
-    - `auto.offset.reset`의 `latest` 옵션은 `consumer` 실행 이후 `producer`로 들어오는 `offset`부터 읽기 때문에 이전에 실행된 `producer`의 메세지 'test1~6'은 출력 X
+    - **Note**: `consumer-group-latest`라는 새로운 그룹이므로 `offset 0`부터 쌓임
+    - `auto.offset.reset`의 `latest` 옵션은 `consumer` 실행 이후 `producer`로 들어오는 `offset`부터 읽기 때문에 이전에 실행된 `producer`의 메세지 'test4~6'은 출력 X
 
     H. 콘솔 프로듀서 실행 후 송신할 메세지 입력 후 `Enter` 키 입력(3)
     
