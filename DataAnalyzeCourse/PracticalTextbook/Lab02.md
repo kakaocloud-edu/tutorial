@@ -138,7 +138,8 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     bin/kafka-console-consumer.sh --bootstrap-server ${KAFKA_BOOTSTRAP_SERVERS} \
     --topic consol-topic --group consumer-group-earliest \
     --consumer-property auto.offset.reset=earliest \
-    --property print.offset=true
+    --property print.offset=true \
+    --partition 0
     ```
 
     - `traffic-generator-2` 터미널 창에서 `traffic-generator-1`에서 입력했던 메세지와 offset 수신 확인
@@ -168,7 +169,8 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     bin/kafka-console-consumer.sh --bootstrap-server ${KAFKA_BOOTSTRAP_SERVERS} \
     --topic consol-topic --group consumer-group-latest \
     --consumer-property auto.offset.reset=latest \
-    --property print.offset=true
+    --property print.offset=true \
+    --partition 0
     ```
     - **Note**: 이후 실행할 `producer` 메세지 받아야하므로 종료하면 안됨
     - `auto.offset.reset`의 `latest` 옵션은 `consumer` 실행 이후 `producer`로 들어오는 `offset`부터 읽기 때문에 이전에 실행된 `producer`의 메세지 'test1~6'은 출력 X
