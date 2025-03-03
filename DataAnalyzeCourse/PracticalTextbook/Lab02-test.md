@@ -673,7 +673,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
       --endpoint-url https://objectstorage.kr-central-2.kakaocloud.com
     ```
     
-3. S3 Sink Connector 설정 파일(`s3-sink-connector.properties`), Standalone Worker 설정 파일(`worker.properties`) 확인
+3. S3 Sink Connector(`s3-sink-connector.properties`), Standalone Worker(`worker.properties`) 설정 파일 확인
 
     #### lab2-5-3
     
