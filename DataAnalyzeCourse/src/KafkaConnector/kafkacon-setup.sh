@@ -11,7 +11,7 @@ AWS_DEFAULT_REGION_VALUE="kr-central-2"
 AWS_DEFAULT_OUTPUT_VALUE="json"
 
 LOGFILE="/home/ubuntu/setup.log"
-exec &> >(tee -a "$LOGFILE")  # 모든 echo 출력도 setup.log에 기록
+exec &> >(tee -a "$LOGFILE")  # 모든 echo 출력도 setup.log에 기록(원한다면)
 
 log() {
   echo "$(date '+%Y-%m-%d %H:%M:%S') - $1"
@@ -111,7 +111,7 @@ log "Step 6: S3 Sink Connector 설치 시작"
 sudo chown ubuntu:ubuntu /home/ubuntu/kafka/config/connect-standalone.properties
 
 # (2) S3 Sink Connector 설치
-confluent-hub install confluentinc/kafka-connect-s3:latest \
+/confluent-hub/bin/confluent-hub install confluentinc/kafka-connect-s3:latest \
   --component-dir /confluent-hub/plugins \
   --worker-configs /home/ubuntu/kafka/config/connect-standalone.properties \
   --no-prompt
