@@ -216,8 +216,6 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 통한 메시�
         ./subscriber
         ```
 
-   - `traffic-generator-2` 터미널 창 닫기
-
 ---
 
 ## 5. Object Storage에 NGINX 로그 적재
