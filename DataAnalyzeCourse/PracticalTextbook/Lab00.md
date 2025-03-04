@@ -246,6 +246,7 @@
     - `새로운 퍼블릭 IP를 생성하고 자동으로 할당`
 5. 확인 버튼 클릭
 6. `traffic-generator-1`, `traffic-generator-2` 각 인스턴스의 우측 메뉴바 > `SSH 연결` 클릭
+   - **Note**: 터미널 창 2개를 사용합니다.
     - SSH 접속 명령어 복사
     - 터미널 열기
     - keypair를 다운받아놓은 폴더로 이동
@@ -290,7 +291,7 @@
     icacls.exe keypair.pem /inheritance:r
     ```
     
-7. 디렉토리 내부 파일 생성 여부 확인
+8. 디렉토리 내부 파일 생성 여부 확인
     
     ### **lab1-1-2**
     
