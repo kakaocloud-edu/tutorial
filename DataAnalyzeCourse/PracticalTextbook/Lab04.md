@@ -81,7 +81,8 @@
    - 데이터 원본: `data_catalog`
    - 데이터 베이스: `data_catalog_database`
    - 쿼리 입력란 상단 `+` 버튼 클릭
-   #### **lab4-1-3**
+      #### **lab4-1-3**
+      
       ```
       SELECT 
          status,
@@ -95,6 +96,7 @@
       GROUP BY status, total.total_count
       ORDER BY status; 
       ```
+      
       ![Image](https://github.com/user-attachments/assets/875aa029-90c6-4644-9d50-da5859a4be0a)
 ---
 5. HTTP 성공 에러 분포(ALB Access Log + NGINX Log)
@@ -180,8 +182,8 @@
       COUNT(DISTINCT user_id) AS new_users
    FROM users_logs
    WHERE event_type = 'CREATED'
-   AND event_time BETWEEN TIMESTAMP '2025-02-00 00:00:00'
-      AND TIMESTAMP '2025-02-28 23:59:59';
+   AND event_time BETWEEN TIMESTAMP '2025-03-01 00:00:00'
+      AND TIMESTAMP '2025-03-31 23:59:59';
    ```
    ![Image](https://github.com/user-attachments/assets/8016af05-788b-4548-8a60-a47aeae6aff4)
 
