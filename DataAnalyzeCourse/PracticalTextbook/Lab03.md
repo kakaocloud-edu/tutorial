@@ -61,7 +61,7 @@
 
 - **kafka_nlog_table** 테이블 정보
    - 데이터 베이스: `data_catalog_database`
-   - 테이블 이름: `kafka_nlog_table`
+   - 테이블 이름: `kafka_log_table`
    - 테이블 저장 경로
       - S3 연결: `체크`
       - 버킷 이름: `data-catalog`
@@ -70,7 +70,7 @@
    - Pub/Sub 연동: `사용`
       - 토픽 선택: `data-catalog-topic`
    - 설명(선택): `없음` 
-   - 스키마 (## 지만 - 보기 좋게 수정, 필요한 값들 넣기, alb_log_table 테이블 정보 넣기##)
+   - 스키마 
       - 필드 추가 버튼 클릭
          - 파티션 키: `미사용`
          - 컬럼 번호: `1` / `2` / `3`
