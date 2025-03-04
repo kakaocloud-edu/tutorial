@@ -261,7 +261,7 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 통한 메시�
     #### **lab1-5-5**
     
     ```
-    http://{복사해둔 ALB Public IP 주소}
+    http://{ALB Public IP 주소}
     ```
 
 6. 사용자 등록, 상품 목록 확인 등을 수행하여 로그 생성
