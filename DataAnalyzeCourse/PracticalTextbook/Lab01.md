@@ -33,7 +33,7 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 통한 메시�
             - 이름: `test-push-sub`
             - 토픽 선택: `test-topic`
         - 유형: `Push`
-            - 엔드포인트: `http://`, `{ALB Public IP}/push-subscription`
+            - 엔드포인트: `http://` `{ALB Public IP}/push-subscription`
         - 서브스크립션 메시지 보존 기간: `0일 0시 10분`
         - 응답 대기 시간: `20초`
         - 재처리 횟수: `횟수 지정`, `3번`
