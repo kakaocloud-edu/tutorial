@@ -49,7 +49,7 @@
       COUNT(*) AS total_requests,
       COUNT(CASE WHEN target_status_code = '200' THEN 1 END) AS success_requests,
       COUNT(CASE WHEN target_status_code <> '200' THEN 1 END) AS error_requests
-   FROM alb_data_table
+   FROM alb_log_table
    GROUP BY SUBSTRING(time, 1, 7)
    ORDER BY SUBSTRING(time, 1, 7);
    ```
@@ -66,10 +66,10 @@
       target_status_code,
       COUNT(*) AS code_count,
       ROUND(COUNT(*) * 100.0 / total.total_count, 2) AS percentage
-   FROM alb_data_table
+   FROM alb_log_table
    CROSS JOIN (
       SELECT COUNT(*) AS total_count
-      FROM alb_data_table
+      FROM alb_log_table
    ) AS total
    GROUP BY target_status_code, total.total_count
    ORDER BY target_status_code;
@@ -87,10 +87,10 @@
          status,
          COUNT(*) AS code_count,
          ROUND(COUNT(*) * 100.0 / total.total_count, 2) AS percentage
-      FROM kafka_nlog_table
+      FROM kafka_log_table
       CROSS JOIN (
          SELECT COUNT(*) AS total_count
-         FROM kafka_nlog_table
+         FROM kafka_log_table
       ) AS total
       GROUP BY status, total.total_count
       ORDER BY status; 
@@ -107,13 +107,13 @@
       SELECT 
          COUNT(*) AS total_alb,
          COUNT(CASE WHEN target_status_code LIKE '4%' THEN 1 END) AS error_alb
-      FROM alb_data_table
+      FROM alb_log_table
    ),
    nginx_stats AS (
       SELECT 
          COUNT(*) AS total_nginx,
          COUNT(CASE WHEN status LIKE '4%' THEN 1 END) AS error_nginx
-      FROM kafka_nlog_table
+      FROM kafka_log_table
    )
    SELECT 
       total_alb + total_nginx AS total_count,
@@ -135,7 +135,7 @@
    SELECT 
       regexp_extract(query_params, 'id=([0-9]+)', 1) AS product_id,
       COUNT(*) AS click_count
-   FROM kafka_nlog_table
+   FROM kafka_log_table
    WHERE endpoint = '/product'
    GROUP BY regexp_extract(query_params, 'id=([0-9]+)', 1)
    ORDER BY click_count DESC;
@@ -157,7 +157,7 @@
       SELECT 
          regexp_extract(query_params, 'id=([0-9]+)', 1) AS product_id,
          COUNT(*) AS click_count
-      FROM kafka_nlog_table
+      FROM kafka_log_table
       WHERE endpoint = '/product'
       GROUP BY regexp_extract(query_params, 'id=([0-9]+)', 1)
    ) AS pc
