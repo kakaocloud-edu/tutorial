@@ -68,12 +68,12 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 통한 메시�
 
 ## 2. CLI를 통한 토픽, 서브스크립션 생성
 
-1. `traffic-generator-2` 터미널 창에서 아래 명령어 실행
+1. `traffic-generator-1` 터미널 창에서 아래 명령어 실행
     
     #### **lab1-2-1**
     
     ```bash
-    cd /home/ubuntu/syu-DataAnalyze/TrafficGenerator/REST_API/VM2
+    cd /home/ubuntu/syu-DataAnalyze/TrafficGenerator/REST_API/VM1
     ```
     
 2. NGINX 로그 적재용 토픽 생성
