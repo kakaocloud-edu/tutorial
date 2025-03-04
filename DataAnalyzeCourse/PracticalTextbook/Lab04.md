@@ -196,7 +196,7 @@
       - 테이블 미리보기 버튼 클릭
 2. 쿼리 결과 탭에서 쿼리 결과로 산출된 NGINX 로그 확인
 3. 아래 코드를 입력하여 쿼리 실행
-   - **Note**: `kafka_nlog_table` 테이블을 status 컬럼을 기준으로 파티션을 나누어 저장하는 새 파티션 테이블 생성
+   - **Note**: `kafka_log_table` 테이블을 status 컬럼을 기준으로 파티션을 나누어 저장하는 새 파티션 테이블 생성
    #### **lab4-2-1**
    ```
    CREATE TABLE data_catalog_database.kafka_log_partitioned
