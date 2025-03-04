@@ -59,7 +59,7 @@
          - 데이터 유형: `string`
       - 생성 버튼 클릭
 
-- **kafka_nlog_table** 테이블 정보
+- **kafka_log_table** 테이블 정보
    - 데이터 베이스: `data_catalog_database`
    - 테이블 이름: `kafka_log_table`
    - 테이블 저장 경로
@@ -87,18 +87,8 @@
    - 기존에 사용하던 `restapi_pull_sub.py`에서 subscription 이름만 `data-catalog-pull-sub`로 변경
    - **Note**:[`restapi_pull_sub.py`](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/TrafficGenerator/REST_API/VM2/restapi_pull_sub.py) 코드 재사용
       ```
-      cd /home/ubuntu/syu-DataAnalyze/TrafficGenerator/REST_API/VM2
-      ```
-      ```
-      vi restapi_pull_sub.py
-      ```
-      - **Note**: i(입력 모드) 누른 후 화면 하단에--INSERT-- 확인 후 수정
-      - **Note**: esc(명령 모드) 누른 후 :wq로 저장
-      - 아래와 같이 코드 수정
-      ```
-      def main():
-       # Pull Subscription 이름 설정
-       subscription_name = 'data-catalog-pull-sub'
+      cd ~/syu-DataAnalyze/TrafficGenerator/REST_API/VM2
+      sed -i "s/subscription_name = SUB_NAME/subscription_name = 'data-catalog-pull-sub'/g" restapi_pull_sub.py
       ```
       - 터미널 CLI를 통한 메시지 수신 스크립트 실행
       ```
@@ -118,7 +108,7 @@
    - 스키마 필드 추가
       - 스키마 탭 클릭
       - 필드 추가 버튼 클릭
-         - 컬럼 번호: `9`
+         - 컬럼 번호: `4`
          - 필드 이름: `test_field`
          - 데이터 유형: `string`
          - 설명: `빈칸`
