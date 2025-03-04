@@ -27,19 +27,23 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 통한 메시�
         - 재처리 횟수: `횟수 지정`, `3번`
     - 생성 버튼 클릭
 7. `test-pull-sub` 서브스크립션 생성 확인
-8. `test-topic`의 Push 서브스크립션 생성
+8. 좌측의 토픽 탭 클릭
+9. `test-topic`의 Push 서브스크립션 생성
     - 서브스크립션 생성 버튼 클릭
         - 기본 설정
             - 이름: `test-push-sub`
             - 토픽 선택: `test-topic`
         - 유형: `Push`
-            - 엔드포인트: `http://` `{ALB Public IP}/push-subscription`
+            - 엔드포인트
+              - 프로토콜: `http://`
+              - 엔드 포인트 URL: `{ALB Public IP}/push-subscription`
         - 서브스크립션 메시지 보존 기간: `0일 0시 10분`
         - 응답 대기 시간: `20초`
         - 재처리 횟수: `횟수 지정`, `3번`
     - 생성 버튼 클릭
-9. `test-push-sub` 생성 확인
-10. `data-catalog-topic` 토픽 생성
+10. `test-push-sub` 생성 확인
+11. 좌측의 토픽 탭 클릭
+12. `data-catalog-topic` 토픽 생성
     - 좌측 토픽 탭 클릭
     - 토픽 생성 버튼 클릭
         - 이름: `data-catalog-topic`
@@ -47,9 +51,9 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 통한 메시�
         - 토픽 메세지 보존 기간: `0일 0시 10분`
         - 설명: `없음`
     - 생성 버튼 클릭
-11. `data-catalog-topic` 생성 확인 후 클릭
-12. 서브스크립션 탭 클릭
-13. `data-catalog-topic`의 Pull 서브스크립션 생성
+13. `data-catalog-topic` 생성 확인 후 클릭
+14. 좌측의 서브스크립션 탭 클릭
+15. `data-catalog-topic`의 Pull 서브스크립션 생성
     - 서브스크립션 생성 버튼 클릭
         - 기본 설정
             - 이름: `data-catalog-pull-sub`
@@ -59,7 +63,7 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 통한 메시�
         - 응답 대기 시간: `20초`
         - 재처리 횟수: `횟수 지정`, `3번`
     - 생성 버튼 클릭
-14. `data-catalog-pull-sub` 생성 확인
+16. `data-catalog-pull-sub` 생성 확인
 
 
 ## 2. CLI를 통한 토픽, 서브스크립션 생성
