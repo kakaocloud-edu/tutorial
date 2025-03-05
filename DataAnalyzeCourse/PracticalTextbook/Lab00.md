@@ -287,18 +287,9 @@
     ```bash
     yes
     ```
+
     
-    - **Note**: 윈도우에서 ssh 접근이 안될 경우에 cmd 창에서 keypair.pem가 있는 경로로 이동 후 아래 명령어 입력
-    
-    ### **lab0-8-6-5**
-    
-    ```bash
-    icacls.exe keypair.pem /reset
-    icacls.exe keypair.pem /grant:r %username%:(R)
-    icacls.exe keypair.pem /inheritance:r
-    ```
-    
-8. 디렉토리 내부 파일 생성 여부 확인
+7. 디렉토리 내부 파일 생성 여부 확인
     
     ### **lab1-1-2**
     
