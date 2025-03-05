@@ -40,7 +40,7 @@
 ## 4. 테이블 생성
 1. 카카오 클라우드 콘솔 > 전체 서비스 > Data Catalog > 테이블
 2. 테이블 생성 버튼 클릭
-- **alb_log_table** 테이블 정보
+- **alb_log_table** 테이블 생성 정보
    - 데이터 베이스: `data_catalog_database`
    - 테이블 이름: `alb_log_table`
    - 테이블 저장 경로
@@ -70,7 +70,7 @@
 
       - 생성 버튼 클릭
 
-- **kafka_log_table** 테이블 정보
+- **kafka_log_table** 테이블 생성 정보 
    - 데이터 베이스: `data_catalog_database`
    - 테이블 이름: `kafka_log_table`
    - 테이블 저장 경로
