@@ -39,7 +39,7 @@
    - https://fantasy-brand-461.notion.site/19adbb08775280979a70d7d671c03a1e?pvs=4
      
 
-2. 월 별 요청 분석(ALB Access Log)
+1. 월 별 요청 분석(ALB Access Log)
    - 데이터 원본: `data_catalog`
    - 데이터 베이스: `data_catalog_database`
    #### **lab4-1-1**
@@ -56,7 +56,7 @@
    ![Image](https://github.com/user-attachments/assets/5fd20908-dc5b-4560-843f-ec762896b956)
 ---
 
-3. HTTP 상태 코드 분포(ALB Access Log)
+2. HTTP 상태 코드 분포(ALB Access Log)
    - 데이터 원본: `data_catalog`
    - 데이터 베이스: `data_catalog_database`
    - 쿼리 입력란 상단 `+` 버튼 클릭
@@ -77,7 +77,7 @@
    ![Image](https://github.com/user-attachments/assets/c65cb408-a313-490e-bf64-edf978b1f44b)
 
 ---
-4.  HTTP 상태 코드 분포(NGINX Log)
+3.  HTTP 상태 코드 분포(NGINX Log)
    - 데이터 원본: `data_catalog`
    - 데이터 베이스: `data_catalog_database`
    - 쿼리 입력란 상단 `+` 버튼 클릭
@@ -99,7 +99,7 @@
       
       ![Image](https://github.com/user-attachments/assets/875aa029-90c6-4644-9d50-da5859a4be0a)
 ---
-5. HTTP 성공 에러 분포(ALB Access Log + NGINX Log)
+4. HTTP 성공 에러 분포(ALB Access Log + NGINX Log)
    - 데이터 원본: `data_catalog`
    - 데이터 베이스: `data_catalog_database`
    - 쿼리 입력란 상단 `+` 버튼 클릭
@@ -128,7 +128,7 @@
    ![Image](https://github.com/user-attachments/assets/12e28c1b-a215-4beb-a078-4dddc6489573)
 
 ---
-6. 인기 상품 클릭 수(NGINX Log)
+5. 인기 상품 클릭 수(NGINX Log)
    - 데이터 원본: `data_catalog`
    - 데이터 베이스: `data_catalog_database`
    - 쿼리 입력란 상단 `+` 버튼 클릭
@@ -145,7 +145,7 @@
    ![Image](https://github.com/user-attachments/assets/1af8302f-a7f7-4f74-b13d-3cbdee723af5)
 ---
 
-7. 인기 상품 클릭 수(NGINX Log + MySQL)
+6. 인기 상품 클릭 수(NGINX Log + MySQL)
    - 데이터 원본: `data_catalog`
    - 데이터 베이스: `data_catalog_database`
    - 쿼리 입력란 상단 `+` 버튼 클릭
@@ -171,7 +171,7 @@
 ---
 
 
-8. 신규 사용자 수(MySQL)
+7. 신규 사용자 수(MySQL)
    - **Note**: 데이터 원본에 다른 값 사용 주의
    - 데이터 원본: `data_orign`
    - 데이터 베이스: `shopdb`
