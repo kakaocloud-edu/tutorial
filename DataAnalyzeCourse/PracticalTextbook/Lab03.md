@@ -36,7 +36,7 @@
       - 버킷 이름: `data-catalog`
       - 경로: `data-catalog-dir`
    - 생성 버튼 클릭
-
+   - 데이터베이스 상태: Active 확인
 
 ## 4. 테이블 생성
 1. 카카오 클라우드 콘솔 > 전체 서비스 > Data Catalog > 테이블
