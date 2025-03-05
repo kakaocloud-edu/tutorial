@@ -61,6 +61,8 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     
     ```bash
     sudo apt update
+    ```
+    ```bash
     sudo pip3 install kafka-python
     ```
     
@@ -207,7 +209,11 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     ```bash
     sudo wget -O producer.py \
     "https://github.com/kakaocloud-edu/tutorial/raw/refs/heads/main/DataAnalyzeCourse/src/TrafficGenerator/producer.py"
+    ```
+    ```bash
     sudo chmod +x producer.py
+    ```
+    ```bash
     sudo -E ./producer.py
     ```
 
@@ -219,7 +225,11 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     ```bash
     sudo wget -O consumer.py \
     "https://github.com/kakaocloud-edu/tutorial/raw/refs/heads/main/DataAnalyzeCourse/src/TrafficGenerator/consumer.py"
+    ```
+    ```bash
     sudo chmod +x consumer.py
+    ```
+    ```bash
     sudo -E ./consumer.py
     ```
         
