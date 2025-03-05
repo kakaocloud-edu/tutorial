@@ -65,7 +65,7 @@
          - 데이터 유형: `string`
 ---
       - 생성 버튼 클릭
-   - 테이블 상태: Active 확인
+      - 테이블 상태: Active 확인
 
 - **kafka_log_table** 테이블 생성 정보 
    - 데이터 베이스: `data_catalog_database`
@@ -97,7 +97,7 @@
          - 데이터 유형: `string`
 ---
       - 생성 버튼 클릭
-   - 테이블 상태: Active 확인
+      - 테이블 상태: Active 확인
 
 ## 5. Pub/Sub 메시지 확인
 1. pub/sub 연동을 통한 메시지 확인
