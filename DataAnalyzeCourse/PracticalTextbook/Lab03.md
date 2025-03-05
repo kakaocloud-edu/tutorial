@@ -24,7 +24,7 @@
       - VPC: `kc-vpc`
       - 서브넷: `kr-central-2-a의 Public 서브넷`
       - 생성 버튼 클릭
-
+   - 카탈로그 상태: Running 확인
 
 ## 3. 데이터베이스 생성
 1. 카카오 클라우드 콘솔 > 전체 서비스 > Data Catalog > 데이터베이스
