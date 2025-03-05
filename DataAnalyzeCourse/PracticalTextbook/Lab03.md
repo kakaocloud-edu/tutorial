@@ -36,7 +36,7 @@
       - 버킷 이름: `data-catalog`
       - 경로: `data-catalog-dir`
    - 생성 버튼 클릭
-   - 데이터베이스 상태: Active 확인
+   - 카탈로그 상태: Running 확인
 
 ## 4. 테이블 생성
 1. 카카오 클라우드 콘솔 > 전체 서비스 > Data Catalog > 테이블
@@ -65,6 +65,7 @@
          - 데이터 유형: `string`
 ---
       - 생성 버튼 클릭
+   - 테이블 상태: Active 확인
 
 - **kafka_log_table** 테이블 생성 정보 
    - 데이터 베이스: `data_catalog_database`
@@ -96,6 +97,7 @@
          - 데이터 유형: `string`
 ---
       - 생성 버튼 클릭
+   - 테이블 상태: Active 확인
 
 ## 5. Pub/Sub 메시지 확인
 1. pub/sub 연동을 통한 메시지 확인
