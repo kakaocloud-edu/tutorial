@@ -86,7 +86,7 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 통한 메시�
     python3 create_topic.py
     ```
     
-3. 카카오 클라우드 콘솔 > Analytics > Pub/Sub > 토픽 메뉴로 이동 후 `log-topic` 토픽 생성 확인
+3. 카카오 클라우드 콘솔 > 전체 서비스 > Pub/Sub > 토픽으로 이동 후 `log-topic` 토픽 생성 확인
 4. Object Storage용 서브스크립션 생성
     
     #### **lab1-2-4**
