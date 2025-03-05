@@ -105,6 +105,8 @@
    - **Note**:[`restapi_pull_sub.py`](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/TrafficGenerator/REST_API/VM2/restapi_pull_sub.py) 코드 재사용
       ```
       cd ~/syu-DataAnalyze/TrafficGenerator/REST_API/VM2
+      ```
+      ```
       sed -i "s/subscription_name = SUB_NAME/subscription_name = 'data-catalog-pull-sub'/g" restapi_pull_sub.py
       ```
       - 터미널 CLI를 통한 메시지 수신 스크립트 실행
