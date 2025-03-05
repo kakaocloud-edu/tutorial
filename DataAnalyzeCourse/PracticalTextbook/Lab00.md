@@ -145,6 +145,7 @@
         - 이름: `keypair`
         - 유형 설정: `SSH`
         - 생성 버튼 클릭
+        - **Note**: 다운로드 된 private key(e.g. keypair.pem)의 경로 기억하기
     - 네트워크
         - VPC: `kc-vpc`
         - 서브넷: `kr-central-2-a의 Public 서브넷`
