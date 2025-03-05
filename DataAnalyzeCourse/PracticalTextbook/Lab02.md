@@ -132,7 +132,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     cd /opt/kafka
     ```
     
-6. Kafka 콘솔 컨슈머를 실행해 consumer-group-earliest 그룹으로 `consol-topic` 토픽의 메시지 수신
+6. `traffic-generator-2`에서 Kafka 콘솔 컨슈머를 실행해 consumer-group-earliest 그룹으로 `consol-topic` 토픽의 메시지 수신
     
     #### lab2-2-1-6
         
@@ -155,9 +155,8 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
         test6
         ```
         - 메시지 입력 후 `Enter` 입력
-        - `traffic-generator-1`에서 `Ctrl` + `c` 키로 종료
 
-2. Kafka 콘솔 컨슈머를 실행해 consumer-group-latest 그룹으로 `consol-topic` 토픽의 메시지를 수신
+2. `traffic-generator-2`에서 Kafka 콘솔 컨슈머를 실행해 consumer-group-latest 그룹으로 `consol-topic` 토픽의 메시지를 수신
     - **Note**: 이후 실행할 `producer` 메세지 받아야하므로 종료하면 안됨
     - **Note**: `consumer-group-latest`라는 새로운 그룹이므로 `offset 0`부터 쌓임
    
