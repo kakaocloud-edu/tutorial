@@ -172,7 +172,7 @@
     - `새로운 퍼블릭 IP를 생성하고 자동으로 할당`
 6. 확인 버튼 클릭
 
-7. `api-server-1`, `api-server-2` 각 인스턴스의 우측 메뉴바 > `SSH 연결` 클릭 (lab01까지 진행 안해도 됌)
+7. `api-server-1`, `api-server-2` 각 인스턴스의 우측 메뉴바 > `SSH 연결` 클릭
     - **Note**: 터미널 창 2개를 사용합니다.
     - SSH 접속 명령어 복사
     - 터미널 열기
@@ -207,8 +207,11 @@
     ```bash
     yes
     ```
-    
-    - **Note**: 윈도우에서 ssh 접근이 안될 경우에 cmd 창에서 keypair.pem가 있는 경로로 이동 후 아래 명령어 입력
+
+- **Note**: 정상적으로 작동하는지에 대한 테스트 필요 (**####개선 사항####**)
+
+
+- **Note**: 윈도우에서 ssh 접근이 안될 경우에 cmd 창에서 keypair.pem가 있는 경로로 이동 후 아래 명령어 입력
     
     ### **lab0-7-7-5**
     
@@ -217,7 +220,6 @@
     icacls.exe keypair.pem /grant:r %username%:(R)
     icacls.exe keypair.pem /inheritance:r
     ```
-    
 
 ## 7. Traffic Generator VM 생성
 
