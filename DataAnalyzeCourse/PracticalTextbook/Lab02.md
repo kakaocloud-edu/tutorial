@@ -67,12 +67,12 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     sudo pip3 install kafka-python
     ```
     
-7. Kafka 클러스터와 통신 확인`traffic-generator-1, 2`
+7. Kafka 클러스터와 통신 확인
     
     #### lab2-1-5
+    - **Note**: `traffic-generator-1, 2`에서 진행
     - **Note**: 콤마(,) 기준으로 앞뒤의 kafka 클러스터의 부트스트랩 서버 주소 하나씩 입력
     - **Note**: 포트 번호 입력 시 콜론(:) 대신 공백(space) 넣은 후 진행
-    - **Note**: 실패 시 네트워크 및 보안 그룹 설정 확인
     
     ```bash
     nc -zv {Kafka 클러스터의 부트스트랩 서버}
@@ -83,7 +83,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
       ```
    - 아래와 같은 정상적인 화면 확인 후 진행
    - ![image](https://github.com/user-attachments/assets/e769ee52-5a32-49f6-8124-f20c9ed60227)
-
+   - **Note**: 실패 시 네트워크 및 보안 그룹 설정 확인
     
 
 # 2. Kafka 메시지 송수신 확인
