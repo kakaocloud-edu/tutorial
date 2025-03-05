@@ -192,7 +192,7 @@
 1. `kafka_nlog_table` 테이블 데이터 조회로 NGINX 로그 존재 확인
    - 데이터 원본: `data_catalog`
    - 데이터베이스: `data_catalog_database`
-   - `kafka_nlog_table` 테이블 우측 `⋮` 버튼 클릭
+   - `kafka_log_table` 테이블 우측 `⋮` 버튼 클릭
       - 테이블 미리보기 버튼 클릭
 2. 쿼리 결과 탭에서 쿼리 결과로 산출된 NGINX 로그 확인
 3. 아래 코드를 입력하여 쿼리 실행
