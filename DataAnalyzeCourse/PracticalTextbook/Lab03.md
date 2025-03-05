@@ -64,6 +64,7 @@
          - 필드 이름: `target_status_code`
          - 데이터 유형: `string`
 ---
+
       - 생성 버튼 클릭
 
 
@@ -96,6 +97,7 @@
          - 필드 이름: `endpoint`
          - 데이터 유형: `string`
 ---
+
       - 생성 버튼 클릭
 
 ## 5. Pub/Sub 메시지 확인
