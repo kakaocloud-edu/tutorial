@@ -117,8 +117,10 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 통한 메시�
         ```bash
         python3 pub_sub_send.py
         ```
+        
        - 아래와 같은 결과 확인
-           - <img width="472" alt="image" src="https://github.com/user-attachments/assets/cb987d3a-a797-43ea-b409-1d0fc7ce11c3" />
+         
+             <img width="472" alt="image" src="https://github.com/user-attachments/assets/cb987d3a-a797-43ea-b409-1d0fc7ce11c3" />
 
         
         #### **lab1-3-2-2**
