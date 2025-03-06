@@ -250,6 +250,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
         ```
     
 2. `api-server-1` ssh연결
+    - 카카오 클라우드 콘솔 > 전체 서비스 > Virtual Machine > 인스턴스
     - `api-server-1` 인스턴스의 우측 메뉴바 > `SSH 연결` 클릭
     - SSH 접속 명령어 복사
     - 터미널 열기
