@@ -29,7 +29,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     - /opt 디렉터리로 이동 후 압축 풀어서 kafka 폴더 구성
     
     #### lab2-1-2
-   - **Note**: 정지한 상태로 보일 수 있으나 명령어 실행 중이므로 약 10분정도 대기 필요
+   - **Note**: 정지한 상태로 보일 수 있으나 명령어 실행 중이므로 약 5분정도 대기 필요
     ```bash
     cd /opt && sudo wget -qO- https://archive.apache.org/dist/kafka/3.7.1/kafka_2.13-3.7.1.tgz | sudo tar -xz && sudo mv kafka_2.13-3.7.1 kafka
     ```
