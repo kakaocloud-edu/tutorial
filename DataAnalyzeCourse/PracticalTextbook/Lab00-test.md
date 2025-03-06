@@ -6,7 +6,6 @@
 ## 1. VPC 생성
 
 1. 카카오 클라우드 콘솔 > 전체 서비스 > VPC 접속
-    - **Note**: 왼쪽 위의 
 
 2. VPC 만들기 버튼 클릭
     - VPC 정보
@@ -65,8 +64,6 @@
     - 네트워크 설정
         - VPC: `kc-vpc`
         - Subnet: `kr-central-2-a의 Private 서브넷`
-            - **Note**: `kc-vpc_9438c_sn_1` 형태의 서브넷이 `Private 서브넷`
-            - **Note**: `main` 형태의 서브넷이 `Public 서브넷`
     - 자동 백업 옵션: `미사용`
 3. 만들기 버튼 클릭
 
@@ -101,10 +98,11 @@
     - 리스너
         - 프로토콜: `HTTP`, 포트: `80`
     - 생성 버튼 클릭
-3. 로드 밸런서 프로비저닝 상태: Active, 운영 상태: Online 확인 후 로드밸런서 우측의 `...`클릭 후 `Public IP 연결`
+3. 로드 밸런서 프로비저닝 상태: Active, 운영 상태: Online 확인
+4. 로드밸런서 우측의 `...`클릭 후 `Public IP 연결`
     - `새로운 퍼블릭 IP를 생성하고 자동으로 할당` 선택
-4. 연결된 `Public IP` 복사 후 클립보드 등에 붙여넣기
-5. `액세스 로그 설정` 클릭
+5. `Public IP` 할당된 것을 확인하고 클립보드 등에 복사 붙여넣기
+6. `액세스 로그 설정` 클릭
     - 액세스 로그: `사용`
     - 선택할 버킷: `data-catalog`
     - 선택할 액세스 키 ID: 위에서 생성한 `액세스 키 ID` 입력
@@ -143,26 +141,33 @@
     - 생성 버튼 클릭
 
 
-## 7. 필요한 환경 변수 찾기
+## 7. 환경 변수 설정
+- 
 1. MySQL
     - 카카오 클라우드 콘솔 > 전체 서비스 > MySQL > Instance Group
     - 생성된 `database` 클릭
     - 우측 상단의 `엔드포인트` 복사 후 클립보드 등에 붙여넣기
+      <img width="1317" alt="스크린샷 2025-03-06 오후 4 37 37" src="https://github.com/user-attachments/assets/c5e2e829-02f1-41dc-9932-e14efddfca1c" />
+
 
 2. Kafka Cluster
     - 카카오 클라우드 콘솔 > 전체 서비스 > Advanced Managed Kafka
     - 생성된 `kafka` 클릭
     - 우측 상단의 `부트스트랩 서버` 복사 후 클립보드 등에 붙여넣기
+      <img width="1323" alt="스크린샷 2025-03-06 오후 4 39 29" src="https://github.com/user-attachments/assets/1fc0623e-2deb-4dfa-98d7-fd60a37ea1d6" />
+
 
 3. 조직 ID(Domain ID)
     - 카카오 클라우드 콘솔 > 전체 서비스 > IAM
     - 좌측의 `조직 관리` 클릭
     - `조직 ID` 복사 후 클립보드 등에 붙여넣기
 
+4. 카카오 클라우드 콘솔 상단 중앙의 `프로젝트 ID` 복사 후 메모장에 붙여넣기
+    - **Note**: `kakaocloud` 로고를 클릭하여 콘솔 메인화면으로 이동
+        <img width="1199" alt="스크린샷 2025-03-06 오후 4 35 56" src="https://github.com/user-attachments/assets/97ec0a02-f050-4e2b-812a-114cf9b8abfc" />
+
 ## 8. API Server VM 생성
 
-1. 카카오 클라우드 콘솔 상단 중앙의 `프로젝트 ID` 복사 후 메모장에 붙여넣기
-    - **Note**: `kakaocloud` 로고를 클릭하여 콘솔 메인화면으로 이동
 2. 카카오 클라우드 콘솔 > 전체 서비스 > Virtual Machine > 인스턴스
 3. 인스턴스 생성 버튼 클릭
     - 기본 정보
