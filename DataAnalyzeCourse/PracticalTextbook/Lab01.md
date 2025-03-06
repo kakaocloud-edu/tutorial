@@ -5,7 +5,7 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 통한 메시�
 ---
 ## 1. 콘솔을 통한 토픽, 서브스크립션 생성
 
-1. 카카오 클라우드 콘솔 > 전체 서비스 > Pub/Sub > 토픽
+1. 카카오 클라우드 콘솔 > Analytics > Pub/Sub > 토픽
 2. 토픽 서비스 시작하기
 3. `test-topic` 토픽 생성
     - 토픽 생성 버튼 클릭
@@ -86,16 +86,17 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 통한 메시�
     python3 create_topic.py
     ```
     
-3. 카카오 클라우드 콘솔 > 전체 서비스 > Pub/Sub > 토픽으로 이동 후 `log-topic` 토픽 생성 확인
-4. Object Storage용 서브스크립션 생성
+3. 카카오 클라우드 콘솔 > Analytics > Pub/Sub > 토픽
+4. `log-topic` 토픽 생성 확인
+5. Object Storage용 서브스크립션 생성
     
-    #### **lab1-2-4**
+    #### **lab1-2-5**
     
     ```bash
     python3 create_subscription.py
     ```
     
-5. 서브스크립션 탭 클릭 후 `obj-subscription` 서브스크립션 생성 확인
+6. 서브스크립션 탭 클릭 후 `obj-subscription` 서브스크립션 생성 확인
 
 ---
 
@@ -269,6 +270,6 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 통한 메시�
     ```
 
 6. 사용자 등록, 상품 목록 확인 등을 수행하여 로그 생성
-7. 카카오 클라우드 콘솔 > Beyond Storage Service > Object Storage 으로 이동
+7. 카카오 클라우드 콘솔 > Beyond Storage Service > Object Storage > 일반 버킷
 8. `pubsub-nginx-log` 버킷 클릭
 9. 현재 연도/월/일/시 디렉터리로 이동하여 생성된 NGINX 로그 확인
