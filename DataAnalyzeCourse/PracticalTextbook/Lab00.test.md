@@ -6,6 +6,8 @@
 ## 1. VPC 생성
 
 1. 카카오 클라우드 콘솔 > 전체 서비스 > VPC 접속
+    - **Note**: 왼쪽 위의 
+
 2. VPC 만들기 버튼 클릭
     - VPC 정보
         - VPC 이름: `kc-vpc`
@@ -63,6 +65,8 @@
     - 네트워크 설정
         - VPC: `kc-vpc`
         - Subnet: `kr-central-2-a의 Private 서브넷`
+        - **Note**: `kc-vpc_9438c_sn_1` 형태의 서브넷이 `Private 서브넷`
+        - **Note**: `main` 형태의 서브넷이 `Public 서브넷`
     - 자동 백업 옵션: `미사용`
 3. 만들기 버튼 클릭
 
