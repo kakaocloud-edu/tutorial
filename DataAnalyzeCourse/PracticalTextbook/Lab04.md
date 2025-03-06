@@ -1,7 +1,7 @@
 # Data Query 가이드
 
 ## 1. 데이터 원본 생성
-1. 카카오 클라우드 콘솔 > 전체 서비스 > Data Query > 데이터 원본 관리
+1. 카카오 클라우드 콘솔 > Analytics > Data Query > 데이터 원본 관리
 2. 데이터 원본 생성 버튼 클릭
    - 기본 정보
       - 데이터 원본 이름: `data_origin`
@@ -18,7 +18,7 @@
 
 ## 2. Data Query 실습
 ### 1. 쿼리 결과 저장 위치 설정
-1. 카카오 클라우드 콘솔 > 전체 서비스 > Data Query > 쿼리 편집기
+1. 카카오 클라우드 콘솔 > Analytics > Data Query > 쿼리 편집기
 2. 설정 탭 클릭 
    - 관리 버튼 클릭
       - 버킷: `data-catalog`
@@ -214,7 +214,7 @@
    ```
   
 
-5. 카카오 클라우드 콘솔 > 전체 서비스 > Data Catalog > 카탈로그
+5. 카카오 클라우드 콘솔 > Analytics > Data Catalog > 카탈로그
 6. `kafka_log_partitioned` 테이블 클릭
    - 파티션 탭 클릭
    - `status` 값에 따라 생성된 파티션 확인
