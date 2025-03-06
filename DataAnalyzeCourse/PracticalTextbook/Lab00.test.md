@@ -30,6 +30,7 @@
     - 이름: `pubsub-nginx-log`
     - 암호화: `미사용`
     - 생성 버튼 클릭
+    - **Note**: 다시 왼쪽의 일반 버킷 눌러 Object Storage 메인 화면으로 이동
 
 4. Data Catalog의 데이터 저장용 버킷
     - 이름: `data-catalog`
