@@ -196,7 +196,7 @@
         - **Note**: 메모장에 아래 링크의 코드를 복사 붙여넣기 하여 사용
         - **Note**: 중괄호({})는 제거하고 쌍 따옴표는 유지
         - 사용자 스크립트: [`api_dev.sh`](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/ApiServer/api_dev.sh)의 쌍따옴표(“”) 사이에 자신의 리소스 값 입력
-        - **Note**: 조직 ID 어디서 찾는지 기재 필요 (**####개선 사항####**)
+        - **Note**: 중괄호({})안에 괄호(())로 쌓여진 값은 지정된 값이므로 그 값을 변경없이 그대로 사용
         - CPU 멀티스레딩: `활성화`
     - 생성 버튼 클릭
 
