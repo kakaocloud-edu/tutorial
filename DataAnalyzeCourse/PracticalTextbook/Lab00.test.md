@@ -239,7 +239,8 @@
     - `새로운 퍼블릭 IP를 생성하고 자동으로 할당`
 5. 확인 버튼 클릭
 6. `traffic-generator-1`, `traffic-generator-2` 각 인스턴스의 우측 메뉴바 > `SSH 연결` 클릭
-   - **Note**: 터미널 창 2개를 사용합니다.
+    - **Note**: 터미널 창 2개를 사용합니다.
+    - **Note**: `traffic-generator-1, 2`가 구분되도록 cli창을 위치시키기
     - SSH 접속 명령어 복사
     - 터미널 열기
     - keypair를 다운받아놓은 폴더로 이동
