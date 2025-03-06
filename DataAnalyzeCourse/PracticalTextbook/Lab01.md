@@ -27,9 +27,7 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 통한 메시�
         - 재처리 횟수: `횟수 지정`, `3번`
     - 생성 버튼 클릭
 7. `test-pull-sub` 서브스크립션 생성 확인
-8. 좌측의 토픽 탭 클릭
-    - `test-topic` 클릭
-    - `subscription` 클릭
+8. 서브스크립션 생성 버튼 클릭
 9. `test-topic`의 Push 서브스크립션 생성
     - 서브스크립션 생성 버튼 클릭
         - 기본 설정
