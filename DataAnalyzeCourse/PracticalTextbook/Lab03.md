@@ -2,7 +2,7 @@
 
 
 ## 1. Object Storage 버킷 설정
-1. 카카오 클라우드 콘솔 > 전체 서비스 > Object Storage > 일반 버킷
+1. 카카오 클라우드 콘솔 > Beyond Storage Service > Object Storage > 일반 버킷
 2. `data-catalog` 버킷 설정
       - `data-catalog` 버킷 클릭
          - 권한 탭 클릭
@@ -17,7 +17,7 @@
      
 
 ## 2. 카탈로그 생성
-1. 카카오 클라우드 콘솔 > 전체 서비스 > Data Catalog > 카탈로그
+1. 카카오 클라우드 콘솔 > Analytics > Data Catalog > 카탈로그
 2. 카탈로그 생성 버튼 클릭
    - 이름: `data_catalog`
    - VPC 설정
@@ -27,7 +27,7 @@
    - 카탈로그 상태: Running 확인
 
 ## 3. 데이터베이스 생성
-1. 카카오 클라우드 콘솔 > 전체 서비스 > Data Catalog > 데이터베이스
+1. 카카오 클라우드 콘솔 > Analytics > Data Catalog > 데이터베이스
 2. 데이터베이스 생성 버튼 클릭
    - 카탈로그: `data_catalog`
    - 이름: `data_catalog_database`
@@ -39,7 +39,7 @@
    - 카탈로그 상태: Running 확인
 
 ## 4. 테이블 생성
-1. 카카오 클라우드 콘솔 > 전체 서비스 > Data Catalog > 테이블
+1. 카카오 클라우드 콘솔 > Analytics > Data Catalog > 테이블
 2. 테이블 생성 버튼 클릭
 - **alb_log_table** 테이블 생성 정보
    - 데이터 베이스: `data_catalog_database`
@@ -136,14 +136,9 @@
       - 생성 버튼 클릭
       - `traffic-generator-2` 터미널 창에서 메시지 정상 수신 및 처리 로그 확인
 
-   - 스키마 필드 삭제
-      - `test_field` 스키마 우측 `⋮` 버튼 클릭
-      - 삭제 버튼 클릭
-      - `traffic-generator-2` 터미널 창에서 메시지 정상 수신 및 처리 로그 확인 후 터미널 종료
-   
 
 ## 6. 크롤러 생성
-1. 카카오 클라우드 콘솔 > 전체 서비스 > Data catalog > 크롤러
+1. 카카오 클라우드 콘솔 > Analytics > Data catalog > 크롤러
 2. 크롤러 생성 버튼 클릭
     - 데이터베이스: `data_catalog_database`
     - 크롤러 이름: `crawler`
@@ -159,6 +154,6 @@
     - 스케줄: `온디멘드`
     - 생성 버튼 클릭
 4. 생성된 크롤러 선택 후 실행
-5. 카카오 클라우드 콘솔 > 전체 서비스 > Data catalog > 테이블
+5. 카카오 클라우드 콘솔 > Analytics > Data catalog > 테이블
       - 생성된 테이블 확인
 
