@@ -200,7 +200,7 @@
         - CPU 멀티스레딩: `활성화`
     - 생성 버튼 클릭
 
-5. `api-server-1`, `api-server-2` 상태 Actice 확인 후 각 인스턴스의 우측 메뉴바 > `Public IP 연결` 클릭
+4. `api-server-1`, `api-server-2` 상태 Actice 확인 후 각 인스턴스의 우측 메뉴바 > `Public IP 연결` 클릭
     - `새로운 퍼블릭 IP를 생성하고 자동으로 할당`
     - 확인 버튼 클릭
 
@@ -234,11 +234,11 @@
     - 고급 설정
         - 사용자 스크립트: [`setup_initial.sh`](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/TrafficGenerator/setup_initial.sh)의 쌍따옴표(“”) 사이에 자신의 리소스 값 입력
         - CPU 멀티스레딩: `활성화`
-3. 생성 버튼 클릭
-4. `traffic-generator-1`, `traffic-generator-2` 상태 Actice 확인 후 각 인스턴스의 우측 메뉴바 > `Public IP 연결` 클릭
+    - 생성 버튼 클릭
+3. `traffic-generator-1`, `traffic-generator-2` 상태 Actice 확인 후 각 인스턴스의 우측 메뉴바 > `Public IP 연결` 클릭
     - `새로운 퍼블릭 IP를 생성하고 자동으로 할당`
-5. 확인 버튼 클릭
-6. `traffic-generator-1`, `traffic-generator-2` 각 인스턴스의 우측 메뉴바 > `SSH 연결` 클릭
+    - 확인 버튼 클릭
+4. `traffic-generator-1`, `traffic-generator-2` 각 인스턴스의 우측 메뉴바 > `SSH 연결` 클릭
     - **Note**: 터미널 창 2개를 사용합니다.
     - **Note**: `traffic-generator-1, 2`가 구분되도록 cli창을 위치시키기
     - SSH 접속 명령어 복사
@@ -277,7 +277,7 @@
 
 
     
-7. 디렉토리 내부 파일 생성 여부 확인
+5. 디렉토리 내부 파일 생성 여부 확인
     
     ### **lab0-7-7**
     
@@ -307,7 +307,7 @@
         - 포트: `80`
         - 대상 추가 버튼 클릭
     - 다음 버튼 클릭
-3. 생성 버튼 클릭
-4. 대상 그룹 프로비저닝 상태: Active, 운영 상태: Online 확인
+    - 생성 버튼 클릭
+3. 대상 그룹 프로비저닝 상태: Active, 운영 상태: Online 확인
 
 ---
