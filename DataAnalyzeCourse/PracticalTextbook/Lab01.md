@@ -66,7 +66,7 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 통한 메시�
 16. `data-catalog-pull-sub` 생성 확인
 
 
-## 2. CLI를 통한 토픽, 서브스크립션 생성
+## 2. REST API를 통한 토픽, 서브스크립션 생성
 
 1. `traffic-generator-1` 터미널 창에서 아래 명령어 실행
     
