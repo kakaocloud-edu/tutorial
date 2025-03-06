@@ -100,11 +100,11 @@
         - 서브넷: `kr-central-2-a의 Public 서브넷`
     - 리스너
         - 프로토콜: `HTTP`, 포트: `80`
-3. 생성 버튼 클릭
-4. 로드 밸런서 프로비저닝 상태: Active, 운영 상태: Online 확인 후 로드밸런서 우측의 `...`클릭 후 `Public IP 연결`
+    - 생성 버튼 클릭
+3. 로드 밸런서 프로비저닝 상태: Active, 운영 상태: Online 확인 후 로드밸런서 우측의 `...`클릭 후 `Public IP 연결`
     - `새로운 퍼블릭 IP를 생성하고 자동으로 할당` 선택
-5. 연결된 `Public IP` 복사 후 클립보드 등에 붙여넣기
-6. `액세스 로그 설정` 클릭
+4. 연결된 `Public IP` 복사 후 클립보드 등에 붙여넣기
+5. `액세스 로그 설정` 클릭
     - 액세스 로그: `사용`
     - 선택할 버킷: `data-catalog`
     - 선택할 액세스 키 ID: 위에서 생성한 `액세스 키 ID` 입력
@@ -140,13 +140,24 @@
         - 브로커 수: `2`
         - 볼륨 유형/크기: `SSD`/`50`
         - 최대 IOPS: `3000`
-3. 생성 버튼 클릭
-4. `kafka` 생성 확인 후 클릭
-5. `부트스트랩 서버` 복사 후 클립보드 등에 붙여넣기
+    - 생성 버튼 클릭
 
-## 6. API Server VM 생성
+
+## 7. 필요한 환경 변수 찾기
+1. MySQL
+    - 카카오 클라우드 콘솔 > 전체 서비스 > MySQL > Instance Group
+    - 생성된 `database` 클릭
+    - 우측 상단의 `엔드포인트` 복사 후 클립보드 등에 붙여넣기
+
+2. Kafka Cluster
+    - 카카오 클라우드 콘솔 > 전체 서비스 > Advanced Managed Kafka
+    - 생성된 `kafka` 클릭
+    - 우측 상단의 `부트스트랩 서버` 복사 후 클립보드 등에 붙여넣기
+
+## 8. API Server VM 생성
 
 1. 카카오 클라우드 콘솔 상단 중앙의 `프로젝트 ID` 복사 후 메모장에 붙여넣기
+    - **Note**: `kakaocloud` 로고를 클릭하여 콘솔 메인화면으로 이동
 2. 카카오 클라우드 콘솔 > 전체 서비스 > Virtual Machine > 인스턴스
 3. 인스턴스 생성 버튼 클릭
     - 기본 정보
@@ -182,61 +193,16 @@
         - 사용자 스크립트: [`api_dev.sh`](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/ApiServer/api_dev.sh)의 쌍따옴표(“”) 사이에 자신의 리소스 값 입력
         - **Note**: 조직 ID 어디서 찾는지 기재 필요 (**####개선 사항####**)
         - CPU 멀티스레딩: `활성화`
-4. 생성 버튼 클릭
+    - 생성 버튼 클릭
+
 5. `api-server-1`, `api-server-2` 상태 Actice 확인 후 각 인스턴스의 우측 메뉴바 > `Public IP 연결` 클릭
     - `새로운 퍼블릭 IP를 생성하고 자동으로 할당`
-6. 확인 버튼 클릭
-
-7. `api-server-1` 인스턴스의 우측 메뉴바 > `SSH 연결` 클릭
-    - **Note**: 터미널 창 2개를 사용합니다.
-    - SSH 접속 명령어 복사
-    - 터미널 열기
-    - keypair를 다운받아놓은 폴더로 이동
-    - 터미널에 명령어 붙여넣기
-    - yes 입력
-    
-    ### **lab0-7-7-1**
-    
-    ```bash
-    cd {keypair.pem 다운로드 위치}
-    ```
-    
-    - 리눅스의 경우에 아래와 같이 키페어의 권한을 조정
-    
-    ### **lab0-7-7-2**
-    
-    ```bash
-    chmod 400 keypair.pem
-    ```
-    
-    ### **lab0-7-7-3**
-    
-    ```bash
-    ssh -i keypair.pem ubuntu@{api-server-1, 2의 public ip주소}
-    ```
-    
-    - **Note**: {api-server-1, 2의 public ip 주소} 부분을 복사한 각 IP 주소로 교체하세요.
-    
-    ### **lab0-7-7-4**
-    
-    ```bash
-    yes
-    ```
-   - **Note**: 윈도우에서 ssh 접근이 안될 경우에 cmd 창에서 keypair.pem가 있는 경로로 이동 후 아래 명령어 입력
-    
-    ### **lab0-7-7-5**
-    
-    ```bash
-    icacls.exe keypair.pem /reset
-    icacls.exe keypair.pem /grant:r %username%:(R)
-    icacls.exe keypair.pem /inheritance:r
-    ```
-
-- **Note**: 정상적으로 작동하는지에 대한 테스트 코드 (**####개선 사항####**)
+    - 확인 버튼 클릭
 
 
 
-## 7. Traffic Generator VM 생성
+
+## 9. Traffic Generator VM 생성
 
 1. 카카오 클라우드 콘솔 > 전체 서비스 > Virtual Machine > 인스턴스
 2. 인스턴스 생성 버튼 클릭
@@ -314,7 +280,7 @@
     ```
     
 
-## 8. 로드 밸런서 대상 그룹 생성
+## 10. 로드 밸런서 대상 그룹 생성
 
 1. 카카오 클라우드 콘솔 > 전체 서비스 > Load Balancing > 대상 그룹
 2. 대상 그룹 생성 버튼 클릭
