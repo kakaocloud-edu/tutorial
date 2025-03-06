@@ -397,7 +397,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
                 AWS_DEFAULT_OUTPUT_VALUE="json"
                 
                 # Kafka용 설정 변수
-                KAFKA_BOOTSTRAP_SERVER="{Kafka 부트스트랩 서버 값}"
+                KAFKA_BOOTSTRAP_SERVER="{Kafka 부트스트랩 서버}"
                 BUCKET_NAME="{Kafka와 연동된 버킷 이름(data-catalog)}"
                 
                 LOGFILE="/home/ubuntu/setup.log"
