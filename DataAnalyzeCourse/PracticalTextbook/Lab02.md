@@ -250,7 +250,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
         ```
     
 2. `api-server-1` ssh연결
-    - 카카오 클라우드 콘솔 > 전체 서비스 > Virtual Machine > 인스턴스
+    - 카카오 클라우드 콘솔 > Beyond Compute Service > Virtual Machine > 인스턴스
     - `api-server-1` 인스턴스의 우측 메뉴바 > `SSH 연결` 클릭
     - SSH 접속 명령어 복사
     - 터미널 열기
@@ -352,7 +352,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     - S3 인증 정보 항목의 사용자 `보안 엑세스 키` 복사 후 클립보드 등에 붙여넣기
         - **Note**: S3 액세스 키 정보 팝업창을 닫은 이후 S3 인증 정보 다시 조회 불가
     - 확인 버튼 클릭
-4. 카카오 클라우드 콘솔 > 전체 서비스 > Virtual Machine > 인스턴스
+4. 카카오 클라우드 콘솔 > Beyond Compute Service > Virtual Machine > 인스턴스
 5. 인스턴스 생성 버튼 클릭
     - Kafka Connector VM 생성 정보
         - 기본 정보
@@ -784,7 +784,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
 7. `connector`, `tasks`의 `state` 값이 `RUNNING`인 것을 확인
 
 8. Object Storage 버킷 내 NGINX 로그 적재 확인
-    - 카카오 클라우드 콘솔 > 전체 서비스 > Object Storage
+    - 카카오 클라우드 콘솔 > Beyond Storage Service > Object Storage > 일반 버킷
     - `data-catalog` 버킷 클릭
     - `/topics/nginx-topic/partition_0/year_{현재 연도}/month_{현재 월}/day_{현재 일}/hour_{현재 시}` 디렉터리로 이동
     - 버킷 내 적재된 NGINX 로그 적재 확인
