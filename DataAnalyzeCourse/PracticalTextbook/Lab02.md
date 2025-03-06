@@ -194,7 +194,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     - `consumer-group-latest`, `consumer-group-earliest` 두 값이 뜨는거 확인
 
 
-## 2-3. Python 코드로 메시지 송수신
+## 2-3. Python SDK로 메시지 송수신
 
 1. `traffic-generator-1`에서 새 토픽(`python-topic`) 생성
     #### lab2-2-3-1
