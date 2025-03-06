@@ -161,6 +161,8 @@
     - 카카오 클라우드 콘솔 > 전체 서비스 > IAM
     - 좌측의 `조직 관리` 클릭
     - `조직 ID` 복사 후 클립보드 등에 붙여넣기
+      <img width="1313" alt="스크린샷 2025-03-06 오후 4 42 13" src="https://github.com/user-attachments/assets/828957d3-fc9b-44c5-a9db-5da13bfc556e" />
+
 
 4. 카카오 클라우드 콘솔 상단 중앙의 `프로젝트 ID` 복사 후 메모장에 붙여넣기
     - **Note**: `kakaocloud` 로고를 클릭하여 콘솔 메인화면으로 이동
@@ -205,7 +207,7 @@
         - CPU 멀티스레딩: `활성화`
     - 생성 버튼 클릭
 
-4. `api-server-1`, `api-server-2` 상태 Actice 확인 후 각 인스턴스의 우측 메뉴바 > `Public IP 연결` 클릭
+4. `api-server-1` 상태 Actice 확인 후 각 인스턴스의 우측 메뉴바 > `Public IP 연결` 클릭
     - `새로운 퍼블릭 IP를 생성하고 자동으로 할당`
     - 확인 버튼 클릭
 
