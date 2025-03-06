@@ -65,8 +65,8 @@
     - 네트워크 설정
         - VPC: `kc-vpc`
         - Subnet: `kr-central-2-a의 Private 서브넷`
-        - **Note**: `kc-vpc_9438c_sn_1` 형태의 서브넷이 `Private 서브넷`
-        - **Note**: `main` 형태의 서브넷이 `Public 서브넷`
+            - **Note**: `kc-vpc_9438c_sn_1` 형태의 서브넷이 `Private 서브넷`
+            - **Note**: `main` 형태의 서브넷이 `Public 서브넷`
     - 자동 백업 옵션: `미사용`
 3. 만들기 버튼 클릭
 
