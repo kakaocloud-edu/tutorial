@@ -5,7 +5,7 @@
 
 ## 1. VPC 생성
 
-1. 카카오 클라우드 콘솔 > 전체 서비스 > VPC 접속
+1. 카카오 클라우드 콘솔 > Beyond Networking Service > VPC > VPC
 
 2. VPC 만들기 버튼 클릭
     - VPC 정보
@@ -24,7 +24,7 @@
 
 ## 2. Object Storage 생성
 
-1. 카카오 클라우드 콘솔 > 전체 서비스 > Object Storage
+1. 카카오 클라우드 콘솔 > Beyond Storage Service > Object Storage > 일반 버킷
 2. 버킷 생성 버튼 클릭
 
 3. Nginx Log 수집용 버킷 (Pub/Sub 연동)
@@ -42,7 +42,7 @@
 
 ## 3. MySQL 생성
 
-1. 카카오 클라우드 콘솔 > 전체 서비스 > MySQL > Instance Group
+1. 카카오 클라우드 콘솔 >  Data Store > MySQL > Instance Group
 2. 인스턴스 그룹 만들기 버튼 클릭
     - 기본 설정
         - 이름: `database`
@@ -86,7 +86,7 @@
 
 ## 5. 로드 밸런서(ALB) 생성
 
-1. 카카오 클라우드 콘솔 > 전체 서비스 > Load Balancing > 로드 밸런서
+1. 카카오 클라우드 콘솔 > Beyond Networking Service > Load Balancing > 로드 밸런서
 2. 로드 밸런서 생성 버튼 클릭
     - 유형 선택: `Application Load Balancer`
     - 기본 정보
@@ -112,7 +112,7 @@
 
 ## 6. Kafka Cluster 생성
 
-1. 카카오 클라우드 콘솔 > 전체 서비스 > Advanced Managed Kafka
+1. 카카오 클라우드 콘솔 > Analytics > Advanced Managed Kafka > 클러스터
 2. 클러스터 생성 버튼 클릭
     - 기본 설정
         - 클러스터 이름: `kafka`
@@ -144,21 +144,21 @@
 ## 7. 환경 변수 설정
 - 
 1. MySQL
-    - 카카오 클라우드 콘솔 > 전체 서비스 > MySQL > Instance Group
+    - 카카오 클라우드 콘솔 > Data Store > MySQL > Instance Group
     - 생성된 `database` 클릭
     - 우측 상단의 `엔드포인트` 복사 후 클립보드 등에 붙여넣기
       <img width="1317" alt="스크린샷 2025-03-06 오후 4 37 37" src="https://github.com/user-attachments/assets/c5e2e829-02f1-41dc-9932-e14efddfca1c" />
 
 
 2. Kafka Cluster
-    - 카카오 클라우드 콘솔 > 전체 서비스 > Advanced Managed Kafka
+    - 카카오 클라우드 콘솔 > Analytics > Advanced Managed Kafka > 클러스터
     - 생성된 `kafka` 클릭
     - 우측 상단의 `부트스트랩 서버` 복사 후 클립보드 등에 붙여넣기
       <img width="1323" alt="스크린샷 2025-03-06 오후 4 39 29" src="https://github.com/user-attachments/assets/1fc0623e-2deb-4dfa-98d7-fd60a37ea1d6" />
 
 
 3. 조직 ID(Domain ID)
-    - 카카오 클라우드 콘솔 > 전체 서비스 > IAM
+    - 카카오 클라우드 콘솔 > Management > IAM > 프로젝트
     - 좌측의 `조직 관리` 클릭
     - `조직 ID` 복사 후 클립보드 등에 붙여넣기
       <img width="1313" alt="스크린샷 2025-03-06 오후 4 42 13" src="https://github.com/user-attachments/assets/828957d3-fc9b-44c5-a9db-5da13bfc556e" />
@@ -170,7 +170,7 @@
 
 ## 8. API Server VM 생성
 
-2. 카카오 클라우드 콘솔 > 전체 서비스 > Virtual Machine > 인스턴스
+2. 카카오 클라우드 콘솔 > Beyond Compute Service > Virtual Machine > 인스턴스
 3. 인스턴스 생성 버튼 클릭
     - 기본 정보
         - 이름: `api-server`
@@ -216,7 +216,7 @@
 
 ## 9. Traffic Generator VM 생성
 
-1. 카카오 클라우드 콘솔 > 전체 서비스 > Virtual Machine > 인스턴스
+1. 카카오 클라우드 콘솔 > Beyond Compute Service > Virtual Machine > 인스턴스
 2. 인스턴스 생성 버튼 클릭
     - 기본 정보
         - 이름: `trarffic-generator`
@@ -295,7 +295,7 @@
 
 ## 10. 로드 밸런서 대상 그룹 생성
 
-1. 카카오 클라우드 콘솔 > 전체 서비스 > Load Balancing > 대상 그룹
+1. 카카오 클라우드 콘솔 >Beyond Networking Service > Load Balancing > 대상 그룹
 2. 대상 그룹 생성 버튼 클릭
     - 로드 밸런서
         - 가용 영역: `kr-central-2-a`
