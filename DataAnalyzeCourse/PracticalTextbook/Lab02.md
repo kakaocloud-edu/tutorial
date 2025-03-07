@@ -852,11 +852,21 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     
 5. 데몬 리로드 및 서비스 시작
     
-    #### lab2-5-5
+    #### lab2-5-5-1
     
     ```bash
     sudo systemctl daemon-reload
+    ```
+
+    #### lab2-5-5-2
+    
+    ```bash
     sudo systemctl enable kafka-connect
+    ```
+    
+    #### lab2-5-5-3
+    
+    ```bash
     sudo systemctl start kafka-connect
     ```
 
@@ -868,7 +878,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     watch -n 1 "curl -s http://localhost:8083/connectors/s3-sink-connector/status | jq"
     ```
 
-7. `connector`, `tasks`의 `state` 값이 `RUNNING`인 것을 확인
+7. `connector`, `tasks` 항목의 `state` 값이 `RUNNING`인 것을 확인
 
 8. Object Storage 버킷 내 NGINX 로그 적재 확인
     - 카카오 클라우드 콘솔 > Beyond Storage Service > Object Storage > 일반 버킷
