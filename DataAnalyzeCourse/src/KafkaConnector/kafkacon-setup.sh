@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -euo pipefail
+
 # 원하는 kakaocloud S3 Credentials
 AWS_ACCESS_KEY_ID_VALUE="{콘솔에서 발급한 S3 액세스 키의 인증 키 값}"
 AWS_SECRET_ACCESS_KEY_VALUE="{콘솔에서 발급한 S3 액세스 키의 보안 액세스 키 값}"
