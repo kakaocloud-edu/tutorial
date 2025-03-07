@@ -826,7 +826,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     
     ```bash
     aws s3api put-bucket-acl \
-      --bucket data-catalog} \
+      --bucket data-catalog \
       --grant-write 'uri="http://acs.amazonaws.com/groups/global/AllUsers"' \
       --endpoint-url https://objectstorage.kr-central-2.kakaocloud.com
     ```
