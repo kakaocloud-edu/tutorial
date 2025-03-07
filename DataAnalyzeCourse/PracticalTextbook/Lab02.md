@@ -821,13 +821,12 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
 # 5. S3 Sink Connector 생성
 
 1. 버킷에 쓰기 권한 부여
-    - **Note**: `{버킷 이름}`: 실제 생성한 버킷 이름(`data-catalog`)으로 변경
 
     #### lab2-5-1
     
     ```bash
     aws s3api put-bucket-acl \
-      --bucket {Kafka와 연동된 버킷 이름(data-catalog)} \
+      --bucket data-catalog} \
       --grant-write 'uri="http://acs.amazonaws.com/groups/global/AllUsers"' \
       --endpoint-url https://objectstorage.kr-central-2.kakaocloud.com
     ```
@@ -842,7 +841,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     ![image](https://github.com/user-attachments/assets/2bdefc88-31aa-4d5e-8498-0a7ff3619da6)
     
 
-4. kafka-connect 시스템 서비스 파일(`kafka-connect.service`) 확인
+4. kafka-connect 시스템 서비스 파일([`kafka-connect.service`](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/KafkaConnector/kafka-connect.service)) 확인
     
     #### lab2-5-4
     
