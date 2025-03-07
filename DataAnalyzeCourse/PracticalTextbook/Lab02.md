@@ -128,7 +128,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
         # See the License for the specific language governing permissions and
         # limitations under the License.
 
-        # 아래는 실행 부분으로 현재 스크립트와 같은 디렉터리에 있는 kafka-run-class.sh 스크립트를 호출합니다.
+        # 현재 스크립트와 같은 디렉터리에 있는 kafka-run-class.sh 스크립트를 호출합니다.
         # 실행 시 전달된 모든 인자("$@")를 그대로 넘겨주며, 자바 클래스 org.apache.kafka.tools.TopicCommand를 실행합니다.
         exec $(dirname $0)/kafka-run-class.sh org.apache.kafka.tools.TopicCommand "$@"
         ```
