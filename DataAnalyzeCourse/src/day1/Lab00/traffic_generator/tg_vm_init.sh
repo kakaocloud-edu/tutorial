@@ -30,6 +30,12 @@ echo "kakaocloud: 2.Checking the validity of the script download site"
 curl --output /dev/null --silent --head --fail "https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day1/Lab00/traffic_generator/tg_full_setup.sh" || { echo "kakaocloud: Script download site is not valid"; exit 1; }
 echo "kakaocloud: Script download site is valid"
 
-wget https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day1/Lab00/traffic_generator/tg_full_setup.sh
+wget # 기존 URL (잘못된 URL)
+# wget https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day1/Lab00/traffic_generator/tg_full_setup.sh
+
+# 수정된 URL (raw 파일)
+wget https://raw.githubusercontent.com/kakaocloud-edu/tutorial/main/DataAnalyzeCourse/src/day1/Lab00/traffic_generator/tg_full_setup.sh
+chmod +x tg_full_setup.sh
+sudo -E ./tg_full_setup.sh
 chmod +x tg_full_setup.sh
 sudo -E ./tg_full_setup.sh
