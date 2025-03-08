@@ -1,7 +1,7 @@
 #!/bin/bash
 # setup_all.sh
 
-# === 설정 변수 (내부에서 사용하는 버전 및 경로 변수) ===
+# === 설정 변수 (버전, 경로, 환경변수 등) ===
 GO_VERSION="1.20.5"
 GO_TAR_FILE="go${GO_VERSION}.linux-amd64.tar.gz"
 GO_DOWNLOAD_URL="https://go.dev/dl/${GO_TAR_FILE}"
@@ -19,7 +19,6 @@ required_variables=(
     TOPIC_NAME SUB_NAME TOPIC_NAME_MK OBJECT_STORAGE_SUBSCRIPTION_NAME 
     OBJECT_STORAGE_BUCKET PUBSUB_ENDPOINT
 )
-
 for var in "${required_variables[@]}"; do
     if [ -z "${!var}" ]; then
         echo "kakaocloud: 필수 환경변수 $var 가 설정되지 않았습니다. 스크립트를 종료합니다."
@@ -108,7 +107,6 @@ EOF
 
 echo "kakaocloud: 8. Go SDK 설치 및 설정 시작"
 sudo apt update || { echo "kakaocloud: apt 업데이트 실패"; exit 1; }
-
 echo "kakaocloud: Go ${GO_VERSION} 다운로드 및 설치 시작"
 wget "$GO_DOWNLOAD_URL" -O "/tmp/$GO_TAR_FILE" || { echo "kakaocloud: Go tarball 다운로드 실패"; exit 1; }
 MIN_SIZE=52428800
@@ -154,9 +152,6 @@ sudo wget "$PUBSUB_SDK_URL" -O pubsub.tgz || { echo "kakaocloud: Pub/Sub SDK 다
 sudo tar -xf pubsub.tgz || { echo "kakaocloud: Pub/Sub SDK 압축 해제 실패"; exit 1; }
 sudo rm -f pubsub.tgz
 
-# 전체 /home/ubuntu 디렉토리에 대해 소유권 변경 (하위 경로 모두 적용)
-sudo chown -R ubuntu:ubuntu /home/ubuntu
-
 echo "kakaocloud: 10. Go 작업 디렉토리로 이동 (DataAnalyzeCourse/src/day1/Lab01/go)"
 cd /home/ubuntu/DataAnalyzeCourse/src/day1/Lab01/go || { echo "kakaocloud: Go 작업 디렉토리로 이동 실패"; exit 1; }
 
@@ -177,6 +172,9 @@ sudo apt install -y python3 python3-pip || { echo "kakaocloud: Python3 및 pip �
 
 echo "kakaocloud: 15. Python dependencies (requests, pyyaml) 설치 시작"
 pip3 install --user requests pyyaml || { echo "kakaocloud: Python dependencies 설치 실패"; exit 1; }
+
+# 전체 권한 문제 방지를 위한 소유권 변경 (하위 모든 경로 적용)
+sudo chown -R ubuntu:ubuntu /home/ubuntu/go /home/ubuntu/gosdk /home/ubuntu/DataAnalyzeCourse/src/day1/Lab01/go
 
 echo "========================================"
 echo "kakaocloud: 자동화 임시 완료스크립트 실행 완료."
