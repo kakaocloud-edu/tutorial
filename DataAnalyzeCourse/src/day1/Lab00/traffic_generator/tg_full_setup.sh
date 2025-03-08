@@ -107,7 +107,7 @@ EOF
 echo "kakaocloud: config.yml 파일 생성 완료"
 
 echo "kakaocloud: 8. Go SDK 설치 및 설정 시작"
-sudo apt update || { echo "kakaocloud: apt 업데이트 실패"; exit 1; }
+sudo apt update -qq > /dev/null 2>&1 || { echo "kakaocloud: apt 업데이트 실패"; exit 1; }
 
 # Go 다운로드 및 설치 (예: Go 1.20.5)
 GO_VERSION="1.20.5"
@@ -115,7 +115,7 @@ GO_TAR_FILE="go${GO_VERSION}.linux-amd64.tar.gz"
 GO_DOWNLOAD_URL="https://go.dev/dl/${GO_TAR_FILE}"
 
 echo "kakaocloud: Go ${GO_VERSION} 다운로드 및 설치 시작"
-wget "$GO_DOWNLOAD_URL" -O "/tmp/$GO_TAR_FILE" || { echo "kakaocloud: Go tarball 다운로드 실패"; exit 1; }
+wget -q "$GO_DOWNLOAD_URL" -O "/tmp/$GO_TAR_FILE" || { echo "kakaocloud: Go tarball 다운로드 실패"; exit 1; }
 
 # 파일 무결성 체크: 최소 50MB (52428800 bytes) 이상인지 확인
 MIN_SIZE=52428800
@@ -126,7 +126,7 @@ if [ "$FILE_SIZE" -lt "$MIN_SIZE" ]; then
 fi
 
 sudo rm -rf /usr/local/go
-sudo tar -C /usr/local -xzf "/tmp/$GO_TAR_FILE" || { echo "kakaocloud: Go tarball 압축 해제 실패"; exit 1; }
+sudo tar -C /usr/local -xzf "/tmp/$GO_TAR_FILE" > /dev/null 2>&1 || { echo "kakaocloud: Go tarball 압축 해제 실패"; exit 1; }
 rm "/tmp/$GO_TAR_FILE"
 
 # PATH 업데이트 (현재 세션 및 영구 적용)
@@ -163,14 +163,15 @@ echo "kakaocloud: Pub/Sub SDK 다운로드 및 압축 해제 시작"
 if [ -f "pubsub.tgz" ]; then
     sudo rm -f pubsub.tgz || { echo "kakaocloud: 기존 pubsub.tgz 삭제 실패"; exit 1; }
 fi
-sudo wget "$PUBSUB_SDK_URL" -O pubsub.tgz || { echo "kakaocloud: Pub/Sub SDK 다운로드 실패"; exit 1; }
-sudo tar -xf pubsub.tgz || { echo "kakaocloud: Pub/Sub SDK 압축 해제 실패"; exit 1; }
+sudo wget -q "$PUBSUB_SDK_URL" -O pubsub.tgz || { echo "kakaocloud: Pub/Sub SDK 다운로드 실패"; exit 1; }
+sudo tar -xf pubsub.tgz > /dev/null 2>&1 || { echo "kakaocloud: Pub/Sub SDK 압축 해제 실패"; exit 1; }
 sudo rm -f pubsub.tgz
 echo "kakaocloud: Pub/Sub SDK 다운로드 및 압축 해제 완료"
 
-# 소유권 변경
-sudo chown -R $(whoami):$(whoami) "$GOSDK_DIR"
-echo "kakaocloud: GOSDK_DIR 소유권 변경 완료"
+# 소유권 변경: GOSDK_DIR와 Go 작업 디렉토리 모두 ubuntu 사용자로 변경
+sudo chown -R ubuntu:ubuntu "$GOSDK_DIR"
+sudo chown -R ubuntu:ubuntu /home/ubuntu/DataAnalyzeCourse/src/day1/Lab01/go
+echo "kakaocloud: GOSDK_DIR 및 작업 디렉토리 소유권 변경 완료"
 
 echo "kakaocloud: 10. Go 작업 디렉토리로 이동 (DataAnalyzeCourse/src/day1/Lab01/go)"
 cd /home/ubuntu/DataAnalyzeCourse/src/day1/Lab01/go || { echo "kakaocloud: Go 작업 디렉토리로 이동 실패"; exit 1; }
@@ -194,11 +195,11 @@ echo "kakaocloud: 13. go mod tidy 실행 시작"
 echo "kakaocloud: go mod tidy 실행 완료"
 
 echo "kakaocloud: 14. Python3 및 pip 설치 시작"
-sudo apt install -y python3 python3-pip || { echo "kakaocloud: Python3 및 pip 설치 실패"; exit 1; }
+sudo apt install -y python3 python3-pip -qq > /dev/null 2>&1 || { echo "kakaocloud: Python3 및 pip 설치 실패"; exit 1; }
 echo "kakaocloud: Python3 및 pip 설치 완료"
 
 echo "kakaocloud: 15. Python dependencies (requests, pyyaml) 설치 시작"
-pip3 install --user requests pyyaml || { echo "kakaocloud: Python dependencies 설치 실패"; exit 1; }
+pip3 install --user requests pyyaml -q > /dev/null 2>&1 || { echo "kakaocloud: Python dependencies 설치 실패"; exit 1; }
 echo "kakaocloud: Python dependencies 설치 완료"
 
 echo "========================================"
