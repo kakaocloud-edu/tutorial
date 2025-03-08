@@ -32,7 +32,7 @@ rm -rf /home/ubuntu/tutorial || { echo "kakaocloud: Failed to remove tutorial di
 echo "kakaocloud: DataAnalyzeCourse copied successfully"
 
 echo "4. config.yml 파일 생성"
-CONFIG_DIR="/home/ubuntu/DataAnalyzeCourse/src/day1"
+CONFIG_DIR="/home/ubuntu/DataAnalyzeCourse/src/day1/Lab00/traffic_generator"
 mkdir -p "$CONFIG_DIR" || { echo "kakaocloud: Failed to create $CONFIG_DIR"; exit 1; }
 
 cat <<EOF > "$CONFIG_DIR/config.yml"
