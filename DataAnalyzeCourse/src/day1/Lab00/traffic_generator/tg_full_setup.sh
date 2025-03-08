@@ -170,7 +170,16 @@ pip3 install --user requests pyyaml || { echo "kakaocloud: Python dependencies �
 # 전체 권한 문제 방지를 위한 소유권 변경 (하위 모든 경로 적용)
 sudo chown -R ubuntu:ubuntu /home/ubuntu/go /home/ubuntu/gosdk /home/ubuntu/DataAnalyzeCourse/src/day1/Lab01/go
 
-# 현재 쉘 세션의 PATH에 go 적용
+# --- 하단부 추가: OpenJDK 및 Apache Kafka 설치 ---
+echo "kakaocloud: 16. OpenJDK 21 설치 시작"
+sudo apt install -y openjdk-21-jdk || { echo "kakaocloud: OpenJDK 21 설치 실패"; exit 1; }
+
+echo "kakaocloud: 17. Apache Kafka 설치 시작"
+cd /opt || { echo "kakaocloud: /opt 디렉토리 이동 실패"; exit 1; }
+sudo wget -qO- https://archive.apache.org/dist/kafka/3.7.1/kafka_2.13-3.7.1.tgz | sudo tar -xz || { echo "kakaocloud: Kafka 압축 해제 실패"; exit 1; }
+sudo mv kafka_2.13-3.7.1 kafka || { echo "kakaocloud: Kafka 디렉토리 이름 변경 실패"; exit 1; }
+
+# 현재 쉘 세션의 PATH에 변경 내용 적용
 source ~/.bashrc
 
 echo "========================================"
