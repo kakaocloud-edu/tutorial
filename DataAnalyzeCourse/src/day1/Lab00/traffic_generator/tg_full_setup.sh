@@ -107,7 +107,6 @@ EOF
 
 echo "kakaocloud: 8. Go SDK 설치 및 설정 시작"
 sudo apt update || { echo "kakaocloud: apt 업데이트 실패"; exit 1; }
-echo "kakaocloud: Go ${GO_VERSION} 다운로드 및 설치 시작"
 wget "$GO_DOWNLOAD_URL" -O "/tmp/$GO_TAR_FILE" || { echo "kakaocloud: Go tarball 다운로드 실패"; exit 1; }
 MIN_SIZE=52428800
 FILE_SIZE=$(stat -c%s "/tmp/$GO_TAR_FILE")
@@ -124,10 +123,6 @@ if ! grep -q 'export PATH=\$PATH:/usr/local/go/bin' "/home/ubuntu/.bashrc"; then
     echo 'export PATH=$PATH:/usr/local/go/bin' >> "/home/ubuntu/.bashrc"
 fi
 
-echo "kakaocloud: Go 설치 완료. 버전 정보:"
-/usr/local/go/bin/go version
-
-echo "kakaocloud: GOPATH 및 GOCACHE 설정 시작"
 export GOPATH="$GOPATH_VAL"
 export GOCACHE="$GOCACHE_VAL"
 if ! grep -q 'export GOPATH=' "/home/ubuntu/.bashrc"; then
@@ -144,7 +139,6 @@ fi
 mkdir -p "$GOSDK_DIR"
 cd "$GOSDK_DIR" || { echo "kakaocloud: GOSDK_DIR로 이동 실패"; exit 1; }
 PUBSUB_SDK_URL="https://objectstorage.kr-central-2.kakaocloud.com/v1/e9130193fc734337b2b0c1da50e44395/pubsub-sdk/go/v1.0.0/pubsub.tgz"
-echo "kakaocloud: Pub/Sub SDK 다운로드 및 압축 해제 시작"
 if [ -f "pubsub.tgz" ]; then
     sudo rm -f pubsub.tgz || { echo "kakaocloud: 기존 pubsub.tgz 삭제 실패"; exit 1; }
 fi
