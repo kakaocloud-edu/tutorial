@@ -176,6 +176,9 @@ pip3 install --user requests pyyaml || { echo "kakaocloud: Python dependencies �
 # 전체 권한 문제 방지를 위한 소유권 변경 (하위 모든 경로 적용)
 sudo chown -R ubuntu:ubuntu /home/ubuntu/go /home/ubuntu/gosdk /home/ubuntu/DataAnalyzeCourse/src/day1/Lab01/go
 
+# 현재 쉘 세션의 PATH에 go 적용
+source ~/.bashrc
+
 echo "========================================"
 echo "kakaocloud: 자동화 임시 완료스크립트 실행 완료."
 echo "========================================"
