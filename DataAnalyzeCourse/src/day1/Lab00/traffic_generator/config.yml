@@ -1,20 +1,19 @@
 # 공용 설정 파일: config.yml
-
 pubsub:
-  endpoint: "https://pub-sub.kr-central-2.kakaocloud.com"
-  domain_id: ""
-  project_id: ""
-  topic_name: "test-topic"
-  topic_name_mk: "log-topic"
+  endpoint: "$PUBSUB_ENDPOINT"
+  domain_id: "$DOMAIN_ID"
+  project_id: "$PROJECT_ID"
+  topic_name: "$TOPIC_NAME"
+  topic_name_mk: "$TOPIC_NAME_MK"
   topic_description: ""
   topic_retention_duration: "600s"
-  sub_name: "test-pull-sub"
-  credential_id: "1947ce77abaa42a2b5e22fb49b0b4007"
-  credential_secret: "2652f5e32bc99a0b73e71d448dac30ec11422bac86fc63135f0f4ad326d3e2f0464ab2"
+  sub_name: "$SUB_NAME"
+  credential_id: "$CREDENTIAL_ID"
+  credential_secret: "$CREDENTIAL_SECRET"
 
 object_storage_subscription:
-  name: "log-obj-sub"
-  bucket: "pubsub-nginx-log"
+  name: "$OBJECT_STORAGE_SUBSCRIPTION_NAME"
+  bucket: "$OBJECT_STORAGE_BUCKET"
   export_interval_min: 10
   file_prefix: ""
   file_suffix: ".log"
@@ -32,7 +31,7 @@ threads:
   actions_per_user: 30
 
 api:
-  base_url: "1111.111.11"
+  base_url: "$API_BASE_URL"
   endpoints:
     add_user: "add_user"
     delete_user: "delete_user"
