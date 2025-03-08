@@ -165,7 +165,8 @@ echo "kakaocloud: 14. Python3 및 pip 설치 시작"
 sudo apt install -y python3 python3-pip || { echo "kakaocloud: Python3 및 pip 설치 실패"; exit 1; }
 
 echo "kakaocloud: 15. Python dependencies (requests, pyyaml) 설치 시작"
-pip3 install --user requests pyyaml || { echo "kakaocloud: Python dependencies 설치 실패"; exit 1; }
+sudo apt install -y python3-requests python3-yaml || { echo "kakaocloud: Python dependencies 설치 실패"; exit 1; }
+
 
 # 전체 권한 문제 방지를 위한 소유권 변경 (하위 모든 경로 적용)
 sudo chown -R ubuntu:ubuntu /home/ubuntu/go /home/ubuntu/gosdk /home/ubuntu/DataAnalyzeCourse/src/day1/Lab01/go
