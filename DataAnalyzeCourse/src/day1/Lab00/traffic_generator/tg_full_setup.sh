@@ -184,5 +184,5 @@ sudo mv kafka_2.13-3.7.1 kafka || { echo "kakaocloud: Kafka 디렉토리 이름 
 source ~/.bashrc
 
 echo "========================================"
-echo "kakaocloud: 자동화 임시 완료스크립트 실행 완료."
+echo "kakaocloud: 자동화 완료스크립트 실행 완료."
 echo "========================================"
