@@ -32,7 +32,8 @@ rm -rf /home/ubuntu/tutorial || { echo "kakaocloud: Failed to remove tutorial di
 echo "kakaocloud: DataAnalyzeCourse copied successfully"
 
 echo "4. config.yml 파일 생성"
-CONFIG_DIR="/home/ubuntu/DataAnalyzeCourse/src/day1/Lab00/traffic_generator"
+
+CONFIG_DIR="  "
 mkdir -p "$CONFIG_DIR" || { echo "kakaocloud: Failed to create $CONFIG_DIR"; exit 1; }
 
 cat <<EOF > "$CONFIG_DIR/config.yml"
@@ -168,7 +169,7 @@ sudo chown -R $(whoami):$(whoami) "$GOSDK_DIR"
 
 # GO_SDK 디렉토리 (~/DataAnalyzeCourse/src/TrafficGenerator/GO_SDK)에서 실행
 # 경로 이동하는 로직필요
-cd /home/ubuntu/DataAnalyzeCourse/src/TrafficGenerator/GO_SDK
+cd /home/ubuntu/DataAnalyzeCourse/src/day1/Lab01/go
 
 # go.mod 파일이 없으면 초기화
 if [ ! -f go.mod ]; then
@@ -190,11 +191,5 @@ fi
  echo "========================================"
 echo "자동화 임시 완료스크립트 실행 완료."
 echo "========================================"
-
-
-
-
-
-
 
 
