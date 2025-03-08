@@ -1,0 +1,59 @@
+# 공용 설정 파일: config.yml
+
+pubsub:
+  endpoint: "https://pub-sub.kr-central-2.kakaocloud.com"
+  domain_id: ""
+  project_id: ""
+  topic_name: "test-topic"
+  topic_name_mk: "log-topic"
+  topic_description: ""
+  topic_retention_duration: "600s"
+  sub_name: "test-pull-sub"
+  credential_id: "1947ce77abaa42a2b5e22fb49b0b4007"
+  credential_secret: "2652f5e32bc99a0b73e71d448dac30ec11422bac86fc63135f0f4ad326d3e2f0464ab2"
+
+object_storage_subscription:
+  name: "log-obj-sub"
+  bucket: "pubsub-nginx-log"
+  export_interval_min: 10
+  file_prefix: ""
+  file_suffix: ".log"
+  channel_count: 4
+  max_channel_count: 10
+  is_export_enabled: true
+
+logging:
+  filename: "traffic_generator.log"
+  level: "INFO"
+
+threads:
+  num_users: 5
+  max_threads: 5
+  actions_per_user: 30
+
+api:
+  base_url: "1111.111.11"
+  endpoints:
+    add_user: "add_user"
+    delete_user: "delete_user"
+    login: "login"
+    logout: "logout"
+    products: "products"
+    product_detail: "product"
+    search: "search"
+    checkout_history: "checkout_history"
+    categories: "categories"
+    category: "category"
+    cart_view: "cart/view"
+    cart_add: "cart/add"
+    cart_remove: "cart/remove"
+    checkout: "checkout"
+    add_review: "add_review"
+    error_page: "error"
+  time_sleep_range:
+    min: 0.1
+    max: 1.0
+
+age_threshold:
+  young: 25
+  middle: 50
