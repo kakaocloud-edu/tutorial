@@ -24,7 +24,7 @@ var config Config
 
 func init() {
     // config.yml 파일을 읽어와서 config 구조체에 매핑
-    configFile, err := ioutil.ReadFile("/home/ubuntu/syu-DataAnalyze/TrafficGenerator/config.yml")  // 절대 경로 사용
+    configFile, err := ioutil.ReadFile("/home/ubuntu/DataAnalyzeCourse/src/day1/Lab00/traffic_generator/config.yml")  // 절대 경로 사용
     if err != nil {
         log.Fatalf("Error reading config.yml: %v", err)
     }
