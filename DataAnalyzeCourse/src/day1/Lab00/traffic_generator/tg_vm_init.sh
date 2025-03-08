@@ -1,5 +1,5 @@
 #!/bin/bash
-# setup_initial.sh
+# tg_full_setup.sh.sh
 # 이 스크립트는 환경 변수를 설정한 후, GitHub 저장소에서 필요한 스크립트를 다운로드하고 실행합니다.
 
 set -e  # 오류 발생 시 스크립트 종료
@@ -31,5 +31,5 @@ curl --output /dev/null --silent --head --fail "https://github.com/kakaocloud-ed
 echo "kakaocloud: Script download site is valid"
 
 wget https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day1/Lab00/traffic_generator/tg_full_setup.sh
-chmod +x setup_all.sh
-sudo -E ./setup_all.sh
+chmod +x tg_full_setup.sh
+sudo -E ./tg_full_setup.sh
