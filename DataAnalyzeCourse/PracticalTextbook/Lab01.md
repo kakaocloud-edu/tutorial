@@ -174,7 +174,7 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 통한 메시�
     #### **lab1-4-2**
     
     ```bash
-    go build -o publisher config.go publisher.go
+    go build -o publisher config.go go_publisher.go
     ```
         
 3. Publisher 실행 파일을 이용해 `traffic-generator-1`에서 `test-topic`으로 메시지 송신
@@ -209,7 +209,7 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 통한 메시�
     #### **lab1-4-2-5**
     
     ```bash
-    go build -o subscriber config.go subscriber.go
+    go build -o subscriber config.go go_subscriber.go
     ```
         
 6. Subscriber 실행 파일을 이용하여 `test-topic`의 메시지를 `test-pull-sub`서브스크립션을 통해 `traffic-generator-2`에서 수신
