@@ -27,9 +27,9 @@ echo "$command" >> /home/ubuntu/.bashrc
 echo "kakaocloud: Environment variable setup completed"
 
 echo "kakaocloud: 2.Checking the validity of the script download site"
-curl --output /dev/null --silent --head --fail "https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/TrafficGenerator/setup_all.sh" || { echo "kakaocloud: Script download site is not valid"; exit 1; }
+curl --output /dev/null --silent --head --fail "https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day1/Lab00/traffic_generator/tg_full_setup.sh" || { echo "kakaocloud: Script download site is not valid"; exit 1; }
 echo "kakaocloud: Script download site is valid"
 
-wget https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/TrafficGenerator/setup_all.sh
+wget https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day1/Lab00/traffic_generator/tg_full_setup.sh
 chmod +x setup_all.sh
 sudo -E ./setup_all.sh
