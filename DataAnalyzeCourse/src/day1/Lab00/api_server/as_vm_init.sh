@@ -1,10 +1,12 @@
 #!/bin/bash
 
-MYSQL_HOST="{MySQL 엔드포인트}"
+set -euo pipefail
+
 DOMAIN_ID="{조직 ID}"
 PROJECT_ID="{프로젝트 ID}"
 CREDENTIAL_ID="{액세스 키 ID}"
 CREDENTIAL_SECRET="{보안 액세스 키}"
+MYSQL_HOST="{MySQL 엔드포인트}"
 LOGSTASH_KAFKA_ENDPOINT="{Kafka 클러스터 부트스트랩 서버}"
 PUBSUB_TOPIC_NAME="log-topic"
 KAFKA_TOPIC_NAME="nginx-topic"
