@@ -8,10 +8,16 @@ bootstrap_servers = os.environ.get('KAFKA_BOOTSTRAP_SERVERS')
 
 producer = KafkaProducer(bootstrap_servers=bootstrap_servers)
 
+######################
+# partiton 번호 지정
+######################
+partition_number = 0
+
+
 for i in range(5):
     message = f"메시지 {i+1}"
-    # partition=0을 지정하여 항상 partition 0으로 전송
-    producer.send('python-topic', value=message.encode('utf-8'), partition=0)
+    # partition 번호 변수 사용
+    producer.send('python-topic', value=message.encode('utf-8'), partition=partition_number)
     print(f"전송: {message}")
     time.sleep(1)
 
