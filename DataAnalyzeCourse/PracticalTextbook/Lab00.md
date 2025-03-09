@@ -180,6 +180,57 @@
     - `새로운 퍼블릭 IP를 생성하고 자동으로 할당`
     - 확인 버튼 클릭
 
+5. `api-server-1` ssh연결
+    - 카카오 클라우드 콘솔 > Beyond Compute Service > Virtual Machine > 인스턴스
+    - `api-server-1` 인스턴스의 우측 메뉴바 > `SSH 연결` 클릭
+    - SSH 접속 명령어 복사
+    - 터미널 열기
+    - keypair를 다운받아놓은 폴더로 이동
+    - 터미널에 명령어 붙여넣기
+    - yes 입력
+    
+    ### **lab0-7-5-1**
+    
+    ```bash
+    cd {keypair.pem 다운로드 위치}
+    
+    ```
+    
+    - 리눅스의 경우에 아래와 같이 키페어의 권한을 조정
+    
+    ### **lab0-7-5-2**
+    
+    ```bash
+    chmod 400 keypair.pem
+    
+    ```
+    
+    ### **lab0-7-5-3**
+    
+    ```bash
+    ssh -i keypair.pem ubuntu@{api-server-1, 2의 public ip주소}
+    
+    ```
+    
+    - **Note**: {api-server-1, 2의 public ip 주소} 부분을 복사한 각 IP 주소로 교체하세요.
+    
+    ### **lab0-7-5-4**
+    
+    ```bash
+    yes
+    
+    ```
+    
+    - **Note**: 윈도우에서 ssh 접근이 안될 경우에 cmd 창에서 keypair.pem가 있는 경로로 이동 후 아래 명령어 입력
+    
+    ### **lab0-7-5-5**
+    
+    ```bash
+    icacls.exe keypair.pem /reset
+    icacls.exe keypair.pem /grant:r %username%:(R)
+    icacls.exe keypair.pem /inheritance:r
+    ```
+
 
 ## 8. Traffic Generator VM 생성
 
@@ -248,7 +299,6 @@
     ```bash
     yes
     ```
-
 
     
 5. 디렉토리 내부 파일 생성 여부 확인
