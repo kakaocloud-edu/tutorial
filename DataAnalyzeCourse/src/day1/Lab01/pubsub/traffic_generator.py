@@ -10,11 +10,12 @@ import logging
 # 현재 스크립트의 디렉토리 경로 가져오기
 current_dir = os.path.dirname(os.path.abspath(__file__))
 
-# REST API 디렉토리의 절대 경로 가져오기 (상위 디렉토리)
-rest_api_dir = config_path = os.path.abspath(os.path.join(current_dir, "..", "..", "Lab00", "traffic_generator"))
+# config.py가 위치한 경로:
+# 현재 디렉토리에서 두 단계 위로 이동한 후 Lab00/traffic_generator 디렉토리로 이동
+config_path = os.path.abspath(os.path.join(current_dir, "..", "..", "Lab00", "traffic_generator"))
 
-# REST API 디렉토리를 Python 경로에 추가하여 config.py와 traffic_config.py를 임포트 가능하게 함
-sys.path.append(rest_api_dir)
+#절대경로 지정
+sys.path.append(config_path)
 
 # config.py 불러오기
 import config
