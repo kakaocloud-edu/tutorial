@@ -694,7 +694,7 @@
     #### **lab0-9-6**
    
     ```
-    tail -f /home/ubuntu/setup.log
+    cat /home/ubuntu/setup.log
     ```
 
 ## 10. 로드 밸런서 대상 그룹 생성
