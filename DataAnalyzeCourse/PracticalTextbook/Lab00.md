@@ -189,7 +189,7 @@
     - 터미널에 명령어 붙여넣기
     - yes 입력
     
-    ### **lab0-7-5-1**
+    #### **lab0-7-5-1**
     
     ```bash
     cd {keypair.pem 다운로드 위치}
@@ -198,14 +198,14 @@
     
     - 리눅스의 경우에 아래와 같이 키페어의 권한을 조정
     
-    ### **lab0-7-5-2**
+    #### **lab0-7-5-2**
     
     ```bash
     chmod 400 keypair.pem
     
     ```
     
-    ### **lab0-7-5-3**
+    #### **lab0-7-5-3**
     
     ```bash
     ssh -i keypair.pem ubuntu@{api-server-1, 2의 public ip주소}
@@ -214,7 +214,7 @@
     
     - **Note**: {api-server-1, 2의 public ip 주소} 부분을 복사한 각 IP 주소로 교체하세요.
     
-    ### **lab0-7-5-4**
+    #### **lab0-7-5-4**
     
     ```bash
     yes
@@ -223,7 +223,7 @@
     
     - **Note**: 윈도우에서 ssh 접근이 안될 경우에 cmd 창에서 keypair.pem가 있는 경로로 이동 후 아래 명령어 입력
     
-    ### **lab0-7-5-5**
+    #### **lab0-7-5-5**
     
     ```bash
     icacls.exe keypair.pem /reset
@@ -272,7 +272,7 @@
     - 터미널에 명령어 붙여넣기
     - yes 입력
     
-    ### **lab0-7-6-1**
+    #### **lab0-7-6-1**
     
     ```bash
     cd {keypair.pem 다운로드 위치}
@@ -280,13 +280,13 @@
     
     - 리눅스의 경우에 아래와 같이 키페어의 권한을 조정
     
-    ### **lab0-7-6-2**
+    #### **lab0-7-6-2**
     
     ```bash
     chmod 400 keypair.pem
     ```
     
-    ### **lab0-7-6-3**
+    #### **lab0-7-6-3**
     
     ```bash
     ssh -i keypair.pem ubuntu@{traffic-generator-1, 2의 public ip주소}
@@ -294,7 +294,7 @@
     
     - **Note**: {traffic-generator-1, 2의 public ip주소} 부분을 복사한 각 IP 주소로 교체하세요.
     
-    ### **lab0-7-6-4**
+    #### **lab0-7-6-4**
     
     ```bash
     yes
@@ -303,7 +303,7 @@
     
 5. 디렉토리 내부 파일 생성 여부 확인
     
-    ### **lab0-7-7**
+    #### **lab0-7-7**
     
     ```bash
     ls -l
