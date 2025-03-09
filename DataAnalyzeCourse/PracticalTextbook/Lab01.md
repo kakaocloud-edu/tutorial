@@ -75,7 +75,7 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 통한 메시�
     #### **lab1-2-1**
     
     ```bash
-    cd /home/ubuntu/syu-DataAnalyze/TrafficGenerator/REST_API/VM1
+    cd /home/ubuntu/DataAnalyzeCourse/src/day1/Lab01/pubsub/
     ```
     
 2. NGINX 로그 적재용 토픽 생성
