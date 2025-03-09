@@ -122,7 +122,6 @@
 
 
 ## 6. 환경 변수 설정
-- 
 1. MySQL
     - 카카오 클라우드 콘솔 > Data Store > MySQL > Instance Group
     - 생성된 `database` 클릭
