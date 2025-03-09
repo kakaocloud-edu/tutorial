@@ -367,58 +367,6 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
         bin/kafka-topics.sh --bootstrap-server $KAFKA_BOOTSTRAP_SERVERS \
         --create --topic nginx-topic --partitions 2 --replication-factor 2
         ```
-    
-2. `api-server-1` ssh연결
-    - 카카오 클라우드 콘솔 > Beyond Compute Service > Virtual Machine > 인스턴스
-    - `api-server-1` 인스턴스의 우측 메뉴바 > `SSH 연결` 클릭
-    - SSH 접속 명령어 복사
-    - 터미널 열기
-    - keypair를 다운받아놓은 폴더로 이동
-    - 터미널에 명령어 붙여넣기
-    - yes 입력
-    
-    ### **lab2-3-2-1**
-    
-    ```bash
-    cd {keypair.pem 다운로드 위치}
-    
-    ```
-    
-    - 리눅스의 경우에 아래와 같이 키페어의 권한을 조정
-    
-    ### **lab2-3-2-2**
-    
-    ```bash
-    chmod 400 keypair.pem
-    
-    ```
-    
-    ### **lab2-3-2-3**
-    
-    ```bash
-    ssh -i keypair.pem ubuntu@{api-server-1, 2의 public ip주소}
-    
-    ```
-    
-    - **Note**: {api-server-1, 2의 public ip 주소} 부분을 복사한 각 IP 주소로 교체하세요.
-    
-    ### **lab2-3-2-4**
-    
-    ```bash
-    yes
-    
-    ```
-    
-    - **Note**: 윈도우에서 ssh 접근이 안될 경우에 cmd 창에서 keypair.pem가 있는 경로로 이동 후 아래 명령어 입력
-    
-    ### **lab2-3-2-5**
-    
-    ```bash
-    icacls.exe keypair.pem /reset
-    icacls.exe keypair.pem /grant:r %username%:(R)
-    icacls.exe keypair.pem /inheritance:r
-    
-    ```
 
 
 3. `api-server-1`에서 Logstash 설정 파일을 수정하여 Kafka로 송신하도록 설정
