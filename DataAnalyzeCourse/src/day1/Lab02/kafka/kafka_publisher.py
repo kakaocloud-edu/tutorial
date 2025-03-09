@@ -10,7 +10,8 @@ producer = KafkaProducer(bootstrap_servers=bootstrap_servers)
 
 for i in range(5):
     message = f"메시지 {i+1}"
-    producer.send('python-topic', value=message.encode('utf-8'))
+    # partition=0을 지정하여 항상 partition 0으로 전송
+    producer.send('python-topic', value=message.encode('utf-8'), partition=0)
     print(f"전송: {message}")
     time.sleep(1)
 
