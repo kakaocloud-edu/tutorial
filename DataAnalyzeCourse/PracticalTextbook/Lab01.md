@@ -137,7 +137,7 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 통한 메시�
         #### **lab1-3-3-1**
     
         ```bash
-    cd /home/ubuntu/DataAnalyzeCourse/src/day1/Lab01/pubsub/
+        cd /home/ubuntu/DataAnalyzeCourse/src/day1/Lab01/pubsub/
         ```
     
         #### **lab1-3-3-2**
