@@ -107,7 +107,7 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 통한 메시�
     #### **lab1-3-1**
     
     ```bash
-    cd /home/ubuntu/syu-DataAnalyze/TrafficGenerator/REST_API/VM1
+    cd /home/ubuntu/DataAnalyzeCourse/src/day1/Lab01/pubsub/
     ```
     
 2. `traffic-generator-1`에서 `test-topic`으로 메시지 전송
@@ -116,7 +116,7 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 통한 메시�
         #### **lab1-3-2-1**
         
         ```bash
-        python3 pub_sub_send.py
+        python3 pub_sub_publisher.py
         ```
         
        - 아래와 같은 결과 확인
@@ -137,13 +137,13 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 통한 메시�
         #### **lab1-3-3-1**
     
         ```bash
-        cd /home/ubuntu/syu-DataAnalyze/TrafficGenerator/REST_API/VM2
+    cd /home/ubuntu/DataAnalyzeCourse/src/day1/Lab01/pubsub/
         ```
     
         #### **lab1-3-3-2**
         
         ```bash
-        python3 restapi_pull_sub.py
+        python3 pub_sub_subscriber.py
         ```
 
 4. 웹 브라우저 주소창에 아래 URL 입력
@@ -166,7 +166,7 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 통한 메시�
     #### **lab1-4-1**
     
     ```bash
-    cd /home/ubuntu/gosdk/cmd
+    cd /home/ubuntu/DataAnalyzeCourse/src/day1/Lab01/go/
     ```
         
 2. Publisher 실행 파일 생성
@@ -201,7 +201,7 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 통한 메시�
     #### **lab1-4-2-4**
     
     ```bash
-    cd /home/ubuntu/gosdk/cmd
+    cd /home/ubuntu/DataAnalyzeCourse/src/day1/Lab01/go/
     ```
         
 5. Subscriber 실행 파일 생성
@@ -229,7 +229,7 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 통한 메시�
     #### **lab1-5-1**
     
     ```bash
-    cd /home/ubuntu/syu-DataAnalyze/TrafficGenerator/REST_API/VM1
+    cd /home/ubuntu/DataAnalyzeCourse/src/day1/Lab01/pubsub/
     
     ```
 
