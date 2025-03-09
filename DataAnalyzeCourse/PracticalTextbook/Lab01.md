@@ -139,6 +139,13 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 통한 메시�
         ```bash
         cd /home/ubuntu/DataAnalyzeCourse/src/day1/Lab01/pubsub/
         ```
+
+        ```bash
+        sudo chown ubuntu:ubuntu /home/ubuntu/DataAnalyzeCourse/src/day1/Lab01/pubsub
+        ```
+        ```bash
+        sudo chmod 775 /home/ubuntu/DataAnalyzeCourse/src/day1/Lab01/pubsub
+        ```
     
         #### **lab1-3-3-2**
         
