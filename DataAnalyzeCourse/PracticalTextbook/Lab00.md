@@ -110,38 +110,7 @@
     - 적용 클릭
 
 
-## 6. Kafka Cluster 생성
-
-1. 카카오 클라우드 콘솔 > Analytics > Advanced Managed Kafka > 클러스터
-2. 클러스터 생성 버튼 클릭
-    - 기본 설정
-        - 클러스터 이름: `kafka`
-        - Kafka 버전: `3.7.1`
-        - 포트: `9092`
-    - 인스턴스 유형: `r2a.2xlarge`
-    - 네트워크 설정
-        - VPC: `kc-vpc`
-        - Subnet: `kr-central-2-a의 Public 서브넷`
-        - 보안 그룹
-            - `보안 그룹 생성` 버튼 클릭
-            - 보안 그룹 이름: `kafka-clu-sg`
-            - 보안 그룹 설명: `없음`
-            - **Note**: `인바운드`, `아웃바운드` 생성 시 `+`버튼을 눌러 생성
-            - 인바운드 규칙
-                - 프로토콜: `TCP`, 출발지: `0.0.0.0/0`, 포트 번호: `9092`
-            - 아웃바운드 규칙
-                - 프로토콜: `ALL`, 출발지: `0.0.0.0/0`, 포트 번호: `ALL`
-            - `생성` 버튼 클릭
-            - **Note**: `VPC의 보안 그룹`으로 이동 됐을 시 `보안 그룹 생성` 후 기존에 쓰던 `클러스터 창`으로 이동
-    - 브로커 구성 설정
-        - 지정된 가용 영역 수: `1`
-        - 브로커 수: `2`
-        - 볼륨 유형/크기: `SSD`/`50`
-        - 최대 IOPS: `3000`
-    - 생성 버튼 클릭
-
-
-## 7. 환경 변수 설정
+## 6. 환경 변수 설정
 - 
 1. MySQL
     - 카카오 클라우드 콘솔 > Data Store > MySQL > Instance Group
@@ -168,7 +137,7 @@
     - **Note**: `kakaocloud` 로고를 클릭하여 콘솔 메인화면으로 이동
         <img width="1199" alt="스크린샷 2025-03-06 오후 4 35 56" src="https://github.com/user-attachments/assets/97ec0a02-f050-4e2b-812a-114cf9b8abfc" />
 
-## 8. API Server VM 생성
+## 7. API Server VM 생성
 
 2. 카카오 클라우드 콘솔 > Beyond Compute Service > Virtual Machine > 인스턴스
 3. 인스턴스 생성 버튼 클릭
@@ -212,9 +181,7 @@
     - 확인 버튼 클릭
 
 
-
-
-## 9. Traffic Generator VM 생성
+## 8. Traffic Generator VM 생성
 
 1. 카카오 클라우드 콘솔 > Beyond Compute Service > Virtual Machine > 인스턴스
 2. 인스턴스 생성 버튼 클릭
@@ -254,7 +221,7 @@
     - 터미널에 명령어 붙여넣기
     - yes 입력
     
-    ### **lab0-8-6-1**
+    ### **lab0-7-6-1**
     
     ```bash
     cd {keypair.pem 다운로드 위치}
@@ -262,13 +229,13 @@
     
     - 리눅스의 경우에 아래와 같이 키페어의 권한을 조정
     
-    ### **lab0-8-6-2**
+    ### **lab0-7-6-2**
     
     ```bash
     chmod 400 keypair.pem
     ```
     
-    ### **lab0-8-6-3**
+    ### **lab0-7-6-3**
     
     ```bash
     ssh -i keypair.pem ubuntu@{traffic-generator-1, 2의 public ip주소}
@@ -276,7 +243,7 @@
     
     - **Note**: {traffic-generator-1, 2의 public ip주소} 부분을 복사한 각 IP 주소로 교체하세요.
     
-    ### **lab0-8-6-4**
+    ### **lab0-7-6-4**
     
     ```bash
     yes
@@ -293,7 +260,7 @@
     ```
     
 
-## 10. 로드 밸런서 대상 그룹 생성
+## 9. 로드 밸런서 대상 그룹 생성
 
 1. 카카오 클라우드 콘솔 >Beyond Networking Service > Load Balancing > 대상 그룹
 2. 대상 그룹 생성 버튼 클릭
