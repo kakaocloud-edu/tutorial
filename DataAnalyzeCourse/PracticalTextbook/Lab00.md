@@ -40,7 +40,7 @@
 5. Object Storage 버킷 생성 확인
     - **Note**: 왼쪽의 일반 버킷 눌러 Object Storage 메인 화면으로 이동
 
-## 3. MySQL 생성
+# 3. MySQL 생성
 
 1. 카카오 클라우드 콘솔 >  Data Store > MySQL > Instance Group
 2. 인스턴스 그룹 만들기 버튼 클릭
@@ -67,7 +67,7 @@
     - 자동 백업 옵션: `미사용`
 3. 만들기 버튼 클릭
 
-## 4. 자격 증명 생성
+# 4. 자격 증명 생성
 
 1. 우측 상단 계정 프로필 > 자격 증명 > 비밀번호 확인
 2. `IAM 액세스 키 생성` 클릭
@@ -95,7 +95,7 @@
         - **Note**: S3 액세스 키 정보 팝업창을 닫은 이후 S3 인증 정보 다시 조회 불가
     - 확인 버튼 클릭
     
-## 5. 로드 밸런서(ALB) 생성
+# 5. 로드 밸런서(ALB) 생성
 
 1. 카카오 클라우드 콘솔 > Beyond Networking Service > Load Balancing > 로드 밸런서
 2. 로드 밸런서 생성 버튼 클릭
@@ -121,7 +121,7 @@
     - 적용 클릭
 
 
-## 6. 환경 변수 설정
+# 6. 환경 변수 설정
 1. MySQL
     - 카카오 클라우드 콘솔 > Data Store > MySQL > Instance Group
     - 생성된 `database` 클릭
@@ -147,7 +147,7 @@
     - **Note**: `kakaocloud` 로고를 클릭하여 콘솔 메인화면으로 이동
         <img width="1199" alt="스크린샷 2025-03-06 오후 4 35 56" src="https://github.com/user-attachments/assets/97ec0a02-f050-4e2b-812a-114cf9b8abfc" />
 
-## 7. API Server VM 생성
+# 7. API Server VM 생성
 
 1. 카카오 클라우드 콘솔 > Beyond Compute Service > Virtual Machine > 인스턴스
 2. 인스턴스 생성 버튼 클릭
@@ -240,7 +240,7 @@
     ```
 
 
-## 8. Traffic Generator VM 생성
+# 8. Traffic Generator VM 생성
 
 1. 카카오 클라우드 콘솔 > Beyond Compute Service > Virtual Machine > 인스턴스
 2. 인스턴스 생성 버튼 클릭
@@ -318,11 +318,10 @@
     ```
    
 
-# 4. Kafka Connector VM 생성
-- **Note**: `trarffic-generator-2`를 제외한 기존에 사용하던 터미널 창 모두 종료
+# 9. Kafka Connector VM 생성
 
-4. 카카오 클라우드 콘솔 > Beyond Compute Service > Virtual Machine > 인스턴스
-5. 인스턴스 생성 버튼 클릭
+1. 카카오 클라우드 콘솔 > Beyond Compute Service > Virtual Machine > 인스턴스
+2. 인스턴스 생성 버튼 클릭
     - Kafka Connector VM 생성 정보
         - 기본 정보
             - 이름: `kafka-connector`
@@ -350,7 +349,7 @@
             - **Note**: 메모장에 아래 링크의 코드를 복사 붙여넣기 하여 사용
             - **Note**: 중괄호({})는 제거하고 쌍 따옴표는 유지
             - `{S3 액세스 키}`, `{S3 보안 액세스 키}`, `{Kafka 부트스트랩 서버}`, `{Kafka와 연동된 버킷 이름(data-catalog)}`를 개인 환경에 맞게 수정
-                #### **lab2-4-5**
+                #### **lab0-9-2**
                 
                 ```
                 #!/bin/bash
@@ -641,17 +640,17 @@
             - CPU 멀티스레딩: `활성화`
         
     - 생성 버튼 클릭
-6. `kafka-connector` 상태 Actice 확인 후 인스턴스의 우측 메뉴바 > `Public IP 연결` 클릭
+3. `kafka-connector` 상태 Actice 확인 후 인스턴스의 우측 메뉴바 > `Public IP 연결` 클릭
     - `새로운 퍼블릭 IP를 생성하고 자동으로 할당`
-7. 확인 버튼 클릭
-8. `kafka-connector` 인스턴스의 우측 메뉴바 > `SSH 연결` 클릭
+4. 확인 버튼 클릭
+5. `kafka-connector` 인스턴스의 우측 메뉴바 > `SSH 연결` 클릭
     - SSH 접속 명령어 복사
     - 터미널 열기
     - keypair를 다운받아놓은 폴더로 이동
     - 터미널에 명령어 붙여넣기
     - yes 입력
     
-    #### **lab2-4-8-1**
+    #### **lab0-9-5-1**
     
     ```bash
     cd {keypair.pem 다운로드 위치}
@@ -659,13 +658,13 @@
     
     - 리눅스의 경우에 아래와 같이 키페어의 권한을 조정
     
-    #### **lab2-4-8-2**
+    #### **lab0-9-5-2**
     
     ```bash
     chmod 400 keypair.pem
     ```
     
-    #### **lab2-4-8-3**
+    #### **lab0-9-5-3**
     
     ```bash
     ssh -i keypair.pem ubuntu@{kafka-connector의 public ip주소}
@@ -673,7 +672,7 @@
     
     - {kafka-connector의 public ip주소}: 복사한 각 IP 주소 입력
     
-    #### **lab2-4-8-4**
+    #### **lab0-9-5-4**
     
     ```bash
     yes
@@ -681,7 +680,7 @@
     
     - **Note**: 윈도우에서 ssh 접근이 안될 경우에 cmd 창에서 keypair.pem가 있는 경로로 이동 후 아래 명령어 입력
     
-    #### **lab2-4-8-5**
+    #### **lab0-9-5-5**
     
     ```bash
     icacls.exe keypair.pem /reset
@@ -689,16 +688,16 @@
     icacls.exe keypair.pem /inheritance:r
     ```
 
-9. 스크립트 적용 확인
+6. 스크립트 적용 확인
     - **Note**: 스크립트 적용에 10~15분 소요
 
-    #### **lab2-4-9**
+    #### **lab0-9-6**
    
     ```
     tail -f /home/ubuntu/setup.log
     ```
 
-## 9. 로드 밸런서 대상 그룹 생성
+## 10. 로드 밸런서 대상 그룹 생성
 
 1. 카카오 클라우드 콘솔 >Beyond Networking Service > Load Balancing > 대상 그룹
 2. 대상 그룹 생성 버튼 클릭
@@ -721,5 +720,3 @@
     - 다음 버튼 클릭
     - 생성 버튼 클릭
 3. 대상 그룹 프로비저닝 상태: Active, 운영 상태: Online 확인
-
----
