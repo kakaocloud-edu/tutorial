@@ -216,11 +216,11 @@
     #### **lab0-7-4-3**
     
     ```bash
-    ssh -i keypair.pem ubuntu@{api-server-1, 2의 public ip주소}
+    ssh -i keypair.pem ubuntu@{api-server-1의 public ip 주소}
     
     ```
     
-    - **Note**: {api-server-1, 2의 public ip 주소} 부분을 복사한 각 IP 주소로 교체하세요.
+    - **Note**: {api-server-1의 public ip 주소} 부분을 복사한 각 IP 주소로 교체하세요.
     
     #### **lab0-7-4-4**
     
@@ -237,6 +237,14 @@
     icacls.exe keypair.pem /reset
     icacls.exe keypair.pem /grant:r %username%:(R)
     icacls.exe keypair.pem /inheritance:r
+    ```
+
+5. API Server VM 스크립트 적용 확인
+
+    #### **lab0-7-5**
+    
+    ```bash
+    watch cat /home/ubuntu/as_script.log
     ```
 
 
