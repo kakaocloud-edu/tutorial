@@ -17,13 +17,22 @@ import os
 # 현재 스크립트의 디렉토리 경로 가져오기
 current_dir = os.path.dirname(os.path.abspath(__file__))
 
-# 상위 디렉토리 경로 가져오기 (REST API의 상위 디렉토리는 TrafficGenerator)
-parent_dir = os.path.dirname(current_dir)
+# config.py가 위치한 경로:
+# 현재 디렉토리에서 두 단계 위로 이동한 후 Lab00/traffic_generator 디렉토리로 이동
+config_path = os.path.abspath(os.path.join(current_dir, "..", "..", "Lab00", "traffic_generator"))
 
-# TrafficGenerator 디렉토리를 Python 경로에 추가하여 config.py를 임포트 가능하게 함
-sys.path.append(parent_dir)
+#절대경로 지정
+sys.path.append(config_path)
 
 from config import *
+
+#################################
+# 사용자 수정 가능한 설정 변수
+#################################
+SUBSCRIPTION_NAME = SUB_NAME      # Pull Subscription 이름 (config.py의 값 또는 수정 가능)
+PULL_MAX_MESSAGES = 10            # 한 번에 Pull할 메시지 수 (최대 100)
+PULL_WAIT_TIME = "1s"             # 메시지 fetch 대기 시간 (최대 "30s")
+PULL_INTERVAL_SECONDS = 0         # Pull 간의 대기 시간 (초)
 
 #################################
 # 로깅 설정
@@ -37,7 +46,7 @@ logging.basicConfig(
 #################################
 # 메시지 Pull 함수
 #################################
-def pull_messages(subscription_name, max_messages=10, wait_time="3s"):
+def pull_messages(subscription_name, max_messages=PULL_MAX_MESSAGES, wait_time=PULL_WAIT_TIME):
     """
     Pub/Sub Subscription에서 메시지를 Pull하는 함수
     :param subscription_name: Pull Subscription 이름
@@ -154,7 +163,7 @@ def decode_message(message):
 #################################
 # 메시지 Pull 및 Ack 처리 함수
 #################################
-def receive_and_ack_messages(subscription_name, max_messages=10, wait_time="3s"):
+def receive_and_ack_messages(subscription_name, max_messages=PULL_MAX_MESSAGES, wait_time=PULL_WAIT_TIME):
     """
     메시지를 Pull하고, 콘솔에 출력한 후 Ack 처리하는 함수
     :param subscription_name: Pull Subscription 이름
@@ -162,10 +171,6 @@ def receive_and_ack_messages(subscription_name, max_messages=10, wait_time="3s")
     :param wait_time: 메시지 fetch 대기 시간
     """
     received_messages = pull_messages(subscription_name, max_messages, wait_time)
-
-    if not received_messages:
-        print("No messages received.")
-        return
 
     ack_ids = []
     for idx, received_msg in enumerate(received_messages, start=1):
@@ -190,17 +195,12 @@ def receive_and_ack_messages(subscription_name, max_messages=10, wait_time="3s")
 # 메인 함수
 #################################
 def main():
-    # Pull Subscription 이름 설정
-    subscription_name = SUB_NAME  # 실제 Subscription 
-
-    print(f"현재 사용하는 Subscription: {subscription_name}")
-
     while True:
         # 메시지 수신 및 Ack 처리
-        receive_and_ack_messages(subscription_name, max_messages=10, wait_time="3s")
+        receive_and_ack_messages(SUBSCRIPTION_NAME, max_messages=PULL_MAX_MESSAGES, wait_time=PULL_WAIT_TIME)
 
-        # 일정 시간 대기 후 다시 Pull (예: 5초)
-        time.sleep(5)
+        # 설정한 간격만큼 대기 후 다시 Pull
+        time.sleep(PULL_INTERVAL_SECONDS)
 
 if __name__ == "__main__":
     main()
