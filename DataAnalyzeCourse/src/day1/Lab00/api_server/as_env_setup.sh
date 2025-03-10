@@ -19,18 +19,16 @@ log() {
 
 echo "kakaocloud: 1. ~/.bashrc에 환경 변수를 설정합니다."
 
-# 여기에 이전에 as_vm_init.sh 상단에서 정의하던 값들을 모두 .bashrc에만 기록
-# (원하는 실제 값으로 교체)
 BASHRC_EXPORT=$(cat <<EOF
-export MYSQL_HOST="az-a.mysql-lys.ae90ddc1b6dc4b0581bb44b31f8921b5.mysql.managed-service.kr-central-2.kakaocloud.com"
-export DOMAIN_ID="0825c43452724d06850d0c9849b89194"
-export PROJECT_ID="ae90ddc1b6dc4b0581bb44b31f8921b5"
-export PUBSUB_TOPIC_NAME="test-topic-lys"
-export KAFKA_TOPIC_NAME="nginx-topic"
-export CREDENTIAL_ID="e4468fe6aba543cf9ed596dcb8b9f66b"
-export CREDENTIAL_SECRET="c0228b26cd4b84a9e0a9786e4591a8e96c41c032fd2d9372f66508fafd61264a5b2288"
-export LOGSTASH_KAFKA_ENDPOINT="{Kafka 클러스터 부트스트랩 서버}"
-export LOGSTASH_ENV_FILE="/etc/default/logstash"
+export MYSQL_HOST="$MYSQL_HOST"
+export DOMAIN_ID="$DOMAIN_ID"
+export PROJECT_ID="$PROJECT_ID"
+export PUBSUB_TOPIC_NAME="$PUBSUB_TOPIC_NAME"
+export KAFKA_TOPIC_NAME="$KAFKA_TOPIC_NAME"
+export CREDENTIAL_ID="$CREDENTIAL_ID"
+export CREDENTIAL_SECRET="$CREDENTIAL_SECRET"
+export LOGSTASH_KAFKA_ENDPOINT="$LOGSTASH_KAFKA_ENDPOINT"
+export LOGSTASH_ENV_FILE="$LOGSTASH_ENV_FILE"
 EOF
 )
 
