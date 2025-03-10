@@ -447,7 +447,7 @@
     #### **lab0-9-6**
    
     ```
-    cat /home/ubuntu/setup.log
+    watch -c 'awk "/kakaocloud:/ {gsub(/([0-9]+)\\./,\"\\033[33m&\\033[0m\"); print}" < /var/log/cloud-init-output.log'
     ```
 
 ## 10. 로드 밸런서 대상 그룹 생성 (15분)
