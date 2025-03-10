@@ -45,6 +45,7 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 통한 메시�
     - 생성 버튼 클릭
 10. `test-push-sub` 생성 확인
 
+---
 
 ## 2. REST API를 통한 토픽, 서브스크립션 생성
 
@@ -100,7 +101,7 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 통한 메시�
     ```bash
     sudo chmod 775 /home/ubuntu/DataAnalyzeCourse/src/day1/Lab01/pubsub
     ```
-
+---
 
 ## 4. REST API를 활용한 메시지 송수신
 
@@ -128,7 +129,7 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 통한 메시�
     
 2. `traffic-generator-2` 터미널 창에서 `test-topic`의 메세지를 `test-pull-sub` 서브스크립션을 통해 수신하기 위한 아래 명령어 실행
     - 메시지 수신 스크립트 실행하여 `traffic-generator-2` 터미널에서 메시지가 정상적으로 수신되는지 확인 후, `Ctrl` + `C` 키로 종료
-    #### **lab1-4-2-1**
+    #### **lab1-4-2**
         
     ```bash
     python3 pub_sub_subscriber.py
@@ -150,7 +151,7 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 통한 메시�
 
 1. `traffic-generator-1` 터미널 창에서  Go SDK 실습용 디렉터리로 이동하기 위한 아래 명령어를 실행
     
-    #### **lab1-5-1-1**
+    #### **lab1-5-1**
     
     ```bash
     cd /home/ubuntu/DataAnalyzeCourse/src/day1/Lab01/go/
@@ -158,7 +159,7 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 통한 메시�
         
 2. 메세지를 발행하는 Publisher 실행 파일 생성
         
-    #### **lab1-5-1-2**
+    #### **lab1-5-2**
     
     ```bash
     go build -o publisher config.go go_publisher.go
@@ -167,46 +168,47 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 통한 메시�
 3. Publisher 실행 파일을 이용해 `traffic-generator-1`에서 `test-topic`으로 메시지 송신
     - 아래 명령어를 이용하여 Publisher 실행 파일 실행 후 송신할 메세지를 입력하고, `Enter`로 송신 및 `Ctrl` + `c`로 종료
     
-        #### **lab1-5-1-3-1**
+    #### **lab1-5-3-1**
         
-        ```bash
-        ./publisher
-        ```
-        - 아래와 같은 결과 확인
-        - <img width="472" alt="image" src="https://github.com/user-attachments/assets/78dd3992-e573-43c8-8078-969fd4cfaa7c" />
+    ```bash
+    ./publisher
+    ```
+        
+    - 아래와 같은 결과 확인(결과 수정 필요 - 진행 예정)
+         
+    - 사진 넣을 예정
 
-
-        #### **lab1-5-1-3-2**
+    #### **lab1-5-3-2**
+    - **Note**: 아래 값은 하나의 예시, 다른 값을 입력해도 무관
         
-        ```bash
-        Publish a message to the test-topic in Pub/Sub using the Go SDK
-        ```
+    ```bash
+    Publish a message to the test-topic in Pub/Sub using the Go SDK
+    ```
         
+4. `traffic-generator-2` 터미널 창에서  Go SDK 실습용 디렉터리로 이동하기 위한 아래 명령어를 실행
         
-4. `traffic-generator-2` 터미널 창에서 아래 명령어를 실행하여 Go SDK 실습용 디렉터리로 이동
-        
-    #### **lab1-4-2-4**
+    #### **lab1-5-4**
     
     ```bash
     cd /home/ubuntu/DataAnalyzeCourse/src/day1/Lab01/go/
     ```
         
-5. Subscriber 실행 파일 생성
+5. 메세지를 수신하는 Subscriber 실행 파일 생성
         
-    #### **lab1-4-2-5**
+    #### **lab1-5-5**
     
     ```bash
     go build -o subscriber config.go go_subscriber.go
     ```
         
 6. Subscriber 실행 파일을 이용하여 `test-topic`의 메시지를 `test-pull-sub`서브스크립션을 통해 `traffic-generator-2`에서 수신
-    - `traffic-generator-2` 터미널에서 메시지가 정상적으로 수신되는지 확인 후 `Ctrl` + `C` 키로 종료
+    - 아래 명령어를 이용하여 Publisher 실행 파일 실행 후 메시지가 정상적으로 수신되는지 확인하고, `Ctrl` + `C` 키로 종료
         
-        #### **lab1-4-2-6**
+    #### **lab1-5-6**
         
-        ```bash
-        ./subscriber
-        ```
+    ```bash
+    ./subscriber
+    ```
 
 ---
 
