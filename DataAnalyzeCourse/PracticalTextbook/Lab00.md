@@ -187,7 +187,60 @@
         - **Note**: 메모장에 아래 링크의 코드를 복사 붙여넣기 하여 사용
         - **Note**: 중괄호({})는 제거하고 쌍 따옴표는 유지
         - 사용자 스크립트: [`api_vm_init`](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day1/Lab00/api_server/as_vm_init.sh)의 쌍따옴표(“”) 사이에 자신의 리소스 값 입력
-        - **Note**: 중괄호({})안에 괄호(())로 쌓여진 값은 지정된 값이므로 그 값을 변경없이 그대로 사용
+        ```
+        #!/bin/bash
+        MYSQL_HOST="{MySQL 엔드포인트}"
+        DOMAIN_ID="{조직 ID}"
+        PROJECT_ID="{프로젝트 ID}"
+        CREDENTIAL_ID="{액세스 키 ID}"
+        CREDENTIAL_SECRET="{보안 액세스 키}"
+        LOGSTASH_KAFKA_ENDPOINT="{Kafka 클러스터 부트스트랩 서버}"
+        
+        PUBSUB_TOPIC_NAME="log-topic"
+        KAFKA_TOPIC_NAME="nginx-topic"
+        LOGSTASH_ENV_FILE="/etc/default/logstash"
+        ENV_SETUP_SCRIPT_URL="https://github.com/kakaocloud-edu/tutorial/raw/refs/heads/main/DataAnalyzeCourse/src/day1/Lab00/api_server/as_env_setup.sh"
+        
+        echo "kakaocloud: 1. ~/.bashrc에 환경 변수를 설정합니다."
+        
+        BASHRC_EXPORT=$(cat <<EOF
+        export MYSQL_HOST="$MYSQL_HOST"
+        export DOMAIN_ID="$DOMAIN_ID"
+        export PROJECT_ID="$PROJECT_ID"
+        export PUBSUB_TOPIC_NAME="$PUBSUB_TOPIC_NAME"
+        export KAFKA_TOPIC_NAME="$KAFKA_TOPIC_NAME"
+        export CREDENTIAL_ID="$CREDENTIAL_ID"
+        export CREDENTIAL_SECRET="$CREDENTIAL_SECRET"
+        export LOGSTASH_KAFKA_ENDPOINT="$LOGSTASH_KAFKA_ENDPOINT"
+        EOF
+        )
+        
+        eval "$BASHRC_EXPORT"
+        
+        if ! grep -q "MYSQL_HOST" /home/ubuntu/.bashrc; then
+          echo "$BASHRC_EXPORT" >> /home/ubuntu/.bashrc
+        fi
+        
+        source /home/ubuntu/.bashrc
+        echo "kakaocloud: ~/.bashrc에 환경 변수를 추가 완료."
+        
+        echo "kakaocloud: 2. as_env_setup.sh 스크립트를 다운로드합니다."
+        
+        # 유효성 체크
+        curl --output /dev/null --silent --head --fail "$ENV_SETUP_SCRIPT_URL" || {
+          echo "kakaocloud: as_env_setup.sh 다운로드 링크가 유효하지 않습니다."
+          exit 1
+        }
+        
+        echo "kakaocloud: 스크립트 다운로드 링크가 유효합니다. 스크립트를 다운로드합니다."
+        wget -O as_env_setup.sh "$ENV_SETUP_SCRIPT_URL"
+        chmod +x as_env_setup.sh
+        
+        echo "kakaocloud: as_env_setup.sh 실행을 시작합니다."
+        sudo -E ./as_env_setup.sh
+        
+        echo "kakaocloud: 모든 작업 완료"
+        ```
         - CPU 멀티스레딩: `활성화`
     - 생성 버튼 클릭
 
@@ -279,6 +332,39 @@
                         - 프로토콜: `ALL`, 출발지: `0.0.0.0/0`, 포트 번호: `ALL`
     - 고급 설정
         - 사용자 스크립트: [`tg_vm_init.sh`](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day1/Lab00/traffic_generator/tg_vm_init.sh)의 쌍따옴표(“”) 사이에 자신의 리소스 값 입력
+      ```
+        #!/bin/bash
+        # tg_vm_init.sh        
+        set -e  # 오류 발생 시 스크립트 종료
+        
+        echo "kakaocloud: 1.환경 변수 설정 시작"
+        # 환경 변수 정의
+        command=$(cat <<EOF
+        export DOMAIN_ID="{조직 ID}"
+        export PROJECT_ID="{프로젝트 ID}"
+        export CREDENTIAL_ID="{액세스 키 ID}"
+        export CREDENTIAL_SECRET="{보안 액세스 키}"
+        export API_BASE_URL="{ALB의 Public IP}"
+        export TOPIC_NAME="test-topic"
+        export SUB_NAME="test-pull-sub"
+        export TOPIC_NAME_MK="log-topic"
+        export OBJECT_STORAGE_SUBSCRIPTION_NAME="log-obj-sub"
+        export OBJECT_STORAGE_BUCKET="pubsub-nginx-log"
+        export PUBSUB_ENDPOINT="https://pub-sub.kr-central-2.kakaocloud.com"
+        EOF
+        )
+        
+        # 환경 변수 적용
+        eval "$command"
+        echo "$command" >> /home/ubuntu/.bashrc
+        
+        echo "kakaocloud: 2.스크립트 다운로드 사이트 유효성 검사 시작"
+        curl --output /dev/null --silent --head --fail "https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day1/Lab00/traffic_generator/tg_full_setup.sh" || { echo "kakaocloud: Script download site is not valid"; exit 1; }
+        
+        wget https://raw.githubusercontent.com/kakaocloud-edu/tutorial/main/DataAnalyzeCourse/src/day1/Lab00/traffic_generator/tg_full_setup.sh
+        chmod +x tg_full_setup.sh
+        sudo -E ./tg_full_setup.sh
+      ```
         - CPU 멀티스레딩: `활성화`
     - 생성 버튼 클릭
 3. `traffic-generator-1`, `traffic-generator-2` 상태 Actice 확인 후 각 인스턴스의 우측 메뉴바 > `Public IP 연결` 클릭
@@ -447,7 +533,7 @@
     #### **lab0-9-6**
    
     ```
-    watch -c 'awk "/kakaocloud:/ {gsub(/([0-9]+)\\./,\"\\033[33m&\\033[0m\"); print}" < /var/log/cloud-init-output.log'
+    watch -c 'awk "/^kakaocloud:/ {gsub(/([0-9]+)\\./,\"\\033[33m&\\033[0m\"); print}" < /var/log/cloud-init-output.log'
     ```
 
 ## 10. 로드 밸런서 대상 그룹 생성 (15분)
