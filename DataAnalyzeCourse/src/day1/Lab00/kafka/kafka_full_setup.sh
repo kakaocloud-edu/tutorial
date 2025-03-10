@@ -14,7 +14,6 @@ for var in "${required_variables[@]}"; do
     fi
 done
 
-
 ################################################################################
 # 1. apt 업데이트 및 필수 패키지 설치
 ################################################################################
@@ -58,7 +57,6 @@ sed -i '/AWS_DEFAULT_OUTPUT=/d' /home/ubuntu/.bashrc || { echo "kakaocloud: .bas
 sed -i '/CONFLUENT_HOME=/d' /home/ubuntu/.bashrc || { echo "kakaocloud: .bashrc 수정 실패"; exit 1; }
 sed -i '/JAVA_HOME=/d' /home/ubuntu/.bashrc || { echo "kakaocloud: .bashrc 수정 실패"; exit 1; }
 
-# 새 환경 변수 추가
 cat <<EOF >> /home/ubuntu/.bashrc
 # Kakao i Cloud S3 Credentials
 export AWS_ACCESS_KEY_ID="$AWS_ACCESS_KEY_ID_VALUE"
