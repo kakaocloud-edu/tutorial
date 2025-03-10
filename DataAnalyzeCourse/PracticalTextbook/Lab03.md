@@ -121,7 +121,6 @@
 
 
 ## 6. 이벤트를 통한 Pub/Sub 연동 확인
-
 1. traffic-generator-2에서 이벤트 메시지 확인
 
    - **Note**:[`data_catalog_subscribe.py`](https://github.com/kakaocloud-edu/tutorial/new/main/DataAnalyzeCourse/src/day1/Lab02) 
