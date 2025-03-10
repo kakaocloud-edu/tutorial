@@ -450,7 +450,7 @@
     cat /home/ubuntu/setup.log
     ```
 
-## 10. 로드 밸런서 대상 그룹 생성
+## 10. 로드 밸런서 대상 그룹 생성 (15분)
 
 1. 카카오 클라우드 콘솔 >Beyond Networking Service > Load Balancing > 대상 그룹
 2. 대상 그룹 생성 버튼 클릭
