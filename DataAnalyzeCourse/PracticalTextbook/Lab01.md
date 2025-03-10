@@ -68,7 +68,8 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 통한 메시�
     ```
     
 3. 카카오 클라우드 콘솔 > Analytics > Pub/Sub > 토픽
-4. `log-topic` 토픽 생성 확인
+4. `log-topic` 토픽 생성 확인(확인 부분 사진 넣을 예정)
+
 5. Object Storage에 NGINX 로그를 적재하는 서브스크립션 생성을 위해 아래 명령어 실행
     
     #### **lab1-2-5**
@@ -77,7 +78,7 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 통한 메시�
     python3 create_subscription.py
     ```
     
-6. 서브스크립션 탭 클릭 후 `log-obj-sub` 서브스크립션 생성 확인
+6. 서브스크립션 탭 클릭 후 `log-obj-sub` 서브스크립션 생성 확인(확인 부분 사진 넣을 예정)
 
 ---
 
@@ -116,11 +117,6 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 통한 메시�
     python3 pub_sub_publisher.py
     ```
         
-    - 아래와 같은 결과 확인(결과 수정 필요 - 진행 예정)
-         
-    - 사진 넣을 예정
-
-        
     #### **lab1-4-1-2**
     - **Note**: 아래 값은 하나의 예시, 다른 값을 입력해도 무관
         
@@ -128,6 +124,7 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 통한 메시�
     Publish a message to the test-topic in Pub/Sub using the REST API
     ```
 
+    - 아래와 같은 결과 확인(확인 부분 사진 넣을 예정)
     
 2. `traffic-generator-2` 터미널 창에서 `test-topic`의 메세지를 `test-pull-sub` 서브스크립션을 통해 수신하기 위한 아래 명령어 실행
     - 메시지 수신 스크립트 실행하여 `traffic-generator-2` 터미널에서 메시지가 정상적으로 수신되는지 확인 후, `Ctrl` + `C` 키로 종료
@@ -137,7 +134,10 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 통한 메시�
     python3 pub_sub_subscriber.py
     ```
 
+    - 아래와 같은 결과 확인(확인 부분 사진 넣을 예정)
+
 3. 웹 브라우저 주소창에서 `test-topic`의 메세지를 `test-push-sub` 서브스크립션을 통해 `api-server-vm`으로 송신된 메세지를 확인하기 위한 아래 URL 입력
+    #### **lab1-4-3**
 
     ```
     http://{ALB Public IP 주소}/push-messages
@@ -146,6 +146,8 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 통한 메시�
 4. `test-push-sub` 서브스크립션에서 `api-server-vm`으로 송신한 메시지 확인
     - **Note**: 메시지가 보이지 않을 경우 전송에 시간이 걸릴 수 있으므로 잠시 대기 후 다시 시도
     - **Note**: 새로고침(F5)을 여러 번 진행하여 메세지가 적재된 부분 확인
+
+    - 아래와 같은 결과 확인(확인 부분 사진 넣을 예정)
 
 ---
 
@@ -175,10 +177,6 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 통한 메시�
     ```bash
     ./publisher
     ```
-        
-    - 아래와 같은 결과 확인(결과 수정 필요 - 진행 예정)
-         
-    - 사진 넣을 예정
 
     #### **lab1-5-3-2**
     - **Note**: 아래 값은 하나의 예시, 다른 값을 입력해도 무관
@@ -186,6 +184,8 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 통한 메시�
     ```bash
     Publish a message to the test-topic in Pub/Sub using the Go SDK
     ```
+
+    - 아래와 같은 결과 확인(확인 부분 사진 넣을 예정)
         
 4. `traffic-generator-2` 터미널 창에서  Go SDK 실습용 디렉터리로 이동하기 위한 아래 명령어를 실행
         
@@ -212,12 +212,14 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 통한 메시�
     ./subscriber
     ```
 
+    - 아래와 같은 결과 확인(확인 부분 사진 넣을 예정)
+
 ---
 
-## 5. Object Storage에 NGINX 로그 적재
-1. `traffic-generator-1` 터미널 창에서 아래 명령을 실행하여 VM1 디렉터리로 이동
+## 6. Object Storage에 NGINX 로그 적재
+1. `traffic-generator-1`에서 `pubsub` 디렉토리로 이동하기 위한 아래 명령어 실행
     
-    #### **lab1-5-1**
+    #### **lab1-6-1**
     
     ```bash
     cd /home/ubuntu/DataAnalyzeCourse/src/day1/Lab01/pubsub/
@@ -225,42 +227,59 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 통한 메시�
     ```
 
     - 로그 생성 전 디렉터리 구조 확인
-   #### **lab1-5-2**
-   ```
-   ls
-   ```
+    #### **lab1-6-1-2**
+    ```
+    ls
+    ```
 
-3. `traffic-generator-1`에서 트래픽 로그 생성
+    - 아래와 같은 결과 확인(확인 부분 사진 넣을 예정)
+
+2. `traffic-generator-1`에서 트래픽 로그를 생성하는 `traffic_generator.py` 실행
     - 트래픽 로그가 자동으로 생성되어 NGINX 로그에 반영됨
     
-    #### **lab1-5-3**
+    #### **lab1-6-2**
     
     ```bash
     python3 traffic_generator.py
     ```
     
-4. 실행 완료 후 생성된 로그 확인
-    #### **lab1-5-4**
+3. 실행 완료 후 생성된 로그 확인
+
+    #### **lab1-6-3-1**
     
     ```bash
     ls
     ```
+    - 로그 생성 후 디렉터리 구조에 `traffic_generator.log` 파일 생성 확인
+
+    - 아래와 같은 결과 확인(확인 부분 사진 넣을 예정)
     
-    #### **lab1-5-5**
+    #### **lab1-6-3-2**
     
     ```bash
     cat traffic_generator.log
     ```
-    
-5. 웹 브라우저 주소창에 아래 URL 입력
+    - 로그 생성 후 `traffic_generator.log` 파일 내부 확인
 
-    #### **lab1-5-5**
+    - 아래와 같은 결과 확인(확인 부분 사진 넣을 예정)    
+
+4. 웹 브라우저 주소창에서 직접 로그를 발생시키기 위해 아래 URL 입력
+
+    #### **lab1-6-4**
     
     ```
     http://{ALB Public IP 주소}
     ```
 
-6. 사용자 등록, 상품 목록 확인 등을 수행하여 로그 생성
-7. 카카오 클라우드 콘솔 > Beyond Storage Service > Object Storage > 일반 버킷
-8. `pubsub-nginx-log` 버킷 클릭
-9. 현재 연도/월/일/시 디렉터리로 이동하여 생성된 NGINX 로그 확인
+    - (실제 실습 부분 사진 넣을 예정)
+
+5. 사용자 등록, 상품 목록 확인 등을 수행하여 로그 생성
+6. 카카오 클라우드 콘솔 > Beyond Storage Service > Object Storage > 일반 버킷
+    - 쌓인 로그를 확인하기 위한 `pubsub-nginx-log` 버킷 클릭
+        - 현재 연도/월/일/시 디렉터리로 이동하여 생성된 NGINX 로그 확인
+
+    - 아래와 같은 결과 확인(확인 부분 사진 넣을 예정)
+
+
+---
+
