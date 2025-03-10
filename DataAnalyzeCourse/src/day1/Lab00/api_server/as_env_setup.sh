@@ -34,6 +34,8 @@ export LOGSTASH_ENV_FILE="/etc/default/logstash"
 EOF
 )
 
+echo "$BASHRC_EXPORT" >> /home/ubuntu/.bashrc
+
 # 새로 추가된 값 반영
 source /home/ubuntu/.bashrc
 echo "kakaocloud: ~/.bashrc에 환경 변수를 추가 완료."
