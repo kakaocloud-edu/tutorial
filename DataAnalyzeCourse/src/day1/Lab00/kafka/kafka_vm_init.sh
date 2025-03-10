@@ -15,7 +15,6 @@ export BUCKET_NAME="data-catalog"
 export AWS_DEFAULT_REGION_VALUE="kr-central-2"
 export AWS_DEFAULT_OUTPUT_VALUE="json"
 
-export LOGFILE="/home/ubuntu/setup.log"
 EOF
 )
 
