@@ -145,16 +145,18 @@
       <img width="1323" alt="스크린샷 2025-03-06 오후 4 39 29" src="https://github.com/user-attachments/assets/1fc0623e-2deb-4dfa-98d7-fd60a37ea1d6" />
 
 
-3. 조직 ID(Domain ID)
+3. IAM
     - 카카오 클라우드 콘솔 > Management > IAM > 프로젝트
-    - 좌측의 `조직 관리` 클릭
-    - `조직 ID` 복사 후 클립보드 등에 붙여넣기
+    - 좌측의 `자신이 속한 프로젝트` 클릭
+    - `조직 ID` , '프로젝트 ID' 복사 후 클립보드 등에 붙여넣기
+    ![그림1](https://github.com/user-attachments/assets/22192309-344b-4233-becc-5b801e5e0dad)
+
 
 
 4. 카카오 클라우드 콘솔 상단 중앙의 `프로젝트 ID` 복사 후 메모장에 붙여넣기
     - **Note**: `kakaocloud` 로고를 클릭하여 콘솔 메인화면으로 이동
 
-# 7. API Server VM 생성
+# 7. API Server VM 생성 (미완)
 
 1. 카카오 클라우드 콘솔 > Beyond Compute Service > Virtual Machine > 인스턴스
 2. 인스턴스 생성 버튼 클릭
@@ -188,7 +190,7 @@
     - 고급 설정
         - **Note**: 메모장에 아래 링크의 코드를 복사 붙여넣기 하여 사용
         - **Note**: 중괄호({})는 제거하고 쌍 따옴표는 유지
-        - 사용자 스크립트: [`api_dev.sh`](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/ApiServer/api_dev.sh)의 쌍따옴표(“”) 사이에 자신의 리소스 값 입력
+        - 사용자 스크립트: [`api_vm_init`](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day1/Lab00/api_server/as_vm_init.sh)의 쌍따옴표(“”) 사이에 자신의 리소스 값 입력
         - **Note**: 중괄호({})안에 괄호(())로 쌓여진 값은 지정된 값이므로 그 값을 변경없이 그대로 사용
         - CPU 멀티스레딩: `활성화`
     - 생성 버튼 클릭
@@ -280,7 +282,7 @@
                     - 아웃바운드 규칙
                         - 프로토콜: `ALL`, 출발지: `0.0.0.0/0`, 포트 번호: `ALL`
     - 고급 설정
-        - 사용자 스크립트: [`setup_initial.sh`](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/TrafficGenerator/setup_initial.sh)의 쌍따옴표(“”) 사이에 자신의 리소스 값 입력
+        - 사용자 스크립트: [`tg_vm_init.sh`](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day1/Lab00/traffic_generator/tg_vm_init.sh)의 쌍따옴표(“”) 사이에 자신의 리소스 값 입력
         - CPU 멀티스레딩: `활성화`
     - 생성 버튼 클릭
 3. `traffic-generator-1`, `traffic-generator-2` 상태 Actice 확인 후 각 인스턴스의 우측 메뉴바 > `Public IP 연결` 클릭
