@@ -20,33 +20,33 @@ log() {
 ###############################################################################
 # 0) .bashrc에 환경 변수 반영
 ###############################################################################
-log "kakaocloud: 0. Writing environment variables to ~/.bashrc"
+# log "kakaocloud: 0. Writing environment variables to ~/.bashrc"
 
-BASHRC_EXPORT=$(cat <<EOF
-export MYSQL_HOST="$MYSQL_HOST"
-export DOMAIN_ID="$DOMAIN_ID"
-export PROJECT_ID="$PROJECT_ID"
-export PUBSUB_TOPIC_NAME="$PUBSUB_TOPIC_NAME"
-export KAFKA_TOPIC_NAME="$KAFKA_TOPIC_NAME"
-export CREDENTIAL_ID="$CREDENTIAL_ID"
-export CREDENTIAL_SECRET="$CREDENTIAL_SECRET"
-export LOGSTASH_KAFKA_ENDPOINT="$LOGSTASH_KAFKA_ENDPOINT"
-export LOGSTASH_ENV_FILE="$LOGSTASH_ENV_FILE"
-EOF
-)
+# BASHRC_EXPORT=$(cat <<EOF
+# export MYSQL_HOST="$MYSQL_HOST"
+# export DOMAIN_ID="$DOMAIN_ID"
+# export PROJECT_ID="$PROJECT_ID"
+# export PUBSUB_TOPIC_NAME="$PUBSUB_TOPIC_NAME"
+# export KAFKA_TOPIC_NAME="$KAFKA_TOPIC_NAME"
+# export CREDENTIAL_ID="$CREDENTIAL_ID"
+# export CREDENTIAL_SECRET="$CREDENTIAL_SECRET"
+# export LOGSTASH_KAFKA_ENDPOINT="$LOGSTASH_KAFKA_ENDPOINT"
+# export LOGSTASH_ENV_FILE="$LOGSTASH_ENV_FILE"
+# EOF
+# )
 
-if ! grep -q "MYSQL_HOST" /home/ubuntu/.bashrc; then
-  echo "$BASHRC_EXPORT" | sudo tee -a /home/ubuntu/.bashrc > /dev/null \
-    || { log "kakaocloud: Failed to write env to .bashrc"; exit 1; }
-  log "kakaocloud: Variables appended to ~/.bashrc."
-else
-  log "kakaocloud: ~/.bashrc already contains MYSQL_HOST. Skipping append."
-fi
+# if ! grep -q "MYSQL_HOST" /home/ubuntu/.bashrc; then
+#   echo "$BASHRC_EXPORT" | sudo tee -a /home/ubuntu/.bashrc > /dev/null \
+#     || { log "kakaocloud: Failed to write env to .bashrc"; exit 1; }
+#   log "kakaocloud: Variables appended to ~/.bashrc."
+# else
+#   log "kakaocloud: ~/.bashrc already contains MYSQL_HOST. Skipping append."
+# fi
 
-# source .bashrc
-source /home/ubuntu/.bashrc \
-  || { log "kakaocloud: Failed to source .bashrc"; exit 1; }
-log "kakaocloud: Sourced .bashrc, environment variables are now active."
+# # source .bashrc
+# source /home/ubuntu/.bashrc \
+#   || { log "kakaocloud: Failed to source .bashrc"; exit 1; }
+# log "kakaocloud: Sourced .bashrc, environment variables are now active."
 
 
 ###############################################################################
