@@ -7,7 +7,8 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 통한 메시�
 
 1. 카카오 클라우드 콘솔 > Analytics > Pub/Sub > 토픽
 2. 토픽 서비스 시작하기
-![Image](https://github.com/user-attachments/assets/064c58dd-6768-424e-ba88-288142c64a0e)
+- topic-subscription 사진 넣을 예정
+
 
 3. `test-topic` 토픽 생성
     - 토픽 생성 버튼 클릭
@@ -16,8 +17,9 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 통한 메시�
         - 토픽 메세지 보존 기간: `0일 0시 10분`
         - 설명: `없음`
     - 생성 버튼 클릭
-4. `test-topic` 토픽 생성 확인 후 클릭
+4. `test-topic` 토픽 생성 확인 후 클릭(확인 부분 사진 넣을 예정)
 5. 서브스크립션 탭 클릭
+
 6. `test-topic`의 Pull 서브스크립션 생성
     - 서브스크립션 생성 버튼 클릭
         - 기본 설정
@@ -28,9 +30,9 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 통한 메시�
         - 응답 대기 시간: `20초`
         - 재처리 횟수: `횟수 지정`, `3번`
     - 생성 버튼 클릭
-7. `test-pull-sub` 서브스크립션 생성 확인
-8. 서브스크립션 생성 버튼 클릭
-9. `test-topic`의 Push 서브스크립션 생성
+7. `test-pull-sub` 서브스크립션 생성 확인(확인 부분 사진 넣을 예정)
+
+8. `test-topic`의 Push 서브스크립션 생성
     - 서브스크립션 생성 버튼 클릭
         - 기본 설정
             - 이름: `test-push-sub`
@@ -43,7 +45,7 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 통한 메시�
         - 응답 대기 시간: `20초`
         - 재처리 횟수: `횟수 지정`, `3번`
     - 생성 버튼 클릭
-10. `test-push-sub` 생성 확인
+9. `test-push-sub` 생성 확인
 
 ---
 
