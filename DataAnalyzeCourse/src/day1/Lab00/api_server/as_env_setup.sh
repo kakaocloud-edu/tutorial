@@ -116,13 +116,13 @@ if [ -f "$SERVICE_FILE" ]; then
   cat <<EOF | sudo tee "$OVERRIDE_FILE" > /dev/null \
     || { log "kakaocloud: Failed to override flask_app.service env"; exit 1; }
 [Service]
-Environment="MYSQL_HOST=\$MYSQL_HOST"
-Environment="DOMAIN_ID=\$DOMAIN_ID"
-Environment="PROJECT_ID=\$PROJECT_ID"
-Environment="PUBSUB_TOPIC_NAME=\$PUBSUB_TOPIC_NAME"
-Environment="KAFKA_TOPIC_NAME=\$KAFKA_TOPIC_NAME"
-Environment="CREDENTIAL_ID=\$CREDENTIAL_ID"
-Environment="CREDENTIAL_SECRET=\$CREDENTIAL_SECRET"
+Environment="MYSQL_HOST=$MYSQL_HOST"
+Environment="DOMAIN_ID=$DOMAIN_ID"
+Environment="PROJECT_ID=$PROJECT_ID"
+Environment="PUBSUB_TOPIC_NAME=$PUBSUB_TOPIC_NAME"
+Environment="KAFKA_TOPIC_NAME=$KAFKA_TOPIC_NAME"
+Environment="CREDENTIAL_ID=$CREDENTIAL_ID"
+Environment="CREDENTIAL_SECRET=$CREDENTIAL_SECRET"
 EOF
 
   sudo systemctl daemon-reload \
