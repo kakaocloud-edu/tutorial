@@ -22,7 +22,7 @@
 3. 만들기 버튼 클릭
 4. VPC 생성 확인
 
-# 2. Object Storage 생성
+# 2. Object Storage 생성 (1분)
 
 1. 카카오 클라우드 콘솔 > Beyond Storage Service > Object Storage > 일반 버킷
 2. 버킷 생성 버튼 클릭
@@ -40,7 +40,16 @@
 5. Object Storage 버킷 생성 확인
     - **Note**: 왼쪽의 일반 버킷 눌러 Object Storage 메인 화면으로 이동
 
-# 3. MySQL 생성
+- **Note**: 최종 data-catalog 버킷의 구조
+    - **Note**: 최종 data-catalog 버킷의 구조
+
+
+
+    ![111](https://github.com/user-attachments/assets/4b8aeac5-1d74-4240-a3c9-fdca4029c2ce)
+
+
+
+# 3. MySQL 생성 (7분)
 
 1. 카카오 클라우드 콘솔 >  Data Store > MySQL > Instance Group
 2. 인스턴스 그룹 만들기 버튼 클릭
@@ -95,7 +104,7 @@
         - **Note**: S3 액세스 키 정보 팝업창을 닫은 이후 S3 인증 정보 다시 조회 불가
     - 확인 버튼 클릭
     
-# 5. 로드 밸런서(ALB) 생성
+# 5. 로드 밸런서(ALB) 생성 (18분)
 
 1. 카카오 클라우드 콘솔 > Beyond Networking Service > Load Balancing > 로드 밸런서
 2. 로드 밸런서 생성 버튼 클릭
@@ -140,12 +149,10 @@
     - 카카오 클라우드 콘솔 > Management > IAM > 프로젝트
     - 좌측의 `조직 관리` 클릭
     - `조직 ID` 복사 후 클립보드 등에 붙여넣기
-      <img width="1313" alt="스크린샷 2025-03-06 오후 4 42 13" src="https://github.com/user-attachments/assets/828957d3-fc9b-44c5-a9db-5da13bfc556e" />
 
 
 4. 카카오 클라우드 콘솔 상단 중앙의 `프로젝트 ID` 복사 후 메모장에 붙여넣기
     - **Note**: `kakaocloud` 로고를 클릭하여 콘솔 메인화면으로 이동
-        <img width="1199" alt="스크린샷 2025-03-06 오후 4 35 56" src="https://github.com/user-attachments/assets/97ec0a02-f050-4e2b-812a-114cf9b8abfc" />
 
 # 7. API Server VM 생성
 
@@ -248,7 +255,7 @@
     ```
 
 
-# 8. Traffic Generator VM 생성
+# 8. Traffic Generator VM 생성 (5분)
 
 1. 카카오 클라우드 콘솔 > Beyond Compute Service > Virtual Machine > 인스턴스
 2. 인스턴스 생성 버튼 클릭
@@ -317,12 +324,12 @@
     ```
 
     
-5. 디렉토리 내부 파일 생성 여부 확인
+5. trarffic-generator 스크립트 적용 확인
     
     #### **lab0-8-5**
     
     ```bash
-    ls -l
+    watch -c 'awk "/kakaocloud:/ {gsub(/([0-9]+)\\./,\"\\033[33m&\\033[0m\"); print}" < /var/log/cloud-init-output.log'
     ```
    
 
