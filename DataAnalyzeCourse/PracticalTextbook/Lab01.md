@@ -78,9 +78,33 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 통한 메시�
 
 ---
 
-## 3. REST API를 활용한 메시지 송수신
+## 3. Pub/Sub 디렉토리에 권한 부여
 
-1. `traffic-generator-1` 터미널 창에서 아래 명령어 실행
+1. `traffic-generator-1, 2`에서 `pubsub` 디렉토리로 이동하기 위한한 아래 명령어 실행
+    - **Note**: `traffic-generator-1`은 이미 `pubsub` 디렉토리로 이동되어져 있음
+
+    #### **lab1-3-1**
+    
+    ```bash
+    cd /home/ubuntu/DataAnalyzeCourse/src/day1/Lab01/pubsub/
+    ```
+
+2. `pubsub` 디렉토리에 권한 부여
+    - **Note**: 모든 사용자에게 읽기/실행 권한, 소유자 및 그룹에게 쓰기 권한(775)을 부여
+
+    #### **lab1-3-2**
+    
+    ```bash
+    sudo chown ubuntu:ubuntu /home/ubuntu/DataAnalyzeCourse/src/day1/Lab01/pubsub
+    ```
+    ```bash
+    sudo chmod 775 /home/ubuntu/DataAnalyzeCourse/src/day1/Lab01/pubsub
+    ```
+
+
+## 4. REST API를 활용한 메시지 송수신
+
+1. `traffic-generator-1` 터미널 창에서 `test-topic`으로 메세지 전송하기 위한 아래 명령어 실행
     
     #### **lab1-3-1**
     
