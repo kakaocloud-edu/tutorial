@@ -9,7 +9,7 @@ echo "kakaocloud: 1.환경 변수 설정 시작"
 command=$(cat <<EOF
 # Kafka용 설정 변수
 KAFKA_BOOTSTRAP_SERVER="{Kafka 부트스트랩 서버}"
-BUCKET_NAME="{Kafka와 연동된 버킷 이름(data-catalog)}"
+BUCKET_NAME="data-catalog"
 
 # Kakao i Cloud S3 Credentials 및 Kafka 관련 변수 설정
 AWS_ACCESS_KEY_ID_VALUE="{콘솔에서 발급한 S3 액세스 키의 인증 키 값}"
