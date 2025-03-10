@@ -7,7 +7,7 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 통한 메시�
 
 1. 카카오 클라우드 콘솔 > Analytics > Pub/Sub > 토픽
 2. 토픽 서비스 시작하기
-- topic-subscription 사진 넣을 예정
+![pubsub topic subscription](https://github.com/user-attachments/assets/576b1d8b-6cf2-4bf0-a68f-c7c6533518b7)
 
 
 3. `test-topic` 토픽 생성
