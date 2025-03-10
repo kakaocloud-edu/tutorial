@@ -12,29 +12,6 @@ KAFKA_TOPIC_NAME="nginx-topic"
 LOGSTASH_ENV_FILE="/etc/default/logstash"
 ENV_SETUP_SCRIPT_URL="https://github.com/kakaocloud-edu/tutorial/raw/refs/heads/main/DataAnalyzeCourse/src/day1/Lab00/api_server/as_env_setup.sh"
 
-echo "kakaocloud: 1. ~/.bashrc에 환경 변수를 설정합니다."
-
-BASHRC_EXPORT=$(cat <<EOF
-export MYSQL_HOST="$MYSQL_HOST"
-export DOMAIN_ID="$DOMAIN_ID"
-export PROJECT_ID="$PROJECT_ID"
-export PUBSUB_TOPIC_NAME="$PUBSUB_TOPIC_NAME"
-export KAFKA_TOPIC_NAME="$KAFKA_TOPIC_NAME"
-export CREDENTIAL_ID="$CREDENTIAL_ID"
-export CREDENTIAL_SECRET="$CREDENTIAL_SECRET"
-export LOGSTASH_KAFKA_ENDPOINT="$LOGSTASH_KAFKA_ENDPOINT"
-EOF
-)
-
-eval "$BASHRC_EXPORT"
-
-if ! grep -q "MYSQL_HOST" /home/ubuntu/.bashrc; then
-  echo "$BASHRC_EXPORT" >> /home/ubuntu/.bashrc
-fi
-
-source /home/ubuntu/.bashrc
-echo "kakaocloud: ~/.bashrc에 환경 변수를 추가 완료."
-
 echo "kakaocloud: 2. as_env_setup.sh 스크립트를 다운로드합니다."
 
 # 유효성 체크
