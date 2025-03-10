@@ -34,6 +34,7 @@ EOF
 
 echo "$BASHRC_EXPORT" >> /home/ubuntu/.bashrc
 
+# 새로 추가된 값 반영
 source /home/ubuntu/.bashrc
 echo "kakaocloud: ~/.bashrc에 환경 변수를 추가 완료."
 
@@ -133,10 +134,12 @@ curl --output /dev/null --silent --head --fail "https://github.com/kakaocloud-ed
 curl --output /dev/null --silent --head --fail "https://github.com/kakaocloud-edu/tutorial/raw/refs/heads/main/DataAnalyzeCourse/src/day1/Lab00/api_server/setup_db.sh" \
   || { log "kakaocloud: setup_db.sh 링크가 유효하지 않습니다"; exit 1; }
 
-log "kakaocloud: Downloading configuration files..."
-wget -P / "https://github.com/kakaocloud-edu/tutorial/raw/refs/heads/main/DataAnalyzeCourse/src/day1/Lab00/api_server/api_full_setup.sh" \
-            "https://github.com/kakaocloud-edu/tutorial/raw/refs/heads/main/DataAnalyzeCourse/src/day1/Lab00/api_server/setup_db.sh" \
-|| { log "kakaocloud: Failed to download config files"; exit 1; }
+log "kakaocloud: main_script.sh & setup_db.sh 링크 모두 유효"
+
+wget -O main_script.sh "https://github.com/kakaocloud-edu/tutorial/raw/refs/heads/main/DataAnalyzeCourse/src/day1/Lab00/api_server/api_full_setup.sh" \
+  || { log "kakaocloud: Failed to download main_script.sh"; exit 1; }
+wget -O setup_db.sh "https://github.com/kakaocloud-edu/tutorial/raw/refs/heads/main/DataAnalyzeCourse/src/day1/Lab00/api_server/setup_db.sh" \
+  || { log "kakaocloud: Failed to download setup_db.sh"; exit 1; }
 
 chmod +x main_script.sh setup_db.sh \
   || { log "kakaocloud: Failed to chmod main_script.sh or setup_db.sh"; exit 1; }
@@ -154,11 +157,17 @@ log "kakaocloud: main_script.sh & setup_db.sh 완료"
 ###############################################################################
 log "kakaocloud: 3. filebeat.yml과 logs-to-pubsub.conf, logs-to-kafka.conf를 다운로드합니다."
 
-log "kakaocloud: Downloading configuration files..."
-wget -P /etc/filebeat/ "https://github.com/kakaocloud-edu/tutorial/raw/refs/heads/main/DataAnalyzeCourse/src/day1/Lab00/api_server/filebeat.yml" \
-                        "https://github.com/kakaocloud-edu/tutorial/raw/refs/heads/main/DataAnalyzeCourse/src/day1/Lab00/api_server/logs-to-pubsub.conf" \
-                        "https://github.com/kakaocloud-edu/tutorial/raw/refs/heads/main/DataAnalyzeCourse/src/day1/Lab00/api_server/logs-to-kafka.conf" \
-|| { log "kakaocloud: Failed to download config files"; exit 1; }
+sudo wget -O /etc/filebeat/filebeat.yml \
+  "https://github.com/kakaocloud-edu/tutorial/raw/refs/heads/main/DataAnalyzeCourse/src/day1/Lab00/api_server/filebeat.yml" \
+  || { log "kakaocloud: Failed to download filebeat.yml"; exit 1; }
+
+sudo wget -O /etc/logstash/conf.d/logs-to-pubsub.conf \
+  "https://github.com/kakaocloud-edu/tutorial/raw/refs/heads/main/DataAnalyzeCourse/src/day1/Lab00/api_server/logs-to-pubsub.conf" \
+  || { log "kakaocloud: Failed to download logs-to-pubsub.conf"; exit 1; }
+
+sudo wget -O /etc/logstash/conf.d/logs-to-kafka.conf \
+  "https://github.com/kakaocloud-edu/tutorial/raw/refs/heads/main/DataAnalyzeCourse/src/day1/Lab00/api_server/logs-to-kafka.conf" \
+  || { log "kakaocloud: Failed to download logs-to-kafka.conf"; exit 1; }
 
 sudo tee /etc/logstash/logstash.yml <<'EOF' > /dev/null \
   || { log "kakaocloud: Failed to write logstash.yml"; exit 1; }
