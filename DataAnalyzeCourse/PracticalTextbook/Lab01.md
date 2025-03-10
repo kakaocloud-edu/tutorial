@@ -17,8 +17,8 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 통한 메시�
         - 토픽 메세지 보존 기간: `0일 0시 10분`
         - 설명: `없음`
     - 생성 버튼 클릭
-4. `test-topic` 토픽 생성 확인 (확인 부분 사진 넣을 예정)
-
+4. `test-topic` 토픽 생성 확인
+![1](https://github.com/user-attachments/assets/4203487a-2ac8-46d2-9903-ab927b6b5809)
 
 5. 서브스크립션 탭 클릭
 
@@ -32,7 +32,8 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 통한 메시�
         - 응답 대기 시간: `20초`
         - 재처리 횟수: `횟수 지정`, `3번`
     - 생성 버튼 클릭
-7. `test-pull-sub` 서브스크립션 생성 확인(확인 부분 사진 넣을 예정)
+7. `test-pull-sub` 서브스크립션 생성 확인
+![2](https://github.com/user-attachments/assets/5c8f80c2-3c2d-4c17-8c95-a8c9b0cdb419)
 
 8. `test-topic`의 Push 서브스크립션 생성
     - 서브스크립션 생성 버튼 클릭
@@ -47,7 +48,8 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 통한 메시�
         - 응답 대기 시간: `20초`
         - 재처리 횟수: `횟수 지정`, `3번`
     - 생성 버튼 클릭
-9. `test-push-sub` 생성 확인(확인 부분 사진 넣을 예정)
+9. `test-push-sub` 생성 확인
+![3](https://github.com/user-attachments/assets/1efd6aa5-0d21-4cbe-9a59-854ee06b91ba)
 
 ---
 
@@ -70,7 +72,8 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 통한 메시�
     ```
     
 3. 카카오 클라우드 콘솔 > Analytics > Pub/Sub > 토픽
-4. `log-topic` 토픽 생성 확인(확인 부분 사진 넣을 예정)
+4. `log-topic` 토픽 생성 확인
+![4](https://github.com/user-attachments/assets/1bd82237-d002-4e7f-a232-df79266970d2)
 
 5. Object Storage에 NGINX 로그를 적재하는 서브스크립션 생성을 위해 아래 명령어 실행
     
@@ -80,7 +83,8 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 통한 메시�
     python3 create_subscription.py
     ```
     
-6. 서브스크립션 탭 클릭 후 `log-obj-sub` 서브스크립션 생성 확인(확인 부분 사진 넣을 예정)
+6. 서브스크립션 탭 클릭 후 `log-obj-sub` 서브스크립션 생성 확인
+![5](https://github.com/user-attachments/assets/03b45751-81c2-492c-ab98-7aad6dde8b97)
 
 ---
 
@@ -126,8 +130,9 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 통한 메시�
     Publish a message to the test-topic in Pub/Sub using the REST API
     ```
 
-    - 아래와 같은 결과 확인(확인 부분 사진 넣을 예정)
-    
+    - 아래와 같은 결과 확인
+    ![6](https://github.com/user-attachments/assets/17c9e7a5-79b0-46fc-b7e1-761fe3211687)
+
 2. `traffic-generator-2` 터미널 창에서 `test-topic`의 메세지를 `test-pull-sub` 서브스크립션을 통해 수신하기 위한 아래 명령어 실행
     - 메시지 수신 스크립트 실행하여 `traffic-generator-2` 터미널에서 메시지가 정상적으로 수신되는지 확인 후, `Ctrl` + `C` 키로 종료
     #### **lab1-4-2**
@@ -136,7 +141,8 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 통한 메시�
     python3 pub_sub_subscriber.py
     ```
 
-    - 아래와 같은 결과 확인(확인 부분 사진 넣을 예정)
+    - 아래와 같은 결과 확인
+![7](https://github.com/user-attachments/assets/d7ffc9fa-12d2-4542-871c-abbb3abe5314)
 
 3. 웹 브라우저 주소창에서 `test-topic`의 메세지를 `test-push-sub` 서브스크립션을 통해 `api-server-vm`으로 송신된 메세지를 확인하기 위한 아래 URL 입력
     #### **lab1-4-3**
@@ -149,7 +155,8 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 통한 메시�
     - **Note**: 메시지가 보이지 않을 경우 전송에 시간이 걸릴 수 있으므로 잠시 대기 후 다시 시도
     - **Note**: 새로고침(F5)을 여러 번 진행하여 메세지가 적재된 부분 확인
 
-    - 아래와 같은 결과 확인(확인 부분 사진 넣을 예정)
+    - 아래와 같은 결과 확인
+![8](https://github.com/user-attachments/assets/8c20c80f-aa9f-44eb-b5e1-1af5b2380556)
 
 ---
 
@@ -187,8 +194,9 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 통한 메시�
     Publish a message to the test-topic in Pub/Sub using the Go SDK
     ```
 
-    - 아래와 같은 결과 확인(확인 부분 사진 넣을 예정)
-        
+    - 아래와 같은 결과 확인
+![9](https://github.com/user-attachments/assets/ea2fa21b-810c-44a1-b8ef-e7f3d81876b6)
+
 4. `traffic-generator-2` 터미널 창에서  Go SDK 실습용 디렉터리로 이동하기 위한 아래 명령어를 실행
         
     #### **lab1-5-4**
@@ -214,7 +222,8 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 통한 메시�
     ./subscriber
     ```
 
-    - 아래와 같은 결과 확인(확인 부분 사진 넣을 예정)
+    - 아래와 같은 결과 확인
+![10](https://github.com/user-attachments/assets/61df11c3-58a7-435a-aaf2-cefead9d4793)
 
 ---
 
@@ -234,7 +243,8 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 통한 메시�
     ls
     ```
 
-    - 아래와 같은 결과 확인(확인 부분 사진 넣을 예정)
+    - 아래와 같은 결과 확인
+![11](https://github.com/user-attachments/assets/4d647d4a-f758-4240-8398-ee81ac008faa)
 
 2. `traffic-generator-1`에서 트래픽 로그를 생성하는 `traffic_generator.py` 실행
     - **Note**: 트래픽 로그가 자동으로 생성되어 NGINX 로그에 반영됨
@@ -254,8 +264,9 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 통한 메시�
     ```
     - 로그 생성 후 디렉터리 구조에 `traffic_generator.log` 파일 생성 확인
 
-    - 아래와 같은 결과 확인(확인 부분 사진 넣을 예정)
-    
+    - 아래와 같은 결과 확인
+    ![12](https://github.com/user-attachments/assets/ac9f69e5-7b1d-420c-8c1f-3bb00af428ad)
+
     #### **lab1-6-3-2**
     
     ```bash
@@ -263,7 +274,8 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 통한 메시�
     ```
     - 로그 생성 후 `traffic_generator.log` 파일 내부 확인
 
-    - 아래와 같은 결과 확인(확인 부분 사진 넣을 예정)    
+    - 아래와 같은 결과 확인
+![13](https://github.com/user-attachments/assets/be5a3eef-3ed4-4e17-a59d-8000f0f82bcd)
 
 4. 웹 브라우저 주소창에서 직접 로그를 발생시키기 위해 아래 URL 입력
 
@@ -273,14 +285,15 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 통한 메시�
     http://{ALB Public IP 주소}
     ```
 
-    - (실제 실습 부분 사진 넣을 예정)
+![14](https://github.com/user-attachments/assets/a3fff2b9-5d57-4c03-9e0e-805f6c8bd2d9)
 
 5. 사용자 등록, 상품 목록 확인 등을 수행하여 로그 생성
 6. 카카오 클라우드 콘솔 > Beyond Storage Service > Object Storage > 일반 버킷
     - 쌓인 로그를 확인하기 위한 `pubsub-nginx-log` 버킷 클릭
         - 현재 연도/월/일/시 디렉터리로 이동하여 생성된 NGINX 로그 확인
 
-    - 아래와 같은 결과 확인(확인 부분 사진 넣을 예정)
+    - 아래와 같은 결과 확인
+![15](https://github.com/user-attachments/assets/b8118722-f830-48c1-a0ec-28ea97a4c8b7)
 
 
 ---
