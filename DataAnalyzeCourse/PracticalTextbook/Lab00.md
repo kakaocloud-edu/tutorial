@@ -306,7 +306,7 @@
     ```
 
 
-# 8. Traffic Generator VM 생성 (5분)
+# 8. Traffic Generator VM 생성 (7분)
 
 1. 카카오 클라우드 콘솔 > Beyond Compute Service > Virtual Machine > 인스턴스
 2. 인스턴스 생성 버튼 클릭
