@@ -1,3 +1,4 @@
+#!/bin/bash
 exec &> >(tee -a "$LOGFILE")
 
 echo "kakaocloud: 3. 필수 환경변수 검증 시작"
