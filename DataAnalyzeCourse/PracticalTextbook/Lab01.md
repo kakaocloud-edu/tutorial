@@ -105,33 +105,25 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 통한 메시�
 ## 4. REST API를 활용한 메시지 송수신
 
 1. `traffic-generator-1` 터미널 창에서 `test-topic`으로 메세지 전송하기 위한 아래 명령어 실행
-    
-    #### **lab1-3-1**
+    - 메시지 전송 스크립트 실행 후 메시지를 입력하고, `Enter` 후 `Ctrl+D` 키로 전송 완료
+
+    #### **lab1-4-1-1**
     
     ```bash
-    cd /home/ubuntu/DataAnalyzeCourse/src/day1/Lab01/pubsub/
+    python3 pub_sub_publisher.py
     ```
-    
-2. `traffic-generator-1`에서 `test-topic`으로 메시지 전송
-    - 메시지 전송 스크립트 실행 후 메시지를 입력하고, `Enter` 후 `Ctrl+D` 키로 전송 완료
-    
-        #### **lab1-3-2-1**
         
-        ```bash
-        python3 pub_sub_publisher.py
-        ```
-        
-       - 아래와 같은 결과 확인
+    - 아래와 같은 결과 확인(결과 수정 필요 - 진행 예정)
          
-         <img width="472" alt="image" src="https://github.com/user-attachments/assets/cb987d3a-a797-43ea-b409-1d0fc7ce11c3" />
+    - 사진 넣을 예정
 
         
-        #### **lab1-3-2-2**
-      - **Note**: 아래 값은 하나의 예시, 다른 값을 입력해도 무관
+    #### **lab1-4-1-2**
+    - **Note**: 아래 값은 하나의 예시, 다른 값을 입력해도 무관
         
-        ```bash
-        Publish a message to the test-topic in Pub/Sub using the REST API
-        ```
+    ```bash
+    Publish a message to the test-topic in Pub/Sub using the REST API
+    ```
 
     
 3. `test-topic`의 메시지를 `test-pull-sub`서브스크립션을 통해 `traffic-generator-2`에서 수신
@@ -172,7 +164,7 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 통한 메시�
 
 1. `traffic-generator-1` 터미널 창에서 아래 명령어를 실행하여 Go SDK 실습용 디렉터리로 이동
     
-    #### **lab1-4-1**
+#### **lab1-4-1**
     
     ```bash
     cd /home/ubuntu/DataAnalyzeCourse/src/day1/Lab01/go/
