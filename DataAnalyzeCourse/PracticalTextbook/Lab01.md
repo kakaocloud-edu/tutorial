@@ -56,7 +56,7 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 통한 메시�
     cd /home/ubuntu/DataAnalyzeCourse/src/day1/Lab01/pubsub/
     ```
     
-2. NGINX 로그 적재용 토픽 생성
+2. NGINX 로그 적재용 토픽 생성을 위해 아래 명령어 실행
     
     #### **lab1-2-2**
     
@@ -66,7 +66,7 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 통한 메시�
     
 3. 카카오 클라우드 콘솔 > Analytics > Pub/Sub > 토픽
 4. `log-topic` 토픽 생성 확인
-5. Object Storage용 서브스크립션 생성
+5. Object Storage에 NGINX 로그를 적재하는 서브스크립션 생성을 위해 아래 명령어 실행
     
     #### **lab1-2-5**
     
