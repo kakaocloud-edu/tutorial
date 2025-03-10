@@ -17,29 +17,7 @@ log() {
   echo "$MESSAGE" >> "$LOGFILE"  # 로그 파일에만 기록
 }
 
-echo "kakaocloud: 1. ~/.bashrc에 환경 변수를 설정합니다."
-
-BASHRC_EXPORT=$(cat <<EOF
-export MYSQL_HOST="$MYSQL_HOST"
-export DOMAIN_ID="$DOMAIN_ID"
-export PROJECT_ID="$PROJECT_ID"
-export PUBSUB_TOPIC_NAME="$PUBSUB_TOPIC_NAME"
-export KAFKA_TOPIC_NAME="$KAFKA_TOPIC_NAME"
-export CREDENTIAL_ID="$CREDENTIAL_ID"
-export CREDENTIAL_SECRET="$CREDENTIAL_SECRET"
-export LOGSTASH_KAFKA_ENDPOINT="$LOGSTASH_KAFKA_ENDPOINT"
-EOF
-)
-
-eval "$BASHRC_EXPORT"
-
-if ! grep -q "MYSQL_HOST" /home/ubuntu/.bashrc; then
-  echo "$BASHRC_EXPORT" >> /home/ubuntu/.bashrc
-fi
-
 source /home/ubuntu/.bashrc
-echo "kakaocloud: ~/.bashrc에 환경 변수를 추가 완료."
-
 ###############################################################################
 # 2) filebeat / logstash 설치
 ###############################################################################
