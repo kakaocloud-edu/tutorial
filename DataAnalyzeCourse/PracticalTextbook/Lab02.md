@@ -43,21 +43,6 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
 
 
 ## 2. Kafka 기본 환경 설정
-- **Note**: `trarffic-generator-1, 2`에서 설치 진행
-- **Note**: 설치 중간에 보라색 화면이 뜨면 'Enter`로 진행
-
-1. Java 설치
-    
-    #### lab2-6-1-1
-    
-    ```bash
-    cd
-    ```
-
-    
-2. Kafka 바이너리 다운로드 및 설치 (앞서 진행)
-    - /opt 디렉터리로 이동 후 압축 풀어서 kafka 폴더 구성
-    
 
 
     
