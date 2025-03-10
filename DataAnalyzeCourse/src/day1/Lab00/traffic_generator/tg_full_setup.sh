@@ -11,9 +11,7 @@ GOPATH_VAL="/home/ubuntu/go"
 GOCACHE_VAL="/home/ubuntu/.cache/go-build"
 
 # === 스크립트 시작 ===
-echo "kakaocloud: 1. 스크립트 시작"
-
-echo "kakaocloud: 2. 필수 환경변수 검증 시작"
+echo "kakaocloud: 3. 필수 환경변수 검증 시작"
 required_variables=(
     DOMAIN_ID PROJECT_ID CREDENTIAL_ID CREDENTIAL_SECRET API_BASE_URL 
     TOPIC_NAME SUB_NAME TOPIC_NAME_MK OBJECT_STORAGE_SUBSCRIPTION_NAME 
@@ -26,7 +24,6 @@ for var in "${required_variables[@]}"; do
     fi
 done
 
-echo "kakaocloud: 3. 기존 tutorial 디렉토리 삭제 확인"
 if [ -d "/home/ubuntu/tutorial" ]; then
     rm -rf "/home/ubuntu/tutorial" || { echo "kakaocloud: 기존 tutorial 디렉토리 삭제 실패"; exit 1; }
 fi
@@ -35,13 +32,11 @@ echo "kakaocloud: 4. Git 클론 시작"
 cd /home/ubuntu
 git clone https://github.com/kakaocloud-edu/tutorial.git /home/ubuntu/tutorial || { echo "kakaocloud: Git 클론 실패"; exit 1; }
 
-echo "kakaocloud: 5. DataAnalyzeCourse 디렉토리 복사 시작"
 cp -r /home/ubuntu/tutorial/DataAnalyzeCourse /home/ubuntu/ || { echo "kakaocloud: DataAnalyzeCourse 복사 실패"; exit 1; }
 
-echo "kakaocloud: 6. Git 클론한 tutorial 디렉토리 삭제 시작"
 rm -rf /home/ubuntu/tutorial || { echo "kakaocloud: Git 클론한 tutorial 디렉토리 삭제 실패"; exit 1; }
 
-echo "kakaocloud: 7. config.yml 파일 생성 시작"
+echo "kakaocloud: 5. config.yml 파일 생성 시작"
 mkdir -p "$CONFIG_DIR" || { echo "kakaocloud: config.yml 파일 생성 디렉토리($CONFIG_DIR) 생성 실패"; exit 1; }
 cat <<EOF > "$CONFIG_DIR/config.yml"
 # 공용 설정 파일: config.yml
@@ -105,7 +100,7 @@ age_threshold:
   middle: 50
 EOF
 
-echo "kakaocloud: 8. Go SDK 설치 및 설정 시작"
+echo "kakaocloud: 6. Go SDK 설치 및 설정 시작"
 sudo apt update || { echo "kakaocloud: apt 업데이트 실패"; exit 1; }
 wget "$GO_DOWNLOAD_URL" -O "/tmp/$GO_TAR_FILE" || { echo "kakaocloud: Go tarball 다운로드 실패"; exit 1; }
 MIN_SIZE=52428800
@@ -132,7 +127,7 @@ if ! grep -q 'export GOCACHE=' "/home/ubuntu/.bashrc"; then
     echo "export GOCACHE=$GOCACHE_VAL" >> "/home/ubuntu/.bashrc"
 fi
 
-echo "kakaocloud: 9. Pub/Sub SDK 다운로드 및 설치 시작"
+echo "kakaocloud: 7. Pub/Sub SDK 다운로드 및 설치 시작"
 if [ -d "$GOSDK_DIR" ]; then
     sudo rm -rf "$GOSDK_DIR" || { echo "kakaocloud: 기존 GOSDK_DIR 삭제 실패"; exit 1; }
 fi
@@ -146,25 +141,23 @@ sudo wget "$PUBSUB_SDK_URL" -O pubsub.tgz || { echo "kakaocloud: Pub/Sub SDK 다
 sudo tar -xf pubsub.tgz || { echo "kakaocloud: Pub/Sub SDK 압축 해제 실패"; exit 1; }
 sudo rm -f pubsub.tgz
 
-echo "kakaocloud: 10. Go 작업 디렉토리로 이동 (DataAnalyzeCourse/src/day1/Lab01/go)"
 cd /home/ubuntu/DataAnalyzeCourse/src/day1/Lab01/go || { echo "kakaocloud: Go 작업 디렉토리로 이동 실패"; exit 1; }
 
-echo "kakaocloud: 11. Go 모듈 초기화 검사"
 if [ ! -f go.mod ]; then
     /usr/local/go/bin/go mod init trafficgenerator-go-sdk || { echo "kakaocloud: Go 모듈 초기화 실패"; exit 1; }
 fi
 
-echo "kakaocloud: 12. Pub/Sub SDK 의존성 추가 및 로컬 경로 교체 시작"
+echo "kakaocloud: 8. Pub/Sub SDK 의존성 추가 및 로컬 경로 교체 시작"
  /usr/local/go/bin/go mod edit -require github.kakaoenterprise.in/cloud-platform/kc-pub-sub-sdk-go@v0.0.0 || { echo "kakaocloud: Pub/Sub SDK 의존성 추가 실패"; exit 1; }
  /usr/local/go/bin/go mod edit -replace github.kakaoenterprise.in/cloud-platform/kc-pub-sub-sdk-go=/home/ubuntu/gosdk || { echo "kakaocloud: Pub/Sub SDK 로컬 경로 교체 실패"; exit 1; }
 
-echo "kakaocloud: 13. go mod tidy 실행 시작"
+echo "kakaocloud: 9. go mod tidy 실행 시작"
  /usr/local/go/bin/go mod tidy || { echo "kakaocloud: go mod tidy 실패"; exit 1; }
 
-echo "kakaocloud: 14. Python3 및 pip 설치 시작"
+echo "kakaocloud: 10. Python3 및 pip 설치 시작"
 sudo apt install -y python3 python3-pip || { echo "kakaocloud: Python3 및 pip 설치 실패"; exit 1; }
 
-echo "kakaocloud: 15. Python dependencies (requests, pyyaml) 설치 시작"
+echo "kakaocloud: 11. Python dependencies (requests, pyyaml) 설치 시작"
 sudo apt install -y python3-requests python3-yaml || { echo "kakaocloud: Python dependencies 설치 실패"; exit 1; }
 
 
@@ -172,10 +165,10 @@ sudo apt install -y python3-requests python3-yaml || { echo "kakaocloud: Python 
 sudo chown -R ubuntu:ubuntu /home/ubuntu/go /home/ubuntu/gosdk /home/ubuntu/DataAnalyzeCourse/src/day1/Lab01/go
 
 # --- 하단부 추가: OpenJDK 및 Apache Kafka 설치 ---
-echo "kakaocloud: 16. OpenJDK 21 설치 시작"
+echo "kakaocloud: 12. OpenJDK 21 설치 시작"
 sudo apt install -y openjdk-21-jdk || { echo "kakaocloud: OpenJDK 21 설치 실패"; exit 1; }
 
-echo "kakaocloud: 17. Apache Kafka 설치 시작"
+echo "kakaocloud: 13. Apache Kafka 설치 시작"
 cd /opt || { echo "kakaocloud: /opt 디렉토리 이동 실패"; exit 1; }
 sudo wget -qO- https://archive.apache.org/dist/kafka/3.7.1/kafka_2.13-3.7.1.tgz | sudo tar -xz || { echo "kakaocloud: Kafka 압축 해제 실패"; exit 1; }
 sudo mv kafka_2.13-3.7.1 kafka || { echo "kakaocloud: Kafka 디렉토리 이름 변경 실패"; exit 1; }
@@ -184,5 +177,5 @@ sudo mv kafka_2.13-3.7.1 kafka || { echo "kakaocloud: Kafka 디렉토리 이름 
 source ~/.bashrc
 
 echo "========================================"
-echo "kakaocloud: 자동화 완료스크립트 실행 완료."
+echo "kakaocloud: 자동화 완료스크립트 실행 완료!"
 echo "========================================"
