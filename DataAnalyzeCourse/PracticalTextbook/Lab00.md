@@ -335,7 +335,7 @@
     ```
    
 
-# 9. Kafka Connector VM 생성
+# 9. Kafka Connector VM 생성 (5분)
 
 1. 카카오 클라우드 콘솔 > Beyond Compute Service > Virtual Machine > 인스턴스
 2. 인스턴스 생성 버튼 클릭
