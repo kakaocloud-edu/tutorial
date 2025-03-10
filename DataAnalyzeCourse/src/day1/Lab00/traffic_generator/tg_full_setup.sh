@@ -1,5 +1,5 @@
 #!/bin/bash
-# setup_all.sh
+# tg_full_setup.sh
 
 # === 설정 변수 (버전, 경로, 환경변수 등) ===
 GO_VERSION="1.20.5"
