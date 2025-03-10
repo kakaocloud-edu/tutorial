@@ -119,7 +119,6 @@ unzip "${AWS_CLI_ZIP}" || { echo "kakaocloud: AWS CLI 압축 해제 실패"; exi
 sudo ./aws/install || { echo "kakaocloud: AWS CLI 설치 실패"; exit 1; }
 rm -rf aws "${AWS_CLI_ZIP}" || { echo "kakaocloud: AWS CLI 설치 후 정리 실패"; exit 1; }
 AWS_VERSION=$(aws --version 2>&1 || true)
-echo "kakaocloud: AWS CLI 버전 - $AWS_VERSION"
 
 ################################################################################
 # 8. AWS CLI configure 파일 설정
