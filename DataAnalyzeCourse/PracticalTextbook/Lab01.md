@@ -80,7 +80,7 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 통한 메시�
 
 ## 3. Pub/Sub 디렉토리에 권한 부여
 
-1. `traffic-generator-1, 2`에서 `pubsub` 디렉토리로 이동하기 위한한 아래 명령어 실행
+1. `traffic-generator-1, 2`에서 `pubsub` 디렉토리로 이동하기 위한 아래 명령어 실행
     - **Note**: `traffic-generator-1`은 이미 `pubsub` 디렉토리로 이동되어져 있음
 
     #### **lab1-3-1**
@@ -126,53 +126,39 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 통한 메시�
     ```
 
     
-3. `test-topic`의 메시지를 `test-pull-sub`서브스크립션을 통해 `traffic-generator-2`에서 수신
-    - 메시지 수신 스크립트 실행하여 `traffic-generator-2` 터미널에서 메시지가 정상적으로 수신되는지 확인 후 `Ctrl` + `C` 키로 종료
-        #### **lab1-3-3-1**
-    
-        ```bash
-        cd /home/ubuntu/DataAnalyzeCourse/src/day1/Lab01/pubsub/
-        ```
-
-        ```bash
-        sudo chown ubuntu:ubuntu /home/ubuntu/DataAnalyzeCourse/src/day1/Lab01/pubsub
-        ```
-        ```bash
-        sudo chmod 775 /home/ubuntu/DataAnalyzeCourse/src/day1/Lab01/pubsub
-        ```
-    
-        #### **lab1-3-3-2**
+2. `traffic-generator-2` 터미널 창에서 `test-topic`의 메세지를 `test-pull-sub` 서브스크립션을 통해 수신하기 위한 아래 명령어 실행
+    - 메시지 수신 스크립트 실행하여 `traffic-generator-2` 터미널에서 메시지가 정상적으로 수신되는지 확인 후, `Ctrl` + `C` 키로 종료
+    #### **lab1-4-2-1**
         
-        ```bash
-        python3 pub_sub_subscriber.py
-        ```
+    ```bash
+    python3 pub_sub_subscriber.py
+    ```
 
-4. 웹 브라우저 주소창에 아래 URL 입력
+3. 웹 브라우저 주소창에서 `test-topic`의 메세지를 `test-push-sub` 서브스크립션을 통해 `api-server-vm`으로 송신된 메세지를 확인하기 위한 아래 URL 입력
 
-    #### **lab1-3-4**
     ```
     http://{ALB Public IP 주소}/push-messages
     ```
         
-5. `test-push-sub`서브스크립션에서 송신한 메시지 확인
+4. `test-push-sub` 서브스크립션에서 `api-server-vm`으로 송신한 메시지 확인
     - **Note**: 메시지가 보이지 않을 경우 전송에 시간이 걸릴 수 있으므로 잠시 대기 후 다시 시도
     - **Note**: 새로고침(F5)을 여러 번 진행하여 메세지가 적재된 부분 확인
 
 ---
 
-## 4. Go SDK를 활용한 메시지 송수신
+## 5. Go SDK를 활용한 메시지 송수신
 
-1. `traffic-generator-1` 터미널 창에서 아래 명령어를 실행하여 Go SDK 실습용 디렉터리로 이동
+1. `traffic-generator-1` 터미널 창에서  Go SDK 실습용 디렉터리로 이동하기 위한 아래 명령어를 실행
     
-#### **lab1-4-1**
+    #### **lab1-5-1-1**
     
     ```bash
     cd /home/ubuntu/DataAnalyzeCourse/src/day1/Lab01/go/
     ```
         
-2. Publisher 실행 파일 생성
+2. 메세지를 발행하는 Publisher 실행 파일 생성
         
-    #### **lab1-4-2**
+    #### **lab1-5-1-2**
     
     ```bash
     go build -o publisher config.go go_publisher.go
@@ -181,7 +167,7 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 통한 메시�
 3. Publisher 실행 파일을 이용해 `traffic-generator-1`에서 `test-topic`으로 메시지 송신
     - 아래 명령어를 이용하여 Publisher 실행 파일 실행 후 송신할 메세지를 입력하고, `Enter`로 송신 및 `Ctrl` + `c`로 종료
     
-        #### **lab1-4-1-3-1**
+        #### **lab1-5-1-3-1**
         
         ```bash
         ./publisher
@@ -190,7 +176,7 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 통한 메시�
         - <img width="472" alt="image" src="https://github.com/user-attachments/assets/78dd3992-e573-43c8-8078-969fd4cfaa7c" />
 
 
-        #### **lab1-4-1-3-2**
+        #### **lab1-5-1-3-2**
         
         ```bash
         Publish a message to the test-topic in Pub/Sub using the Go SDK
