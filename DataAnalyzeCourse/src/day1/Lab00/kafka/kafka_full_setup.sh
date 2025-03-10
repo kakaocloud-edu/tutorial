@@ -1,11 +1,36 @@
 #!/bin/bash
 
-echo "kakaocloud: 3. 필수 환경변수 검증 시작"
+#------------------------------------------
+# 설정 변수
+#------------------------------------------
+# Kafka 설정
+KAFKA_VERSION="3.7.1"
+KAFKA_SCALA_VERSION="2.13"
+KAFKA_TGZ="kafka_${KAFKA_SCALA_VERSION}-${KAFKA_VERSION}.tgz"
+KAFKA_DOWNLOAD_URL="https://archive.apache.org/dist/kafka/${KAFKA_VERSION}/${KAFKA_TGZ}"
+KAFKA_INSTALL_DIR="/home/ubuntu/kafka"
+
+# Confluent Hub Client 설정
+CONFLUENT_HUB_DIR="/confluent-hub"
+CONFLUENT_HUB_URL="http://client.hub.confluent.io/confluent-hub-client-latest.tar.gz"
+CONFLUENT_HUB_FILE="confluent-hub-client-latest.tar.gz"
+
+# AWS CLI 설정
+AWS_CLI_VERSION="2.22.0"
+AWS_CLI_ZIP="awscliv2.zip"
+AWS_CLI_DOWNLOAD_URL="https://awscli.amazonaws.com/awscli-exe-linux-x86_64-${AWS_CLI_VERSION}.zip"
+
+
+#------------------------------------------
+# 필수 환경변수 검증
+#------------------------------------------
 required_variables=(
   KAFKA_BOOTSTRAP_SERVER BUCKET_NAME
   AWS_ACCESS_KEY_ID_VALUE AWS_SECRET_ACCESS_KEY_VALUE
   AWS_DEFAULT_REGION_VALUE AWS_DEFAULT_OUTPUT_VALUE
 )
+
+echo "kakaocloud: 3. 필수 환경변수 검증 시작"
 for var in "${required_variables[@]}"; do
     if [ -z "${!var}" ]; then
         echo "kakaocloud: 필수 환경변수 $var 가 설정되지 않았습니다. 스크립트를 종료합니다."
@@ -24,20 +49,16 @@ sudo apt-get install -y python3 python3-pip openjdk-21-jdk unzip jq aria2 curl |
 # 2. Kafka 다운로드 및 설치
 ################################################################################
 echo "kakaocloud: 5. Kafka 설치 시작"
-aria2c -x 16 -s 16 -d /home/ubuntu -o kafka_2.13-3.7.1.tgz "https://archive.apache.org/dist/kafka/3.7.1/kafka_2.13-3.7.1.tgz" || { echo "kakaocloud: Kafka 다운로드 실패"; exit 1; }
-tar -xzf /home/ubuntu/kafka_2.13-3.7.1.tgz -C /home/ubuntu || { echo "kakaocloud: Kafka 압축 해제 실패"; exit 1; }
-rm /home/ubuntu/kafka_2.13-3.7.1.tgz || { echo "kakaocloud: 임시 파일 삭제 실패"; exit 1; }
-mv /home/ubuntu/kafka_2.13-3.7.1 /home/ubuntu/kafka || { echo "kakaocloud: Kafka 디렉토리 이동 실패"; exit 1; }
+aria2c -x 16 -s 16 -d /home/ubuntu -o "${KAFKA_TGZ}" "${KAFKA_DOWNLOAD_URL}" || { echo "kakaocloud: Kafka 다운로드 실패"; exit 1; }
+tar -xzf /home/ubuntu/"${KAFKA_TGZ}" -C /home/ubuntu || { echo "kakaocloud: Kafka 압축 해제 실패"; exit 1; }
+rm /home/ubuntu/"${KAFKA_TGZ}" || { echo "kakaocloud: 임시 파일 삭제 실패"; exit 1; }
+mv /home/ubuntu/kafka_${KAFKA_SCALA_VERSION}-${KAFKA_VERSION} "${KAFKA_INSTALL_DIR}" || { echo "kakaocloud: Kafka 디렉토리 이동 실패"; exit 1; }
 
 ################################################################################
 # 3. Confluent Hub Client 설치
 ################################################################################
 echo "kakaocloud: 6. Confluent Hub Client 설치 시작"
 sudo mkdir -p /confluent-hub/plugins || { echo "kakaocloud: Confluent Hub 디렉토리 생성 실패"; exit 1; }
-CONFLUENT_HUB_DIR="/confluent-hub"
-CONFLUENT_HUB_URL="http://client.hub.confluent.io/confluent-hub-client-latest.tar.gz"
-CONFLUENT_HUB_FILE="confluent-hub-client-latest.tar.gz"
-
 sudo mkdir -p "$CONFLUENT_HUB_DIR" || { echo "kakaocloud: Confluent Hub 디렉토리 생성 실패"; exit 1; }
 cd "$CONFLUENT_HUB_DIR" || { echo "kakaocloud: Confluent Hub 디렉토리 이동 실패"; exit 1; }
 aria2c -x 16 -s 16 -o "$CONFLUENT_HUB_FILE" "$CONFLUENT_HUB_URL" || { echo "kakaocloud: Confluent Hub Client 다운로드 실패"; exit 1; }
@@ -93,10 +114,10 @@ sudo chown ubuntu:ubuntu /home/ubuntu/kafka/config/connect-standalone.properties
 ################################################################################
 echo "kakaocloud: 9. AWS CLI 설치 시작"
 cd /home/ubuntu || { echo "kakaocloud: 홈 디렉토리 이동 실패"; exit 1; }
-curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64-2.22.0.zip" -o "awscliv2.zip" || { echo "kakaocloud: AWS CLI 다운로드 실패"; exit 1; }
-unzip awscliv2.zip || { echo "kakaocloud: AWS CLI 압축 해제 실패"; exit 1; }
+curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64-${AWS_CLI_VERSION}.zip" -o "${AWS_CLI_ZIP}" || { echo "kakaocloud: AWS CLI 다운로드 실패"; exit 1; }
+unzip "${AWS_CLI_ZIP}" || { echo "kakaocloud: AWS CLI 압축 해제 실패"; exit 1; }
 sudo ./aws/install || { echo "kakaocloud: AWS CLI 설치 실패"; exit 1; }
-rm -rf aws awscliv2.zip || { echo "kakaocloud: AWS CLI 설치 후 정리 실패"; exit 1; }
+rm -rf aws "${AWS_CLI_ZIP}" || { echo "kakaocloud: AWS CLI 설치 후 정리 실패"; exit 1; }
 AWS_VERSION=$(aws --version 2>&1 || true)
 echo "kakaocloud: AWS CLI 버전 - $AWS_VERSION"
 
