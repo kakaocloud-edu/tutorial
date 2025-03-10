@@ -96,25 +96,45 @@
          - 데이터 유형: `string`
    - - 생성 버튼 클릭
 
-## 5. Pub/Sub 메시지 확인
-1. pub/sub 연동을 통한 메시지 확인
+## 5. Pub/Sub 토픽 생성
+1. 카카오 클라우드 콘솔 > Analytics > Pub/Sub > 토픽
+2. `data-catalog-topic` 토픽 생성
+    - 토픽 생성 버튼 클릭
+        - 이름: `data-catalog-topic`
+        - 기본 서브스크립션: `생성 안함`
+        - 토픽 메세지 보존 기간: `0일 0시 10분`
+        - 설명: `없음`
+    - 생성 버튼 클릭
+3. 생성된 `data-catalog-topic` 클릭
+4. `data-catalog-topic`의 Pull 서브스크립션 생성
+    - 서브스크립션 탭 클릭
+    - 서브스크립션 생성 버튼 클릭
+        - 기본 설정
+            - 이름: `data-catalog-pull-sub`
+            - 토픽 선택: `data-catalog-topic`
+        - 유형: `Pull`
+        - 서브스크립션 메시지 보존 기간: `0일 0시 10분`
+        - 응답 대기 시간: `20초`
+        - 재처리 횟수: `횟수 지정`, `3번`
+    - 생성 버튼 클릭
+5. 서브스크립션의 Active 상태 확인
 
 
-   ### Traffic Generator VM2에서 메시지 확인 코드 실행
-   - 기존에 사용하던 `restapi_pull_sub.py`에서 subscription 이름만 `data-catalog-pull-sub`로 변경
-   - **Note**:[`restapi_pull_sub.py`](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/TrafficGenerator/REST_API/VM2/restapi_pull_sub.py) 코드 재사용
-      ```
-      cd ~/syu-DataAnalyze/TrafficGenerator/REST_API/VM2
-      ```
-      ```
-      sed -i "s/subscription_name = SUB_NAME/subscription_name = 'data-catalog-pull-sub'/g" restapi_pull_sub.py
-      ```
+## 6. 이벤트를 통한 Pub/Sub 연동 확인
+
+1. traffic-generator-2에서 이벤트 메시지 확인
+
+   - **Note**:[`data_catalog_subscribe.py`](https://github.com/kakaocloud-edu/tutorial/new/main/DataAnalyzeCourse/src/day1/Lab02) 
+
       - 터미널 CLI를 통한 메시지 수신 스크립트 실행
-      ```
-      python3 restapi_pull_sub.py
-      ```
+        ```
+        /DataAnalyzeCourse/src/day1/Lab02
+        ```
+        ```
+        python3 data_catalog_subscribe.py
+        ```
 
-1. 콘솔에서 이벤트 발생
+2. 콘솔에서 이벤트 발생
    - 데이터 속성 추가
       - `kafka_log_table` 테이블 클릭
       - 테이블 속성 탭 클릭
