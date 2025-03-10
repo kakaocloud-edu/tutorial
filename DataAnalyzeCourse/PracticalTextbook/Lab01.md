@@ -294,6 +294,7 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 통한 메시�
 
     - 아래와 같은 결과 확인
 ![15](https://github.com/user-attachments/assets/b8118722-f830-48c1-a0ec-28ea97a4c8b7)
+![16](https://github.com/user-attachments/assets/50308a92-97e5-4325-b620-5ceb457ddd37)
 
 
 ---
