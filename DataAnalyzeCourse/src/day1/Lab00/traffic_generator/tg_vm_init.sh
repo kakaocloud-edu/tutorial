@@ -1,7 +1,5 @@
 #!/bin/bash
 # tg_vm_init.sh
-# 이 스크립트는 환경 변수를 설정한 후, GitHub 저장소에서 필요한 스크립트를 다운로드하고 실행합니다.
-
 set -e  # 오류 발생 시 스크립트 종료
 
 echo "kakaocloud: 1.환경 변수 설정 시작"
