@@ -76,7 +76,7 @@
     - 자동 백업 옵션: `미사용`
 3. 만들기 버튼 클릭
 
-# 4. 자격 증명 생성
+# 4. 자격 증명 생성 (3분)
 
 1. 우측 상단 계정 프로필 > 자격 증명 > 비밀번호 확인
 2. `IAM 액세스 키 생성` 클릭
@@ -130,7 +130,7 @@
     - 적용 클릭
 
 
-# 6. 환경 변수 설정
+# 6. 환경 변수 설정 (3분)
 1. MySQL
     - 카카오 클라우드 콘솔 > Data Store > MySQL > Instance Group
     - 생성된 `database` 클릭
@@ -151,10 +151,6 @@
     - `조직 ID` , '프로젝트 ID' 복사 후 클립보드 등에 붙여넣기
     ![그림1](https://github.com/user-attachments/assets/22192309-344b-4233-becc-5b801e5e0dad)
 
-
-
-4. 카카오 클라우드 콘솔 상단 중앙의 `프로젝트 ID` 복사 후 메모장에 붙여넣기
-    - **Note**: `kakaocloud` 로고를 클릭하여 콘솔 메인화면으로 이동
 
 # 7. API Server VM 생성 (미완)
 
@@ -693,16 +689,6 @@
     
     ```bash
     yes
-    ```
-    
-    - **Note**: 윈도우에서 ssh 접근이 안될 경우에 cmd 창에서 keypair.pem가 있는 경로로 이동 후 아래 명령어 입력
-    
-    #### **lab0-9-5-5**
-    
-    ```bash
-    icacls.exe keypair.pem /reset
-    icacls.exe keypair.pem /grant:r %username%:(R)
-    icacls.exe keypair.pem /inheritance:r
     ```
 
 6. 스크립트 적용 확인
