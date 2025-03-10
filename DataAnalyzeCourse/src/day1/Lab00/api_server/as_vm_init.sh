@@ -7,7 +7,7 @@ CREDENTIAL_ID="{액세스 키 ID}"
 CREDENTIAL_SECRET="{보안 액세스 키}"
 LOGSTASH_KAFKA_ENDPOINT="{Kafka 클러스터 부트스트랩 서버}"
 
-PUBSUB_TOPIC_NAME="log-topic"
+PUBSUB_TOPIC_NAME="test-topic-lys"
 KAFKA_TOPIC_NAME="nginx-topic"
 LOGSTASH_ENV_FILE="/etc/default/logstash"
 ENV_SETUP_SCRIPT_URL="https://github.com/kakaocloud-edu/tutorial/raw/refs/heads/main/DataAnalyzeCourse/src/day1/Lab00/api_server/as_env_setup.sh"
