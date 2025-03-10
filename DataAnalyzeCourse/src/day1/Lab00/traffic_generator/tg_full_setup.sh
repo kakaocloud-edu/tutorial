@@ -29,7 +29,7 @@ if [ -d "/home/ubuntu/tutorial" ]; then
 fi
 
 echo "kakaocloud: 4. Git 클론 시작"
-cd /home/ubuntu
+cd /home/ubuntu || { echo "kakaocloud: /home/ubuntu 디렉토리 이동 실패"; exit 1; }
 git clone https://github.com/kakaocloud-edu/tutorial.git /home/ubuntu/tutorial || { echo "kakaocloud: Git 클론 실패"; exit 1; }
 
 cp -r /home/ubuntu/tutorial/DataAnalyzeCourse /home/ubuntu/ || { echo "kakaocloud: DataAnalyzeCourse 복사 실패"; exit 1; }
@@ -160,9 +160,9 @@ sudo apt install -y python3 python3-pip || { echo "kakaocloud: Python3 및 pip �
 echo "kakaocloud: 11. Python dependencies (requests, pyyaml) 설치 시작"
 sudo apt install -y python3-requests python3-yaml || { echo "kakaocloud: Python dependencies 설치 실패"; exit 1; }
 
-
 # 전체 권한 문제 방지를 위한 소유권 변경 (하위 모든 경로 적용)
-sudo chown -R ubuntu:ubuntu /home/ubuntu/go /home/ubuntu/gosdk /home/ubuntu/DataAnalyzeCourse/src/day1/Lab01/go
+sudo chown -R ubuntu:ubuntu /home/ubuntu/go /home/ubuntu/gosdk /home/ubuntu/DataAnalyzeCourse/src/day1 || { echo "kakaocloud: 소유권 변경 실패"; exit 1; }
+
 
 # --- 하단부 추가: OpenJDK 및 Apache Kafka 설치 ---
 echo "kakaocloud: 12. OpenJDK 21 설치 시작"
@@ -173,8 +173,8 @@ cd /opt || { echo "kakaocloud: /opt 디렉토리 이동 실패"; exit 1; }
 sudo wget -qO- https://archive.apache.org/dist/kafka/3.7.1/kafka_2.13-3.7.1.tgz | sudo tar -xz || { echo "kakaocloud: Kafka 압축 해제 실패"; exit 1; }
 sudo mv kafka_2.13-3.7.1 kafka || { echo "kakaocloud: Kafka 디렉토리 이름 변경 실패"; exit 1; }
 
-echo "kakaocloud: 14. kafka-python 라이브러리 설치 (작업 필요)"
-
+echo "kakaocloud: 14. kafka-python 라이브러리 설치 시작"
+sudo pip3 install kafka-python || { echo "kakaocloud: kafka-python 라이브러리 설치 실패"; exit 1; }
 
 # 현재 쉘 세션의 PATH에 변경 내용 적용
 source ~/.bashrc
