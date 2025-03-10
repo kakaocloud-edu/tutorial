@@ -48,7 +48,7 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 통한 메시�
 
 ## 2. REST API를 통한 토픽, 서브스크립션 생성
 
-1. `traffic-generator-1` 터미널 창에서 pubsub실습을 위한 디렉토리로 이동하기 위해 아래 명령어 실행
+1. `traffic-generator-1` 터미널 창에서 `Pub/Sub`실습을 위한 디렉토리로 이동하기 위해 아래 명령어 실행
     
     #### **lab1-2-1**
     
