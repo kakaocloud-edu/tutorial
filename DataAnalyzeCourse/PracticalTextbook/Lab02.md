@@ -117,32 +117,6 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     bin/kafka-topics.sh --bootstrap-server ${KAFKA_BOOTSTRAP_SERVERS} \
     --create --topic consol-topic --partitions 2 --replication-factor 2
     ```
-
-    - **Note**: `kafka-topics.sh`란?
-        - Kafka 클러스터에서 토픽을 생성, 삭제, 조회 등 토픽 관련 작업을 수행하기 위한 도구
-        ```
-        #!/bin/bash
-
-        # Apache Software Foundation (ASF) 라이선스 관련 정보를 설명하는 주석입니다.
-        # Licensed to the Apache Software Foundation (ASF) under one or more
-        # contributor license agreements.  See the NOTICE file distributed with
-        # this work for additional information regarding copyright ownership.
-        # The ASF licenses this file to You under the Apache License, Version 2.0
-        # (the "License"); you may not use this file except in compliance with
-        # the License.  You may obtain a copy of the License at
-        #
-        #    http://www.apache.org/licenses/LICENSE-2.0
-        #
-        # Unless required by applicable law or agreed to in writing, software
-        # distributed under the License is distributed on an "AS IS" BASIS,
-        # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-        # See the License for the specific language governing permissions and
-        # limitations under the License.
-
-        # 현재 스크립트와 같은 디렉터리에 있는 kafka-run-class.sh 스크립트를 호출합니다.
-        # 실행 시 전달된 모든 인자("$@")를 그대로 넘겨주며, 자바 클래스 org.apache.kafka.tools.TopicCommand를 실행합니다.
-        exec $(dirname $0)/kafka-run-class.sh org.apache.kafka.tools.TopicCommand "$@"
-        ```
     
 3. 콘솔 프로듀서 실행 후 송신할 메세지 입력 후 `Enter` 키 입력
     
@@ -185,67 +159,6 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
 
     - `traffic-generator-2` 터미널 창에서 `traffic-generator-1`에서 입력했던 메세지와 offset 수신 확인
     - `traffic-generator-2`에서 `Ctrl` + `c` 키로 종료
-    
-    - **Note**: `kafka-console-producer.sh`, `kafka-console-consumer.sh`란?
-        - `kafka-console-producer.sh`: 콘솔을 통해 Kafka 토픽으로 메시지를 전송하는 역할 수행
-            ```
-            #!/bin/bash
-    
-            # Apache Software Foundation (ASF) 라이선스 관련 정보를 설명하는 주석입니다.
-            # Licensed to the Apache Software Foundation (ASF) under one or more
-            # contributor license agreements.  See the NOTICE file distributed with
-            # this work for additional information regarding copyright ownership.
-            # The ASF licenses this file to You under the Apache License, Version 2.0
-            # (the "License"); you may not use this file except in compliance with
-            # the License.  You may obtain a copy of the License at
-            #
-            #    http://www.apache.org/licenses/LICENSE-2.0
-            #
-            # Unless required by applicable law or agreed to in writing, software
-            # distributed under the License is distributed on an "AS IS" BASIS,
-            # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-            # See the License for the specific language governing permissions and
-            # limitations under the License.
-    
-            # KAFKA_HEAP_OPTS 환경 변수가 아직 설정되지 않았다면,
-            # JVM의 최대 힙 메모리를 512MB(-Xmx512M)로 지정합니다.
-            if [ "x$KAFKA_HEAP_OPTS" = "x" ]; then
-                export KAFKA_HEAP_OPTS="-Xmx512M"
-            fi
-    
-            # kafka-run-class.sh를 호출해 kafka.tools.ConsoleProducer 클래스를 실행하며, 입력받은 인자들을 전달합니다.
-            exec $(dirname $0)/kafka-run-class.sh kafka.tools.ConsoleProducer "$@"
-            ```
-
-        - `kafka-console-consumer.sh`: 콘솔에서 Kafka 토픽의 메시지를 실시간으로 수신하는 역할을 수행
-            ```
-            #!/bin/bash
-
-            # Apache Software Foundation (ASF) 라이선스 관련 정보를 설명하는 주석입니다.
-            # Licensed to the Apache Software Foundation (ASF) under one or more
-            # contributor license agreements.  See the NOTICE file distributed with
-            # this work for additional information regarding copyright ownership.
-            # The ASF licenses this file to You under the Apache License, Version 2.0
-            # (the "License"); you may not use this file except in compliance with
-            # the License.  You may obtain a copy of the License at
-            #
-            #    http://www.apache.org/licenses/LICENSE-2.0
-            #
-            # Unless required by applicable law or agreed to in writing, software
-            # distributed under the License is distributed on an "AS IS" BASIS,
-            # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-            # See the License for the specific language governing permissions and
-            # limitations under the License.
-
-            # KAFKA_HEAP_OPTS 환경 변수가 설정되어 있지 않은 경우,
-            # JVM의 최대 힙 메모리를 512MB(-Xmx512M)로 설정합니다.
-            if [ "x$KAFKA_HEAP_OPTS" = "x" ]; then
-                export KAFKA_HEAP_OPTS="-Xmx512M"
-            fi
-
-            # kafka-run-class.sh 스크립트를 호출해 kafka.tools.ConsoleConsumer 클래스를 실행하고, 전달된 인자를 넘깁니다.
-            exec $(dirname $0)/kafka-run-class.sh kafka.tools.ConsoleConsumer "$@"
-            ```
         
 
 ## 3-2. 콘솔 스크립트로 메시지 송수신(latest 옵션)
