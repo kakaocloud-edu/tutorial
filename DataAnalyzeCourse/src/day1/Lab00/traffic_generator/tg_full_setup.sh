@@ -173,6 +173,9 @@ cd /opt || { echo "kakaocloud: /opt 디렉토리 이동 실패"; exit 1; }
 sudo wget -qO- https://archive.apache.org/dist/kafka/3.7.1/kafka_2.13-3.7.1.tgz | sudo tar -xz || { echo "kakaocloud: Kafka 압축 해제 실패"; exit 1; }
 sudo mv kafka_2.13-3.7.1 kafka || { echo "kakaocloud: Kafka 디렉토리 이름 변경 실패"; exit 1; }
 
+echo "kakaocloud: 14. kafka-python 라이브러리 설치 (작업 필요)"
+
+
 # 현재 쉘 세션의 PATH에 변경 내용 적용
 source ~/.bashrc
 
