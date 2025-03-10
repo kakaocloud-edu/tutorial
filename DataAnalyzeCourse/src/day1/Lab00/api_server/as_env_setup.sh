@@ -17,7 +17,27 @@ log() {
   echo "$MESSAGE" >> "$LOGFILE"  # 로그 파일에만 기록
 }
 
+echo "kakaocloud: 1. ~/.bashrc에 환경 변수를 설정합니다."
+
+# 여기에 이전에 as_vm_init.sh 상단에서 정의하던 값들을 모두 .bashrc에만 기록
+# (원하는 실제 값으로 교체)
+BASHRC_EXPORT=$(cat <<EOF
+export MYSQL_HOST="az-a.mysql-lys.ae90ddc1b6dc4b0581bb44b31f8921b5.mysql.managed-service.kr-central-2.kakaocloud.com"
+export DOMAIN_ID="0825c43452724d06850d0c9849b89194"
+export PROJECT_ID="ae90ddc1b6dc4b0581bb44b31f8921b5"
+export PUBSUB_TOPIC_NAME="test-topic-lys"
+export KAFKA_TOPIC_NAME="nginx-topic"
+export CREDENTIAL_ID="e4468fe6aba543cf9ed596dcb8b9f66b"
+export CREDENTIAL_SECRET="c0228b26cd4b84a9e0a9786e4591a8e96c41c032fd2d9372f66508fafd61264a5b2288"
+export LOGSTASH_KAFKA_ENDPOINT="{Kafka 클러스터 부트스트랩 서버}"
+export LOGSTASH_ENV_FILE="/etc/default/logstash"
+EOF
+)
+
+# 새로 추가된 값 반영
 source /home/ubuntu/.bashrc
+echo "kakaocloud: ~/.bashrc에 환경 변수를 추가 완료."
+
 ###############################################################################
 # 2) filebeat / logstash 설치
 ###############################################################################
