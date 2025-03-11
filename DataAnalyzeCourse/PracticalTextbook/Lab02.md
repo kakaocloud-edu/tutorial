@@ -33,22 +33,103 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
         - 볼륨 유형/크기: `SSD`/`50`
         - 최대 IOPS: `3000`
     - 생성 버튼 클릭
-3. API Server VM의 `temp-kafka-bootstrap-server` 값을 실제 Kafka 클러스터 부트스트랩 서버 값으로 수정 -> api server 부분 나중에 따로 기본 환경 설정에 넣어서 수정 예정 / logs-to-kafka.conf로 path 수정하는 부분도 같이 넣기 
+  
 
-    #### lab2-6-1-1
+## 2. Kafka 실습을 위한 API SERVER VM 설정 
+
+1. 카카오 클라우드 콘솔 > Analytics > Advanced Managed Kafka > 클러스터
+2. 위에서 생성한 `kafka` 클러스터 클릭
+    - 우측 상단의 `부트스트랩 서버` 복사 후 클립보드 등에 붙여넣기
+
+3. 카카오 클라우드 콘솔 > Beyond Compute Service > Virtual Machine > 인스턴스
+4. `api-server-1` 인스턴스의 우측 메뉴바 > `SSH 연결` 클릭
+
+    - SSH 접속 명령어 복사
+    - 터미널 열기
+    - keypair를 다운받아놓은 폴더로 이동
+    - 터미널에 명령어 붙여넣기
+    - yes 입력
+    
+    #### **lab2-2-4-1**
     
     ```bash
-    sudo sed -i 's/temp-kafka-bootstrap-server/실제 Kafka 클러스터 부트스트랩 서버값/g' /home/ubuntu/.bashrc /etc/default/logstash
+    cd {keypair.pem 다운로드 위치}
+    
+    ```
+    
+    - 리눅스의 경우에 아래와 같이 키페어의 권한을 조정
+    
+    #### **lab2-2-4-2**
+    
+    ```bash
+    chmod 400 keypair.pem
+    
+    ```
+    
+    #### **lab2-2-4-3**
+    
+    ```bash
+    ssh -i keypair.pem ubuntu@{api-server-1의 public ip 주소}
+    
+    ```
+    
+    - **Note**: {api-server-1의 public ip 주소} 부분을 복사한 각 IP 주소로 교체하세요.
+    
+    #### **lab2-2-4-4**
+    
+    ```bash
+    yes
+    
+    ```
+    
+    - **Note**: 윈도우에서 ssh 접근이 안될 경우에 cmd 창에서 keypair.pem가 있는 경로로 이동 후 아래 명령어 입력
+    
+    #### **lab2-2-4-5**
+    
+    ```bash
+    icacls.exe keypair.pem /reset
+    icacls.exe keypair.pem /grant:r %username%:(R)
+    icacls.exe keypair.pem /inheritance:r
     ```
 
 
-## 2. Kafka 기본 환경 설정
+5. API Server VM의 `temp-kafka-bootstrap-server` 값을 실제 생성된 Kafka 클러스터 부트스트랩 서버 값으로 수정 
 
+    #### lab2-2-5
+    
+    ```bash
+    sudo sed -i 's/temp-kafka-bootstrap-server/{실제 Kafka 클러스터 부트스트랩 서버값}/g' /home/ubuntu/.bashrc /etc/default/logstash
+    ```
+    - {실제 Kafka 클러스터 부트스트랩 서버값}을 개인 환경에 맞게 수정 필요
 
+6. `api-server-1`에서 Logstash 설정 파일을 수정하여 Kafka로 송신하도록 설정
+
+    #### lab2-2-6-1
+   
+    ```
+    sudo sed -i 's/logs-to-pubsub.conf/logs-to-kafka.conf/g' /etc/logstash/logstash.yml
+    ```
+
+    - Logstash 재실행 및 상태 확인
     
-5. ~/.bashrc에 환경 변수 및 부트스트랩 서버 주소를 설정하여 Kafka 실행에 필요한 경로와 정보 등록
+    #### lab2-2-6-2
     
-    #### lab2-6-3-1
+    ```bash
+    sudo systemctl restart logstash
+    ```
+    ```bash
+    sudo systemctl status logstash
+    ```
+
+    - `Active:active (running)` 확인
+    - 아래 결과 확인
+    
+
+## 3. Kafka 기본 환경 설정
+
+1. `traffic-generator-1, 2`에서 ~/.bashrc에 환경 변수 및 부트스트랩 서버 주소를 설정하여 Kafka 실행에 필요한 경로와 정보 등록
+    
+    #### lab2-3-1-1
    - **Note**: `{Kafka 부트스트랩 서버}`: `kafka` 클러스터의 부트스트랩 서버 입력
    - **Note**: `{Kafka 부트스트랩 서버}` 개인 환경에 맞게 수정 필수
     
@@ -61,16 +142,17 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     ```
     
 
-   #### lab2-6-3-2
+   #### lab2-6-1-2
+    - 수정한 환경 변수 값 적용
     
     ```bash
     source ~/.bashrc
     ```
     
     
-7. Kafka 클러스터와 통신 확인
+2. Kafka 클러스터와 통신 확인
     
-    #### lab2-2-5
+    #### lab2-3-2
     - **Note**: `traffic-generator-1, 2`에서 진행
     - **Note**: 콤마(,) 기준으로 앞뒤의 kafka 클러스터의 부트스트랩 서버 주소 하나씩 입력
     - **Note**: 포트 번호 입력 시 콜론(:) 대신 공백(space) 넣은 후 진행
@@ -259,26 +341,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
         ```
 
 
-3. `api-server-1`에서 Logstash 설정 파일을 수정하여 Kafka로 송신하도록 설정
 
-    #### lab2-6-3
-   
-    ```
-    sudo sed -i 's/logs-to-pubsub.conf/logs-to-kafka.conf/g' /etc/logstash/logstash.yml
-    ```
-
-4. Logstash 재실행 및 상태 확인
-    
-    #### lab2-6-4
-    
-    ```bash
-    sudo systemctl restart logstash
-    ```
-    ```bash
-    sudo systemctl status logstash
-    ```
-
-    - `Active:active (running)` 확인
     
 5. `trarffic-generator-2`에서 콘솔 컨슈머 실행
     
