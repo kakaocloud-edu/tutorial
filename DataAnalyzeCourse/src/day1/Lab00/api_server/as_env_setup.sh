@@ -125,7 +125,7 @@ fi
 
 
 ###############################################################################
-# 5) main_script.sh & setup_db.sh 다운로드, 실행
+# 5) api_full_setup.sh & setup_db.sh 다운로드, 실행
 ###############################################################################
 log "kakaocloud: 5. 스크립트 다운로드 링크 유효성 체크"
 
@@ -168,15 +168,15 @@ sudo cp /home/ubuntu/tutorial/DataAnalyzeCourse/src/day1/Lab00/api_server/logs-t
     echo "kakaocloud: Failed to copy logs-to-kafka.conf"; exit 1;
 }
 
-chmod +x main_script.sh setup_db.sh \
-  || { log "kakaocloud: Failed to chmod main_script.sh or setup_db.sh"; exit 1; }
+chmod +x api_full_setup.sh setup_db.sh \
+  || { log "kakaocloud: Failed to chmod api_full_setup.sh or setup_db.sh"; exit 1; }
 
-log "kakaocloud: Executing main_script.sh & setup_db.sh"
-sudo -E /home/ubuntu/main_script.sh \
-  || { log "kakaocloud: main_script.sh execution failed"; exit 1; }
+log "kakaocloud: Executing api_full_setup.sh & setup_db.sh"
+sudo -E /home/ubuntu/api_full_setup.sh \
+  || { log "kakaocloud: api_full_setup.sh execution failed"; exit 1; }
 sudo -E /home/ubuntu/setup_db.sh \
   || { log "kakaocloud: setup_db.sh execution failed"; exit 1; }
-log "kakaocloud: main_script.sh & setup_db.sh 완료"
+log "kakaocloud: api_full_setup.sh & setup_db.sh 완료"
 
 sudo tee /etc/logstash/logstash.yml <<'EOF' > /dev/null \
   || { log "kakaocloud: Failed to write logstash.yml"; exit 1; }
