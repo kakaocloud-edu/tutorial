@@ -129,23 +129,16 @@ fi
 ###############################################################################
 log "kakaocloud: 5. 스크립트 다운로드 링크 유효성 체크"
 
-# /home/ubuntu/tutorial 디렉터리가 없으면 clone, 있으면 스킵
-if [ ! -d "/home/ubuntu/tutorial" ]; then
-    sudo git clone https://github.com/kakaocloud-edu/tutorial.git /home/ubuntu/tutorial || {
-        echo "kakaocloud: Failed to git clone"; exit 1;
-    }
-else
-    echo "kakaocloud: /home/ubuntu/tutorial already exists, skipping clone"
-fi
+curl --output /dev/null --silent --head --fail "https://github.com/kakaocloud-edu/tutorial/raw/refs/heads/main/DataAnalyzeCourse/src/day1/Lab00/api_server/api_full_setup.sh" \
+  || { log "kakaocloud: main_script.sh 링크가 유효하지 않습니다"; exit 1; }
+curl --output /dev/null --silent --head --fail "https://github.com/kakaocloud-edu/tutorial/raw/refs/heads/main/DataAnalyzeCourse/src/day1/Lab00/api_server/setup_db.sh" \
+  || { log "kakaocloud: setup_db.sh 링크가 유효하지 않습니다"; exit 1; }
 
-# DataAnalyzeCourse/src/day1/Lab00/api_server 폴더가 누락되었으면 재시도
-if [ ! -d "/home/ubuntu/tutorial/DataAnalyzeCourse/src/day1/Lab00/api_server" ]; then
-    echo "kakaocloud: The previous clone seems incomplete, re-cloning..."
-    sudo rm -rf /home/ubuntu/tutorial
-    sudo git clone https://github.com/kakaocloud-edu/tutorial.git /home/ubuntu/tutorial || {
-        echo "kakaocloud: Failed to git clone"; exit 1;
-    }
-fi
+log "kakaocloud: main_script.sh & setup_db.sh 링크 모두 유효"
+
+sudo git clone https://github.com/kakaocloud-edu/tutorial.git /home/ubuntu/tutorial || {
+    log "kakaocloud: Failed to git clone"; exit 1;
+}
 
 # 1) api_full_setup.sh, setup_db.sh → /home/ubuntu
 sudo cp /home/ubuntu/tutorial/DataAnalyzeCourse/src/day1/Lab00/api_server/api_full_setup.sh /home/ubuntu/api_full_setup.sh || {
@@ -154,6 +147,16 @@ sudo cp /home/ubuntu/tutorial/DataAnalyzeCourse/src/day1/Lab00/api_server/api_fu
 sudo cp /home/ubuntu/tutorial/DataAnalyzeCourse/src/day1/Lab00/api_server/setup_db.sh /home/ubuntu/setup_db.sh || {
     echo "kakaocloud: Failed to copy setup_db.sh"; exit 1;
 }
+
+chmod +x main_script.sh setup_db.sh \
+  || { log "kakaocloud: Failed to chmod main_script.sh or setup_db.sh"; exit 1; }
+
+log "kakaocloud: Executing main_script.sh & setup_db.sh"
+sudo -E ./main_script.sh \
+  || { log "kakaocloud: main_script.sh execution failed"; exit 1; }
+sudo -E ./setup_db.sh \
+  || { log "kakaocloud: setup_db.sh execution failed"; exit 1; }
+log "kakaocloud: main_script.sh & setup_db.sh 완료"
 
 # 2) filebeat.yml → /etc/filebeat
 sudo cp /home/ubuntu/tutorial/DataAnalyzeCourse/src/day1/Lab00/api_server/filebeat.yml /etc/filebeat/filebeat.yml || {
@@ -168,16 +171,6 @@ sudo cp /home/ubuntu/tutorial/DataAnalyzeCourse/src/day1/Lab00/api_server/logs-t
     echo "kakaocloud: Failed to copy logs-to-kafka.conf"; exit 1;
 }
 
-chmod +x main_script.sh setup_db.sh \
-  || { log "kakaocloud: Failed to chmod main_script.sh or setup_db.sh"; exit 1; }
-
-log "kakaocloud: Executing main_script.sh & setup_db.sh"
-sudo -E /home/ubuntu/main_script.sh \
-  || { log "kakaocloud: main_script.sh execution failed"; exit 1; }
-sudo -E /home/ubuntu/setup_db.sh \
-  || { log "kakaocloud: setup_db.sh execution failed"; exit 1; }
-log "kakaocloud: main_script.sh & setup_db.sh 완료"
-
 sudo tee /etc/logstash/logstash.yml <<'EOF' > /dev/null \
   || { log "kakaocloud: Failed to write logstash.yml"; exit 1; }
 path.data: /var/lib/logstash
@@ -191,10 +184,5 @@ sudo systemctl restart filebeat \
   || { log "kakaocloud: Failed to restart filebeat"; exit 1; }
 sudo systemctl restart logstash \
   || { log "kakaocloud: Failed to restart logstash"; exit 1; }
-
-# 실습에 사용되는 폴더만 남기기 위해 tutorial 리포지토리 삭제
-sudo rm -rf /home/ubuntu/tutorial || {
-    log "kakaocloud: Failed to remove the tutorial repository"; exit 1;
-}
 
 log "kakaocloud: All steps in as_env_setup.sh have completed successfully"
