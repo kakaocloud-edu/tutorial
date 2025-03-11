@@ -5,8 +5,9 @@ export PROJECT_ID="{프로젝트 ID}"
 export CREDENTIAL_ID="{액세스 키 ID}"
 export CREDENTIAL_SECRET="{보안 액세스 키}"
 export MYSQL_HOST="{MySQL 엔드포인트}"
-export LOGSTASH_KAFKA_ENDPOINT="{임시 Kafka 클러스터 부트스트랩 서버}"
 
+
+export LOGSTASH_KAFKA_ENDPOINT="temp.kafka.bootstrap.server:9092"
 export PUBSUB_TOPIC_NAME="test-topic-lys"
 export KAFKA_TOPIC_NAME="nginx-topic"
 export LOGSTASH_ENV_FILE="/etc/default/logstash"
