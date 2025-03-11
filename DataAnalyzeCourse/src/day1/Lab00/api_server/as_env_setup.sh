@@ -166,7 +166,7 @@ sudo cp /home/ubuntu/tutorial/DataAnalyzeCourse/src/day1/Lab00/api_server/logs-t
     echo "kakaocloud: Failed to copy logs-to-kafka.conf"; exit 1;
 }
 
-chmod +x api_full_setup.sh setup_db.sh \
+sudo chmod +x /home/ubuntu/api_full_setup.sh /home/ubuntu/setup_db.sh \
   || { log "kakaocloud: Failed to chmod api_full_setup.sh or setup_db.sh"; exit 1; }
 
 log "kakaocloud: Executing api_full_setup.sh & setup_db.sh"
