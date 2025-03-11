@@ -1,4 +1,4 @@
-![4](https://github.com/user-attachments/assets/92eaa4f5-39a4-4bb1-8eea-91c1ce78441e)![2](https://github.com/user-attachments/assets/ba34679c-db4e-418d-8369-87acf6b722b1)# Kafka 기반 데이터 스트리밍 및 Object Storage 연동
+# Kafka 기반 데이터 스트리밍 및 Object Storage 연동
 
 Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·처리하는 과정을 다룹니다. 또한, Kafka Connect와 S3 Sink Connector를 이용해 수집된 데이터를 Object Storage에 저장하는 방법을 실습합니다.
 
