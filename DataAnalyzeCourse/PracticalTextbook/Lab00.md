@@ -195,7 +195,7 @@
             export MYSQL_HOST="{MySQL 엔드포인트}"
             
             export LOGSTASH_KAFKA_ENDPOINT="temp-kafka-bootstrap-server"
-            export PUBSUB_TOPIC_NAME="test-topic-lys"
+            export PUBSUB_TOPIC_NAME="test-topic"
             export KAFKA_TOPIC_NAME="nginx-topic"
             export LOGSTASH_ENV_FILE="/etc/default/logstash"
             export ENV_SETUP_SCRIPT_URL="https://github.com/kakaocloud-edu/tutorial/raw/refs/heads/main/DataAnalyzeCourse/src/day1/Lab00/api_server/as_env_setup.sh"
