@@ -371,7 +371,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     - 아래 결과 확인(사진 넣을 예정)
    
     
-# 5. S3 Sink Connector 생성
+# 5. S3 Sink Connector 생성 -> Kafka Connector ssh 연결 넣어야함
 
 1. 버킷에 쓰기 권한 부여
 
