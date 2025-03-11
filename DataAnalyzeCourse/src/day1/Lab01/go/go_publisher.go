@@ -21,9 +21,7 @@ func main() {
     credentialID := config.Pubsub.CredentialID // config.Pubsub.CredentialID로 변경
     credentialSecret := config.Pubsub.CredentialSecret // config.Pubsub.CredentialSecret으로 변경
 
-    // 액세스 키 생성 (확인용 로그 추가)
-    log.Printf("Using CredentialID: %s, CredentialSecret: %s", credentialID, credentialSecret)
-
+    // 액세스 키 생성
     accessKey := pubsub.AccessKey{
         CredentialID:     credentialID,
         CredentialSecret: credentialSecret,
