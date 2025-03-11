@@ -67,16 +67,6 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     source ~/.bashrc
     ```
     
-6. kafka-python 라이브러리 설치
-    
-    #### lab2-2-4
-    
-    ```bash
-    sudo apt update
-    ```
-    ```bash
-    sudo pip3 install kafka-python
-    ```
     
 7. Kafka 클러스터와 통신 확인
     
