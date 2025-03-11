@@ -33,7 +33,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
         - 볼륨 유형/크기: `SSD`/`50`
         - 최대 IOPS: `3000`
     - 생성 버튼 클릭
-3. API Server VM의 `{임시 Kafka 클러스터 부트스트랩 서버}` 값을 실제 Kafka 클러스터 부트스트랩 서버 값으로 수정
+3. API Server VM의 `{임시 Kafka 클러스터 부트스트랩 서버}` 값을 실제 Kafka 클러스터 부트스트랩 서버 값으로 수정 -> api server 부분 나중에 따로 기본 환경 설정에 넣어서 수정 예정 / logs-to-kafka.conf로 path 수정하는 부분도 같이 넣기 
 
     #### lab2-6-1-1
     
