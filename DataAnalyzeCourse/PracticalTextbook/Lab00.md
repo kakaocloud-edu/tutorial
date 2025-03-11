@@ -187,7 +187,7 @@
         - 사용자 스크립트: [`api_vm_init`](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day1/Lab00/api_server/as_vm_init.sh)의 쌍따옴표(“”) 사이에 자신의 리소스 값 입력
             ```
             #!/bin/bash
-    
+            
             export DOMAIN_ID="{조직 ID}"
             export PROJECT_ID="{프로젝트 ID}"
             export CREDENTIAL_ID="{액세스 키 ID}"
@@ -425,7 +425,7 @@
                 - 사용자 스크립트: [`kafka_vm_init.sh`](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day1/Lab00/kafka/kafka_vm_init.sh)의 쌍따옴표(“”) 사이에 자신의 리소스 값 입력
                   ```
                   #!/bin/bash
-                   
+                  
                   echo "kakaocloud: 1.환경 변수 설정 시작"
                   
                   cat <<'EOF' > /tmp/env_vars.sh
