@@ -400,68 +400,68 @@
         - 기본 정보
             - 이름: `kafka-connector`
             - 개수: `1`
-        - 이미지: `Ubuntu 22.04`
-        - 인스턴스유형: `m2a.xlarge`
-        - 볼륨: `10`
-        - 키 페어: 위에서 생성한 `keypair`
-        - 네트워크
-            - VPC: `kc-vpc`
-            - 서브넷: `kr-central-2-a의 Public 서브넷`
+            - 이미지: `Ubuntu 22.04`
+            - 인스턴스유형: `m2a.xlarge`
+            - 볼륨: `10`
+            - 키 페어: 위에서 생성한 `keypair`
+            - 네트워크
+                - VPC: `kc-vpc`
+                - 서브넷: `kr-central-2-a의 Public 서브넷`
             - 유형: `새 인터페이스`
             - IP 할당 방식: `자동`
             - 보안 그룹
-                - **Note**: 기존에 Traffic Generator VM에서 사용한 보안그룹 사용
+            - **Note**: 기존에 Traffic Generator VM에서 사용한 보안그룹 사용
                 - 보안 그룹 이름: `tg-sg` 선택
                     - 인바운드 규칙
                         - 프로토콜: TCP, 출발지: 0.0.0.0/0, 포트 번호: `22`
                         - 프로토콜: TCP, 출발지: 0.0.0.0/0, 포트 번호: `9092`
                     - 아웃바운드 규칙
                         - 프로토콜: ALL, 출발지: 0.0.0.0/0, 포트 번호: `ALL`
-    
-        - 고급 설정
-            - 아래 스크립트 입력
-            - **Note**: 메모장에 아래 링크의 코드를 복사 붙여넣기 하여 사용
-            - **Note**: 중괄호({})는 제거하고 쌍 따옴표는 유지
-            - 사용자 스크립트: [`kafka_vm_init.sh`](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day1/Lab00/kafka/kafka_vm_init.sh)의 쌍따옴표(“”) 사이에 자신의 리소스 값 입력
-              ```
-              #!/bin/bash
+        
+            - 고급 설정
+                - 아래 스크립트 입력
+                - **Note**: 메모장에 아래 링크의 코드를 복사 붙여넣기 하여 사용
+                - **Note**: 중괄호({})는 제거하고 쌍 따옴표는 유지
+                - 사용자 스크립트: [`kafka_vm_init.sh`](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day1/Lab00/kafka/kafka_vm_init.sh)의 쌍따옴표(“”) 사이에 자신의 리소스 값 입력
+                  ```
+                  #!/bin/bash
+                    
+                  ################################################################################
+                  # 0. 초기 설정
+                  ################################################################################
+                  
+                  echo "kakaocloud: 1.환경 변수 설정 시작"
+                  # 환경 변수 정의
+                  command=$(cat <<EOF
+                  # Kafka용 설정 변수
+                  KAFKA_BOOTSTRAP_SERVER="{Kafka 부트스트랩 서버}"
+                  BUCKET_NAME="data-catalog"
+                    
+                  # Kakao i Cloud S3 Credentials 및 Kafka 관련 변수 설정
+                  AWS_ACCESS_KEY_ID_VALUE="{콘솔에서 발급한 S3 액세스 키의 인증 키 값}"
+                  AWS_SECRET_ACCESS_KEY_VALUE="{콘솔에서 발급한 S3 액세스 키의 보안 액세스 키 값}"
+                  AWS_DEFAULT_REGION_VALUE="kr-central-2"
+                  AWS_DEFAULT_OUTPUT_VALUE="json"
+                  
+                  
+                  LOGFILE="/home/ubuntu/setup.log"
+                  EOF
+                  )
+                  
+                  # 환경 변수 적용
+                  eval "$command"
+                  echo "$command" >> /home/ubuntu/.bashrc
+                  
+                  
+                  echo "kakaocloud: 2.스크립트 다운로드 사이트 유효성 검사 시작"
+                  curl --output /dev/null --silent --head --fail "https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day1/Lab00/kafka/kafka_full_setup.sh" || { echo "kakaocloud: Script download site is not valid"; exit 1; }
+                  
+                  wget https://raw.githubusercontent.com/kakaocloud-edu/tutorial/refs/heads/main/DataAnalyzeCourse/src/day1/Lab00/kafka/kafka_vm_init
+                  chmod +x kafka_vm_init
+                  sudo -E ./kafka_vm_init
+                  ```
                 
-              ################################################################################
-              # 0. 초기 설정
-              ################################################################################
-              
-              echo "kakaocloud: 1.환경 변수 설정 시작"
-              # 환경 변수 정의
-              command=$(cat <<EOF
-              # Kafka용 설정 변수
-              KAFKA_BOOTSTRAP_SERVER="{Kafka 부트스트랩 서버}"
-              BUCKET_NAME="data-catalog"
-                
-              # Kakao i Cloud S3 Credentials 및 Kafka 관련 변수 설정
-              AWS_ACCESS_KEY_ID_VALUE="{콘솔에서 발급한 S3 액세스 키의 인증 키 값}"
-              AWS_SECRET_ACCESS_KEY_VALUE="{콘솔에서 발급한 S3 액세스 키의 보안 액세스 키 값}"
-              AWS_DEFAULT_REGION_VALUE="kr-central-2"
-              AWS_DEFAULT_OUTPUT_VALUE="json"
-              
-              
-              LOGFILE="/home/ubuntu/setup.log"
-              EOF
-              )
-              
-              # 환경 변수 적용
-              eval "$command"
-              echo "$command" >> /home/ubuntu/.bashrc
-              
-              
-              echo "kakaocloud: 2.스크립트 다운로드 사이트 유효성 검사 시작"
-              curl --output /dev/null --silent --head --fail "https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day1/Lab00/kafka/kafka_full_setup.sh" || { echo "kakaocloud: Script download site is not valid"; exit 1; }
-              
-              wget https://raw.githubusercontent.com/kakaocloud-edu/tutorial/refs/heads/main/DataAnalyzeCourse/src/day1/Lab00/kafka/kafka_vm_init
-              chmod +x kafka_vm_init
-              sudo -E ./kafka_vm_init
-              ```
-            
-            - CPU 멀티스레딩: `활성화`
+                - CPU 멀티스레딩: `활성화`
         
     - 생성 버튼 클릭
 3. `kafka-connector` 상태 Actice 확인 후 인스턴스의 우측 메뉴바 > `Public IP 연결` 클릭
