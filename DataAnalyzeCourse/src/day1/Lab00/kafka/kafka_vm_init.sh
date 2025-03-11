@@ -3,13 +3,13 @@
 echo "kakaocloud: 1.환경 변수 설정 시작"
 
 cat <<'EOF' > /tmp/env_vars.sh
-KAFKA_BOOTSTRAP_SERVER="{Kafka 부트스트랩 서버}"
-AWS_ACCESS_KEY_ID_VALUE="{콘솔에서 발급한 S3 액세스 키의 인증 키 값}"
-AWS_SECRET_ACCESS_KEY_VALUE="{콘솔에서 발급한 S3 액세스 키의 보안 액세스 키 값}"
-BUCKET_NAME="data-catalog"
-AWS_DEFAULT_REGION_VALUE="kr-central-2"
-AWS_DEFAULT_OUTPUT_VALUE="json"
-LOGFILE="/home/ubuntu/setup.log"
+export KAFKA_BOOTSTRAP_SERVER="{Kafka 부트스트랩 서버}"
+export AWS_ACCESS_KEY_ID_VALUE="{콘솔에서 발급한 S3 액세스 키의 인증 키 값}"
+export AWS_SECRET_ACCESS_KEY_VALUE="{콘솔에서 발급한 S3 액세스 키의 보안 액세스 키 값}"
+export BUCKET_NAME="data-catalog"
+export AWS_DEFAULT_REGION_VALUE="kr-central-2"
+export AWS_DEFAULT_OUTPUT_VALUE="json"
+export LOGFILE="/home/ubuntu/setup.log"
 EOF
 
 # 환경 변수 적용 
