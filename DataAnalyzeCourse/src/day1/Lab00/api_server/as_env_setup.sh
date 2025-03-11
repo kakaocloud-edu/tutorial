@@ -2,7 +2,6 @@
 
 # 하나라도 실패하면 종료
 set -e
-# 파이프라인 중 하나라도 실패하면 전체 실패
 set -o pipefail
 
 ###############################################################################
@@ -13,11 +12,11 @@ LOGFILE="/home/ubuntu/as_script.log"
 # log 함수: 메시지를 화면 + 로그 파일에 동시에 출력
 log() {
   local MESSAGE="[`date '+%Y-%m-%d %H:%M:%S'`] $1"
-  echo "$MESSAGE"            # 화면에 출력
-  echo "$MESSAGE" >> "$LOGFILE"  # 로그 파일에만 기록
+  echo "$MESSAGE"
+  echo "$MESSAGE" >> "$LOGFILE"
 }
 
-echo "kakaocloud: 1. ~/.bashrc에 환경 변수를 설정합니다."
+echo "kakaocloud: 1. Writing environment variables to ~/.bashrc"
 
 BASHRC_EXPORT=$(cat <<EOF
 export MYSQL_HOST="$MYSQL_HOST"
@@ -36,15 +35,16 @@ echo "$BASHRC_EXPORT" >> /home/ubuntu/.bashrc
 
 # 새로 추가된 값 반영
 source /home/ubuntu/.bashrc
-echo "kakaocloud: ~/.bashrc에 환경 변수를 추가 완료."
+echo "kakaocloud: ~/.bashrc updated with environment variables."
 
 ###############################################################################
-# 2) filebeat / logstash 설치
+# 2) filebeat / logstash 설치 (기존 로직 그대로)
 ###############################################################################
-log "kakaocloud: 2. filebeat / logstash 설치 후 환경 변수 추가"
+log "kakaocloud: 2. Installing filebeat/logstash and appending environment variables"
 
 curl -fsSL https://artifacts.elastic.co/GPG-KEY-elasticsearch | sudo apt-key add - \
   || { log "kakaocloud: Failed to add Elasticsearch GPG key"; exit 1; }
+
 echo "deb https://artifacts.elastic.co/packages/7.x/apt stable main" \
   | sudo tee /etc/apt/sources.list.d/beats.list > /dev/null \
   || { log "kakaocloud: Failed to add beats.list"; exit 1; }
@@ -56,12 +56,12 @@ sudo apt-get install -y filebeat logstash \
 
 sudo systemctl enable filebeat \
   || { log "kakaocloud: Failed to enable filebeat"; exit 1; }
-sudo systemctl start filebeat  \
+sudo systemctl start filebeat \
   || { log "kakaocloud: Failed to start filebeat"; exit 1; }
 
 sudo systemctl enable logstash \
   || { log "kakaocloud: Failed to enable logstash"; exit 1; }
-sudo systemctl start logstash  \
+sudo systemctl start logstash \
   || { log "kakaocloud: Failed to start logstash"; exit 1; }
 
 sudo chmod 777 /etc/default/logstash \
@@ -87,11 +87,10 @@ sudo systemctl daemon-reload \
 sudo systemctl restart logstash \
   || { log "kakaocloud: Failed to restart logstash"; exit 1; }
 
-log "kakaocloud: filebeat / logstash 설치 및 환경 변수 설정 완료"
-
+log "kakaocloud: filebeat / logstash installation and environment variable configuration complete"
 
 ###############################################################################
-# 4) (선택) Flask 앱 서비스(flask_app.service)에 같은 변수 쓰기
+# 4) (선택) Flask 앱 서비스
 ###############################################################################
 SERVICE_FILE="/etc/systemd/system/flask_app.service"
 OVERRIDE_DIR="/etc/systemd/system/flask_app.service.d"
@@ -118,71 +117,71 @@ EOF
     || { log "kakaocloud: Failed systemctl daemon-reload for flask_app"; exit 1; }
   sudo systemctl restart flask_app \
     || { log "kakaocloud: Failed to restart flask_app.service"; exit 1; }
-  log "kakaocloud: flask_app.service 재시작 완료"
+  log "kakaocloud: flask_app.service restarted"
 else
-  log "kakaocloud: flask_app.service가 없어 override를 생략합니다."
+  log "kakaocloud: flask_app.service does not exist, skipping override"
 fi
-
 
 ###############################################################################
-# 5) main_script.sh & setup_db.sh 다운로드, 실행
+# 5) main_script.sh & setup_db.sh (Sparse-checkout로 api_server 폴더만 가져옴)
 ###############################################################################
-log "kakaocloud: 5. 스크립트 다운로드 링크 유효성 체크"
+log "kakaocloud: 5. Checking out only 'DataAnalyzeCourse/src/day1/Lab00/api_server' folder using git sparse-checkout"
 
-# /home/ubuntu/tutorial 디렉터리가 없으면 clone, 있으면 스킵
-if [ ! -d "/home/ubuntu/tutorial" ]; then
-    sudo git clone https://github.com/kakaocloud-edu/tutorial.git /home/ubuntu/tutorial || {
-        echo "kakaocloud: Failed to git clone"; exit 1;
-    }
+# 1) sparse-checkout 준비: lab0-api-server 디렉터리에 git init
+if [ ! -d "/home/ubuntu/lab0-api-server/.git" ]; then
+  mkdir -p /home/ubuntu/lab0-api-server
+  cd /home/ubuntu/lab0-api-server
+  git init
+  git remote add origin https://github.com/kakaocloud-edu/tutorial.git
+  git config core.sparseCheckout true
+
+  # sparse-checkout 설정: 필요한 폴더만
+  echo "DataAnalyzeCourse/src/day1/Lab00/api_server" >> .git/info/sparse-checkout
+
+  # main 브랜치(또는 필요한 브랜치) pull
+  git pull origin main
 else
-    echo "kakaocloud: /home/ubuntu/tutorial already exists, skipping clone"
+  # 이미 sparse-checkout이 완료된 상태라면 pull 업데이트
+  cd /home/ubuntu/lab0-api-server
+  git pull origin main
 fi
 
-# DataAnalyzeCourse/src/day1/Lab00/api_server 폴더가 누락되었으면 재시도
-if [ ! -d "/home/ubuntu/tutorial/DataAnalyzeCourse/src/day1/Lab00/api_server" ]; then
-    echo "kakaocloud: The previous clone seems incomplete, re-cloning..."
-    sudo rm -rf /home/ubuntu/tutorial
-    sudo git clone https://github.com/kakaocloud-edu/tutorial.git /home/ubuntu/tutorial || {
-        echo "kakaocloud: Failed to git clone"; exit 1;
-    }
-fi
-
-# 1) api_full_setup.sh, setup_db.sh → /home/ubuntu
-sudo cp /home/ubuntu/tutorial/DataAnalyzeCourse/src/day1/Lab00/api_server/api_full_setup.sh /home/ubuntu/api_full_setup.sh || {
-    echo "kakaocloud: Failed to copy api_full_setup.sh"; exit 1;
+# 2) 이제 /home/ubuntu/lab0-api-server/DataAnalyzeCourse/src/day1/Lab00/api_server 안에 필요한 파일 존재
+sudo cp /home/ubuntu/lab0-api-server/DataAnalyzeCourse/src/day1/Lab00/api_server/api_full_setup.sh /home/ubuntu/api_full_setup.sh || {
+  log "Failed to copy api_full_setup.sh"
+  exit 1
 }
-sudo cp /home/ubuntu/tutorial/DataAnalyzeCourse/src/day1/Lab00/api_server/setup_db.sh /home/ubuntu/setup_db.sh || {
-    echo "kakaocloud: Failed to copy setup_db.sh"; exit 1;
+sudo cp /home/ubuntu/lab0-api-server/DataAnalyzeCourse/src/day1/Lab00/api_server/setup_db.sh /home/ubuntu/setup_db.sh || {
+  log "Failed to copy setup_db.sh"
+  exit 1
 }
-
-# 2) filebeat.yml → /etc/filebeat
-sudo cp /home/ubuntu/tutorial/DataAnalyzeCourse/src/day1/Lab00/api_server/filebeat.yml /etc/filebeat/filebeat.yml || {
-    echo "kakaocloud: Failed to copy filebeat.yml"; exit 1;
+sudo cp /home/ubuntu/lab0-api-server/DataAnalyzeCourse/src/day1/Lab00/api_server/filebeat.yml /etc/filebeat/filebeat.yml || {
+  log "Failed to copy filebeat.yml"
+  exit 1
 }
-
-# 3) logs-to-pubsub.conf, logs-to-kafka.conf → /etc/logstash/conf.d
-sudo cp /home/ubuntu/tutorial/DataAnalyzeCourse/src/day1/Lab00/api_server/logs-to-pubsub.conf /etc/logstash/conf.d/logs-to-pubsub.conf || {
-    echo "kakaocloud: Failed to copy logs-to-pubsub.conf"; exit 1;
+sudo cp /home/ubuntu/lab0-api-server/DataAnalyzeCourse/src/day1/Lab00/api_server/logs-to-pubsub.conf /etc/logstash/conf.d/logs-to-pubsub.conf || {
+  log "Failed to copy logs-to-pubsub.conf"
+  exit 1
 }
-sudo cp /home/ubuntu/tutorial/DataAnalyzeCourse/src/day1/Lab00/api_server/logs-to-kafka.conf /etc/logstash/conf.d/logs-to-kafka.conf || {
-    echo "kakaocloud: Failed to copy logs-to-kafka.conf"; exit 1;
+sudo cp /home/ubuntu/lab0-api-server/DataAnalyzeCourse/src/day1/Lab00/api_server/logs-to-kafka.conf /etc/logstash/conf.d/logs-to-kafka.conf || {
+  log "Failed to copy logs-to-kafka.conf"
+  exit 1
 }
 
-# 원하는 폴더만 남기기 위해 tutorial 리포지토리 삭제
-sudo rm -rf /home/ubuntu/tutorial || {
-    log "kakaocloud: Failed to remove the tutorial repository"; exit 1;
-}
+chmod +x /home/ubuntu/api_full_setup.sh /home/ubuntu/setup_db.sh \
+  || { log "Failed to chmod main_script.sh or setup_db.sh"; exit 1; }
 
-chmod +x main_script.sh setup_db.sh \
-  || { log "kakaocloud: Failed to chmod main_script.sh or setup_db.sh"; exit 1; }
-
-log "kakaocloud: Executing main_script.sh & setup_db.sh"
-sudo -E ./main_script.sh \
-  || { log "kakaocloud: main_script.sh execution failed"; exit 1; }
+log "kakaocloud: Executing main_script.sh & setup_db.sh with environment variables"
+cd /home/ubuntu
+sudo -E ./api_full_setup.sh \
+  || { log "kakaocloud: api_full_setup.sh execution failed"; exit 1; }
 sudo -E ./setup_db.sh \
   || { log "kakaocloud: setup_db.sh execution failed"; exit 1; }
-log "kakaocloud: main_script.sh & setup_db.sh 완료"
+log "kakaocloud: main_script.sh & setup_db.sh completed"
 
+###############################################################################
+# 6) Additional logstash.yml overwrite
+###############################################################################
 sudo tee /etc/logstash/logstash.yml <<'EOF' > /dev/null \
   || { log "kakaocloud: Failed to write logstash.yml"; exit 1; }
 path.data: /var/lib/logstash
@@ -190,7 +189,7 @@ path.logs: /var/log/logstash
 path.config: /etc/logstash/conf.d/logs-to-pubsub.conf
 EOF
 
-log "kakaocloud: 파일 다운로드 및 logstash.yml 구성 완료"
+log "kakaocloud: Overwrote /etc/logstash/logstash.yml"
 
 sudo systemctl restart filebeat \
   || { log "kakaocloud: Failed to restart filebeat"; exit 1; }
