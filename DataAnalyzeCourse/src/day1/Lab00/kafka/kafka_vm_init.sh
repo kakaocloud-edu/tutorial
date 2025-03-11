@@ -12,15 +12,14 @@ AWS_DEFAULT_OUTPUT_VALUE="json"
 LOGFILE="/home/ubuntu/setup.log"
 EOF
 
-# 환경 변수 적용
+# 환경 변수 적용 
 source /tmp/env_vars.sh
 echo "source /tmp/env_vars.sh" >> /home/ubuntu/.bashrc
 
 echo "kakaocloud: 2.스크립트 다운로드 사이트 유효성 검사 시작"
-SCRIPT_URL="https://raw.githubusercontent.com/kakaocloud-edu/tutorial/refs/heads/main/DataAnalyzeCourse/src/day1/Lab00/kafka/kafka_full_setup.sh.sh"
+SCRIPT_URL="https://raw.githubusercontent.com/kakaocloud-edu/tutorial/refs/heads/main/DataAnalyzeCourse/src/day1/Lab00/kafka/kafka_full_setup.sh"
 
-curl --output /dev/null --silent --head --fail "$SCRIPT_URL" || { echo "kakaocloud: Script download site is not valid"; exit 1; }
-
-wget -q "$SCRIPT_URL" -O kafka_full_setup.sh
+curl -L --output /dev/null --silent --head --fail "$SCRIPT_URL" || { echo "kakaocloud: Script download site is not valid"; exit 1; }
+wget -q "$SCRIPT_URL"
 chmod +x kafka_full_setup.sh
 sudo -E ./kafka_full_setup.sh
