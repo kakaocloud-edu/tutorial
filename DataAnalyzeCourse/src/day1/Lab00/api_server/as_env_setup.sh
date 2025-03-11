@@ -168,6 +168,10 @@ sudo cp /home/ubuntu/lab0-api-server/DataAnalyzeCourse/src/day1/Lab00/api_server
   exit 1
 }
 
+sudo rm -rf /home/ubuntu/tutorial || {
+    log "kakaocloud: Failed to remove the tutorial repository"; exit 1;
+}
+
 chmod +x /home/ubuntu/api_full_setup.sh /home/ubuntu/setup_db.sh \
   || { log "Failed to chmod main_script.sh or setup_db.sh"; exit 1; }
 
