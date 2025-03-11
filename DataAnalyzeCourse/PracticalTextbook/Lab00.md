@@ -135,15 +135,7 @@
     - 우측 상단의 `엔드포인트` 복사 후 클립보드 등에 붙여넣기
       <img width="1317" alt="스크린샷 2025-03-06 오후 4 37 37" src="https://github.com/user-attachments/assets/c5e2e829-02f1-41dc-9932-e14efddfca1c" />
 
-
-2. Kafka Cluster
-    - 카카오 클라우드 콘솔 > Analytics > Advanced Managed Kafka > 클러스터
-    - 생성된 `kafka` 클릭
-    - 우측 상단의 `부트스트랩 서버` 복사 후 클립보드 등에 붙여넣기
-      <img width="1323" alt="스크린샷 2025-03-06 오후 4 39 29" src="https://github.com/user-attachments/assets/1fc0623e-2deb-4dfa-98d7-fd60a37ea1d6" />
-
-
-3. IAM
+2. IAM
     - 카카오 클라우드 콘솔 > Management > IAM > 프로젝트
     - 좌측의 `자신이 속한 프로젝트` 클릭
     - `조직 ID` , '프로젝트 ID' 복사 후 클립보드 등에 붙여넣기
