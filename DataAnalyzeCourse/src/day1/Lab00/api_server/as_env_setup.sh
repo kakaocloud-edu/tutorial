@@ -42,35 +42,35 @@ echo "kakaocloud: ~/.bashrc에 환경 변수 추가가 완료되었습니다."
 echo "kakaocloud: 4. filebeat/logstash 설치를 시작합니다."
 
 curl -fsSL https://artifacts.elastic.co/GPG-KEY-elasticsearch | sudo apt-key add - \
-  || { echo "kakaocloud: Failed to add Elasticsearch GPG key"; exit 1; }
+  || { echo "kakaocloud: filebeat/logstash GPG 키 추가 실패"; exit 1; }
 echo "deb https://artifacts.elastic.co/packages/7.x/apt stable main" \
   | sudo tee /etc/apt/sources.list.d/beats.list > /dev/null \
-  || { echo "kakaocloud: Failed to add beats.list"; exit 1; }
+  || { echo "kakaocloud: beats.list 추가 실패"; exit 1; }
 
 sudo apt-get update \
-  || { echo "kakaocloud: apt-get update failed"; exit 1; }
+  || { echo "kakaocloud: apt-get update 실패"; exit 1; }
 sudo apt-get install -y filebeat logstash \
-  || { echo "kakaocloud: Failed to install filebeat & logstash"; exit 1; }
+  || { echo "kakaocloud: filebeat & logstash 설치 실패"; exit 1; }
 
 sudo systemctl enable filebeat \
-  || { echo "kakaocloud: Failed to enable filebeat"; exit 1; }
+  || { echo "kakaocloud: filebeat enable 실패"; exit 1; }
 sudo systemctl start filebeat  \
-  || { echo "kakaocloud: Failed to start filebeat"; exit 1; }
+  || { echo "kakaocloud: filebeat start 실패"; exit 1; }
 
 sudo systemctl enable logstash \
-  || { echo "kakaocloud: Failed to enable logstash"; exit 1; }
+  || { echo "kakaocloud: logstash enable 실패"; exit 1; }
 sudo systemctl start logstash  \
-  || { echo "kakaocloud: Failed to start logstash"; exit 1; }
+  || { echo "kakaocloud: logstash start 실패"; exit 1; }
 
 echo "kakaocloud: filebeat/logstash 설치가 완료되었습니다."
 
 echo "kakaocloud: 5. filebeat / logstash 환경 변수 설정을 시작합니다."
 
 sudo chmod 777 /etc/default/logstash \
-  || { echo "kakaocloud: Failed to chmod /etc/default/logstash"; exit 1; }
+  || { echo "kakaocloud: /etc/default/logstash 권한 변경 실패"; exit 1; }
 
 cat <<EOF | sudo tee -a /etc/default/logstash > /dev/null \
-  || { echo "kakaocloud: Failed to add environment variables to /etc/default/logstash"; exit 1; }
+  || { echo "kakaocloud: logstash 환경 변수 설정 실패"; exit 1; }
 
 # === Additional Env for Pub/Sub ===
 CREDENTIAL_ID="$CREDENTIAL_ID"
@@ -87,9 +87,9 @@ export ENABLE_KAFKA_OUTPUT
 EOF
 
 sudo systemctl daemon-reload \
-  || { echo "kakaocloud: Failed systemctl daemon-reload"; exit 1; }
+  || { echo "kakaocloud: systemctl daemon-reload 실패"; exit 1; }
 sudo systemctl restart logstash \
-  || { echo "kakaocloud: Failed to restart logstash"; exit 1; }
+  || { echo "kakaocloud: logstash restart 실패"; exit 1; }
 
 echo "kakaocloud: filebeat / logstash 환경 변수 설정이 완료되었습니다."
 
@@ -195,7 +195,7 @@ echo "kakaocloud: setup_db.sh 스크립트 실행이 완료되었습니다."
 echo "kakaocloud: 9. logstash.yml 구성을 시작합니다."
 
 sudo tee /etc/logstash/logstash.yml <<'EOF' > /dev/null \
-  || { echo "kakaocloud: Failed to write logstash.yml"; exit 1; }
+  || { echo "kakaocloud: logstash.yml 작성 실패"; exit 1; }
 path.data: /var/lib/logstash
 path.logs: /var/echo/logstash
 path.config: /etc/logstash/conf.d/logs-to-pubsub.conf
@@ -206,9 +206,9 @@ echo "kakaocloud: logstash.yml 구성이 완료되었습니다."
 echo "kakaocloud: 10. filebeat, logstash를 재시작합니다."
 
 sudo systemctl restart filebeat \
-  || { echo "kakaocloud: Failed to restart filebeat"; exit 1; }
+  || { echo "kakaocloud: kakaocloud: filebeat 재시작 실패"; exit 1; }
 sudo systemctl restart logstash \
-  || { echo "kakaocloud: Failed to restart logstash"; exit 1; }
+  || { echo "kakaocloud: kakaocloud: logstash 재시작 실패"; exit 1; }
 
 # 실습에 사용되는 폴더만 남기기 위해 tutorial 리포지토리 삭제
 sudo rm -rf /home/ubuntu/tutorial || {
