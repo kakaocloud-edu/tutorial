@@ -47,6 +47,8 @@ echo "deb https://artifacts.elastic.co/packages/7.x/apt stable main" \
   | sudo tee /etc/apt/sources.list.d/beats.list > /dev/null \
   || { log "kakaocloud: Failed to add beats.list"; exit 1; }
 
+sudo apt-get update \
+  || { log "kakaocloud: apt-get update failed"; exit 1; }
 sudo apt-get install -y filebeat logstash \
   || { log "kakaocloud: Failed to install filebeat & logstash"; exit 1; }
 
