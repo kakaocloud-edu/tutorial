@@ -215,5 +215,3 @@ sudo rm -rf /home/ubuntu/tutorial || {
     echo "kakaocloud: tutorial 리포지토리 삭제 실패"; exit 1;
 }
 echo "kakaocloud: 10. filebeat, logstash 재시작이 완료되었니다."
-
-echo "kakaocloud: 모든 작업을 성공적으로 완료했습니다."
