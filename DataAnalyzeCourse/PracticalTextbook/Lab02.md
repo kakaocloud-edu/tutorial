@@ -292,6 +292,8 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     bin/kafka-topics.sh --bootstrap-server ${KAFKA_BOOTSTRAP_SERVERS} \
     --create --topic python-topic --partitions 2 --replication-factor 2
     ```
+
+    - 아래 결과 확인(사진 넣을 예정)
     
 2. `traffic-generator-1`에서 메세지를 전송할 Python 프로듀서 코드 실행
     #### lab2-3-3-2
@@ -350,6 +352,8 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     bin/kafka-topics.sh --bootstrap-server $KAFKA_BOOTSTRAP_SERVERS \
     --create --topic nginx-topic --partitions 2 --replication-factor 2
     ```
+
+    - 아래 결과 확인(사진 넣을 예정)
 
 2. `trarffic-generator-2`에서 메세지를 수신할 콘솔 컨슈머 실행
     
