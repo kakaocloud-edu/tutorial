@@ -222,7 +222,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     - `python-topic`으로 메세지 전송 확인
 3. `traffic-generator-2`에서 Python 컨슈머 코드 실행
 
-    #### lab2-6-3-2
+    #### lab2-6-3-3
     
     ```bash
     sudo ln -s /home/ubuntu/DataAnalyzeCourse/src/day1/Lab02/kafka/kafka_subscriber.py /opt/kafka/kafka_subscriber.py
@@ -235,6 +235,15 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     ```
         
     - `python-topic`으로 메세지 수신 확인 후 `Ctrl`+`c` 키를 입력하여 종료
+
+  
+4. START_OFFSET = 3, commit_threshold = 4로 수정하여 다시 실행
+
+    #### lab2-6-3-4
+
+    ```bash
+    sudo -E ./kafka_subscriber.py --start-offset 3 --commit-threshold 4
+    ```
     
 
 # 5. Nginx 로그 수집 및 Kafka 전송
