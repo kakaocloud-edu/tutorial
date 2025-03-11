@@ -188,6 +188,8 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     --create --topic consol-topic --partitions 2 --replication-factor 2
     ```
     
+    - 아래 결과 확인(사진 넣을 예정)
+
 3. `traffic-generator-1`에서 `kafka-console-producer.sh` 실행 후 송신할 메세지 입력 후 `Enter` 키 입력
     
     #### lab2-4-1-3
@@ -209,7 +211,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     ```
     - 메시지 입력 후 'Enter' 입력
     
-5. `traffic-generator-2`에서 kafka 작업을 위한 디렉터리인 `/opt/kafka`로 이동b
+5. `traffic-generator-2`에서 kafka 작업을 위한 디렉터리인 `/opt/kafka`로 이동
     
     #### lab2-4-1-5
         
@@ -230,6 +232,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
 
     - `traffic-generator-2` 터미널 창에서 `traffic-generator-1`에서 입력했던 메세지와 offset 수신 확인
     - `traffic-generator-2`에서 `Ctrl` + `c` 키로 종료
+    - 아래 결과 확인(사진 넣을 예정)
         
 
 ## 3-2. latest 옵션의 카프카 콘솔 스크립트로 메시지 송수신
@@ -266,6 +269,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     - **Note**: test를 입력할 때마다 latest 옵션의 `kafka-console-consumer`에서 출력되는 것 확인
     - `traffic-generator-1`에서 `Ctrl` + `c` 키로 종료
     - `traffic-generator-2`에서 `Ctrl` + `c` 키로 종료
+    - 아래 결과 확인(사진 넣을 예정)
  
 
 4. `traffic-generator-2`에서 컨슈머 그룹 목록 확인
@@ -276,6 +280,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     bin/kafka-consumer-groups.sh --bootstrap-server ${KAFKA_BOOTSTRAP_SERVERS} --list
     ```
     - `consumer-group-latest`, `consumer-group-earliest` 두 값이 뜨는거 확인
+    - 아래 결과 확인(사진 넣을 예정)
 
 
 ## 3-3. Python SDK로 메시지 송수신
@@ -302,6 +307,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     ```
 
     - `python-topic`으로 메세지 전송 확인
+    - 아래 결과 확인(사진 넣을 예정)
 
 3. `traffic-generator-2`에서 메세지를 수신할 Python 컨슈머 코드 실행
 
@@ -318,6 +324,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     ```
         
     - `python-topic`으로 메세지 수신 확인 후 `Ctrl`+`c` 키를 입력하여 종료
+    - 아래 결과 확인(사진 넣을 예정)
 
   
 4. `traffic-generator-2`에서 Python 컨슈머 코드의 옵션을 START_OFFSET = 3, commit_threshold = 4로 수정하여 다시 실행
@@ -327,6 +334,9 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     ```bash
     sudo -E ./kafka_subscriber.py --start-offset 3 --commit-threshold 4
     ```
+
+    - `python-topic`으로 메세지 수신 확인 후 `Ctrl`+`c` 키를 입력하여 종료
+    - 아래 결과 확인(사진 넣을 예정)
     
 
 # 4. Nginx 로그 수집 및 Kafka 전송
@@ -352,7 +362,9 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     
 3. 웹 브라우저 주소창에 `http://{ALB의 Public IP}`를 입력하여 접속 후 링크 클릭 등을 통해 임의로 트래픽 생성
 4. `trarffic-generator-2`의 터미널에서 NGINX 로그 확인
+
     - `Ctrl`+`c` 키를 입력하여 종료
+    - 아래 결과 확인(사진 넣을 예정)
    
     
 # 5. S3 Sink Connector 생성
@@ -375,6 +387,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     ```
     ls /opt/kafka/config
     ```
+    - 아래 결과 확인(사진 넣을 예정)
     ![image](https://github.com/user-attachments/assets/2bdefc88-31aa-4d5e-8498-0a7ff3619da6)
     
 
@@ -407,6 +420,8 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     sudo systemctl start kafka-connect
     ```
 
+    - 아래 결과 확인(사진 넣을 예정)
+
 5. s3-sink-connector 상태 정보 조회
    - **Note**: `connector`, `tasks` 항목의 `state` 값이 `RUNNING`인 것을 확인
    
@@ -416,10 +431,11 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     watch -n 1 "curl -s http://localhost:8083/connectors/s3-sink-connector/status | jq"
     ```
 
-
+    - 아래 결과 확인(사진 넣을 예정)
 
 6. Object Storage 버킷 내 NGINX 로그 적재 확인
     - 카카오 클라우드 콘솔 > Beyond Storage Service > Object Storage > 일반 버킷
     - `data-catalog` 버킷 클릭
     - `/topics/nginx-topic/partition_0/year_{현재 연도}/month_{현재 월}/day_{현재 일}/hour_{현재 시}` 디렉터리로 이동
     - 버킷 내 적재된 NGINX 로그 적재 확인
+    - 아래 결과 확인(사진 넣을 예정)
