@@ -246,13 +246,14 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     - **Note**: 이후 실행할 `producer` 메세지 받아야하므로 종료하면 안됨
     - **Note**: `consumer-group-latest`라는 새로운 그룹이므로 `offset 0`부터 쌓임
    
-        #### lab2-3-2-2
-        ```bash
-        bin/kafka-console-consumer.sh --bootstrap-server ${KAFKA_BOOTSTRAP_SERVERS} \
-        --topic consol-topic --group consumer-group-latest \
-        --consumer-property auto.offset.reset=latest \
-        --property print.offset=true
-        ```
+    #### lab2-3-2-2
+
+    ```bash
+    bin/kafka-console-consumer.sh --bootstrap-server ${KAFKA_BOOTSTRAP_SERVERS} \
+    --topic consol-topic --group consumer-group-latest \
+    --consumer-property auto.offset.reset=latest \
+    --property print.offset=true
+    ```
     - `auto.offset.reset`의 `latest` 옵션은 `consumer` 실행 이후 `producer`로 들어오는 `offset`부터 읽기 때문에 이전에 실행된 `producer`의 메세지 'test4~6'은 출력이 안되는 것 확인
 
 3. `traffic-generator-1`에서 콘솔 프로듀서 실행 후 송신할 메세지 입력 후 `Enter` 키 입력
@@ -333,12 +334,12 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
 1. Nginx 로그 토픽 생성
     - `trarffic-generator-1`에서 nginx-topic 생성
     
-        #### lab2-4-1
+    #### lab2-4-1
         
-        ```bash
-        bin/kafka-topics.sh --bootstrap-server $KAFKA_BOOTSTRAP_SERVERS \
-        --create --topic nginx-topic --partitions 2 --replication-factor 2
-        ```
+    ```bash
+    bin/kafka-topics.sh --bootstrap-server $KAFKA_BOOTSTRAP_SERVERS \
+    --create --topic nginx-topic --partitions 2 --replication-factor 2
+    ```
 
 2. `trarffic-generator-2`에서 메세지를 수신할 콘솔 컨슈머 실행
     
