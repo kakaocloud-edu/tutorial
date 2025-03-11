@@ -3,10 +3,6 @@
 echo "MYSQL_HOST set to: $MYSQL_HOST"
 source /home/ubuntu/.bashrc
 
-# 전역 변수 초기화
-LOG_PREFIX="kakaocloud: "
-LOG_COUNTER=0
-
 # 로깅 함수 정의
 log() {
     LOG_COUNTER=$((LOG_COUNTER + 1))
