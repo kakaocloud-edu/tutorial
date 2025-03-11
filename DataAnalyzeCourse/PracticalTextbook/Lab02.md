@@ -220,7 +220,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     #### lab2-6-3-2
 
     ```bash
-    sudo ln -s /opt/kafka/src/day01/Lab02/kafka/kafka_publisher.py /opt/kafka/kafka_publisher.py
+    sudo ln -s /DataAnalyzeCourse/src/day1/Lab02/kafka/kafka_publisher.py home/ubuntu/opt/kafka/kafka_publisher.py
     ```
     ```bash
     sudo chmod +x kafka_publisher.py
@@ -235,7 +235,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     #### lab2-6-3-2
     
     ```bash
-    sudo ln -s /opt/kafka/src/day01/Lab02/kafka/kafka_subscriber.py /opt/kafka/kafka_subscriber.py
+    sudo ln -s /DataAnalyzeCourse/src/day1/Lab02/kafka/kafka_subscriber.py home/ubuntu/opt/kafka/kafka_subscriber.py
     ```
     ```bash
     sudo chmod +x kafka_subscriber.py
