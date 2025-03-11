@@ -1,4 +1,4 @@
-# Kafka 기반 데이터 스트리밍 및 Object Storage 연동
+![4](https://github.com/user-attachments/assets/92eaa4f5-39a4-4bb1-8eea-91c1ce78441e)![2](https://github.com/user-attachments/assets/ba34679c-db4e-418d-8369-87acf6b722b1)# Kafka 기반 데이터 스트리밍 및 Object Storage 연동
 
 Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·처리하는 과정을 다룹니다. 또한, Kafka Connect와 S3 Sink Connector를 이용해 수집된 데이터를 Object Storage에 저장하는 방법을 실습합니다.
 
@@ -33,11 +33,13 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
         - 볼륨 유형/크기: `SSD`/`50`
         - 최대 IOPS: `3000`
     - 생성 버튼 클릭
-    - 아래 결과 확인(사진 넣을 예정)
+    - 아래 결과 확인
+![1](https://github.com/user-attachments/assets/e8cbc795-c3e4-429a-b957-119910f9492e)
 
 3. 위에서 생성한 `kafka` 클러스터 클릭
     - 우측 상단의 `부트스트랩 서버` 복사 후 클립보드 등에 붙여넣기
-    - 아래 결과 확인(사진 넣을 예정)
+    - 아래 결과 확인
+![2](https://github.com/user-attachments/assets/fcdfb4ad-6206-42df-9319-70459e1f59c4)
 
 ## 2. Kafka 실습을 위한 API SERVER VM 설정 
 
@@ -122,8 +124,9 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     ```
 
     - `Active:active (running)` 확인
-    - 아래 결과 확인(사진 넣을 예정)
-    
+    - 아래 결과 확인
+    ![3](https://github.com/user-attachments/assets/791245d1-7f81-4e4a-be7e-a9192645e7ad)
+
 
 ## 3. Kafka 기본 환경 설정
 
@@ -188,7 +191,8 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     --create --topic consol-topic --partitions 2 --replication-factor 2
     ```
     
-    - 아래 결과 확인(사진 넣을 예정)
+    - 아래 결과 확인
+![4](https://github.com/user-attachments/assets/c24f87ea-9ebc-4355-b4f7-a9661f052281)
 
 3. `traffic-generator-1`에서 `kafka-console-producer.sh` 실행 후 송신할 메세지 입력 후 `Enter` 키 입력
     
@@ -232,8 +236,9 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
 
     - `traffic-generator-2` 터미널 창에서 `traffic-generator-1`에서 입력했던 메세지와 offset 수신 확인
     - `traffic-generator-2`에서 `Ctrl` + `c` 키로 종료
-    - 아래 결과 확인(사진 넣을 예정)
-        
+    - 아래 결과 확인
+![5](https://github.com/user-attachments/assets/cde48506-40d2-4550-a9f0-426da39e2438)
+
 
 ## 3-2. latest 옵션의 카프카 콘솔 스크립트로 메시지 송수신
 1. `traffic-generator-1`에서 실행 중인 콘솔 프로듀서에 송신할 메세지 입력 후 `Enter` 키 입력
@@ -269,8 +274,9 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     - **Note**: test를 입력할 때마다 latest 옵션의 `kafka-console-consumer`에서 출력되는 것 확인
     - `traffic-generator-1`에서 `Ctrl` + `c` 키로 종료
     - `traffic-generator-2`에서 `Ctrl` + `c` 키로 종료
-    - 아래 결과 확인(사진 넣을 예정)
- 
+    - 아래 결과 확인
+ ![6](https://github.com/user-attachments/assets/37c653bf-85f0-46f8-a8ae-22d5011a4341)
+
 
 4. `traffic-generator-2`에서 컨슈머 그룹 목록 확인
     
@@ -280,7 +286,8 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     bin/kafka-consumer-groups.sh --bootstrap-server ${KAFKA_BOOTSTRAP_SERVERS} --list
     ```
     - `consumer-group-latest`, `consumer-group-earliest` 두 값이 뜨는거 확인
-    - 아래 결과 확인(사진 넣을 예정)
+    - 아래 결과 확인
+![7](https://github.com/user-attachments/assets/be8f5dbd-25ab-4892-9f32-ef683406fb3e)
 
 
 ## 3-3. Python SDK로 메시지 송수신
@@ -293,8 +300,9 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     --create --topic python-topic --partitions 2 --replication-factor 2
     ```
 
-    - 아래 결과 확인(사진 넣을 예정)
-    
+    - 아래 결과 확인
+![8](https://github.com/user-attachments/assets/733df113-1628-43b7-a5c9-bb07b691b3ee)
+
 2. `traffic-generator-1`에서 메세지를 전송할 Python 프로듀서 코드 실행
     #### lab2-3-3-2
 
@@ -309,7 +317,8 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     ```
 
     - `python-topic`으로 메세지 전송 확인
-    - 아래 결과 확인(사진 넣을 예정)
+    - 아래 결과 확인
+![9](https://github.com/user-attachments/assets/5ec13a06-782d-4ae0-b1e3-a03b64c8f367)
 
 3. `traffic-generator-2`에서 메세지를 수신할 Python 컨슈머 코드 실행
 
@@ -326,7 +335,8 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     ```
         
     - `python-topic`으로 메세지 수신 확인 후 `Ctrl`+`c` 키를 입력하여 종료
-    - 아래 결과 확인(사진 넣을 예정)
+    - 아래 결과 확인
+![10](https://github.com/user-attachments/assets/cf9099b2-8960-4d04-a21a-71cbf0b30cd2)
 
   
 4. `traffic-generator-2`에서 Python 컨슈머 코드의 옵션을 START_OFFSET = 3, commit_threshold = 4로 수정하여 다시 실행
@@ -338,8 +348,9 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     ```
 
     - `python-topic`으로 메세지 수신 확인 후 `Ctrl`+`c` 키를 입력하여 종료
-    - 아래 결과 확인(사진 넣을 예정)
-    
+    - 아래 결과 확인
+![11](https://github.com/user-attachments/assets/a6b1924c-83b1-43c1-a819-b80e701c4ccb)
+
 
 # 4. Nginx 로그 수집 및 Kafka 전송
 
@@ -353,7 +364,8 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     --create --topic nginx-topic --partitions 2 --replication-factor 2
     ```
 
-    - 아래 결과 확인(사진 넣을 예정)
+    - 아래 결과 확인
+![12](https://github.com/user-attachments/assets/8dad4862-9206-41f0-b892-ece7d2d04dbd)
 
 2. `trarffic-generator-2`에서 메세지를 수신할 콘솔 컨슈머 실행
     
@@ -391,7 +403,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     ```
     ls /opt/kafka/config
     ```
-    - 아래 결과 확인(사진 넣을 예정)
+    - 아래 결과 확인
     ![image](https://github.com/user-attachments/assets/2bdefc88-31aa-4d5e-8498-0a7ff3619da6)
     
 
@@ -424,7 +436,8 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     sudo systemctl start kafka-connect
     ```
 
-    - 아래 결과 확인(사진 넣을 예정)
+    - 아래 결과 확인
+![13](https://github.com/user-attachments/assets/b34813be-72bb-4842-9a3d-e03bbb0b30a5)
 
 5. s3-sink-connector 상태 정보 조회
    - **Note**: `connector`, `tasks` 항목의 `state` 값이 `RUNNING`인 것을 확인
@@ -435,7 +448,8 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     watch -n 1 "curl -s http://localhost:8083/connectors/s3-sink-connector/status | jq"
     ```
 
-    - 아래 결과 확인(사진 넣을 예정)
+    - 아래 결과 확인
+![14](https://github.com/user-attachments/assets/f18745bc-b791-47ea-b339-e46df150f376)
 
 6. Object Storage 버킷 내 NGINX 로그 적재 확인
     - 카카오 클라우드 콘솔 > Beyond Storage Service > Object Storage > 일반 버킷
