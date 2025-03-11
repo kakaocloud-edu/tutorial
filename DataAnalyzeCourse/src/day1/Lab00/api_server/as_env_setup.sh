@@ -177,9 +177,9 @@ chmod +x main_script.sh setup_db.sh \
   || { log "kakaocloud: Failed to chmod main_script.sh or setup_db.sh"; exit 1; }
 
 log "kakaocloud: Executing main_script.sh & setup_db.sh"
-sudo -E ./main_script.sh \
+sudo -E /home/ubuntu/main_script.sh \
   || { log "kakaocloud: main_script.sh execution failed"; exit 1; }
-sudo -E ./setup_db.sh \
+sudo -E /home/ubuntu/setup_db.sh \
   || { log "kakaocloud: setup_db.sh execution failed"; exit 1; }
 log "kakaocloud: main_script.sh & setup_db.sh 완료"
 
