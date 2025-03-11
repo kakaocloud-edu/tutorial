@@ -129,17 +129,44 @@ fi
 ###############################################################################
 log "kakaocloud: 5. 스크립트 다운로드 링크 유효성 체크"
 
-curl --output /dev/null --silent --head --fail "https://github.com/kakaocloud-edu/tutorial/raw/refs/heads/main/DataAnalyzeCourse/src/day1/Lab00/api_server/api_full_setup.sh" \
-  || { log "kakaocloud: main_script.sh 링크가 유효하지 않습니다"; exit 1; }
-curl --output /dev/null --silent --head --fail "https://github.com/kakaocloud-edu/tutorial/raw/refs/heads/main/DataAnalyzeCourse/src/day1/Lab00/api_server/setup_db.sh" \
-  || { log "kakaocloud: setup_db.sh 링크가 유효하지 않습니다"; exit 1; }
+# /home/ubuntu/tutorial 디렉터리가 없으면 clone, 있으면 스킵
+if [ ! -d "/home/ubuntu/tutorial" ]; then
+    sudo git clone https://github.com/kakaocloud-edu/tutorial.git /home/ubuntu/tutorial || {
+        echo "kakaocloud: Failed to git clone"; exit 1;
+    }
+else
+    echo "kakaocloud: /home/ubuntu/tutorial already exists, skipping clone"
+fi
 
-log "kakaocloud: main_script.sh & setup_db.sh 링크 모두 유효"
+# DataAnalyzeCourse/src/day1/Lab00/api_server 폴더가 누락되었으면 재시도
+if [ ! -d "/home/ubuntu/tutorial/DataAnalyzeCourse/src/day1/Lab00/api_server" ]; then
+    echo "kakaocloud: The previous clone seems incomplete, re-cloning..."
+    sudo rm -rf /home/ubuntu/tutorial
+    sudo git clone https://github.com/kakaocloud-edu/tutorial.git /home/ubuntu/tutorial || {
+        echo "kakaocloud: Failed to git clone"; exit 1;
+    }
+fi
 
-wget -O main_script.sh "https://github.com/kakaocloud-edu/tutorial/raw/refs/heads/main/DataAnalyzeCourse/src/day1/Lab00/api_server/api_full_setup.sh" \
-  || { log "kakaocloud: Failed to download main_script.sh"; exit 1; }
-wget -O setup_db.sh "https://github.com/kakaocloud-edu/tutorial/raw/refs/heads/main/DataAnalyzeCourse/src/day1/Lab00/api_server/setup_db.sh" \
-  || { log "kakaocloud: Failed to download setup_db.sh"; exit 1; }
+# 1) api_full_setup.sh, setup_db.sh → /home/ubuntu
+sudo cp /home/ubuntu/tutorial/DataAnalyzeCourse/src/day1/Lab00/api_server/api_full_setup.sh /home/ubuntu/api_full_setup.sh || {
+    echo "kakaocloud: Failed to copy api_full_setup.sh"; exit 1;
+}
+sudo cp /home/ubuntu/tutorial/DataAnalyzeCourse/src/day1/Lab00/api_server/setup_db.sh /home/ubuntu/setup_db.sh || {
+    echo "kakaocloud: Failed to copy setup_db.sh"; exit 1;
+}
+
+# 2) filebeat.yml → /etc/filebeat
+sudo cp /home/ubuntu/tutorial/DataAnalyzeCourse/src/day1/Lab00/api_server/filebeat.yml /etc/filebeat/filebeat.yml || {
+    echo "kakaocloud: Failed to copy filebeat.yml"; exit 1;
+}
+
+# 3) logs-to-pubsub.conf, logs-to-kafka.conf → /etc/logstash/conf.d
+sudo cp /home/ubuntu/tutorial/DataAnalyzeCourse/src/day1/Lab00/api_server/logs-to-pubsub.conf /etc/logstash/conf.d/logs-to-pubsub.conf || {
+    echo "kakaocloud: Failed to copy logs-to-pubsub.conf"; exit 1;
+}
+sudo cp /home/ubuntu/tutorial/DataAnalyzeCourse/src/day1/Lab00/api_server/logs-to-kafka.conf /etc/logstash/conf.d/logs-to-kafka.conf || {
+    echo "kakaocloud: Failed to copy logs-to-kafka.conf"; exit 1;
+}
 
 chmod +x main_script.sh setup_db.sh \
   || { log "kakaocloud: Failed to chmod main_script.sh or setup_db.sh"; exit 1; }
@@ -150,24 +177,6 @@ sudo -E ./main_script.sh \
 sudo -E ./setup_db.sh \
   || { log "kakaocloud: setup_db.sh execution failed"; exit 1; }
 log "kakaocloud: main_script.sh & setup_db.sh 완료"
-
-
-###############################################################################
-# 3) filebeat.yml & logs-to-pubsub.conf 다운로드
-###############################################################################
-log "kakaocloud: 3. filebeat.yml과 logs-to-pubsub.conf, logs-to-kafka.conf를 다운로드합니다."
-
-sudo wget -O /etc/filebeat/filebeat.yml \
-  "https://github.com/kakaocloud-edu/tutorial/raw/refs/heads/main/DataAnalyzeCourse/src/day1/Lab00/api_server/filebeat.yml" \
-  || { log "kakaocloud: Failed to download filebeat.yml"; exit 1; }
-
-sudo wget -O /etc/logstash/conf.d/logs-to-pubsub.conf \
-  "https://github.com/kakaocloud-edu/tutorial/raw/refs/heads/main/DataAnalyzeCourse/src/day1/Lab00/api_server/logs-to-pubsub.conf" \
-  || { log "kakaocloud: Failed to download logs-to-pubsub.conf"; exit 1; }
-
-sudo wget -O /etc/logstash/conf.d/logs-to-kafka.conf \
-  "https://github.com/kakaocloud-edu/tutorial/raw/refs/heads/main/DataAnalyzeCourse/src/day1/Lab00/api_server/logs-to-kafka.conf" \
-  || { log "kakaocloud: Failed to download logs-to-kafka.conf"; exit 1; }
 
 sudo tee /etc/logstash/logstash.yml <<'EOF' > /dev/null \
   || { log "kakaocloud: Failed to write logstash.yml"; exit 1; }
