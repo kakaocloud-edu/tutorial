@@ -40,9 +40,7 @@
 5. Object Storage 버킷 생성 확인
     - **Note**: 왼쪽의 일반 버킷 눌러 Object Storage 메인 화면으로 이동
 
-- **Note**: 최종 data-catalog 버킷의 구조
     - **Note**: 최종 data-catalog 버킷의 구조
-
 
 
     ![111](https://github.com/user-attachments/assets/4b8aeac5-1d74-4240-a3c9-fdca4029c2ce)
