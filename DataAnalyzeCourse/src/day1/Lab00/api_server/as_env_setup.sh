@@ -168,11 +168,6 @@ sudo cp /home/ubuntu/tutorial/DataAnalyzeCourse/src/day1/Lab00/api_server/logs-t
     echo "kakaocloud: Failed to copy logs-to-kafka.conf"; exit 1;
 }
 
-# 원하는 폴더만 남기기 위해 tutorial 리포지토리 삭제
-sudo rm -rf /home/ubuntu/tutorial || {
-    log "kakaocloud: Failed to remove the tutorial repository"; exit 1;
-}
-
 chmod +x main_script.sh setup_db.sh \
   || { log "kakaocloud: Failed to chmod main_script.sh or setup_db.sh"; exit 1; }
 
@@ -196,5 +191,10 @@ sudo systemctl restart filebeat \
   || { log "kakaocloud: Failed to restart filebeat"; exit 1; }
 sudo systemctl restart logstash \
   || { log "kakaocloud: Failed to restart logstash"; exit 1; }
+
+# 실습에 사용되는 폴더만 남기기 위해 tutorial 리포지토리 삭제
+sudo rm -rf /home/ubuntu/tutorial || {
+    log "kakaocloud: Failed to remove the tutorial repository"; exit 1;
+}
 
 log "kakaocloud: All steps in as_env_setup.sh have completed successfully"
