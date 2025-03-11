@@ -218,16 +218,12 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     
 2. `traffic-generator-1`에서 Python 프로듀서 코드 실행
     #### lab2-6-3-2
-    
+
     ```bash
-    sudo wget -O producer.py \
-    "https://github.com/kakaocloud-edu/tutorial/raw/refs/heads/main/DataAnalyzeCourse/src/TrafficGenerator/producer.py"
+    sudo chmod +x kafka_publisher.py
     ```
     ```bash
-    sudo chmod +x producer.py
-    ```
-    ```bash
-    sudo -E ./producer.py
+    sudo -E ./kafka_publisher.py
     ```
 
     - `python-topic`으로 메세지 전송 확인
@@ -236,14 +232,10 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     #### lab2-6-3-2
     
     ```bash
-    sudo wget -O consumer.py \
-    "https://github.com/kakaocloud-edu/tutorial/raw/refs/heads/main/DataAnalyzeCourse/src/TrafficGenerator/consumer.py"
+    sudo chmod +x kafka_subscriber.py
     ```
     ```bash
-    sudo chmod +x consumer.py
-    ```
-    ```bash
-    sudo -E ./consumer.py
+    sudo -E ./kafka_subscriber.py
     ```
         
     - `python-topic`으로 메세지 수신 확인 후 `Ctrl`+`c` 키를 입력하여 종료
