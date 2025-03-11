@@ -8,8 +8,12 @@ set -o pipefail
 ###############################################################################
 # 로그 설정
 ###############################################################################
-LOGFILE="/home/ubuntu/as_script.log"
-exec > >(tee -a "$LOGFILE") 2>&1
+LOGFILE="/home/ubuntu/setup.log"
+exec &> >(tee -a "$LOGFILE")  # 모든 echo 출력도 setup.log에 기록
+
+log() {
+  echo "$(date '+%Y-%m-%d %H:%M:%S') - $1"
+}
 
 echo "kakaocloud: 1. ~/.bashrc에 환경 변수를 설정합니다."
 
