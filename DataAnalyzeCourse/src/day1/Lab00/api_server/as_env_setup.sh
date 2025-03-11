@@ -9,13 +9,7 @@ set -o pipefail
 # 로그 설정
 ###############################################################################
 LOGFILE="/home/ubuntu/as_script.log"
-
-# log 함수: 메시지를 화면 + 로그 파일에 동시에 출력
-log() {
-  local MESSAGE="[`date '+%Y-%m-%d %H:%M:%S'`] $1"
-  echo "$MESSAGE"            # 화면에 출력
-  echo "$MESSAGE" >> "$LOGFILE"  # 로그 파일에만 기록
-}
+exec > >(tee -a "$LOGFILE") 2>&1
 
 echo "kakaocloud: 1. ~/.bashrc에 환경 변수를 설정합니다."
 
