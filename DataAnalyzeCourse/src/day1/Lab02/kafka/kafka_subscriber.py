@@ -1,7 +1,14 @@
 #!/usr/bin/env python3
+import argparse
 from kafka import KafkaConsumer, TopicPartition
 import os
 import time
+
+# CLI 인자 설정
+parser = argparse.ArgumentParser(description="Kafka Subscriber Script")
+parser.add_argument("--start-offset", type=int, default=0, help="시작 오프셋 (기본값: 0)")
+parser.add_argument("--commit-threshold", type=int, default=2, help="커밋 임계값 오프셋 (기본값: 2)")
+args = parser.parse_args()
 
 #################################
 # 사용자 수정 가능한 설정 변수
@@ -13,12 +20,10 @@ if not BOOTSTRAP_SERVERS:
     raise ValueError("환경 변수 'KAFKA_BOOTSTRAP_SERVERS'가 설정되어 있지 않습니다.")
 BOOTSTRAP_SERVERS_LIST = [server.strip() for server in BOOTSTRAP_SERVERS.split(',')]
 PARTITION = 0                                   # 메시지를 읽을 파티션 (예: 0)
-# 시작 오프셋은 0부터 시작해서 모든 메시지를 읽고, commit_threshold에 도달하면 종료하도록 할 수 있음
-START_OFFSET = 0                               
+START_OFFSET = args.start_offset                # CLI 인자로부터 시작 오프셋 설정
 AUTO_OFFSET_RESET = 'earliest'                  # 오프셋이 없을 경우 설정 (예: 'earliest')
 
-# 수동 커밋할 오프셋(예: 오프셋 2까지 커밋)
-commit_threshold = 2
+commit_threshold = args.commit_threshold        # CLI 인자로부터 커밋 임계값 설정
 
 #################################
 # Kafka Consumer 생성 및 설정
