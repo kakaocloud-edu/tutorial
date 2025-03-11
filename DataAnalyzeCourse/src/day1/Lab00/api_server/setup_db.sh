@@ -7,10 +7,10 @@ MYSQL_PASS="${MYSQL_PASS:-admin1234}"
 source /home/ubuntu/.bashrc
 
 # MySQL 포트 체크 (선택사항)
-if ! timeout 3 bash -c "</dev/tcp/$MYSQL_HOST/3306" 2>/dev/null; then
-  echo "MySQL이 $MYSQL_HOST:3306 에서 응답하지 않습니다."
-  exit 1
-fi
+# if ! timeout 3 bash -c "</dev/tcp/$MYSQL_HOST/3306" 2>/dev/null; then
+#   echo "MySQL이 $MYSQL_HOST:3306 에서 응답하지 않습니다."
+#   exit 1
+# fi
 
 # 초기 스키마 및 데이터 설정용 SQL을 HERE DOC으로 직접 포함
 SQL_COMMANDS=$(cat <<'EOF'
