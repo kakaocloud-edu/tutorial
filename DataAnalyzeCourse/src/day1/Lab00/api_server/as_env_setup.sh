@@ -39,34 +39,34 @@ echo "kakaocloud: ~/.bashrc에 환경 변수를 추가 완료."
 ###############################################################################
 # 2) filebeat / logstash 설치
 ###############################################################################
-log "kakaocloud: 2. filebeat / logstash 설치 후 환경 변수 추가"
+echo "kakaocloud: 2. filebeat / logstash 설치 후 환경 변수 추가"
 
 curl -fsSL https://artifacts.elastic.co/GPG-KEY-elasticsearch | sudo apt-key add - \
-  || { log "kakaocloud: Failed to add Elasticsearch GPG key"; exit 1; }
+  || { echo "kakaocloud: Failed to add Elasticsearch GPG key"; exit 1; }
 echo "deb https://artifacts.elastic.co/packages/7.x/apt stable main" \
   | sudo tee /etc/apt/sources.list.d/beats.list > /dev/null \
-  || { log "kakaocloud: Failed to add beats.list"; exit 1; }
+  || { echo "kakaocloud: Failed to add beats.list"; exit 1; }
 
 sudo apt-get update \
-  || { log "kakaocloud: apt-get update failed"; exit 1; }
+  || { echo "kakaocloud: apt-get update failed"; exit 1; }
 sudo apt-get install -y filebeat logstash \
-  || { log "kakaocloud: Failed to install filebeat & logstash"; exit 1; }
+  || { echo "kakaocloud: Failed to install filebeat & logstash"; exit 1; }
 
 sudo systemctl enable filebeat \
-  || { log "kakaocloud: Failed to enable filebeat"; exit 1; }
+  || { echo "kakaocloud: Failed to enable filebeat"; exit 1; }
 sudo systemctl start filebeat  \
-  || { log "kakaocloud: Failed to start filebeat"; exit 1; }
+  || { echo "kakaocloud: Failed to start filebeat"; exit 1; }
 
 sudo systemctl enable logstash \
-  || { log "kakaocloud: Failed to enable logstash"; exit 1; }
+  || { echo "kakaocloud: Failed to enable logstash"; exit 1; }
 sudo systemctl start logstash  \
-  || { log "kakaocloud: Failed to start logstash"; exit 1; }
+  || { echo "kakaocloud: Failed to start logstash"; exit 1; }
 
 sudo chmod 777 /etc/default/logstash \
-  || { log "kakaocloud: Failed to chmod /etc/default/logstash"; exit 1; }
+  || { echo "kakaocloud: Failed to chmod /etc/default/logstash"; exit 1; }
 
 cat <<EOF | sudo tee -a /etc/default/logstash > /dev/null \
-  || { log "kakaocloud: Failed to add environment variables to /etc/default/logstash"; exit 1; }
+  || { echo "kakaocloud: Failed to add environment variables to /etc/default/logstash"; exit 1; }
 
 # === Additional Env for Pub/Sub ===
 CREDENTIAL_ID="$CREDENTIAL_ID"
@@ -82,11 +82,11 @@ export CREDENTIAL_ID CREDENTIAL_SECRET DOMAIN_ID PROJECT_ID TOPIC_NAME_PUBSUB KA
 EOF
 
 sudo systemctl daemon-reload \
-  || { log "kakaocloud: Failed systemctl daemon-reload"; exit 1; }
+  || { echo "kakaocloud: Failed systemctl daemon-reload"; exit 1; }
 sudo systemctl restart logstash \
-  || { log "kakaocloud: Failed to restart logstash"; exit 1; }
+  || { echo "kakaocloud: Failed to restart logstash"; exit 1; }
 
-log "kakaocloud: filebeat / logstash 설치 및 환경 변수 설정 완료"
+echo "kakaocloud: filebeat / logstash 설치 및 환경 변수 설정 완료"
 
 
 ###############################################################################
@@ -96,13 +96,13 @@ SERVICE_FILE="/etc/systemd/system/flask_app.service"
 OVERRIDE_DIR="/etc/systemd/system/flask_app.service.d"
 OVERRIDE_FILE="$OVERRIDE_DIR/env.conf"
 
-log "kakaocloud: 4. Setting environment variables for flask_app.service"
+echo "kakaocloud: 4. Setting environment variables for flask_app.service"
 
 if [ -f "$SERVICE_FILE" ]; then
   sudo mkdir -p "$OVERRIDE_DIR" \
-    || { log "kakaocloud: Failed to create $OVERRIDE_DIR"; exit 1; }
+    || { echo "kakaocloud: Failed to create $OVERRIDE_DIR"; exit 1; }
   cat <<EOF | sudo tee "$OVERRIDE_FILE" > /dev/null \
-    || { log "kakaocloud: Failed to override flask_app.service env"; exit 1; }
+    || { echo "kakaocloud: Failed to override flask_app.service env"; exit 1; }
 [Service]
 Environment="MYSQL_HOST=$MYSQL_HOST"
 Environment="DOMAIN_ID=$DOMAIN_ID"
@@ -114,19 +114,19 @@ Environment="CREDENTIAL_SECRET=$CREDENTIAL_SECRET"
 EOF
 
   sudo systemctl daemon-reload \
-    || { log "kakaocloud: Failed systemctl daemon-reload for flask_app"; exit 1; }
+    || { echo "kakaocloud: Failed systemctl daemon-reload for flask_app"; exit 1; }
   sudo systemctl restart flask_app \
-    || { log "kakaocloud: Failed to restart flask_app.service"; exit 1; }
-  log "kakaocloud: flask_app.service 재시작 완료"
+    || { echo "kakaocloud: Failed to restart flask_app.service"; exit 1; }
+  echo "kakaocloud: flask_app.service 재시작 완료"
 else
-  log "kakaocloud: flask_app.service가 없어 override를 생략합니다."
+  echo "kakaocloud: flask_app.service가 없어 override를 생략합니다."
 fi
 
 
 ###############################################################################
 # 5) api_full_setup.sh & setup_db.sh 다운로드, 실행
 ###############################################################################
-log "kakaocloud: 5. 스크립트 다운로드 링크 유효성 체크"
+echo "kakaocloud: 5. 스크립트 다운로드 링크 유효성 체크"
 
 # /home/ubuntu/tutorial 디렉터리가 없으면 clone, 있으면 스킵
 if [ ! -d "/home/ubuntu/tutorial" ]; then
@@ -168,32 +168,32 @@ sudo cp /home/ubuntu/tutorial/DataAnalyzeCourse/src/day1/Lab00/api_server/logs-t
 }
 
 sudo chmod +x /home/ubuntu/api_full_setup.sh /home/ubuntu/setup_db.sh \
-  || { log "kakaocloud: Failed to chmod api_full_setup.sh or setup_db.sh"; exit 1; }
+  || { echo "kakaocloud: Failed to chmod api_full_setup.sh or setup_db.sh"; exit 1; }
 
-log "kakaocloud: Executing api_full_setup.sh & setup_db.sh"
+echo "kakaocloud: Executing api_full_setup.sh & setup_db.sh"
 sudo -E /home/ubuntu/api_full_setup.sh \
-  || { log "kakaocloud: api_full_setup.sh execution failed"; exit 1; }
+  || { echo "kakaocloud: api_full_setup.sh execution failed"; exit 1; }
 sudo -E /home/ubuntu/setup_db.sh \
-  || { log "kakaocloud: setup_db.sh execution failed"; exit 1; }
-log "kakaocloud: api_full_setup.sh & setup_db.sh 완료"
+  || { echo "kakaocloud: setup_db.sh execution failed"; exit 1; }
+echo "kakaocloud: api_full_setup.sh & setup_db.sh 완료"
 
 sudo tee /etc/logstash/logstash.yml <<'EOF' > /dev/null \
-  || { log "kakaocloud: Failed to write logstash.yml"; exit 1; }
+  || { echo "kakaocloud: Failed to write logstash.yml"; exit 1; }
 path.data: /var/lib/logstash
 path.logs: /var/log/logstash
 path.config: /etc/logstash/conf.d/logs-to-pubsub.conf
 EOF
 
-log "kakaocloud: 파일 다운로드 및 logstash.yml 구성 완료"
+echo "kakaocloud: 파일 다운로드 및 logstash.yml 구성 완료"
 
 sudo systemctl restart filebeat \
-  || { log "kakaocloud: Failed to restart filebeat"; exit 1; }
+  || { echo "kakaocloud: Failed to restart filebeat"; exit 1; }
 sudo systemctl restart logstash \
-  || { log "kakaocloud: Failed to restart logstash"; exit 1; }
+  || { echo "kakaocloud: Failed to restart logstash"; exit 1; }
 
 # 실습에 사용되는 폴더만 남기기 위해 tutorial 리포지토리 삭제
 sudo rm -rf /home/ubuntu/tutorial || {
-    log "kakaocloud: Failed to remove the tutorial repository"; exit 1;
+    echo "kakaocloud: Failed to remove the tutorial repository"; exit 1;
 }
 
-log "kakaocloud: All steps in as_env_setup.sh have completed successfully"
+echo "kakaocloud: All steps in as_env_setup.sh have completed successfully"
