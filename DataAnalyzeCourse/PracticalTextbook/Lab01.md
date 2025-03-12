@@ -256,7 +256,7 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 통한 메시�
     python3 traffic_generator.py
     ```
     
-3. 실행 완료 후 생성된 로그 확인
+3. 실행 완료 후 생성된 로그 확인(2분)
 
     #### **lab1-6-3-1**
     
