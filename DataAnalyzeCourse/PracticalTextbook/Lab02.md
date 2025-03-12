@@ -339,14 +339,20 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
 
 3. `traffic-generator-2`에서 메세지를 수신할 Python 컨슈머 코드 실행
 
-    #### lab2-4-3-3
+    #### lab2-4-3-3-1
     
     ```bash
     sudo ln -s /home/ubuntu/DataAnalyzeCourse/src/day1/Lab02/kafka/kafka_subscriber.py /opt/kafka/kafka_subscriber.py
     ```
+
+    #### lab2-4-3-3-2
+
     ```bash
     sudo chmod +x kafka_subscriber.py
     ```
+
+    #### lab2-4-3-3-3
+
     ```bash
     sudo -E ./kafka_subscriber.py
     ```
