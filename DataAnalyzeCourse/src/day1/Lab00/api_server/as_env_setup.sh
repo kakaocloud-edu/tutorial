@@ -177,7 +177,7 @@ echo "kakaocloud: api_full_setup.sh, setup_db.sh 스크립트 실행이 완료�
 ###############################################################################
 # 5) logstash.yml 구성 및 filebeat,logstash 재시작
 ###############################################################################
-echo "kakaocloud: 8. logstash.yml 구성 및 filebeat,logstash 재시작을 시작합니다."
+echo "kakaocloud: 9. logstash.yml 구성 및 filebeat,logstash 재시작을 시작합니다."
 sudo tee /etc/logstash/logstash.yml <<'EOF' > /dev/null \
   || { echo "kakaocloud: Failed to write logstash.yml"; exit 1; }
 path.data: /var/lib/logstash
