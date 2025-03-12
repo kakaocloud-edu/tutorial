@@ -19,7 +19,7 @@ curl --output /dev/null --silent --head --fail "$ENV_SETUP_SCRIPT_URL" || {
 }
 
 wget -O as_env_setup.sh "$ENV_SETUP_SCRIPT_URL"
-echo "kakaocloud: 1. as_env_setup.sh 스크립트를 다운로드가 완료되었습니다."
+echo "kakaocloud: as_env_setup.sh 스크립트를 다운로드가 완료되었습니다."
 
 echo "kakaocloud: 2. as_env_setup.sh 실행을 시작합니다."
 chmod +x as_env_setup.sh
