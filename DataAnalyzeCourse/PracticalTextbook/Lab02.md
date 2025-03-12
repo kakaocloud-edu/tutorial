@@ -95,7 +95,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     ```
 
 
-3. API Server VM의 `temp-kafka-bootstrap-server` 값을 실제 생성된 Kafka 클러스터 부트스트랩 서버 값으로 수정 
+3. API Server VM의 `temp-kafka-bootstrap-server` 값을 실제 생성된 Kafka 클러스터 부트스트랩 서버 값으로 수정
 
     #### lab2-2-3
     
@@ -104,7 +104,15 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     ```
     - {실제 Kafka 클러스터 부트스트랩 서버값}을 개인 환경에 맞게 수정 필요
 
-4. `api-server-1`에서 Logstash 설정 파일을 수정하여 Kafka로 송신하도록 설정
+4. /etc/default/logstash의 ENABLE_KAFKA_OUTPUT을 수정하여 Kafka Output을 활성화
+
+    #### lab2-2-4
+    
+    ```bash
+    sudo sed -i 's/^ENABLE_KAFKA_OUTPUT="false"/ENABLE_KAFKA_OUTPUT="true"/' /etc/default/logstash
+    ```
+
+5. `api-server-1`에서 Logstash 설정 파일을 수정하여 Kafka로 송신하도록 설정
 
     #### lab2-2-4-1
    
@@ -112,11 +120,12 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     sudo sed -i 's/logs-to-pubsub.conf/logs-to-kafka.conf/g' /etc/logstash/logstash.yml
     ```
 
-    - Logstash 재실행 및 상태 확인
+    - Logstash 재시작 및 상태 확인
     
     #### lab2-2-4-2
     
     ```bash
+    sudo systemctl daemon-reload
     sudo systemctl restart logstash
     ```
     ```bash
