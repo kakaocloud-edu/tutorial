@@ -24,3 +24,4 @@ echo "kakaocloud: as_env_setup.sh 스크립트를 다운로드가 완료되었�
 echo "kakaocloud: 2. as_env_setup.sh 실행을 시작합니다."
 chmod +x as_env_setup.sh
 sudo -E ./as_env_setup.sh
+echo "kakaocloud: 스크립트 적용이 완료되었습니다."
