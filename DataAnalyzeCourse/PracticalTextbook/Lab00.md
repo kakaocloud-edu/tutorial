@@ -268,7 +268,7 @@
     #### **lab0-7-5**
     
     ```bash
-    watch cat /home/ubuntu/as_script.log
+    watch -c 'awk "/kakaocloud:/ {gsub(/([0-9]+)\\./,\"\\033[33m&\\033[0m\"); print}" < /var/log/cloud-init-output.log'
     ```
 
 
