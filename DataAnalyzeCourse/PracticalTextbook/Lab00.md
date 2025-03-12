@@ -384,7 +384,7 @@
     ```
    
 
-# 9. Kafka Connector VM 생성 (4분)
+# 9. Kafka Connector VM 생성 (2분)
 
 1. 카카오 클라우드 콘솔 > Beyond Compute Service > Virtual Machine > 인스턴스
 2. 인스턴스 생성 버튼 클릭
@@ -414,34 +414,36 @@
                 - 아래 스크립트 입력
                 - **Note**: 메모장에 아래 링크의 코드를 복사 붙여넣기 하여 사용
                 - **Note**: 중괄호({})는 제거하고 쌍 따옴표는 유지
-                - 사용자 스크립트: [`kafka_vm_init.sh`](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day1/Lab00/kafka/kafka_vm_init.sh)의 쌍따옴표(“”) 사이에 자신의 리소스 값 입력
-                  ```
-                  #!/bin/bash
-                  
-                  echo "kakaocloud: 1.환경 변수 설정 시작"
-                  
-                  cat <<'EOF' > /tmp/env_vars.sh
-                  export KAFKA_BOOTSTRAP_SERVER="{Kafka 부트스트랩 서버}"
-                  export AWS_ACCESS_KEY_ID_VALUE="{콘솔에서 발급한 S3 액세스 키의 인증 키 값}"
-                  export AWS_SECRET_ACCESS_KEY_VALUE="{콘솔에서 발급한 S3 액세스 키의 보안 액세스 키 값}"
-                  export BUCKET_NAME="data-catalog"
-                  export AWS_DEFAULT_REGION_VALUE="kr-central-2"
-                  export AWS_DEFAULT_OUTPUT_VALUE="json"
-                  export LOGFILE="/home/ubuntu/setup.log"
-                  EOF
-                  
-                  # 환경 변수 적용 
-                  source /tmp/env_vars.sh
-                  echo "source /tmp/env_vars.sh" >> /home/ubuntu/.bashrc
-                  
-                  echo "kakaocloud: 2.스크립트 다운로드 사이트 유효성 검사 시작"
-                  SCRIPT_URL="https://raw.githubusercontent.com/kakaocloud-edu/tutorial/refs/heads/main/DataAnalyzeCourse/src/day1/Lab00/kafka/kafka_full_setup.sh"
-                  
-                  curl -L --output /dev/null --silent --head --fail "$SCRIPT_URL" || { echo "kakaocloud: Script download site is not valid"; exit 1; }
-                  wget -q "$SCRIPT_URL"
-                  chmod +x kafka_full_setup.sh
-                  sudo -E ./kafka_full_setup.sh
-                  ```
+                - 사용자 스크립트: [`kafka_vm_init.sh`](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day1/Lab00/api_server/as_vm_init.sh)의 쌍따옴표(“”) 사이에 자신의 리소스 값 입력
+                ```
+                #!/bin/bash
+                
+                export MYSQL_HOST="{MySQL 엔드포인트}"
+                export DOMAIN_ID="{조직 ID}"
+                export PROJECT_ID="{프로젝트 ID}"
+                export CREDENTIAL_ID="{액세스 키 ID}"
+                export CREDENTIAL_SECRET="{보안 액세스 키}"
+                export LOGSTASH_KAFKA_ENDPOINT="temp-kafka-bootstrap-server"
+                
+                export PUBSUB_TOPIC_NAME="test-topic-lys"
+                export KAFKA_TOPIC_NAME="nginx-topic"
+                export LOGSTASH_ENV_FILE="/etc/default/logstash"
+                export ENV_SETUP_SCRIPT_URL="https://github.com/kakaocloud-edu/tutorial/raw/refs/heads/main/DataAnalyzeCourse/src/day1/Lab00/api_server/as_env_setup.sh"
+                
+                echo "kakaocloud: 1. as_env_setup.sh 스크립트를 다운로드합니다."
+                curl --output /dev/null --silent --head --fail "$ENV_SETUP_SCRIPT_URL" || {
+                  echo "kakaocloud: as_env_setup.sh 다운로드 링크가 유효하지 않습니다."
+                  exit 1
+                }
+                
+                wget -O as_env_setup.sh "$ENV_SETUP_SCRIPT_URL"
+                echo "kakaocloud: as_env_setup.sh 스크립트를 다운로드가 완료되었습니다."
+                
+                echo "kakaocloud: 2. as_env_setup.sh 실행을 시작합니다."
+                chmod +x as_env_setup.sh
+                sudo -E ./as_env_setup.sh
+                echo "kakaocloud: 스크립트 적용이 완료되었습니다."
+                ```
                 
                 - CPU 멀티스레딩: `활성화`
         
