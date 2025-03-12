@@ -134,7 +134,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     sudo systemctl restart logstash
     ```
 
-    #### lab2-2-5-3
+    #### lab2-2-5-4
 
     ```bash
     sudo systemctl status logstash
