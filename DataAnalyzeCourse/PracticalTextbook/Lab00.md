@@ -142,7 +142,7 @@
     ![그림1](https://github.com/user-attachments/assets/22192309-344b-4233-becc-5b801e5e0dad)
 
 
-# 7. API Server VM 생성 (미완)
+# 7. API Server VM 생성 (3분)
 
 1. 카카오 클라우드 콘솔 > Beyond Compute Service > Virtual Machine > 인스턴스
 2. 인스턴스 생성 버튼 클릭
@@ -272,7 +272,7 @@
     ```
 
 
-# 8. Traffic Generator VM 생성 (7분, 18분)
+# 8. Traffic Generator VM 생성 (7분)
 
 1. 카카오 클라우드 콘솔 > Beyond Compute Service > Virtual Machine > 인스턴스
 2. 인스턴스 생성 버튼 클릭
