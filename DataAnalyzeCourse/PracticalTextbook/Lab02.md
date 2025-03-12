@@ -84,16 +84,6 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     
     ```
     
-    - **Note**: 윈도우에서 ssh 접근이 안될 경우에 cmd 창에서 keypair.pem가 있는 경로로 이동 후 아래 명령어 입력
-    
-    #### **lab2-2-2-5**
-    
-    ```bash
-    icacls.exe keypair.pem /reset
-    icacls.exe keypair.pem /grant:r %username%:(R)
-    icacls.exe keypair.pem /inheritance:r
-    ```
-
 
 3. API Server VM의 `temp-kafka-bootstrap-server` 값을 실제 생성된 Kafka 클러스터 부트스트랩 서버 값으로 수정
 
