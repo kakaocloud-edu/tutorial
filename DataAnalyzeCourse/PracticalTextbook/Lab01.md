@@ -286,7 +286,7 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 통한 메시�
     http://{ALB Public IP 주소}
     ```
 
-![14](https://github.com/user-attachments/assets/a3fff2b9-5d57-4c03-9e0e-805f6c8bd2d9)
+    ![14](https://github.com/user-attachments/assets/a3fff2b9-5d57-4c03-9e0e-805f6c8bd2d9)
 
 5. 사용자 등록, 상품 목록 확인 등을 수행하여 로그 생성
 6. 카카오 클라우드 콘솔 > Beyond Storage Service > Object Storage > 일반 버킷
