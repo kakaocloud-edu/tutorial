@@ -47,6 +47,8 @@ echo "deb https://artifacts.elastic.co/packages/7.x/apt stable main" \
   | sudo tee /etc/apt/sources.list.d/beats.list > /dev/null \
   || { log "kakaocloud: Failed to add beats.list"; exit 1; }
 
+sudo apt-get update \
+  || { log "kakaocloud: apt-get update failed"; exit 1; }
 sudo apt-get install -y filebeat logstash \
   || { log "kakaocloud: Failed to install filebeat & logstash"; exit 1; }
 
@@ -74,8 +76,9 @@ PROJECT_ID="$PROJECT_ID"
 PUBSUB_TOPIC_NAME="$PUBSUB_TOPIC_NAME"
 KAFKA_TOPIC_NAME="$KAFKA_TOPIC_NAME"
 LOGSTASH_KAFKA_ENDPOINT="$LOGSTASH_KAFKA_ENDPOINT"
+ENABLE_KAFKA_OUTPUT="false"
 
-export CREDENTIAL_ID CREDENTIAL_SECRET DOMAIN_ID PROJECT_ID TOPIC_NAME_PUBSUB KAFKA_TOPIC_NAME MYSQL_HOST LOGSTASH_KAFKA_ENDPOINT
+export CREDENTIAL_ID CREDENTIAL_SECRET DOMAIN_ID PROJECT_ID TOPIC_NAME_PUBSUB KAFKA_TOPIC_NAME MYSQL_HOST LOGSTASH_KAFKA_ENDPOINT ENABLE_KAFKA_OUTPUT
 EOF
 
 sudo systemctl daemon-reload \
@@ -164,7 +167,7 @@ sudo cp /home/ubuntu/tutorial/DataAnalyzeCourse/src/day1/Lab00/api_server/logs-t
     echo "kakaocloud: Failed to copy logs-to-kafka.conf"; exit 1;
 }
 
-chmod +x api_full_setup.sh setup_db.sh \
+sudo chmod +x /home/ubuntu/api_full_setup.sh /home/ubuntu/setup_db.sh \
   || { log "kakaocloud: Failed to chmod api_full_setup.sh or setup_db.sh"; exit 1; }
 
 log "kakaocloud: Executing api_full_setup.sh & setup_db.sh"
