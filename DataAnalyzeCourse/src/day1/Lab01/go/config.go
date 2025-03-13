@@ -34,6 +34,4 @@ func init() {
         log.Fatalf("Error unmarshalling config.yml: %v", err)
     }
 
-    // 읽어온 설정 값 출력
-    log.Printf("SubscriptionName: %s", config.Pubsub.SubscriptionName)
 }
