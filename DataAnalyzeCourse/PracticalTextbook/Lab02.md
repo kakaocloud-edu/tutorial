@@ -166,7 +166,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
 
 1. `traffic-generator-1`에서 kafka 작업을 위한 디렉터리인 `/opt/kafka`로 이동
     
-    #### lab2-4-1-1
+    #### lab2-4-1
         
     ```bash
     cd /opt/kafka
@@ -174,7 +174,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     
 2. `traffic-generator-1`에서 kafka-console을 이용하여 메세지를 받을 `consol-topic` 생성
     
-    #### lab2-4-1-2
+    #### lab2-4-2
         
     ```bash
     bin/kafka-topics.sh --bootstrap-server ${KAFKA_BOOTSTRAP_SERVERS} \
@@ -183,31 +183,38 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     
 ![4](https://github.com/user-attachments/assets/c24f87ea-9ebc-4355-b4f7-a9661f052281)
 
-3. `traffic-generator-1`에서 `kafka-console-producer.sh` 실행 후 송신할 메세지 입력 후 `Enter` 키 입력
+3. `traffic-generator-1`에서 `kafka-console-producer.sh` 실행
     
-    #### lab2-4-1-3
+    #### lab2-4-3
 
-    - **Note**: 메세지가 입력될 때 마다 `offset`에 쌓임
-    - **Note**: `offset 0` 부터 시작
+    - **Note**: 메세지가 입력될 때 마다 `offset`에 쌓이며, `offset 0` 부터 시작됨
     - `kafka-console-producer.sh` 실행
         
     ```bash
     bin/kafka-console-producer.sh --broker-list ${KAFKA_BOOTSTRAP_SERVERS} --topic consol-topic
     ```
 
-4. 메시지 입력
+4. 송신할 메세지를 순차적으로 입력
+
+    #### lab2-4-4-1
+
     ```
     test1
     ```
+
+    #### lab2-4-4-2
+
     ```
     test2
     ```
+
+    #### lab2-4-4-3
+
     ```
     test3
     ```
-    - 메시지 입력 후 'Enter' 입력
-    
-5. `traffic-generator-2`에서 kafka 작업을 위한 디렉터리인 `/opt/kafka`로 이동
+5. `Enter` 키를 입력하여 송신
+6. `traffic-generator-2`에서 kafka 작업을 위한 디렉터리인 `/opt/kafka`로 이동
     
     #### lab2-4-5
         
