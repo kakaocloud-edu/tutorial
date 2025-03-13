@@ -34,11 +34,6 @@ func init() {
         log.Fatalf("Error unmarshalling config.yml: %v", err)
     }
 
-    // 읽어온 설정 값 출력 (디버깅용)
-    log.Printf("DomainID: %s", config.Pubsub.DomainID)
-    log.Printf("ProjectID: %s", config.Pubsub.ProjectID)
-    log.Printf("TopicName: %s", config.Pubsub.TopicName)
-    log.Printf("CredentialID: %s", config.Pubsub.CredentialID)
-    log.Printf("CredentialSecret: %s", config.Pubsub.CredentialSecret)
+    // 읽어온 설정 값 출력
     log.Printf("SubscriptionName: %s", config.Pubsub.SubscriptionName)
 }
