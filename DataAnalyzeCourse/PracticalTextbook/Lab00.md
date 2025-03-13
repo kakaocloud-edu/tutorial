@@ -252,6 +252,8 @@
     ```
 
 5. API Server VM 스크립트 적용 확인
+![image](https://github.com/user-attachments/assets/de4767a0-a1fd-41a1-be0e-3d1418ea24ed)
+
 
     #### **lab0-7-5**
     
