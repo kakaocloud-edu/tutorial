@@ -168,32 +168,37 @@
             ```
             #!/bin/bash
             
+            # 프로젝트 및 인증 정보
             export DOMAIN_ID="{조직 ID}"
             export PROJECT_ID="{프로젝트 ID}"
             export CREDENTIAL_ID="{액세스 키 ID}"
             export CREDENTIAL_SECRET="{보안 액세스 키}"
+            
+            # 데이터베이스 설정
             export MYSQL_HOST="{MySQL 엔드포인트}"
             
-            export LOGSTASH_KAFKA_ENDPOINT="temp-kafka-bootstrap-server"
+            # Pub/Sub 및 Kafka 설정
             export PUBSUB_TOPIC_NAME="log-topic"
             export KAFKA_TOPIC_NAME="nginx-topic"
+            export LOGSTASH_KAFKA_ENDPOINT="temp-kafka-bootstrap-server"
+            
+            # 로그 및 환경 설정
             export LOGSTASH_ENV_FILE="/etc/default/logstash"
             export ENV_SETUP_SCRIPT_URL="https://github.com/kakaocloud-edu/tutorial/raw/refs/heads/main/DataAnalyzeCourse/src/day1/Lab00/api_server/as_env_setup.sh"
             
             echo "kakaocloud: 1. as_env_setup.sh 스크립트를 다운로드합니다."
-            
             curl --output /dev/null --silent --head --fail "$ENV_SETUP_SCRIPT_URL" || {
               echo "kakaocloud: as_env_setup.sh 다운로드 링크가 유효하지 않습니다."
               exit 1
             }
             
             wget -O as_env_setup.sh "$ENV_SETUP_SCRIPT_URL"
-            chmod +x as_env_setup.sh
+            echo "kakaocloud: as_env_setup.sh 스크립트를 다운로드가 완료되었습니다."
             
             echo "kakaocloud: 2. as_env_setup.sh 실행을 시작합니다."
+            chmod +x as_env_setup.sh
             sudo -E ./as_env_setup.sh
-            
-            echo "kakaocloud: 모든 작업 완료"
+            echo "kakaocloud: 스크립트 적용이 완료되었습니다."
             ```
         - CPU 멀티스레딩: `활성화`
     - 생성 버튼 클릭
@@ -296,17 +301,26 @@
             echo "kakaocloud: 1.환경 변수 설정 시작"
             # 환경 변수 정의
             command=$(cat <<EOF
+            # 프로젝트 및 인증 정보
             export DOMAIN_ID="{조직 ID}"
             export PROJECT_ID="{프로젝트 ID}"
             export CREDENTIAL_ID="{액세스 키 ID}"
             export CREDENTIAL_SECRET="{보안 액세스 키}"
+            
+            # 생성한 리소스의 값
             export API_BASE_URL="{ALB의 Public IP}"
             export TOPIC_NAME="test-topic"
             export SUB_NAME="test-pull-sub"
+            
+            # 생성할 Pub/Sub 리소스 정보
             export TOPIC_NAME_MK="log-topic"
             export OBJECT_STORAGE_SUBSCRIPTION_NAME="log-obj-sub"
             export OBJECT_STORAGE_BUCKET="pubsub-nginx-log"
             export PUBSUB_ENDPOINT="https://pub-sub.kr-central-2.kakaocloud.com"
+            
+            # Kafka 실행에 필요한 경로 및 정보
+            export KAFKA_HOME=/opt/kafka
+            export PATH=$PATH:$KAFKA_HOME/bin
             EOF
             )
             
