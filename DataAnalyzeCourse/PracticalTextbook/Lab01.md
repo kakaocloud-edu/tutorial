@@ -52,7 +52,7 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 통한 메시�
 9. `test-push-sub` 생성 확인
 ![3](https://github.com/user-attachments/assets/1efd6aa5-0d21-4cbe-9a59-854ee06b91ba)
 
----
+
 
 ## 2. REST API를 통한 토픽, 서브스크립션 생성
 
