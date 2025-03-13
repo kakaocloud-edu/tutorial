@@ -139,7 +139,6 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     
     #### lab2-3-1
    - **Note**: `{Kafka 부트스트랩 서버}`: `kafka` 클러스터의 부트스트랩 서버 입력
-   - **Note**: `{Kafka 부트스트랩 서버}` 개인 환경에 맞게 수정 필수
     
     ```bash
     echo 'export KAFKA_BOOTSTRAP_SERVERS="{Kafka 부트스트랩 서버}"' >> ~/.bashrc \
@@ -160,10 +159,8 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
       ```
       nc -zv 10.0.0.199 9092
       ```
-   - 아래 결과 확인
        - **Note**: 실패 시 네트워크 및 보안 그룹 설정 확인
-
-   - ![image](https://github.com/user-attachments/assets/e769ee52-5a32-49f6-8124-f20c9ed60227)
+![image](https://github.com/user-attachments/assets/e769ee52-5a32-49f6-8124-f20c9ed60227)
     
 
 
@@ -186,7 +183,6 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     --create --topic consol-topic --partitions 2 --replication-factor 2
     ```
     
-    - 아래 결과 확인
 ![4](https://github.com/user-attachments/assets/c24f87ea-9ebc-4355-b4f7-a9661f052281)
 
 3. `traffic-generator-1`에서 `kafka-console-producer.sh` 실행 후 송신할 메세지 입력 후 `Enter` 키 입력
