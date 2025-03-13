@@ -41,30 +41,6 @@
 ## 4. 테이블 생성
 1. 카카오 클라우드 콘솔 > Analytics > Data Catalog > 테이블
 2. 테이블 생성 버튼 클릭
-- **alb_log_table** 테이블 생성 정보
-   - 데이터 베이스: `data_catalog_database`
-   - 테이블 이름: `alb_log_table`
-   - 테이블 저장 경로
-      - S3 연결: `체크`
-      - 버킷 이름: `data-catalog`(로드밸런서 액세스 로그 적재용 버킷)
-      - 디렉터리: `KCLogs/kr-central-2/2025/{월}`
-   - 데이터 유형: `JSON`
-   - Pub/Sub 연동: `미사용`
-   - 설명(선택): `없음` 
-   - 스키마
-      - 필드 추가 버튼 클릭
-      - 필등 정보
-         - 파티션 키: `미사용`
-         - 컬럼 번호: `1`
-         - 필드 이름: `time`
-         - 데이터 유형: `string`
-         - --
-         - 파티션 키: `미사용`
-         - 컬럼 번호: `2`
-         - 필드 이름: `target_status_code`
-         - 데이터 유형: `string`
-     - 생성 버튼 클릭
-
 
 - **kafka_log_table** 테이블 생성 정보 
    - 데이터 베이스: `data_catalog_database`
