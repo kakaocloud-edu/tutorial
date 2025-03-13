@@ -135,25 +135,15 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
 
 ## 3. Kafka 기본 환경 설정
 
-1. `traffic-generator-1, 2`에서 ~/.bashrc에 환경 변수 및 부트스트랩 서버 주소를 설정하여 Kafka 실행에 필요한 경로와 정보 등록
+1. `traffic-generator-1, 2`에서 Kafka 부트스트랩 서버 주소를 환경 변수로 설정
     
-    #### lab2-3-1-1
+    #### lab2-3-1
    - **Note**: `{Kafka 부트스트랩 서버}`: `kafka` 클러스터의 부트스트랩 서버 입력
    - **Note**: `{Kafka 부트스트랩 서버}` 개인 환경에 맞게 수정 필수
     
     ```bash
-    cat << 'EOF' >> ~/.bashrc
-    export KAFKA_HOME=/opt/kafka
-    export PATH=$PATH:$KAFKA_HOME/bin
-    export KAFKA_BOOTSTRAP_SERVERS="{Kafka 부트스트랩 서버}"
-    EOF
-    ```
-    
-   #### lab2-3-1-2
-    - 수정한 환경 변수 값 적용
-    
-    ```bash
-    source ~/.bashrc
+    echo 'export KAFKA_BOOTSTRAP_SERVERS="{Kafka 부트스트랩 서버}"' >> ~/.bashrc \
+    && source ~/.bashrc
     ```
     
 2. Kafka 클러스터와 통신 확인
