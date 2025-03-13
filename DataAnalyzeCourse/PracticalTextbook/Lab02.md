@@ -233,7 +233,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     ```
 ![5](https://github.com/user-attachments/assets/cde48506-40d2-4550-a9f0-426da39e2438)
 
-8. `traffic-generator-2`에서 `Ctrl` + `c` 키로 Kafka 콘솔 컨슈머 종료
+8. `traffic-generator-2`에서 `Ctrl` + `c` 키로 Kafka 콘솔 Consumer 종료
 
 9. `traffic-generator-1`에서 실행 중인 Producer에 송신할 메세지 입력 후 `Enter` 키 입력
     - **Note**: 전송되는 시간이 필요하므로 전송 후 5초 정도 대기
@@ -270,7 +270,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     ```
     - `auto.offset.reset`의 `latest` 옵션은 `consumer` 실행 이후 `producer`로 들어오는 `offset`부터 읽기 때문에 이전에 실행된 Producer의 메세지 'test4~6'은 출력이 안되는 것 확인
 
-12. `traffic-generator-1`에서 콘솔 프로듀서 실행 후 송신할 메세지 입력 후 `Enter` 키 입력
+12. `traffic-generator-1`에서 콘솔 Producer 실행 후 송신할 메세지 입력 후 `Enter` 키 입력
     - **Note**: 전송되는 시간이 필요하므로 전송 후 5초 정도 대기
     #### lab2-4-12-1
     - `Enter` 입력
@@ -295,7 +295,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
  ![6](https://github.com/user-attachments/assets/37c653bf-85f0-46f8-a8ae-22d5011a4341)
 
 
-13. `traffic-generator-2`에서 컨슈머 그룹 목록(`consumer-group-latest`, `consumer-group-earliest`) 확인
+13. `traffic-generator-2`에서 Consumer 그룹 목록(`consumer-group-latest`, `consumer-group-earliest`) 확인
     
     #### lab2-5-4
         
@@ -317,46 +317,47 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
 
 ![8](https://github.com/user-attachments/assets/733df113-1628-43b7-a5c9-bb07b691b3ee)
 
-2. `traffic-generator-1`에서 메세지를 전송할 Python 프로듀서 코드 실행
+2. `traffic-generator-1`에서 Kafka 실습용 디렉터리로 이동
     #### lab2-6-2
 
     ```bash
     cd /home/ubuntu/DataAnalyzeCourse/src/day1/Lab02/kafka
     ```
+
+3. Python Producer 파일을 실행하여 `python-topic` 토픽으로 메세지 전송
+    #### lab2-6-3
+    
     ```bash
     python3 kafka_publisher.py
     ```
-
-    - `python-topic`으로 메세지 전송 확인
 ![9](https://github.com/user-attachments/assets/5ec13a06-782d-4ae0-b1e3-a03b64c8f367)
 
-3. `traffic-generator-2`에서 메세지를 수신할 Python 컨슈머 코드 실행
+4. `traffic-generator-1`에서 Kafka 실습용 디렉터리로 이동
 
-    #### lab2-6-3-1
+    #### lab2-6-4
     
     ```bash
     cd /home/ubuntu/DataAnalyzeCourse/src/day1/Lab02/kafka
     ```
+
+5. Python Consumer 파일을 실행아여 `python-topic` 토픽으로부터 메세지 수신
 
     #### lab2-6-3-2
 
     ```bash
     python3 kafka_subscriber.py
     ```
-        
-    - `python-topic`으로 메세지 수신 확인 후 `Ctrl`+`c` 키를 입력하여 종료
 ![10](https://github.com/user-attachments/assets/cf9099b2-8960-4d04-a21a-71cbf0b30cd2)
 
-  
-4. `traffic-generator-2`에서 Python 컨슈머 코드의 옵션을 START_OFFSET = 3, commit_threshold = 4로 수정하여 다시 실행
+6. `Ctrl`+`c` 키를 입력하여 종료
+
+7. `traffic-generator-2`에서 옵션을 오프셋 3부터 메시지 소비를 시작하고 4개 메시지마다 커밋하도록 옵션을 수정하여 다시 실행하여 `python-topic`으로부터 메세지 수신 확인
 
     #### lab2-6-4
 
     ```bash
     python3 kafka_subscriber.py --start-offset 3 --commit-threshold 4
     ```
-
-    - `python-topic`으로 메세지 수신 확인 후 `Ctrl`+`c` 키를 입력하여 종료
 ![11](https://github.com/user-attachments/assets/a6b1924c-83b1-43c1-a819-b80e701c4ccb)
 
 
@@ -379,7 +380,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
 
 ![12](https://github.com/user-attachments/assets/8dad4862-9206-41f0-b892-ece7d2d04dbd)
 
-2. `trarffic-generator-2`에서 `nginx-topic`의 메세지를 수신할 콘솔 컨슈머 실행
+2. `trarffic-generator-2`에서 `nginx-topic`의 메세지를 수신할 콘솔 Consumer 실행
 
    #### lab2-5-2-1
         
