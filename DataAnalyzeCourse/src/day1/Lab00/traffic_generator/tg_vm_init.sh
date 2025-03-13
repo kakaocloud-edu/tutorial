@@ -5,7 +5,7 @@ set -e  # 오류 발생 시 스크립트 종료
 echo "kakaocloud: 1.환경 변수 설정 시작"
 # 환경 변수 정의
 command=$(cat <<EOF
-# 사용자 관련 정보
+# 프로젝트 및 인증 정보
 export DOMAIN_ID="{조직 ID}"
 export PROJECT_ID="{프로젝트 ID}"
 export CREDENTIAL_ID="{액세스 키 ID}"
