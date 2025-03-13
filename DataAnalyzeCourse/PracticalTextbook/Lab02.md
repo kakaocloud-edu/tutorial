@@ -473,7 +473,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     - 터미널에 명령어 붙여넣기
     - yes 입력
     
-    #### **lab0-9-5-1**
+    #### **lab2-7-5-1**
     
     ```bash
     cd {keypair.pem 다운로드 위치}
@@ -481,13 +481,13 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     
     - 리눅스의 경우에 아래와 같이 키페어의 권한을 조정
     
-    #### **lab0-9-5-2**
+    #### **lab2-7-5-2**
     
     ```bash
     chmod 400 keypair.pem
     ```
     
-    #### **lab0-9-5-3**
+    #### **lab2-7-5-3**
     
     ```bash
     ssh -i keypair.pem ubuntu@{kafka-connector의 public ip주소}
@@ -495,14 +495,14 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     
     - {kafka-connector의 public ip주소}: 복사한 각 IP 주소 입력
     
-    #### **lab0-9-5-4**
+    #### **lab2-7-5-4**
     
     ```bash
     yes
     ```
 
 6. 스크립트 적용 확인
-    #### **lab0-9-6**
+    #### **lab2-7-6**
    
     ```
     watch -c 'awk "/^kakaocloud:/ {gsub(/([0-9]+)\\./,\"\\033[33m&\\033[0m\"); print}" < /var/log/cloud-init-output.log'
@@ -510,7 +510,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
 
 3. `data-catalog` 버킷에 nginx 로그를 쌓기 위한 쓰기 권한 부여
 
-    #### lab2-6-3
+    #### lab2-7-3
     
     ```bash
     aws s3api put-bucket-acl \
@@ -521,7 +521,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     
 4. S3 Sink Connector([`s3-sink-connector.properties`](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/KafkaConnector/s3-sink-connector.properties)), Standalone Worker([`worker.properties`](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/KafkaConnector/worker.properties)) 설정 파일 확인
 
-    #### lab2-6-4
+    #### lab2-7-4
     
     ```
     ls /opt/kafka/config
@@ -532,7 +532,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
 
 5. kafka-connect 시스템 서비스 파일([`kafka-connect.service`](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/KafkaConnector/kafka-connect.service)) 확인
     
-    #### lab2-6-5
+    #### lab2-7-5
     
     ```bash
     ls /etc/systemd/system | grep kafka-connect.service
@@ -541,19 +541,19 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     
 6. 데몬 리로드 및 서비스 시작
     
-    #### lab2-6-6-1
+    #### lab2-7-6-1
     
     ```bash
     sudo systemctl daemon-reload
     ```
 
-    #### lab2-6-6-2
-    
+    #### lab2-7-6-2
+   
     ```bash
     sudo systemctl enable kafka-connect
     ```
     
-    #### lab2-6-6-3
+    #### lab2-7-6-3
     
     ```bash
     sudo systemctl start kafka-connect
@@ -565,7 +565,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
 7. s3-sink-connector 상태 정보 조회
    - **Note**: `connector`, `tasks` 항목의 `state` 값이 `RUNNING`인 것을 확인
    
-    #### lab2-5-7
+    #### lab2-7-7
     
     ```bash
     watch -n 1 "curl -s http://localhost:8083/connectors/s3-sink-connector/status | jq"
