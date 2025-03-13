@@ -120,8 +120,7 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 통한 메시�
     cd /home/ubuntu/DataAnalyzeCourse/src/day1/Lab01/pubsub/
     ```
 
-5. `traffic-generator-2` 터미널 창에서 `test-topic`의 메세지를 `test-pull-sub` 서브스크립션을 통해 수신하기 위한 아래 명령어 실행
-    - 메시지 수신 스크립트 실행하여 `traffic-generator-2` 터미널에서 메시지가 정상적으로 수신되는지 확인
+5. `traffic-generator-2` 터미널 창에서  메시지 수신 스크립트 실행하여 `test-topic`의 메세지를 `test-pull-sub` 서브스크립션을 통해 `traffic-generator-2`에서 수신
     #### **lab1-3-4**
         
     ```bash
@@ -130,7 +129,7 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 통한 메시�
     ![image](https://github.com/user-attachments/assets/de6e6265-0d32-495b-8074-82635dd4f94f)
 
 
-6. `Ctrl` + `c`로 스크립트 실행 종료
+6. `Ctrl` + `c`로 메시지 수신 스크립트 실행 종료
 
 
 7. 웹 브라우저 주소창에서 `test-topic`의 메세지를 `test-push-sub` 서브스크립션을 통해 `api-server-vm`으로 송신된 메세지를 확인하기 위한 아래 URL 입력
@@ -164,16 +163,17 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 통한 메시�
     go build -o publisher config.go go_publisher.go
     ```
         
-3. Publisher 실행 파일을 이용해 `traffic-generator-1`에서 `test-topic`으로 메시지 송신
-    - 아래 명령어를 이용하여 Publisher 실행 파일 실행 후 송신할 메세지를 입력하고, `Enter`로 송신
+3. `test-topic`으로 메시지 송신하는 Publisher 실행 파일 실행
     
-    #### **lab1-4-3-1**
+    #### **lab1-4-3**
         
     ```bash
     ./publisher
     ```
 
-    #### **lab1-4-3-2**
+4. 송신할 메세지를 입력 후 `Enter`로 송신 완료
+
+    #### **lab1-4-4**
     - **Note**: 아래 값은 하나의 예시이며 다른 값도 입력 가능합니다.
         
     ```bash
@@ -181,11 +181,11 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 통한 메시�
     ```
     ![image](https://github.com/user-attachments/assets/ea2fa21b-810c-44a1-b8ef-e7f3d81876b6)
    
-5. `Ctrl` + `c`로 종료
+5. `Ctrl` + `c`로 Publisher 실행 파일 종료
 
 6. `traffic-generator-2` 터미널 창에서  Go SDK 실습용 디렉터리로 이동하기 위한 아래 명령어를 실행
         
-    #### **lab1-4-4**
+    #### **lab1-4-6**
     
     ```bash
     cd /home/ubuntu/DataAnalyzeCourse/src/day1/Lab01/go/
@@ -193,23 +193,22 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 통한 메시�
         
 7. 메세지를 수신하는 Subscriber 실행 파일 생성
         
-    #### **lab1-4-5**
+    #### **lab1-4-7**
     
     ```bash
     go build -o subscriber config.go go_subscriber.go
     ```
         
-8. Subscriber 실행 파일을 이용하여 `test-topic`의 메시지를 `test-pull-sub`서브스크립션을 통해 `traffic-generator-2`에서 수신
-    - 아래 명령어를 이용하여 Publisher 실행 파일 실행 후 메시지가 정상적으로 수신되는지 확인하고, `Ctrl` + `C` 키로 종료
+8. Subscriber 실행 파일을 실행하여 `test-topic`의 메시지를 `test-pull-sub`서브스크립션을 통해 `traffic-generator-2`에서 수신
         
-    #### **lab1-4-6**
+    #### **lab1-4-8**
         
     ```bash
     ./subscriber
     ```
+![image](https://github.com/user-attachments/assets/8faae93b-52b0-44bd-b257-88dcfe8e941c)
 
-    - 아래와 같은 결과 확인
-![10](https://github.com/user-attachments/assets/61df11c3-58a7-435a-aaf2-cefead9d4793)
+9. `Ctrl` + `c`로 Subscriber 실행 파일 종료
 
 ---
 
