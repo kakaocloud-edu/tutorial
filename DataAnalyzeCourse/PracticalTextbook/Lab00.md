@@ -372,6 +372,26 @@
     ```bash
     watch -c 'awk "/kakaocloud:/ {gsub(/([0-9]+)\\./,\"\\033[33m&\\033[0m\"); print}" < /var/log/cloud-init-output.log'
     ```
+
+6. Traffic Generator VM 스크립트 적용 확인
+
+    ```
+    kakaocloud: 1.환경 변수 설정 시작
+    kakaocloud: 2.스크립트 다운로드 사이트 유효성 검사 시작
+    kakaocloud: 3. 필수 환경변수 검증 시작
+    kakaocloud: 4. Git 클론 시작
+    kakaocloud: 5. config.yml 파일 생성 시작
+    kakaocloud: 6. Go SDK 설치 및 설정 시작
+    kakaocloud: 7. Pub/Sub SDK 다운로드 및 설치 시작
+    kakaocloud: 8. Pub/Sub SDK 의존성 추가 및 로컬 경로 교체 시작
+    kakaocloud: 9. go mod tidy 실행 시작
+    kakaocloud: 10. Python3 및 pip 설치 시작
+    kakaocloud: 11. Python dependencies (requests, pyyaml) 설치 시작
+    kakaocloud: 12. OpenJDK 21 설치 시작
+    kakaocloud: 13. Apache Kafka 설치 시작
+    kakaocloud: 14. kafka-python 라이브러리 설치 시작
+    kakaocloud: 자동화 완료스크립트 실행 완료!
+    ```
    
 
 
