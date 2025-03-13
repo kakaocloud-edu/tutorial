@@ -127,7 +127,8 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 통한 메시�
     ```bash
     python3 pub_sub_subscriber.py
     ```
-    ![image](https://github.com/user-attachments/assets/d7ffc9fa-12d2-4542-871c-abbb3abe5314)
+    ![image](https://github.com/user-attachments/assets/de6e6265-0d32-495b-8074-82635dd4f94f)
+
 
 6. `Ctrl` + `c`로 스크립트 실행 종료
 
