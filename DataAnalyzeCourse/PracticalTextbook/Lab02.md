@@ -33,12 +33,10 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
         - 볼륨 유형/크기: `SSD`/`50`
         - 최대 IOPS: `3000`
     - 생성 버튼 클릭
-    - 아래 결과 확인
 ![1](https://github.com/user-attachments/assets/e8cbc795-c3e4-429a-b957-119910f9492e)
 
 3. 위에서 생성한 `kafka` 클러스터 클릭
-    - 우측 상단의 `부트스트랩 서버` 복사 후 클립보드 등에 붙여넣기
-    - 아래 결과 확인
+4. 우측 상단의 `부트스트랩 서버` 복사 후 클립보드 등에 붙여넣기
 ![2](https://github.com/user-attachments/assets/fcdfb4ad-6206-42df-9319-70459e1f59c4)
 
 ## 2. Kafka 실습을 위한 API SERVER VM 설정 
