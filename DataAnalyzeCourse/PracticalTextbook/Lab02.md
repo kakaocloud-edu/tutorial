@@ -198,14 +198,18 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
 4. 메시지 입력
     ```
     test1
+    ```
+    ```
     test2
+    ```
+    ```
     test3
     ```
     - 메시지 입력 후 'Enter' 입력
     
 5. `traffic-generator-2`에서 kafka 작업을 위한 디렉터리인 `/opt/kafka`로 이동
     
-    #### lab2-4-1-5
+    #### lab2-4-5
         
     ```bash
     cd /opt/kafka
@@ -213,7 +217,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     
 6. `traffic-generator-2`에서 Kafka 콘솔 컨슈머를 실행해 consumer-group-earliest 그룹으로 `consol-topic` 토픽의 메시지 수신
     
-    #### lab2-4-1-6
+    #### lab2-4-6
         
     ```bash
     bin/kafka-console-consumer.sh --bootstrap-server ${KAFKA_BOOTSTRAP_SERVERS} \
