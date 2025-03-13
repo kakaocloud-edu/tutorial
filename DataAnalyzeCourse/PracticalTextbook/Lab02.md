@@ -124,14 +124,13 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     sudo systemctl restart logstash
     ```
 
-7. Logstash 상태 확인
+7. Logstash 가 `Active:active (running)` 상태인 것을 확인
     #### lab2-2-6-3
 
     ```bash
     sudo systemctl status logstash
     ```
 ![image](https://github.com/user-attachments/assets/98ac20eb-1018-48f3-824d-ca5ad848f243)
-    - `Active:active (running)` 확인
 
 
 ## 3. Kafka 기본 환경 설정
