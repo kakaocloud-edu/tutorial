@@ -67,6 +67,8 @@ func main() {
             return
         }
 
+        log.Printf("수신된 메시지 ID: %s\n", message.ID)
+        log.Printf("내용: %s\n", string(data))
         message.Ack()
     })
 
