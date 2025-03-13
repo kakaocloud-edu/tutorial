@@ -316,13 +316,10 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     #### lab2-4-3-2
 
     ```bash
-    sudo ln -s /home/ubuntu/DataAnalyzeCourse/src/day1/Lab02/kafka/kafka_publisher.py /opt/kafka/kafka_publisher.py
+    cd /home/ubuntu/DataAnalyzeCourse/src/day1/Lab02/kafka
     ```
     ```bash
-    sudo chmod +x kafka_publisher.py
-    ```
-    ```bash
-    sudo -E ./kafka_publisher.py
+    python3 kafka_publisher.py
     ```
 
     - `python-topic`으로 메세지 전송 확인
@@ -334,19 +331,13 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     #### lab2-4-3-3-1
     
     ```bash
-    sudo ln -s /home/ubuntu/DataAnalyzeCourse/src/day1/Lab02/kafka/kafka_subscriber.py /opt/kafka/kafka_subscriber.py
+    cd /home/ubuntu/DataAnalyzeCourse/src/day1/Lab02/kafka
     ```
 
     #### lab2-4-3-3-2
 
     ```bash
-    sudo chmod +x kafka_subscriber.py
-    ```
-
-    #### lab2-4-3-3-3
-
-    ```bash
-    sudo -E ./kafka_subscriber.py
+    python3 kafka_subscriber.py
     ```
         
     - `python-topic`으로 메세지 수신 확인 후 `Ctrl`+`c` 키를 입력하여 종료
