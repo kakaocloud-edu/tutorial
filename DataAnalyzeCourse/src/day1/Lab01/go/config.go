@@ -33,5 +33,4 @@ func init() {
     if err != nil {
         log.Fatalf("Error unmarshalling config.yml: %v", err)
     }
-
 }
