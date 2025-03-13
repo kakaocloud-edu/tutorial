@@ -350,7 +350,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     #### lab2-4-3-4
 
     ```bash
-    sudo -E ./kafka_subscriber.py --start-offset 3 --commit-threshold 4
+    python3 kafka_subscriber.py --start-offset 3 --commit-threshold 4
     ```
 
     - `python-topic`으로 메세지 수신 확인 후 `Ctrl`+`c` 키를 입력하여 종료
