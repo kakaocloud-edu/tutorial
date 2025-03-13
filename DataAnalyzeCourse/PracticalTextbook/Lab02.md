@@ -361,8 +361,13 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
 
 1. Nginx 로그 토픽 생성
     - `trarffic-generator-1`에서 nginx을 이용하여 메세지를 받을 `nginx-topic` 생성
+    #### lab2-5-1-1
+        
+    ```bash
+    cd /opt/kafka
+    ```
     
-    #### lab2-5-1
+    #### lab2-5-2-2
         
     ```bash
     bin/kafka-topics.sh --bootstrap-server $KAFKA_BOOTSTRAP_SERVERS \
@@ -373,16 +378,22 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
 ![12](https://github.com/user-attachments/assets/8dad4862-9206-41f0-b892-ece7d2d04dbd)
 
 2. `trarffic-generator-2`에서 `nginx-topic`의 메세지를 수신할 콘솔 컨슈머 실행
+
+   #### lab2-5-2-1
+        
+    ```bash
+    cd /opt/kafka
+    ```
     
-    #### lab2-5-2
+    #### lab2-5-2-2
     
     ```bash
     bin/kafka-console-consumer.sh --bootstrap-server $KAFKA_BOOTSTRAP_SERVERS \
     --topic nginx-topic --from-beginning
     ```
     
-3. 웹 브라우저 주소창에 `http://{ALB의 Public IP}`를 입력하여 접속 후 링크 클릭 등을 통해 임의로 트래픽 생성
-4. `trarffic-generator-2`의 터미널에서 NGINX 로그 확인
+4. 웹 브라우저 주소창에 `http://{ALB의 Public IP}`를 입력하여 접속 후 링크 클릭 등을 통해 임의로 트래픽 생성
+5. `trarffic-generator-2`의 터미널에서 NGINX 로그 확인
 
     - `Ctrl`+`c` 키를 입력하여 종료
     - 아래 결과 확인(사진 넣을 예정)
