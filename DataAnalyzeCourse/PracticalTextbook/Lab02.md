@@ -104,35 +104,34 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
 
 5. `api-server-1`에서 Logstash 설정 파일을 수정하여 Kafka로 송신하도록 설정
 
-    #### lab2-2-5-1
+    #### lab2-2-5
    
     ```
     sudo sed -i 's/logs-to-pubsub.conf/logs-to-kafka.conf/g' /etc/logstash/logstash.yml
     ```
 
-    - Logstash 재시작 및 상태 확인
+6. Logstash 재시작 및 상태 확인
     
-    #### lab2-2-5-2
+    #### lab2-2-6-1
     
     ```bash
     sudo systemctl daemon-reload
     ```
 
-    #### lab2-2-5-3
+    #### lab2-2-6-2
     
     ```bash
     sudo systemctl restart logstash
     ```
 
-    #### lab2-2-5-4
+7. Logstash 상태 확인
+    #### lab2-2-6-3
 
     ```bash
     sudo systemctl status logstash
     ```
-
+![image](https://github.com/user-attachments/assets/98ac20eb-1018-48f3-824d-ca5ad848f243)
     - `Active:active (running)` 확인
-    - 아래 결과 확인
-    ![3](https://github.com/user-attachments/assets/791245d1-7f81-4e4a-be7e-a9192645e7ad)
 
 
 ## 3. Kafka 기본 환경 설정
