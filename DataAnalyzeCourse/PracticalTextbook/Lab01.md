@@ -106,9 +106,7 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 통한 메시�
     ```bash
     Publish a message to the test-topic in Pub/Sub using the REST API
     ```
-
-    - 아래와 같은 결과 확인
-    ![image](https://github.com/user-attachments/assets/96ce2786-96f0-4fe2-a4a9-15e3c5eb8a11)
+![image](https://github.com/user-attachments/assets/96ce2786-96f0-4fe2-a4a9-15e3c5eb8a11)
 
 3. `Enter`를 두 번 눌러 송신 완료
     
@@ -126,7 +124,7 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 통한 메시�
     ```bash
     python3 pub_sub_subscriber.py
     ```
-    ![image](https://github.com/user-attachments/assets/de6e6265-0d32-495b-8074-82635dd4f94f)
+![image](https://github.com/user-attachments/assets/de6e6265-0d32-495b-8074-82635dd4f94f)
 
 
 6. `Ctrl` + `c`로 메시지 수신 스크립트 실행 종료
@@ -179,7 +177,7 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 통한 메시�
     ```bash
     Publish a message to the test-topic in Pub/Sub using the Go SDK
     ```
-    ![image](https://github.com/user-attachments/assets/a14e3616-3284-40c2-a611-ba4288a57431)
+![image](https://github.com/user-attachments/assets/a14e3616-3284-40c2-a611-ba4288a57431)
    
 5. `Ctrl` + `c`로 Publisher 실행 파일 종료
 
@@ -213,7 +211,7 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 통한 메시�
 ---
 
 ## 5. Object Storage에 NGINX 로그 적재
-1. `traffic-generator-1`에서 `pubsub` 디렉토리로 이동하기 위한 아래 명령어 실행
+1. `traffic-generator-1`에서 트래픽 생성을 위해 디렉터리 이동
     
     #### **lab1-5-1**
     
@@ -221,15 +219,6 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 통한 메시�
     cd /home/ubuntu/DataAnalyzeCourse/src/day1/Lab01/pubsub/
     
     ```
-
-    - 로그 생성 전 디렉터리 구조 확인
-    #### **lab1-5-1-2**
-    ```
-    ls
-    ```
-
-    - 아래와 같은 결과 확인
-![11](https://github.com/user-attachments/assets/4d647d4a-f758-4240-8398-ee81ac008faa)
 
 2. `traffic-generator-1`에서 트래픽 로그를 생성하는 `traffic_generator.py` 실행
     - **Note**: 트래픽 로그가 자동으로 생성되어 NGINX 로그에 반영됨
@@ -240,27 +229,14 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 통한 메시�
     python3 traffic_generator.py
     ```
     
-3. 실행 완료 후 생성된 로그 확인(2분)
-
-    #### **lab1-5-3-1**
-    
-    ```bash
-    ls
-    ```
-    - 로그 생성 후 디렉터리 구조에 `traffic_generator.log` 파일 생성 확인
-
-    - 아래와 같은 결과 확인
-    ![12](https://github.com/user-attachments/assets/ac9f69e5-7b1d-420c-8c1f-3bb00af428ad)
+3. 실행 완료 후 새로 생성된 `traffic_generator.log` 로그 파일 확인(2분)
 
     #### **lab1-5-3-2**
     
     ```bash
     cat traffic_generator.log
     ```
-    - 로그 생성 후 `traffic_generator.log` 파일 내부 확인
-
-    - 아래와 같은 결과 확인
-![13](https://github.com/user-attachments/assets/be5a3eef-3ed4-4e17-a59d-8000f0f82bcd)
+![image](https://github.com/user-attachments/assets/f54c459f-b24d-4905-89c2-abfe930f8494)
 
 4. 웹 브라우저 주소창에서 직접 로그를 발생시키기 위해 아래 URL 입력
 
@@ -269,10 +245,9 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 통한 메시�
     ```
     http://{ALB Public IP 주소}
     ```
+![image](https://github.com/user-attachments/assets/928e4751-ad0c-4e8e-8efc-f397bfb60977)
 
-    ![14](https://github.com/user-attachments/assets/a3fff2b9-5d57-4c03-9e0e-805f6c8bd2d9)
-
-5. 사용자 등록, 상품 목록 확인 등을 수행하여 로그 생성
+5. 사용자 등록, 로그인, 상품 목록 확인 등을 수행하여 로그 생성
 6. 카카오 클라우드 콘솔 > Beyond Storage Service > Object Storage > 일반 버킷
     - 쌓인 로그를 확인하기 위한 `pubsub-nginx-log` 버킷 클릭
         - 현재 연도/월/일/시 디렉터리로 이동하여 생성된 NGINX 로그 확인
