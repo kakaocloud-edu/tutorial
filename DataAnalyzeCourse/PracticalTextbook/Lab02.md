@@ -452,12 +452,19 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
                 echo "kakaocloud: 1.환경 변수 설정 시작"
                 
                 cat <<'EOF' > /tmp/env_vars.sh
+                # Kafka 설정
                 export KAFKA_BOOTSTRAP_SERVER="{Kafka 부트스트랩 서버}"
+                
+                # S3 인증 정보
                 export AWS_ACCESS_KEY_ID_VALUE="{콘솔에서 발급한 S3 액세스 키의 인증 키 값}"
                 export AWS_SECRET_ACCESS_KEY_VALUE="{콘솔에서 발급한 S3 액세스 키의 보안 액세스 키 값}"
+                
+                # AWS 환경 변수 설정
                 export BUCKET_NAME="data-catalog"
                 export AWS_DEFAULT_REGION_VALUE="kr-central-2"
                 export AWS_DEFAULT_OUTPUT_VALUE="json"
+                
+                # 로그 파일 경로
                 export LOGFILE="/home/ubuntu/setup.log"
                 EOF
                 
