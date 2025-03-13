@@ -108,10 +108,18 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 통한 메시�
 
     - 아래와 같은 결과 확인
     ![6](https://github.com/user-attachments/assets/17c9e7a5-79b0-46fc-b7e1-761fe3211687)
-
-2. `traffic-generator-2` 터미널 창에서 `test-topic`의 메세지를 `test-pull-sub` 서브스크립션을 통해 수신하기 위한 아래 명령어 실행
-    - 메시지 수신 스크립트 실행하여 `traffic-generator-2` 터미널에서 메시지가 정상적으로 수신되는지 확인 후, `Ctrl` + `C` 키로 종료
+    
+2. `traffic-generator-2` 터미널 창에서 `Pub/Sub`실습을 위한 디렉토리로 이동하기 위해 아래 명령어 실행
+    
     #### **lab1-3-2**
+    
+    ```bash
+    cd /home/ubuntu/DataAnalyzeCourse/src/day1/Lab01/pubsub/
+    ```
+
+3. `traffic-generator-2` 터미널 창에서 `test-topic`의 메세지를 `test-pull-sub` 서브스크립션을 통해 수신하기 위한 아래 명령어 실행
+    - 메시지 수신 스크립트 실행하여 `traffic-generator-2` 터미널에서 메시지가 정상적으로 수신되는지 확인 후, `Ctrl` + `C` 키로 종료
+    #### **lab1-3-3**
         
     ```bash
     python3 pub_sub_subscriber.py
@@ -120,14 +128,14 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 통한 메시�
     - 아래와 같은 결과 확인
 ![7](https://github.com/user-attachments/assets/d7ffc9fa-12d2-4542-871c-abbb3abe5314)
 
-3. 웹 브라우저 주소창에서 `test-topic`의 메세지를 `test-push-sub` 서브스크립션을 통해 `api-server-vm`으로 송신된 메세지를 확인하기 위한 아래 URL 입력
-    #### **lab1-3-3**
+4. 웹 브라우저 주소창에서 `test-topic`의 메세지를 `test-push-sub` 서브스크립션을 통해 `api-server-vm`으로 송신된 메세지를 확인하기 위한 아래 URL 입력
+    #### **lab1-3-4**
 
     ```
     http://{ALB Public IP 주소}/push-messages
     ```
         
-4. `test-push-sub` 서브스크립션에서 `api-server-vm`으로 송신한 메시지 확인
+5. `test-push-sub` 서브스크립션에서 `api-server-vm`으로 송신한 메시지 확인
     - **Note**: 메시지가 보이지 않을 경우 전송에 시간이 걸릴 수 있으므로 잠시 대기 후 다시 시도
     - **Note**: 새로고침(F5)을 여러 번 진행하여 메세지가 적재된 부분 확인
 
