@@ -196,34 +196,34 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
 4. 송신할 메세지를 하나씩 입력 후 `Enter` 입력
 
     #### lab2-4-4-1
-
+    - `Enter` 입력
     ```
     test1
     ```
-
+    
     #### lab2-4-4-2
-
+    - `Enter` 입력
     ```
     test2
     ```
-
+    
     #### lab2-4-4-3
-
+    - `Enter` 입력
     ```
     test3
     ```
-5. Producer 스크립트 실행 종료
+5. `Ctrl`+`C` 키를 눌러 Producer 스크립트 실행 종료
 6. `traffic-generator-2`에서 kafka 작업을 위한 디렉터리인 `/opt/kafka`로 이동
     
-    #### lab2-4-5
+    #### lab2-4-6
         
     ```bash
     cd /opt/kafka
     ```
     
-6. `traffic-generator-2`에서 Kafka 콘솔 컨슈머를 실행해 consumer-group-earliest 그룹으로 `consol-topic` 토픽의 메시지 수신
+7. `traffic-generator-2`에서 Kafka 콘솔 컨슈머를 실행해 consumer-group-earliest 그룹으로 `consol-topic` 토픽의 메시지 수신
     
-    #### lab2-4-6
+    #### lab2-4-7
         
     ```bash
     bin/kafka-console-consumer.sh --bootstrap-server ${KAFKA_BOOTSTRAP_SERVERS} \
@@ -236,8 +236,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     - 아래 결과 확인
 ![5](https://github.com/user-attachments/assets/cde48506-40d2-4550-a9f0-426da39e2438)
 
-7. `traffic-generator-2`에서 `Ctrl` + `c` 키로 Kafka 콘솔 컨슈머 종료
-
+8. `traffic-generator-2`에서 `Ctrl` + `c` 키로 Kafka 콘솔 컨슈머 종료
 
 
 ## 5. 콘솔 스크립트를 통한 Kafka 메시지 송수신 확인(latest 옵션)
