@@ -97,6 +97,8 @@
    - - 생성 버튼 클릭
 
 ## 5. Pub/Sub 토픽 생성
+![image](https://github.com/user-attachments/assets/dc67c221-fdd1-463b-8a99-24f09ba76611)
+
 1. 카카오 클라우드 콘솔 > Analytics > Pub/Sub > 토픽
 2. `data-catalog-topic` 토픽 생성
     - 토픽 생성 버튼 클릭
