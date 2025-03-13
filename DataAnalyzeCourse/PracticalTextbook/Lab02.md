@@ -178,9 +178,8 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
    - ![image](https://github.com/user-attachments/assets/e769ee52-5a32-49f6-8124-f20c9ed60227)
     
 
-# 4. Kafka 메시지 송수신 확인
 
-## 4-1. earlist 옵션의 카프카 콘솔 스크립트로 메시지 송수신
+## 4. 콘솔 스크립트를 통한 Kafka 메시지 송수신 확인(earlist 옵션)
 
 1. `traffic-generator-1`에서 kafka 작업을 위한 디렉터리인 `/opt/kafka`로 이동
     
@@ -249,7 +248,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
 
 
 
-## 4-2. latest 옵션의 카프카 콘솔 스크립트로 메시지 송수신
+## 5. 콘솔 스크립트를 통한 Kafka 메시지 송수신 확인(latest 옵션)
 1. `traffic-generator-1`에서 실행 중인 콘솔 프로듀서에 송신할 메세지 입력 후 `Enter` 키 입력
     - **Note**: 전송되는 시간이 필요하므로 전송 후 5초 정도 대기
         ```
@@ -263,7 +262,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     - **Note**: 이후 실행할 `producer` 메세지 받아야하므로 종료하면 안됨
     - **Note**: `consumer-group-latest`라는 새로운 그룹이므로 `offset 0`부터 쌓임
    
-    #### lab2-4-2-2
+    #### lab2-5-2
 
     ```bash
     bin/kafka-console-consumer.sh --bootstrap-server ${KAFKA_BOOTSTRAP_SERVERS} \
@@ -289,7 +288,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
 
 4. `traffic-generator-2`에서 컨슈머 그룹 목록 확인
     
-    #### lab2-4-2-4
+    #### lab2-5-4
         
     ```bash
     bin/kafka-consumer-groups.sh --bootstrap-server ${KAFKA_BOOTSTRAP_SERVERS} --list
@@ -299,10 +298,10 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
 ![7](https://github.com/user-attachments/assets/be8f5dbd-25ab-4892-9f32-ef683406fb3e)
 
 
-## 4-3. Python SDK로 메시지 송수신
+## 6. Python SDK를 활용한 Kafka 메시지 송수신 확인
 
 1. `traffic-generator-1`에서 Python-SDK를 이용하여 메세지를 받을 `python-topic` 생성
-    #### lab2-4-3-1
+    #### lab2-6-1
     
     ```bash
     bin/kafka-topics.sh --bootstrap-server ${KAFKA_BOOTSTRAP_SERVERS} \
@@ -313,7 +312,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
 ![8](https://github.com/user-attachments/assets/733df113-1628-43b7-a5c9-bb07b691b3ee)
 
 2. `traffic-generator-1`에서 메세지를 전송할 Python 프로듀서 코드 실행
-    #### lab2-4-3-2
+    #### lab2-6-2
 
     ```bash
     cd /home/ubuntu/DataAnalyzeCourse/src/day1/Lab02/kafka
@@ -328,13 +327,13 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
 
 3. `traffic-generator-2`에서 메세지를 수신할 Python 컨슈머 코드 실행
 
-    #### lab2-4-3-3-1
+    #### lab2-6-3-1
     
     ```bash
     cd /home/ubuntu/DataAnalyzeCourse/src/day1/Lab02/kafka
     ```
 
-    #### lab2-4-3-3-2
+    #### lab2-6-3-2
 
     ```bash
     python3 kafka_subscriber.py
@@ -347,7 +346,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
   
 4. `traffic-generator-2`에서 Python 컨슈머 코드의 옵션을 START_OFFSET = 3, commit_threshold = 4로 수정하여 다시 실행
 
-    #### lab2-4-3-4
+    #### lab2-6-4
 
     ```bash
     python3 kafka_subscriber.py --start-offset 3 --commit-threshold 4
@@ -358,7 +357,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
 ![11](https://github.com/user-attachments/assets/a6b1924c-83b1-43c1-a819-b80e701c4ccb)
 
 
-# 5. Nginx 로그 수집 및 Kafka 전송
+## 5. Nginx 로그 수집 및 Kafka 전송
 
 1. Nginx 로그 토픽 생성
     - `trarffic-generator-1`에서 nginx을 이용하여 메세지를 받을 `nginx-topic` 생성
@@ -389,17 +388,92 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     - 아래 결과 확인(사진 넣을 예정)
    
     
-# 6. S3 Sink Connector 생성
+## 6. S3 액세스 키 발급
+1. 우측 상단 계정 프로필 > 자격 증명 > 비밀번호 확인
+2. `S3 액세스 키` 탭 클릭
+3. `S3 액세스 키 생성` 버튼 클릭
+    - S3 액세스 키 생성 정보
+        - 프로젝트: `사용자가 위치한 프로젝트`
+        - S3 액세스 키 이름: `s3-acc-key`
+        - S3 액세스 키 설명 (선택): `빈 칸`
+    - 생성 버튼 클릭
+    - S3 인증 정보 항목의 사용자 `인증 키` 복사 후 클립보드 등에 붙여넣기
+    - S3 인증 정보 항목의 사용자 `보안 엑세스 키` 복사 후 클립보드 등에 붙여넣기
+        - **Note**: S3 액세스 키 정보 팝업창을 닫은 이후 S3 인증 정보 다시 조회 불가
+    - 확인 버튼 클릭
 
+## 7. Kafka Connector VM 생성 (2분)
 1. 카카오 클라우드 콘솔 > Beyond Compute Service > Virtual Machine > 인스턴스
-2. `kafka-connector` 인스턴스의 우측 메뉴바 > `SSH 연결` 클릭
+2. 인스턴스 생성 버튼 클릭
+    - Kafka Connector VM 생성 정보
+        - 기본 정보
+            - 이름: `kafka-connector`
+            - 개수: `1`
+            - 이미지: `Ubuntu 22.04`
+            - 인스턴스유형: `m2a.xlarge`
+            - 볼륨: `10`
+            - 키 페어: 위에서 생성한 `keypair`
+            - 네트워크
+                - VPC: `kc-vpc`
+                - 서브넷: `kr-central-2-a의 Public 서브넷`
+            - 유형: `새 인터페이스`
+            - IP 할당 방식: `자동`
+            - 보안 그룹
+            - **Note**: 기존에 Traffic Generator VM에서 사용한 보안그룹 사용
+                - 보안 그룹 이름: `tg-sg` 선택
+                    - 인바운드 규칙
+                        - 프로토콜: TCP, 출발지: 0.0.0.0/0, 포트 번호: `22`
+                        - 프로토콜: TCP, 출발지: 0.0.0.0/0, 포트 번호: `9092`
+                    - 아웃바운드 규칙
+                        - 프로토콜: ALL, 출발지: 0.0.0.0/0, 포트 번호: `ALL`
+        
+            - 고급 설정
+                - 아래 스크립트 입력
+                - **Note**: 메모장에 아래 링크의 코드를 복사 붙여넣기 하여 사용
+                - **Note**: 중괄호({})는 제거하고 쌍 따옴표는 유지
+                - 사용자 스크립트: [`kafka_vm_init.sh`](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day1/Lab00/kafka/kafka_vm_init.sh)의 쌍따옴표(“”) 사이에 자신의 리소스 값 입력
+                ```
+                #!/bin/bash
+                
+                echo "kakaocloud: 1.환경 변수 설정 시작"
+                
+                cat <<'EOF' > /tmp/env_vars.sh
+                export KAFKA_BOOTSTRAP_SERVER="{Kafka 부트스트랩 서버}"
+                export AWS_ACCESS_KEY_ID_VALUE="{콘솔에서 발급한 S3 액세스 키의 인증 키 값}"
+                export AWS_SECRET_ACCESS_KEY_VALUE="{콘솔에서 발급한 S3 액세스 키의 보안 액세스 키 값}"
+                export BUCKET_NAME="data-catalog"
+                export AWS_DEFAULT_REGION_VALUE="kr-central-2"
+                export AWS_DEFAULT_OUTPUT_VALUE="json"
+                export LOGFILE="/home/ubuntu/setup.log"
+                EOF
+                
+                # 환경 변수 적용 
+                source /tmp/env_vars.sh
+                echo "source /tmp/env_vars.sh" >> /home/ubuntu/.bashrc
+                
+                echo "kakaocloud: 2.스크립트 다운로드 사이트 유효성 검사 시작"
+                SCRIPT_URL="https://raw.githubusercontent.com/kakaocloud-edu/tutorial/refs/heads/main/DataAnalyzeCourse/src/day1/Lab00/kafka/kafka_full_setup.sh"
+                
+                curl -L --output /dev/null --silent --head --fail "$SCRIPT_URL" || { echo "kakaocloud: Script download site is not valid"; exit 1; }
+                wget -q "$SCRIPT_URL"
+                chmod +x kafka_full_setup.sh
+                sudo -E ./kafka_full_setup.sh
+                ```
+                
+                - CPU 멀티스레딩: `활성화`
+        
+    - 생성 버튼 클릭
+3. `kafka-connector` 상태 Actice 확인 후 인스턴스의 우측 메뉴바 > `Public IP 연결` 클릭
+    - `새로운 퍼블릭 IP를 생성하고 자동으로 할당`
+4. 확인 버튼 클릭
+5. `kafka-connector` 인스턴스의 우측 메뉴바 > `SSH 연결` 클릭
     - SSH 접속 명령어 복사
     - 터미널 열기
     - keypair를 다운받아놓은 폴더로 이동
     - 터미널에 명령어 붙여넣기
     - yes 입력
     
-    #### **lab2-6-2-1**
+    #### **lab0-9-5-1**
     
     ```bash
     cd {keypair.pem 다운로드 위치}
@@ -407,13 +481,13 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     
     - 리눅스의 경우에 아래와 같이 키페어의 권한을 조정
     
-    #### **lab2-6-2-2**
+    #### **lab0-9-5-2**
     
     ```bash
     chmod 400 keypair.pem
     ```
     
-    #### **lab2-6-2-3**
+    #### **lab0-9-5-3**
     
     ```bash
     ssh -i keypair.pem ubuntu@{kafka-connector의 public ip주소}
@@ -421,10 +495,17 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     
     - {kafka-connector의 public ip주소}: 복사한 각 IP 주소 입력
     
-    #### **lab2-6-2-4**
+    #### **lab0-9-5-4**
     
     ```bash
     yes
+    ```
+
+6. 스크립트 적용 확인
+    #### **lab0-9-6**
+   
+    ```
+    watch -c 'awk "/^kakaocloud:/ {gsub(/([0-9]+)\\./,\"\\033[33m&\\033[0m\"); print}" < /var/log/cloud-init-output.log'
     ```
 
 3. `data-catalog` 버킷에 nginx 로그를 쌓기 위한 쓰기 권한 부여
