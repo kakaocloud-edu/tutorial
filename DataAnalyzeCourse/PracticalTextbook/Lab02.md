@@ -183,18 +183,17 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     
 ![4](https://github.com/user-attachments/assets/c24f87ea-9ebc-4355-b4f7-a9661f052281)
 
-3. `traffic-generator-1`에서 `kafka-console-producer.sh` 실행
+3. `traffic-generator-1`에서 Producer 스크립트 실행
     
     #### lab2-4-3
 
     - **Note**: 메세지가 입력될 때 마다 `offset`에 쌓이며, `offset 0` 부터 시작됨
-    - `kafka-console-producer.sh` 실행
         
     ```bash
     bin/kafka-console-producer.sh --broker-list ${KAFKA_BOOTSTRAP_SERVERS} --topic consol-topic
     ```
 
-4. 송신할 메세지를 순차적으로 입력
+4. 송신할 메세지를 하나씩 입력 후 `Enter` 입력
 
     #### lab2-4-4-1
 
@@ -213,7 +212,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     ```
     test3
     ```
-5. `Enter` 키를 입력하여 송신
+5. Producer 스크립트 실행 종료
 6. `traffic-generator-2`에서 kafka 작업을 위한 디렉터리인 `/opt/kafka`로 이동
     
     #### lab2-4-5
