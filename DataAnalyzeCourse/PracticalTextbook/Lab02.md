@@ -354,7 +354,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
 ![11](https://github.com/user-attachments/assets/a6b1924c-83b1-43c1-a819-b80e701c4ccb)
 
 
-## 5. Nginx 로그 수집 및 Kafka 전송
+## 7. Nginx 로그 수집 및 Kafka 전송
 
 1. Nginx 로그 토픽 생성
     - `trarffic-generator-1`에서 nginx을 이용하여 메세지를 받을 `nginx-topic` 생성
