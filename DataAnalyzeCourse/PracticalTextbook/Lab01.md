@@ -179,7 +179,7 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 통한 메시�
     ```bash
     Publish a message to the test-topic in Pub/Sub using the Go SDK
     ```
-    ![image](https://github.com/user-attachments/assets/ea2fa21b-810c-44a1-b8ef-e7f3d81876b6)
+    ![image](https://github.com/user-attachments/assets/a14e3616-3284-40c2-a611-ba4288a57431)
    
 5. `Ctrl` + `c`로 Publisher 실행 파일 종료
 
