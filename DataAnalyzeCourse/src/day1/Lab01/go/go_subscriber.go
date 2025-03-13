@@ -48,7 +48,7 @@ func main() {
     subscription := client.Subscription(subscriptionName)
     subscription.ReceiveSettings.NumGoroutines = 5
 
-    # Graceful shutdown 처리
+    // Graceful shutdown 처리
     go func() {
         stopChan := make(chan os.Signal, 1)
         signal.Notify(stopChan, os.Interrupt, syscall.SIGTERM)
