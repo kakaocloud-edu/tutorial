@@ -126,6 +126,7 @@
 1. 편집기 상단 `+` 버튼 클릭하여 `Query5` 탭 추가 후, `kafka_log_table` 테이블을 status 컬럼을 기준으로 파티션을 나누어 저장하는 새 파티션 테이블 생성
 
    #### **lab4-4-1**
+
    ```
    CREATE TABLE data_catalog_database.kafka_log_partitioned
    WITH (
@@ -141,9 +142,14 @@
    FROM data_catalog_database.kafka_log_table;
    ```
 
-5. 카카오 클라우드 콘솔 > Analytics > Data Catalog > 카탈로그
-6. `kafka_log_partitioned` 테이블 클릭
-   - 파티션 탭 클릭
-   - `status` 값에 따라 생성된 파티션 확인
-   - 각 `status` 값 우측 파일 보기 클릭
-   - 파티션에 따라 External 타입으로 저장된 NGINX 로그 데이터 확인
+3. 카카오 클라우드 콘솔 > Analytics > Data Catalog > 테이블
+3. `kafka_log_partitioned` 테이블 생성 확인
+   ![19](https://github.com/user-attachments/assets/4e36de9a-cbac-41ad-a244-4e95808941f1)
+
+4. `kafka_log_partitioned` 테이블 클릭 후 파티션 탭 클릭
+5. `status` 값에 따라 생성된 파티션 확인
+   ![image](https://github.com/user-attachments/assets/e8c4c649-7ad4-44a3-be59-85314c9d9857)
+
+6. 각 `status` 값 우측 파일 보기 클릭
+7. 파티션에 따라 External 타입으로 저장된 NGINX 로그 데이터 확인
+   ![20](https://github.com/user-attachments/assets/d165180c-fa32-410b-abe7-962ee0d1b15f)
