@@ -1,7 +1,9 @@
-![image](https://github.com/user-attachments/assets/800bbbb2-8bd4-43fa-bd11-3c4b0af0976b)# Data Catalog 실습
+# Data Catalog 실습
 
+Data Catalog와 Pub/Sub, Object Storage를 연동해 테이블 생성 및 이벤트 처리와 크롤러를 통한 MySQL 메타데이터 추출을 수행하는 실습입니다.
+---
 
-## 1. Object Storage 버킷 설정
+## 1. Object Storage 버킷 권한 설정
 1. 카카오 클라우드 콘솔 > Beyond Storage Service > Object Storage > 일반 버킷
 2. `data-catalog` 버킷 설정
       - `data-catalog` 버킷 클릭
@@ -21,26 +23,23 @@
 ![image](https://github.com/user-attachments/assets/6fde6a89-5c5a-4153-8512-6dca577d59c9)
 
 1. 카카오 클라우드 콘솔 > Analytics > Pub/Sub > 토픽
-2. `data-catalog-topic` 토픽 생성
-    - 토픽 생성 버튼 클릭
+2. 토픽 생성 버튼 클릭
         - 이름: `data-catalog-topic`
         - 기본 서브스크립션: `생성 안함`
         - 토픽 메세지 보존 기간: `0일 0시 10분`
         - 설명: `없음`
     - 생성 버튼 클릭
 3. 생성된 `data-catalog-topic` 클릭
-4. `data-catalog-topic`의 Pull 서브스크립션 생성
-    - 서브스크립션 탭 클릭
-    - 서브스크립션 생성 버튼 클릭
-        - 기본 설정
+4. 서브스크립션 탭 클릭 후 서브스크립션 생성 버튼 클릭
+      - 기본 설정
             - 이름: `data-catalog-pull-sub`
             - 토픽 선택: `data-catalog-topic`
-        - 유형: `Pull`
-        - 서브스크립션 메시지 보존 기간: `0일 0시 10분`
-        - 응답 대기 시간: `20초`
-        - 재처리 횟수: `횟수 지정`, `3번`
-    - 생성 버튼 클릭
-5. `data-catalog-pull-sub` 서브스크립션의 상태가 `Active`인 것을 확인
+      - 유형: `Pull`
+      - 서브스크립션 메시지 보존 기간: `0일 0시 10분`
+      - 응답 대기 시간: `20초`
+      - 재처리 횟수: `횟수 지정`, `3번`
+      - 생성 버튼 클릭
+6. `data-catalog-pull-sub` 서브스크립션의 상태가 `Active`인 것을 확인
 ![6](https://github.com/user-attachments/assets/53d27a38-a405-4e55-98d4-8ea6750ee6bb)
 
 
@@ -57,8 +56,7 @@
 
 
 ## 4. 데이터베이스 생성(1분)
-1. 좌측 데이터베이스 탭 클릭
-2. 데이터베이스 생성 버튼 클릭
+1. 좌측 데이터베이스 탭 클릭 후 데이터베이스 생성 버튼 클릭
    - 카탈로그: `data_catalog`
    - 이름: `data_catalog_database`
    - 경로
@@ -66,13 +64,12 @@
       - 버킷 이름: `data-catalog-bucket`
       - 경로: `data-catalog-dir`
    - 생성 버튼 클릭
-3. `data_catalog_database` 데이터베이스의 상태가 `Running`인 것을 확인
+2. `data_catalog_database` 데이터베이스의 상태가 `Running`인 것을 확인
 ![4](https://github.com/user-attachments/assets/3c5a51b9-e0b4-4979-8ebd-d961c71a79e0)
 
 
 ## 5. 테이블 생성(1분)
-1. 좌측 테이블 탭 클릭  
-2. 테이블 생성 버튼 클릭  
+1. 좌측 테이블 탭 클릭 후 테이블 생성 버튼 클릭  
    - 데이터 베이스: `data_catalog_database`  
    - 테이블 이름: `kafka_log_table`  
    - 테이블 저장 경로  
@@ -92,6 +89,8 @@
         | 미사용   | 2        | query_params | string     |
         | 미사용   | 3        | endpoint     | string     |
    - 생성 버튼 클릭
+2. `kafka_log_table` 테이블의 상태가 `Active`인 것을 확인
+![image](https://github.com/user-attachments/assets/966a8c56-0803-4a5c-935c-330e243b9c35)
 
 
 ## 6. Data Catalog 테이블 이벤트 메시지 수신
@@ -131,7 +130,7 @@
 ![image](https://github.com/user-attachments/assets/a2d2c575-ab4c-439b-b71a-42940a7333d5)
 
 
-## 6. 크롤러 생성
+## 7. 크롤러를 통한 MySQL 메타데이터 추출
 1. 좌측 크롤러 탭 클릭
 2. 크롤러 생성 버튼 클릭
     - 데이터베이스: `data_catalog_database`
@@ -155,6 +154,6 @@
 6. 크롤러의 상태가 `Active`인 것과 마지막 실행 상태가 `Succeeded`인 것을 확인 
 ![10](https://github.com/user-attachments/assets/9c471534-bc50-4b73-b1b4-be3c2f217fc0)
 
-7. 좌측 테이블 탭 클릭 후 추출한 메타데이터 정보 확인
+7. 좌측 테이블 탭 클릭 후 추출한 MySQL 메타데이터 정보 확인
 ![11](https://github.com/user-attachments/assets/0a2e267a-6d4b-4a4f-ad47-0d24ed712e40)
 
