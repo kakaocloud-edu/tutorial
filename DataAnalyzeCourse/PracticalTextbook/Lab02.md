@@ -610,7 +610,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
 
     - `/topics/nginx-topic/partition_0/year_{현재 연도}/month_{현재 월}/day_{현재 일}/hour_{현재 시}` 디렉터리로 이동
 
-    - 버킷 내 적재된 NGINX 로그 적재 확인
+    - 버킷 내 추가로 적재된 NGINX 로그 적재 확인
 
     - 아래 결과 확인(사진 넣을 예정)
 
