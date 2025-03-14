@@ -1,4 +1,4 @@
-#!/bin/bash
+a#!/bin/bash
 
 echo "MYSQL_HOST set to: $MYSQL_HOST"
 source /home/ubuntu/.bashrc
@@ -40,11 +40,13 @@ import uuid
 import time
 import random
 import mysql.connector
+import json
 from mysql.connector import Error
 from flask import jsonify
 from flask.json import JSONEncoder
 from decimal import Decimal
 from flask import request, jsonify, make_response
+
 
 
 class CustomJSONEncoder(JSONEncoder):
