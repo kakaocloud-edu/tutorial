@@ -217,7 +217,6 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 통한 메시�
     
     ```bash
     cd /home/ubuntu/DataAnalyzeCourse/src/day1/Lab01/pubsub/
-    
     ```
 
 2. `traffic-generator-1`에서 트래픽 로그를 생성하는 `traffic_generator.py` 실행
