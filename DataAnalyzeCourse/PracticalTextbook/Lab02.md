@@ -448,13 +448,24 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     sudo systemctl restart logstash
     ```
     
-4. 웹 브라우저 주소창에 `http://{ALB의 Public IP}`를 입력하여 접속 후 링크 클릭 등을 통해 임의로 트래픽 생성
-    #### lab2-5-4
+4. `traffic-generator-1`에서 트래픽 생성을 위해 디렉터리 이동
+    
+    #### **lab2-7-4**
     
     ```bash
-    http://{ALB의 Public IP}
+    cd /home/ubuntu/DataAnalyzeCourse/src/day1/Lab01/pubsub/
     ```
-5. `trarffic-generator-2`의 터미널에서 NGINX 로그 확인
+
+5. `traffic-generator-1`에서 트래픽 로그를 생성하는 `traffic_generator.py` 실행
+    - **Note**: 트래픽 로그가 자동으로 생성되어 NGINX 로그에 반영됨
+    
+    #### **lab2-7-5**
+    
+    ```bash
+    python3 traffic_generator.py
+    ```
+
+6. `trarffic-generator-2`의 터미널에서 NGINX 로그 확인
 
     - `Ctrl`+`c` 키를 입력하여 종료
 
