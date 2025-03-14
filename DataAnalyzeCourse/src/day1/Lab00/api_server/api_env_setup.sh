@@ -158,7 +158,6 @@ echo "kakaocloud: 8. api_full_setup.sh, setup_db.sh 스크립트 실행을 시�
 sudo chmod +x /home/ubuntu/api_full_setup.sh /home/ubuntu/setup_db.sh \
   || { echo "kakaocloud: api_full_setup.sh, setup_db.sh에 실행 권한 부여 실패"; exit 1; }
 
-echo "kakaocloud: Executing api_full_setup.sh & setup_db.sh"
 sudo -E /home/ubuntu/api_full_setup.sh \
   || { echo "kakaocloud: api_full_setup.sh execution failed"; exit 1; }
 sudo -E /home/ubuntu/setup_db.sh \
