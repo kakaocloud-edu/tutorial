@@ -44,6 +44,8 @@ from mysql.connector import Error
 from flask import jsonify
 from flask.json import JSONEncoder
 from decimal import Decimal
+from flask import request, jsonify, make_response
+
 
 class CustomJSONEncoder(JSONEncoder):
     def default(self, obj):
@@ -277,45 +279,59 @@ def home():
     resp.set_cookie('session_id', session_id)
     return resp
 
-
-messages_storage = []
-
 @app.route('/push-subscription', methods=['POST'])
 def push_subscription():
     """
-    외부 Push Subscription 서비스가 메시지를 POST 방식으로 보낼 수 있음
-    수신된 메시지는 JSON 형식으로 처리되며, 메모리에 저장
+    외부 Push Subscription 서비스가 메시지를 POST 방식으로 보내면,
+    JSON 형태의 페이로드를 DB의 push_messages 테이블에 저장합니다.
     """
     try:
-        # Parse the incoming JSON payload
         data = request.get_json()
-
         if not data:
             return "Invalid data format. Expected JSON payload.", 400
 
-        # Save the message into the in-memory storage
-        messages_storage.append(data)
+        # JSON 페이로드 전체를 문자열로 저장
+        payload_str = json.dumps(data)
 
-        # Log the received message
-        print(f"Received message: {data}")
+        conn = get_db_connection()
+        cursor = conn.cursor()
+        insert_query = "INSERT INTO push_messages (payload) VALUES (%s)"
+        cursor.execute(insert_query, (payload_str,))
+        conn.commit()
+        cursor.close()
+        conn.close()
 
+        print(f"Received and stored message: {data}")
         return "Message received and stored successfully.", 200
 
     except Exception as e:
         print(f"Error while processing push message: {e}")
         return f"An error occurred: {e}", 500
 
-
-
 @app.route('/push-messages', methods=['GET'])
 def get_push_messages():
     """
-    GET 방식으로 저장된 데이터를 JSON 형식으로 반환
-    브라우저 또는 API 클라이언트에서 데이터를 확인
+    DB에 저장된 push 메시지들을 JSON 형태로 반환합니다.
     """
     try:
-        # Respond with all stored messages as JSON
-        return jsonify({"messages": messages_storage}), 200
+        conn = get_db_connection()
+        cursor = conn.cursor(dictionary=True)
+        select_query = "SELECT * FROM push_messages ORDER BY received_at DESC"
+        cursor.execute(select_query)
+        rows = cursor.fetchall()
+        cursor.close()
+        conn.close()
+
+        # 저장 시 문자열로 저장한 JSON payload를 다시 파싱해서 반환
+        messages = []
+        for row in rows:
+            try:
+                row['payload'] = json.loads(row['payload'])
+            except Exception:
+                pass
+            messages.append(row)
+
+        return jsonify({"messages": messages}), 200
 
     except Exception as e:
         print(f"Error while retrieving messages: {e}")
