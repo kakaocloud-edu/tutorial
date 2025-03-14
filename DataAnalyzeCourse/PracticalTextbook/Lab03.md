@@ -57,16 +57,16 @@ Data Catalog와 Pub/Sub, Object Storage를 연동해 테이블 생성 및 이벤
 
 
 ## 4. 데이터베이스 생성(1분)
-1. 좌측 데이터베이스 탭 클릭 후 데이터베이스 생성 버튼 클릭
-      - 카탈로그: `data_catalog`
-      - 이름: `data_catalog_database`
-      - 경로
-            - S3 연결: `체크`
-            - 버킷 이름: `data-catalog-bucket`
-            - 디렉터리: `data-catalog-dir`
-      - 설명 (선택): 빈칸
-      - 생성 버튼 클릭
-2. `data_catalog_database` 데이터베이스의 상태가 `Active`인 것을 확인
+1. 좌측 데이터베이스 탭 클릭 후 데이터베이스 생성 버튼 클릭  
+    - 카탈로그: `data_catalog`  
+    - 이름: `data_catalog_database`  
+    - 경로  
+        - S3 연결: `체크`  
+        - 버킷 이름: `data-catalog-bucket`  
+        - 디렉터리: `data-catalog-dir`  
+    - 설명(선택): 빈칸  
+    - 생성 버튼 클릭  
+2. `data_catalog_database` 데이터베이스의 상태가 `Active`인 것을 확인  
 ![4](https://github.com/user-attachments/assets/3c5a51b9-e0b4-4979-8ebd-d961c71a79e0)
 
 
