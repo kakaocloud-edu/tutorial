@@ -194,21 +194,18 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     ```
     test1
     ```
-    - `Enter` 입력
     
     #### lab2-4-4-2
 
     ```
     test2
     ```
-    - `Enter` 입력
     
     #### lab2-4-4-3
 
     ```
     test3
     ```
-    - `Enter` 입력
     - 송신되는 시간 5초 대기 후 `ctrl` + `c`로 종료
 
 5. `traffic-generator-2`에서 kafka 작업을 위한 디렉터리인 `/opt/kafka`로 이동
@@ -234,14 +231,14 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
 
    - 사진 예정(사진 넣은 후 삭제)
 
-7. Consumer 스크립트를 `earlist` 옵션과 `uncommit` 옵션을 추가하여 실행해 `consumer-group-earliest-uncommit` 그룹으로 `consol-topic` 토픽의 메시지 수신
+7. Consumer 스크립트를 `earlist` 옵션과 `not commit` 옵션을 추가하여 실행해 `consumer-group-earliest-notcommit` 그룹으로 `consol-topic` 토픽의 메시지 수신
     - `traffic-generator-1`에서 입력했던 메세지 수신 확인
 
     #### lab2-4-7
         
     ```bash
     bin/kafka-console-consumer.sh --bootstrap-server ${KAFKA_BOOTSTRAP_SERVERS} \
-    --topic consol-topic --group consumer-group-earliest \
+    --topic consol-topic --group consumer-group-earliest-notcommit \
     --consumer-property auto.offset.reset=earliest \
     --consumer-property enable.auto.commit=false
     ```
