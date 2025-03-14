@@ -63,28 +63,28 @@
    - 카탈로그 상태: Running 확인
 
 ## 5. 테이블 생성
-1. 카카오 클라우드 콘솔 > Analytics > Data Catalog > 테이블
-2. 테이블 생성 버튼 클릭
+1. 카카오 클라우드 콘솔 > Analytics > Data Catalog > 테이블  
+2. 테이블 생성 버튼 클릭  
 
-- **kafka_log_table** 테이블 생성 정보 
-   - 데이터 베이스: `data_catalog_database`
-   - 테이블 이름: `kafka_log_table`
-   - 테이블 저장 경로
-      - S3 연결: `체크`
-      - 버킷 이름: `data-catalog`
-      - 디렉터리: `kafka-nginx-log/nginx-topic/partition_0/year_{현재 연도}/month_{현재 월}`
-   - 데이터 유형: `JSON`
-   - Pub/Sub 연동: `사용`
-      - 토픽 선택: `data-catalog-topic`
-   - 설명(선택): `없음` 
-   - 스키마 
-      - 필드 추가 버튼 클릭 후 아래 표의 순서대로 스키마 추가
-            | 파티션 키 | 컬럼 번호 | 필드 이름     | 데이터 유형 |
-            |----------|----------|--------------|------------|
-            | 미사용   | 1        | status       | string     |
-            | 미사용   | 2        | query_params | string     |
-            | 미사용   | 3        | endpoint     | string     |
-
+- **kafka_log_table** 테이블 생성 정보  
+   - 데이터 베이스: `data_catalog_database`  
+   - 테이블 이름: `kafka_log_table`  
+   - 테이블 저장 경로  
+      - S3 연결: `체크`  
+      - 버킷 이름: `data-catalog`  
+      - 디렉터리: `kafka-nginx-log/nginx-topic/partition_0/year_{현재 연도}/month_{현재 월}`  
+   - 데이터 유형: `JSON`  
+   - Pub/Sub 연동: `사용`  
+      - 토픽 선택: `data-catalog-topic`  
+   - 설명(선택): `없음`  
+   - 스키마  
+      - 스키마 필드 추가 버튼 클릭 후 아래 표의 순서대로 스키마 추가
+      
+        | 파티션 키 | 컬럼 번호 | 필드 이름     | 데이터 유형 |
+        |----------|----------|--------------|------------|
+        | 미사용   | 1        | status       | string     |
+        | 미사용   | 2        | query_params | string     |
+        | 미사용   | 3        | endpoint     | string     |
    - 생성 버튼 클릭
 
 
