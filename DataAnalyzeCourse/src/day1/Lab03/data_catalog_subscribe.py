@@ -30,7 +30,7 @@ from config import *
 #################################
 # 사용자 수정 가능한 설정 변수
 #################################
-SUBSCRIPTION_NAME = data-catalog-pull-sub      # Pull Subscription 이름 
+SUBSCRIPTION_NAME = "data-catalog-pull-sub"      # Pull Subscription 이름 
 PULL_MAX_MESSAGES = 10            # 한 번에 Pull할 메시지 수 (최대 100)
 PULL_WAIT_TIME = "1s"             # 메시지 fetch 대기 시간 (최대 "30s")
 PULL_INTERVAL_SECONDS = 0         # Pull 간의 대기 시간 (초)
