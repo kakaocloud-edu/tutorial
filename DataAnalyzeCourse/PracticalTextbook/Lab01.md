@@ -236,7 +236,7 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 통한 메시�
     ```bash
     cat traffic_generator.log
     ```
-![image](https://github.com/user-attachments/assets/f54c459f-b24d-4905-89c2-abfe930f8494)
+    ![그림1](https://github.com/user-attachments/assets/18a43d5b-61c5-4812-b2eb-3788357c2890)
 
 4. 웹 브라우저 주소창에서 직접 로그를 발생시키기 위해 아래 URL 입력
 
