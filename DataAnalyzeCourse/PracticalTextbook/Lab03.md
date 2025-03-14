@@ -1,4 +1,4 @@
-# Data Catalog 실습
+![image](https://github.com/user-attachments/assets/800bbbb2-8bd4-43fa-bd11-3c4b0af0976b)# Data Catalog 실습
 
 
 ## 1. Object Storage 버킷 설정
@@ -41,10 +41,10 @@
         - 재처리 횟수: `횟수 지정`, `3번`
     - 생성 버튼 클릭
 5. `data-catalog-pull-sub` 서브스크립션의 상태가 `Active`인 것을 확인
-![2](https://github.com/user-attachments/assets/db06af0b-d183-4e6d-93ee-c3b0c0da80d9)
+![6](https://github.com/user-attachments/assets/53d27a38-a405-4e55-98d4-8ea6750ee6bb)
 
 
-## 3. 카탈로그 생성
+## 3. 카탈로그 생성(3분)
 1. 카카오 클라우드 콘솔 > Analytics > Data Catalog > 카탈로그
 2. 카탈로그 생성 버튼 클릭
    - 이름: `data_catalog`
@@ -52,30 +52,32 @@
       - VPC: `kc-vpc`
       - 서브넷: `kr-central-2-a의 Public 서브넷`
       - 생성 버튼 클릭
-3. 카탈로그 상태가 `Running`인 것을 확인
+3. `data_catalog` 카탈로그의 상태가 `Running`인 것을 확인
+![5](https://github.com/user-attachments/assets/e77c7b14-c637-483f-9ac4-a7227d80b858)
 
-## 4. 데이터베이스 생성
-1. 카카오 클라우드 콘솔 > Analytics > Data Catalog > 데이터베이스
+
+## 4. 데이터베이스 생성(1분)
+1. 좌측 데이터베이스 탭 클릭
 2. 데이터베이스 생성 버튼 클릭
    - 카탈로그: `data_catalog`
    - 이름: `data_catalog_database`
    - 경로
       - S3 연결: `체크`
-      - 버킷 이름: `data-catalog`
+      - 버킷 이름: `data-catalog-bucket`
       - 경로: `data-catalog-dir`
    - 생성 버튼 클릭
-3. 카탈로그 상태가 `Running`인 것을 확인
+3. `data_catalog_database` 데이터베이스의 상태가 `Running`인 것을 확인
+![4](https://github.com/user-attachments/assets/3c5a51b9-e0b4-4979-8ebd-d961c71a79e0)
 
-## 5. 테이블 생성
-1. 카카오 클라우드 콘솔 > Analytics > Data Catalog > 테이블  
+
+## 5. 테이블 생성(1분)
+1. 좌측 테이블 탭 클릭  
 2. 테이블 생성 버튼 클릭  
-
-- **kafka_log_table** 테이블 생성 정보  
    - 데이터 베이스: `data_catalog_database`  
    - 테이블 이름: `kafka_log_table`  
    - 테이블 저장 경로  
       - S3 연결: `체크`  
-      - 버킷 이름: `data-catalog`  
+      - 버킷 이름: `data-catalog-bucket`  
       - 디렉터리: `kafka-nginx-log/nginx-topic/partition_0/year_{현재 연도}/month_{현재 월}`  
    - 데이터 유형: `JSON`  
    - Pub/Sub 연동: `사용`  
@@ -93,43 +95,44 @@
 
 
 ## 6. Data Catalog 테이블 이벤트 메시지 수신
-1. traffic-generator-2에서 테이블의 이벤트 메시지 확인을 위한 메세지 수신 스크립트 실행
+1. `traffic-generator-2`에서 Data Catalog 실습용 디렉터리로 이동
 
-#### lab3-6-1-1
+      #### lab3-6-1
+      
+      ```
+      cd /home/ubuntu/DataAnalyzeCourse/src/day1/Lab03
+      ```
 
-```
-cd /home/ubuntu/DataAnalyzeCourse/src/day1/Lab02
-```
+2. 테이블의 이벤트 메시지 확인을 위한 메세지 수신 스크립트 실행
+      
+      #### lab3-6-2
+      
+      ```
+      python3 data_catalog_subscribe.py
+      ```
 
-#### lab3-6-1
-
-```
-python3 data_catalog_subscribe.py
-```
-
-2. 콘솔에서 이벤트 발생
-   - 데이터 속성 추가
-      - `kafka_log_table` 테이블 클릭
-      - 테이블 속성 탭 클릭
-      - 테이블 속성 추가하기 버튼 클릭
-         - Key: `test_key`
-         - Value: `test_value`
+3. `kafka_log_table` 테이블 클릭
+4. 테이블 속성 탭 클릭
+5. 테이블 속성 추가하기 버튼 클릭
+      - Key: `test_key`
+      - Value: `test_value`
       - 추가 버튼 클릭
-      - `traffic-generator-2` 터미널 창에서 메시지 정상 수신 및 처리 로그 확인
+6. `traffic-generator-2` 터미널 창에서 메시지 정상 수신 및 "New" 섹션 내의 `{"Name":"test_field","Type":"string","Comment":"","IntegerIndex":3}` 로그 확인
+![image](https://github.com/user-attachments/assets/d97c438e-702c-43e7-8ede-a3c49655eb64)
 
-   - 스키마 필드 추가
-      - 스키마 탭 클릭
-      - 필드 추가 버튼 클릭
-         - 컬럼 번호: `4`
-         - 필드 이름: `test_field`
-         - 데이터 유형: `string`
-         - 설명: `빈칸`
+7. 스키마 탭 클릭
+8. 필드 추가 버튼 클릭
+      - 컬럼 번호: `4`
+      - 필드 이름: `test_field`
+      - 데이터 유형: `string`
+      - 설명: `Data Catalog 테이블 필드 추가 후 메세지 수신 확인 실습`
       - 생성 버튼 클릭
-      - `traffic-generator-2` 터미널 창에서 메시지 정상 수신 및 처리 로그 확인
+9. `traffic-generator-2` 터미널 창에서 메시지 정상 수신 및 "New" 섹션 내의 `{"Name":"test_field","Type":"string","Comment":"Data Catalog 테이블 필드 추가 후 메세지 수신 확인 실습","IntegerIndex":3}` 로그 확인
+![image](https://github.com/user-attachments/assets/a2d2c575-ab4c-439b-b71a-42940a7333d5)
 
 
 ## 6. 크롤러 생성
-1. 카카오 클라우드 콘솔 > Analytics > Data catalog > 크롤러
+1. 좌측 크롤러 탭 클릭
 2. 크롤러 생성 버튼 클릭
     - 데이터베이스: `data_catalog_database`
     - 크롤러 이름: `crawler`
@@ -144,7 +147,14 @@ python3 data_catalog_subscribe.py
     - 테이블 Prefix (선택): `없음`
     - 스케줄: `온디멘드`
     - 생성 버튼 클릭
-4. 생성된 크롤러 선택 후 실행
-5. 카카오 클라우드 콘솔 > Analytics > Data catalog > 테이블
-      - 생성된 테이블 확인
+3. `crawler` 크롤러의 상태가 `Active`인 것을 확인
+![9](https://github.com/user-attachments/assets/81b05580-e439-4095-b898-8d6bcfe86b85)
+
+4. 생성된 크롤러 우측의 `⠇` 클릭 후 실행 버튼 클릭
+5. 크롤러 실행 모달의 실행 버튼 클릭
+6. 크롤러의 상태가 `Active`인 것과 마지막 실행 상태가 `Succeeded`인 것을 확인 
+![10](https://github.com/user-attachments/assets/9c471534-bc50-4b73-b1b4-be3c2f217fc0)
+
+7. 좌측 테이블 탭 클릭 후 추출한 메타데이터 정보 확인
+![11](https://github.com/user-attachments/assets/0a2e267a-6d4b-4a4f-ad47-0d24ed712e40)
 
