@@ -140,9 +140,9 @@ Data Catalog와 Pub/Sub, Object Storage를 연동해 테이블 생성 및 이벤
     - MySQL 계정
         - ID: `admin`
         - PW: `admin1234`
-        - 연결 테스트 버튼 클릭
-    - 설명 (선택): 빈 칸
-    - 테이블 Prefix (선택): 빈 칸
+        - 연결 테스트 버튼 클릭 후 `연결 성공` 확인
+    - 설명(선택): 빈 칸
+    - 테이블 Prefix(선택): 빈 칸
     - 스케줄: `온디멘드`
     - 생성 버튼 클릭
 3. `crawler` 크롤러의 상태가 `Active`인 것을 확인
