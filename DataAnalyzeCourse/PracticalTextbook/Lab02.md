@@ -127,6 +127,9 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     ```bash
     sudo systemctl status logstash
     ```
+
+    - `ctrl + c`로 종료
+
     ![image](https://github.com/user-attachments/assets/98ac20eb-1018-48f3-824d-ca5ad848f243)
 
 
@@ -206,7 +209,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     test3
     ```
     - `Enter` 입력
-    - 송신되는 시간 5초 대기 후 `ctrl + c`를 눌러 종료
+    - 송신되는 시간 5초 대기 후 `ctrl` + `c`로 종료
 
 5. `traffic-generator-2`에서 kafka 작업을 위한 디렉터리인 `/opt/kafka`로 이동
     
@@ -227,6 +230,8 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     --consumer-property auto.offset.reset=earliest
     ```
 
+    - `ctrl` + `c`로 종료
+
    - 사진 예정(사진 넣은 후 삭제)
 
 7. Consumer 스크립트를 `earlist` 옵션과 `uncommit` 옵션을 추가하여 실행해 `consumer-group-earliest-uncommit` 그룹으로 `consol-topic` 토픽의 메시지 수신
@@ -241,13 +246,23 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     --consumer-property enable.auto.commit=false
     ```
 
+    - `ctrl` + `c`로 종료
+
+   - 사진 예정(사진 넣은 후 삭제)
 
 8. Consumer 스크립트를 `latest` 옵션을 추가하여 실행해 `consumer-group-latest` 그룹으로 `consol-topic` 토픽의 메시지 수신
     - `traffic-generator-1`에서 입력했던 메세지 수신 확인
 
+    ```bash
+    bin/kafka-console-consumer.sh --bootstrap-server ${KAFKA_BOOTSTRAP_SERVERS} \
+    --topic consol-topic --group consumer-group-latest \
+    --consumer-property auto.offset.reset=latest
+    ```
+
+    - `ctrl` + `c`로 종료
+
    - 사진 예정(사진 넣은 후 삭제)
 
-8. `traffic-generator-2`에서 `Ctrl` + `c` 키로 Kafka 콘솔 Consumer 종료
 
 9. `traffic-generator-1`에서 실행 중인 Producer에 송신할 메세지 입력 후 `Enter` 키 입력
     - **Note**: 전송되는 시간이 필요하므로 전송 후 5초 정도 대기
