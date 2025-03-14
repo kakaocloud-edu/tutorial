@@ -13,10 +13,12 @@
                - 접근 허용 IP 주소: 빈칸
                - 저장 버튼 클릭
          - 확인 버튼 클릭
-      - `퍼블릭 액세스`가 `허용`으로 됐는지 확인
+3. `퍼블릭 액세스`가 `허용 (Read Only)`으로 바뀐 것을 확인
+![1](https://github.com/user-attachments/assets/dade13de-cdd4-42f9-a1a6-0795281e093b)
 
-## 2. Pub/Sub 토픽 생성
-![image](https://github.com/user-attachments/assets/8964e715-93f0-48a4-8d01-2a8c764cae10)
+
+## 2. Data Catalog 실습용 Pub/Sub 리소스 생성
+![image](https://github.com/user-attachments/assets/6fde6a89-5c5a-4153-8512-6dca577d59c9)
 
 1. 카카오 클라우드 콘솔 > Analytics > Pub/Sub > 토픽
 2. `data-catalog-topic` 토픽 생성
@@ -38,7 +40,9 @@
         - 응답 대기 시간: `20초`
         - 재처리 횟수: `횟수 지정`, `3번`
     - 생성 버튼 클릭
-5. 서브스크립션의 Active 상태 확인     
+5. `data-catalog-pull-sub` 서브스크립션의 상태가 `Active`인 것을 확인
+![2](https://github.com/user-attachments/assets/db06af0b-d183-4e6d-93ee-c3b0c0da80d9)
+
 
 ## 3. 카탈로그 생성
 1. 카카오 클라우드 콘솔 > Analytics > Data Catalog > 카탈로그
@@ -48,7 +52,7 @@
       - VPC: `kc-vpc`
       - 서브넷: `kr-central-2-a의 Public 서브넷`
       - 생성 버튼 클릭
-   - 카탈로그 상태: Running 확인
+3. 카탈로그 상태가 `Running`인 것을 확인
 
 ## 4. 데이터베이스 생성
 1. 카카오 클라우드 콘솔 > Analytics > Data Catalog > 데이터베이스
@@ -60,7 +64,7 @@
       - 버킷 이름: `data-catalog`
       - 경로: `data-catalog-dir`
    - 생성 버튼 클릭
-   - 카탈로그 상태: Running 확인
+3. 카탈로그 상태가 `Running`인 것을 확인
 
 ## 5. 테이블 생성
 1. 카카오 클라우드 콘솔 > Analytics > Data Catalog > 테이블  
@@ -88,18 +92,20 @@
    - 생성 버튼 클릭
 
 
-## 6. 이벤트를 통한 Pub/Sub 연동 확인
-1. traffic-generator-2에서 이벤트 메시지 확인
+## 6. Data Catalog 테이블 이벤트 메시지 수신
+1. traffic-generator-2에서 테이블의 이벤트 메시지 확인을 위한 메세지 수신 스크립트 실행
 
-   - **Note**:[`data_catalog_subscribe.py`](https://github.com/kakaocloud-edu/tutorial/new/main/DataAnalyzeCourse/src/day1/Lab02) 
+#### lab3-6-1-1
 
-      - 터미널 CLI를 통한 메시지 수신 스크립트 실행
-        ```
-        /DataAnalyzeCourse/src/day1/Lab02
-        ```
-        ```
-        python3 data_catalog_subscribe.py
-        ```
+```
+cd /home/ubuntu/DataAnalyzeCourse/src/day1/Lab02
+```
+
+#### lab3-6-1
+
+```
+python3 data_catalog_subscribe.py
+```
 
 2. 콘솔에서 이벤트 발생
    - 데이터 속성 추가
