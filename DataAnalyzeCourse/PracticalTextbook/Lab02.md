@@ -250,6 +250,8 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
 8. Consumer 스크립트를 `latest` 옵션을 추가하여 실행해 `consumer-group-latest` 그룹으로 `consol-topic` 토픽의 메시지 수신
     - `traffic-generator-1`에서 입력했던 메세지 수신 확인
 
+    #### lab2-4-8
+
     ```bash
     bin/kafka-console-consumer.sh --bootstrap-server ${KAFKA_BOOTSTRAP_SERVERS} \
     --topic consol-topic --group consumer-group-latest \
@@ -260,75 +262,83 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
 
    - 사진 예정(사진 넣은 후 삭제)
 
+9. `traffic-generator-1`에서 메세지를 입력할 Producer 스크립트 실행
+    
+    #### lab2-4-9
+        
+    ```bash
+    bin/kafka-console-producer.sh --broker-list ${KAFKA_BOOTSTRAP_SERVERS} --topic consol-topic
+    ```
 
-9. `traffic-generator-1`에서 실행 중인 Producer에 송신할 메세지 입력 후 `Enter` 키 입력
-    - **Note**: 전송되는 시간이 필요하므로 전송 후 5초 정도 대기
-    #### lab2-4-9-1
-    - `Enter` 입력
+10. 송신할 메세지를 하나씩 입력 후 `Enter` 입력
+
+    #### lab2-4-10-1
+
     ```
     test4
     ```
     
-    #### lab2-4-9-2
-    - `Enter` 입력
+    #### lab2-4-10-2
+
     ```
     test5
     ```
     
-    #### lab2-4-9-3
-    - `Enter` 입력
+    #### lab2-4-10-3
+
     ```
     test6
     ```
+    - 송신되는 시간 5초 대기 후 `ctrl` + `c`로 종료
 
-10. `Ctrl`+`C` 키를 눌러 Producer 스크립트 실행 종료
-11. Consumer 스크립트를 latest 옵션을 사용하여 실행해 consumer-group-latest 그룹으로 `consol-topic` 토픽의 메시지를 수신
-    - **Note**: 이후 latest 옵션을 사용한 메세지 송수신 실습을 위해 스크립트 종료 금지
-    - **Note**: `consumer-group-latest`라는 새로운 그룹이므로 `offset 0`부터 쌓임
-   
-    #### lab2-5-2
+11. Consumer 스크립트를 `earlist` 옵션을 추가하여 실행해 `consumer-group-earliest` 그룹으로 `consol-topic` 토픽의 메시지 수신
+    - `traffic-generator-1`에서 입력했던 메세지 수신 확인
+    
+    #### lab2-4-11
+        
+    ```bash
+    bin/kafka-console-consumer.sh --bootstrap-server ${KAFKA_BOOTSTRAP_SERVERS} \
+    --topic consol-topic --group consumer-group-earliest \
+    --consumer-property auto.offset.reset=earliest
+    ```
+
+    - `ctrl` + `c`로 종료
+
+   - 사진 예정(사진 넣은 후 삭제)
+
+12. Consumer 스크립트를 `earlist` 옵션과 `not commit` 옵션을 추가하여 실행해 `consumer-group-earliest-notcommit` 그룹으로 `consol-topic` 토픽의 메시지 수신
+    - `traffic-generator-1`에서 입력했던 메세지 수신 확인
+
+    #### lab2-4-12
+        
+    ```bash
+    bin/kafka-console-consumer.sh --bootstrap-server ${KAFKA_BOOTSTRAP_SERVERS} \
+    --topic consol-topic --group consumer-group-earliest-notcommit \
+    --consumer-property auto.offset.reset=earliest \
+    --consumer-property enable.auto.commit=false
+    ```
+
+    - `ctrl` + `c`로 종료
+
+   - 사진 예정(사진 넣은 후 삭제)
+
+13. Consumer 스크립트를 `latest` 옵션을 추가하여 실행해 `consumer-group-latest` 그룹으로 `consol-topic` 토픽의 메시지 수신
+    - `traffic-generator-1`에서 입력했던 메세지 수신 확인
+
+    #### lab2-4-13
 
     ```bash
     bin/kafka-console-consumer.sh --bootstrap-server ${KAFKA_BOOTSTRAP_SERVERS} \
     --topic consol-topic --group consumer-group-latest \
-    --consumer-property auto.offset.reset=latest \
-    --property print.offset=true
+    --consumer-property auto.offset.reset=latest
     ```
-    - `auto.offset.reset`의 `latest` 옵션은 `consumer` 실행 이후 `producer`로 들어오는 `offset`부터 읽기 때문에 이전에 실행된 Producer의 메세지 'test4~6'은 출력이 안되는 것 확인
 
-12. `traffic-generator-1`에서 콘솔 Producer 실행 후 송신할 메세지 입력 후 `Enter` 키 입력
-    - **Note**: 전송되는 시간이 필요하므로 전송 후 5초 정도 대기
-    #### lab2-4-12-1
-    - `Enter` 입력
-    ```
-    test1
-    ```
-    
-    #### lab2-4-12-2
-    - `Enter` 입력
-    ```
-    test2
-    ```
-    
-    #### lab2-4-12-3
-    - `Enter` 입력
-    ```
-    test3
-    ```
-    - **Note**: test를 입력할 때마다 latest 옵션의 `kafka-console-consumer`에서 출력되는 것 확인
-    - `traffic-generator-1`에서 Producer 스크립트를 `Ctrl` + `c` 키로 종료
-    - `traffic-generator-2`에서 Consumer 스크립트를 `Ctrl` + `c` 키로 종료
-     ![6](https://github.com/user-attachments/assets/37c653bf-85f0-46f8-a8ae-22d5011a4341)
+    - `ctrl` + `c`로 종료
 
+   - 사진 예정(사진 넣은 후 삭제)
 
-13. `traffic-generator-2`에서 Consumer 그룹 목록(`consumer-group-latest`, `consumer-group-earliest`) 확인
-    
-    #### lab2-5-4
-        
-    ```bash
-    bin/kafka-consumer-groups.sh --bootstrap-server ${KAFKA_BOOTSTRAP_SERVERS} --list
-    ```
-    ![7](https://github.com/user-attachments/assets/be8f5dbd-25ab-4892-9f32-ef683406fb3e)
+14. 컨슈머 그룹 목록 확인
+
 
 
 ## 6. Python SDK를 활용한 Kafka 메시지 송수신 확인
