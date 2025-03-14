@@ -58,14 +58,15 @@ Data Catalog와 Pub/Sub, Object Storage를 연동해 테이블 생성 및 이벤
 
 ## 4. 데이터베이스 생성(1분)
 1. 좌측 데이터베이스 탭 클릭 후 데이터베이스 생성 버튼 클릭
-   - 카탈로그: `data_catalog`
-   - 이름: `data_catalog_database`
-   - 경로
-      - S3 연결: `체크`
-      - 버킷 이름: `data-catalog-bucket`
-      - 경로: `data-catalog-dir`
-   - 생성 버튼 클릭
-2. `data_catalog_database` 데이터베이스의 상태가 `Running`인 것을 확인
+      - 카탈로그: `data_catalog`
+      - 이름: `data_catalog_database`
+      - 경로
+            - S3 연결: `체크`
+            - 버킷 이름: `data-catalog-bucket`
+            - 디렉터리: `data-catalog-dir`
+      - 설명 (선택): 빈칸
+      - 생성 버튼 클릭
+2. `data_catalog_database` 데이터베이스의 상태가 `Active`인 것을 확인
 ![4](https://github.com/user-attachments/assets/3c5a51b9-e0b4-4979-8ebd-d961c71a79e0)
 
 
@@ -73,7 +74,7 @@ Data Catalog와 Pub/Sub, Object Storage를 연동해 테이블 생성 및 이벤
 1. 좌측 테이블 탭 클릭 후 테이블 생성 버튼 클릭  
    - 데이터 베이스: `data_catalog_database`  
    - 테이블 이름: `kafka_log_table`  
-   - 테이블 저장 경로  
+   - 데이터 저장 경로  
       - S3 연결: `체크`  
       - 버킷 이름: `data-catalog-bucket`  
       - 디렉터리: `kafka-nginx-log/nginx-topic/partition_0/year_{현재 연도}/month_{현재 월}`  
@@ -82,13 +83,13 @@ Data Catalog와 Pub/Sub, Object Storage를 연동해 테이블 생성 및 이벤
       - 토픽 선택: `data-catalog-topic`  
    - 설명(선택): 빈 칸  
    - 스키마  
-      - 스키마 필드 추가 버튼 클릭 후 아래 표의 순서대로 스키마 추가
+      - 필드 추가 버튼 클릭 후 아래 표의 순서대로 스키마 추가
       
-        | 파티션 키 | 컬럼 번호 | 필드 이름     | 데이터 유형 |
-        |----------|----------|--------------|------------|
-        | 미사용   | 1        | status       | string     |
-        | 미사용   | 2        | query_params | string     |
-        | 미사용   | 3        | endpoint     | string     |
+        | 파티션 키 | 컬럼 번호 | 필드 이름     | 데이터 유형 |설명(선택)|
+        |----------|----------|--------------|------------|------------|
+        | 미사용   | 1        | status       | string     | 빈 칸      |
+        | 미사용   | 2        | query_params | string     | 빈 칸      |
+        | 미사용   | 3        | endpoint     | string     | 빈 칸      |
    - 생성 버튼 클릭
 2. `kafka_log_table` 테이블의 상태가 `Active`인 것을 확인
 ![image](https://github.com/user-attachments/assets/966a8c56-0803-4a5c-935c-330e243b9c35)
