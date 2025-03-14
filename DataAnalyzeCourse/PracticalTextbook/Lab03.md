@@ -6,8 +6,8 @@ Data Catalog와 Pub/Sub, Object Storage를 연동해 테이블 생성 및 이벤
 
 ## 1. Object Storage 버킷 권한 설정
 1. 카카오 클라우드 콘솔 > Beyond Storage Service > Object Storage > 일반 버킷
-2. `data-catalog` 버킷 설정
-      - `data-catalog` 버킷 클릭
+2. `data-catalog-bucket` 버킷 설정
+      - `data-catalog-bucket` 버킷 클릭
          - 권한 탭 클릭
          - 접근 탭 클릭
          - 접근 설정 버튼 클릭
