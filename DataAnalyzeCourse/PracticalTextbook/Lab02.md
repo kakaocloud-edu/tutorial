@@ -128,7 +128,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     sudo systemctl status logstash
     ```
 
-    - `ctrl + c`로 종료
+    - `ctrl` + `c`로 종료
 
     ![image](https://github.com/user-attachments/assets/98ac20eb-1018-48f3-824d-ca5ad848f243)
 
