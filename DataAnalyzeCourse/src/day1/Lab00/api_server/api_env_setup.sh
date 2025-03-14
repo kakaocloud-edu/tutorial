@@ -26,8 +26,6 @@ echo "$BASHRC_EXPORT" >> /home/ubuntu/.bashrc
 
 # 새로 추가된 값 반영
 source /home/ubuntu/.bashrc
-echo "kakaocloud: 환경 변수 설정을 완료했습니다."
-
 ###############################################################################
 # 2) filebeat / logstash 설치
 ###############################################################################
@@ -52,7 +50,6 @@ sudo systemctl enable logstash \
   || { echo "kakaocloud: logstash enable 실패"; exit 1; }
 sudo systemctl start logstash  \
   || { echo "kakaocloud: logstash start 실패"; exit 1; }
-echo "kakaocloud: filebeat, logstash 설치가 완료되었습니다."
 
 echo "kakaocloud: 5. filebeat, logstash 환경변수 설정을 시작합니다."
 sudo chmod 777 /etc/default/logstash \
@@ -79,7 +76,6 @@ sudo systemctl daemon-reload \
 sudo systemctl restart logstash \
   || { echo "kakaocloud: logstash restart 실패"; exit 1; }
 
-echo "kakaocloud: filebeat, logstash 환경 변수 설정을 완료했습니다."
 
 
 ###############################################################################
@@ -111,10 +107,7 @@ EOF
   sudo systemctl restart flask_app \
     || { echo "kakaocloud: flask_app.service 재시작 실패"; exit 1; }
   echo "kakaocloud: flask_app.service 재시작 완료"
-else
-  echo "kakaocloud: flask_app.service가 없어 override를 생략합니다."
 fi
-echo "kakaocloud: flask_app.service 환경 변수 설정이 완료되었습니다."
 
 
 ###############################################################################
@@ -160,7 +153,6 @@ sudo cp /home/ubuntu/tutorial/DataAnalyzeCourse/src/day1/Lab00/api_server/logs-t
 sudo cp /home/ubuntu/tutorial/DataAnalyzeCourse/src/day1/Lab00/api_server/logs-to-kafka.conf /etc/logstash/conf.d/logs-to-kafka.conf || {
     echo "kakaocloud: logs-to-kafka.conf 복사 실패"; exit 1;
 }
-echo "kakaocloud: 스크립트 및 실습 진행에 필요한 파일 다운로드가 완료되었습니다."
 
 echo "kakaocloud: 8. api_full_setup.sh, setup_db.sh 스크립트 실행을 시작합니다."
 sudo chmod +x /home/ubuntu/api_full_setup.sh /home/ubuntu/setup_db.sh \
@@ -171,8 +163,6 @@ sudo -E /home/ubuntu/api_full_setup.sh \
   || { echo "kakaocloud: api_full_setup.sh execution failed"; exit 1; }
 sudo -E /home/ubuntu/setup_db.sh \
   || { echo "kakaocloud: setup_db.sh execution failed"; exit 1; }
-echo "kakaocloud: api_full_setup.sh & setup_db.sh 완료"
-echo "kakaocloud: api_full_setup.sh, setup_db.sh 스크립트 실행이 완료되었습니다."
 
 ###############################################################################
 # 5) logstash.yml 구성 및 filebeat,logstash 재시작
@@ -189,7 +179,6 @@ sudo systemctl restart filebeat \
   || { echo "kakaocloud: Failed to restart filebeat"; exit 1; }
 sudo systemctl restart logstash \
   || { echo "kakaocloud: Failed to restart logstash"; exit 1; }
-echo "kakaocloud: logstash.yml 구성 및 filebeat,logstash 재시작이 완료되었습니다."
 
 # 실습에 사용되는 폴더만 남기기 위해 tutorial 리포지토리 삭제
 sudo rm -rf /home/ubuntu/tutorial || {
