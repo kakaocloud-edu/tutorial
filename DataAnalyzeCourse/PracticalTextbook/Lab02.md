@@ -155,7 +155,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     
 
 
-## 4. 콘솔 스크립트를 통한 Kafka 메시지 송수신 확인
+## 4. 콘솔 스크립트를 통한 Kafka 메시지 송수신 확인(수정중)
 
 1. `traffic-generator-1`에서 kafka 작업을 위한 디렉터리인 `/opt/kafka`로 이동
     
@@ -174,37 +174,40 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     --create --topic consol-topic --partitions 2 --replication-factor 2
     ```
     
-    ![4](https://github.com/user-attachments/assets/c24f87ea-9ebc-4355-b4f7-a9661f052281)
+    - 사진 예정(사진 넣은 후 삭제)
 
-3. `traffic-generator-1`에서 Producer 스크립트 실행
+3. `traffic-generator-1`에서 메세지를 입력할 Producer 스크립트 실행
     
     #### lab2-4-3
-
-    - **Note**: 메세지가 입력될 때 마다 `offset`에 쌓이며, `offset 0` 부터 시작됨
         
     ```bash
     bin/kafka-console-producer.sh --broker-list ${KAFKA_BOOTSTRAP_SERVERS} --topic consol-topic
     ```
 
 4. 송신할 메세지를 하나씩 입력 후 `Enter` 입력
-    - **Note**: 이후 latest 옵션을 사용한 메세지 송수신 실습을 위해 스크립트 종료 금지
+
     #### lab2-4-4-1
-    - `Enter` 입력
+
     ```
     test1
     ```
+    - `Enter` 입력
     
     #### lab2-4-4-2
-    - `Enter` 입력
+
     ```
     test2
     ```
+    - `Enter` 입력
     
     #### lab2-4-4-3
-    - `Enter` 입력
+
     ```
     test3
     ```
+    - `Enter` 입력
+    - 송신되는 시간 5초 대기 후 `ctrl + c`를 눌러 종료
+
 5. `traffic-generator-2`에서 kafka 작업을 위한 디렉터리인 `/opt/kafka`로 이동
     
     #### lab2-4-5
@@ -213,18 +216,36 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     cd /opt/kafka
     ```
     
-6. Consumer 스크립트를 earlist 옵션을 추가하여 실행해 `consumer-group-earliest` 그룹으로 `consol-topic` 토픽의 메시지 수신
-    - `traffic-generator-1`에서 입력했던 메세지와 offset 수신 확인
+6. Consumer 스크립트를 `earlist` 옵션을 추가하여 실행해 `consumer-group-earliest` 그룹으로 `consol-topic` 토픽의 메시지 수신
+    - `traffic-generator-1`에서 입력했던 메세지 수신 확인
     
-    #### lab2-4-5
+    #### lab2-4-6
+        
+    ```bash
+    bin/kafka-console-consumer.sh --bootstrap-server ${KAFKA_BOOTSTRAP_SERVERS} \
+    --topic consol-topic --group consumer-group-earliest \
+    --consumer-property auto.offset.reset=earliest
+    ```
+
+   - 사진 예정(사진 넣은 후 삭제)
+
+7. Consumer 스크립트를 `earlist` 옵션과 `uncommit` 옵션을 추가하여 실행해 `consumer-group-earliest-uncommit` 그룹으로 `consol-topic` 토픽의 메시지 수신
+    - `traffic-generator-1`에서 입력했던 메세지 수신 확인
+
+    #### lab2-4-7
         
     ```bash
     bin/kafka-console-consumer.sh --bootstrap-server ${KAFKA_BOOTSTRAP_SERVERS} \
     --topic consol-topic --group consumer-group-earliest \
     --consumer-property auto.offset.reset=earliest \
-    --property print.offset=true
+    --consumer-property enable.auto.commit=false
     ```
-    ![5](https://github.com/user-attachments/assets/cde48506-40d2-4550-a9f0-426da39e2438)
+
+
+8. Consumer 스크립트를 `latest` 옵션을 추가하여 실행해 `consumer-group-latest` 그룹으로 `consol-topic` 토픽의 메시지 수신
+    - `traffic-generator-1`에서 입력했던 메세지 수신 확인
+
+   - 사진 예정(사진 넣은 후 삭제)
 
 8. `traffic-generator-2`에서 `Ctrl` + `c` 키로 Kafka 콘솔 Consumer 종료
 
