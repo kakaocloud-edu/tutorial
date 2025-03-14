@@ -14,66 +14,9 @@
                - 저장 버튼 클릭
          - 확인 버튼 클릭
       - `퍼블릭 액세스`가 `허용`으로 됐는지 확인
-     
 
-## 2. 카탈로그 생성
-1. 카카오 클라우드 콘솔 > Analytics > Data Catalog > 카탈로그
-2. 카탈로그 생성 버튼 클릭
-   - 이름: `data_catalog`
-   - VPC 설정
-      - VPC: `kc-vpc`
-      - 서브넷: `kr-central-2-a의 Public 서브넷`
-      - 생성 버튼 클릭
-   - 카탈로그 상태: Running 확인
-
-## 3. 데이터베이스 생성
-1. 카카오 클라우드 콘솔 > Analytics > Data Catalog > 데이터베이스
-2. 데이터베이스 생성 버튼 클릭
-   - 카탈로그: `data_catalog`
-   - 이름: `data_catalog_database`
-   - 경로
-      - S3 연결: `체크`
-      - 버킷 이름: `data-catalog`
-      - 경로: `data-catalog-dir`
-   - 생성 버튼 클릭
-   - 카탈로그 상태: Running 확인
-
-## 4. 테이블 생성
-1. 카카오 클라우드 콘솔 > Analytics > Data Catalog > 테이블
-2. 테이블 생성 버튼 클릭
-
-- **kafka_log_table** 테이블 생성 정보 
-   - 데이터 베이스: `data_catalog_database`
-   - 테이블 이름: `kafka_log_table`
-   - 테이블 저장 경로
-      - S3 연결: `체크`
-      - 버킷 이름: `data-catalog`
-      - 디렉터리: `kafka-nginx-log/nginx-topic/partition_0/year_{현재 연도}/month_{현재 월}`
-   - 데이터 유형: `JSON`
-   - Pub/Sub 연동: `사용`
-      - 토픽 선택: `data-catalog-topic`
-   - 설명(선택): `없음` 
-   - 스키마 
-      - 필드 추가 버튼 클릭
-      - 필등 정보
-         - 파티션 키: `미사용`
-         - 컬럼 번호: `1`
-         - 필드 이름: `status`
-         - 데이터 유형: `string`
-         - ---
-         - 파티션 키: `미사용`
-         - 컬럼 번호: `2`
-         - 필드 이름: `query_params`
-         - 데이터 유형: `string`
-         - --
-         - 파티션 키: `미사용`
-         - 컬럼 번호: `3`
-         - 필드 이름: `endpoint`
-         - 데이터 유형: `string`
-   - - 생성 버튼 클릭
-
-## 5. Pub/Sub 토픽 생성
-![image](https://github.com/user-attachments/assets/37f72931-3427-485f-bf29-f972eda2433f)
+## 2. Pub/Sub 토픽 생성
+![image](https://github.com/user-attachments/assets/8964e715-93f0-48a4-8d01-2a8c764cae10)
 
 1. 카카오 클라우드 콘솔 > Analytics > Pub/Sub > 토픽
 2. `data-catalog-topic` 토픽 생성
@@ -95,7 +38,54 @@
         - 응답 대기 시간: `20초`
         - 재처리 횟수: `횟수 지정`, `3번`
     - 생성 버튼 클릭
-5. 서브스크립션의 Active 상태 확인
+5. 서브스크립션의 Active 상태 확인     
+
+## 3. 카탈로그 생성
+1. 카카오 클라우드 콘솔 > Analytics > Data Catalog > 카탈로그
+2. 카탈로그 생성 버튼 클릭
+   - 이름: `data_catalog`
+   - VPC 설정
+      - VPC: `kc-vpc`
+      - 서브넷: `kr-central-2-a의 Public 서브넷`
+      - 생성 버튼 클릭
+   - 카탈로그 상태: Running 확인
+
+## 4. 데이터베이스 생성
+1. 카카오 클라우드 콘솔 > Analytics > Data Catalog > 데이터베이스
+2. 데이터베이스 생성 버튼 클릭
+   - 카탈로그: `data_catalog`
+   - 이름: `data_catalog_database`
+   - 경로
+      - S3 연결: `체크`
+      - 버킷 이름: `data-catalog`
+      - 경로: `data-catalog-dir`
+   - 생성 버튼 클릭
+   - 카탈로그 상태: Running 확인
+
+## 5. 테이블 생성
+1. 카카오 클라우드 콘솔 > Analytics > Data Catalog > 테이블
+2. 테이블 생성 버튼 클릭
+
+- **kafka_log_table** 테이블 생성 정보 
+   - 데이터 베이스: `data_catalog_database`
+   - 테이블 이름: `kafka_log_table`
+   - 테이블 저장 경로
+      - S3 연결: `체크`
+      - 버킷 이름: `data-catalog`
+      - 디렉터리: `kafka-nginx-log/nginx-topic/partition_0/year_{현재 연도}/month_{현재 월}`
+   - 데이터 유형: `JSON`
+   - Pub/Sub 연동: `사용`
+      - 토픽 선택: `data-catalog-topic`
+   - 설명(선택): `없음` 
+   - 스키마 
+      - 필드 추가 버튼 클릭 후 아래 표의 순서대로 스키마 추가
+            | 파티션 키 | 컬럼 번호 | 필드 이름     | 데이터 유형 |
+            |----------|----------|--------------|------------|
+            | 미사용   | 1        | status       | string     |
+            | 미사용   | 2        | query_params | string     |
+            | 미사용   | 3        | endpoint     | string     |
+
+   - 생성 버튼 클릭
 
 
 ## 6. 이벤트를 통한 Pub/Sub 연동 확인
