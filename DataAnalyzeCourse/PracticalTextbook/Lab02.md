@@ -272,70 +272,70 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
 
 10. 송신할 메세지를 하나씩 입력 후 `Enter` 입력
 
-    #### lab2-4-10-1
+     #### lab2-4-10-1
 
-    ```
-    test4
-    ```
+     ```
+     test4
+     ```
     
-    #### lab2-4-10-2
+     #### lab2-4-10-2
 
-    ```
-    test5
-    ```
+     ```
+     test5
+     ```
     
-    #### lab2-4-10-3
+     #### lab2-4-10-3
 
-    ```
-    test6
-    ```
-    - 송신되는 시간 5초 대기 후 `ctrl` + `c`로 종료
+     ```
+     test6
+     ```
+     - 송신되는 시간 5초 대기 후 `ctrl` + `c`로 종료
 
 11. Consumer 스크립트를 `earlist` 옵션을 추가하여 실행해 `consumer-group-earliest` 그룹으로 `consol-topic` 토픽의 메시지 수신
-    - `traffic-generator-1`에서 입력했던 메세지 수신 확인
+     - `traffic-generator-1`에서 입력했던 메세지 수신 확인
     
-    #### lab2-4-11
+     #### lab2-4-11
         
-    ```bash
-    bin/kafka-console-consumer.sh --bootstrap-server ${KAFKA_BOOTSTRAP_SERVERS} \
-    --topic consol-topic --group consumer-group-earliest \
-    --consumer-property auto.offset.reset=earliest
-    ```
+     ```bash
+     bin/kafka-console-consumer.sh --bootstrap-server ${KAFKA_BOOTSTRAP_SERVERS} \
+     --topic consol-topic --group consumer-group-earliest \
+     --consumer-property auto.offset.reset=earliest
+     ```
 
-    - `ctrl` + `c`로 종료
+     - `ctrl` + `c`로 종료
 
-   - 사진 예정(사진 넣은 후 삭제)
+    - 사진 예정(사진 넣은 후 삭제)
 
 12. Consumer 스크립트를 `earlist` 옵션과 `not commit` 옵션을 추가하여 실행해 `consumer-group-earliest-notcommit` 그룹으로 `consol-topic` 토픽의 메시지 수신
-    - `traffic-generator-1`에서 입력했던 메세지 수신 확인
+     - `traffic-generator-1`에서 입력했던 메세지 수신 확인
 
-    #### lab2-4-12
+     #### lab2-4-12
         
-    ```bash
-    bin/kafka-console-consumer.sh --bootstrap-server ${KAFKA_BOOTSTRAP_SERVERS} \
-    --topic consol-topic --group consumer-group-earliest-notcommit \
-    --consumer-property auto.offset.reset=earliest \
-    --consumer-property enable.auto.commit=false
-    ```
+     ```bash
+     bin/kafka-console-consumer.sh --bootstrap-server ${KAFKA_BOOTSTRAP_SERVERS} \
+     --topic consol-topic --group consumer-group-earliest-notcommit \
+     --consumer-property auto.offset.reset=earliest \
+     --consumer-property enable.auto.commit=false
+     ```
 
-    - `ctrl` + `c`로 종료
+     - `ctrl` + `c`로 종료
 
-   - 사진 예정(사진 넣은 후 삭제)
+    - 사진 예정(사진 넣은 후 삭제)
 
 13. Consumer 스크립트를 `latest` 옵션을 추가하여 실행해 `consumer-group-latest` 그룹으로 `consol-topic` 토픽의 메시지 수신
-    - `traffic-generator-1`에서 입력했던 메세지 수신 확인
+     - `traffic-generator-1`에서 입력했던 메세지 수신 확인
 
-    #### lab2-4-13
+     #### lab2-4-13
 
-    ```bash
-    bin/kafka-console-consumer.sh --bootstrap-server ${KAFKA_BOOTSTRAP_SERVERS} \
-    --topic consol-topic --group consumer-group-latest \
-    --consumer-property auto.offset.reset=latest
-    ```
+     ```bash
+     bin/kafka-console-consumer.sh --bootstrap-server ${KAFKA_BOOTSTRAP_SERVERS} \
+     --topic consol-topic --group consumer-group-latest \
+     --consumer-property auto.offset.reset=latest
+     ```
 
-    - `ctrl` + `c`로 종료
+     - `ctrl` + `c`로 종료
 
-   - 사진 예정(사진 넣은 후 삭제)
+    - 사진 예정(사진 넣은 후 삭제)
 
 14. 컨슈머 그룹 목록 확인
 
@@ -584,7 +584,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     watch -c 'awk "/^kakaocloud:/ {gsub(/([0-9]+)\\./,\"\\033[33m&\\033[0m\"); print}" < /var/log/cloud-init-output.log'
     ```
 
-3. `data-catalog` 버킷에 nginx 로그를 쌓기 위한 쓰기 권한 부여
+7. `data-catalog` 버킷에 nginx 로그를 쌓기 위한 쓰기 권한 부여
 
     #### lab2-7-3
     
@@ -595,7 +595,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
       --endpoint-url https://objectstorage.kr-central-2.kakaocloud.com
     ```
     
-4. S3 Sink Connector([`s3-sink-connector.properties`](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/KafkaConnector/s3-sink-connector.properties)), Standalone Worker([`worker.properties`](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/KafkaConnector/worker.properties)) 설정 파일 확인
+8. S3 Sink Connector([`s3-sink-connector.properties`](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/KafkaConnector/s3-sink-connector.properties)), Standalone Worker([`worker.properties`](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/KafkaConnector/worker.properties)) 설정 파일 확인
 
     #### lab2-7-4
     
@@ -605,7 +605,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     ![image](https://github.com/user-attachments/assets/2bdefc88-31aa-4d5e-8498-0a7ff3619da6)
     
 
-5. kafka-connect 시스템 서비스 파일([`kafka-connect.service`](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/KafkaConnector/kafka-connect.service)) 확인
+9. kafka-connect 시스템 서비스 파일([`kafka-connect.service`](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/KafkaConnector/kafka-connect.service)) 확인
     
     #### lab2-7-5
     
@@ -614,48 +614,48 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     ```
 
     
-6. 데몬 리로드 및 서비스 시작
+10. 데몬 리로드 및 서비스 시작
     
-    #### lab2-7-6-1
+     #### lab2-7-6-1
     
-    ```bash
-    sudo systemctl daemon-reload
-    ```
+     ```bash
+     sudo systemctl daemon-reload
+     ```
 
-    #### lab2-7-6-2
+     #### lab2-7-6-2
    
-    ```bash
-    sudo systemctl enable kafka-connect
-    ```
+     ```bash
+     sudo systemctl enable kafka-connect
+     ```
     
-    #### lab2-7-6-3
+     #### lab2-7-6-3
     
-    ```bash
-    sudo systemctl start kafka-connect
-    ```
+     ```bash
+     sudo systemctl start kafka-connect
+     ```
 
-    ![13](https://github.com/user-attachments/assets/b34813be-72bb-4842-9a3d-e03bbb0b30a5)
+     ![13](https://github.com/user-attachments/assets/b34813be-72bb-4842-9a3d-e03bbb0b30a5)
 
-7. s3-sink-connector 상태 정보 조회
-   - **Note**: `connector`, `tasks` 항목의 `state` 값이 `RUNNING`인 것을 확인
+11. s3-sink-connector 상태 정보 조회
+    - **Note**: `connector`, `tasks` 항목의 `state` 값이 `RUNNING`인 것을 확인
    
-    #### lab2-7-7
+     #### lab2-7-7
     
-    ```bash
-    watch -n 1 "curl -s http://localhost:8083/connectors/s3-sink-connector/status | jq"
-    ```
+     ```bash
+     watch -n 1 "curl -s http://localhost:8083/connectors/s3-sink-connector/status | jq"
+     ```
 
     ![14](https://github.com/user-attachments/assets/f18745bc-b791-47ea-b339-e46df150f376)
 
-8. Object Storage 버킷 내 NGINX 로그 적재 확인
-    - 카카오 클라우드 콘솔 > Beyond Storage Service > Object Storage > 일반 버킷
-    - `data-catalog` 버킷 클릭
+12. Object Storage 버킷 내 NGINX 로그 적재 확인
+     - 카카오 클라우드 콘솔 > Beyond Storage Service > Object Storage > 일반 버킷
+     - `data-catalog` 버킷 클릭
 
-    - `/topics/nginx-topic/partition_0/year_{현재 연도}/month_{현재 월}/day_{현재 일}/hour_{현재 시}` 디렉터리로 이동
+     - `/topics/nginx-topic/partition_0/year_{현재 연도}/month_{현재 월}/day_{현재 일}/hour_{현재 시}` 디렉터리로 이동
 
-    - 버킷 내 추가로 적재된 NGINX 로그 적재 확인
+     - 버킷 내 추가로 적재된 NGINX 로그 적재 확인
 
-    - 아래 결과 확인(사진 넣을 예정)
+     - 아래 결과 확인(사진 넣을 예정)
 
 
 
