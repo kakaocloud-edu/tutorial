@@ -46,7 +46,6 @@ from mysql.connector import Error
 from flask import jsonify
 from flask.json import JSONEncoder
 from decimal import Decimal
-from flask import request, jsonify, make_response
 
 
 
@@ -286,7 +285,7 @@ def home():
 def push_subscription():
     """
     외부 Push Subscription 서비스가 메시지를 POST 방식으로 보내면,
-    JSON 형태의 페이로드를 DB의 push_messages 테이블에 저장합니다.
+    JSON 형태의 페이로드를 DB의 push_messages 테이블에 저장
     """
     try:
         data = request.get_json()
@@ -315,7 +314,6 @@ def push_subscription():
 def get_push_messages():
     """
     DB에 저장된 push 메시지들을 JSON 형태로 반환합니다.
-    내부의 "message" 키가 있으면 이를 평탄화하여 최상위로 병합합니다.
     """
     try:
         conn = get_db_connection()
@@ -345,7 +343,6 @@ def get_push_messages():
                     del payload["message"]
                 row['payload'] = payload
             except Exception:
-                # 파싱 실패 시 그대로 둡니다.
                 pass
 
             # received_at이 datetime 객체라면 ISO 문자열로 변환 (CustomJSONEncoder가 적용되지 않을 경우 대비)
