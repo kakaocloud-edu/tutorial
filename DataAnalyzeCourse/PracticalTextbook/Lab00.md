@@ -257,35 +257,37 @@
     ```
 
 5. API Server VM 스크립트 적용 확인
-    ```
-    kakaocloud: 1. as_env_setup.sh 스크립트를 다운로드합니다.
-    kakaocloud: as_env_setup.sh 스크립트를 다운로드가 완료되었습니다.
-    kakaocloud: 2. as_env_setup.sh 실행을 시작합니다.
-    kakaocloud: 3. 환경 변수를 ~/.bashrc에 추가합니다.
-    kakaocloud: 환경 변수 설정을 완료했습니다.
-    kakaocloud: 4. filebeat, logstash 설치를 시작합니다.
-    kakaocloud: filebeat, logstash 설치가 완료되었습니다.
-    kakaocloud: 5. filebeat, logstash 환경변수 설정을 시작합니다.
-    kakaocloud: filebeat, logstash 환경 변수 설정을 완료했습니다.
-    kakaocloud: 6. flask_app.service 환경 변수를 설정합니다.
-    kakaocloud: flask_app.service가 없어 override를 생략합니다.
-    kakaocloud: flask_app.service 환경 변수 설정이 완료되었습니다.
-    kakaocloud: 7. 스크립트 및 실습 진행에 필요한 파일들을 다운로드합니다.
-    kakaocloud: 스크립트 및 실습 진행에 필요한 파일 다운로드가 완료되었습니다.
-    kakaocloud: 8. api_full_setup.sh, setup_db.sh 스크립트 실행을 시작합니다.
-    kakaocloud: Executing api_full_setup.sh & setup_db.sh
-    kakaocloud: api_full_setup.sh & setup_db.sh 완료
-    kakaocloud: api_full_setup.sh, setup_db.sh 스크립트 실행이 완료되었습니다.
-    kakaocloud: 9. logstash.yml 구성 및 filebeat,logstash 재시작을 시작합니다.
-    kakaocloud: logstash.yml 구성 및 filebeat,logstash 재시작이 완료되었습니다.
-    kakaocloud: 스크립트 적용이 완료되었습니다.
-    ```
 
-    #### **lab0-7-5**
+    #### **lab0-7-5-1**
     
     ```bash
     watch -c 'awk "/kakaocloud:/ {gsub(/([0-9]+)\\./,\"\\033[33m&\\033[0m\"); print}" < /var/log/cloud-init-output.log'
     ```
+
+    - 모든 스크립트가 완료되면 아래와 같음
+        ```
+        kakaocloud: 1. as_env_setup.sh 스크립트를 다운로드합니다.
+        kakaocloud: as_env_setup.sh 스크립트를 다운로드가 완료되었습니다.
+        kakaocloud: 2. as_env_setup.sh 실행을 시작합니다.
+        kakaocloud: 3. 환경 변수를 ~/.bashrc에 추가합니다.
+        kakaocloud: 환경 변수 설정을 완료했습니다.
+        kakaocloud: 4. filebeat, logstash 설치를 시작합니다.
+        kakaocloud: filebeat, logstash 설치가 완료되었습니다.
+        kakaocloud: 5. filebeat, logstash 환경변수 설정을 시작합니다.
+        kakaocloud: filebeat, logstash 환경 변수 설정을 완료했습니다.
+        kakaocloud: 6. flask_app.service 환경 변수를 설정합니다.
+        kakaocloud: flask_app.service가 없어 override를 생략합니다.
+        kakaocloud: flask_app.service 환경 변수 설정이 완료되었습니다.
+        kakaocloud: 7. 스크립트 및 실습 진행에 필요한 파일들을 다운로드합니다.
+        kakaocloud: 스크립트 및 실습 진행에 필요한 파일 다운로드가 완료되었습니다.
+        kakaocloud: 8. api_full_setup.sh, setup_db.sh 스크립트 실행을 시작합니다.
+        kakaocloud: Executing api_full_setup.sh & setup_db.sh
+        kakaocloud: api_full_setup.sh & setup_db.sh 완료
+        kakaocloud: api_full_setup.sh, setup_db.sh 스크립트 실행이 완료되었습니다.
+        kakaocloud: 9. logstash.yml 구성 및 filebeat,logstash 재시작을 시작합니다.
+        kakaocloud: logstash.yml 구성 및 filebeat,logstash 재시작이 완료되었습니다.
+        kakaocloud: 스크립트 적용이 완료되었습니다.
+        ```
 
 
 # 8. Traffic Generator VM 생성 (7분)
@@ -408,25 +410,24 @@
     watch -c 'awk "/kakaocloud:/ {gsub(/([0-9]+)\\./,\"\\033[33m&\\033[0m\"); print}" < /var/log/cloud-init-output.log'
     ```
 
-6. Traffic Generator VM 스크립트 적용 확인
-
-    ```
-    kakaocloud: 1.환경 변수 설정 시작
-    kakaocloud: 2.스크립트 다운로드 사이트 유효성 검사 시작
-    kakaocloud: 3. 필수 환경변수 검증 시작
-    kakaocloud: 4. Git 클론 시작
-    kakaocloud: 5. config.yml 파일 생성 시작
-    kakaocloud: 6. Go SDK 설치 및 설정 시작
-    kakaocloud: 7. Pub/Sub SDK 다운로드 및 설치 시작
-    kakaocloud: 8. Pub/Sub SDK 의존성 추가 및 로컬 경로 교체 시작
-    kakaocloud: 9. go mod tidy 실행 시작
-    kakaocloud: 10. Python3 및 pip 설치 시작
-    kakaocloud: 11. Python dependencies (requests, pyyaml) 설치 시작
-    kakaocloud: 12. OpenJDK 21 설치 시작
-    kakaocloud: 13. Apache Kafka 설치 시작
-    kakaocloud: 14. kafka-python 라이브러리 설치 시작
-    kakaocloud: 자동화 완료스크립트 실행 완료!
-    ```
+    - 모든 스크립트가 완료되면 아래와 같음
+        ```
+        kakaocloud: 1.환경 변수 설정 시작
+        kakaocloud: 2.스크립트 다운로드 사이트 유효성 검사 시작
+        kakaocloud: 3. 필수 환경변수 검증 시작
+        kakaocloud: 4. Git 클론 시작
+        kakaocloud: 5. config.yml 파일 생성 시작
+        kakaocloud: 6. Go SDK 설치 및 설정 시작
+        kakaocloud: 7. Pub/Sub SDK 다운로드 및 설치 시작
+        kakaocloud: 8. Pub/Sub SDK 의존성 추가 및 로컬 경로 교체 시작
+        kakaocloud: 9. go mod tidy 실행 시작
+        kakaocloud: 10. Python3 및 pip 설치 시작
+        kakaocloud: 11. Python dependencies (requests, pyyaml) 설치 시작
+        kakaocloud: 12. OpenJDK 21 설치 시작
+        kakaocloud: 13. Apache Kafka 설치 시작
+        kakaocloud: 14. kafka-python 라이브러리 설치 시작
+        kakaocloud: 자동화 완료스크립트 실행 완료!
+        ```
    
 
 
