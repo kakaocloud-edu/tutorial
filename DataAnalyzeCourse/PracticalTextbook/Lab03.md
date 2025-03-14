@@ -13,7 +13,7 @@ Data Catalog와 Pub/Sub, Object Storage를 연동해 테이블 생성 및 이벤
          - 접근 설정 버튼 클릭
             - 액세스 권한
                - `퍼블릭 액세스 허용 (Read Only)` 선택
-               - 접근 허용 IP 주소: 빈칸
+               - 접근 허용 IP 주소: 빈 칸
                - 저장 버튼 클릭
          - 확인 버튼 클릭
 3. `퍼블릭 액세스`가 `허용 (Read Only)`으로 바뀐 것을 확인
@@ -28,7 +28,7 @@ Data Catalog와 Pub/Sub, Object Storage를 연동해 테이블 생성 및 이벤
         - 이름: `data-catalog-topic`
         - 기본 서브스크립션: `생성 안함`
         - 토픽 메세지 보존 기간: `0일 0시 10분`
-        - 설명: `없음`
+        - 설명: 빈 칸
     - 생성 버튼 클릭
 3. 생성된 `data-catalog-topic` 클릭
 4. 서브스크립션 탭 클릭 후 서브스크립션 생성 버튼 클릭
@@ -80,7 +80,7 @@ Data Catalog와 Pub/Sub, Object Storage를 연동해 테이블 생성 및 이벤
    - 데이터 유형: `JSON`  
    - Pub/Sub 연동: `사용`  
       - 토픽 선택: `data-catalog-topic`  
-   - 설명(선택): `없음`  
+   - 설명(선택): 빈 칸  
    - 스키마  
       - 스키마 필드 추가 버튼 클릭 후 아래 표의 순서대로 스키마 추가
       
@@ -140,8 +140,8 @@ Data Catalog와 Pub/Sub, Object Storage를 연동해 테이블 생성 및 이벤
         - ID: `admin`
         - PW: `admin1234`
         - 연결 테스트 버튼 클릭
-    - 설명 (선택): `없음`
-    - 테이블 Prefix (선택): `없음`
+    - 설명 (선택): 빈 칸
+    - 테이블 Prefix (선택): 빈 칸
     - 스케줄: `온디멘드`
     - 생성 버튼 클릭
 3. `crawler` 크롤러의 상태가 `Active`인 것을 확인
