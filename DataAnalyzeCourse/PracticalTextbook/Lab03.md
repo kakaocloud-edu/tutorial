@@ -1,6 +1,7 @@
 # Data Catalog 실습
 
 Data Catalog와 Pub/Sub, Object Storage를 연동해 테이블 생성 및 이벤트 처리와 크롤러를 통한 MySQL 메타데이터 추출을 수행하는 실습입니다.
+
 ---
 
 ## 1. Object Storage 버킷 권한 설정
