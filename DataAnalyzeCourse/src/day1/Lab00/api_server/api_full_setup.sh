@@ -315,7 +315,7 @@ def push_subscription():
 def get_push_messages():
     """
     DB에 저장된 push 메시지들을 JSON 형태로 반환합니다.
-    출력 시 단일 메시지의 경우 "messages" 배열 대신 "message" 키로 평탄화합니다.
+    내부의 "message" 키가 있으면 이를 평탄화하여 최상위로 병합합니다.
     """
     try:
         conn = get_db_connection()
@@ -330,18 +330,25 @@ def get_push_messages():
         for row in rows:
             try:
                 payload = json.loads(row['payload'])
-                # 평탄화 로직: "messages" 배열에 단 하나의 항목이 있고, 그 항목이 "message" 키로 감싸져 있다면
+                # 평탄화 로직 1: "messages" 배열에 단 하나의 항목이 있고, 그 항목에 "message" 키가 있다면
                 if ("messages" in payload and isinstance(payload["messages"], list)
                         and len(payload["messages"]) == 1 and isinstance(payload["messages"][0], dict)
                         and "message" in payload["messages"][0]):
                     payload["message"] = payload["messages"][0]["message"]
                     del payload["messages"]
+                # 평탄화 로직 2: payload에 "message" 키가 존재하면 내부 내용을 최상위로 병합
+                if "message" in payload and isinstance(payload["message"], dict):
+                    inner = payload["message"]
+                    for key, value in inner.items():
+                        # 기존에 같은 키가 있으면 덮어씌웁니다.
+                        payload[key] = value
+                    del payload["message"]
                 row['payload'] = payload
             except Exception:
                 # 파싱 실패 시 그대로 둡니다.
                 pass
 
-            # received_at 컬럼 datetime 객체인 경우 ISO 형식 문자열로 변환 (CustomJSONEncoder가 적용되지 않는 경우 대비)
+            # received_at이 datetime 객체라면 ISO 문자열로 변환 (CustomJSONEncoder가 적용되지 않을 경우 대비)
             if 'received_at' in row and isinstance(row['received_at'], datetime):
                 row['received_at'] = row['received_at'].isoformat()
 
@@ -350,8 +357,8 @@ def get_push_messages():
     except Exception as e:
         import traceback
         traceback.print_exc()
-        print(f"Error while retrieving messages: {e}")
         return f"An error occurred: {e}", 500
+
 
     
 @app.route('/add_user', methods=['POST'])
