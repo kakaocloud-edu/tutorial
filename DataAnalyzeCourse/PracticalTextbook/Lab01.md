@@ -137,7 +137,6 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 통한 메시�
     ```
         
 8. `test-push-sub` 서브스크립션에서 `api-server-vm`으로 송신한 메시지 확인
-    - **Note**: 메시지가 보이지 않을 경우 전송에 시간이 걸릴 수 있으므로 잠시 대기 후 `F5` 키를 눌러 다시 시도
     ![image](https://github.com/user-attachments/assets/8c20c80f-aa9f-44eb-b5e1-1af5b2380556)
 
 ---
@@ -245,7 +244,7 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 통한 메시�
     ```
       ![image](https://github.com/user-attachments/assets/928e4751-ad0c-4e8e-8efc-f397bfb60977)
 
-5. 사용자 등록, 로그인, 상품 목록 확인 등을 수행하여 로그 생성
+5. 사용자 등록, 로그인, 상품 목록 확인 등을 클릭하여 로그 생성
 6. 카카오 클라우드 콘솔 > Beyond Storage Service > Object Storage > 일반 버킷
     - 쌓인 로그를 확인하기 위한 `pubsub-nginx-log` 버킷 클릭
         - 현재 연도/월/일/시 디렉터리로 이동하여 생성된 NGINX 로그 확인
