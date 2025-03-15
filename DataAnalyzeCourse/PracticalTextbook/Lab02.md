@@ -159,7 +159,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     
 
 
-## 4. 콘솔 스크립트를 통한 Kafka 메시지 송수신 확인
+## 4. Kafka 콘솔 스크립트를 통한 Kafka 메시지 송수신 확인
 
 1. `traffic-generator-1`에서 kafka 작업을 위한 디렉터리인 `/opt/kafka`로 이동
     
@@ -401,7 +401,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
 
     - `Ctrl`+`c` 키를 입력하여 종료
 
-## 6. Nginx 로그 수집 및 Kafka 전송
+## 6. Kafka 콘솔 스크립트와 Logstash를 통한 Nginx 로그 수신 확인
 
 1. `traffic-generator-1`에서 kafka 작업을 위한 디렉터리인 `/opt/kafka`로 이동
     #### **lab2-6-1**
@@ -613,7 +613,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     kakaocloud: 15. Kafka Connect 서비스 등록
     kakaocloud: Setup 완료
     ```
-6. `data-catalog` 버킷에 nginx 로그를 쌓기 위한 쓰기 권한 부여
+6. `data-catalog-bucket`에 nginx 로그를 쌓기 위한 쓰기 권한 부여
 
     #### **lab2-8-6**
     
