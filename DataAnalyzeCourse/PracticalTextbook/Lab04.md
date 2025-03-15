@@ -54,7 +54,8 @@
       ORDER BY status; 
       ```
    - 쿼리 결과 탭에서 HTTP 상태 코드 분포 확인
-      ![15](https://github.com/user-attachments/assets/4f4025db-4cfc-418a-a707-d25097faf49a)
+      ![image](https://github.com/user-attachments/assets/0416754a-a6dc-4b59-80a1-ecc873a031c2)
+
       
 3. NGINX 로그를 활용하여 인기 상품 클릭 수 쿼리
    - 데이터 원본: `data_catalog`
@@ -73,7 +74,7 @@
       ORDER BY click_count DESC;
       ```
    - 쿼리 결과 탭에서 인기 상품 클릭 수 확인
-      ![16](https://github.com/user-attachments/assets/42ef98d8-4f9f-43eb-8872-ee0fa6d49dbc)
+      ![image](https://github.com/user-attachments/assets/9b18841d-9955-42ed-b8e6-0a90a2fd2936)
 
 4. NGINX 로그와 MySQL 데이터를 활용하여 인기 상품 클릭 수 쿼리
    - 데이터 원본: `data_catalog`
