@@ -228,7 +228,7 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 통한 메시�
     
 3. 실행 완료 후 새로 생성된 `traffic_generator.log` 로그 파일 확인(2분)
 
-    #### **lab1-5-3-2**
+    #### **lab1-5-3**
     
     ```bash
     cat traffic_generator.log
