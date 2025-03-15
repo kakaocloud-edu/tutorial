@@ -41,6 +41,8 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
 
 ## 2. Kafka 실습을 위한 API Server 환경 설정
 
+![Image](https://github.com/user-attachments/assets/0d2ebde3-53f3-4ccd-b759-855c6fddda1a)
+
 1. 카카오 클라우드 콘솔 > Beyond Compute Service > Virtual Machine > 인스턴스
 2. `api-server-1, 2` 인스턴스의 우측 메뉴바 > `SSH 연결` 클릭
 
@@ -101,8 +103,6 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     ```
 
 5. `api-server-1, 2`에서 Logstash 설정 파일을 수정하여 Kafka로 송신하도록 설정
-
-    ![Image](https://github.com/user-attachments/assets/0d2ebde3-53f3-4ccd-b759-855c6fddda1a)
 
     #### **lab2-2-5**
    
