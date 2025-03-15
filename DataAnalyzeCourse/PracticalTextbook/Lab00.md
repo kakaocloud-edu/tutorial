@@ -279,9 +279,6 @@
         kakaocloud: 스크립트 적용이 완료되었습니다!
         ```
 
-    - 스크립트 적용 확인 후 터미널 창 닫기
-
-
 ## 8. Traffic Generator VM 생성 (7분)
 
 1. 카카오 클라우드 콘솔 > Beyond Compute Service > Virtual Machine > 인스턴스
