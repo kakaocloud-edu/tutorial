@@ -23,11 +23,6 @@ output.logstash:
   hosts: ["127.0.0.1:5044","127.0.0.1:5045"]
 
 processors:
-  # 오직 지정된 엔드포인트만 통과시키고 나머지는 drop
-  - drop_event:
-      when.not:
-        regexp:
-          request: "(POST /add_user|GET /categories|GET /products|POST /login|POST /cart/add|POST /delete_user|GET /error)"
   - add_host_metadata:
       when.not.contains.tags: forwarded
   - add_cloud_metadata: ~
