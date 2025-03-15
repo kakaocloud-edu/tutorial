@@ -254,7 +254,7 @@
     icacls.exe keypair.pem /inheritance:r
     ```
 
-5. `api-server-1`, `api-server-2` 스크립트 적용 확인
+5. api server 스크립트 적용 확인
 
     #### **lab0-7-5-1**
     
