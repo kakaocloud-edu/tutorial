@@ -123,9 +123,12 @@
 
 
 ## 4. 테이블 파티션 생성 실습
-1. 편집기 상단 `+` 버튼 클릭하여 `Query5` 탭 추가 후, `kafka_log_table` 테이블을 status 컬럼을 기준으로 파티션을 나누어 저장하는 새 파티션 테이블 생성
+1. 데이터 원본 설정
+   - 데이터 원본: `data_catalog`
+   - 데이터 베이스: `data_catalog_database`
+2. 편집기 상단 `+` 버튼 클릭하여 `Query5` 탭 추가 후, `kafka_log_table` 테이블을 status 컬럼을 기준으로 파티션을 나누어 저장하는 새 파티션 테이블 생성
 
-   #### **lab4-4-1**
+   #### **lab4-4-2**
 
    ```
    CREATE TABLE data_catalog_database.kafka_log_partitioned
