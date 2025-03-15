@@ -606,6 +606,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
 
 5. 스크립트 적용 확인
     #### **lab2-8-5**
+    - **Note**: 터미널 창이 작으면 로그가 안보일 수도 있으니, 터미널 창의 크기를 늘려주세요.
    
     ```
     watch -c 'awk "/^kakaocloud:/ {gsub(/([0-9]+)\\./,\"\\033[33m&\\033[0m\"); print}" < /var/log/cloud-init-output.log'
@@ -629,7 +630,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     kakaocloud: 15. Kafka Connect 서비스 등록
     kakaocloud: Setup 완료
     ```
-6. `data-catalog-bucket`에 nginx 로그를 쌓기 위해 필요한 쓰기 권한을 부여하는 명령어 실행
+7. `data-catalog-bucket`에 nginx 로그를 쌓기 위해 필요한 쓰기 권한을 부여하는 명령어 실행
 
     #### **lab2-8-6**
     
@@ -640,7 +641,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
       --endpoint-url https://objectstorage.kr-central-2.kakaocloud.com
     ```
     
-7. S3 Sink Connector([`s3-sink-connector.properties`](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day1/Lab02/kafka_connector/s3-sink-connector.properties)), Standalone Worker([`worker.properties`](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day1/Lab02/kafka_connector/worker.properties)) 설정 파일 생성 확인
+8. S3 Sink Connector([`s3-sink-connector.properties`](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day1/Lab02/kafka_connector/s3-sink-connector.properties)), Standalone Worker([`worker.properties`](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day1/Lab02/kafka_connector/worker.properties)) 설정 파일 생성 확인
 
     #### **lab2-8-7**
     
@@ -648,7 +649,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     ls /opt/kafka/config
     ```
 
-8. kafka-connect 시스템 서비스 파일([`kafka-connect.service`](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day1/Lab02/kafka_connector/kafka-connect.service)) 생성 확인
+9. kafka-connect 시스템 서비스 파일([`kafka-connect.service`](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day1/Lab02/kafka_connector/kafka-connect.service)) 생성 확인
     
     #### **lab2-8-8**
     
@@ -657,7 +658,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     ```
 
     
-9. 데몬 리로드 및 kafka-connect 서비스를 시작하는 명령어 실행
+10. 데몬 리로드 및 kafka-connect 서비스를 시작하는 명령어 실행
     
     #### lab**2-8-9-1**
     
@@ -679,7 +680,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
 
     ![Image](https://github.com/user-attachments/assets/43cc5d53-98f3-45e5-919b-cad3015cfba8)
 
-10. `s3-sink-connector` 상태 정보 확인
+11. `s3-sink-connector` 상태 정보 확인
    
     #### lab**2-8-10**
     
@@ -689,11 +690,11 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
 
     ![Image](https://github.com/user-attachments/assets/88fa4485-7919-4df1-aa42-9183b81f0df7)
 
-11. Object Storage 버킷 내 NGINX 로그 적재 확인
-12. 카카오 클라우드 콘솔 > Beyond Storage Service > Object Storage > 일반 버킷
-13. `data-catalog-bucket` 클릭
-14. `/topics/nginx-topic/partition_0/year_{현재 연도}/month_{현재 월}/day_{현재 일}/hour_{현재 시}` 디렉터리로 이동
-15. 버킷 내 적재된 NGINX 로그 적재 확인
+12. Object Storage 버킷 내 NGINX 로그 적재 확인
+13. 카카오 클라우드 콘솔 > Beyond Storage Service > Object Storage > 일반 버킷
+14. `data-catalog-bucket` 클릭
+15. `/topics/nginx-topic/partition_0/year_{현재 연도}/month_{현재 월}/day_{현재 일}/hour_{현재 시}` 디렉터리로 이동
+16. 버킷 내 적재된 NGINX 로그 적재 확인
     ![11](https://github.com/user-attachments/assets/aeedd65f-e1dd-44f9-a6e5-4d22d86207ed)
 
 
