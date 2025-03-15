@@ -594,7 +594,25 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     ```
     watch -c 'awk "/^kakaocloud:/ {gsub(/([0-9]+)\\./,\"\\033[33m&\\033[0m\"); print}" < /var/log/cloud-init-output.log'
     ```
-
+    - 모든 스크립트가 완료되면 아래와 같음
+    ```
+    kakaocloud: 1.환경 변수 설정 시작
+    kakaocloud: 2.스크립트 다운로드 사이트 유효성 검사 시작
+    kakaocloud: 3. 필수 환경변수 검증 시작
+    kakaocloud: 4. 시스템 업데이트 및 필수 패키지 설치 시작
+    kakaocloud: 5. Kafka 설치 시작
+    kakaocloud: 6. Confluent Hub Client 설치 시작
+    kakaocloud: 7. 환경 변수 등록 시작
+    kakaocloud: 8. S3 Sink Connector 설치 시작
+    kakaocloud: 9. AWS CLI 설치 시작
+    kakaocloud: 10. AWS CLI 설정 시작
+    kakaocloud: 11. Kafka 설정 폴더 생성 및 권한 부여
+    kakaocloud: 12. 커스텀 플러그인 다운로드 시작
+    kakaocloud: 13. s3-sink-connector.properties 생성
+    kakaocloud: 14. worker.properties 생성
+    kakaocloud: 15. Kafka Connect 서비스 등록
+    kakaocloud: Setup 완료
+    ```
 6. `data-catalog` 버킷에 nginx 로그를 쌓기 위한 쓰기 권한 부여
 
     #### **lab2-9-6**
