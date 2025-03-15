@@ -677,11 +677,8 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     - 사진 예정(사진 넣은 후 삭제)
 
 11. Object Storage 버킷 내 NGINX 로그 적재 확인
-
-    - 사진 예정(사진 넣은 후 삭제)
-
 12. 카카오 클라우드 콘솔 > Beyond Storage Service > Object Storage > 일반 버킷
-13. `data-catalog` 버킷 클릭
+13. `data-catalog-bucket` 클릭
 
     - 사진 예정(사진 넣은 후 삭제)
 
@@ -689,7 +686,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
 
     - 사진 예정(사진 넣은 후 삭제)
 
-15. 버킷 내 추가로 적재된 NGINX 로그 적재 확인
+15. 버킷 내 적재된 NGINX 로그 적재 확인
 
     - 사진 예정(사진 넣은 후 삭제)
 
