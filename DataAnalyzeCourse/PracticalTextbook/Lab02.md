@@ -34,10 +34,10 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     - 생성 버튼 클릭
 
 3. 위에서 생성한 `kafka` 클러스터 클릭
-    - 사진 예정(사진 넣은 후 삭제)
+    ![Image](https://github.com/user-attachments/assets/614eb148-ce90-40a0-bcd5-1b9881f825b5)
 
 4. 우측 상단의 `부트스트랩 서버` 복사 후 클립보드 등에 붙여넣기
-    - 사진 예정(사진 넣은 후 삭제)
+    ![Image](https://github.com/user-attachments/assets/32e09004-a8c2-4b3f-8f36-9e7df3b6d34a)
 
 ## 2. Kafka 실습을 위한 API Server 환경 설정 
 
@@ -131,7 +131,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
 
     - `ctrl` + `c`로 종료
 
-    - 사진 예정(사진 넣은 후 삭제)
+    ![Image](https://github.com/user-attachments/assets/d6b11193-66a6-4bf3-a86f-7cd3a7169b51)
 
 
 ## 3. Kafka 실습을 위한 Traffic Generator 환경 설정
@@ -155,8 +155,8 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     ```bash
     nc -zv {Kafka 클러스터의 부트스트랩 서버}
     ```
-    - 사진 예정(사진 넣은 후 삭제)
-    
+
+    ![Image](https://github.com/user-attachments/assets/923c51ed-0cf3-4fea-8c13-442beb0005ee)
 
 
 ## 4. Kafka 콘솔 스크립트를 통한 Kafka 메시지 송수신 확인
@@ -178,7 +178,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     --create --topic consol-topic --partitions 2 --replication-factor 2
     ```
     
-    - 사진 예정(사진 넣은 후 삭제)
+    ![Image](https://github.com/user-attachments/assets/9321a32b-fde4-486b-8398-da235d7d1de0)
 
 3. `traffic-generator-1`에서 `consol-topic`으로 메세지를 전송하기 위한 producer 스크립트 실행
     
@@ -207,7 +207,10 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     ```
     test3
     ```
+
     - 송신되는 시간 5초 대기 후 `ctrl` + `c`로 종료
+
+    ![Image](https://github.com/user-attachments/assets/800bd1cb-72a6-4cff-afd0-70fa42cbe79d)
 
 5. `traffic-generator-2`에서 kafka 작업을 위한 디렉터리인 `/opt/kafka`로 이동
     
@@ -229,7 +232,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
 
     - `ctrl` + `c`로 종료
 
-   - 사진 예정(사진 넣은 후 삭제)
+    ![Image](https://github.com/user-attachments/assets/3bb1c65d-1a7f-4d81-b95d-2401e822efd4)
 
 7. `traffic-generator-2`에서 `consumer-group-earliest-notcommit` 그룹으로 `consol-topic`의 메시지를 수신하기 위해 consumer 스크립트에 `earlist` 옵션과 `not commit` 옵션을 추가하여 실행
 
@@ -244,7 +247,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
 
     - `ctrl` + `c`로 종료
 
-   - 사진 예정(사진 넣은 후 삭제)
+    ![Image](https://github.com/user-attachments/assets/605fcbf3-53cc-468a-9481-6289ac88fb16)
 
 8. `traffic-generator-2`에서 `consumer-group-latest` 그룹으로 `consol-topic`의 메시지를 수신하기 위해 consumer 스크립트에 `latest` 옵션을 추가하여 실행
 
@@ -258,7 +261,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
 
     - `ctrl` + `c`로 종료
 
-   - 사진 예정(사진 넣은 후 삭제)
+    ![Image](https://github.com/user-attachments/assets/dcfb2aeb-8b2d-41a1-9990-252ad62529f3)
 
 9. `traffic-generator-1`에서 `consol-topic`으로 메세지를 전송하기 위한 producer 스크립트 실행
     
@@ -289,6 +292,8 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     ```
      - 송신되는 시간 5초 대기 후 `ctrl` + `c`로 종료
 
+    ![Image](https://github.com/user-attachments/assets/27cf5a74-f03f-4874-92a8-96c97e30b0d0)
+
 11. `traffic-generator-2`에서 `consumer-group-earliest` 그룹으로 `consol-topic`의 메시지를 수신하기 위해 consumer 스크립트에 `earlist` 옵션을 추가하여 실행
     
     #### **lab2-4-11**
@@ -301,7 +306,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
 
     - `ctrl` + `c`로 종료
 
-    - 사진 예정(사진 넣은 후 삭제)
+    ![Image](https://github.com/user-attachments/assets/7039660c-3289-4916-8e8f-93dbd03ba15b)
 
 12. `traffic-generator-2`에서 `consumer-group-earliest-notcommit` 그룹으로 `consol-topic`의 메시지를 수신하기 위해 consumer 스크립트에 `earlist` 옵션과 `not commit` 옵션을 추가하여 실행
 
@@ -316,7 +321,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
 
     - `ctrl` + `c`로 종료
 
-    - 사진 예정(사진 넣은 후 삭제)
+    ![Image](https://github.com/user-attachments/assets/77f69f9a-7bb9-4026-a90a-49049c1aa956)
 
 13. `traffic-generator-2`에서 `consumer-group-latest` 그룹으로 `consol-topic`의 메시지를 수신하기 위해 consumer 스크립트에 `latest` 옵션을 추가하여 실행
 
@@ -330,7 +335,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
 
     - `ctrl` + `c`로 종료
 
-    - 사진 예정(사진 넣은 후 삭제)
+    ![Image](https://github.com/user-attachments/assets/d60ce309-b5b3-44b3-bae5-da0f6fcd5976)
 
 14. `traffic-generator-2`에서 생성된 consumer 그룹 목록 확인
 
@@ -340,7 +345,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     bin/kafka-consumer-groups.sh --bootstrap-server ${KAFKA_BOOTSTRAP_SERVERS} --list
     ```
 
-    - 사진 예정(사진 넣은 후 삭제)
+    ![Image](https://github.com/user-attachments/assets/a27fdd24-d790-4efb-9bb3-fc9c445d45da)
 
 ## 5. Python SDK를 활용한 Kafka 메시지 송수신 확인
 
@@ -352,7 +357,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     --create --topic python-topic --partitions 2 --replication-factor 2
     ```
 
-    - 사진 예정(사진 넣은 후 삭제)
+    ![Image](https://github.com/user-attachments/assets/f9cf89d8-fd0b-46ac-8043-914a22228f8d)
 
 2. `traffic-generator-1`에서 Kafka 실습용 디렉터리로 이동
     #### **lab2-5-2**
@@ -367,7 +372,8 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     ```bash
     python3 kafka_publisher.py
     ```
-    - 사진 예정(사진 넣은 후 삭제)
+
+    ![Image](https://github.com/user-attachments/assets/64712617-66df-4dd2-849a-8f2d1ee28006)
 
 4. `traffic-generator-2`에서 Kafka 실습용 디렉터리로 이동
 
@@ -384,9 +390,10 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     ```bash
     python3 kafka_subscriber.py
     ```
-    - 사진 예정(사진 넣은 후 삭제)
 
     - `Ctrl`+`c` 키를 입력하여 종료
+
+    ![Image](https://github.com/user-attachments/assets/50dba0ea-868e-4730-b0ec-15aab3578609)
 
 6. `traffic-generator-2`에서 `kafka_subscriber` 파일의 옵션을 수정하고 `python-topic`으로부터 메세지를 수신하기 위해 `kafka_subscriber` 파일 실행 
     - 수정한 옵션: 오프셋 3부터 메시지 소비를 시작하고 오프셋 4에서 커밋
@@ -397,9 +404,9 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     python3 kafka_subscriber.py --start-offset 3 --commit-threshold 4
     ```
 
-    - 사진 예정(사진 넣은 후 삭제)
-
     - `Ctrl`+`c` 키를 입력하여 종료
+
+    ![Image](https://github.com/user-attachments/assets/7ffe09d3-efc2-4f01-9827-3d760f8fb452)
 
 ## 6. Kafka 콘솔 스크립트와 Logstash를 통한 Nginx 로그 수신 확인
 
@@ -418,7 +425,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     --create --topic nginx-topic --partitions 2 --replication-factor 2
     ```
 
-    - 사진 예정(사진 넣은 후 삭제)
+    ![Image](https://github.com/user-attachments/assets/1574a7c0-9dfa-4945-8b5a-8ce0824b381e)
 
 3. `traffic-generator-2`에서 kafka 작업을 위한 디렉터리인 `/opt/kafka`로 이동
 
@@ -477,10 +484,15 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
         - S3 액세스 키 이름: `s3-acc-key`
         - S3 액세스 키 설명 (선택): `빈 칸`
     - 생성 버튼 클릭
+
+    ![Image](https://github.com/user-attachments/assets/e5f89822-cb4f-4922-bf9c-f142e341e888)
+
     - S3 인증 정보 항목의 사용자 `인증 키` 복사 후 클립보드 등에 붙여넣기
     - S3 인증 정보 항목의 사용자 `보안 엑세스 키` 복사 후 클립보드 등에 붙여넣기
         - **Note**: S3 액세스 키 정보 팝업창을 닫은 이후 S3 인증 정보 다시 조회 불가
     - 확인 버튼 클릭
+
+    ![Image](https://github.com/user-attachments/assets/9e2bf8ff-5869-40e5-b151-1360cbb6ea59)
 
 ## 8. Kafka Connector VM 생성 (2분)
 1. 카카오 클라우드 콘솔 > Beyond Compute Service > Virtual Machine > 인스턴스
@@ -631,8 +643,6 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     ```
     ls /opt/kafka/config
     ```
-    - 사진 예정(사진 넣은 후 삭제)
-    
 
 8. kafka-connect 시스템 서비스 파일([`kafka-connect.service`](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day1/Lab02/kafka_connector/kafka-connect.service)) 확인
     
@@ -663,7 +673,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     sudo systemctl start kafka-connect
     ```
 
-    - 사진 예정(사진 넣은 후 삭제)
+    ![Image](https://github.com/user-attachments/assets/43cc5d53-98f3-45e5-919b-cad3015cfba8)
 
 10. s3-sink-connector 상태 정보 조회
     - **Note**: `connector`, `tasks` 항목의 `state` 값이 `RUNNING`인 것을 확인
@@ -674,7 +684,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
      watch -n 1 "curl -s http://localhost:8083/connectors/s3-sink-connector/status | jq"
      ```
 
-    - 사진 예정(사진 넣은 후 삭제)
+    ![Image](https://github.com/user-attachments/assets/88fa4485-7919-4df1-aa42-9183b81f0df7)
 
 11. Object Storage 버킷 내 NGINX 로그 적재 확인
 12. 카카오 클라우드 콘솔 > Beyond Storage Service > Object Storage > 일반 버킷
