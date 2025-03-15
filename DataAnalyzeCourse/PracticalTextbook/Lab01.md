@@ -105,7 +105,7 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 통한 메시�
     ```bash
     Publish a message to the test-topic in Pub/Sub using the REST API
     ```
-![image](https://github.com/user-attachments/assets/96ce2786-96f0-4fe2-a4a9-15e3c5eb8a11)
+      ![스크린샷 2025-03-15 141538](https://github.com/user-attachments/assets/b7686dc7-9af1-468c-9e1b-4d4df792b53e)
 
 3. `Enter`를 두 번 눌러 송신 완료
     
@@ -117,13 +117,13 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 통한 메시�
     cd /home/ubuntu/DataAnalyzeCourse/src/day1/Lab01/pubsub/
     ```
 
-5. `traffic-generator-2` 터미널 창에서  메시지 수신 스크립트 실행하여 `test-topic`의 메세지를 `test-pull-sub` 서브스크립션을 통해 `traffic-generator-2`에서 수신
+5. `traffic-generator-2` 터미널 창에서 메시지 수신 스크립트 실행하여 `test-topic`의 메시지를 `test-pull-sub` 서브스크립션을 통해 메시지 수신
     #### **lab1-3-4**
         
     ```bash
     python3 pub_sub_subscriber.py
     ```
-![image](https://github.com/user-attachments/assets/de6e6265-0d32-495b-8074-82635dd4f94f)
+      ![image](https://github.com/user-attachments/assets/de6e6265-0d32-495b-8074-82635dd4f94f)
 
 
 6. `Ctrl` + `c`로 메시지 수신 스크립트 실행 종료
@@ -176,8 +176,8 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 통한 메시�
     ```bash
     Publish a message to the test-topic in Pub/Sub using the Go SDK
     ```
-![image](https://github.com/user-attachments/assets/a14e3616-3284-40c2-a611-ba4288a57431)
-   
+      ![스크린샷 2025-03-15 141538](https://github.com/user-attachments/assets/55fdb394-75e1-4c1e-b3b1-154ef794c0a9)
+
 5. `Ctrl` + `c`로 Publisher 실행 파일 종료
 
 6. `traffic-generator-2` 터미널 창에서  Go SDK 실습용 디렉터리로 이동하기 위한 아래 명령어를 실행
@@ -203,7 +203,7 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 통한 메시�
     ```bash
     ./subscriber
     ```
-![image](https://github.com/user-attachments/assets/8faae93b-52b0-44bd-b257-88dcfe8e941c)
+   ![11](https://github.com/user-attachments/assets/7051f257-485b-49a7-bd24-301824d72542)
 
 9. `Ctrl` + `c`로 Subscriber 실행 파일 종료
 
@@ -243,11 +243,10 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 통한 메시�
     ```
     http://{ALB Public IP 주소}
     ```
-![image](https://github.com/user-attachments/assets/928e4751-ad0c-4e8e-8efc-f397bfb60977)
+      ![image](https://github.com/user-attachments/assets/928e4751-ad0c-4e8e-8efc-f397bfb60977)
 
 5. 사용자 등록, 로그인, 상품 목록 확인 등을 수행하여 로그 생성
 6. 카카오 클라우드 콘솔 > Beyond Storage Service > Object Storage > 일반 버킷
     - 쌓인 로그를 확인하기 위한 `pubsub-nginx-log` 버킷 클릭
         - 현재 연도/월/일/시 디렉터리로 이동하여 생성된 NGINX 로그 확인
-
-![16](https://github.com/user-attachments/assets/50308a92-97e5-4325-b620-5ceb457ddd37)
+   ![16](https://github.com/user-attachments/assets/50308a92-97e5-4325-b620-5ceb457ddd37)
