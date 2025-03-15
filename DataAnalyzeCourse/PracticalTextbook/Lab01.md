@@ -137,7 +137,8 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 활용하여 �
     ```
         
 9. `test-push-sub` 서브스크립션에서 `api-server-vm`으로 송신한 메시지 확인
-    ![image](https://github.com/user-attachments/assets/8c20c80f-aa9f-44eb-b5e1-1af5b2380556)
+    ![image](https://github.com/user-attachments/assets/8dd35cf9-7eee-4b41-8e50-6f79c6ac2635)
+
 
 ---
 
