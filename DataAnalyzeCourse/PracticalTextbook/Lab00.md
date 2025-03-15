@@ -22,7 +22,7 @@
 3. 만들기 버튼 클릭
 4. VPC 생성 확인
 
-# 2. Object Storage 생성 (1분)
+# 2. Object Storage 생성
 
 1. 카카오 클라우드 콘솔 > Beyond Storage Service > Object Storage > 일반 버킷
 2. 버킷 생성 버튼 클릭
