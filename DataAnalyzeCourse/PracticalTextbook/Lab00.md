@@ -201,11 +201,11 @@
         - CPU 멀티스레딩: `활성화`
     - 생성 버튼 클릭
 
-6. `api-server-1, 2` 상태 Actice 확인 후 각 인스턴스의 우측 메뉴바 > `Public IP 연결` 클릭
+6. `api-server-1`, `api-server-2` 상태 Actice 확인 후 각 인스턴스의 우측 메뉴바 > `Public IP 연결` 클릭
     - `새로운 퍼블릭 IP를 생성하고 자동으로 할당`
     - 확인 버튼 클릭
 
-4. `api-server-1, 2` 인스턴스의 우측 메뉴바 > `SSH 연결` 클릭
+4. `api-server-1`, `api-server-2` 인스턴스의 우측 메뉴바 > `SSH 연결` 클릭
     - SSH 접속 명령어 복사
     - 터미널 열기
     - keypair를 다운받아놓은 폴더로 이동
@@ -254,7 +254,7 @@
     icacls.exe keypair.pem /inheritance:r
     ```
 
-5. API Server VM 스크립트 적용 확인
+5. `api-server-1`, `api-server-2` 스크립트 적용 확인
 
     #### **lab0-7-5-1**
     
