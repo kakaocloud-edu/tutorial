@@ -44,13 +44,13 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
 ![Image](https://github.com/user-attachments/assets/0d2ebde3-53f3-4ccd-b759-855c6fddda1a)    
 
 1. `api-server-1`, `api-server-2`에서 `temp-kafka-bootstrap-server` 값을 실제 생성된 Kafka 클러스터 부트스트랩 서버 값으로 수정
+   - **Note**: `{실제 Kafka 클러스터 부트스트랩 서버값}`을 개인 환경에 맞게 수정 필요
 
     #### **lab2-2-1**
     
     ```bash
     sudo sed -i 's/temp-kafka-bootstrap-server/{실제 Kafka 클러스터 부트스트랩 서버값}/g' /home/ubuntu/.bashrc /etc/default/logstash
     ```
-    - {실제 Kafka 클러스터 부트스트랩 서버값}을 개인 환경에 맞게 수정 필요
 
 2. `api-server-1`, `api-server-2`에서 /etc/default/logstash의 `ENABLE_KAFKA_OUTPUT`을 수정하여 Kafka Output을 활성화
 
@@ -90,7 +90,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     sudo systemctl status logstash
     ```
 
-    - `ctrl` + `c`로 종료
+6. `ctrl` + `c`로 종료
 
     ![Image](https://github.com/user-attachments/assets/d6b11193-66a6-4bf3-a86f-7cd3a7169b51)
 
@@ -98,21 +98,21 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
 ## 3. Kafka 실습을 위한 Traffic Generator 환경 설정
 
 1. `traffic-generator-1`, `traffic-generator-2`에서 Kafka 부트스트랩 서버 주소를 환경 변수로 설정
-    
+    - **Note**: `{Kafka 부트스트랩 서버}`: `kafka` 클러스터의 부트스트랩 서버 입력
+
     #### **lab2-3-1**
-   - **Note**: `{Kafka 부트스트랩 서버}`: `kafka` 클러스터의 부트스트랩 서버 입력
-    
+   
     ```bash
     echo 'export KAFKA_BOOTSTRAP_SERVERS="{Kafka 부트스트랩 서버}"' >> ~/.bashrc \
     && source ~/.bashrc
     ```
     
-2. `traffic-generator-1`, `traffic-generator-2`에서 Kafka 클러스터와 통신 확인
-    
-    #### **lab2-3-2**
+3. `traffic-generator-1`, `traffic-generator-2`에서 Kafka 클러스터와 통신 확인
     - **Note**: 콤마(,) 기준으로 앞뒤의 kafka 클러스터의 부트스트랩 서버 주소 하나씩 입력
     - **Note**: 포트 번호 입력 시 콜론(:) 대신 공백(space) 넣은 후 진행
     
+    #### **lab2-3-2**
+   
     ```bash
     nc -zv {Kafka 클러스터의 부트스트랩 서버}
     ```
@@ -169,21 +169,21 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     test3
     ```
 
-    - 송신되는 시간 5초 대기 후 `ctrl` + `c`로 종료
+5. 송신되는 시간 5초 대기 후 `ctrl` + `c`로 종료
 
     ![Image](https://github.com/user-attachments/assets/800bd1cb-72a6-4cff-afd0-70fa42cbe79d)
 
-5. `traffic-generator-2`에서 kafka 작업을 위한 디렉터리인 `/opt/kafka`로 이동
+6. `traffic-generator-2`에서 kafka 작업을 위한 디렉터리인 `/opt/kafka`로 이동
     
-    #### **lab2-4-5**
+    #### **lab2-4-6**
         
     ```bash
     cd /opt/kafka
     ```
     
-6. `traffic-generator-2`에서 `consumer-group-earliest` 그룹으로 `consol-topic`의 메시지를 `earlist` 옵션으로 메시지 수신
+7. `traffic-generator-2`에서 `consumer-group-earliest` 그룹으로 `consol-topic`의 메시지를 `earlist` 옵션으로 메시지 수신
     
-    #### **lab2-4-6**
+    #### **lab2-4-7**
         
     ```bash
     bin/kafka-console-consumer.sh --bootstrap-server ${KAFKA_BOOTSTRAP_SERVERS} \
@@ -191,13 +191,13 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     --consumer-property auto.offset.reset=earliest
     ```
 
-    - `ctrl` + `c`로 종료
+8. `ctrl` + `c`로 종료
 
     ![Image](https://github.com/user-attachments/assets/3bb1c65d-1a7f-4d81-b95d-2401e822efd4)
 
-7. `traffic-generator-2`에서 `consumer-group-earliest-notcommit` 그룹으로 `consol-topic`의 메시지를 수신하기 위해 consumer 스크립트에 `earlist` 옵션과 `not commit` 옵션을 추가하여 실행
+9. `traffic-generator-2`에서 `consumer-group-earliest-notcommit` 그룹으로 `consol-topic`의 메시지를 수신하기 위해 consumer 스크립트에 `earlist` 옵션과 `not commit` 옵션을 추가하여 실행
 
-    #### **lab2-4-7**
+    #### **lab2-4-9**
         
     ```bash
     bin/kafka-console-consumer.sh --bootstrap-server ${KAFKA_BOOTSTRAP_SERVERS} \
@@ -206,13 +206,13 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     --consumer-property enable.auto.commit=false
     ```
 
-    - `ctrl` + `c`로 종료
+10. `ctrl` + `c`로 종료
 
     ![Image](https://github.com/user-attachments/assets/605fcbf3-53cc-468a-9481-6289ac88fb16)
 
-8. `traffic-generator-2`에서 `consumer-group-latest` 그룹으로 `consol-topic`의 메시지를 수신하기 위해 consumer 스크립트에 `latest` 옵션을 추가하여 실행
+11. `traffic-generator-2`에서 `consumer-group-latest` 그룹으로 `consol-topic`의 메시지를 수신하기 위해 consumer 스크립트에 `latest` 옵션을 추가하여 실행
 
-    #### **lab2-4-8**
+    #### **lab2-4-11**
 
     ```bash
     bin/kafka-console-consumer.sh --bootstrap-server ${KAFKA_BOOTSTRAP_SERVERS} \
@@ -220,44 +220,44 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     --consumer-property auto.offset.reset=latest
     ```
 
-    - `ctrl` + `c`로 종료
+12. `ctrl` + `c`로 종료
 
     ![Image](https://github.com/user-attachments/assets/dcfb2aeb-8b2d-41a1-9990-252ad62529f3)
 
-9. `traffic-generator-1`에서 `consol-topic`으로 메세지를 전송하기 위한 producer 스크립트 실행
+13. `traffic-generator-1`에서 `consol-topic`으로 메세지를 전송하기 위한 producer 스크립트 실행
     
-    #### **lab2-4-9**
+    #### **lab2-4-13**
         
     ```bash
     bin/kafka-console-producer.sh --broker-list ${KAFKA_BOOTSTRAP_SERVERS} --topic consol-topic
     ```
 
-10. 송신할 메세지를 하나씩 입력 후 `Enter` 입력
+14. 송신할 메세지를 하나씩 입력 후 `Enter` 입력
 
-    #### **lab2-4-10-1**
+    #### **lab2-4-14-1**
 
     ```
     test4
     ```
     
-    #### **lab2-4-10-2**
+    #### **lab2-4-14-2**
 
     ```
     test5
     ```
     
-    #### **lab2-4-10-3**
+    #### **lab2-4-14-3**
 
     ```
     test6
     ```
-     - 송신되는 시간 5초 대기 후 `ctrl` + `c`로 종료
+15. 송신되는 시간 5초 대기 후 `ctrl` + `c`로 종료
 
     ![Image](https://github.com/user-attachments/assets/27cf5a74-f03f-4874-92a8-96c97e30b0d0)
 
-11. `traffic-generator-2`에서 `consumer-group-earliest` 그룹으로 `consol-topic`의 메시지를 수신하기 위해 consumer 스크립트에 `earlist` 옵션을 추가하여 실행
+16. `traffic-generator-2`에서 `consumer-group-earliest` 그룹으로 `consol-topic`의 메시지를 수신하기 위해 consumer 스크립트에 `earlist` 옵션을 추가하여 실행
     
-    #### **lab2-4-11**
+    #### **lab2-4-16**
         
     ```bash
     bin/kafka-console-consumer.sh --bootstrap-server ${KAFKA_BOOTSTRAP_SERVERS} \
@@ -265,13 +265,13 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     --consumer-property auto.offset.reset=earliest
     ```
 
-    - `ctrl` + `c`로 종료
+17. `ctrl` + `c`로 종료
 
     ![Image](https://github.com/user-attachments/assets/7039660c-3289-4916-8e8f-93dbd03ba15b)
 
-12. `traffic-generator-2`에서 `consumer-group-earliest-notcommit` 그룹으로 `consol-topic`의 메시지를 수신하기 위해 consumer 스크립트에 `earlist` 옵션과 `not commit` 옵션을 추가하여 실행
+18. `traffic-generator-2`에서 `consumer-group-earliest-notcommit` 그룹으로 `consol-topic`의 메시지를 수신하기 위해 consumer 스크립트에 `earlist` 옵션과 `not commit` 옵션을 추가하여 실행
 
-    #### **lab2-4-12**
+    #### **lab2-4-18**
         
     ```bash
     bin/kafka-console-consumer.sh --bootstrap-server ${KAFKA_BOOTSTRAP_SERVERS} \
@@ -280,13 +280,13 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     --consumer-property enable.auto.commit=false
     ```
 
-    - `ctrl` + `c`로 종료
+19. `ctrl` + `c`로 종료
 
     ![Image](https://github.com/user-attachments/assets/77f69f9a-7bb9-4026-a90a-49049c1aa956)
 
-13. `traffic-generator-2`에서 `consumer-group-latest` 그룹으로 `consol-topic`의 메시지를 수신하기 위해 consumer 스크립트에 `latest` 옵션을 추가하여 실행
+20. `traffic-generator-2`에서 `consumer-group-latest` 그룹으로 `consol-topic`의 메시지를 수신하기 위해 consumer 스크립트에 `latest` 옵션을 추가하여 실행
 
-    #### **lab2-4-13**
+    #### **lab2-4-20**
 
     ```bash
     bin/kafka-console-consumer.sh --bootstrap-server ${KAFKA_BOOTSTRAP_SERVERS} \
@@ -294,13 +294,13 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     --consumer-property auto.offset.reset=latest
     ```
 
-    - `ctrl` + `c`로 종료
+21. `ctrl` + `c`로 종료
 
     ![Image](https://github.com/user-attachments/assets/d60ce309-b5b3-44b3-bae5-da0f6fcd5976)
 
-14. `traffic-generator-2`에서 생성된 consumer 그룹 목록 확인
+22. `traffic-generator-2`에서 생성된 consumer 그룹 목록 확인
 
-    #### **lab2-4-14**
+    #### **lab2-4-22**
 
     ```bash
     bin/kafka-consumer-groups.sh --bootstrap-server ${KAFKA_BOOTSTRAP_SERVERS} --list
