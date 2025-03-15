@@ -131,7 +131,7 @@
    CREATE TABLE data_catalog_database.kafka_log_partitioned
    WITH (
      format = 'JSON',
-     external_location = 's3a://data-catalog/data-catalog-dir/tables/partitioned',
+     external_location = 's3a://data-catalog-bucket/data-catalog-dir/tables/partitioned',
      partitioned_by = ARRAY['status']
    )
    AS
