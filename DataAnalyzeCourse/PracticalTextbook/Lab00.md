@@ -115,18 +115,21 @@
     - 적용 클릭
 
 
-# 6. 환경 변수 설정 (3분)
-1. MySQL
+# 6. 사용자 리소스 정보 조회
+1. MySQL 엔드포인트 조회
     - 카카오 클라우드 콘솔 > Data Store > MySQL > Instance Group
     - 생성된 `database` 클릭
     - 우측 상단의 `엔드포인트` 복사 후 클립보드 등에 붙여넣기
       <img width="1317" alt="스크린샷 2025-03-06 오후 4 37 37" src="https://github.com/user-attachments/assets/c5e2e829-02f1-41dc-9932-e14efddfca1c" />
 
-2. IAM
-    - 카카오 클라우드 콘솔 > Management > IAM > 프로젝트
-    - 좌측의 `자신이 속한 프로젝트` 클릭
-    - `조직 ID` , '프로젝트 ID' 복사 후 클립보드 등에 붙여넣기
-    ![그림1](https://github.com/user-attachments/assets/22192309-344b-4233-becc-5b801e5e0dad)
+2. 프로젝트 ID 조회
+   - 카카오 클라우드 콘솔 메인 화면 상단 `프로젝트 ID` 복사 후 클립보드 등에 붙여넣기
+    ![11](https://github.com/user-attachments/assets/8c20f705-2aa1-41fe-872d-5eca55a79150)
+
+4. 조직 ID 조회
+    - 우측 상단 계정 프로필 > 계정 정보 > 비밀번호 확인
+    - 우측 하단 `조직 ID` 복사 후 클립보드 등에 붙여넣기
+    ![projectId](https://github.com/user-attachments/assets/16382315-5f49-4ee7-86bd-c724c3fe39e0)
 
 
 # 7. API Server VM 생성 (3분)
