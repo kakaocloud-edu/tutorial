@@ -120,7 +120,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     ![Image](https://github.com/user-attachments/assets/923c51ed-0cf3-4fea-8c13-442beb0005ee)
 
 
-## 4. Kafka 콘솔 스크립트를 통한 Kafka 메시지 송수신 확인
+## 4. 콘솔을 활용한 Kafka 메시지 송수신 확인
 
 1. `traffic-generator-1`에서 kafka 작업을 위한 디렉터리인 `/opt/kafka`로 이동
     
@@ -130,7 +130,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     cd /opt/kafka
     ```
     
-2. `traffic-generator-1`에서 kafka-console을 이용하여 메세지를 받을 `consol-topic` 생성
+2. `traffic-generator-1`에서 스크립트를 이용하여 메세지를 받을 `consol-topic` 생성
     
     #### **lab2-4-2**
         
@@ -369,7 +369,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
 
     ![Image](https://github.com/user-attachments/assets/7ffe09d3-efc2-4f01-9827-3d760f8fb452)
 
-## 6. Kafka 콘솔 스크립트와 Logstash를 통한 Nginx 로그 수신 확인
+## 6. Logstash와 콘솔을 활용한 Nginx 로그 수신 확인
 
 1. `traffic-generator-1`에서 kafka 작업을 위한 디렉터리인 `/opt/kafka`로 이동
     #### **lab2-6-1**
