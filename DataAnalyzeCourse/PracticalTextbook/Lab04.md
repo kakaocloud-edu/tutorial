@@ -74,7 +74,7 @@
       ORDER BY click_count DESC;
       ```
    - 쿼리 결과 탭에서 인기 상품 클릭 수 확인
-      ![image](https://github.com/user-attachments/assets/9b18841d-9955-42ed-b8e6-0a90a2fd2936)
+      ![image](https://github.com/user-attachments/assets/eee3ee7e-f397-45cf-8ed3-90ccb80bf531)
 
 4. NGINX 로그와 MySQL 데이터를 활용하여 인기 상품 클릭 수 쿼리
    - 데이터 원본: `data_catalog`
@@ -101,7 +101,8 @@
       ORDER BY pc.click_count DESC;
       ```
    - 쿼리 결과 탭에서 Lab2-3-3의 NGINX 로그만 활용할 때보다 인기 상품 클릭 수에 대한 더 많은 정보 확인 가능함을 확인
-   ![17](https://github.com/user-attachments/assets/c6798673-1854-48b9-aec3-544a00b43e45)
+   ![image](https://github.com/user-attachments/assets/d83ac4aa-2fc0-4b02-9618-bd715ab69549)
+
 
 
 6. MySQL 데이터를 활용하여 신규 사용자 수 쿼리
@@ -120,7 +121,7 @@
          AND TIMESTAMP '2025-03-31 23:59:59';
       ```
    - 쿼리 결과 탭에서 신규 사용자 수 확인
-   ![18](https://github.com/user-attachments/assets/be8f1ce6-1586-4bae-b742-756d955beef9)
+   ![image](https://github.com/user-attachments/assets/b9f095a5-9746-4fdf-9219-e16ab7fd845b)
 
 
 ## 4. 테이블 파티션 생성 실습
