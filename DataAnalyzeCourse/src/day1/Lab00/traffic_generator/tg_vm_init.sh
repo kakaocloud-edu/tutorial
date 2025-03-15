@@ -19,7 +19,7 @@ export SUB_NAME="test-pull-sub"
 # 생성할 Pub/Sub 리소스 정보
 export TOPIC_NAME_MK="log-topic"
 export OBJECT_STORAGE_SUBSCRIPTION_NAME="log-obj-sub"
-export OBJECT_STORAGE_BUCKET="pubsub-nginx-log"
+export OBJECT_STORAGE_BUCKET="pubsub-log-bucket"
 export PUBSUB_ENDPOINT="https://pub-sub.kr-central-2.kakaocloud.com"
 
 # Kafka 실행에 필요한 경로 및 정보
