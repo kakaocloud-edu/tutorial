@@ -447,7 +447,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     --topic nginx-topic --from-beginning
     ```
 
-5. `api-server-1, 2`에서 Logstash 재시작 및 상태 확인
+5. `api-server-1`, `api-server-2`에서 Logstash 재시작 및 상태 확인
     
     #### **lab2-6-5-1**
     
