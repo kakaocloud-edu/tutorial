@@ -86,7 +86,6 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 활용하여 �
 6. 서브스크립션 탭 클릭 후 `log-obj-sub` 서브스크립션 생성 확인
 ![5](https://github.com/user-attachments/assets/03b45751-81c2-492c-ab98-7aad6dde8b97)
 
----
 ## 3. REST API를 활용한 메시지 송수신
 
 1. `traffic-generator-1` 터미널에서 `test-topic`으로 메세지를 전송하는 스크립트 실행
@@ -140,7 +139,6 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 활용하여 �
     ![image](https://github.com/user-attachments/assets/8dd35cf9-7eee-4b41-8e50-6f79c6ac2635)
 
 
----
 
 ## 4. Go SDK를 활용한 메시지 송수신
 
@@ -207,7 +205,6 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 활용하여 �
 
 9. `Ctrl` + `c`로 Subscriber 실행 파일 종료
 
----
 
 ## 5. Object Storage에 NGINX 로그 적재
 1. `traffic-generator-1`에서 트래픽 생성을 위해 디렉터리 이동
