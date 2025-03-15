@@ -109,7 +109,7 @@
 5. `Public IP` 할당된 것을 확인하고 클립보드 등에 복사 붙여넣기
 6. `액세스 로그 설정` 클릭
     - 액세스 로그: `사용`
-    - 선택할 버킷: `data-catalog`
+    - 선택할 버킷: `data-catalog-bucket`
     - 선택할 액세스 키 ID: 위에서 생성한 `액세스 키 ID` 입력
     - 입력할 보안 액세스 키: 위에서 생성한 `보안 엑세스 키` 입력
     - 적용 클릭
@@ -327,7 +327,7 @@
             # 생성할 Pub/Sub 리소스 정보
             export TOPIC_NAME_MK="log-topic"
             export OBJECT_STORAGE_SUBSCRIPTION_NAME="log-obj-sub"
-            export OBJECT_STORAGE_BUCKET="pubsub-nginx-log"
+            export OBJECT_STORAGE_BUCKET="pubsub-log-bucket"
             export PUBSUB_ENDPOINT="https://pub-sub.kr-central-2.kakaocloud.com"
             
             # Kafka 실행에 필요한 경로 및 정보
