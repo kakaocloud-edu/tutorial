@@ -42,8 +42,7 @@
 
     - **Note**: 최종 data-catalog 버킷의 구조
 
-
-    ![111](https://github.com/user-attachments/assets/4b8aeac5-1d74-4240-a3c9-fdca4029c2ce)
+    ![스크린샷 2025-03-15 140303](https://github.com/user-attachments/assets/bd1c559a-fa3d-4957-8796-25b54bb9d0ba)
 
 
 
