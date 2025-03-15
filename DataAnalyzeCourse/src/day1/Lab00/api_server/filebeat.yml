@@ -26,7 +26,7 @@ processors:
   - drop_event:
       when.not:
         regexp:
-          request: "^(POST /add_user HTTP/1\\.1|GET /categories HTTP/1\\.1|GET /products HTTP/1\\.1|POST /login HTTP/1\\.1|POST /cart/add HTTP/1\\.1|POST /delete_user HTTP/1\\.1|GET /error HTTP/1\\.1)$"
+          request: "^(POST /add_user HTTP/1\\.[01]|GET /categories HTTP/1\\.[01]|GET /products HTTP/1\\.[01]|POST /login HTTP/1\\.[01]|POST /cart/add HTTP/1\\.[01]|POST /delete_user HTTP/1\\.[01]|GET /error HTTP/1\\.[01])$"
   - add_host_metadata:
       when.not.contains.tags: forwarded
   - add_cloud_metadata: ~
