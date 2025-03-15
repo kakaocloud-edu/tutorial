@@ -55,7 +55,7 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 활용하여 �
 
 ## 2. REST API를 활용한 토픽, 서브스크립션 생성
 
-1. `traffic-generator-1` 터미널 창에서 `Pub/Sub`실습 디렉토리로 이동
+1. `traffic-generator-1` 터미널에서 `Pub/Sub`실습 디렉토리로 이동
     
     #### **lab1-2-1**
     
@@ -75,7 +75,7 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 활용하여 �
 4. `log-topic` 토픽 생성 확인
 ![4](https://github.com/user-attachments/assets/1bd82237-d002-4e7f-a232-df79266970d2)
 
-5. traffic-generator-1 터미널 창에서 서브스크립션 생성
+5. traffic-generator-1 터미널에서 서브스크립션 생성
     
     #### **lab1-2-5**
     
@@ -89,7 +89,7 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 활용하여 �
 ---
 ## 3. REST API를 활용한 메시지 송수신
 
-1. `traffic-generator-1` 터미널 창에서 `test-topic`으로 메세지를 전송하는 스크립트 실행
+1. `traffic-generator-1` 터미널에서 `test-topic`으로 메세지를 전송하는 스크립트 실행
 
     #### **lab1-3-1**
     
@@ -107,9 +107,9 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 활용하여 �
     ```
       ![스크린샷 2025-03-15 141538](https://github.com/user-attachments/assets/b7686dc7-9af1-468c-9e1b-4d4df792b53e)
 
-3. `Enter`를 두 번 눌러 송신 완료
+3. `Enter`를 눌러 송신 완료
     
-4. `traffic-generator-2` 터미널 창에서 `Pub/Sub` 실습을 위한 디렉토리로 이동하기 위해 아래 명령어 실행
+4. `traffic-generator-2` 터미널에서 Pub/Sub실습 디렉토리로 이동
     
     #### **lab1-3-4**
     
@@ -117,7 +117,7 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 활용하여 �
     cd /home/ubuntu/DataAnalyzeCourse/src/day1/Lab01/pubsub/
     ```
 
-5. `traffic-generator-2` 터미널 창에서 메시지 수신 스크립트 실행하여 `test-topic`의 메시지를 `test-pull-sub` 서브스크립션을 통해 메시지 수신
+5. `traffic-generator-2` 터미널에서 `test-topic`의 메시지를 `test-pull-sub` 서브스크립션을 통해 메시지 수신
     #### **lab1-3-4**
         
     ```bash
@@ -126,24 +126,24 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 활용하여 �
       ![image](https://github.com/user-attachments/assets/de6e6265-0d32-495b-8074-82635dd4f94f)
 
 
-6. `Ctrl` + `c`로 메시지 수신 스크립트 실행 종료
+7. `Ctrl` + `c`로 메시지 수신 스크립트 실행 종료
 
 
-7. 웹 브라우저 주소창에서 `test-topic`의 메세지를 `test-push-sub` 서브스크립션을 통해 `api-server-vm`으로 송신된 메세지를 확인하기 위한 아래 URL 입력
+8. 웹 브라우저 주소창에서 `test-topic`의 메세지를 `test-push-sub` 서브스크립션을 통해 `api-server-vm`으로 송신된 메세지를 확인하기 위한 아래 URL 입력
     #### **lab1-3-7**
 
     ```
     http://{ALB Public IP 주소}/push-messages
     ```
         
-8. `test-push-sub` 서브스크립션에서 `api-server-vm`으로 송신한 메시지 확인
+9. `test-push-sub` 서브스크립션에서 `api-server-vm`으로 송신한 메시지 확인
     ![image](https://github.com/user-attachments/assets/8c20c80f-aa9f-44eb-b5e1-1af5b2380556)
 
 ---
 
 ## 4. Go SDK를 활용한 메시지 송수신
 
-1. `traffic-generator-1` 터미널 창에서  Go SDK 실습용 디렉터리로 이동하기 위한 아래 명령어를 실행
+1. `traffic-generator-1` 터미널에서  Go SDK 실습용 디렉터리로 이동하기 위한 아래 명령어를 실행
     
     #### **lab1-4-1**
     
@@ -179,7 +179,7 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 활용하여 �
 
 5. `Ctrl` + `c`로 Publisher 실행 파일 종료
 
-6. `traffic-generator-2` 터미널 창에서  Go SDK 실습용 디렉터리로 이동하기 위한 아래 명령어를 실행
+6. `traffic-generator-2` 터미널에서  Go SDK 실습용 디렉터리로 이동하기 위한 아래 명령어를 실행
         
     #### **lab1-4-6**
     
