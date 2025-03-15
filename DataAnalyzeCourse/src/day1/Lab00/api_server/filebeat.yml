@@ -5,7 +5,6 @@ filebeat.inputs:
   enabled: true
   paths:
     - /var/log/nginx/flask_app_access.log
-  # Multiline 설정: 새 JSON 객체는 '{' 로 시작한다고 가정
   multiline.pattern: '^\{'
   multiline.negate: true
   multiline.match: after
@@ -23,11 +22,12 @@ output.logstash:
   hosts: ["127.0.0.1:5044","127.0.0.1:5045"]
 
 processors:
-  # 오직 지정된 엔드포인트만 통과시키고 나머지는 drop
+  # 루트 엔드포인트 요청("GET / HTTP/1.1")는 모두 drop
   - drop_event:
-      when.not:
-        regexp:
-          request: "(POST /add_user|GET /categories|GET /products|POST /login|POST /cart/add|POST /delete_user|GET /error)"
+      when:
+        equals:
+          request: "GET / HTTP/1.1"
+  # 그 외 추가할 메타데이터 프로세서들
   - add_host_metadata:
       when.not.contains.tags: forwarded
   - add_cloud_metadata: ~
