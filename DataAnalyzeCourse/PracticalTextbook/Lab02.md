@@ -139,7 +139,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
 
 ## 3. Kafka 실습을 위한 Traffic Generator 환경 설정
 
-1. `traffic-generator-1, 2`에서 Kafka 부트스트랩 서버 주소를 환경 변수로 설정
+1. `traffic-generator-1`, `traffic-generator-2`에서 Kafka 부트스트랩 서버 주소를 환경 변수로 설정
     
     #### **lab2-3-1**
    - **Note**: `{Kafka 부트스트랩 서버}`: `kafka` 클러스터의 부트스트랩 서버 입력
@@ -149,7 +149,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     && source ~/.bashrc
     ```
     
-2. `traffic-generator-1, 2`에서 Kafka 클러스터와 통신 확인
+2. `traffic-generator-1`, `traffic-generator-2`에서 Kafka 클러스터와 통신 확인
     
     #### **lab2-3-2**
     - **Note**: 콤마(,) 기준으로 앞뒤의 kafka 클러스터의 부트스트랩 서버 주소 하나씩 입력
