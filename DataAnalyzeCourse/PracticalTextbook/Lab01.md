@@ -7,7 +7,7 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 통한 메시�
 
 1. 카카오 클라우드 콘솔 > Analytics > Pub/Sub > 토픽
 2. 토픽 서비스 시작하기
-   - **Note**: 최종 data-catalog-bucket 버킷의 구조
+   - **Note**: 최종 Lab01 실습 환경 구조
     ![image](https://github.com/user-attachments/assets/c0c3ba47-c82c-4552-88b5-f9e282913c04)
 
 4. `test-topic` 토픽 생성
