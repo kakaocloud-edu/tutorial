@@ -34,9 +34,10 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     - 생성 버튼 클릭
 
 3. 위에서 생성한 `kafka` 클러스터 클릭
-    ![1](https://github.com/user-attachments/assets/e8cbc795-c3e4-429a-b957-119910f9492e)
+    - 사진 예정(사진 넣은 후 삭제)
+
 4. 우측 상단의 `부트스트랩 서버` 복사 후 클립보드 등에 붙여넣기
-    ![2](https://github.com/user-attachments/assets/fcdfb4ad-6206-42df-9319-70459e1f59c4)
+    - 사진 예정(사진 넣은 후 삭제)
 
 ## 2. Kafka 실습을 위한 API Server 환경 설정 
 
@@ -130,7 +131,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
 
     - `ctrl` + `c`로 종료
 
-    ![image](https://github.com/user-attachments/assets/98ac20eb-1018-48f3-824d-ca5ad848f243)
+    - 사진 예정(사진 넣은 후 삭제)
 
 
 ## 3. Kafka 실습을 위한 Traffic Generator 환경 설정
@@ -154,7 +155,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     ```bash
     nc -zv {Kafka 클러스터의 부트스트랩 서버}
     ```
-    ![image](https://github.com/user-attachments/assets/e769ee52-5a32-49f6-8124-f20c9ed60227)
+    - 사진 예정(사진 넣은 후 삭제)
     
 
 
@@ -612,7 +613,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     ```
     ls /opt/kafka/config
     ```
-    ![image](https://github.com/user-attachments/assets/2bdefc88-31aa-4d5e-8498-0a7ff3619da6)
+    - 사진 예정(사진 넣은 후 삭제)
     
 
 8. kafka-connect 시스템 서비스 파일([`kafka-connect.service`](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/KafkaConnector/kafka-connect.service)) 확인
@@ -644,7 +645,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     sudo systemctl start kafka-connect
     ```
 
-     ![13](https://github.com/user-attachments/assets/b34813be-72bb-4842-9a3d-e03bbb0b30a5)
+    - 사진 예정(사진 넣은 후 삭제)
 
 10. s3-sink-connector 상태 정보 조회
     - **Note**: `connector`, `tasks` 항목의 `state` 값이 `RUNNING`인 것을 확인
@@ -655,17 +656,24 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
      watch -n 1 "curl -s http://localhost:8083/connectors/s3-sink-connector/status | jq"
      ```
 
-    ![14](https://github.com/user-attachments/assets/f18745bc-b791-47ea-b339-e46df150f376)
+    - 사진 예정(사진 넣은 후 삭제)
 
 11. Object Storage 버킷 내 NGINX 로그 적재 확인
+
+    - 사진 예정(사진 넣은 후 삭제)
+
 12. 카카오 클라우드 콘솔 > Beyond Storage Service > Object Storage > 일반 버킷
 13. `data-catalog` 버킷 클릭
 
+    - 사진 예정(사진 넣은 후 삭제)
+
 14. `/topics/nginx-topic/partition_0/year_{현재 연도}/month_{현재 월}/day_{현재 일}/hour_{현재 시}` 디렉터리로 이동
+
+    - 사진 예정(사진 넣은 후 삭제)
 
 15. 버킷 내 추가로 적재된 NGINX 로그 적재 확인
 
-     - 아래 결과 확인(사진 넣을 예정)
+    - 사진 예정(사진 넣은 후 삭제)
 
 
 
