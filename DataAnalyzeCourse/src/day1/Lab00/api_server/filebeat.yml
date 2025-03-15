@@ -5,7 +5,6 @@ filebeat.inputs:
   enabled: true
   paths:
     - /var/log/nginx/flask_app_access.log
-  # Multiline 설정: 새 JSON 객체는 '{' 로 시작한다고 가정
   multiline.pattern: '^\{'
   multiline.negate: true
   multiline.match: after
@@ -23,11 +22,11 @@ output.logstash:
   hosts: ["127.0.0.1:5044","127.0.0.1:5045"]
 
 processors:
-  # 오직 지정된 엔드포인트만 통과시키고 나머지는 drop
+  # 허용된 엔드포인트가 아닌 경우 drop
   - drop_event:
       when.not:
         regexp:
-          request: "^(POST /add_user|POST /delete_user|POST /login|GET /categories|GET /products|GET /category(\\?.+)?|POST /cart/add|GET /cart/view|POST /cart/remove|POST /checkout|GET /checkout_history|POST /add_review|GET /push-subscription|GET /push-messages|GET /search|GET /error)$"
+          request: "^(POST /add_user HTTP/1\\.1|GET /categories HTTP/1\\.1|GET /products HTTP/1\\.1|POST /login HTTP/1\\.1|POST /cart/add HTTP/1\\.1|POST /delete_user HTTP/1\\.1|GET /error HTTP/1\\.1)$"
   - add_host_metadata:
       when.not.contains.tags: forwarded
   - add_cloud_metadata: ~
