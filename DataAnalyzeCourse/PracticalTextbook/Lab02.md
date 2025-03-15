@@ -4,7 +4,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
 
 ---
 
-## 1. Kafka Cluster 생성
+## 1. Kafka Cluster 생성 (3분)
 
 1. 카카오 클라우드 콘솔 > Analytics > Advanced Managed Kafka > 클러스터
 2. 클러스터 생성 버튼 클릭
@@ -183,7 +183,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     
     ![Image](https://github.com/user-attachments/assets/9321a32b-fde4-486b-8398-da235d7d1de0)
 
-3. `traffic-generator-1`에서 `consol-topic`으로 메세지를 전송하기 위한 producer 스크립트 실행
+3. `traffic-generator-1`에서 `consol-topic`으로 메세지 전송
     
     #### **lab2-4-3**
         
@@ -223,7 +223,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     cd /opt/kafka
     ```
     
-6. `traffic-generator-2`에서 `consumer-group-earliest` 그룹으로 `consol-topic`의 메시지를 수신하기 위해 consumer 스크립트에 `earlist` 옵션을 추가하여 실행
+6. `traffic-generator-2`에서 `consumer-group-earliest` 그룹으로 `consol-topic`의 메시지를 `earlist` 옵션으로 메시지 수신
     
     #### **lab2-4-6**
         
