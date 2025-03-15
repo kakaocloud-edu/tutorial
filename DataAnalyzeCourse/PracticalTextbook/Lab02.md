@@ -361,7 +361,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     cd /home/ubuntu/DataAnalyzeCourse/src/day1/Lab02/kafka
     ```
 
-3. `traffic-generator-1`에서 `python-topic`으로 메세지를 전송하기 위해 `kafka_publisher` 파일 실행
+3. `traffic-generator-1`에서 `python-topic`으로 메세지를 전송하기 위해 [`kafka_publisher`](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day1/Lab02/kafka/kafka_publisher.py) 파일 실행
     #### **lab2-5-3**
     
     ```bash
@@ -377,7 +377,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     cd /home/ubuntu/DataAnalyzeCourse/src/day1/Lab02/kafka
     ```
 
-5. `traffic-generator-2`에서 `python-topic`으로부터 메세지를 수신하기 위해 `kafka_subscriber` 파일 실행
+5. `traffic-generator-2`에서 `python-topic`으로부터 메세지를 수신하기 위해 [`kafka_subscriber`](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day1/Lab02/kafka/kafka_subscriber.py) 파일 실행
 
     #### **lab2-5-5**
 
@@ -463,7 +463,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
 
     - `Ctrl`+`c` 키를 입력하여 종료
 
-    - 트러블 슈팅 후 사진넣기기
+    - 트러블 슈팅 후 사진넣기
     
 
 ## 7. S3 액세스 키 발급
@@ -624,7 +624,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
       --endpoint-url https://objectstorage.kr-central-2.kakaocloud.com
     ```
     
-7. S3 Sink Connector([`s3-sink-connector.properties`](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/KafkaConnector/s3-sink-connector.properties)), Standalone Worker([`worker.properties`](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/KafkaConnector/worker.properties)) 설정 파일 확인
+7. S3 Sink Connector([`s3-sink-connector.properties`](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day1/Lab02/kafka_connector/s3-sink-connector.properties)), Standalone Worker([`worker.properties`](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day1/Lab02/kafka_connector/worker.properties)) 설정 파일 확인
 
     #### **lab2-8-7**
     
@@ -634,7 +634,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     - 사진 예정(사진 넣은 후 삭제)
     
 
-8. kafka-connect 시스템 서비스 파일([`kafka-connect.service`](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/KafkaConnector/kafka-connect.service)) 확인
+8. kafka-connect 시스템 서비스 파일([`kafka-connect.service`](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day1/Lab02/kafka_connector/kafka-connect.service)) 확인
     
     #### **lab2-8-8**
     
