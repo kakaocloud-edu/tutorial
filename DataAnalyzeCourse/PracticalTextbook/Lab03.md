@@ -71,6 +71,9 @@ Data Catalog와 Pub/Sub, Object Storage를 연동해 테이블 생성 및 이벤
 
 
 ## 5. 테이블 생성(1분)
+- **Note**: kafka_log_table 테이블 구조
+        ![22](https://github.com/user-attachments/assets/83b371be-6f39-443e-bcc0-d2f339e30ac7)
+
 1. 좌측 테이블 탭 클릭 후 테이블 생성 버튼 클릭  
    - 데이터 베이스: `data_catalog_database`  
    - 테이블 이름: `kafka_log_table`  
