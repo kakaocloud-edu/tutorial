@@ -14,7 +14,7 @@ current_dir = os.path.dirname(os.path.abspath(__file__))
 # 현재 디렉토리에서 두 단계 위로 이동한 후 Lab00/traffic_generator 디렉토리로 이동
 config_path = os.path.abspath(os.path.join(current_dir, "..", "..", "Lab00", "traffic_generator"))
 
-#절대경로 지정
+# 절대경로 지정
 sys.path.append(config_path)
 
 # config.py 불러오기
@@ -145,7 +145,7 @@ def try_login(session: requests.Session, user_id: str) -> bool:
         url = config.API_URL_WITH_HTTP + config.API_ENDPOINTS["LOGIN"]
         r = session.post(url, data=payload, headers=headers)
         logging.info(f"[{user_id}] POST /login => {r.status_code}")
-        return (200 <= r.status_code < 300) # 로그인 성공 시 200~299라 가정
+        return (200 <= r.status_code < 300)
     except Exception as e:
         logging.error(f"[{user_id}] login exception: {e}")
         return False
@@ -261,8 +261,6 @@ def perform_anon_sub_action(session: requests.Session, user_unique_id: str, sub_
         except Exception as err:
             logging.error(f"[{user_unique_id}] error page fail: {err}")
 
-    # Anon_Sub_Initial, Anon_Sub_Done => no specific action
-
 #################################
 # 로그인 하위 FSM
 #################################
@@ -325,7 +323,6 @@ def perform_logged_sub_action(session: requests.Session,
             logging.error(f"[{user_unique_id}] cart add error: {e}")
 
     elif sub_state == "Login_Sub_CartRemove":
-        # 우선 장바구니 조회
         view_url = config.API_URL_WITH_HTTP + config.API_ENDPOINTS["CART_VIEW"]
         try:
             vr = session.get(view_url, headers=headers)
@@ -337,8 +334,6 @@ def perform_logged_sub_action(session: requests.Session,
                     rid = chosen_item["product_id"]
                     rqty = random.randint(1, chosen_item["quantity"])
                     remove_payload = {"product_id": rid, "quantity": rqty}
-
-                    # 기존 장바구니 수량을 고려하여 삭제
                     remove_url = config.API_URL_WITH_HTTP + config.API_ENDPOINTS["CART_REMOVE"]
                     rr = session.post(remove_url, data=remove_payload, headers=headers)
                     logging.info(f"[{user_unique_id}] POST /cart/remove (pid={rid}, qty={rqty}) => {rr.status_code}")
@@ -378,7 +373,6 @@ def perform_logged_sub_action(session: requests.Session,
 
 #################################
 # do_top_level_action_and_confirm
-# (상위 상태 전이 시 실제 API 호출로 성공/실패 반영)
 #################################
 def do_top_level_action_and_confirm(
     session: requests.Session,
@@ -390,41 +384,50 @@ def do_top_level_action_and_confirm(
 ) -> str:
     """
     실제 API 호출로 회원가입/로그인/로그아웃/탈퇴 시도.
-    성공 => proposed_next 반환
-    실패 => current_state로 롤백
+    성공 => proposed_next 반환, 실패 시 현재 상태 유지.
     """
-    # Anon_NotRegistered -> Anon_Registered => 회원가입
     if current_state == "Anon_NotRegistered" and proposed_next == "Anon_Registered":
         ok = try_register(session, user_id, gender, age_segment)
         return "Anon_Registered" if ok else "Anon_NotRegistered"
 
-    # Anon_Registered -> Logged_In => 로그인
     if current_state == "Anon_Registered" and proposed_next == "Logged_In":
         ok = try_login(session, user_id)
         return "Logged_In" if ok else "Anon_Registered"
 
-    # Logged_In -> Logged_Out => 로그아웃
     if current_state == "Logged_In" and proposed_next == "Logged_Out":
         ok = try_logout(session, user_id)
         return "Logged_Out" if ok else "Logged_In"
 
-    # Logged_In -> Unregistered => 탈퇴
     if current_state == "Logged_In" and proposed_next == "Unregistered":
         ok = try_delete_user(session, user_id)
         return "Unregistered" if ok else "Logged_In"
 
-    # Logged_Out -> Anon_Registered => 그냥 상태 전이(실제 API 없음)
     if current_state == "Logged_Out" and proposed_next == "Anon_Registered":
         return "Anon_Registered"
 
-    # Logged_Out -> Unregistered => 탈퇴
     if current_state == "Logged_Out" and proposed_next == "Unregistered":
         ok = try_delete_user(session, user_id)
         return "Unregistered" if ok else "Logged_Out"
 
-    # 그 외에는 그냥 전이
     return proposed_next
 
+#################################
+# 상품 id 101~124 랜덤 접근
+#################################
+def simulate_random_product_access(session: requests.Session, user_unique_id: str):
+    """
+    각 사용자 당 10~30회, 상품 id가 101부터 124 사이인 상품에 대해 GET 요청을 보냅니다.
+    """
+    access_count = random.randint(10, 30)
+    for i in range(access_count):
+        pid = random.randint(101, 124)
+        url = f"http://{config.API_BASE_URL}/product?id={pid}"
+        try:
+            r = session.get(url)
+            logging.info(f"[{user_unique_id}] GET /product?id={pid} => {r.status_code}")
+        except Exception as e:
+            logging.error(f"[{user_unique_id}] product id {pid} access error on attempt {i+1}: {e}")
+        time.sleep(random.uniform(0.1, 0.5))
 
 #################################
 # 사용자 전체 로직
@@ -451,7 +454,6 @@ def run_user_simulation(user_idx: int):
             logging.info(f"[{user_unique_id}] state=Done => end.")
             break
 
-        # 상위 전이 후보
         if current_state not in config.STATE_TRANSITIONS:
             logging.error(f"[{user_unique_id}] no transitions from {current_state} => end.")
             break
@@ -464,7 +466,6 @@ def run_user_simulation(user_idx: int):
         proposed_next = pick_next_state(possible_next)
         logging.info(f"[{user_unique_id}] (Top) {current_state} -> proposed={proposed_next}")
 
-        # 실제 API 호출로 성공/실패 반영
         actual_next = do_top_level_action_and_confirm(
             session=session,
             current_state=current_state,
@@ -477,7 +478,6 @@ def run_user_simulation(user_idx: int):
             logging.info(f"[{user_unique_id}] => confirmed next: {actual_next}")
             current_state = actual_next
 
-        # 하위 FSM
         if current_state == "Anon_NotRegistered":
             do_anon_sub_fsm(session, user_unique_id)
         elif current_state == "Anon_Registered":
@@ -493,8 +493,10 @@ def run_user_simulation(user_idx: int):
         transition_count += 1
         time.sleep(random.uniform(*config.TIME_SLEEP_RANGE))
 
-    logging.info(f"[{user_unique_id}] Simulation ended. final={current_state}")
+    # 사용자 시뮬레이션 종료 후, 추가로 랜덤 상품 id 접근 시도
+    simulate_random_product_access(session, user_unique_id)
 
+    logging.info(f"[{user_unique_id}] Simulation ended. final={current_state}")
 
 #################################
 # 멀티 스레드 실행
@@ -506,7 +508,6 @@ def user_thread(idx: int):
         run_user_simulation(idx)
 
 def main():
-    # 초기 데이터
     fetch_products(config.API_URL_WITH_HTTP)
     fetch_categories(config.API_URL_WITH_HTTP)
 
