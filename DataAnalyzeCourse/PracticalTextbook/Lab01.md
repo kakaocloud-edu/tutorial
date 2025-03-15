@@ -118,7 +118,7 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 활용하여 �
     ```
 
 5. `traffic-generator-2` 터미널에서 `test-topic`의 메시지를 `test-pull-sub` 서브스크립션을 통해 메시지 수신
-    #### **lab1-3-4**
+    #### **lab1-3-5**
         
     ```bash
     python3 pub_sub_subscriber.py
