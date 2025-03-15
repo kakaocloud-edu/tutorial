@@ -3,7 +3,7 @@
 
 사전 환경 구성에 대한 실습입니다.
 
-# 1. VPC 생성
+## 1. VPC 생성
 
 1. 카카오 클라우드 콘솔 > Beyond Networking Service > VPC > VPC
 
@@ -22,7 +22,9 @@
 3. 만들기 버튼 클릭
 4. VPC 생성 확인
 
-# 2. Object Storage 생성
+## 2. Object Storage 생성
+- **Note**: data-catalog 버킷 구조
+        ![스크린샷 2025-03-15 140303](https://github.com/user-attachments/assets/bd1c559a-fa3d-4957-8796-25b54bb9d0ba)
 
 1. 카카오 클라우드 콘솔 > Beyond Storage Service > Object Storage > 일반 버킷
 2. 버킷 생성 버튼 클릭
@@ -40,13 +42,10 @@
 5. Object Storage 버킷 생성 확인
     - **Note**: 왼쪽의 일반 버킷 눌러 Object Storage 메인 화면으로 이동
 
-    - **Note**: 최종 data-catalog 버킷의 구조
-
-    ![스크린샷 2025-03-15 140303](https://github.com/user-attachments/assets/bd1c559a-fa3d-4957-8796-25b54bb9d0ba)
 
 
 
-# 3. MySQL 생성 (7분)
+## 3. MySQL 생성 (7분)
 
 1. 카카오 클라우드 콘솔 >  Data Store > MySQL > Instance Group
 2. 인스턴스 그룹 만들기 버튼 클릭
@@ -73,7 +72,7 @@
     - 자동 백업 옵션: `미사용`
 3. 만들기 버튼 클릭
 
-# 4. 자격 증명 생성
+## 4. 자격 증명 생성
 
 1. 우측 상단 계정 프로필 > 자격 증명 > 비밀번호 확인
 2. `IAM 액세스 키 생성` 클릭
@@ -89,7 +88,7 @@
     - 확인 버튼 클릭
 
     
-# 5. 로드 밸런서(ALB) 생성 (18분)
+## 5. 로드 밸런서(ALB) 생성 (18분)
 
 1. 카카오 클라우드 콘솔 > Beyond Networking Service > Load Balancing > 로드 밸런서
 2. 로드 밸런서 생성 버튼 클릭
@@ -115,7 +114,7 @@
     - 적용 클릭
 
 
-# 6. 사용자 리소스 정보 조회
+## 6. 사용자 리소스 정보 조회
 1. MySQL 엔드포인트 조회
     - 카카오 클라우드 콘솔 > Data Store > MySQL > Instance Group
     - 생성된 `database` 클릭
@@ -132,7 +131,7 @@
     ![projectId](https://github.com/user-attachments/assets/16382315-5f49-4ee7-86bd-c724c3fe39e0)
 
 
-# 7. API Server VM 생성 (3분)
+## 7. API Server VM 생성 (3분)
 
 1. 카카오 클라우드 콘솔 > Beyond Compute Service > Virtual Machine > 인스턴스
 2. 인스턴스 생성 버튼 클릭
@@ -283,7 +282,7 @@
     - 스크립트 적용 확인 후 터미널 창 닫기
 
 
-# 8. Traffic Generator VM 생성 (7분)
+## 8. Traffic Generator VM 생성 (7분)
 
 1. 카카오 클라우드 콘솔 > Beyond Compute Service > Virtual Machine > 인스턴스
 2. 인스턴스 생성 버튼 클릭
