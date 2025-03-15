@@ -123,6 +123,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     ```
 
 7. `api-server-1, 2`에서 Logstash 가 `Active:active (running)` 상태인 것을 확인
+
     #### **lab2-2-7**
 
     ```bash
@@ -500,71 +501,75 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     - 기본 정보
         - 이름: `kafka-connector`
         - 개수: `1`
-        - 이미지: `Ubuntu 22.04`
-        - 인스턴스유형: `m2a.xlarge`
-        - 볼륨: `10`
-        - 키 페어: 위에서 생성한 `keypair`
-        - 네트워크
-            - VPC: `kc-vpc`
-            - 서브넷: `kr-central-2-a의 Public 서브넷`
+    - 이미지: `Ubuntu 22.04`
+    - 인스턴스유형: `m2a.xlarge`
+    - 볼륨: `10`
+    - 키 페어: 위에서 생성한 `keypair`
+    - 네트워크
+        - VPC: `kc-vpc`
+        - 서브넷: `kr-central-2-a의 Public 서브넷`
         - 유형: `새 인터페이스`
         - IP 할당 방식: `자동`
         - 보안 그룹
         - **Note**: 기존에 Traffic Generator VM에서 사용한 보안그룹 사용
-            - 보안 그룹 이름: `tg-sg` 선택
+            - 보안 그룹 이름: `tg-sg`
                 - 인바운드 규칙
                     - 프로토콜: TCP, 출발지: 0.0.0.0/0, 포트 번호: `22`
                     - 프로토콜: TCP, 출발지: 0.0.0.0/0, 포트 번호: `9092`
                 - 아웃바운드 규칙
                     - 프로토콜: ALL, 출발지: 0.0.0.0/0, 포트 번호: `ALL`
         
-            - 고급 설정
-                - 아래 스크립트 입력
-                - **Note**: 메모장에 아래 링크의 코드를 복사 붙여넣기 하여 사용
-                - **Note**: 중괄호({})는 제거하고 쌍 따옴표는 유지
-                - 사용자 스크립트: [`kafka_vm_init.sh`](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day1/Lab00/kafka/kafka_vm_init.sh)의 쌍따옴표(“”) 사이에 자신의 리소스 값 입력
-                ```
-                #!/bin/bash
+    - 고급 설정
+        - 아래 스크립트 입력
+        - **Note**: 메모장에 아래 링크의 코드를 복사 붙여넣기 하여 사용
+        - **Note**: 중괄호({})는 제거하고 쌍 따옴표는 유지
+        - 사용자 스크립트: [`kafka_vm_init.sh`](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day1/Lab00/kafka/kafka_vm_init.sh)의 쌍따옴표(“”) 사이에 자신의 리소스 값 입력
+        ```
+        #!/bin/bash
                 
-                echo "kakaocloud: 1.환경 변수 설정 시작"
+        echo "kakaocloud: 1.환경 변수 설정 시작"
                 
-                cat <<'EOF' > /tmp/env_vars.sh
-                # Kafka 설정
-                export KAFKA_BOOTSTRAP_SERVER="{Kafka 부트스트랩 서버}"
+        cat <<'EOF' > /tmp/env_vars.sh
+        # Kafka 설정
+        export KAFKA_BOOTSTRAP_SERVER="{Kafka 부트스트랩 서버}"
                 
-                # S3 인증 정보
-                export AWS_ACCESS_KEY_ID_VALUE="{콘솔에서 발급한 S3 액세스 키의 인증 키 값}"
-                export AWS_SECRET_ACCESS_KEY_VALUE="{콘솔에서 발급한 S3 액세스 키의 보안 액세스 키 값}"
+        # S3 인증 정보
+        export AWS_ACCESS_KEY_ID_VALUE="{콘솔에서 발급한 S3 액세스 키의 인증 키 값}"
+        export AWS_SECRET_ACCESS_KEY_VALUE="{콘솔에서 발급한 S3 액세스 키의 보안 액세스 키 값}"
                 
-                # AWS 환경 변수 설정
-                export BUCKET_NAME="data-catalog-bucket"
-                export AWS_DEFAULT_REGION_VALUE="kr-central-2"
-                export AWS_DEFAULT_OUTPUT_VALUE="json"
+        # AWS 환경 변수 설정
+        export BUCKET_NAME="data-catalog-bucket"
+        export AWS_DEFAULT_REGION_VALUE="kr-central-2"
+        export AWS_DEFAULT_OUTPUT_VALUE="json"
                 
-                # 로그 파일 경로
-                export LOGFILE="/home/ubuntu/setup.log"
-                EOF
+        # 로그 파일 경로
+        export LOGFILE="/home/ubuntu/setup.log"
+        EOF
                 
-                # 환경 변수 적용 
-                source /tmp/env_vars.sh
-                echo "source /tmp/env_vars.sh" >> /home/ubuntu/.bashrc
+        # 환경 변수 적용 
+        source /tmp/env_vars.sh
+        echo "source /tmp/env_vars.sh" >> /home/ubuntu/.bashrc
                 
-                echo "kakaocloud: 2.스크립트 다운로드 사이트 유효성 검사 시작"
-                SCRIPT_URL="https://raw.githubusercontent.com/kakaocloud-edu/tutorial/refs/heads/main/DataAnalyzeCourse/src/day1/Lab00/kafka/kafka_full_setup.sh"
+        echo "kakaocloud: 2.스크립트 다운로드 사이트 유효성 검사 시작"
+        SCRIPT_URL="https://raw.githubusercontent.com/kakaocloud-edu/tutorial/refs/heads/main/DataAnalyzeCourse/src/day1/Lab00/kafka/kafka_full_setup.sh"
                 
-                curl -L --output /dev/null --silent --head --fail "$SCRIPT_URL" || { echo "kakaocloud: Script download site is not valid"; exit 1; }
-                wget -q "$SCRIPT_URL"
-                chmod +x kafka_full_setup.sh
-                sudo -E ./kafka_full_setup.sh
-                ```
+        curl -L --output /dev/null --silent --head --fail "$SCRIPT_URL" || { echo "kakaocloud: Script download site is not valid"; exit 1; }
+        wget -q "$SCRIPT_URL"
+        chmod +x kafka_full_setup.sh
+        sudo -E ./kafka_full_setup.sh
+        ```
                 
-                - CPU 멀티스레딩: `활성화`
+        - CPU 멀티스레딩: `활성화`
         
     - 생성 버튼 클릭
+
 3. `kafka-connector` 상태 Actice 확인 후 인스턴스의 우측 메뉴바 > `Public IP 연결` 클릭
+
     - `새로운 퍼블릭 IP를 생성하고 자동으로 할당`
     - 확인 버튼 클릭
+
 4. `kafka-connector` 인스턴스의 우측 메뉴바 > `SSH 연결` 클릭
+
     - SSH 접속 명령어 복사
     - 터미널 열기
     - keypair를 다운받아놓은 폴더로 이동
