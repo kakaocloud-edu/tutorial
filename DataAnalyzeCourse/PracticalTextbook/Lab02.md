@@ -72,7 +72,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     
     ```
     
-    - **Note**: {api-server-1의 public ip 주소} 부분을 복사한 각 IP 주소로 교체
+    - {api-server-1의 public ip 주소} 부분을 복사한 각 IP 주소로 교체
     
     #### **lab2-2-2-4**
     
