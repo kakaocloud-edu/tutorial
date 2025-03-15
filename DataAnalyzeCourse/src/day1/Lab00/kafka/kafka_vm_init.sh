@@ -11,7 +11,7 @@ export AWS_ACCESS_KEY_ID_VALUE="{콘솔에서 발급한 S3 액세스 키의 인�
 export AWS_SECRET_ACCESS_KEY_VALUE="{콘솔에서 발급한 S3 액세스 키의 보안 액세스 키 값}"
 
 # AWS 환경 변수 설정
-export BUCKET_NAME="data-catalog"
+export BUCKET_NAME="data-catalog-bucket"
 export AWS_DEFAULT_REGION_VALUE="kr-central-2"
 export AWS_DEFAULT_OUTPUT_VALUE="json"
 
