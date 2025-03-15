@@ -5,7 +5,6 @@ filebeat.inputs:
   enabled: true
   paths:
     - /var/log/nginx/flask_app_access.log
-
   # Multiline 설정: 새 JSON 객체는 '{' 로 시작한다고 가정
   multiline.pattern: '^\{'
   multiline.negate: true
@@ -21,16 +20,14 @@ setup.template.settings:
 setup.kibana:
 
 output.logstash:
-  hosts: ["127.0.0.1:5044", "127.0.0.1:5045"]
+  hosts: ["127.0.0.1:5044","127.0.0.1:5045"]
 
 processors:
+  # 오직 지정된 엔드포인트만 통과시키고 나머지는 drop
   - drop_event:
       when.not:
         regexp:
-          # 특정 엔드포인트 (이 예시에서는 7가지만) + HTTP 버전이 1.0 또는 1.1
-          # 허용하지 않은 것은 모두 drop.
-          request: "^(POST /add_user HTTP/1\\.[01]|GET /categories HTTP/1\\.[01]|GET /products HTTP/1\\.[01]|POST /login HTTP/1\\.[01]|POST /cart/add HTTP/1\\.[01]|POST /delete_user HTTP/1\\.[01]|GET /error HTTP/1\\.[01])$"
-
+          request: "(POST /add_user|GET /categories|GET /products|POST /login|POST /cart/add|POST /delete_user|GET /error)"
   - add_host_metadata:
       when.not.contains.tags: forwarded
   - add_cloud_metadata: ~
