@@ -260,6 +260,7 @@
 5. api server 스크립트 적용 확인
 
     #### **lab0-7-5-1**
+    - **Note**: 터미널 창이 작으면 로그가 안보일 수도 있으니, 터미널 창의 크기를 늘려주세요.
     
     ```bash
     watch -c 'awk "/kakaocloud:/ {gsub(/([0-9]+)\\./,\"\\033[33m&\\033[0m\"); print}" < /var/log/cloud-init-output.log'
@@ -395,6 +396,7 @@
    - **Note**: 스크립트 적용에 약 7분 소요
     
     #### **lab0-8-5**
+    - **Note**: 터미널 창이 작으면 로그가 안보일 수도 있으니, 터미널 창의 크기를 늘려주세요.
     
     ```bash
     watch -c 'awk "/kakaocloud:/ {gsub(/([0-9]+)\\./,\"\\033[33m&\\033[0m\"); print}" < /var/log/cloud-init-output.log'
