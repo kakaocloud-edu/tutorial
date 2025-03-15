@@ -168,10 +168,10 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     ```
     test3
     ```
+    ![Image](https://github.com/user-attachments/assets/800bd1cb-72a6-4cff-afd0-70fa42cbe79d)
+
 
 5. 송신되는 시간 5초 대기 후 `ctrl` + `c`로 종료
-
-    ![Image](https://github.com/user-attachments/assets/800bd1cb-72a6-4cff-afd0-70fa42cbe79d)
 
 6. `traffic-generator-2`에서 kafka 작업을 위한 디렉터리인 `/opt/kafka`로 이동
     
@@ -190,10 +190,11 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     --topic consol-topic --group consumer-group-earliest \
     --consumer-property auto.offset.reset=earliest
     ```
+    ![Image](https://github.com/user-attachments/assets/3bb1c65d-1a7f-4d81-b95d-2401e822efd4)
+
 
 8. `ctrl` + `c`로 종료
 
-    ![Image](https://github.com/user-attachments/assets/3bb1c65d-1a7f-4d81-b95d-2401e822efd4)
 
 9. `traffic-generator-2`에서 `consumer-group-earliest-notcommit` 그룹으로 `consol-topic`의 메시지를 수신하기 위해 consumer 스크립트에 `earlist` 옵션과 `not commit` 옵션을 추가하여 실행
 
@@ -205,10 +206,9 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     --consumer-property auto.offset.reset=earliest \
     --consumer-property enable.auto.commit=false
     ```
+    ![Image](https://github.com/user-attachments/assets/605fcbf3-53cc-468a-9481-6289ac88fb16)
 
 10. `ctrl` + `c`로 종료
-
-    ![Image](https://github.com/user-attachments/assets/605fcbf3-53cc-468a-9481-6289ac88fb16)
 
 11. `traffic-generator-2`에서 `consumer-group-latest` 그룹으로 `consol-topic`의 메시지를 수신하기 위해 consumer 스크립트에 `latest` 옵션을 추가하여 실행
 
@@ -220,9 +220,9 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     --consumer-property auto.offset.reset=latest
     ```
 
-12. `ctrl` + `c`로 종료
-
     ![Image](https://github.com/user-attachments/assets/dcfb2aeb-8b2d-41a1-9990-252ad62529f3)
+
+12. `ctrl` + `c`로 종료
 
 13. `traffic-generator-1`에서 `consol-topic`으로 메세지를 전송하기 위한 producer 스크립트 실행
     
@@ -251,9 +251,11 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     ```
     test6
     ```
+    
+    ![Image](https://github.com/user-attachments/assets/27cf5a74-f03f-4874-92a8-96c97e30b0d0)
+
 15. 송신되는 시간 5초 대기 후 `ctrl` + `c`로 종료
 
-    ![Image](https://github.com/user-attachments/assets/27cf5a74-f03f-4874-92a8-96c97e30b0d0)
 
 16. `traffic-generator-2`에서 `consumer-group-earliest` 그룹으로 `consol-topic`의 메시지를 수신하기 위해 consumer 스크립트에 `earlist` 옵션을 추가하여 실행
     
@@ -264,10 +266,10 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     --topic consol-topic --group consumer-group-earliest \
     --consumer-property auto.offset.reset=earliest
     ```
+    ![Image](https://github.com/user-attachments/assets/7039660c-3289-4916-8e8f-93dbd03ba15b)
+
 
 17. `ctrl` + `c`로 종료
-
-    ![Image](https://github.com/user-attachments/assets/7039660c-3289-4916-8e8f-93dbd03ba15b)
 
 18. `traffic-generator-2`에서 `consumer-group-earliest-notcommit` 그룹으로 `consol-topic`의 메시지를 수신하기 위해 consumer 스크립트에 `earlist` 옵션과 `not commit` 옵션을 추가하여 실행
 
@@ -279,10 +281,11 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     --consumer-property auto.offset.reset=earliest \
     --consumer-property enable.auto.commit=false
     ```
+    ![Image](https://github.com/user-attachments/assets/77f69f9a-7bb9-4026-a90a-49049c1aa956)
+
 
 19. `ctrl` + `c`로 종료
 
-    ![Image](https://github.com/user-attachments/assets/77f69f9a-7bb9-4026-a90a-49049c1aa956)
 
 20. `traffic-generator-2`에서 `consumer-group-latest` 그룹으로 `consol-topic`의 메시지를 수신하기 위해 consumer 스크립트에 `latest` 옵션을 추가하여 실행
 
@@ -293,10 +296,11 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     --topic consol-topic --group consumer-group-latest \
     --consumer-property auto.offset.reset=latest
     ```
+    ![Image](https://github.com/user-attachments/assets/d60ce309-b5b3-44b3-bae5-da0f6fcd5976)
+
 
 21. `ctrl` + `c`로 종료
 
-    ![Image](https://github.com/user-attachments/assets/d60ce309-b5b3-44b3-bae5-da0f6fcd5976)
 
 22. `traffic-generator-2`에서 생성된 consumer 그룹 목록 확인
 
