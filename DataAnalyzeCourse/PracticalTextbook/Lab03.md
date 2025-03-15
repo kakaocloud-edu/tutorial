@@ -120,7 +120,7 @@ Data Catalog와 Pub/Sub, Object Storage를 연동해 테이블 생성 및 이벤
       - Key: `test_key`
       - Value: `test_value`
       - 추가 버튼 클릭
-5. `traffic-generator-2` 터미널 창에서 메시지 정상 수신 및 "New" 섹션 내의 `{"Name":"test_field","Type":"string","Comment":"","IntegerIndex":3}` 로그 확인
+5. `traffic-generator-2` 터미널 창에서 테이블 속성 생성 메시지 정상 수신 로그 확인
 ![image](https://github.com/user-attachments/assets/d97c438e-702c-43e7-8ede-a3c49655eb64)
 
 6. 스키마 탭 클릭 후 필드 추가 버튼 클릭
@@ -129,7 +129,7 @@ Data Catalog와 Pub/Sub, Object Storage를 연동해 테이블 생성 및 이벤
       - 데이터 유형: `string`
       - 설명: `Data Catalog 테이블 필드 추가 후 메세지 수신 확인 실습`
       - 생성 버튼 클릭
-7. `traffic-generator-2` 터미널 창에서 메시지 정상 수신 및 "New" 섹션 내의 `{"Name":"test_field","Type":"string","Comment":"Data Catalog 테이블 필드 추가 후 메세지 수신 확인 실습","IntegerIndex":3}` 로그 확인
+7. `traffic-generator-2` 터미널 창에서 필드 생성 메시지 정상 수신 로그 확인
 ![image](https://github.com/user-attachments/assets/a2d2c575-ab4c-439b-b71a-42940a7333d5)
 
 
