@@ -163,10 +163,10 @@
     - 고급 설정
         - **Note**: 메모장에 아래 링크의 코드를 복사 붙여넣기 하여 사용
         - **Note**: 중괄호({})는 제거하고 쌍 따옴표는 유지
-        - 사용자 스크립트: [`api_vm_init`](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day1/Lab00/api_server/as_vm_init.sh)의 쌍따옴표(“”) 사이에 자신의 리소스 값 입력
+        - 사용자 스크립트: [`api_vm_init`](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day1/Lab00/api_server/api_vm_init.sh)의 쌍따옴표(“”) 사이에 자신의 리소스 값 입력
             ```
             #!/bin/bash
-            
+            # api_vm_init.sh
             # 프로젝트 및 인증 정보
             export DOMAIN_ID="{조직 ID}"
             export PROJECT_ID="{프로젝트 ID}"
