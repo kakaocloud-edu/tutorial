@@ -55,7 +55,7 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 통한 메시�
 
 ## 2. REST API를 통한 토픽, 서브스크립션 생성
 
-1. `traffic-generator-1` 터미널 창에서 `Pub/Sub`실습을 위한 디렉토리로 이동하기 위해 아래 명령어 실행
+1. `traffic-generator-1` 터미널 창에서 `Pub/Sub`실습 디렉토리로 이동
     
     #### **lab1-2-1**
     
@@ -63,7 +63,7 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 통한 메시�
     cd /home/ubuntu/DataAnalyzeCourse/src/day1/Lab01/pubsub/
     ```
     
-2. NGINX 로그 적재용 토픽 생성을 위해 아래 명령어 실행
+2. NGINX 로그 적재용 토픽 생성
     
     #### **lab1-2-2**
     
@@ -75,7 +75,7 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 통한 메시�
 4. `log-topic` 토픽 생성 확인
 ![4](https://github.com/user-attachments/assets/1bd82237-d002-4e7f-a232-df79266970d2)
 
-5. Object Storage에 NGINX 로그를 적재하는 서브스크립션 생성을 위해 아래 명령어 실행
+5. traffic-generator-1 터미널 창에서 서브스크립션 생성
     
     #### **lab1-2-5**
     
