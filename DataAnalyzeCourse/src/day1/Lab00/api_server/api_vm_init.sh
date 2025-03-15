@@ -1,5 +1,5 @@
 #!/bin/bash
-
+# api_vm_init.sh
 # 프로젝트 및 인증 정보
 export DOMAIN_ID="{조직 ID}"
 export PROJECT_ID="{프로젝트 ID}"
