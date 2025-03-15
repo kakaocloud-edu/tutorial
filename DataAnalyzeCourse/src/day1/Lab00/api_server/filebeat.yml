@@ -23,6 +23,17 @@ output.logstash:
   hosts: ["127.0.0.1:5044","127.0.0.1:5045"]
 
 processors:
+  - drop_event:
+      when:
+        or:
+          - equals:
+              request: "GET /.env.testing HTTP/1.1"
+          - and:
+              - equals:
+                  request: "GET / HTTP/1.1"
+              - not:
+                  contains:
+                    http_user_agent: "python-requests/2.25.1"
   - add_host_metadata:
       when.not.contains.tags: forwarded
   - add_cloud_metadata: ~
