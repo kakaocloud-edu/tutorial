@@ -459,7 +459,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     sudo systemctl restart logstash
     ```
 
-6. 웹 브라우저 주소창에 `http://{ALB의 Public IP}`를 입력하여 접속 후 링크 클릭 등을 통해 임의로 트래픽 생성
+6. 웹 브라우저 주소창에서 링크 클릭, product_id 검색 등을 통해 임의로 트래픽 생성하기 위한 아래 URL 입력
 
     #### **lab2-6-6**
     
@@ -496,6 +496,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     ![Image](https://github.com/user-attachments/assets/9e2bf8ff-5869-40e5-b151-1360cbb6ea59)
 
 ## 8. Kafka Connector VM 생성 (2분)
+
 1. 카카오 클라우드 콘솔 > Beyond Compute Service > Virtual Machine > 인스턴스
 2. 인스턴스 생성 버튼 클릭
     - 기본 정보
@@ -626,7 +627,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     kakaocloud: 15. Kafka Connect 서비스 등록
     kakaocloud: Setup 완료
     ```
-6. `data-catalog-bucket`에 nginx 로그를 쌓기 위한 쓰기 권한 부여
+6. `data-catalog-bucket`에 nginx 로그를 쌓기 위해 필요한 쓰기 권한을 부여하는 명령어 실행
 
     #### **lab2-8-6**
     
@@ -637,7 +638,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
       --endpoint-url https://objectstorage.kr-central-2.kakaocloud.com
     ```
     
-7. S3 Sink Connector([`s3-sink-connector.properties`](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day1/Lab02/kafka_connector/s3-sink-connector.properties)), Standalone Worker([`worker.properties`](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day1/Lab02/kafka_connector/worker.properties)) 설정 파일 확인
+7. S3 Sink Connector([`s3-sink-connector.properties`](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day1/Lab02/kafka_connector/s3-sink-connector.properties)), Standalone Worker([`worker.properties`](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day1/Lab02/kafka_connector/worker.properties)) 설정 파일 생성 확인
 
     #### **lab2-8-7**
     
@@ -645,7 +646,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     ls /opt/kafka/config
     ```
 
-8. kafka-connect 시스템 서비스 파일([`kafka-connect.service`](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day1/Lab02/kafka_connector/kafka-connect.service)) 확인
+8. kafka-connect 시스템 서비스 파일([`kafka-connect.service`](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day1/Lab02/kafka_connector/kafka-connect.service)) 생성 확인
     
     #### **lab2-8-8**
     
@@ -654,7 +655,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     ```
 
     
-9. 데몬 리로드 및 서비스 시작
+9. 데몬 리로드 및 서비스를 시작하는 명령어 실행
     
     #### lab**2-8-9-1**
     
@@ -676,8 +677,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
 
     ![Image](https://github.com/user-attachments/assets/43cc5d53-98f3-45e5-919b-cad3015cfba8)
 
-10. s3-sink-connector 상태 정보 조회
-    - **Note**: `connector`, `tasks` 항목의 `state` 값이 `RUNNING`인 것을 확인
+10. `s3-sink-connector` 상태 정보 확인
    
     #### lab**2-8-10**
     
