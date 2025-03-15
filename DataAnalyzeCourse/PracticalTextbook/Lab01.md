@@ -64,6 +64,7 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 활용하여 �
     ```
     
 2. NGINX 로그 적재용 토픽 생성
+   - **Note**: [`create_topic.py`](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day1/Lab01/pubsub/create_topic.py)
     
     #### **lab1-2-2**
     
@@ -78,7 +79,7 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 활용하여 �
 5. traffic-generator-1 터미널에서 서브스크립션 생성
     
     #### **lab1-2-5**
-    
+   - **Note**: [`create_subscription.py`](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day1/Lab01/pubsub/create_subscription.py)
     ```bash
     python3 create_subscription.py
     ```
@@ -89,7 +90,7 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 활용하여 �
 ## 3. REST API를 활용한 메시지 송수신
 
 1. `traffic-generator-1` 터미널에서 `test-topic`으로 메세지를 전송하는 스크립트 실행
-
+   - **Note**: [`pub_sub_publisher.py`](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day1/Lab01/pubsub/pub_sub_publisher.py)
     #### **lab1-3-1**
     
     ```bash
@@ -117,6 +118,7 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 활용하여 �
     ```
 
 5. `traffic-generator-2` 터미널에서 `test-topic`의 메시지를 `test-pull-sub` 서브스크립션을 통해 메시지 수신
+   - **Note**: [`pub_sub_subscriber.py`](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day1/Lab01/pubsub/pub_sub_subscriber.py)
     #### **lab1-3-5**
         
     ```bash
@@ -125,17 +127,17 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 활용하여 �
       ![image](https://github.com/user-attachments/assets/de6e6265-0d32-495b-8074-82635dd4f94f)
 
 
-7. `Ctrl` + `c`로 메시지 수신 스크립트 실행 종료
+6. `Ctrl` + `c`로 메시지 수신 스크립트 실행 종료
 
 
-8. 웹 브라우저 주소창에서 `test-topic`의 메세지를 `test-push-sub` 서브스크립션을 통해 `api-server-vm`으로 송신된 메세지를 확인하기 위한 아래 URL 입력
+7. 웹 브라우저 주소창에서 `test-topic`의 메세지를 `test-push-sub` 서브스크립션을 통해 `api-server-vm`으로 송신된 메세지를 확인하기 위한 아래 URL 입력
     #### **lab1-3-7**
 
     ```
     http://{ALB Public IP 주소}/push-messages
     ```
         
-9. `test-push-sub` 서브스크립션에서 `api-server-vm`으로 송신한 메시지 확인
+8. `test-push-sub` 서브스크립션에서 `api-server-vm`으로 송신한 메시지 확인
     ![image](https://github.com/user-attachments/assets/8dd35cf9-7eee-4b41-8e50-6f79c6ac2635)
 
 
@@ -151,7 +153,7 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 활용하여 �
     ```
         
 2. 메세지를 발행하는 Publisher 실행 파일 생성
-        
+   - **Note**: [`go_publisher.go`](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day1/Lab01/go/go_publisher.go)
     #### **lab1-4-2**
     
     ```bash
@@ -187,7 +189,8 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 활용하여 �
     ```
         
 7. 메세지를 수신하는 Subscriber 실행 파일 생성
-        
+   - **Note**: [`go_subscriber.go`](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day1/Lab01/go/go_subscriber.go)
+
     #### **lab1-4-7**
     
     ```bash
@@ -216,7 +219,8 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 활용하여 �
     ```
 
 2. `traffic-generator-1`에서 트래픽 로그를 생성
-    
+   - **Note**: [`traffic_generator.py`](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day1/Lab01/pubsub/traffic_generator.py)
+
     #### **lab1-5-2**
     
     ```bash
