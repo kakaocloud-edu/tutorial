@@ -42,7 +42,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
 ## 2. Kafka 실습을 위한 API Server 환경 설정 
 
 1. 카카오 클라우드 콘솔 > Beyond Compute Service > Virtual Machine > 인스턴스
-2. `api-server-1` 인스턴스의 우측 메뉴바 > `SSH 연결` 클릭
+2. `api-server-1, 2` 인스턴스의 우측 메뉴바 > `SSH 연결` 클릭
 
     - SSH 접속 명령어 복사
     - 터미널 열기
@@ -69,11 +69,11 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     #### **lab2-2-2-3**
     
     ```bash
-    ssh -i keypair.pem ubuntu@{api-server-1의 public ip 주소}
+    ssh -i keypair.pem ubuntu@{api-server-1, 2의 public ip 주소}
     
     ```
     
-    - {api-server-1의 public ip 주소} 부분을 복사한 각 IP 주소로 교체
+    - {api-server-1, 2의 public ip 주소} 부분을 복사한 각 IP 주소로 교체
     
     #### **lab2-2-2-4**
     
@@ -83,7 +83,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     ```
     
 
-3. API Server VM의 `temp-kafka-bootstrap-server` 값을 실제 생성된 Kafka 클러스터 부트스트랩 서버 값으로 수정
+3. `api-server-1, 2`의 `temp-kafka-bootstrap-server` 값을 실제 생성된 Kafka 클러스터 부트스트랩 서버 값으로 수정
 
     #### **lab2-2-3**
     
@@ -100,7 +100,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     sudo sed -i 's/^ENABLE_KAFKA_OUTPUT="false"/ENABLE_KAFKA_OUTPUT="true"/' /etc/default/logstash
     ```
 
-5. `api-server-1`에서 Logstash 설정 파일을 수정하여 Kafka로 송신하도록 설정
+5. `api-server-1, 2`에서 Logstash 설정 파일을 수정하여 Kafka로 송신하도록 설정
 
     #### **lab2-2-5**
    
@@ -108,7 +108,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     sudo sed -i 's/logs-to-pubsub.conf/logs-to-kafka.conf/g' /etc/logstash/logstash.yml
     ```
 
-6. Logstash 재시작 및 상태 확인
+6. `api-server-1, 2`에서 Logstash 재시작 및 상태 확인
     
     #### **lab2-2-6-1**
     
@@ -122,7 +122,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     sudo systemctl restart logstash
     ```
 
-7. Logstash 가 `Active:active (running)` 상태인 것을 확인
+7. `api-server-1, 2`에서 Logstash 가 `Active:active (running)` 상태인 것을 확인
     #### **lab2-2-7**
 
     ```bash
@@ -444,7 +444,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     --topic nginx-topic --from-beginning
     ```
 
-5. `api-server-1`에서 Logstash 재시작 및 상태 확인
+5. `api-server-1, 2`에서 Logstash 재시작 및 상태 확인
     
     #### **lab2-6-5-1**
     
