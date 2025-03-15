@@ -44,7 +44,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
 ![Image](https://github.com/user-attachments/assets/0d2ebde3-53f3-4ccd-b759-855c6fddda1a)
 
 1. 카카오 클라우드 콘솔 > Beyond Compute Service > Virtual Machine > 인스턴스
-2. `api-server-1, 2` 인스턴스의 우측 메뉴바 > `SSH 연결` 클릭
+2. `api-server-1`, `api-server-2` 인스턴스의 우측 메뉴바 > `SSH 연결` 클릭
 
     - SSH 접속 명령어 복사
     - 터미널 열기
@@ -102,7 +102,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     sudo sed -i 's/^ENABLE_KAFKA_OUTPUT="false"/ENABLE_KAFKA_OUTPUT="true"/' /etc/default/logstash
     ```
 
-5. `api-server-1, 2`에서 Logstash 설정 파일을 수정하여 Kafka로 송신하도록 설정
+5. `api-server-1`, `api-server-2`에서 Logstash 설정 파일을 수정하여 Kafka로 송신하도록 설정
 
     #### **lab2-2-5**
    
@@ -110,7 +110,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     sudo sed -i 's/logs-to-pubsub.conf/logs-to-kafka.conf/g' /etc/logstash/logstash.yml
     ```
 
-6. `api-server-1, 2`에서 Logstash 재시작 및 상태 확인
+6. `api-server-1`, `api-server-2`에서 Logstash 재시작 및 상태 확인
     
     #### **lab2-2-6-1**
     
@@ -124,7 +124,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     sudo systemctl restart logstash
     ```
 
-7. `api-server-1, 2`에서 Logstash 가 `Active:active (running)` 상태인 것을 확인
+7. `api-server-1`, `api-server-2`에서 Logstash 가 `Active:active (running)` 상태인 것을 확인
 
     #### **lab2-2-7**
 
