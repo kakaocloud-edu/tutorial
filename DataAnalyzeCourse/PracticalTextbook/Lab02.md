@@ -159,7 +159,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     
 
 
-## 4. 콘솔 스크립트를 통한 Kafka 메시지 송수신 확인(수정중)
+## 4. 콘솔 스크립트를 통한 Kafka 메시지 송수신 확인
 
 1. `traffic-generator-1`에서 kafka 작업을 위한 디렉터리인 `/opt/kafka`로 이동
     
