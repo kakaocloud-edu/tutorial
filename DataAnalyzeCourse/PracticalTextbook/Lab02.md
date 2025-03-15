@@ -41,92 +41,50 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
 
 ## 2. Kafka 실습을 위한 API Server 환경 설정
 
-![Image](https://github.com/user-attachments/assets/0d2ebde3-53f3-4ccd-b759-855c6fddda1a)
+![Image](https://github.com/user-attachments/assets/0d2ebde3-53f3-4ccd-b759-855c6fddda1a)    
 
-1. 카카오 클라우드 콘솔 > Beyond Compute Service > Virtual Machine > 인스턴스
-2. `api-server-1`, `api-server-2` 인스턴스의 우측 메뉴바 > `SSH 연결` 클릭
+1. `api-server-1`, `api-server-2`에서 `temp-kafka-bootstrap-server` 값을 실제 생성된 Kafka 클러스터 부트스트랩 서버 값으로 수정
 
-    - SSH 접속 명령어 복사
-    - 터미널 열기
-    - keypair를 다운받아놓은 폴더로 이동
-    - 터미널에 명령어 붙여넣기
-    - yes 입력
-    
-    #### **lab2-2-2-1**
-    
-    ```bash
-    cd {keypair.pem 다운로드 위치}
-    
-    ```
-    
-    - 리눅스의 경우에 아래와 같이 키페어의 권한을 조정
-    
-    #### **lab2-2-2-2**
-    
-    ```bash
-    chmod 400 keypair.pem
-    
-    ```
-    
-    #### **lab2-2-2-3**
-    
-    ```bash
-    ssh -i keypair.pem ubuntu@{api-server-1, 2의 public ip 주소}
-    
-    ```
-    
-    - {api-server-1, 2의 public ip 주소} 부분을 복사한 각 IP 주소로 교체
-    
-    #### **lab2-2-2-4**
-    
-    ```bash
-    yes
-    
-    ```
-    
-
-3. `api-server-1`, `api-server-2`에서 `temp-kafka-bootstrap-server` 값을 실제 생성된 Kafka 클러스터 부트스트랩 서버 값으로 수정
-
-    #### **lab2-2-3**
+    #### **lab2-2-1**
     
     ```bash
     sudo sed -i 's/temp-kafka-bootstrap-server/{실제 Kafka 클러스터 부트스트랩 서버값}/g' /home/ubuntu/.bashrc /etc/default/logstash
     ```
     - {실제 Kafka 클러스터 부트스트랩 서버값}을 개인 환경에 맞게 수정 필요
 
-4. `api-server-1`, `api-server-2`에서 /etc/default/logstash의 `ENABLE_KAFKA_OUTPUT`을 수정하여 Kafka Output을 활성화
+2. `api-server-1`, `api-server-2`에서 /etc/default/logstash의 `ENABLE_KAFKA_OUTPUT`을 수정하여 Kafka Output을 활성화
 
-    #### **lab2-2-4**
+    #### **lab2-2-2**
     
     ```bash
     sudo sed -i 's/^ENABLE_KAFKA_OUTPUT="false"/ENABLE_KAFKA_OUTPUT="true"/' /etc/default/logstash
     ```
 
-5. `api-server-1`, `api-server-2`에서 Logstash 설정 파일을 수정하여 Kafka로 송신하도록 설정
+3. `api-server-1`, `api-server-2`에서 Logstash 설정 파일을 수정하여 Kafka로 송신하도록 설정
 
-    #### **lab2-2-5**
+    #### **lab2-2-3**
    
     ```
     sudo sed -i 's/logs-to-pubsub.conf/logs-to-kafka.conf/g' /etc/logstash/logstash.yml
     ```
 
-6. `api-server-1`, `api-server-2`에서 Logstash 재시작 및 상태 확인
+4. `api-server-1`, `api-server-2`에서 Logstash 재시작 및 상태 확인
     
-    #### **lab2-2-6-1**
+    #### **lab2-2-4-1**
     
     ```bash
     sudo systemctl daemon-reload
     ```
 
-    #### **lab2-2-6-2**
+    #### **lab2-2-4-2**
     
     ```bash
     sudo systemctl restart logstash
     ```
 
-7. `api-server-1`, `api-server-2`에서 Logstash 가 `Active:active (running)` 상태인 것을 확인
+5. `api-server-1`, `api-server-2`에서 Logstash 가 `Active:active (running)` 상태인 것을 확인
 
-    #### **lab2-2-7**
+    #### **lab2-2-5**
 
     ```bash
     sudo systemctl status logstash
