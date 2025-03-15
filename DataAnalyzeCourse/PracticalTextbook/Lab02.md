@@ -122,7 +122,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
 
 ## 4. 콘솔을 활용한 Kafka 메시지 송수신 확인
 
-1. `traffic-generator-1`에서 kafka 작업을 위한 디렉터리인 `/opt/kafka`로 이동
+1. `traffic-generator-1`에서 Kafka 실습용 디렉터리로 이동
     
     #### **lab2-4-1**
         
@@ -173,7 +173,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
 
 5. 송신되는 시간 5초 대기 후 `ctrl` + `c`로 종료
 
-6. `traffic-generator-2`에서 kafka 작업을 위한 디렉터리인 `/opt/kafka`로 이동
+6. `traffic-generator-2`에서 Kafka 실습용 디렉터리로 이동
     
     #### **lab2-4-6**
         
@@ -239,13 +239,11 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     ```
     test4
     ```
-    
     #### **lab2-4-14-2**
 
     ```
     test5
     ```
-    
     #### **lab2-4-14-3**
 
     ```
@@ -331,7 +329,8 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     cd /home/ubuntu/DataAnalyzeCourse/src/day1/Lab02/kafka
     ```
 
-3. `traffic-generator-1`에서 `python-topic`으로 메세지를 전송하기 위해 [`kafka_publisher`](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day1/Lab02/kafka/kafka_publisher.py) 파일 실행
+3. `traffic-generator-1`에서 `python-topic`으로 메세지를 전송
+    - **Note**: [`kafka_publisher.py`](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day1/Lab02/kafka/kafka_publisher.py) 
     #### **lab2-5-3**
     
     ```bash
@@ -348,7 +347,8 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     cd /home/ubuntu/DataAnalyzeCourse/src/day1/Lab02/kafka
     ```
 
-5. `traffic-generator-2`에서 `python-topic`으로부터 메세지를 수신하기 위해 [`kafka_subscriber`](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day1/Lab02/kafka/kafka_subscriber.py) 파일 실행
+5. `traffic-generator-2`에서 `python-topic`으로부터 메세지를 수신
+    - **Note**: [`kafka_subscriber.py`](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day1/Lab02/kafka/kafka_subscriber.py)
 
     #### **lab2-5-5**
 
@@ -356,26 +356,25 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     python3 kafka_subscriber.py
     ```
 
-    - `Ctrl`+`c` 키를 입력하여 종료
+6. `Ctrl`+`c` 키를 입력하여 종료
 
     ![Image](https://github.com/user-attachments/assets/50dba0ea-868e-4730-b0ec-15aab3578609)
 
-6. `traffic-generator-2`에서 `kafka_subscriber` 파일의 옵션을 수정하고 `python-topic`으로부터 메세지를 수신하기 위해 `kafka_subscriber` 파일 실행 
-    - 수정한 옵션: 오프셋 3부터 메시지 소비를 시작하고 오프셋 4에서 커밋
+7. `traffic-generator-2`에서 오프셋 3부터 메시지 소비 시작 및 오프셋 4에서 커밋 옵션을 추가하여 메세지 수신
 
-    #### **lab2-5-6**
+    #### **lab2-5-7**
 
     ```bash
     python3 kafka_subscriber.py --start-offset 3 --commit-threshold 4
     ```
 
-    - `Ctrl`+`c` 키를 입력하여 종료
+8. `Ctrl`+`c` 키를 입력하여 종료
 
     ![Image](https://github.com/user-attachments/assets/7ffe09d3-efc2-4f01-9827-3d760f8fb452)
 
 ## 6. Logstash와 콘솔을 활용한 Nginx 로그 수신 확인
 
-1. `traffic-generator-1`에서 kafka 작업을 위한 디렉터리인 `/opt/kafka`로 이동
+1. `traffic-generator-1`에서 Kafka 실습용 디렉터리로 이동
     #### **lab2-6-1**
         
     ```bash
@@ -392,8 +391,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
 
     ![Image](https://github.com/user-attachments/assets/1574a7c0-9dfa-4945-8b5a-8ce0824b381e)
 
-3. `traffic-generator-2`에서 kafka 작업을 위한 디렉터리인 `/opt/kafka`로 이동
-
+3. `traffic-generator-2`에서 Kafka 실습용 디렉터리로 이동
    #### **lab2-6-3**
         
     ```bash
