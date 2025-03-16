@@ -166,7 +166,7 @@
         - **Note**: 메모장에 아래 링크의 코드를 복사 붙여넣기 하여 사용
         - **Note**: 중괄호({})는 제거하고 쌍 따옴표는 유지
         - 사용자 스크립트: [`api_vm_init`](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day1/Lab00/api_server/api_vm_init.sh)의 쌍따옴표(“”) 사이에 자신의 리소스 값 입력
-            - 스크립트에 대한 더 자세한 내용은 [api_env_setup.sh](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day1/Lab00/api_server/api_env_setup.sh), [api_full_setup.sh](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day1/Lab00/api_server/api_full_setup.sh), [setup_db.sh](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day1/Lab00/api_server/setup_db.sh), [filebeat.yml](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day1/Lab00/api_server/filebeat.yml), [logs-to-pubsub.conf](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day1/Lab00/api_server/logs-to-pubsub.conf), [logs-to-kafka.conf](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day1/Lab00/api_server/logs-to-kafka.conf) 파일 참고
+            - **Note**: 스크립트에 대한 더 자세한 내용은 [api_env_setup.sh](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day1/Lab00/api_server/api_env_setup.sh), [api_full_setup.sh](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day1/Lab00/api_server/api_full_setup.sh), [setup_db.sh](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day1/Lab00/api_server/setup_db.sh), [filebeat.yml](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day1/Lab00/api_server/filebeat.yml), [logs-to-pubsub.conf](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day1/Lab00/api_server/logs-to-pubsub.conf), [logs-to-kafka.conf](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day1/Lab00/api_server/logs-to-kafka.conf) 파일 참고
             ```
             #!/bin/bash
             # api_vm_init.sh
@@ -306,6 +306,7 @@
                         - 프로토콜: `ALL`, 출발지: `0.0.0.0/0`, 포트 번호: `ALL`
     - 고급 설정
         - 사용자 스크립트: [`tg_vm_init.sh`](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day1/Lab00/traffic_generator/tg_vm_init.sh)의 쌍따옴표(“”) 사이에 자신의 리소스 값 입력
+        - **Note**: 스크립트에 대한 더 자세한 내용은 [tg_full_setup.sh](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day1/Lab00/traffic_generator/tg_full_setup.sh), [config.yml](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day1/Lab00/traffic_generator/config.yml), [config.py](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day1/Lab00/traffic_generator/config.py) 파일 참고
             ```
             #!/bin/bash
             # tg_vm_init.sh
