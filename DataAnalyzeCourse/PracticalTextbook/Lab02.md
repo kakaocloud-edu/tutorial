@@ -153,19 +153,19 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
 
     #### **lab2-4-4-1**
 
-    ```bash
+    ```
     test1
     ```
     
     #### **lab2-4-4-2**
 
-    ```bash
+    ```
     test2
     ```
     
     #### **lab2-4-4-3**
 
-    ```bash
+    ```
     test3
     ```
     ![Image](https://github.com/user-attachments/assets/800bd1cb-72a6-4cff-afd0-70fa42cbe79d)
@@ -235,17 +235,17 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
 
     #### **lab2-4-14-1**
 
-    ```bash
+    ```
     test4
     ```
     #### **lab2-4-14-2**
 
-    ```bash
+    ```
     test5
     ```
     #### **lab2-4-14-3**
 
-    ```bash
+    ```
     test6
     ```
     ![Image](https://github.com/user-attachments/assets/27cf5a74-f03f-4874-92a8-96c97e30b0d0)
