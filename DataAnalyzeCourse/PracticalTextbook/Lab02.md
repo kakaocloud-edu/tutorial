@@ -41,7 +41,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
 
 ## 2. Kafka 실습을 위한 API Server 환경 설정
 
-![최최종 그림 lab02](https://github.com/user-attachments/assets/38893660-1382-4f74-b4f3-8f7ccc2004db)
+![최최종 그림 lab02](https://github.com/user-attachments/assets/e2042303-f606-49e9-8a60-df66872581bf)
 
 1. `api-server-1`, `api-server-2`에서 `temp-kafka-bootstrap-server` 값을 실제 생성된 Kafka 클러스터 부트스트랩 서버 값으로 수정
    - **Note**: `{실제 Kafka 클러스터 부트스트랩 서버값}`을 개인 환경에 맞게 수정 필요
