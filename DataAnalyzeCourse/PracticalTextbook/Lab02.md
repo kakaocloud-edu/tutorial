@@ -305,8 +305,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     ```bash
     bin/kafka-consumer-groups.sh --bootstrap-server ${KAFKA_BOOTSTRAP_SERVERS} --list
     ```
-
-    ![Image](https://github.com/user-attachments/assets/a27fdd24-d790-4efb-9bb3-fc9c445d45da)
+    ![컨슈머 그룹 최종](https://github.com/user-attachments/assets/332734ef-912d-43cd-8286-4da3dbf69b38)
 
 ## 5. Python SDK를 활용한 Kafka 메시지 송수신 확인
 
