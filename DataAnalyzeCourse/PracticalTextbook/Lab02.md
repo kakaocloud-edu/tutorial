@@ -404,32 +404,18 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     --topic nginx-topic --from-beginning
     ```
 
-5. `api-server-1`, `api-server-2`에서 Logstash 재시작 및 상태 확인
-    
-    #### **lab2-6-5-1**
-    
-    ```bash
-    sudo systemctl daemon-reload
-    ```
+5. 웹 브라우저 주소창에서 링크 클릭, product_id 검색 등을 통해 임의로 트래픽 생성하기 위한 아래 URL 입력
 
-    #### **lab2-6-5-2**
-    
-    ```bash
-    sudo systemctl restart logstash
-    ```
-
-6. 웹 브라우저 주소창에서 링크 클릭, product_id 검색 등을 통해 임의로 트래픽 생성하기 위한 아래 URL 입력
-
-    #### **lab2-6-6**
+    #### **lab2-6-5**
     
     ```bash
     http://{ALB의 Public IP}
     ```
 
-7. `trarffic-generator-2`의 터미널에서 NGINX 로그 확인
+6. `trarffic-generator-2`의 터미널에서 NGINX 로그 확인
     ![image](https://github.com/user-attachments/assets/2537e5bb-99d9-4345-b5ad-cf7e270023e2)
 
-8. `Ctrl`+`c` 키를 입력하여 종료
+7. `Ctrl`+`c` 키를 입력하여 종료
 
 
 ## 7. S3 액세스 키 발급
