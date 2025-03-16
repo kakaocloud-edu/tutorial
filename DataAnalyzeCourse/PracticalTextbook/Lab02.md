@@ -190,7 +190,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     --topic consol-topic --group consumer-group-earliest \
     --consumer-property auto.offset.reset=earliest
     ```
-    ![Image](https://github.com/user-attachments/assets/3bb1c65d-1a7f-4d81-b95d-2401e822efd4)
+    ![earliest 1](https://github.com/user-attachments/assets/bb5b7e75-d8b1-4c32-8344-7b6a2e752d7a)
 
 
 8. `ctrl` + `c`로 종료
@@ -206,7 +206,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     --consumer-property auto.offset.reset=earliest \
     --consumer-property enable.auto.commit=false
     ```
-    ![Image](https://github.com/user-attachments/assets/605fcbf3-53cc-468a-9481-6289ac88fb16)
+    ![earliest notcommit 1](https://github.com/user-attachments/assets/b1723fab-3552-4ce6-864f-83d9f1eecb4f)
 
 10. `ctrl` + `c`로 종료
 
@@ -219,8 +219,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     --topic consol-topic --group consumer-group-latest \
     --consumer-property auto.offset.reset=latest
     ```
-
-    ![Image](https://github.com/user-attachments/assets/dcfb2aeb-8b2d-41a1-9990-252ad62529f3)
+    ![latest 1](https://github.com/user-attachments/assets/6cd0ad4d-3e17-4905-9407-c79e74252820)
 
 12. `ctrl` + `c`로 종료
 
@@ -249,7 +248,6 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     ```
     test6
     ```
-    
     ![Image](https://github.com/user-attachments/assets/27cf5a74-f03f-4874-92a8-96c97e30b0d0)
 
 15. 송신되는 시간 5초 대기 후 `ctrl` + `c`로 종료
@@ -264,7 +262,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     --topic consol-topic --group consumer-group-earliest \
     --consumer-property auto.offset.reset=earliest
     ```
-    ![Image](https://github.com/user-attachments/assets/7039660c-3289-4916-8e8f-93dbd03ba15b)
+    ![earliest 2](https://github.com/user-attachments/assets/eb96892e-b67c-482c-9cce-eda5b78d7ce7)
 
 
 17. `ctrl` + `c`로 종료
@@ -279,7 +277,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     --consumer-property auto.offset.reset=earliest \
     --consumer-property enable.auto.commit=false
     ```
-    ![Image](https://github.com/user-attachments/assets/77f69f9a-7bb9-4026-a90a-49049c1aa956)
+    ![earliest notcommit 2](https://github.com/user-attachments/assets/58d6bbbb-a91f-4398-830a-9c5bf5cfd29a)
 
 
 19. `ctrl` + `c`로 종료
@@ -294,7 +292,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     --topic consol-topic --group consumer-group-latest \
     --consumer-property auto.offset.reset=latest
     ```
-    ![Image](https://github.com/user-attachments/assets/d60ce309-b5b3-44b3-bae5-da0f6fcd5976)
+    ![latest 2](https://github.com/user-attachments/assets/9aabbab4-0434-466f-a4dc-203e66d2bfa2)
 
 
 21. `ctrl` + `c`로 종료
