@@ -108,6 +108,7 @@ Data Catalog와 Pub/Sub, Object Storage를 연동해 테이블 생성 및 이벤
       ```
 
 2. 테이블의 이벤트 메시지 확인을 위한 메세지 수신 스크립트 실행
+      - **Note**: [data_catalog_subscribe.py](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day1/Lab03/data_catalog_subscribe.py)
       
       #### lab3-6-2
       
