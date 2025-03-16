@@ -19,8 +19,6 @@ WHERE request_creation_time
     BETWEEN '2025/02/14 09:00:00:00' 
     AND '2025/02/14 10:00:00:00';
 ```
-![image](https://github.com/user-attachments/assets/e1639091-9444-49c1-95e8-7acede5d7783)
-
 
 ## 2. 고유 방문자 수 (Unique Visitors)
 
@@ -40,7 +38,6 @@ WHERE request_creation_time
     GROUP BY 1
     ORDER BY 1;
     ```
-    ![image](https://github.com/user-attachments/assets/dd0ca9b1-450f-434c-88c5-85e16893f243)
 
 2. 사용자 기준
 
@@ -56,8 +53,6 @@ WHERE request_creation_time
     GROUP BY 1
     ORDER BY 1;
     ```
-    ![image](https://github.com/user-attachments/assets/98f50726-d6cd-4704-aa84-8ea30aea0ba0)
-
 
 ## 3. HTTP 메서드 분포 (HTTP Method Distribution)
 
@@ -82,8 +77,6 @@ WHERE request_creation_time
   GROUP BY COALESCE(method, 'UNKNOWN'), total.total_count
   ORDER BY method;
   ```
-  ![image](https://github.com/user-attachments/assets/3e744b46-6124-4643-8d71-f2504b3c283c)
-
 
 ## 4. HTTP 상태 코드 분포 (HTTP Status Code Distribution)
 
@@ -105,7 +98,6 @@ WHERE request_creation_time
   GROUP BY target_status_code, total.total_count
   ORDER BY target_status_code;
   ```
-  ![image](https://github.com/user-attachments/assets/95b43e80-3d0f-46f6-a7d4-edccb2dd0036)
 
 ## 5. 트래픽 소스 (Traffic Sources)
 
@@ -134,7 +126,6 @@ WHERE request_creation_time
   GROUP BY source, total.total_count
   ORDER BY count DESC;
   ```
-  ![image](https://github.com/user-attachments/assets/a8eea25a-7327-495a-94d0-369b7fc832c9)
 
 ## 6. 신규 사용자 수 (New Users)
 
@@ -151,7 +142,6 @@ WHERE request_creation_time
     AND event_time BETWEEN TIMESTAMP '2025-02-14 00:00:00'
                        AND TIMESTAMP '2025-02-14 23:59:59';
   ```
-  ![image](https://github.com/user-attachments/assets/3c11745f-04b5-4e2e-875b-354866553e69)
 
 ## 7. 활성 사용자 수 (Active Users) (join 하는 케이스)
 
@@ -191,7 +181,6 @@ Kafka 데이터 기준으로 SELECT 진행
     AND login_time < CAST('2025-02-15 00:00:00' AS timestamp)
     AND logout_time IS NOT NULL;
   ```
-  ![image](https://github.com/user-attachments/assets/cd7ab4ee-1a09-4f06-a0df-4816153b8f38)
 
 ## 9. 사용자 재방문율 (User Retention Rate) (실제 트래픽 쌓는중, 다시)
 
@@ -258,7 +247,6 @@ Kafka 데이터 기준으로 SELECT 진행
     r.overall_retention_rate
   FROM joined j, rate r;
   ```
-  ![image](https://github.com/user-attachments/assets/435065df-1a0d-4336-bce5-aec8d8564b68)
 
 ## 10. 총 페이지뷰 수 (Total Page Views)
 
@@ -284,7 +272,6 @@ Kafka 데이터 기준으로 SELECT 진행
             AND TIMESTAMP '2025-02-13 23:59:59'
   GROUP BY pf.page;
   ```
-  ![image](https://github.com/user-attachments/assets/2a9c61db-3fde-4dd5-890e-c919a2dddc3d)
 
 ## 11. 세션 기반 방문자 수 (Unique Visitors)
 
@@ -302,7 +289,6 @@ Kafka 데이터 기준으로 SELECT 진행
   WHERE login_time BETWEEN TIMESTAMP '2025-02-14 00:00:00' 
                       AND TIMESTAMP '2025-02-14 23:59:59';
   ```
-  ![image](https://github.com/user-attachments/assets/5284b7a2-b2e4-4e76-87bd-a40f0a17afcc)
 
 
 ## 12. HTTP 응답 코드별 요청 수 (Requests by HTTP Status Code)
@@ -320,7 +306,6 @@ Kafka 데이터 기준으로 SELECT 진행
   GROUP BY target_status_code
   ORDER BY request_count DESC;
   ```
-  ![image](https://github.com/user-attachments/assets/be3c0795-dec7-4cba-98c3-1f1164ce5c4c)
 
 ## 13. 인기 상품 클릭 수 (Product Clicks)
 
@@ -339,7 +324,6 @@ Kafka 데이터 기준으로 SELECT 진행
     GROUP BY regexp_extract(query_params, 'id=([0-9]+)', 1)
     ORDER BY click_count DESC;
     ```
-    ![image](https://github.com/user-attachments/assets/8b9be25e-d4c8-4762-8d7b-28d87d553d79)
 
 2. Nginx 로그와 MySQL 데이터를 join하여 인기 상품 클릭 수 쿼리
     **설명**: 특정 기간 동안 클릭된 상품의 수  
@@ -364,8 +348,6 @@ Kafka 데이터 기준으로 SELECT 진행
       ON pc.product_id = p.id
     ORDER BY pc.click_count DESC;
     ```
-    ![image](https://github.com/user-attachments/assets/c9850bcf-25ae-4029-8785-0990f99a02b3)
-
 
 ## 14. 카테고리별 페이지뷰 수 (Page Views by Category)
 
@@ -383,4 +365,3 @@ Kafka 데이터 기준으로 SELECT 진행
   GROUP BY regexp_extract(query_params, 'name=([^&]+)', 1)
   ORDER BY pageview_count DESC;
   ```
-  ![image](https://github.com/user-attachments/assets/e1a221c9-268d-4cf8-96fb-3dbc764cc3e8)
