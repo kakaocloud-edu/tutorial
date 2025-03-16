@@ -219,12 +219,12 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     --topic consol-topic --group consumer-group-latest \
     --consumer-property auto.offset.reset=latest
     ```
-    ![latest 1](https://github.com/user-attachments/assets/6cd0ad4d-3e17-4905-9407-c79e74252820)
+    ![latest 1](https://github.com/user-attachments/assets/775440c5-5cfa-49be-afbe-d125ee29d2c0)
 
 12. `ctrl` + `c`로 종료
 
 13. `traffic-generator-1`에서 `consol-topic`으로 메세지를 전송하기 위한 producer 스크립트 실행
-    
+
     #### **lab2-4-13**
         
     ```bash
