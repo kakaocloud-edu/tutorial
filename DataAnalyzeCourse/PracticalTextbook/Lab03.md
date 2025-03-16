@@ -21,7 +21,7 @@ Data Catalog와 Pub/Sub, Object Storage를 연동해 테이블 생성 및 이벤
 
 
 ## 2. Data Catalog 실습용 Pub/Sub 리소스 생성
-![image](https://github.com/user-attachments/assets/6fde6a89-5c5a-4153-8512-6dca577d59c9)
+![제목 없음](https://github.com/user-attachments/assets/2588f095-9da9-44bd-89a8-a85d30a20f3e)
 
 1. 카카오 클라우드 콘솔 > Analytics > Pub/Sub > 토픽
 2. 토픽 생성 버튼 클릭
@@ -72,7 +72,7 @@ Data Catalog와 Pub/Sub, Object Storage를 연동해 테이블 생성 및 이벤
 
 ## 5. 테이블 생성(1분)
 - **Note**: kafka_log_table 테이블 구조
-      ![11](https://github.com/user-attachments/assets/a15467e8-a669-4682-a248-4244a32d37ab)
+      ![1](https://github.com/user-attachments/assets/aff57b09-30f1-4862-8d51-24de01a8aaa4)
 
 1. 좌측 테이블 탭 클릭 후 테이블 생성 버튼 클릭  
    - 데이터 베이스: `data_catalog_database`  
@@ -121,7 +121,7 @@ Data Catalog와 Pub/Sub, Object Storage를 연동해 테이블 생성 및 이벤
       - Value: `test_value`
       - 추가 버튼 클릭
 5. `traffic-generator-2` 터미널 창에서 테이블 속성 생성 메시지 정상 수신 로그 확인
-![image](https://github.com/user-attachments/assets/d97c438e-702c-43e7-8ede-a3c49655eb64)
+![1](https://github.com/user-attachments/assets/361f5a0c-ba37-424f-9434-67f897fcdebb)
 
 6. 스키마 탭 클릭 후 필드 추가 버튼 클릭
       - 컬럼 번호: `4`
@@ -130,7 +130,7 @@ Data Catalog와 Pub/Sub, Object Storage를 연동해 테이블 생성 및 이벤
       - 설명: `Data Catalog 테이블 필드 추가 후 메세지 수신 확인 실습`
       - 생성 버튼 클릭
 7. `traffic-generator-2` 터미널 창에서 필드 생성 메시지 정상 수신 로그 확인
-![image](https://github.com/user-attachments/assets/a2d2c575-ab4c-439b-b71a-42940a7333d5)
+![2](https://github.com/user-attachments/assets/0611f45d-d80b-4d41-ad39-795b500e2bc3)
 
 
 ## 7. 크롤러를 통한 MySQL 메타데이터 추출
