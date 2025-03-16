@@ -7,7 +7,6 @@ filebeat.inputs:
   enabled: true
   paths:
     - /var/log/nginx/flask_app_access.log  # 수집할 로그 파일 경로 지정
-  # Multiline 설정: 새 JSON 객체는 '{' 로 시작한다고 가정
   multiline.pattern: '^\{'                 # 다중 줄 로그 병합 (JSON 시작 '{' 기준)
   multiline.negate: true
   multiline.match: after
