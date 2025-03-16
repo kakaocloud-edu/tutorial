@@ -29,10 +29,9 @@
 
 
 ## 3. Data Query 실습
+- **Note**: 더 많은 쿼리문은 [Lab04_etc.md](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/PracticalTextbook/Lab04_etc.md) 참고
 
 1. `편집기` 탭 클릭
-   - https://fantasy-brand-461.notion.site/19adbb08775280979a70d7d671c03a1e?pvs=4
-
 2. NGINX 로그를 활용하여 HTTP 상태 코드 분포 쿼리
    - 데이터 원본: `data_catalog`
    - 데이터 베이스: `data_catalog_database`
