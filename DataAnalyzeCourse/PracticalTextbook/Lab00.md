@@ -19,7 +19,7 @@
 4. VPC 생성 확인
 
 ## 2. Object Storage 생성
-- **Note**: data-catalog 버킷 구조  
+- **Note**: Object Storage 버킷 구조  
   ![image](https://github.com/user-attachments/assets/bbe5ed2a-33e1-455a-9faf-aa90938a6b66)
 1. 카카오 클라우드 콘솔 > Beyond Storage Service > Object Storage > 일반 버킷  
 2. 버킷 생성 버튼 클릭  
