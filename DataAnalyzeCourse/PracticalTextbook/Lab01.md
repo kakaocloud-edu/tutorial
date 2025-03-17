@@ -14,7 +14,7 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 활용하여 �
     - 토픽 생성 버튼 클릭
         - 이름: `test-topic`
         - 기본 서브스크립션: `생성 안함`
-        - 토픽 메세지 보존 기간: `0일 0시 10분`
+        - 토픽 메시지 보존 기간: `0일 0시 10분`
         - 설명: `없음`
     - 생성 버튼 클릭
 5. `test-topic` 토픽 생성 확인
@@ -90,7 +90,7 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 활용하여 �
 
 ## 3. REST API를 활용한 메시지 송수신
 
-1. `traffic-generator-1` 터미널에서 `test-topic`으로 메세지를 전송하는 스크립트 실행
+1. `traffic-generator-1` 터미널에서 `test-topic`으로 메시지를 전송하는 스크립트 실행
    - **Note**: [`pub_sub_publisher.py`](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day1/Lab01/pubsub/pub_sub_publisher.py)
     #### **lab1-3-1**
     
@@ -98,7 +98,7 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 활용하여 �
     python3 pub_sub_publisher.py
     ```
 
-2. 송신할 메세지 입력
+2. 송신할 메시지 입력
         
     #### **lab1-3-2**
     - **Note**: 아래 값은 하나의 예시이며 다른 값도 입력 가능합니다.
@@ -138,7 +138,7 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 활용하여 �
     http://{ALB Public IP 주소}/push-messages
     ```
         
-8. `test-topic`에 게시된 메세지를 `test-push-sub` 서브스크립션을 통해 `api-server-vm`으로 송신된 메세지 확인
+8. `test-topic`에 게시된 메시지를 `test-push-sub` 서브스크립션을 통해 `api-server-vm`으로 송신된 메시지 확인
    
     ![image](https://github.com/user-attachments/assets/8dd35cf9-7eee-4b41-8e50-6f79c6ac2635)
 
@@ -154,7 +154,7 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 활용하여 �
     cd /home/ubuntu/DataAnalyzeCourse/src/day1/Lab01/go/
     ```
         
-2. 메세지를 발행하는 publisher 실행 파일 생성
+2. 메시지를 발행하는 publisher 실행 파일 생성
    - **Note**: [`go_publisher.go`](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day1/Lab01/go/go_publisher.go)
     #### **lab1-4-2**
     
@@ -170,7 +170,7 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 활용하여 �
     ./publisher
     ```
 
-4. 송신할 메세지를 입력 후 `Enter`
+4. 송신할 메시지를 입력 후 `Enter`
 
     #### **lab1-4-4**
     - **Note**: 아래 값은 하나의 예시이며 다른 값도 입력 가능합니다.
@@ -190,7 +190,7 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 활용하여 �
     cd /home/ubuntu/DataAnalyzeCourse/src/day1/Lab01/go/
     ```
         
-7. 메세지를 수신하는 subscriber 실행 파일 생성
+7. 메시지를 수신하는 subscriber 실행 파일 생성
    - **Note**: [`go_subscriber.go`](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day1/Lab01/go/go_subscriber.go)
 
     #### **lab1-4-7**
@@ -239,6 +239,6 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 활용하여 �
     ![그림1](https://github.com/user-attachments/assets/18a43d5b-61c5-4812-b2eb-3788357c2890)
 
 4. 카카오 클라우드 콘솔 > Beyond Storage Service > Object Storage > 일반 버킷
-    - 쌓인 로그를 확인하기 위한 `pubsub-log-bucket` 버킷 클릭
-        - 현재 연도/월/일/시 디렉터리로 이동하여 생성된 NGINX 로그 확인
+5. `pubsub-log-bucket` 버킷 클릭
+6. 현재 연도/월/일/시 디렉터리로 이동하여 생성된 NGINX 로그 확인
    ![16](https://github.com/user-attachments/assets/50308a92-97e5-4325-b620-5ceb457ddd37)
