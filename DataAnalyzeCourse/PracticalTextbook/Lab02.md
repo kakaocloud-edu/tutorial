@@ -223,7 +223,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
 
 12. `ctrl` + `c`로 종료
 
-13. `traffic-generator-1`에서 `consol-topic`으로 메세지를 전송하기 위한 producer 스크립트 실행
+13. traffic-generator-1에서 consol-topic으로 메세지 전송
 
     #### **lab2-4-13**
         
