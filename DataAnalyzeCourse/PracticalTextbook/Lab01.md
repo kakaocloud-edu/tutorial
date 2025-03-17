@@ -18,7 +18,8 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 활용하여 �
         - 설명: `없음`
     - 생성 버튼 클릭
 5. `test-topic` 토픽 생성 확인
-![1](https://github.com/user-attachments/assets/4203487a-2ac8-46d2-9903-ab927b6b5809)
+![image](https://github.com/user-attachments/assets/2ed934ad-5c32-4b5c-9650-c948a86daef5)
+
 
 6. 서브스크립션 탭 클릭
 
