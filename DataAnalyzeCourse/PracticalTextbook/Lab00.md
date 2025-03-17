@@ -23,17 +23,17 @@
   ![image](https://github.com/user-attachments/assets/bbe5ed2a-33e1-455a-9faf-aa90938a6b66)
 1. 카카오 클라우드 콘솔 > Beyond Storage Service > Object Storage > 일반 버킷  
 2. 버킷 생성 버튼 클릭  
-3. Nginx Log 수집용 버킷 (Pub/Sub 연동)  
-   - 이름: `pubsub-log-bucket`  
+3. Pub/Sub과 연동할 NGINX 로그 수집용 버킷 생성
+   - 이름: `pubsub-log-bucket`
    - 암호화: `미사용`  
    - 생성 버튼 클릭  
-   - **Note**: 왼쪽의 일반 버킷 눌러 Object Storage 메인 화면으로 이동  
-4. Data Catalog의 데이터 저장용 버킷  
+4. `pubsub-log-bucket` 버킷 생성 확인
+5. 좌측 일반 버킷 탭 클릭 후 버킷 생성 버튼 클릭  
+6.  Data Catalog의 데이터 저장용 버킷 생성
    - 이름: `data-catalog-bucket`  
    - 암호화: `미사용`  
    - 생성 버튼 클릭  
-5. Object Storage 버킷 생성 확인  
-   - **Note**: 왼쪽의 일반 버킷 눌러 Object Storage 메인 화면으로 이동
+7. `data-catalog-bucket` 버킷 생성 확인
 
 ## 3. MySQL 생성 (7분)
 1. 카카오 클라우드 콘솔 > Data Store > MySQL > Instance Group  
