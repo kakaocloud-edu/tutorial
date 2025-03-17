@@ -29,7 +29,7 @@
    - 생성 버튼 클릭  
 4. `pubsub-log-bucket` 버킷 생성 확인
 5. 좌측 일반 버킷 탭 클릭 후 버킷 생성 버튼 클릭  
-6.  Data Catalog의 데이터 저장용 버킷 생성
+6. Data Catalog의 데이터 저장용 버킷 생성
    - 이름: `data-catalog-bucket`  
    - 암호화: `미사용`  
    - 생성 버튼 클릭  
