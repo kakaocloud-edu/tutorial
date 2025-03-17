@@ -82,7 +82,7 @@
    - 유형 선택: `Application Load Balancer`  
    - 기본 정보  
      - 로드 밸런서 이름: `api-lb`  
-     - 로드 밸런서 설명: `없음`  
+     - 로드 밸런서 설명: `빈 칸`  
    - 네트워크  
      - VPC: `kc-vpc`  
      - 서브넷: `kr-central-2-a의 Public 서브넷`  
