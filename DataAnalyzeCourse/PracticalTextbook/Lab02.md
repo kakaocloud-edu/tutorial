@@ -352,21 +352,15 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     ```bash
     python3 kafka_subscriber.py
     ```
-
-6. `Ctrl`+`c` 키를 입력하여 종료
-
     ![Image](https://github.com/user-attachments/assets/50dba0ea-868e-4730-b0ec-15aab3578609)
 
-7. `traffic-generator-2`에서 오프셋 3부터 메시지 소비 시작 및 오프셋 4에서 커밋 옵션을 추가하여 메세지 수신
+6. `traffic-generator-2`에서 오프셋 3부터 메시지 소비 시작 및 오프셋 4에서 커밋 옵션을 추가하여 메세지 수신
 
-    #### **lab2-5-7**
+    #### **lab2-5-6**
 
     ```bash
     python3 kafka_subscriber.py --start-offset 3 --commit-threshold 4
     ```
-
-8. `Ctrl`+`c` 키를 입력하여 종료
-
     ![Image](https://github.com/user-attachments/assets/7ffe09d3-efc2-4f01-9827-3d760f8fb452)
 
 ## 6. Logstash와 콘솔을 활용한 Nginx 로그 수신 확인
