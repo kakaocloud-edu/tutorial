@@ -154,7 +154,7 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 활용하여 �
     cd /home/ubuntu/DataAnalyzeCourse/src/day1/Lab01/go/
     ```
         
-2. 메세지를 발행하는 Publisher 실행 파일 생성
+2. 메세지를 발행하는 publisher 실행 파일 생성
    - **Note**: [`go_publisher.go`](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day1/Lab01/go/go_publisher.go)
     #### **lab1-4-2**
     
@@ -162,7 +162,7 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 활용하여 �
     go build -o publisher config.go go_publisher.go
     ```
         
-3. `test-topic`으로 메시지 송신하는 Publisher 실행 파일 실행
+3. `test-topic`으로 메시지 송신하는 publisher 실행 파일 실행
     
     #### **lab1-4-3**
         
@@ -180,7 +180,7 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 활용하여 �
     ```
       ![스크린샷 2025-03-15 141538](https://github.com/user-attachments/assets/55fdb394-75e1-4c1e-b3b1-154ef794c0a9)
 
-5. `Ctrl` + `c`로 Publisher 실행 파일 종료
+5. `Ctrl` + `c`로 publisher 실행 파일 종료
 
 6. `traffic-generator-2` 터미널에서 GO 실습 디렉토리로 이동
         
@@ -190,7 +190,7 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 활용하여 �
     cd /home/ubuntu/DataAnalyzeCourse/src/day1/Lab01/go/
     ```
         
-7. 메세지를 수신하는 Subscriber 실행 파일 생성
+7. 메세지를 수신하는 subscriber 실행 파일 생성
    - **Note**: [`go_subscriber.go`](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day1/Lab01/go/go_subscriber.go)
 
     #### **lab1-4-7**
@@ -199,7 +199,7 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 활용하여 �
     go build -o subscriber config.go go_subscriber.go
     ```
         
-8. Subscriber 실행 파일을 실행하여 `test-topic`의 메시지를 `test-pull-sub`서브스크립션을 통해 `traffic-generator-2`에서 수신
+8. subscriber 실행 파일을 실행하여 `test-topic`의 메시지를 `test-pull-sub`서브스크립션을 통해 `traffic-generator-2`에서 수신
         
     #### **lab1-4-8**
         
@@ -208,7 +208,7 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 활용하여 �
     ```
    ![11](https://github.com/user-attachments/assets/7051f257-485b-49a7-bd24-301824d72542)
 
-9. `Ctrl` + `c`로 Subscriber 실행 파일 종료
+9. `Ctrl` + `c`로 subscriber 실행 파일 종료
 
 
 ## 5. Object Storage에 NGINX 로그 적재
