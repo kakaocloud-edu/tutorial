@@ -181,7 +181,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     cd /opt/kafka
     ```
     
-7. `traffic-generator-2`에서 `consumer-group-earliest` 그룹으로 `consol-topic`의 메시지를 수신하기 위해 consumer 스크립트에 `earlist` 옵션을 추가하여 실행
+7. `traffic-generator-2`에서 `consumer-group-earliest` 그룹으로 `consol-topic`의 메시지를 `earlist` 옵션으로 메시지 수신
     
     #### **lab2-4-7**
         
@@ -196,7 +196,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
 8. `ctrl` + `c`로 종료
 
 
-9. `traffic-generator-2`에서 `consumer-group-earliest-notcommit` 그룹으로 `consol-topic`의 메시지를 수신하기 위해 consumer 스크립트에 `earlist` 옵션과 `not commit` 옵션을 추가하여 실행
+9. `traffic-generator-2`에서 `consumer-group-earliest-notcommit` 그룹으로 `consol-topic`의 메시지를 `earlist` 옵션과 `not commit` 옵션으로 메세지 수신
 
     #### **lab2-4-9**
         
@@ -210,7 +210,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
 
 10. `ctrl` + `c`로 종료
 
-11. `traffic-generator-2`에서 `consumer-group-latest` 그룹으로 `consol-topic`의 메시지를 수신하기 위해 consumer 스크립트에 `latest` 옵션을 추가하여 실행
+11. `traffic-generator-2`에서 `consumer-group-latest` 그룹으로 `consol-topic`의 메시지를 `latest` 옵션으로 메세지 수신
 
     #### **lab2-4-11**
 
@@ -253,7 +253,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
 15. 송신되는 시간 5초 대기 후 `ctrl` + `c`로 종료
 
 
-16. `traffic-generator-2`에서 `consumer-group-earliest` 그룹으로 `consol-topic`의 메시지를 수신하기 위해 consumer 스크립트에 `earlist` 옵션을 추가하여 실행
+16. `traffic-generator-2`에서 `consumer-group-earliest` 그룹으로 `consol-topic`의 메시지를 `earlist` 옵션으로 메시지 수신
     
     #### **lab2-4-16**
         
@@ -267,7 +267,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
 
 17. `ctrl` + `c`로 종료
 
-18. `traffic-generator-2`에서 `consumer-group-earliest-notcommit` 그룹으로 `consol-topic`의 메시지를 수신하기 위해 consumer 스크립트에 `earlist` 옵션과 `not commit` 옵션을 추가하여 실행
+18. `traffic-generator-2`에서 `consumer-group-earliest-notcommit` 그룹으로 `consol-topic`의 메시지를 `earlist` 옵션과 `not commit` 옵션으로 메세지 수신
 
     #### **lab2-4-18**
         
@@ -283,7 +283,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
 19. `ctrl` + `c`로 종료
 
 
-20. `traffic-generator-2`에서 `consumer-group-latest` 그룹으로 `consol-topic`의 메시지를 수신하기 위해 consumer 스크립트에 `latest` 옵션을 추가하여 실행
+20. `traffic-generator-2`에서 `consumer-group-latest` 그룹으로 `consol-topic`의 메시지를 `latest` 옵션으로 메세지 수신
 
     #### **lab2-4-20**
 
