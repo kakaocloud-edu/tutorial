@@ -372,7 +372,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     cd /opt/kafka
     ```
     
-2. `trarffic-generator-1`에서 nginx을 이용하여 메세지를 받을 `nginx-topic` 생성
+2. `traffic-generator-1`에서 nginx을 이용하여 메세지를 받을 `nginx-topic` 생성
     #### **lab2-6-2**
         
     ```bash
@@ -389,7 +389,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     cd /opt/kafka
     ```
 
-4. `trarffic-generator-2`에서 `nginx-topic`의 메세지를 수신하기 위해 consumer 스크립트 실행
+4. `traffic-generator-2`에서 `nginx-topic`의 메세지를 수신하기 위해 consumer 스크립트 실행
 
     #### **lab2-6-4**
     
