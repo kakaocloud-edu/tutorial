@@ -138,7 +138,7 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 활용하여 �
     http://{ALB Public IP 주소}/push-messages
     ```
         
-8. `test-topic`에 게시된 메세지를 `test-push-sub` 서브스크립션을 통해 `api-server-vm`으로 송신된 메세지를 확인
+8. `test-topic`에 게시된 메세지를 `test-push-sub` 서브스크립션을 통해 `api-server-vm`으로 송신된 메세지 확인
    
     ![image](https://github.com/user-attachments/assets/8dd35cf9-7eee-4b41-8e50-6f79c6ac2635)
 
