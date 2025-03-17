@@ -75,7 +75,7 @@
      - **Note**: 사용자 액세스 키 만들기 팝업창을 닫은 이후 사용자 액세스 보안 키 정보 다시 조회 불가  
    - 확인 버튼 클릭
 
-## 5. 로드 밸런서(ALB) 생성 (18분)
+## 5. 로드 밸런서 생성 (18분)
 1. 카카오 클라우드 콘솔 > Beyond Networking Service > Load Balancing > 로드 밸런서  
 2. 로드 밸런서 생성 버튼 클릭  
    - 유형 선택: `Application Load Balancer`  
