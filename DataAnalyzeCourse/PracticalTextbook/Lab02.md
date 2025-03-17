@@ -409,7 +409,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
 6. `trarffic-generator-2`의 터미널에서 NGINX 로그 확인
     ![nginx로그 consume](https://github.com/user-attachments/assets/c2dc790e-d249-41bb-965a-de8a0fc48038)
 
-7. `Ctrl`+`c` 키를 입력하여 종료
+7. `ctrl`+`c` 키를 입력하여 종료
 
 
 ## 7. S3 액세스 키 발급
