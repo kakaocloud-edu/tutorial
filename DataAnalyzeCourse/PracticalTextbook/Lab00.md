@@ -105,6 +105,7 @@
       - 입력할 보안 액세스 키: 위에서 생성한 `보안 엑세스 키` 입력  
    - 적용 클릭
 
+
 ## 6. 사용자 리소스 정보 조회
 1. 카카오 클라우드 콘솔 > Data Store > MySQL > Instance Group
 2. `database` Instance Group 클릭
@@ -115,6 +116,132 @@
 5. 우측 상단 계정 프로필 > 계정 정보 > 비밀번호 확인
 6. 우측 하단 `조직 ID` 복사 후 클립보드 등에 붙여넣기  
    ![조직 ID](https://github.com/user-attachments/assets/16382315-5f49-4ee7-86bd-c724c3fe39e0)
+
+
+## 7. Traffic Generator VM 생성 (7분)
+1. 카카오 클라우드 콘솔 > Beyond Compute Service > Virtual Machine > 인스턴스  
+2. 인스턴스 생성 버튼 클릭  
+   - 기본 정보  
+     - 이름: `trarffic-generator`  
+     - 개수: `2`  
+   - 이미지: `Ubuntu 22.04`  
+   - 인스턴스유형: `m2a.xlarge`  
+   - 볼륨: `30GB`  
+   - 키 페어: 위에서 생성한 `keypair` 선택  
+   - 네트워크  
+     - VPC: `kc-vpc`  
+     - 서브넷: `kr-central-2-a의 Public 서브넷`  
+     - 유형: `새 인터페이스`  
+     - IP 할당 방식: `자동`  
+     - 보안 그룹  
+       - `보안 그룹 생성` 버튼 클릭  
+         - 보안 그룹 이름: `tg-sg`  
+           - 인바운드 규칙  
+             - 프로토콜: `TCP`, 출발지: `0.0.0.0/0`, 포트 번호: `22`  
+             - 프로토콜: `TCP`, 출발지: `0.0.0.0/0`, 포트 번호: `9092`  
+           - 아웃바운드 규칙  
+             - 프로토콜: `ALL`, 출발지: `0.0.0.0/0`, 포트 번호: `ALL`  
+   - 고급 설정  
+     - 사용자 스크립트: [`tg_vm_init.sh`](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day1/Lab00/traffic_generator/tg_vm_init.sh)의 쌍따옴표(“”) 사이에 자신의 리소스 값 입력  
+       - **Note**: 스크립트에 대한 자세한 내용은  
+         - [tg_full_setup.sh](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day1/Lab00/traffic_generator/tg_full_setup.sh)  
+         - [config.yml](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day1/Lab00/traffic_generator/config.yml)  
+         - [config.py](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day1/Lab00/traffic_generator/config.py)
+       ```bash
+       #!/bin/bash
+       # tg_vm_init.sh
+       set -e  # 오류 발생 시 스크립트 종료
+       
+       echo "kakaocloud: 1.환경 변수 설정 시작"
+       # 환경 변수 정의
+       command=$(cat <<EOF
+       # 프로젝트 및 인증 정보
+       export DOMAIN_ID="{조직 ID}"
+       export PROJECT_ID="{프로젝트 ID}"
+       export CREDENTIAL_ID="{액세스 키 ID}"
+       export CREDENTIAL_SECRET="{보안 액세스 키}"
+       
+       # 생성한 리소스의 값
+       export API_BASE_URL="{ALB의 Public IP}"
+       export TOPIC_NAME="test-topic"
+       export SUB_NAME="test-pull-sub"
+       
+       # 생성할 Pub/Sub 리소스 정보
+       export TOPIC_NAME_MK="log-topic"
+       export OBJECT_STORAGE_SUBSCRIPTION_NAME="log-obj-sub"
+       export OBJECT_STORAGE_BUCKET="pubsub-log-bucket"
+       export PUBSUB_ENDPOINT="https://pub-sub.kr-central-2.kakaocloud.com"
+       
+       # Kafka 실행에 필요한 경로 및 정보
+       export KAFKA_HOME=/opt/kafka
+       export PATH=$PATH:$KAFKA_HOME/bin
+       EOF
+       )
+       
+       # 환경 변수 적용
+       eval "$command"
+       echo "$command" >> /home/ubuntu/.bashrc
+       
+       echo "kakaocloud: 2.스크립트 다운로드 사이트 유효성 검사 시작"
+       curl --output /dev/null --silent --head --fail "https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day1/Lab00/traffic_generator/tg_full_setup.sh" || { echo "kakaocloud: Script download site is not valid"; exit 1; }
+       
+       wget https://raw.githubusercontent.com/kakaocloud-edu/tutorial/main/DataAnalyzeCourse/src/day1/Lab00/traffic_generator/tg_full_setup.sh
+       chmod +x tg_full_setup.sh
+       sudo -E ./tg_full_setup.sh
+       ```
+     - CPU 멀티스레딩: `활성화`  
+   - 생성 버튼 클릭  
+3. `traffic-generator-1`, `traffic-generator-2` 상태 Actice 확인 후 각 인스턴스의 우측 메뉴바 > `Public IP 연결` 클릭  
+   - `새로운 퍼블릭 IP를 생성하고 자동으로 할당`  
+   - 확인 버튼 클릭  
+4. `traffic-generator-1`, `traffic-generator-2` 각 인스턴스의 우측 메뉴바 > `SSH 연결` 클릭  
+   - SSH 접속 명령어 복사  
+   - 터미널 열기  
+   - keypair를 다운받아놓은 폴더로 이동 후 터미널에 명령어 붙여넣기 및 **yes** 입력  
+    #### **lab0-7-4-1**
+    ```bash
+    cd {keypair.pem 다운로드 위치}
+    ```
+    - 리눅스의 경우 아래와 같이 키페어 권한 조정  
+    #### **lab0-7-4-2**
+    ```bash
+    chmod 400 keypair.pem
+    ```
+    #### **lab0-7-4-3**
+    ```bash
+    ssh -i keypair.pem ubuntu@{traffic-generator-1, 2의 public ip주소}
+    ```
+    - **Note**: {traffic-generator-1, 2의 public ip주소} 부분을 복사한 각 IP 주소로 교체  
+    #### **lab0-7-4-4**
+    ```bash
+    yes
+    ```
+5. trarffic-generator 스크립트 적용 확인  
+   - **Note**: 스크립트 적용에 약 7분 소요  
+    #### **lab0-7-5**
+    - **Note**: 터미널 창이 작으면 로그가 안보일 수 있으니 터미널 창 크기 조절  
+    ```bash
+    watch -c 'awk "/kakaocloud:/ {gsub(/([0-9]+)\\./,\"\\033[33m&\\033[0m\"); print}" < /var/log/cloud-init-output.log'
+    ```
+    - 모든 스크립트 완료 시 아래 출력됨:
+    ```
+    kakaocloud: 1.환경 변수 설정 시작
+    kakaocloud: 2.스크립트 다운로드 사이트 유효성 검사 시작
+    kakaocloud: 3. 필수 환경변수 검증 시작
+    kakaocloud: 4. Git 클론 시작
+    kakaocloud: 5. config.yml 파일 생성 시작
+    kakaocloud: 6. Go SDK 설치 및 설정 시작
+    kakaocloud: 7. Pub/Sub SDK 다운로드 및 설치 시작
+    kakaocloud: 8. Pub/Sub SDK 의존성 추가 및 로컬 경로 교체 시작
+    kakaocloud: 9. go mod tidy 실행 시작
+    kakaocloud: 10. Python3 및 pip 설치 시작
+    kakaocloud: 11. Python dependencies (requests, pyyaml) 설치 시작
+    kakaocloud: 12. OpenJDK 21 설치 시작
+    kakaocloud: 13. Apache Kafka 설치 시작
+    kakaocloud: 14. kafka-python 라이브러리 설치 시작
+    kakaocloud: 자동화 완료스크립트 실행 완료!
+    ```
+
 
 ## 7. API Server VM 생성 (3분)
 1. 카카오 클라우드 콘솔 > Beyond Compute Service > Virtual Machine > 인스턴스  
@@ -204,28 +331,28 @@
     cd {keypair.pem 다운로드 위치}
     ```
     - 리눅스의 경우 아래와 같이 키페어 권한 조정  
-    #### **lab0-7-4-2**
+    #### **lab0-8-4-2**
     ```bash
     chmod 400 keypair.pem
     ```
-    #### **lab0-7-4-3**
+    #### **lab0-8-4-3**
     ```bash
     ssh -i keypair.pem ubuntu@{api-server-1의 public ip 주소}
     ```
     - **Note**: {api-server-1의 public ip 주소} 부분을 복사한 각 IP 주소로 교체  
-    #### **lab0-7-4-4**
+    #### **lab0-8-4-4**
     ```bash
     yes
     ```
     - **Note**: 윈도우에서 ssh 접근이 안될 경우, cmd 창에서 keypair.pem가 있는 경로로 이동 후 아래 명령어 실행  
-    #### **lab0-7-4-5**
+    #### **lab0-8-4-5**
     ```bash
     icacls.exe keypair.pem /reset
     icacls.exe keypair.pem /grant:r %username%:(R)
     icacls.exe keypair.pem /inheritance:r
     ```
-5. api server 스크립트 적용 확인  
-    #### **lab0-7-5-1**
+5. API Server 스크립트 적용 확인  
+    #### **lab0-8-5-1**
     - **Note**: 터미널 창이 작으면 로그가 안보일 수 있으니 터미널 창 크기 조절  
     ```bash
     watch -c 'awk "/kakaocloud:/ {gsub(/([0-9]+)\\./,\"\\033[33m&\\033[0m\"); print}" < /var/log/cloud-init-output.log'
@@ -244,130 +371,7 @@
     kakaocloud: 스크립트 적용이 완료되었습니다!
     ```
 
-## 8. Traffic Generator VM 생성 (7분)
-1. 카카오 클라우드 콘솔 > Beyond Compute Service > Virtual Machine > 인스턴스  
-2. 인스턴스 생성 버튼 클릭  
-   - 기본 정보  
-     - 이름: `trarffic-generator`  
-     - 개수: `2`  
-   - 이미지: `Ubuntu 22.04`  
-   - 인스턴스유형: `m2a.xlarge`  
-   - 볼륨: `30GB`  
-   - 키 페어: 위에서 생성한 `keypair` 선택  
-   - 네트워크  
-     - VPC: `kc-vpc`  
-     - 서브넷: `kr-central-2-a의 Public 서브넷`  
-     - 유형: `새 인터페이스`  
-     - IP 할당 방식: `자동`  
-     - 보안 그룹  
-       - `보안 그룹 생성` 버튼 클릭  
-         - 보안 그룹 이름: `tg-sg`  
-           - 인바운드 규칙  
-             - 프로토콜: `TCP`, 출발지: `0.0.0.0/0`, 포트 번호: `22`  
-             - 프로토콜: `TCP`, 출발지: `0.0.0.0/0`, 포트 번호: `9092`  
-           - 아웃바운드 규칙  
-             - 프로토콜: `ALL`, 출발지: `0.0.0.0/0`, 포트 번호: `ALL`  
-   - 고급 설정  
-     - 사용자 스크립트: [`tg_vm_init.sh`](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day1/Lab00/traffic_generator/tg_vm_init.sh)의 쌍따옴표(“”) 사이에 자신의 리소스 값 입력  
-       - **Note**: 스크립트에 대한 자세한 내용은  
-         - [tg_full_setup.sh](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day1/Lab00/traffic_generator/tg_full_setup.sh)  
-         - [config.yml](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day1/Lab00/traffic_generator/config.yml)  
-         - [config.py](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day1/Lab00/traffic_generator/config.py)
-       ```bash
-       #!/bin/bash
-       # tg_vm_init.sh
-       set -e  # 오류 발생 시 스크립트 종료
-       
-       echo "kakaocloud: 1.환경 변수 설정 시작"
-       # 환경 변수 정의
-       command=$(cat <<EOF
-       # 프로젝트 및 인증 정보
-       export DOMAIN_ID="{조직 ID}"
-       export PROJECT_ID="{프로젝트 ID}"
-       export CREDENTIAL_ID="{액세스 키 ID}"
-       export CREDENTIAL_SECRET="{보안 액세스 키}"
-       
-       # 생성한 리소스의 값
-       export API_BASE_URL="{ALB의 Public IP}"
-       export TOPIC_NAME="test-topic"
-       export SUB_NAME="test-pull-sub"
-       
-       # 생성할 Pub/Sub 리소스 정보
-       export TOPIC_NAME_MK="log-topic"
-       export OBJECT_STORAGE_SUBSCRIPTION_NAME="log-obj-sub"
-       export OBJECT_STORAGE_BUCKET="pubsub-log-bucket"
-       export PUBSUB_ENDPOINT="https://pub-sub.kr-central-2.kakaocloud.com"
-       
-       # Kafka 실행에 필요한 경로 및 정보
-       export KAFKA_HOME=/opt/kafka
-       export PATH=$PATH:$KAFKA_HOME/bin
-       EOF
-       )
-       
-       # 환경 변수 적용
-       eval "$command"
-       echo "$command" >> /home/ubuntu/.bashrc
-       
-       echo "kakaocloud: 2.스크립트 다운로드 사이트 유효성 검사 시작"
-       curl --output /dev/null --silent --head --fail "https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day1/Lab00/traffic_generator/tg_full_setup.sh" || { echo "kakaocloud: Script download site is not valid"; exit 1; }
-       
-       wget https://raw.githubusercontent.com/kakaocloud-edu/tutorial/main/DataAnalyzeCourse/src/day1/Lab00/traffic_generator/tg_full_setup.sh
-       chmod +x tg_full_setup.sh
-       sudo -E ./tg_full_setup.sh
-       ```
-     - CPU 멀티스레딩: `활성화`  
-   - 생성 버튼 클릭  
-3. `traffic-generator-1`, `traffic-generator-2` 상태 Actice 확인 후 각 인스턴스의 우측 메뉴바 > `Public IP 연결` 클릭  
-   - `새로운 퍼블릭 IP를 생성하고 자동으로 할당`  
-   - 확인 버튼 클릭  
-4. `traffic-generator-1`, `traffic-generator-2` 각 인스턴스의 우측 메뉴바 > `SSH 연결` 클릭  
-   - SSH 접속 명령어 복사  
-   - 터미널 열기  
-   - keypair를 다운받아놓은 폴더로 이동 후 터미널에 명령어 붙여넣기 및 **yes** 입력  
-    #### **lab0-8-4-1**
-    ```bash
-    cd {keypair.pem 다운로드 위치}
-    ```
-    - 리눅스의 경우 아래와 같이 키페어 권한 조정  
-    #### **lab0-8-4-2**
-    ```bash
-    chmod 400 keypair.pem
-    ```
-    #### **lab0-8-4-3**
-    ```bash
-    ssh -i keypair.pem ubuntu@{traffic-generator-1, 2의 public ip주소}
-    ```
-    - **Note**: {traffic-generator-1, 2의 public ip주소} 부분을 복사한 각 IP 주소로 교체  
-    #### **lab0-8-4-4**
-    ```bash
-    yes
-    ```
-5. trarffic-generator 스크립트 적용 확인  
-   - **Note**: 스크립트 적용에 약 7분 소요  
-    #### **lab0-8-5**
-    - **Note**: 터미널 창이 작으면 로그가 안보일 수 있으니 터미널 창 크기 조절  
-    ```bash
-    watch -c 'awk "/kakaocloud:/ {gsub(/([0-9]+)\\./,\"\\033[33m&\\033[0m\"); print}" < /var/log/cloud-init-output.log'
-    ```
-    - 모든 스크립트 완료 시 아래 출력됨:
-    ```
-    kakaocloud: 1.환경 변수 설정 시작
-    kakaocloud: 2.스크립트 다운로드 사이트 유효성 검사 시작
-    kakaocloud: 3. 필수 환경변수 검증 시작
-    kakaocloud: 4. Git 클론 시작
-    kakaocloud: 5. config.yml 파일 생성 시작
-    kakaocloud: 6. Go SDK 설치 및 설정 시작
-    kakaocloud: 7. Pub/Sub SDK 다운로드 및 설치 시작
-    kakaocloud: 8. Pub/Sub SDK 의존성 추가 및 로컬 경로 교체 시작
-    kakaocloud: 9. go mod tidy 실행 시작
-    kakaocloud: 10. Python3 및 pip 설치 시작
-    kakaocloud: 11. Python dependencies (requests, pyyaml) 설치 시작
-    kakaocloud: 12. OpenJDK 21 설치 시작
-    kakaocloud: 13. Apache Kafka 설치 시작
-    kakaocloud: 14. kafka-python 라이브러리 설치 시작
-    kakaocloud: 자동화 완료스크립트 실행 완료!
-    ```
-
+    
 ## 9. 로드 밸런서 대상 그룹 생성 (15분)
 1. 카카오 클라우드 콘솔 > Beyond Networking Service > Load Balancing > 대상 그룹  
 2. 대상 그룹 생성 버튼 클릭  
