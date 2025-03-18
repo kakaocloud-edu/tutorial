@@ -152,6 +152,7 @@
          - [tg_full_setup.sh](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day1/Lab00/traffic_generator/tg_full_setup.sh)  
          - [config.yml](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day1/Lab00/traffic_generator/config.yml)  
          - [config.py](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day1/Lab00/traffic_generator/config.py)
+       - #### **lab0-7-2**
        ```bash
        #!/bin/bash
        # tg_vm_init.sh
@@ -283,7 +284,8 @@
          - [setup_db.sh](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day1/Lab00/api_server/setup_db.sh)  
          - [filebeat.yml](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day1/Lab00/api_server/filebeat.yml)  
          - [logs-to-pubsub.conf](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day1/Lab00/api_server/logs-to-pubsub.conf)  
-         - [logs-to-kafka.conf](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day1/Lab00/api_server/logs-to-kafka.conf)  
+         - [logs-to-kafka.conf](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day1/Lab00/api_server/logs-to-kafka.conf)
+       #### **lab0-8-2**
        ```bash
        #!/bin/bash
        # api_vm_init.sh
@@ -326,7 +328,7 @@
    - SSH 접속 명령어 복사  
    - 터미널 열기  
    - keypair를 다운받아놓은 폴더로 이동 후 터미널에 명령어 붙여넣기 및 **yes** 입력  
-    #### **lab0-7-4-1**
+    #### **lab0-8-4-1**
     ```bash
     cd {keypair.pem 다운로드 위치}
     ```
