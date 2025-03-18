@@ -107,7 +107,7 @@
 
 ## 6. 사용자 리소스 정보 조회
 1. 카카오 클라우드 콘솔 > Data Store > MySQL > Instance Group
-2. `database` 클릭
+2. `database` Instance Group 클릭
 3. 우측 상단의 `엔드포인트` 복사 후 클립보드 등에 붙여넣기  
    ![스크린샷](https://github.com/user-attachments/assets/c5e2e829-02f1-41dc-9932-e14efddfca1c)  
 4. 좌측 상단 카카오 클라우드 로고 클릭
