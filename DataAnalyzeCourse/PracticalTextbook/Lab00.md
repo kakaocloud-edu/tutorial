@@ -243,7 +243,7 @@
     ```
 
 
-## 7. API Server VM 생성 (3분)
+## 8. API Server VM 생성 (3분)
 1. 카카오 클라우드 콘솔 > Beyond Compute Service > Virtual Machine > 인스턴스  
 2. 인스턴스 생성 버튼 클릭  
    - 기본 정보  
