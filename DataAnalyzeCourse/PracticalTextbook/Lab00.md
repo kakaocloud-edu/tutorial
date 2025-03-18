@@ -197,11 +197,12 @@
        ```
      - CPU 멀티스레딩: `활성화`  
    - 생성 버튼 클릭  
-3. `traffic-generator-1`, `traffic-generator-2` Public IP 연결
-   - `traffic-generator-1`, `traffic-generator-2` 상태 Actice 확인 후 각 인스턴스의 우측 메뉴바 > `Public IP 연결` 클릭  
+3. `traffic-generator-1`, `traffic-generator-2` 상태 Actice 확인 후 Public IP 연결
+   - 각 인스턴스의 우측 메뉴바 > `Public IP 연결` 클릭  
    - `새로운 퍼블릭 IP를 생성하고 자동으로 할당`  
    - 확인 버튼 클릭  
-4. `traffic-generator-1`, `traffic-generator-2` 각 인스턴스의 우측 메뉴바 > `SSH 연결` 클릭  
+4. `traffic-generator-1`, `traffic-generator-2` 인스턴스 SSH 접속
+   - `traffic-generator-1`, `traffic-generator-2` 각 인스턴스의 우측 메뉴바 > `SSH 연결` 클릭  
    - SSH 접속 명령어 복사  
    - 터미널 열기  
    - keypair를 다운받아놓은 폴더로 이동 후 터미널에 명령어 붙여넣기 및 **yes** 입력  
@@ -322,11 +323,12 @@
        echo "kakaocloud: 스크립트 적용이 완료되었습니다!"
        ```
      - CPU 멀티스레딩: `활성화`  
-3. `api-server-1`, `api-server-2` Public IP 연결
-   - `api-server-1`, `api-server-2` 상태 Actice 확인 후 각 인스턴스의 우측 메뉴바 > `Public IP 연결` 클릭  
+3. `api-server-1`, `api-server-2` 상태 Actice 확인 후 Public IP 연결
+   - 각 인스턴스의 우측 메뉴바 > `Public IP 연결` 클릭  
    - `새로운 퍼블릭 IP를 생성하고 자동으로 할당`  
    - 확인 버튼 클릭  
-4. `api-server-1`, `api-server-2` 인스턴스의 우측 메뉴바 > `SSH 연결` 클릭  
+4. `api-server-1`, `api-server-2` 인스턴스 SSH 접속
+   - `api-server-1`, `api-server-2` 각 인스턴스의 우측 메뉴바 > `SSH 연결` 클릭  
    - SSH 접속 명령어 복사  
    - 터미널 열기  
    - keypair를 다운받아놓은 폴더로 이동 후 터미널에 명령어 붙여넣기 및 **yes** 입력  
