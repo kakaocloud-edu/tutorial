@@ -127,7 +127,12 @@
    - 이미지: `Ubuntu 22.04`  
    - 인스턴스유형: `m2a.xlarge`  
    - 볼륨: `30GB`  
-   - 키 페어: 위에서 생성한 `keypair` 선택  
+   - 키 페어: `키 페어 생성` 클릭  
+     - 생성 방법: `신규 키 페어 생성하기`  
+     - 이름: `keypair`  
+     - 유형 설정: `SSH`  
+     - 생성 버튼 클릭  
+     - **Note**: 다운로드 된 private key(e.g. keypair.pem)의 경로 기억하기
    - 네트워크  
      - VPC: `kc-vpc`  
      - 서브넷: `kr-central-2-a의 Public 서브넷`  
@@ -252,12 +257,7 @@
    - 이미지: `Ubuntu 22.04`  
    - 인스턴스유형: `m2a.large`  
    - 볼륨: `10GB`  
-   - 키 페어: `키 페어 생성` 클릭  
-     - 생성 방법: `신규 키 페어 생성하기`  
-     - 이름: `keypair`  
-     - 유형 설정: `SSH`  
-     - 생성 버튼 클릭  
-     - **Note**: 다운로드 된 private key(e.g. keypair.pem)의 경로 기억하기  
+   - 키 페어: 위에서 생성한 `keypair` 선택  
    - 네트워크  
      - VPC: `kc-vpc`  
      - 서브넷: `kr-central-2-a의 Public 서브넷`  
