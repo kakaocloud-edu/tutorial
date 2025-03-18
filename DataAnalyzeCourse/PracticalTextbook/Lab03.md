@@ -24,7 +24,8 @@ Data Catalog와 Pub/Sub, Object Storage를 연동해 테이블 생성 및 이벤
 ![제목 없음](https://github.com/user-attachments/assets/2588f095-9da9-44bd-89a8-a85d30a20f3e)
 
 1. 카카오 클라우드 콘솔 > Analytics > Pub/Sub
-2. 토픽 생성 버튼 클릭
+2. `data-catalog-topic` 토픽 생성
+      - 토픽 생성 버튼 클릭
       - 이름: `data-catalog-topic`
       - 기본 서브스크립션: `생성 안함`
       - 토픽 메세지 보존 기간: `0일 0시 10분`
