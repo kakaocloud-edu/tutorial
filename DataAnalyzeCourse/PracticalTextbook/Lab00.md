@@ -197,7 +197,8 @@
        ```
      - CPU 멀티스레딩: `활성화`  
    - 생성 버튼 클릭  
-3. `traffic-generator-1`, `traffic-generator-2` 상태 Actice 확인 후 각 인스턴스의 우측 메뉴바 > `Public IP 연결` 클릭  
+3. `traffic-generator-1`, `traffic-generator-2` Public IP 연결
+   - `traffic-generator-1`, `traffic-generator-2` 상태 Actice 확인 후 각 인스턴스의 우측 메뉴바 > `Public IP 연결` 클릭  
    - `새로운 퍼블릭 IP를 생성하고 자동으로 할당`  
    - 확인 버튼 클릭  
 4. `traffic-generator-1`, `traffic-generator-2` 각 인스턴스의 우측 메뉴바 > `SSH 연결` 클릭  
@@ -321,7 +322,8 @@
        echo "kakaocloud: 스크립트 적용이 완료되었습니다!"
        ```
      - CPU 멀티스레딩: `활성화`  
-3. `api-server-1`, `api-server-2` 상태 Actice 확인 후 각 인스턴스의 우측 메뉴바 > `Public IP 연결` 클릭  
+3. `api-server-1`, `api-server-2` Public IP 연결
+   - `api-server-1`, `api-server-2` 상태 Actice 확인 후 각 인스턴스의 우측 메뉴바 > `Public IP 연결` 클릭  
    - `새로운 퍼블릭 IP를 생성하고 자동으로 할당`  
    - 확인 버튼 클릭  
 4. `api-server-1`, `api-server-2` 인스턴스의 우측 메뉴바 > `SSH 연결` 클릭  
