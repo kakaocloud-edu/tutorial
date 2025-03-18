@@ -252,8 +252,7 @@
 
 
 ## 8. API Server VM 생성 (3분)
-1. 카카오 클라우드 콘솔 > Beyond Compute Service > Virtual Machine > 인스턴스  
-2. 인스턴스 생성 버튼 클릭  
+1. 인스턴스 생성 버튼 클릭  
    - 기본 정보  
      - 이름: `api-server`  
      - 개수: `2`  
@@ -323,42 +322,42 @@
        echo "kakaocloud: 스크립트 적용이 완료되었습니다!"
        ```
      - CPU 멀티스레딩: `활성화`  
-3. `api-server-1`, `api-server-2` 상태 Actice 확인 후 Public IP 연결
+2. `api-server-1`, `api-server-2` 상태 Actice 확인 후 Public IP 연결
    - 각 인스턴스의 우측 메뉴바 > `Public IP 연결` 클릭  
    - `새로운 퍼블릭 IP를 생성하고 자동으로 할당`  
    - 확인 버튼 클릭  
-4. `api-server-1`, `api-server-2` 인스턴스 SSH 접속
+3. `api-server-1`, `api-server-2` 인스턴스 SSH 접속
    - `api-server-1`, `api-server-2` 각 인스턴스의 우측 메뉴바 > `SSH 연결` 클릭  
    - SSH 접속 명령어 복사  
    - 터미널 열기  
    - keypair를 다운받아놓은 폴더로 이동 후 터미널에 명령어 붙여넣기 및 **yes** 입력  
-    #### **lab0-8-4-1**
+    #### **lab0-8-3-1**
     ```bash
     cd {keypair.pem 다운로드 위치}
     ```
     - 리눅스의 경우 아래와 같이 키페어 권한 조정  
-    #### **lab0-8-4-2**
+    #### **lab0-8-3-2**
     ```bash
     chmod 400 keypair.pem
     ```
-    #### **lab0-8-4-3**
+    #### **lab0-8-3-3**
     ```bash
     ssh -i keypair.pem ubuntu@{api-server-1의 public ip 주소}
     ```
     - **Note**: {api-server-1의 public ip 주소} 부분을 복사한 각 IP 주소로 교체  
-    #### **lab0-8-4-4**
+    #### **lab0-8-3-4**
     ```bash
     yes
     ```
     - **Note**: 윈도우에서 ssh 접근이 안될 경우, cmd 창에서 keypair.pem가 있는 경로로 이동 후 아래 명령어 실행  
-    #### **lab0-8-4-5**
+    #### **lab0-8-3-5**
     ```bash
     icacls.exe keypair.pem /reset
     icacls.exe keypair.pem /grant:r %username%:(R)
     icacls.exe keypair.pem /inheritance:r
     ```
-5. API Server 스크립트 적용 확인  
-    #### **lab0-8-5-1**
+4. API Server 스크립트 적용 확인  
+    #### **lab0-8-4-1**
     - **Note**: 터미널 창이 작으면 로그가 안보일 수 있으니 터미널 창 크기 조절  
     ```bash
     watch -c 'awk "/kakaocloud:/ {gsub(/([0-9]+)\\./,\"\\033[33m&\\033[0m\"); print}" < /var/log/cloud-init-output.log'
