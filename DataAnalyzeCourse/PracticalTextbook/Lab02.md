@@ -6,7 +6,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
 
 ## 1. Kafka Cluster 생성 (3분)
 
-1. 카카오 클라우드 콘솔 > Analytics > Advanced Managed Kafka > 클러스터
+1. 카카오 클라우드 콘솔 > Analytics > Advanced Managed Kafka
 2. 클러스터 생성 버튼 클릭
     - 기본 설정
         - 클러스터 이름: `kafka`
@@ -440,7 +440,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
 
 ## 8. Kafka Connector VM 생성 (2분)
 
-1. 카카오 클라우드 콘솔 > Beyond Compute Service > Virtual Machine > 인스턴스
+1. 카카오 클라우드 콘솔 > Beyond Compute Service > Virtual Machine
 2. 인스턴스 생성 버튼 클릭
     - 기본 정보
         - 이름: `kafka-connector`
