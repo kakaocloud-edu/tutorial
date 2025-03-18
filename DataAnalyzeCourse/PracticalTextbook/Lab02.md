@@ -633,7 +633,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     ![Image](https://github.com/user-attachments/assets/88fa4485-7919-4df1-aa42-9183b81f0df7)
 
 12. Object Storage 버킷 내 NGINX 로그 적재 확인
-13. 카카오 클라우드 콘솔 > Beyond Storage Service > Object Storage > 일반 버킷
+13. 카카오 클라우드 콘솔 > Beyond Storage Service > Object Storage
 14. `data-catalog-bucket` 클릭
 15. `/kafka-nginx-log/nginx-topic/partition_0/year_{현재 연도}/month_{현재 월}/day_{현재 일}/hour_{현재 시}` 디렉터리로 이동
 16. 버킷 내 적재된 NGINX 로그 적재 확인
