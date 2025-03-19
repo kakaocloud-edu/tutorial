@@ -15,7 +15,7 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 활용하여 �
         - 이름: `test-topic`
         - 기본 서브스크립션: `생성 안함`
         - 토픽 메시지 보존 기간: `0일 0시 10분`
-        - 설명: `없음`
+        - 설명: `빈 칸`
     - 생성 버튼 클릭
 5. `test-topic` 토픽 생성 확인
 ![image](https://github.com/user-attachments/assets/2ed934ad-5c32-4b5c-9650-c948a86daef5)
