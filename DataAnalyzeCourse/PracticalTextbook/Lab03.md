@@ -109,7 +109,7 @@ Data Catalog와 Pub/Sub, Object Storage를 연동해 테이블 생성 및 이벤
 
 
 ## 6. Data Catalog 테이블 이벤트 메시지 수신
-1. `traffic-generator-2`에서 Data Catalog 실습용 디렉터리로 이동
+1. `traffic-generator-2` 터미널에서 Data Catalog 실습 디렉터리로 이동
 
       #### lab3-6-1
       
@@ -126,7 +126,7 @@ Data Catalog와 Pub/Sub, Object Storage를 연동해 테이블 생성 및 이벤
       python3 data_catalog_subscribe.py
       ```
 
-3. `kafka_log_table` 테이블 클릭
+3. 콘솔에서 `kafka_log_table` 테이블 클릭
 4. 테이블 속성 탭 클릭 후 테이블 속성 추가하기 버튼 클릭
       - Key: `test_key`
       - Value: `test_value`
