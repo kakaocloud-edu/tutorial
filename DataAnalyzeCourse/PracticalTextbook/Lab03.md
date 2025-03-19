@@ -127,21 +127,25 @@ Data Catalog와 Pub/Sub, Object Storage를 연동해 테이블 생성 및 이벤
       ```
 
 3. 콘솔에서 `kafka_log_table` 테이블 클릭
-4. 테이블 속성 탭 클릭 후 테이블 속성 추가하기 버튼 클릭
+4. 테이블 속성 추가
+   - 테이블 속성 탭 클릭
+   - 테이블 속성 추가하기 버튼 클릭
       - Key: `test_key`
       - Value: `test_value`
       - 추가 버튼 클릭
-5. `traffic-generator-2` 터미널 창에서 테이블 속성 생성 메시지 정상 수신 로그 확인
-![1](https://github.com/user-attachments/assets/361f5a0c-ba37-424f-9434-67f897fcdebb)
+7. `traffic-generator-2` 터미널 창에서 테이블 속성 생성 메시지 정상 수신 로그 확인
+![log1](https://github.com/user-attachments/assets/ad80f924-3048-4754-a1ac-4412e70cebf9)
 
-6. 스키마 탭 클릭 후 필드 추가 버튼 클릭
+8. 스키마 필드 추가
+      - 스키마 탭 클릭
+      - 필드 추가 버튼 클릭
       - 컬럼 번호: `4`
       - 필드 이름: `test_field`
       - 데이터 유형: `string`
       - 설명: `Data Catalog 테이블 필드 추가 후 메세지 수신 확인 실습`
       - 생성 버튼 클릭
-7. `traffic-generator-2` 터미널 창에서 필드 생성 메시지 정상 수신 로그 확인
-![2](https://github.com/user-attachments/assets/0611f45d-d80b-4d41-ad39-795b500e2bc3)
+9. `traffic-generator-2` 터미널 창에서 필드 생성 메시지 정상 수신 로그 확인
+![log2](https://github.com/user-attachments/assets/9da327f5-ba3e-4963-b09e-fa53a7d63354)
 
 
 ## 7. 크롤러를 통한 MySQL 메타데이터 추출
