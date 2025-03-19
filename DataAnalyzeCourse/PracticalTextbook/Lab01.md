@@ -52,7 +52,7 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 활용하여 �
 
 
 
-## 2. REST API를 활용한 메시징 리소스 생성
+## 2. REST API를 통한 메시징 리소스 생성
 
 1. `traffic-generator-1` 터미널에서 Pub/Sub 실습 디렉토리로 이동
     
@@ -86,7 +86,7 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 활용하여 �
 6. 서브스크립션 탭 클릭 후 `log-obj-sub` 서브스크립션 생성 확인
 ![5](https://github.com/user-attachments/assets/03b45751-81c2-492c-ab98-7aad6dde8b97)
 
-## 3. REST API를 활용한 메시지 송수신
+## 3. REST API를 통한 메시지 송수신
 
 1. `traffic-generator-1` 터미널에서 `test-topic`으로 메시지를 전송하는 스크립트 실행
    - **Note**: [`pub_sub_publisher.py`](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day1/Lab01/pubsub/pub_sub_publisher.py)
@@ -142,7 +142,7 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 활용하여 �
 
 
 
-## 4. Go SDK를 활용한 메시지 송수신
+## 4. Go SDK를 통한 메시지 송수신
 
 1. `traffic-generator-1` 터미널에서 GO 실습 디렉토리로 이동
     
