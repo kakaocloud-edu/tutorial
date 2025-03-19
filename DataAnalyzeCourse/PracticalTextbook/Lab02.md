@@ -433,7 +433,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     ![Image](https://github.com/user-attachments/assets/e5f89822-cb4f-4922-bf9c-f142e341e888)
 
 4. `S3 액세스 키 정보`의 `인증 키`와 `보안 엑세스 키` 복사 후 클립보드 등에 붙여넣기
-        - **Note**: S3 액세스 키 정보 팝업창을 닫은 이후 S3 인증 정보 다시 조회 불가
+    - **Note**: S3 액세스 키 정보 팝업창을 닫은 이후 S3 인증 정보 다시 조회 불가
     - 확인 버튼 클릭
 
     ![Image](https://github.com/user-attachments/assets/9e2bf8ff-5869-40e5-b151-1360cbb6ea59)
