@@ -36,8 +36,8 @@ Data Catalog와 Pub/Sub, Object Storage를 연동해 테이블 생성 및 이벤
 5. `data-catalog-pull-sub` 서브스크립션 생성
       - 서브스크립션 생성 버튼 클릭
       - 기본 설정
-            - 이름: `data-catalog-pull-sub`
-            - 토픽 선택: `data-catalog-topic`
+        - 이름: `data-catalog-pull-sub`
+        - 토픽 선택: `data-catalog-topic`
       - 유형: `Pull`
       - 서브스크립션 메시지 보존 기간: `0일 0시 10분`
       - 응답 대기 시간: `20초`
