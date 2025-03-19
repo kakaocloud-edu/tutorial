@@ -31,7 +31,7 @@ Data Catalog와 Pub/Sub, Object Storage를 연동해 테이블 생성 및 이벤
       - 토픽 메세지 보존 기간: `0일 0시 10분`
       - 설명: 빈 칸
       - 생성 버튼 클릭
-3. 생성된 `data-catalog-topic` 클릭
+3. 생성된 `data-catalog-topic` 확인
 4. 서브스크립션 탭 클릭 후 서브스크립션 생성 버튼 클릭
       - 기본 설정
             - 이름: `data-catalog-pull-sub`
