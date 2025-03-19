@@ -20,7 +20,7 @@ Data Catalog와 Pub/Sub, Object Storage를 연동해 테이블 생성 및 이벤
 ![1](https://github.com/user-attachments/assets/dade13de-cdd4-42f9-a1a6-0795281e093b)
 
 
-## 2. Data Catalog 실습용 Pub/Sub 리소스 생성
+## 2. Pub/Sub 리소스 생성
 ![제목 없음](https://github.com/user-attachments/assets/2588f095-9da9-44bd-89a8-a85d30a20f3e)
 
 1. 카카오 클라우드 콘솔 > Analytics > Pub/Sub
@@ -108,7 +108,7 @@ Data Catalog와 Pub/Sub, Object Storage를 연동해 테이블 생성 및 이벤
 ![image](https://github.com/user-attachments/assets/966a8c56-0803-4a5c-935c-330e243b9c35)
 
 
-## 6. Data Catalog 테이블 이벤트 메시지 수신
+## 6. Data Catalog 이벤트 메시지 수신
 1. `traffic-generator-2` 터미널에서 Data Catalog 실습 디렉터리로 이동
 
       #### lab3-6-1
@@ -149,7 +149,9 @@ Data Catalog와 Pub/Sub, Object Storage를 연동해 테이블 생성 및 이벤
 
 
 ## 7. 크롤러를 통한 MySQL 메타데이터 추출
-1. 좌측 크롤러 탭 클릭 후 크롤러 생성 버튼 클릭
+1. 좌측 크롤러 탭 클릭
+2. 크롤러 생성
+    - 크롤러 생성 버튼 클릭
     - 데이터베이스: `data_catalog_database`
     - 크롤러 이름: `crawler`
     - MySQL 전체 경로
@@ -166,11 +168,13 @@ Data Catalog와 Pub/Sub, Object Storage를 연동해 테이블 생성 및 이벤
 3. `crawler` 크롤러의 상태가 `Active`인 것을 확인
 ![9](https://github.com/user-attachments/assets/81b05580-e439-4095-b898-8d6bcfe86b85)
 
-4. 생성된 크롤러 우측의 `⠇` 클릭 후 실행 버튼 클릭
-5. 크롤러 실행 모달의 실행 버튼 클릭
-6. 크롤러의 상태가 `Active`인 것과 마지막 실행 상태가 `Succeeded`인 것을 확인 
+4. 크롤러 실행
+      - 생성된 크롤러 우측의 `⠇` 클릭 후 실행 버튼 클릭
+      - 크롤러 실행 모달의 실행 버튼 클릭
+5. 크롤러의 상태가 `Active`인 것과 마지막 실행 상태가 `Succeeded`인 것을 확인 
 ![10](https://github.com/user-attachments/assets/9c471534-bc50-4b73-b1b4-be3c2f217fc0)
 
-7. 좌측 테이블 탭 클릭 후 추출한 MySQL 메타데이터 정보 확인
+6. 좌측 테이블 탭 클릭
+7. 추출한 MySQL 메타데이터 정보 확인
 ![11](https://github.com/user-attachments/assets/0a2e267a-6d4b-4a4f-ad47-0d24ed712e40)
 
