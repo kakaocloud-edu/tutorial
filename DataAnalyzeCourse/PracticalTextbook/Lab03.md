@@ -49,7 +49,8 @@ Data Catalog와 Pub/Sub, Object Storage를 연동해 테이블 생성 및 이벤
 
 ## 3. 카탈로그 생성(3분)
 1. 카카오 클라우드 콘솔 > Analytics > Data Catalog
-2. 서비스 시작하기에서 `시작하기` 버튼 클릭
+2. 서비스 시작하기
+      - `시작하기` 버튼 클릭
 3. `data_catalog` 카탈로그 생성
    - 카탈로그 생성 버튼 클릭
    - 이름: `data_catalog`
