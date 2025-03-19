@@ -49,14 +49,15 @@ Data Catalog와 Pub/Sub, Object Storage를 연동해 테이블 생성 및 이벤
 
 ## 3. 카탈로그 생성(3분)
 1. 카카오 클라우드 콘솔 > Analytics > Data Catalog
-2. `data_catalog` 카탈로그 생성
+2. 서비스 시작하기에서 `시작하기` 버튼 클릭
+3. `data_catalog` 카탈로그 생성
    - 카탈로그 생성 버튼 클릭
    - 이름: `data_catalog`
    - VPC 설정
       - VPC: `kc-vpc`
       - 서브넷: `kr-central-2-a의 Public 서브넷`
    - 생성 버튼 클릭
-3. `data_catalog` 카탈로그의 상태가 `Running`인 것을 확인
+4. `data_catalog` 카탈로그의 상태가 `Running`인 것을 확인
 ![5](https://github.com/user-attachments/assets/e77c7b14-c637-483f-9ac4-a7227d80b858)
 
 
