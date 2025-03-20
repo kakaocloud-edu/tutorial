@@ -20,12 +20,13 @@
 
 
 ## 2. Data Query 저장 위치 설정
-1. 좌측 쿼리 편집기 탭 클릭 후 설정 탭 클릭
-2. 관리 버튼 클릭
+1. 좌측 쿼리 편집기 탭 클릭
+2. 설정 탭 클릭
+3. 관리 버튼 클릭
    - 버킷: `data-catalog-bucket`
    - 상세 경로(선택): `data-query-result`
    - 저장 버튼 클릭
-3. Object Storage 경로 항목의 Object Storage 경로 확인
+4. Object Storage 경로 항목의 Object Storage 경로 확인
 ![image](https://github.com/user-attachments/assets/3cb7ba6b-09bc-4dc6-a3f5-7b56d77fdaae)
 
 
