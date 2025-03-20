@@ -148,6 +148,8 @@
    FROM data_catalog_database.kafka_log_table;
    ```
 
+   - 쿼리 결과 성공 확인
+
 3. 카카오 클라우드 콘솔 > Analytics > Data Catalog
 4. 좌측 테이블 탭 클릭
 3. `kafka_log_partitioned` 테이블 생성 확인 후 클릭
