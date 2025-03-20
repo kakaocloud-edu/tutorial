@@ -153,10 +153,11 @@
 3. `kafka_log_partitioned` 테이블 생성 확인
    ![19](https://github.com/user-attachments/assets/4e36de9a-cbac-41ad-a244-4e95808941f1)
 
-4. `kafka_log_partitioned` 테이블 클릭 후 파티션 탭 클릭
-5. `status` 값에 따라 생성된 파티션 확인
+4. `kafka_log_partitioned` 테이블 클릭
+5. 파티션 탭 클릭
+6. `status` 값에 따라 생성된 파티션 확인
    ![22](https://github.com/user-attachments/assets/680e8b72-f57f-48a7-ba8e-dbad91448956)
 
-6. 각 `status` 값 우측 파일 보기 클릭
-7. 파티션에 따라 External 타입으로 저장된 NGINX 로그 데이터 확인
+7. 각 `status` 값 우측 파일 보기 클릭
+8. 파티션에 따라 External 타입으로 저장된 NGINX 로그 데이터 확인
    ![20](https://github.com/user-attachments/assets/d165180c-fa32-410b-abe7-962ee0d1b15f)
