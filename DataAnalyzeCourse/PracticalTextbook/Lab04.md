@@ -148,7 +148,8 @@
    FROM data_catalog_database.kafka_log_table;
    ```
 
-3. 카카오 클라우드 콘솔 > Analytics > Data Catalog > 테이블
+3. 카카오 클라우드 콘솔 > Analytics > Data Catalog
+4. 좌측 테이블 탭 클릭
 3. `kafka_log_partitioned` 테이블 생성 확인
    ![19](https://github.com/user-attachments/assets/4e36de9a-cbac-41ad-a244-4e95808941f1)
 
