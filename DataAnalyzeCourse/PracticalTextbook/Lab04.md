@@ -26,7 +26,7 @@
    - 버킷: `data-catalog-bucket`
    - 상세 경로(선택): `data-query-result`
    - 저장 버튼 클릭
-4. Object Storage 경로 항목의 Object Storage 경로 확인
+4. 쿼리 결과 저장 위치의 Object Storage 경로 확인
 ![image](https://github.com/user-attachments/assets/3cb7ba6b-09bc-4dc6-a3f5-7b56d77fdaae)
 
 
