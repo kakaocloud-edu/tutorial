@@ -7,6 +7,7 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 활용하여 �
 
 1. 카카오 클라우드 콘솔 > Analytics > Pub/Sub
 2. 토픽 서비스 시작하기
+   - 시작하기 버튼 클릭
    - **Note**: Lab01 실습 환경 구조
     ![image](https://github.com/user-attachments/assets/c0c3ba47-c82c-4552-88b5-f9e282913c04)
 
