@@ -1,6 +1,6 @@
 # Data Catalog 실습
 
-Data Catalog와 Pub/Sub, Object Storage를 연동해 테이블 생성 및 이벤트 처리와 크롤러를 통한 MySQL 메타데이터 추출을 수행하는 실습입니다.
+Data Catalog와 Pub/Sub, Object Storage를 연동하여 테이블을 생성하고 이벤트를 처리하는 과정을 실습하며, 크롤러를 활용해 MySQL의 메타데이터를 추출하는 방법도 함께 다룹니다.
 
 ---
 
