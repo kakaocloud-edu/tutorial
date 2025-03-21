@@ -639,7 +639,6 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
 12. `data-catalog-bucket` 클릭
 13. NGINX 로그가 쌓인 디렉터리로 이동 후 버킷 내 적재된 NGINX 로그 적재 확인
     - **Note**: `/kafka-nginx-log/nginx-topic/partition_0/year_{현재 연도}/month_{현재 월}/day_{현재 일}/hour_{현재 시}`디렉터리로 이동
-    ``` 
    ![nginx로그 object storage 적재](https://github.com/user-attachments/assets/f825bf28-1302-4c4c-92e0-7d250cb5d86f)
 
 
