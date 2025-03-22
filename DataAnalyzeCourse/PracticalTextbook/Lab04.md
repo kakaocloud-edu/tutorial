@@ -41,7 +41,7 @@ Data Query 기능을 활용하여 NGINX 로그 및 MySQL 데이터를 이용한 
 2. NGINX 로그를 활용하여 HTTP 상태 코드 분포 쿼리
    - 데이터 원본: `data_catalog`
    - 데이터 베이스: `data_catalog_database`
-   - 우측 편집기의 `Query1` 탭에 아래 쿼리문 입력
+   - 우측 편집기의 `Query1` 탭 아래 쿼리문 입력
 
       #### **lab4-3-2**
       
@@ -66,7 +66,7 @@ Data Query 기능을 활용하여 NGINX 로그 및 MySQL 데이터를 이용한 
    - 데이터 원본: `data_catalog`
    - 데이터 베이스: `data_catalog_database`
    - 우측 편집기의 `+` 버튼 클릭
-   - 추가된 `Query2` 탭에 아래 쿼리문 입력
+   - 추가된 `Query2` 탭 아래 쿼리문 입력
    
       #### **lab4-3-3**
    
@@ -86,7 +86,7 @@ Data Query 기능을 활용하여 NGINX 로그 및 MySQL 데이터를 이용한 
    - 데이터 원본: `data_catalog`
    - 데이터 베이스: `data_catalog_database`
    - 우측 편집기의 `+` 버튼 클릭
-   - 추가된 `Query3` 탭에 아래 쿼리문 입력
+   - 추가된 `Query3` 탭 아래 쿼리문 입력
    
       #### **lab4-3-4**
       
@@ -116,7 +116,7 @@ Data Query 기능을 활용하여 NGINX 로그 및 MySQL 데이터를 이용한 
    - 데이터 원본: `data_orign`
    - 데이터 베이스: `shopdb`
    - 우측 편집기의 `+` 버튼 클릭
-   - 추가된 `Query4` 탭에 아래 쿼리문 입력
+   - 추가된 `Query4` 탭 아래 쿼리문 입력
 
       #### **lab4-3-5**
 
@@ -137,7 +137,7 @@ Data Query 기능을 활용하여 NGINX 로그 및 MySQL 데이터를 이용한 
    - 데이터 원본: `data_catalog`
    - 데이터 베이스: `data_catalog_database`
    - 우측 편집기의 `+` 버튼 클릭
-   - 추가된 `Query5` 탭에 아래 쿼리문 입력
+   - 추가된 `Query5` 탭 아래 쿼리문 입력
 
    #### **lab4-4-1**
 
