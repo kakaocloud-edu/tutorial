@@ -457,6 +457,8 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
                 - [tg_full_setup.sh](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day1/Lab00/traffic_generator/tg_full_setup.sh)
                 - [config.yml](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day1/Lab00/traffic_generator/config.yml)
                 - [config.py](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day1/Lab00/traffic_generator/config.py)
+
+    #### **lab2-8-2**
         ```
         #!/bin/bash
                 
