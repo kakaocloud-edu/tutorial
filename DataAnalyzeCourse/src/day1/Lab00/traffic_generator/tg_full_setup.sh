@@ -180,5 +180,5 @@ sudo pip3 install kafka-python || { echo "kakaocloud: kafka-python 라이브러�
 source ~/.bashrc
 
 echo "========================================"
-echo "kakaocloud: 자동화 완료스크립트 실행 완료!"
+echo "kakaocloud: Setup 완료"
 echo "========================================"
