@@ -141,7 +141,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     
     ![Image](https://github.com/user-attachments/assets/9321a32b-fde4-486b-8398-da235d7d1de0)
 
-3. `traffic-generator-1`에서 `consol-topic`으로 메세지 전송
+3. `traffic-generator-1`에서 `consol-topic`으로 메세지 전송 스크립트 실행
     
     #### **lab2-4-3**
         
@@ -217,7 +217,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
 
 12. `ctrl` + `c`로 종료
 
-13. traffic-generator-1에서 consol-topic으로 메세지 전송
+13. traffic-generator-1에서 consol-topic으로 메세지 전송 스크립트 실행
 
     #### **lab2-4-13**
         
