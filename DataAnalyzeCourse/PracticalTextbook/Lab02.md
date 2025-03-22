@@ -75,7 +75,6 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     ```bash
     sudo systemctl daemon-reload
     ```
-
     ```bash
     sudo systemctl restart logstash
     ```
@@ -595,20 +594,14 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     
 9. 데몬 리로드 및 kafka-connect 서비스를 시작하는 명령어 실행
     
-    #### lab**2-8-9-1**
+    #### lab**2-8-9**
     
     ```bash
     sudo systemctl daemon-reload
     ```
-
-    #### lab**2-8-9-2**
-   
     ```bash
     sudo systemctl enable kafka-connect
     ```
-    
-    #### lab**2-8-9-3**
-    
     ```bash
     sudo systemctl start kafka-connect
     ```
