@@ -133,12 +133,13 @@ Data Query 기능을 활용하여 NGINX 로그 및 MySQL 데이터를 이용한 
 
 
 ## 4. 테이블 파티션 생성 실습
-1. 데이터 원본 설정
+1. Data Query를 활용하여 테이블 파티션 생성
    - 데이터 원본: `data_catalog`
    - 데이터 베이스: `data_catalog_database`
-2. 우측 편집기의 `+` 버튼 클릭하여 `Query5` 탭 추가 후, `kafka_log_table` 테이블을 status 컬럼을 기준으로 파티션을 나누어 저장하는 새 파티션 테이블 생성
+   - 우측 편집기의 `+` 버튼 클릭
+   - 추가된 `Query5` 탭에 아래 쿼리문 입력
 
-   #### **lab4-4-2**
+   #### **lab4-4-1**
 
    ```
    CREATE TABLE data_catalog_database.kafka_log_partitioned
@@ -157,15 +158,15 @@ Data Query 기능을 활용하여 NGINX 로그 및 MySQL 데이터를 이용한 
 
    - 쿼리 결과 성공 확인
 
-3. 카카오 클라우드 콘솔 > Analytics > Data Catalog
-4. 좌측 테이블 탭 클릭
-3. `kafka_log_partitioned` 테이블 생성 확인 후 클릭
+2. 카카오 클라우드 콘솔 > Analytics > Data Catalog
+3. 좌측 테이블 탭 클릭
+4. `kafka_log_partitioned` 테이블 생성 확인 후 클릭
    ![19](https://github.com/user-attachments/assets/4e36de9a-cbac-41ad-a244-4e95808941f1)
 
-4. 파티션 탭 클릭
-5. `status` 값에 따라 생성된 파티션 확인
+5. 파티션 탭 클릭
+6. `status` 값에 따라 생성된 파티션 확인
    ![22](https://github.com/user-attachments/assets/680e8b72-f57f-48a7-ba8e-dbad91448956)
 
-6. 각 `status` 값 우측 파일 보기 클릭
-7. 파티션에 따라 External 타입으로 저장된 NGINX 로그 데이터 확인
+7. 각 `status` 값 우측 파일 보기 클릭
+8. 파티션에 따라 External 타입으로 저장된 NGINX 로그 데이터 확인
    ![20](https://github.com/user-attachments/assets/d165180c-fa32-410b-abe7-962ee0d1b15f)
