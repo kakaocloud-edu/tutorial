@@ -38,3 +38,4 @@ curl --output /dev/null --silent --head --fail "https://github.com/kakaocloud-ed
 wget https://raw.githubusercontent.com/kakaocloud-edu/tutorial/main/DataAnalyzeCourse/src/day1/Lab00/traffic_generator/tg_full_setup.sh
 chmod +x tg_full_setup.sh
 sudo -E ./tg_full_setup.sh
+echo "kakaocloud: Setup 완료"
