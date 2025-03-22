@@ -70,14 +70,12 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
 
 4. `api-server-1`, `api-server-2`에서 Logstash 재시작 및 상태 확인
     
-    #### **lab2-2-4-1**
+    #### **lab2-2-4**
     
     ```bash
     sudo systemctl daemon-reload
     ```
 
-    #### **lab2-2-4-2**
-    
     ```bash
     sudo systemctl restart logstash
     ```
