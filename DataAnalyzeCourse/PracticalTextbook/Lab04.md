@@ -65,7 +65,8 @@ Data Query 기능을 활용하여 NGINX 로그 및 MySQL 데이터를 이용한 
 3. NGINX 로그를 활용하여 인기 상품 클릭 수 쿼리
    - 데이터 원본: `data_catalog`
    - 데이터 베이스: `data_catalog_database`
-   - 우측 편집기의 `+` 버튼 클릭하여 `Query2` 탭 추가 후 아래 쿼리문 입력
+   - 우측 편집기의 `+` 버튼 클릭
+   - 추가된 `Query2` 탭에 아래 쿼리문 입력
    
       #### **lab4-3-3**
    
