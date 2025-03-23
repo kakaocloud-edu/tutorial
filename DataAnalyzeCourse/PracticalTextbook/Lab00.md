@@ -377,7 +377,7 @@
     kakaocloud: 7. 스크립트 및 실습 진행에 필요한 파일들을 다운로드합니다.
     kakaocloud: 8. api_full_setup.sh, setup_db.sh 스크립트 실행을 시작합니다.
     kakaocloud: 9. logstash.yml 구성 및 filebeat,logstash 재시작을 시작합니다.
-    kakaocloud: 스크립트 적용이 완료되었습니다!
+    kakaocloud: Setup 완료
     ```
 
     
