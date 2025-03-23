@@ -72,7 +72,7 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 활용하여 �
     python3 create_topic.py
     ```
     
-3. 카카오 클라우드 콘솔 > Analytics > Pub/Sub > 토픽
+3. 카카오 클라우드 콘솔 > Analytics > Pub/Sub
 4. `log-topic` 토픽 생성 확인
 ![4](https://github.com/user-attachments/assets/1bd82237-d002-4e7f-a232-df79266970d2)
 
@@ -237,7 +237,7 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 활용하여 �
     ```
     ![그림1](https://github.com/user-attachments/assets/18a43d5b-61c5-4812-b2eb-3788357c2890)
 
-4. 카카오 클라우드 콘솔 > Beyond Storage Service > Object Storage > 일반 버킷
+4. 카카오 클라우드 콘솔 > Beyond Storage Service > Object Storage
 5. `pubsub-log-bucket` 버킷 클릭
 6. 현재 연도/월/일/시 디렉터리로 이동하여 생성된 NGINX 로그 확인
    ![16](https://github.com/user-attachments/assets/50308a92-97e5-4325-b620-5ceb457ddd37)
