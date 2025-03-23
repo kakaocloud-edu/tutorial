@@ -579,7 +579,10 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
       --endpoint-url https://objectstorage.kr-central-2.kakaocloud.com
     ```
     
-7. S3 Sink Connector([`s3-sink-connector.properties`](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day1/Lab02/kafka_connector/s3-sink-connector.properties)), Standalone Worker([`worker.properties`](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day1/Lab02/kafka_connector/worker.properties)) 설정 파일 생성 확인
+7. S3 Sink Connector, Standalone Worker 설정 파일 생성 확인
+
+   - **Note**: [`s3-sink-connector.properties`](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day1/Lab02/kafka_connector/s3-sink-connector.properties)
+   - **Note**: [`worker.properties`](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day1/Lab02/kafka_connector/worker.properties)
 
     #### **lab2-8-7**
     
@@ -587,7 +590,9 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     ls /opt/kafka/config
     ```
 
-8. kafka-connect 시스템 서비스 파일([`kafka-connect.service`](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day1/Lab02/kafka_connector/kafka-connect.service)) 생성 확인
+8. kafka-connect 시스템 서비스 파일 생성 확인
+
+   - **Note**: [`kafka-connect.service`](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day1/Lab02/kafka_connector/kafka-connect.service)
     
     #### **lab2-8-8**
     
