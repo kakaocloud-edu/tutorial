@@ -76,7 +76,7 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 활용하여 �
 4. `log-topic` 토픽 생성 확인
 ![4](https://github.com/user-attachments/assets/1bd82237-d002-4e7f-a232-df79266970d2)
 
-5. traffic-generator-1 터미널에서 서브스크립션 생성
+5. `traffic-generator-1` 터미널에서 서브스크립션 생성
     
     #### **lab1-2-5**
    - **Note**: [`create_subscription.py`](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day1/Lab01/pubsub/create_subscription.py)
