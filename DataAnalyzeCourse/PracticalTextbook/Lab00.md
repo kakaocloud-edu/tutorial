@@ -115,8 +115,9 @@
    ![스크린샷](https://github.com/user-attachments/assets/c5e2e829-02f1-41dc-9932-e14efddfca1c)  
 4. 상단 중앙 `프로젝트 ID` 복사 및 클립보드 등에 붙여넣기
    ![프로젝트 ID](https://github.com/user-attachments/assets/8c20f705-2aa1-41fe-872d-5eca55a79150)  
-5. 우측 상단 계정 프로필 > 계정 정보 > 비밀번호 확인
-6. 우측 하단 `조직 ID` 복사 후 클립보드 등에 붙여넣기  
+5. 우측 상단 계정 프로필 > 계정 정보
+6. 비밀번호 재확인 > 비밀번호 입력 > 비밀번호 확인
+7. 우측 하단 `조직 ID` 복사 후 클립보드 등에 붙여넣기  
    ![조직 ID](https://github.com/user-attachments/assets/16382315-5f49-4ee7-86bd-c724c3fe39e0)
 
 
