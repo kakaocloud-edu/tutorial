@@ -3,7 +3,7 @@
 
 ## 1. VPC 생성
 1. 카카오 클라우드 콘솔 > Beyond Networking Service > VPC > VPC  
-2. VPC 만들기 버튼 클릭  
+2. VPC 생성 버튼 클릭  
    - VPC 정보  
      - VPC 이름: `kc-vpc`  
      - VPC IP CIDR 블록: `10.0.0.0/16`  
