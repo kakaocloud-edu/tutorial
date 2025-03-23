@@ -2,7 +2,7 @@
 사전 환경 구성에 대한 실습입니다.
 
 ## 1. VPC 생성
-1. 카카오 클라우드 콘솔 > Beyond Networking Service > VPC > VPC  
+1. 카카오 클라우드 콘솔 > Beyond Networking Service > VPC
 2. VPC 생성 버튼 클릭  
    - VPC 정보  
      - VPC 이름: `kc-vpc`  
@@ -22,7 +22,7 @@
 - **Note**: Object Storage 버킷 구조  
    ![image](https://github.com/user-attachments/assets/905e9b40-63a9-496a-8dee-af5858e91f40)
 
-1. 카카오 클라우드 콘솔 > Beyond Storage Service > Object Storage > 일반 버킷  
+1. 카카오 클라우드 콘솔 > Beyond Storage Service > Object Storage 
 2. 버킷 생성 버튼 클릭  
 3. Pub/Sub과 연동할 NGINX 로그 수집용 버킷 생성
    - 이름: `pubsub-log-bucket`
@@ -77,7 +77,7 @@
    - 확인 버튼 클릭
 
 ## 5. 로드 밸런서 생성 (18분)
-1. 카카오 클라우드 콘솔 > Beyond Networking Service > Load Balancing > 로드 밸런서  
+1. 카카오 클라우드 콘솔 > Beyond Networking Service > Load Balancing
 2. 로드 밸런서 생성 버튼 클릭  
    - 유형 선택: `Application Load Balancer`  
    - 기본 정보  
@@ -107,7 +107,7 @@
 
 
 ## 6. 사용자 리소스 정보 조회
-1. 카카오 클라우드 콘솔 > Data Store > MySQL > Instance Group
+1. 카카오 클라우드 콘솔 > Data Store > MySQL
 2. `database` Instance Group 클릭
 3. 우측 상단의 `엔드포인트` 복사 및 클립보드 등에 붙여넣기 후 좌측 상단 카카오 클라우드 로고 클릭
    ![스크린샷](https://github.com/user-attachments/assets/c5e2e829-02f1-41dc-9932-e14efddfca1c)  
@@ -119,7 +119,7 @@
 
 
 ## 7. Traffic Generator VM 생성 (7분)
-1. 카카오 클라우드 콘솔 > Beyond Compute Service > Virtual Machine > 인스턴스  
+1. 카카오 클라우드 콘솔 > Beyond Compute Service > Virtual Machine
 2. 인스턴스 생성 버튼 클릭  
    - 기본 정보  
      - 이름: `trarffic-generator`  
@@ -379,7 +379,7 @@
 
     
 ## 9. 로드 밸런서 대상 그룹 생성 (15분)
-1. 카카오 클라우드 콘솔 > Beyond Networking Service > Load Balancing > 대상 그룹  
+1. 카카오 클라우드 콘솔 > Beyond Networking Service > Load Balancing
 2. 대상 그룹 탭 클릭 후 대상 그룹 생성 버튼 클릭 
    - 로드 밸런서  
      - 가용 영역: `kr-central-2-a`  
