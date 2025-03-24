@@ -161,7 +161,7 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 활용하여 �
     go build -o publisher config.go go_publisher.go
     ```
         
-3. `test-topic`으로 메시지 송신하는 publisher 실행 파일 실행
+3. `test-topic`으로 메시지 송신하는 publisher 파일 실행
     
     #### **lab1-4-3**
         
