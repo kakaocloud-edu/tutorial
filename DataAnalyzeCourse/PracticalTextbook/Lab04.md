@@ -1,4 +1,4 @@
-# Data Query 가이드
+# Data Query 실습
 Data Query 기능을 활용하여 NGINX 로그 및 MySQL 데이터를 이용한 다양한 분석 쿼리 실행, 그리고 파티션 테이블 생성을 진행합니다.
 
 ---
