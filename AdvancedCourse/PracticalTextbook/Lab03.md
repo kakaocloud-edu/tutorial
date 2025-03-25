@@ -4,7 +4,7 @@
 
 ## 1. Bastion VM 인스턴스 생성
 
-1. 카카오 클라우드 콘솔 > Container Pack > Kubernetes > Cluster 접속
+1. 카카오 클라우드 콘솔 > Container Pack > Kubernetes > 클러스터 접속
 2. 클러스터 `kakao-k8s-cluster` 클릭
     - 서버 엔드 포인트 복사 후 메모장에 붙여넣기
     ![image](https://github.com/kakaocloud-edu/tutorial/assets/128004136/b949604a-9129-4a45-89c2-f4384252ae67)
