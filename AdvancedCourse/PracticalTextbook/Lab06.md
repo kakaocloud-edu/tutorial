@@ -71,7 +71,7 @@ Spring application 배포를 위해서 다운받은 yaml 파일을 확인 후 �
 
 ## 3.배포한 프로젝트 웹에서 확인
 
- 1. 카카오 클라우드 콘솔 > 전체 서비스 > Beyond Networking Service > Load Balancing > Load Balancer
+ 1. 카카오 클라우드 콘솔 > 전체 서비스 > Beyond Networking Service > Load Balancing > 로드 밸런서
  2. 두 개의 Load Balancer의 Public IP를 복사
  3. 브라우저 주소창에 복사한 IP 주소 각각 입력
     - 배포한 프로젝트 구동 확인
