@@ -5,16 +5,16 @@ DNS 서비스를 통해 Public IP로 접속하던 웹서비스를 도메인주�
 
 ## 1. DNS Zone 생성
 
-1. 카카오 클라우드 콘솔 > Beyond Networking Service > DNS > DNS Zone
-2. DNS Zone 만들기 클릭
+1. 카카오 클라우드 콘솔 > Beyond Networking Service > DNS > DNS 영역
+2. DNS 영영 생성 클릭
   - DNS Zone 이름: kakaocloud-edu.com
-  - 만들기 클릭
+  - 생성 클릭
 3. 만들어진 DNS Zone(kakaocloud-edu.com) 클릭
-4. 레코드 추가 클릭
+4. 레코드 생성 클릭
   - 레코드 타입: A
   - TTL: 60
   - 값: 연결하려는 인그레스 컨트롤러의 Public IP 입력
-  - 추가 버튼 클릭
+  - 생성 버튼 클릭
 
 ## 2. 네임서버 설정
 
