@@ -42,7 +42,5 @@ Kakao Cloud Kubernetes Engine Cluster 생성에 대한 실습입니다.
      - 보안 그룹(선택): `선택 안함`
    - 키 페어 : `keypair`
 6. 고급 설정 생략 후 생성 버튼 클릭
-7. 카카오 클라우드 콘솔 > Container Pack > Kubernetes > 클러스터 접속
-8. `kakao-k8s-cluster` 클릭
-9. 노드 풀 탭으로 이동
-10. 노드 생성 여부 확인
+7. 노드 풀 탭으로 이동
+8. 노드 생성 여부 확인
