@@ -69,27 +69,27 @@
    sudo -E ./script.sh
    ```
     
-8. 카카오 클라우드 콘솔 > Beyond Compute Service > Virtual Machine > Instance 접속
-9. Instance 만들기 클릭
+8. 카카오 클라우드 콘솔 > Beyond Compute Service > Virtual Machine > 인스턴스 접속
+9. 인스턴스 생성 클릭
    - 이름 : `bastion`
-   - Image : `Ubuntu 20.04 - 5.4.0-190`
-   - Instance 타입 : `t1i.xlarge`
-   - Volume : `30 GB`
-10. Key Pair : `keypair`
+   - 이미지 : `Ubuntu 20.04 - 5.4.0-190`
+   - 인스턴스 유형 : `t1i.xlarge`
+   - 볼륨 : `30 GB`
+10. 키 페어 : `keypair`
 11. VPC 선택
     - VPC : `vpc_1`
     - Subnet : `main`
-    - SecurityGroup 선택
-12. 새 Security Group 생성 클릭
-    - Security Group 이름: `bastion`
-    - Inbound :
-      - 프로토콜: `TCP`, 패킷 출발지: `{교육장의 사설 IP}/32`, 포트 번호: `22`
+    - 보안 그룹 선택
+12. 보안 그룹 생성 클릭
+    - 보안 그룹 이름: `bastion`
+    - 인바운드
+      - 프로토콜 : `TCP`, 패킷 출발지: `{교육장의 사설 IP}/32`, 포트 번호: `22`
         - **Note**: "교육장의 사설 IP" 부분을 실제 IP 주소로 교체하세요.
-      - 프로토콜: `TCP`, 패킷 출발지: `0.0.0.0/0`, 포트 번호: `8080`
-13. Outbound 클릭
-    - Outbound
+      - 프로토콜 : `TCP`, 패킷 출발지: `0.0.0.0/0`, 포트 번호: `8080`
+13. 아웃바운드 클릭
+    - 아웃바운드
       - 프로토콜 : `ALL`, 패킷 목적지 : `0.0.0.0/0`
-    - 만들기 버튼 클릭
+    - 생성 버튼 클릭
 14. 고급설정 버튼 클릭
     - 사용자 스크립트에 [**lab3-1-6**](https://github.com/kakaocloud-edu/tutorial/blob/main/AdvancedCourse/PracticalTextbook/Lab03.md#lab3-1-6) 내용을 붙여넣기
       - **Note**: 가상머신을 생성할 때 고급 설정 스크립트 부분을 설정하지 못하였더라도 [추후 설정](https://github.com/kakaocloud-edu/tutorial/blob/main/AdvancedCourse/PracticalTextbook/Lab03.md#note--19%EB%B2%88%EC%9D%80-%EA%B3%A0%EA%B8%89%EC%84%A4%EC%A0%95%EC%9D%84-%EC%A7%84%ED%96%89%ED%95%98%EC%A7%80-%EC%95%8A%EC%95%98%EC%9D%84-%EB%95%8C%EB%A7%8C-%EC%A7%84%ED%96%89%ED%95%A9%EB%8B%88%EB%8B%A4)할 수 있습니다.
