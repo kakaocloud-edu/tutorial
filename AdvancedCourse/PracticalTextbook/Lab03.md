@@ -70,7 +70,7 @@
    ```
     
 8. 카카오 클라우드 콘솔 > Beyond Compute Service > Virtual Machine > 인스턴스 접속
-9. 인스턴스 생성 클릭
+9. 인스턴스 생성 버튼 클릭
    - 이름 : `bastion`
    - 이미지 : `Ubuntu 20.04 - 5.4.0-190`
    - 인스턴스 유형 : `t1i.xlarge`
