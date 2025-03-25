@@ -24,28 +24,25 @@ Kakao Cloud Kubernetes Engine Cluster 생성에 대한 실습입니다.
 
 ## 2. 노드 풀 생성
 
-1. 카카오 클라우드 콘솔 > Container Pack > Kubernetes > Cluster 접속
+1. 카카오 클라우드 콘솔 > Container Pack > Kubernetes > 클러스터 접속
 2. 생성된 `kakao-k8s-cluster` 클러스터 클릭
 3. 생성된 `kakao-k8s-cluster` 클러스터 세부정보 확인
 4. 노드 풀 클릭
-5. 노드 풀 만들기 버튼 클릭
+5. 노드 풀 생성 버튼 클릭
    - 노드 풀 타입 : `Virtual Machine`
    - 기본 설정
      - 노드 풀 이름 : `node-pool`
-     - Image 선택 : `Ubuntu 20.04`
-     - Instance 타입 : `m2a.large`
+     - Image 선택 : `Ubuntu 22.04`
+     - Instance 타입 : `m2a.xlarge`
      - Volume 크기 : `50GB`
      - 노드 수 : `2`
    - 노드 풀 Network 설정
      - VPC : `vpc_1` 선택
      - Subnet : Public 서브넷들만 선택
-   - 자동 확장 설정 : `사용 안함`
-   - key Pair
-     - 신규 Key Pair 생성 클릭
-       - 이름 : `keypair`
-       - 생성 및 다운로드 버튼 클릭
-6. 고급 설정 생략 후 만들기 버튼 클릭
-7. 카카오 클라우드 콘솔 > Container Pack > Kubernetes > Cluster 접속
+     - 보안 그룹(선택): `선택 안함`
+   - 키 페어 : `keypair`
+6. 고급 설정 생략 후 생성 버튼 클릭
+7. 카카오 클라우드 콘솔 > Container Pack > Kubernetes > 클러스터 접속
 8. `kakao-k8s-cluster` 클릭
-9. 노드 탭으로 이동
+9. 노드 풀 탭으로 이동
 10. 노드 생성 여부 확인
