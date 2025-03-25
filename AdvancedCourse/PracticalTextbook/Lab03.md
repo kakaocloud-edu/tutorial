@@ -9,7 +9,7 @@
     - 서버 엔드 포인트 복사 후 메모장에 붙여넣기
     <img width="1157" alt="스크린샷 2025-03-25 오후 4 29 06" src="https://github.com/user-attachments/assets/5ac8a4c3-d0eb-40dc-9769-2bc932618753" />
 
-3. kubectl 버튼 클릭
+3. kubeconfig 파일 클릭
     - kubeconfig 파일 다운로드 클릭
       - kubeconfig 파일 열기
         <img width="1144" alt="스크린샷 2025-03-25 오후 4 31 58" src="https://github.com/user-attachments/assets/77f24971-0639-42b0-ad90-f5e4c2a8ff1a" />
