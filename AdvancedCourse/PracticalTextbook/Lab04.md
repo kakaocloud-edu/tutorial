@@ -6,13 +6,13 @@ Spring Boot 프로젝트를 생성해 간단한 웹 페이지를 생성합니다
 ## 1. Container Registry 생성
 
 1. 카카오 클라우드 콘솔 > 전체 서비스 > Container Registry 접속
-2. 리포지토리 만들기 버튼 클릭
+2. 리포지토리 생성 버튼 클릭
    - 공개 여부: 비공개
    - 리포지토리 이름 : `kakao-registry`
      - **Note**: 원활한 실습 진행을 위해 반드시 `kakao-registry`로 이름을 넣어주세요.
    - 태그 덮어쓰기 : 가능
    - 이미지 스캔 : 자동
-3. 만들기 버튼 클릭
+3. 생성 버튼 클릭
 4. Container Registry 생성 확인
     
 ## 2. Spring 어플리케이션을 Container 이미지로 만들기
