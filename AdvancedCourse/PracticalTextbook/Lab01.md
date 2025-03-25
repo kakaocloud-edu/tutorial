@@ -79,9 +79,9 @@
 
 1. 카카오 클라우드 콘솔 > 전체 서비스 > Virtual machine > 키 페어
 2. 오른쪽 상단에 있는 `키 페어 생성` 버튼 클릭
-3. 아래 정보 설정
+3. 키 페어 생성
     - `신규 키 페어 생성하기` 선택
     - 이름: `keypair`
-4. `생성` 버튼 클릭
-5. 다운로드 된 private key(e.g. keypair.pem)의 경로 기억하기
+    - `생성` 버튼 클릭
+- **Note**: 다운로드 된 private key(e.g. keypair.pem)의 경로 기억하기
 
