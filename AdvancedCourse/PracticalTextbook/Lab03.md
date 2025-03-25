@@ -7,12 +7,12 @@
 1. 카카오 클라우드 콘솔 > Container Pack > Kubernetes > 클러스터 접속
 2. 클러스터 `kakao-k8s-cluster` 클릭
     - 서버 엔드 포인트 복사 후 메모장에 붙여넣기
-    ![image](https://github.com/kakaocloud-edu/tutorial/assets/128004136/b949604a-9129-4a45-89c2-f4384252ae67)
+    <img width="1157" alt="스크린샷 2025-03-25 오후 4 29 06" src="https://github.com/user-attachments/assets/5ac8a4c3-d0eb-40dc-9769-2bc932618753" />
 
 3. kubectl 버튼 클릭
     - kubeconfig 파일 다운로드 클릭
       - kubeconfig 파일 열기
-      ![image](https://github.com/kakaocloud-edu/tutorial/assets/128004136/5812bcd3-8380-4a53-a6d0-c667c1ce0d02)
+        <img width="1144" alt="스크린샷 2025-03-25 오후 4 31 58" src="https://github.com/user-attachments/assets/77f24971-0639-42b0-ad90-f5e4c2a8ff1a" />
       - certificate-authority-data(인증 데이터), name(클러스터 이름) 값 복사 후 메모장에 붙여넣기
       ![image](https://github.com/kakaocloud-edu/tutorial/assets/128004136/e8a73a4e-9573-492c-a432-bb8725b39065)
 
