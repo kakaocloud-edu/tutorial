@@ -20,7 +20,7 @@
      - kr-central2-a의 Private Subnet IPv4 CIDR 블록 : `172.30.16.0/20`
      - kr-central2-b의 Public Subnet IPv4 CIDR 블록 : `172.30.32.0/20`
      - kr-central2-b의 Private Subnet IPv4 CIDR 블록 : `172.30.48.0/20`
-3. 만들기 버튼 클릭
+3. 생성 버튼 클릭
 4. VPC 생성 확인
 
 ## 2. MySQL 인스턴스 그룹 생성
