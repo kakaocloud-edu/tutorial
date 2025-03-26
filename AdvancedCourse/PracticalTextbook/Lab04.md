@@ -81,31 +81,28 @@ Spring Boot 프로젝트를 생성해 간단한 웹 페이지를 생성합니다
    docker login ${PROJECT_NAME}.kr-central-2.kcr.dev --username ${ACC_KEY} --password ${SEC_KEY}
    ```
 
-2. 로그인 성공 시 출력되는 `Login Succeeded` 확인
-3. 생성한 이미지 태그하기
-   #### **lab4-3-3**
+2. Spring 어플리케이션 이미지 Push를 위한 태깅(tag)
+   #### **lab4-3-2**
    ```
    docker tag ${DOCKER_IMAGE_NAME} ${PROJECT_NAME}.kr-central-2.kcr.dev/kakao-registry/${DOCKER_IMAGE_NAME}:1.0
    ```
 
-4. 이미지 태그 확인
-   #### **lab4-3-4**
-   
+3. 이미지 태그 확인
+   #### **lab4-3-3**
    ```
    docker images
    ```
    - 현재 두 개의 이미지가 정상적으로 출력되는지 확인
    
-5. 이미지가 정상적으로 태그되었는지 확인
-   - ex) kakao-k8s-cluster.kr-central-2.kcr.dev/kakao-registry/demo-spring-boot  1.0
      
-6. 이미지 업로드하기
+4. Spring 어플리케이션 이미지 Push
+
    #### **lab4-3-6**
    ```
    docker push ${PROJECT_NAME}.kr-central-2.kcr.dev/kakao-registry/${DOCKER_IMAGE_NAME}:1.0
    ```
-7. 카카오 클라우드 콘솔 > 전체 서비스 > Container Registry > Repository 접속
-8. 생성한 Repository `kakao-registry` 클릭
-9. 이미지 업로드 상태 확인
+5. 카카오 클라우드 콘솔 > 전체 서비스 > Container Registry > Repository 접속
+6. 생성한 Repository `kakao-registry` 클릭
+7. 이미지 업로드 상태 확인
 
 
