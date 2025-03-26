@@ -29,4 +29,4 @@ wget -O api_env_setup.sh "$ENV_SETUP_SCRIPT_URL"
 echo "kakaocloud: 2. api_env_setup.sh 실행합니다."
 chmod +x api_env_setup.sh
 sudo -E ./api_env_setup.sh
-echo "kakaocloud: Setup 완료
+echo "kakaocloud: Setup 완료"
