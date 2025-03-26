@@ -68,10 +68,9 @@ Spring Boot 프로젝트를 생성해 간단한 웹 페이지를 생성합니다
    sudo docker run -p 8080:8080 ${DOCKER_IMAGE_NAME}
    ```
 
-4. 카카오 클라우드 콘솔 > 전체 서비스 > Virtual Machine 접속
-5. bastion의 Public IP 복사
-6. 브라우저 주소창에 {복사한 IP 주소}:8080 입력
-7. 이미지 실행 확인
+4. bastion의 Public IP 복사
+5. 브라우저 주소창에 {복사한 IP 주소}:8080 입력
+6. 이미지 실행 확인
 
 ## 3. Container 레지스트리에 이미지 업로드
 
