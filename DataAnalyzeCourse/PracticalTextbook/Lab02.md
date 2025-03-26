@@ -497,7 +497,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     sudo -E ./kafka_full_setup.sh
     ```
                 
-        - CPU 멀티스레딩: `활성화`
+    - CPU 멀티스레딩: `활성화`
         
     - 생성 버튼 클릭
 
