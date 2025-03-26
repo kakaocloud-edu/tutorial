@@ -30,7 +30,7 @@
 
    - 이름 : `database`
    - 인스턴스 가용성 : `고가용성 (Primary, Standby 인스턴스)`
-   - 엔진 버전 : `MySQL 8.0.34`
+   - 엔진 버전 : `MySQL 8.0.41`
    - Primary 포트 : `3306`
    - Standby 포트 : `3307`
    - MySQL 사용자 이름: `admin`
