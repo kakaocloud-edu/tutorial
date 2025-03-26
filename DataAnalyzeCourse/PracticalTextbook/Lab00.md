@@ -323,7 +323,7 @@
       echo "kakaocloud: 2. api_env_setup.sh 실행합니다."
       chmod +x api_env_setup.sh
       sudo -E ./api_env_setup.sh
-      echo "kakaocloud: Setup 완료
+      echo "kakaocloud: Setup 완료"
       ```
      - CPU 멀티스레딩: `활성화`  
 2. `api-server-1`, `api-server-2` 상태 Actice 확인 후 Public IP 연결
