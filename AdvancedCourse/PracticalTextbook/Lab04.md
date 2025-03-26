@@ -97,7 +97,7 @@ Spring Boot 프로젝트를 생성해 간단한 웹 페이지를 생성합니다
      
 4. Spring 어플리케이션 이미지 Push
 
-   #### **lab4-3-6**
+   #### **lab4-3-4**
    ```
    docker push ${PROJECT_NAME}.kr-central-2.kcr.dev/kakao-registry/${DOCKER_IMAGE_NAME}:1.0
    ```
