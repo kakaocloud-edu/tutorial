@@ -36,10 +36,9 @@ nginx pod을 위한 deployment, LoadBalancer type의 서비스가 포함된 ingr
 1. 카카오 클라우드 콘솔 > 전체 서비스 > Beyond Networking Service > Load Balancing > 로드 밸런서
 2. Load Balancer 콘솔창에서 AZ별로 생성된 Load Balancer 확인
    ![image](https://github.com/kakaocloud-edu/tutorial/assets/128004136/1d0969d5-1bd3-4db1-8c08-03da0c6a3dd6)
-4. 생성된 두 개의 인스턴스의 우측 메뉴바 > Public IP 연결 클릭
+3. 생성된 두 개의 인스턴스의 우측 메뉴바 > Public IP 연결 클릭
      - `새로운 Public IP를 생성하고 자동으로 할당`
-5. 적용 버튼 클릭
    ![image](https://github.com/kakaocloud-edu/tutorial/assets/128004136/086debda-f9c2-40d7-9d07-b86b322ce6f1)
-7. 생성된 두 개의 Load Balancer의 Public IP를 복사
-8. 브라우저 주소창에 복사한 IP 주소 각각 입력
+4. 생성된 두 개의 Load Balancer의 Public IP를 복사
+5. 브라우저 주소창에 복사한 IP 주소 각각 입력
      - nginx에 의한 error 창 확인(404 Not Found)
