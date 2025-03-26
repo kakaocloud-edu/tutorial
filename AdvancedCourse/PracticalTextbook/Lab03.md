@@ -95,7 +95,7 @@
     - 사용자 스크립트에 [**lab3-1-6**](https://github.com/kakaocloud-edu/tutorial/blob/main/AdvancedCourse/PracticalTextbook/Lab03.md#lab3-1-6) 내용을 붙여넣기
       - **Note**: 가상머신을 생성할 때 고급 설정 스크립트 부분을 설정하지 못하였더라도 [추후 설정](https://github.com/kakaocloud-edu/tutorial/blob/main/AdvancedCourse/PracticalTextbook/Lab03.md#note--19%EB%B2%88%EC%9D%80-%EA%B3%A0%EA%B8%89%EC%84%A4%EC%A0%95%EC%9D%84-%EC%A7%84%ED%96%89%ED%95%98%EC%A7%80-%EC%95%8A%EC%95%98%EC%9D%84-%EB%95%8C%EB%A7%8C-%EC%A7%84%ED%96%89%ED%95%A9%EB%8B%88%EB%8B%A4)할 수 있습니다.
 
-15. 만들기 버튼 클릭
+15. 생성 버튼 클릭
 16. 카카오 클라우드 콘솔 > 전체 서비스 > Virtual Machine 접속
 17. 생성된 인스턴스의 우측 메뉴바 > Public IP 연결 클릭
     - `새로운 Public IP를 생성하고 자동으로 할당` 
