@@ -20,7 +20,7 @@ import requests
 current_dir = os.path.dirname(os.path.abspath(__file__))
 
 # config.py가 위치한 경로:
-config_path = os.path.abspath(os.path.join(current_dir, "..", "..", "Lab00", "traffic_generator"))
+config_path = os.path.abspath(os.path.join(current_dir, "..", "Lab00", "traffic_generator"))
 
 # 경로를 최우선 검색 경로에 추가
 sys.path.insert(0, config_path)
