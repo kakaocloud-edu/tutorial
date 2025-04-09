@@ -104,6 +104,10 @@ def update_last_active():
         if conn:
             conn.close()
 
+@app.after_request
+def add_custom_header(response):
+    response.headers["X-Kakocloud-DA-Edu"] = "traffic_generate"
+    return response
 
 def get_db_connection():
     return mysql.connector.connect(**DB_CONFIG)
