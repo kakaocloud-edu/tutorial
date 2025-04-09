@@ -161,7 +161,7 @@ echo "kakaocloud: 11. Python dependencies (requests, pyyaml) 설치 시작"
 sudo apt install -y python3-requests python3-yaml || { echo "kakaocloud: Python dependencies 설치 실패"; exit 1; }
 
 # 전체 권한 문제 방지를 위한 소유권 변경 (하위 모든 경로 적용)
-sudo chown -R ubuntu:ubuntu /home/ubuntu/go /home/ubuntu/gosdk /home/ubuntu/DataAnalyzeCourse/src/day1 || { echo "kakaocloud: 소유권 변경 실패"; exit 1; }
+sudo chown -R ubuntu:ubuntu /home/ubuntu/go /home/ubuntu/gosdk /home/ubuntu/DataAnalyzeCourse/src || { echo "kakaocloud: 소유권 변경 실패"; exit 1; }
 
 
 # --- 하단부 추가: OpenJDK 및 Apache Kafka 설치 ---
