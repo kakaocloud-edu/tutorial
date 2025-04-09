@@ -147,6 +147,11 @@ CREATE TABLE IF NOT EXISTS cart_logs (
     FOREIGN KEY (product_id) REFERENCES products(id) -- 상품 참조
 );
 
+CREATE TABLE IF NOT EXISTS kakocloud_da_edu (
+    event_id INT AUTO_INCREMENT PRIMARY KEY,
+    traffic_event VARCHAR(255) NOT NULL,
+    event_time DATETIME DEFAULT CURRENT_TIMESTAMP
+);
 
 SELECT 'Database and initial setup completed.' AS message;
 EOF
