@@ -1,7 +1,5 @@
-#!/usr/bin/env python3
+# dynamic_traffic_generator.py
 """
-traffic_generator_dynamic.py
-
 - 기존 트래픽 생성 로직을 1시간 동안 반복 실행하며,
   각 배치마다 트래픽 패턴(쇼핑몰 트래픽 몰림/평균/약함)을 무작위로 적용합니다.
 """
