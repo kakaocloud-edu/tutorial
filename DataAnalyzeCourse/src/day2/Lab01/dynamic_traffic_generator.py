@@ -485,9 +485,11 @@ def main():
         config.TIME_SLEEP_RANGE = dynamic_config["TIME_SLEEP_RANGE"]
         config.ACTIONS_PER_USER = dynamic_config["ACTIONS_PER_USER"]
 
-        logging.info(f"Batch {batch_num}: Applying random dynamic config: NUM_USERS={config.NUM_USERS}, "
-                     f"MAX_THREADS={config.MAX_THREADS}, TIME_SLEEP_RANGE={config.TIME_SLEEP_RANGE}, "
-                     f"ACTIONS_PER_USER={config.ACTIONS_PER_USER}")
+        message = (f"Batch {batch_num}: Applying random dynamic config: NUM_USERS={config.NUM_USERS}, "
+           f"MAX_THREADS={config.MAX_THREADS}, TIME_SLEEP_RANGE={config.TIME_SLEEP_RANGE}, "
+           f"ACTIONS_PER_USER={config.ACTIONS_PER_USER}")
+        logging.info(message)
+        print(message)
 
         threads = []
         # 배치별로 사용자 스레드를 실행
