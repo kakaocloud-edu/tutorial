@@ -1364,16 +1364,25 @@ server {
     listen 80;
     server_name _;
 
-    location / {
+    location = /favicon.ico {
+        access_log off;
+        return 204;
+    }
+
+    location ~ ^/(|push-subscription|push-messages|add_user|delete_user|products|product|login|categories|category|logout|search|cart/add|cart/view|cart/remove|checkout|checkout_history|add_review|error)$ {
         proxy_pass http://127.0.0.1:8080;
-        proxy_set_header Host \$host;
-        proxy_set_header X-Real-IP \$remote_addr;
-        proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
-        proxy_set_header X-Forwarded-Proto \$scheme;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+
+    location / {
+        return 403;  # Forbidden
     }
 
     error_log /var/log/nginx/flask_app_error.log;
-    access_log /var/log/nginx/flask_app_access.log $LOG_FORMAT_NAME;
+    access_log /var/log/nginx/flask_app_access.log custom_json;
 }
 EOL
 
