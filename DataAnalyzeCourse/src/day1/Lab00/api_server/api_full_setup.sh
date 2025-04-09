@@ -1378,7 +1378,7 @@ server {
     }
 
     location / {
-        return 403;  # Forbidden
+        return 403;
     }
 
     error_log /var/log/nginx/flask_app_error.log;
