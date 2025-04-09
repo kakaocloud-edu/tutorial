@@ -1359,7 +1359,7 @@ fi
 
 
 NGINX_CONF="/etc/nginx/sites-available/flask_app"
-cat > $NGINX_CONF <<EOL
+cat > $NGINX_CONF <<'EOL'
 server {
     listen 80;
     server_name _;
