@@ -1366,7 +1366,7 @@ server {
     server_name _;
 
     location / {
-        set $kakaocloud_edu "traffic";
+        set \$kakaocloud_edu "traffic";
         proxy_pass http://127.0.0.1:8080;
         proxy_set_header Host \$host;
         proxy_set_header X-Real-IP \$remote_addr;
