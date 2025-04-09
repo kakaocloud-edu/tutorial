@@ -147,6 +147,7 @@ CREATE TABLE IF NOT EXISTS cart_logs (
     FOREIGN KEY (product_id) REFERENCES products(id) -- 상품 참조
 );
 
+
 SELECT 'Database and initial setup completed.' AS message;
 EOF
 )
