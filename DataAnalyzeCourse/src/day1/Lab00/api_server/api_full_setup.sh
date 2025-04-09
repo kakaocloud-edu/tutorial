@@ -89,6 +89,21 @@ def update_last_active():
             if conn:
                 conn.close()
 
+    try:
+        conn = get_db_connection()
+        cursor = conn.cursor()
+        cursor.execute(
+            "INSERT INTO kakocloud_da_edu (traffic_event) VALUES ('traffic_generate')"
+        )
+        conn.commit()
+    except Exception as e:
+        print(f"Failed to log traffic event: {e}")
+    finally:
+        if cursor:
+            cursor.close()
+        if conn:
+            conn.close()
+
 
 def get_db_connection():
     return mysql.connector.connect(**DB_CONFIG)
