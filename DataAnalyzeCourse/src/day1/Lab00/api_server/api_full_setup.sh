@@ -1350,8 +1350,7 @@ if ! grep -q "log_format $LOG_FORMAT_NAME" $NGINX_CONF_MAIN; then
             \"product_id\":\"\$arg_id\",\\n\
             \"category\":\"\$arg_name\",\\n\
             \"x_forwarded_for\":\"\$http_x_forwarded_for\",\\n\
-            \"host\":\"\$host\"\,\n\
-            \"kakaocloud_edu\":\"\$kakaocloud_edu\"\\n\
+            \"host\":\"\$host\"\\n\
         }';" $NGINX_CONF_MAIN
     echo "custom_json log format added successfully."
 else
@@ -1366,7 +1365,6 @@ server {
     server_name _;
 
     location / {
-        set \$kakaocloud_edu "traffic";
         proxy_pass http://127.0.0.1:8080;
         proxy_set_header Host \$host;
         proxy_set_header X-Real-IP \$remote_addr;
