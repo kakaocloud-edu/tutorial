@@ -89,25 +89,6 @@ def update_last_active():
             if conn:
                 conn.close()
 
-    try:
-        conn = get_db_connection()
-        cursor = conn.cursor()
-        cursor.execute(
-            "INSERT INTO kakocloud_da_edu (traffic_event) VALUES ('traffic_generate')"
-        )
-        conn.commit()
-    except Exception as e:
-        print(f"Failed to log traffic event: {e}")
-    finally:
-        if cursor:
-            cursor.close()
-        if conn:
-            conn.close()
-
-@app.after_request
-def add_custom_header(response):
-    response.headers["X-Kakocloud-DA-Edu"] = "traffic_generate"
-    return response
 
 def get_db_connection():
     return mysql.connector.connect(**DB_CONFIG)
