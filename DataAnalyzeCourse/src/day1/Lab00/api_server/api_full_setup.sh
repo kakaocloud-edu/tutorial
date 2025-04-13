@@ -1364,6 +1364,10 @@ server {
     listen 80;
     server_name _;
 
+    if ($uri = "") {
+        return 403;
+    }
+
     location = /favicon.ico {
         access_log off;
         return 204;
