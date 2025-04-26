@@ -113,7 +113,7 @@ Data Catalog와 Pub/Sub, Object Storage를 연동하여 테이블을 생성하�
 ## 6. Data Catalog 이벤트 메시지 수신
 1. `traffic-generator-2` 터미널에서 Data Catalog 실습 디렉터리로 이동
 
-      #### lab3-6-1
+      #### lab4-6-1
       
       ```
       cd /home/ubuntu/DataAnalyzeCourse/src/day1/Lab03
@@ -122,7 +122,7 @@ Data Catalog와 Pub/Sub, Object Storage를 연동하여 테이블을 생성하�
 2. 테이블의 이벤트 메시지 확인을 위한 메세지 수신 스크립트 실행
       - **Note**: [data_catalog_subscribe.py](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day1/Lab03/data_catalog_subscribe.py)
       
-      #### lab3-6-2
+      #### lab4-6-2
       
       ```
       python3 data_catalog_subscribe.py
