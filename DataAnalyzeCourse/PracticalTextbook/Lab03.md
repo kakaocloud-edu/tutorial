@@ -455,11 +455,11 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
                     - 프로토콜: ALL, 출발지: 0.0.0.0/0, 포트 번호: `ALL`
         
     - 고급 설정
-        - 사용자 스크립트: [`kafka_vm_init.sh`](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day1/Lab00/kafka/kafka_vm_init.sh)의 쌍따옴표(“”) 사이에 자신의 리소스 값 입력
+        - 사용자 스크립트: [`kafka_vm_init.sh`](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day1/Lab01/kafka/kafka_vm_init.sh)의 쌍따옴표(“”) 사이에 자신의 리소스 값 입력
             - **Note**: 스크립트에 대한 자세한 내용은 아래 파일들 참고
-                - [tg_full_setup.sh](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day1/Lab00/traffic_generator/tg_full_setup.sh)
-                - [config.yml](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day1/Lab00/traffic_generator/config.yml)
-                - [config.py](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day1/Lab00/traffic_generator/config.py)
+                - [tg_full_setup.sh](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day1/Lab01/traffic_generator/tg_full_setup.sh)
+                - [config.yml](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day1/Lab01/traffic_generator/config.yml)
+                - [config.py](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day1/Lab01/traffic_generator/config.py)
 
     #### **lab3-8-2**
     ```
@@ -489,7 +489,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     echo "source /tmp/env_vars.sh" >> /home/ubuntu/.bashrc
             
     echo "kakaocloud: 2.스크립트 다운로드 사이트 유효성 검사 시작"
-    SCRIPT_URL="https://raw.githubusercontent.com/kakaocloud-edu/tutorial/refs/heads/main/DataAnalyzeCourse/src/day1/Lab00/kafka/kafka_full_setup.sh"
+    SCRIPT_URL="https://raw.githubusercontent.com/kakaocloud-edu/tutorial/refs/heads/main/DataAnalyzeCourse/src/day1/Lab01/kafka/kafka_full_setup.sh"
             
     curl -L --output /dev/null --silent --head --fail "$SCRIPT_URL" || { echo "kakaocloud: Script download site is not valid"; exit 1; }
     wget -q "$SCRIPT_URL"
@@ -581,8 +581,8 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     
 7. S3 Sink Connector, Standalone Worker 설정 파일 생성 확인
 
-   - **Note**: [`s3-sink-connector.properties`](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day1/Lab02/kafka_connector/s3-sink-connector.properties)
-   - **Note**: [`worker.properties`](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day1/Lab02/kafka_connector/worker.properties)
+   - **Note**: [`s3-sink-connector.properties`](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day1/Lab03/kafka_connector/s3-sink-connector.properties)
+   - **Note**: [`worker.properties`](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day1/Lab03/kafka_connector/worker.properties)
 
     #### **lab3-8-7**
     
@@ -592,7 +592,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
 
 8. kafka-connect 시스템 서비스 파일 생성 확인
 
-   - **Note**: [`kafka-connect.service`](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day1/Lab02/kafka_connector/kafka-connect.service)
+   - **Note**: [`kafka-connect.service`](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day1/Lab03/kafka_connector/kafka-connect.service)
     
     #### **lab3-8-8**
     
