@@ -43,7 +43,7 @@ Data Query 기능을 활용하여 NGINX 로그 및 MySQL 데이터를 이용한 
    - 데이터 베이스: `data_catalog_database`
    - 우측 편집기의 `Query1` 탭 아래 쿼리문 입력
 
-      #### **lab4-3-2**
+      #### **lab5-3-2**
       
       ```
       SELECT 
@@ -68,7 +68,7 @@ Data Query 기능을 활용하여 NGINX 로그 및 MySQL 데이터를 이용한 
    - 우측 편집기의 `+` 버튼 클릭
    - 추가된 `Query2` 탭 아래 쿼리문 입력
    
-      #### **lab4-3-3**
+      #### **lab5-3-3**
    
       ```
       SELECT 
@@ -88,7 +88,7 @@ Data Query 기능을 활용하여 NGINX 로그 및 MySQL 데이터를 이용한 
    - 우측 편집기의 `+` 버튼 클릭
    - 추가된 `Query3` 탭 아래 쿼리문 입력
    
-      #### **lab4-3-4**
+      #### **lab5-3-4**
       
       ```
       SELECT 
@@ -118,7 +118,7 @@ Data Query 기능을 활용하여 NGINX 로그 및 MySQL 데이터를 이용한 
    - 우측 편집기의 `+` 버튼 클릭
    - 추가된 `Query4` 탭 아래 쿼리문 입력
 
-      #### **lab4-3-5**
+      #### **lab5-3-5**
 
       ```
       SELECT 
@@ -139,7 +139,7 @@ Data Query 기능을 활용하여 NGINX 로그 및 MySQL 데이터를 이용한 
    - 우측 편집기의 `+` 버튼 클릭
    - 추가된 `Query5` 탭 아래 쿼리문 입력
 
-   #### **lab4-4-1**
+   #### **lab5-4-1**
 
    ```
    CREATE TABLE data_catalog_database.kafka_log_partitioned
