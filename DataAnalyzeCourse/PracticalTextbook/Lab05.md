@@ -35,7 +35,7 @@ Data Query 기능을 활용하여 NGINX 로그 및 MySQL 데이터를 이용한 
 
 
 ## 3. Data Query 실습
-- **Note**: 더 많은 쿼리문은 [Lab04_etc.md](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/PracticalTextbook/Lab04_etc.md) 참고
+- **Note**: 더 많은 쿼리문은 [Lab04_etc.md](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/PracticalTextbook/Lab05_etc.md) 참고
 
 1. `편집기` 탭 클릭
 2. NGINX 로그를 활용하여 HTTP 상태 코드 분포 쿼리
