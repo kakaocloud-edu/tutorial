@@ -9,7 +9,7 @@
 **설명**: 특정 기간 동안의 총 HTTP 요청 수  
 **데이터 소스**: ALB Access Log
 
-#### lab4-etc-1
+#### lab5-etc-1
 
 ```sql
 SELECT 
@@ -27,7 +27,7 @@ WHERE request_creation_time
 
 1. 세션 기준
 
-    #### lab4-etc-2-1
+    #### lab5-etc-2-1
     
     ```sql
     SELECT date_format(created_at, '%Y-%m-%d %H:00:00') AS hour,
@@ -41,7 +41,7 @@ WHERE request_creation_time
 
 2. 사용자 기준
 
-    #### lab4-etc-2-2
+    #### lab5-etc-2-2
     
     ```sql
     SELECT date_format(login_time, '%Y-%m-%d %H:00:00') AS hour,
@@ -59,7 +59,7 @@ WHERE request_creation_time
 **설명**: 각 HTTP 메서드(GET, POST 등)의 비율  
 **데이터 소스**: ALB Access Log
 
-  #### lab4-etc-3
+  #### lab5-etc-3
   
   ```sql
   SELECT 
@@ -83,7 +83,7 @@ WHERE request_creation_time
 **설명**: 각 HTTP 상태 코드(2xx, 3xx, 4xx, 5xx)의 비율  
 **데이터 소스**: ALB Access Log
 
-  #### lab4-etc-4
+  #### lab5-etc-4
   
   ```sql
   SELECT 
@@ -104,7 +104,7 @@ WHERE request_creation_time
 **설명**: 트래픽의 출처(`Referer`)에 따른 분포  
 **데이터 소스**: Nginx Log
 
-  #### lab4-etc-5
+  #### lab5-etc-5
   
   ```sql
   SELECT 
@@ -132,7 +132,7 @@ WHERE request_creation_time
 **설명**: 특정 기간 동안 신규로 가입한 사용자 수  
 **데이터 소스**: MySQL DB
 
-  #### lab4-etc-6
+  #### lab5-etc-6
   
   ```sql
   SELECT 
@@ -151,7 +151,7 @@ WHERE request_creation_time
 Kafka 데이터 기준으로 SELECT 진행  
 `session_id`를 기준으로 join하여 한달 기준 활성 사용자 수 조회
 
-  #### lab4-etc-7
+  #### lab5-etc-7
   
   ```sql
   SELECT
@@ -170,7 +170,7 @@ Kafka 데이터 기준으로 SELECT 진행
 **설명**: 특정 기간 동안의 세션 수 및 평균 세션 지속 시간  
 **데이터 소스**: MySQL DB
 
-  #### lab4-etc-8
+  #### lab5-etc-8
   
   ```sql
   SELECT
@@ -189,7 +189,7 @@ Kafka 데이터 기준으로 SELECT 진행
 
 아래는 임의 데이터 예시로 2월 13일, 2월 14일 사용자의 재방문 비율을 계산한 코드이다.
 
-  #### lab4-etc-9-1
+  #### lab5-etc-9-1
   
   ```sql
   -- 첫 번째 INSERT (2월 13일 데이터)
@@ -207,7 +207,7 @@ Kafka 데이터 기준으로 SELECT 진행
   ('sess-20250214-003', 'user_433921', TIMESTAMP '2025-02-14 11:00:00', TIMESTAMP '2025-02-14 11:00:00', TIMESTAMP '2025-02-14 11:20:00', TIMESTAMP '2025-02-14 11:20:00');
   ```
   
-  #### lab4-etc-9-2
+  #### lab5-etc-9-2
   
   ```sql
   WITH previous AS (
@@ -255,7 +255,7 @@ Kafka 데이터 기준으로 SELECT 진행
 
 다음 예시는 2월 13일 기준이며, `/products` 경로에 대한 요청 횟수를 조회하는 예시이다.
 
-  #### lab4-etc-10
+  #### lab5-etc-10
   
   ```sql
   WITH page_filter AS (
@@ -280,7 +280,7 @@ Kafka 데이터 기준으로 SELECT 진행
 
 다음 예시는 2월 14일 기준, `user_id`로 고유 방문자 수를 조회한다.
 
-  #### lab4-etc-11
+  #### lab5-etc-11
   
   ```sql
   SELECT 
@@ -296,7 +296,7 @@ Kafka 데이터 기준으로 SELECT 진행
 **설명**: 각 HTTP 상태 코드(200, 404, 500 등)에 따른 요청 수  
 **데이터 소스**: ALB Access Log
 
-  #### lab4-etc-12
+  #### lab5-etc-12
   
   ```sql
   SELECT 
@@ -313,7 +313,7 @@ Kafka 데이터 기준으로 SELECT 진행
     **설명**: 특정 기간 동안 클릭된 상품의 수  
     **데이터 소스**: Nginx 로그
     
-    #### lab4-etc-13-1
+    #### lab5-etc-13-1
     
     ```sql
     SELECT 
@@ -329,7 +329,7 @@ Kafka 데이터 기준으로 SELECT 진행
     **설명**: 특정 기간 동안 클릭된 상품의 수  
     **데이터 소스**: Nginx 로그
     
-    #### lab4-etc-13-2
+    #### lab5-etc-13-2
     
     ```sql
     SELECT 
@@ -354,7 +354,7 @@ Kafka 데이터 기준으로 SELECT 진행
 **설명**: 각 카테고리별로 발생한 페이지뷰 수  
 **데이터 소스**: Nginx 로그
 
-  #### lab4-etc-14
+  #### lab5-etc-14
   
   ```sql
   SELECT 
