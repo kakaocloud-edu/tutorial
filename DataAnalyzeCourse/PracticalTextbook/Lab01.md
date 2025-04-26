@@ -155,7 +155,7 @@
          - [tg_full_setup.sh](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day1/Lab00/traffic_generator/tg_full_setup.sh)  
          - [config.yml](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day1/Lab00/traffic_generator/config.yml)  
          - [config.py](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day1/Lab00/traffic_generator/config.py)
-      - #### **lab0-7-2**
+      - #### **lab1-7-2**
       ```bash
       #!/bin/bash
       # tg_vm_init.sh
@@ -192,9 +192,9 @@
       echo "$command" >> /home/ubuntu/.bashrc
       
       echo "kakaocloud: 2.스크립트 다운로드 사이트 유효성 검사 시작"
-      curl --output /dev/null --silent --head --fail "https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day1/Lab00/traffic_generator/tg_full_setup.sh" || { echo "kakaocloud: Script download site is not valid"; exit 1; }
+      curl --output /dev/null --silent --head --fail "https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day1/Lab01/traffic_generator/tg_full_setup.sh" || { echo "kakaocloud: Script download site is not valid"; exit 1; }
       
-      wget https://raw.githubusercontent.com/kakaocloud-edu/tutorial/main/DataAnalyzeCourse/src/day1/Lab00/traffic_generator/tg_full_setup.sh
+      wget https://raw.githubusercontent.com/kakaocloud-edu/tutorial/main/DataAnalyzeCourse/src/day1/Lab01/traffic_generator/tg_full_setup.sh
       chmod +x tg_full_setup.sh
       sudo -E ./tg_full_setup.sh
       echo "kakaocloud: Setup 완료"
@@ -210,27 +210,27 @@
    - SSH 접속 명령어 복사  
    - 터미널 열기  
    - keypair를 다운받아놓은 폴더로 이동 후 터미널에 명령어 붙여넣기 및 **yes** 입력  
-    #### **lab0-7-4-1**
+    #### **lab1-7-4-1**
     ```bash
     cd {keypair.pem 다운로드 위치}
     ```
     - 리눅스의 경우 아래와 같이 키페어 권한 조정  
-    #### **lab0-7-4-2**
+    #### **lab1-7-4-2**
     ```bash
     chmod 400 keypair.pem
     ```
-    #### **lab0-7-4-3**
+    #### **lab1-7-4-3**
     ```bash
     ssh -i keypair.pem ubuntu@{traffic-generator-1, 2의 public ip주소}
     ```
     - **Note**: {traffic-generator-1, 2의 public ip주소} 부분을 복사한 각 IP 주소로 교체  
-    #### **lab0-7-4-4**
+    #### **lab1-7-4-4**
     ```bash
     yes
     ```
 5. Traffic Generator 스크립트 적용 확인  
    - **Note**: 스크립트 적용에 약 7분 소요  
-    #### **lab0-7-5**
+    #### **lab1-7-5**
     - **Note**: 터미널 창이 작으면 로그가 안보일 수 있으니 터미널 창 크기 조절  
     ```bash
     watch -c 'awk "/kakaocloud:/ {gsub(/([0-9]+)\\./,\"\\033[33m&\\033[0m\"); print}" < /var/log/cloud-init-output.log'
@@ -290,7 +290,7 @@
          - [filebeat.yml](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day1/Lab00/api_server/filebeat.yml)  
          - [logs-to-pubsub.conf](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day1/Lab00/api_server/logs-to-pubsub.conf)  
          - [logs-to-kafka.conf](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day1/Lab00/api_server/logs-to-kafka.conf)
-      #### **lab0-8-2**
+      #### **lab1-8-2**
       ```bash
       #!/bin/bash
       # api_vm_init.sh
@@ -310,7 +310,7 @@
       
       # 로그 및 환경 설정
       export LOGSTASH_ENV_FILE="/etc/default/logstash"
-      export ENV_SETUP_SCRIPT_URL="https://github.com/kakaocloud-edu/tutorial/raw/refs/heads/main/DataAnalyzeCourse/src/day1/Lab00/api_server/api_env_setup.sh"
+      export ENV_SETUP_SCRIPT_URL="https://github.com/kakaocloud-edu/tutorial/raw/refs/heads/main/DataAnalyzeCourse/src/day1/Lab01/api_server/api_env_setup.sh"
       
       echo "kakaocloud: 1. api_env_setup.sh 스크립트를 다운로드합니다."
       curl --output /dev/null --silent --head --fail "$ENV_SETUP_SCRIPT_URL" || {
@@ -335,33 +335,33 @@
    - SSH 접속 명령어 복사  
    - 터미널 열기  
    - keypair를 다운받아놓은 폴더로 이동 후 터미널에 명령어 붙여넣기 및 **yes** 입력  
-    #### **lab0-8-3-1**
+    #### **lab1-8-3-1**
     ```bash
     cd {keypair.pem 다운로드 위치}
     ```
     - 리눅스의 경우 아래와 같이 키페어 권한 조정  
-    #### **lab0-8-3-2**
+    #### **lab1-8-3-2**
     ```bash
     chmod 400 keypair.pem
     ```
-    #### **lab0-8-3-3**
+    #### **lab1-8-3-3**
     ```bash
     ssh -i keypair.pem ubuntu@{api-server-1의 public ip 주소}
     ```
     - **Note**: {api-server-1의 public ip 주소} 부분을 복사한 각 IP 주소로 교체  
-    #### **lab0-8-3-4**
+    #### **lab1-8-3-4**
     ```bash
     yes
     ```
     - **Note**: 윈도우에서 ssh 접근이 안될 경우, cmd 창에서 keypair.pem가 있는 경로로 이동 후 아래 명령어 실행  
-    #### **lab0-8-3-5**
+    #### **lab1-8-3-5**
     ```bash
     icacls.exe keypair.pem /reset
     icacls.exe keypair.pem /grant:r %username%:(R)
     icacls.exe keypair.pem /inheritance:r
     ```
 4. API Server 스크립트 적용 확인  
-    #### **lab0-8-4-1**
+    #### **lab1-8-4-1**
     - **Note**: 터미널 창이 작으면 로그가 안보일 수 있으니 터미널 창 크기 조절  
     ```bash
     watch -c 'awk "/kakaocloud:/ {gsub(/([0-9]+)\\./,\"\\033[33m&\\033[0m\"); print}" < /var/log/cloud-init-output.log'
