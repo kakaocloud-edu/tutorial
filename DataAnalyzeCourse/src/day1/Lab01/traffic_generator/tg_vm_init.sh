@@ -33,9 +33,9 @@ eval "$command"
 echo "$command" >> /home/ubuntu/.bashrc
 
 echo "kakaocloud: 2.스크립트 다운로드 사이트 유효성 검사 시작"
-curl --output /dev/null --silent --head --fail "https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day1/Lab00/traffic_generator/tg_full_setup.sh" || { echo "kakaocloud: Script download site is not valid"; exit 1; }
+curl --output /dev/null --silent --head --fail "https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day1/Lab01/traffic_generator/tg_full_setup.sh" || { echo "kakaocloud: Script download site is not valid"; exit 1; }
 
-wget https://raw.githubusercontent.com/kakaocloud-edu/tutorial/main/DataAnalyzeCourse/src/day1/Lab00/traffic_generator/tg_full_setup.sh
+wget https://raw.githubusercontent.com/kakaocloud-edu/tutorial/main/DataAnalyzeCourse/src/day1/Lab01/traffic_generator/tg_full_setup.sh
 chmod +x tg_full_setup.sh
 sudo -E ./tg_full_setup.sh
 echo "kakaocloud: Setup 완료"
