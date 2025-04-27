@@ -141,7 +141,7 @@ sudo wget "$PUBSUB_SDK_URL" -O pubsub.tgz || { echo "kakaocloud: Pub/Sub SDK 다
 sudo tar -xf pubsub.tgz || { echo "kakaocloud: Pub/Sub SDK 압축 해제 실패"; exit 1; }
 sudo rm -f pubsub.tgz
 
-cd /home/ubuntu/DataAnalyzeCourse/src/day1/Lab01/go || { echo "kakaocloud: Go 작업 디렉토리로 이동 실패"; exit 1; }
+cd /home/ubuntu/DataAnalyzeCourse/src/day1/Lab02/go || { echo "kakaocloud: Go 작업 디렉토리로 이동 실패"; exit 1; }
 
 if [ ! -f go.mod ]; then
     /usr/local/go/bin/go mod init trafficgenerator-go-sdk || { echo "kakaocloud: Go 모듈 초기화 실패"; exit 1; }
