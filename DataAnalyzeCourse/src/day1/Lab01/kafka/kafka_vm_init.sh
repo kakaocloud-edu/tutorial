@@ -24,7 +24,7 @@ source /tmp/env_vars.sh
 echo "source /tmp/env_vars.sh" >> /home/ubuntu/.bashrc
 
 echo "kakaocloud: 2.스크립트 다운로드 사이트 유효성 검사 시작"
-SCRIPT_URL="https://raw.githubusercontent.com/kakaocloud-edu/tutorial/refs/heads/main/DataAnalyzeCourse/src/day1/Lab00/kafka/kafka_full_setup.sh"
+SCRIPT_URL="https://raw.githubusercontent.com/kakaocloud-edu/tutorial/refs/heads/main/DataAnalyzeCourse/src/day1/Lab01/kafka/kafka_full_setup.sh"
 
 curl -L --output /dev/null --silent --head --fail "$SCRIPT_URL" || { echo "kakaocloud: Script download site is not valid"; exit 1; }
 wget -q "$SCRIPT_URL"
