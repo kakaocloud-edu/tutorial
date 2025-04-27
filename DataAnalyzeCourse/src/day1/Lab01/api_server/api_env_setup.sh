@@ -124,8 +124,8 @@ else
     echo "kakaocloud: /home/ubuntu/tutorial already exists, skipping clone"
 fi
 
-# DataAnalyzeCourse/src/day1/Lab00/api_server 폴더가 누락되었으면 재시도
-if [ ! -d "/home/ubuntu/tutorial/DataAnalyzeCourse/src/day1/Lab00/api_server" ]; then
+# DataAnalyzeCourse/src/day1/Lab01/api_server 폴더가 누락되었으면 재시도
+if [ ! -d "/home/ubuntu/tutorial/DataAnalyzeCourse/src/day1/Lab01/api_server" ]; then
     echo "kakaocloud: The previous clone seems incomplete, re-cloning..."
     sudo rm -rf /home/ubuntu/tutorial
     sudo git clone https://github.com/kakaocloud-edu/tutorial.git /home/ubuntu/tutorial || {
@@ -134,23 +134,23 @@ if [ ! -d "/home/ubuntu/tutorial/DataAnalyzeCourse/src/day1/Lab00/api_server" ];
 fi
 
 # 1) api_full_setup.sh, setup_db.sh → /home/ubuntu
-sudo cp /home/ubuntu/tutorial/DataAnalyzeCourse/src/day1/Lab00/api_server/api_full_setup.sh /home/ubuntu/api_full_setup.sh || {
+sudo cp /home/ubuntu/tutorial/DataAnalyzeCourse/src/day1/Lab01/api_server/api_full_setup.sh /home/ubuntu/api_full_setup.sh || {
     echo "kakaocloud: api_full_setup.sh 복사 실패"; exit 1;
 }
-sudo cp /home/ubuntu/tutorial/DataAnalyzeCourse/src/day1/Lab00/api_server/setup_db.sh /home/ubuntu/setup_db.sh || {
+sudo cp /home/ubuntu/tutorial/DataAnalyzeCourse/src/day1/Lab01/api_server/setup_db.sh /home/ubuntu/setup_db.sh || {
     echo "kakaocloud: setup_db.sh 복사 실패"; exit 1;
 }
 
 # 2) filebeat.yml → /etc/filebeat
-sudo cp /home/ubuntu/tutorial/DataAnalyzeCourse/src/day1/Lab00/api_server/filebeat.yml /etc/filebeat/filebeat.yml || {
+sudo cp /home/ubuntu/tutorial/DataAnalyzeCourse/src/day1/Lab01/api_server/filebeat.yml /etc/filebeat/filebeat.yml || {
     echo "kakaocloud: filebeat.yml 복사 실패"; exit 1;
 }
 
 # 3) logs-to-pubsub.conf, logs-to-kafka.conf → /etc/logstash/conf.d
-sudo cp /home/ubuntu/tutorial/DataAnalyzeCourse/src/day1/Lab00/api_server/logs-to-pubsub.conf /etc/logstash/conf.d/logs-to-pubsub.conf || {
+sudo cp /home/ubuntu/tutorial/DataAnalyzeCourse/src/day1/Lab01/api_server/logs-to-pubsub.conf /etc/logstash/conf.d/logs-to-pubsub.conf || {
     echo "kakaocloud: logs-to-pubsub.conf 복사 실패"; exit 1;
 }
-sudo cp /home/ubuntu/tutorial/DataAnalyzeCourse/src/day1/Lab00/api_server/logs-to-kafka.conf /etc/logstash/conf.d/logs-to-kafka.conf || {
+sudo cp /home/ubuntu/tutorial/DataAnalyzeCourse/src/day1/Lab01/api_server/logs-to-kafka.conf /etc/logstash/conf.d/logs-to-kafka.conf || {
     echo "kakaocloud: logs-to-kafka.conf 복사 실패"; exit 1;
 }
 
