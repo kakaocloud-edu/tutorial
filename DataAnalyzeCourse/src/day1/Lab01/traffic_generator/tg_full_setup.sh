@@ -6,7 +6,7 @@ GO_VERSION="1.20.5"
 GO_TAR_FILE="go${GO_VERSION}.linux-amd64.tar.gz"
 GO_DOWNLOAD_URL="https://go.dev/dl/${GO_TAR_FILE}"
 GOSDK_DIR="/home/ubuntu/gosdk"
-CONFIG_DIR="/home/ubuntu/DataAnalyzeCourse/src/day1/Lab00/traffic_generator"
+CONFIG_DIR="/home/ubuntu/DataAnalyzeCourse/src/day1/Lab01/traffic_generator"
 GOPATH_VAL="/home/ubuntu/go"
 GOCACHE_VAL="/home/ubuntu/.cache/go-build"
 
