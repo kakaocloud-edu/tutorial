@@ -16,7 +16,7 @@ export LOGSTASH_KAFKA_ENDPOINT="temp-kafka-bootstrap-server"
 
 # 로그 및 환경 설정
 export LOGSTASH_ENV_FILE="/etc/default/logstash"
-export ENV_SETUP_SCRIPT_URL="https://github.com/kakaocloud-edu/tutorial/raw/refs/heads/main/DataAnalyzeCourse/src/day1/Lab00/api_server/api_env_setup.sh"
+export ENV_SETUP_SCRIPT_URL="https://github.com/kakaocloud-edu/tutorial/raw/refs/heads/main/DataAnalyzeCourse/src/day1/Lab01/api_server/api_env_setup.sh"
 
 echo "kakaocloud: 1. api_env_setup.sh 스크립트를 다운로드합니다."
 curl --output /dev/null --silent --head --fail "$ENV_SETUP_SCRIPT_URL" || {
