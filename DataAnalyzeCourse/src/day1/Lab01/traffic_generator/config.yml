@@ -26,7 +26,7 @@ logging:
   level: "INFO"
 
 threads:
-  num_users: 5
+  num_users: 10
   max_threads: 5
   actions_per_user: 30
 
