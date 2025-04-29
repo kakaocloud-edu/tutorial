@@ -1342,6 +1342,8 @@ if ! grep -q "log_format $LOG_FORMAT_NAME" $NGINX_CONF_MAIN; then
             \"http_user_agent\":\"\$http_user_agent\",\\n\
             \"session_id\":\"\$cookie_session_id\",\\n\
             \"user_id\":\"\$cookie_user_id\",\\n\
+            \"age\":\"\$arg_age\",\\n\
+            \"gender\":\"\$arg_gender\",\\n\
             \"request_time\":\"\$request_time\",\\n\
             \"upstream_response_time\":\"\$upstream_response_time\",\\n\
             \"endpoint\":\"\$uri\",\\n\
