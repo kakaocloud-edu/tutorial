@@ -1366,28 +1366,31 @@ server {
     listen 80;
     server_name _;
 
+    access_log off;
+    error_log /var/log/nginx/flask_app_error.log;
+
     if ($uri = "") {
         return 403;
     }
 
-    location = /favicon.ico {
-        access_log off;
-        return 204;
-    }
-
     location = / {
+        if ($args) {
+            return 403;
+        }
+        access_log /var/log/nginx/flask_app_access.log custom_json;
         proxy_pass http://127.0.0.1:8080;
-        proxy_set_header Host $host;
-        proxy_set_header X-Real-IP $remote_addr;
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header Host              $host;
+        proxy_set_header X-Real-IP         $remote_addr;
+        proxy_set_header X-Forwarded-For   $proxy_add_x_forwarded_for;
         proxy_set_header X-Forwarded-Proto $scheme;
     }
 
-    location ~ ^/(push-subscription|push-messages|add_user|delete_user|products|product|login|categories|category|logout|search|cart/add|cart/view|cart/remove|checkout|checkout_history|add_review|error)$ {
+    location ~ ^/(add_user|delete_user|login|logout|products|product|categories|category|search|cart/add|cart/remove|cart/view|checkout|checkout_history|add_review|error)$ {
+        access_log /var/log/nginx/flask_app_access.log custom_json;
         proxy_pass http://127.0.0.1:8080;
-        proxy_set_header Host $host;
-        proxy_set_header X-Real-IP $remote_addr;
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header Host              $host;
+        proxy_set_header X-Real-IP         $remote_addr;
+        proxy_set_header X-Forwarded-For   $proxy_add_x_forwarded_for;
         proxy_set_header X-Forwarded-Proto $scheme;
     }
 
