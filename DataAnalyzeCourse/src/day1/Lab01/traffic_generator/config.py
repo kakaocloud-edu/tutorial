@@ -101,7 +101,7 @@ STATE_TRANSITIONS = {
 #################################
 ANON_SUB_TRANSITIONS = {
     "Anon_Sub_Initial": {
-        "Anon_Sub_Main": 0.2,
+        "Anon_Sub_Main": 1.0,
         "Anon_Sub_Products": 0.2,
         "Anon_Sub_Categories": 0.2,
         "Anon_Sub_Search": 0.2,
