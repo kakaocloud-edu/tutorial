@@ -1335,15 +1335,15 @@ if ! grep -q "log_format $LOG_FORMAT_NAME" $NGINX_CONF_MAIN; then
         log_format $LOG_FORMAT_NAME escape=json '{\\n\
             \"timestamp\":\"\$time_local\",\\n\
             \"remote_addr\":\"\$remote_addr\",\\n\
-            \"request\":\"\$request\",\\n\
+            \"request\":\"\$request_method \$uri \$server_protocol\",\\n\
             \"status\":\"\$status\",\\n\
             \"body_bytes_sent\":\"\$body_bytes_sent\",\\n\
             \"http_referer\":\"\$http_referer\",\\n\
             \"http_user_agent\":\"\$http_user_agent\",\\n\
             \"session_id\":\"\$cookie_session_id\",\\n\
             \"user_id\":\"\$cookie_user_id\",\\n\
-            \"age\":\"\$arg_age\",\\n\
-            \"gender\":\"\$arg_gender\",\\n\
+            \"age\":\"\$http_x_age\",\\n\
+            \"gender\":\"\$http_x_gender\",\\n\
             \"request_time\":\"\$request_time\",\\n\
             \"upstream_response_time\":\"\$upstream_response_time\",\\n\
             \"endpoint\":\"\$uri\",\\n\
