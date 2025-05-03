@@ -1350,7 +1350,7 @@ if ! grep -q "log_format $LOG_FORMAT_NAME" $NGINX_CONF_MAIN; then
             \"method\":\"\$request_method\",\\n\
             \"query_params\":\"\$args\",\\n\
             \"product_id\":\"\$arg_id\",\\n\
-            \"category\":\"\$arg_name\",\\n\
+            \"category\":\"\$http_x_category\",\\n\
             \"x_forwarded_for\":\"\$http_x_forwarded_for\",\\n\
             \"host\":\"\$host\"\\n\
         }';" $NGINX_CONF_MAIN
