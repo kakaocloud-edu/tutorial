@@ -1,4 +1,4 @@
-a#!/bin/bash
+#!/bin/bash
 
 echo "MYSQL_HOST set to: $MYSQL_HOST"
 source /home/ubuntu/.bashrc
