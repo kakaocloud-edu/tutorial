@@ -176,6 +176,7 @@ EOF
 
 sudo systemctl restart filebeat \
   || { echo "kakaocloud: Failed to restart filebeat"; exit 1; }
+sudo systemctl daemon-reexec \
 sudo systemctl restart logstash \
   || { echo "kakaocloud: Failed to restart logstash"; exit 1; }
 
