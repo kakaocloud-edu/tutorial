@@ -17,7 +17,7 @@ current_dir = os.path.dirname(os.path.abspath(__file__))
 
 # config.py가 위치한 경로:
 # 현재 디렉토리에서 두 단계 위로 이동한 후 Lab00/traffic_generator 디렉토리로 이동
-config_path = os.path.abspath(os.path.join(current_dir, "..", "..", "Lab00", "traffic_generator"))
+config_path = os.path.abspath(os.path.join(current_dir, "..", "..", "Lab01", "traffic_generator"))
 
 # 절대경로 지정
 sys.path.append(config_path)
