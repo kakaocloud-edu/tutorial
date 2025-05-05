@@ -11,7 +11,8 @@ Hadoop Eco의 Dataflow 유형을 통해 Druid, Superset을 이용하여 실시�
    - 클러스터 구성
       - 클러스터 버전: `Hadoop Eco 2.1.0 (Ubuntu 22.04, Core Hadoop, HBase, Trino, Dataflow)`
       - 클러스터 유형:  `Dataflow`
-      - 클러스터 가용성: `클러스터 고가용성 (HA) 선택 안 함`
+      - 클러스터 가용성:
+         - 클러스터 고가용성 (HA) 선택: `안 함`
    - 관리자 설정
       - 관리자 아이디: `admin`
       - 관리자 비밀번호: `Admin1234!`
