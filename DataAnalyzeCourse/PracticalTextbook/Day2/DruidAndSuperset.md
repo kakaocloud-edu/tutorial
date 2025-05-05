@@ -57,3 +57,35 @@ Hadoop Eco의 Dataflow 유형을 통해 Druid, Superset을 이용하여 실시�
 
 
 ## 2. Druid 접속 후 Kafka와 연결하여 데이터 연동
+
+1. 카카오 클라우드 콘솔 > Beyond Compute Service > Virtual Machine
+2. HadoopMST-hadoop-dataflow-1, HadoopWRK-hadoop-dataflow-1, HadoopWRK-hadoop-dataflow-2 상태 Active 확인
+3. HadoopMST-hadoop-dataflow-1에 Public IP 연결
+   - 인스턴스의 우측 메뉴바 > Public IP 연결 클릭
+   - `새로운 퍼블릭 IP를 생성하고 자동으로 할당`
+   - 확인 버튼 클릭
+4. Druid에 접속
+   - HadoopMST-hadoop-dataflow-1의 Public IP 복사
+   - 웹페이지에 `http://{MASTER_NODE_PUBLIC_IP}:3008` 입력 후 이동
+5. Druid에 Apache Kafka 연동
+   - Druid 화면의 상단의 Load Data 탭 클릭 후 Streaming 탭 클릭
+   - `Start a new streaming spec` 클릭 후 `Apache Kafka` 선택, `Connect data` 버튼 클릭
+   - Kafka 연결 단계에서 연결할 Kafka 클러스터 및 토픽 정보 설정
+      - Bootstrap servers: `Day1 lab03에서 생성한 부트스트랩 서버 입력`
+      - Topic: `nginx-topic`
+      - Apply 버튼 클릭
+   - Next: Parse data 버튼 클릭
+   - Next: Parse time 버튼 클릭
+   - Next: Transfrom 버튼 클릭
+   - Next: Filter 버튼 클릭
+   - Next: Configure schema 버튼 클릭
+   - Next: Partition 버튼 클릭
+   - Segment granularity: `all` 선택 후 Next: Tune 버튼 클릭
+   - Use earliest offset: `True` 선택 후 Next: Publish 버튼 클릭
+   - Next: Edit spec 버튼 클릭
+   - Submit 버튼 클릭
+6. Druid 화면의 상단의 Ingestion 탭 클릭 후 nginx-topic `RUNNING` 상태 확인
+7. Druid 화면의 상단의 Datasources 탭 클릭 후 nginx-topic의 Availability가 `Fully available` 상태 확인
+
+
+## 3. Superset 접속 후 실시간 데이터 시각화 생성
