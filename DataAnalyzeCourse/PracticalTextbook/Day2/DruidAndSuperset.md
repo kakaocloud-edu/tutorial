@@ -89,3 +89,24 @@ Hadoop Eco의 Dataflow 유형을 통해 Druid, Superset을 이용하여 실시�
 
 
 ## 3. Superset 접속 후 실시간 데이터 시각화 생성
+
+1. Superset에 접속
+   - HadoopMST-hadoop-dataflow-1의 Public IP 복사
+   - 웹페이지에 `http://{MASTER_NODE_PUBLIC_IP}:4000` 입력 후 이동
+2. Hadoop Eco 생성 시 입력했던 ID와 비밀번호로 로그인
+   - ID: `admin`
+   - PW: `Admin1234!`
+3. 상단 메뉴의 Datasets 버튼 클릭
+4. `+ DATASET` 버튼 클릭
+5. DATASET 설정
+   - DATABASE: `druid`
+   - SCHEMA: `druid`
+   - Select database table: `nginx-topic`
+   - `CREATE DATASET AND CREATE CHART` 클릭
+6. 상단 메뉴의 Datasets 버튼 클릭 후 생성된 `nginx-topic` 확인
+7. 상단 메뉴의 Dashboards 버튼 클릭
+8. `+ DASHBOARD` 버튼 클릭
+9. DASHBOARD 설정
+   - 좌측 상단의 [untitled dashboard] 삭제 후 `실시간 시각화` 입력
+   - 우측 상단의 `SAVE` 버튼 클릭
+10. 
