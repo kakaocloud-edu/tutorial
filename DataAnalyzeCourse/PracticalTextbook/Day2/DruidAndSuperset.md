@@ -149,4 +149,4 @@ Hadoop Eco의 Dataflow 유형을 통해 Druid, Superset을 이용하여 실시�
    - SAVE 버튼 클릭
 
 
-## 5. 실시간 데이터 시각화
+## 5. 지표 시각화
