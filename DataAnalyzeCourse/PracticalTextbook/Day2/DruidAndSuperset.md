@@ -44,8 +44,8 @@ Hadoop Eco의 Dataflow 유형을 통해 Druid, Superset을 이용하여 실시�
    - Kerberos 설치: `설치 안 함`
    - Ranger 설치:`설치 안 함`
    - 생성 버튼 클릭
-3. Hadoop Eco 클러스터 hadoop-dataflow `Running` 상태 확인
-4. Hadoop Eco 클러스터 hadoop-dataflow 클릭 후 보안 그룹 클릭
+3. hadoop-dataflow `Running` 상태 확인
+4. hadoop-dataflow 클릭 후 보안 그룹 클릭
 5. 인바운드 규칙 관리 클릭
    - 아래 인바운드 규칙 추가
 
