@@ -56,3 +56,4 @@ Hadoop Eco의 Dataflow 유형을 통해 Druid, Superset을 이용하여 실시�
    | TCP      | 0.0.0.0/0     | 9092      | Kafka      |
 
 
+## 2. Druid 접속 후 Kafka와 연결하여 데이터 연동
