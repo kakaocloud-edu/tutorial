@@ -1,10 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-###############
 # 환경설정
-###############
-
 CONFLUENT_VERSION="7.5.3"
 CONFLUENT_HOME="/opt/confluent"
 SCHEMA_REGISTRY_PROP="${CONFLUENT_HOME}/etc/schema-registry/schema-registry.properties"
@@ -13,10 +10,7 @@ LOGSTASH_SCHEMA_DIR="/etc/logstash/schema"
 LOGSTASH_CONF="/etc/logstash/conf.d/logs-to-kafka.conf"
 AVSC_FILE="${LOGSTASH_SCHEMA_DIR}/nginx_log.avsc"
 
-###############
 # 1. Java & Confluent 설치
-###############
-
 echo "[1/8] apt 업데이트 및 Java 설치"
 sudo apt-get update -y
 sudo apt-get install -y openjdk-11-jdk wget
@@ -36,10 +30,7 @@ grep -qxF 'export PATH=$PATH:$CONFLUENT_HOME/bin' ~/.bashrc || \
 export CONFLUENT_HOME="${CONFLUENT_HOME}"
 export PATH="$PATH:${CONFLUENT_HOME}/bin"
 
-###############
 # 2. Schema Registry 설정 & 서비스 등록
-###############
-
 echo "[4/8] schema-registry.properties 내 Kafka broker 주소 변경"
 sudo sed -i \
   "s|PLAINTEXT://localhost:9092|10.0.3.189:9092,10.0.2.254:9092|g" \
@@ -68,10 +59,7 @@ sudo systemctl daemon-reload
 sudo systemctl enable schema-registry.service
 sudo systemctl start  schema-registry.service
 
-###############
 # 3. Logstash Avro 플러그인 & 스키마
-###############
-
 echo "[7/8] Logstash Avro codec 플러그인 설치"
 sudo /usr/share/logstash/bin/logstash-plugin install logstash-codec-avro_schema_registry
 
