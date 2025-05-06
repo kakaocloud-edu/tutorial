@@ -1,10 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-###############
 # 환경설정
-###############
-
 CONFLUENT_VERSION="7.5.3"
 CONFLUENT_HOME="/opt/confluent"
 SCHEMA_REGISTRY_PROP="${CONFLUENT_HOME}/etc/schema-registry/schema-registry.properties"
@@ -13,10 +10,7 @@ LOGSTASH_SCHEMA_DIR="/etc/logstash/schema"
 LOGSTASH_CONF="/etc/logstash/conf.d/logs-to-kafka.conf"
 AVSC_FILE="${LOGSTASH_SCHEMA_DIR}/nginx_log.avsc"
 
-###############
 # 1. Java & Confluent 설치
-###############
-
 echo "kakaocloud: apt 업데이트 및 Java 설치"
 sudo apt-get update -y || {
     echo "kakaocloud: apt 업데이트 실패"; exit 1;
