@@ -149,7 +149,7 @@ sudo cp /home/ubuntu/tutorial/DataAnalyzeCourse/src/day1/Lab01/api_server/filebe
     echo "kakaocloud: filebeat.yml 복사 실패"; exit 1;
 }
 
-# 3) logs-to-pubsub.conf, logs-to-kafka.conf → /etc/logstash/conf.d
+# 3) logs-to-pubsub.conf → /etc/logstash/conf.d
 sudo cp /home/ubuntu/tutorial/DataAnalyzeCourse/src/day1/Lab01/api_server/logs-to-pubsub.conf /etc/logstash/conf.d/logs-to-pubsub.conf || {
     echo "kakaocloud: logs-to-pubsub.conf 복사 실패"; exit 1;
 }
