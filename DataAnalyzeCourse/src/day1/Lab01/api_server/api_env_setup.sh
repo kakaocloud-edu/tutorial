@@ -154,21 +154,25 @@ sudo cp /home/ubuntu/tutorial/DataAnalyzeCourse/src/day1/Lab01/api_server/logs-t
     echo "kakaocloud: logs-to-pubsub.conf 복사 실패"; exit 1;
 }
 
-echo "kakaocloud: 8. api_full_setup.sh, setup_db.sh, api_arvo_setup.sh 스크립트 실행을 시작합니다."
 sudo chmod +x /home/ubuntu/api_full_setup.sh /home/ubuntu/setup_db.sh /home/ubuntu/api_arvo_setup.sh \
   || { echo "kakaocloud: api_full_setup.sh, setup_db.sh에 실행 권한 부여 실패"; exit 1; }
 
+echo "kakaocloud: 8. api_full_setup.sh 스크립트 실행을 시작합니다."
 sudo -E /home/ubuntu/api_full_setup.sh \
   || { echo "kakaocloud: api_full_setup.sh execution failed"; exit 1; }
+
+echo "kakaocloud: 9. setup_db.sh 스크립트 실행을 시작합니다."
 sudo -E /home/ubuntu/setup_db.sh \
   || { echo "kakaocloud: setup_db.sh execution failed"; exit 1; }
+
+echo "kakaocloud: 10. api_arvo_setup.sh 스크립트 실행을 시작합니다."
 sudo -E /home/ubuntu/api_arvo_setup.sh \
   || { echo "kakaocloud: api_arvo_setup.sh execution failed"; exit 1; }
 
 ###############################################################################
 # 5) logstash.yml 구성 및 filebeat,logstash 재시작
 ###############################################################################
-echo "kakaocloud: 9. logstash.yml 구성 및 filebeat,logstash 재시작을 시작합니다."
+echo "kakaocloud: 11. logstash.yml 구성 및 filebeat, logstash를 재시작합니다."
 sudo tee /etc/logstash/logstash.yml <<'EOF' > /dev/null \
   || { echo "kakaocloud: Failed to write logstash.yml"; exit 1; }
 path.data: /var/lib/logstash
