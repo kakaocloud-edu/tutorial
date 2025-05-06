@@ -55,13 +55,17 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     sudo sed -i 's/temp-kafka-bootstrap-server/{실제 Kafka 클러스터 부트스트랩 서버값}/g' /home/ubuntu/.bashrc /etc/default/logstash
     ```
 
-2. `api-server-1`, `api-server-2`에서 /etc/default/logstash의 `ENABLE_KAFKA_OUTPUT`을 수정하여 Kafka Output을 활성화
+2. `api-server-1`, `api-server-2`에서 Kafka Output 활성화 및 Pub/Sub 송신 설정 제거
 
-    #### **lab3-2-2**
+    #### **lab3-2-2-1**
     
     ```bash
     sudo sed -i 's/^ENABLE_KAFKA_OUTPUT="false"/ENABLE_KAFKA_OUTPUT="true"/' /etc/default/logstash
     ```
+    ```bash
+    sudo sed -i 's/\["127.0.0.1:5044","127.0.0.1:5045"\]/["127.0.0.1:5045"]/g' /etc/filebeat/filebeat.yml
+    ```
+    
 
 3. `api-server-1`, `api-server-2`에서 Logstash 설정 파일을 수정하여 Kafka로 송신하도록 설정
 
