@@ -1,13 +1,10 @@
-# /etc/filebeat/filebeat.yml
-# Filebeat 설정 파일 - Nginx 로그를 수집하여 Logstash로 전송
-
 filebeat.inputs:
-- type: log                                # 로그 파일 입력 설정
+- type: log
   id: my-filestream-id
   enabled: true
   paths:
-    - /var/log/nginx/flask_app_access.log  # 수집할 로그 파일 경로 지정
-  multiline.pattern: '^\{'                 # 다중 줄 로그 병합 (JSON 시작 '{' 기준)
+    - /var/log/nginx/flask_app_access.log
+  multiline.pattern: '^\{'
   multiline.negate: true
   multiline.match: after
 
@@ -21,11 +18,11 @@ setup.template.settings:
 setup.kibana:
 
 output.logstash:
-  hosts: ["127.0.0.1:5044","127.0.0.1:5045"]  # Logstash로 로그 전송
+  hosts: ["127.0.0.1:5045"]
 
 processors:
-  - add_host_metadata:                     # 호스트 관련 메타데이터 추가
+  - add_host_metadata:
       when.not.contains.tags: forwarded
-  - add_cloud_metadata: ~                   # 클라우드 환경 정보 추가
-  - add_docker_metadata: ~                  # Docker 관련 정보 추가
-  - add_kubernetes_metadata: ~              # Kubernetes 관련 정보 추가
+  - add_cloud_metadata: ~
+  - add_docker_metadata: ~
+  - add_kubernetes_metadata: ~
