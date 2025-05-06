@@ -1,0 +1,14 @@
+[Unit]
+Description=Confluent Schema Registry
+After=network.target
+
+[Service]
+Type=simple
+User=ubuntu
+ExecStart=/opt/confluent/bin/schema-registry-start \
+           /opt/confluent/etc/schema-registry/schema-registry.properties
+Restart=on-failure
+RestartSec=5s
+
+[Install]
+WantedBy=multi-user.target
