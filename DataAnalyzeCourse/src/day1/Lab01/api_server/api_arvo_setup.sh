@@ -32,24 +32,24 @@ sudo mv confluent-7.5.3 /opt/confluent || {
 
 echo "kakaocloud: 환경변수 설정"
 grep -qxF "export CONFLUENT_HOME=${CONFLUENT_HOME}" ~/.bashrc || \
-  echo "export CONFLUENT_HOME=${CONFLUENT_HOME}" >> ~/.bashrc
+  echo 'export CONFLUENT_HOME=/opt/confluent' >> ~/.bashrc
 grep -qxF 'export PATH=$PATH:$CONFLUENT_HOME/bin' ~/.bashrc || \
   echo 'export PATH=$PATH:$CONFLUENT_HOME/bin' >> ~/.bashrc
 # 현재 셸에도 적용
 export CONFLUENT_HOME="${CONFLUENT_HOME}"
 export PATH="$PATH:${CONFLUENT_HOME}/bin"
 
-###############
 # 2. Schema Registry 설정 & 서비스 등록
-###############
-
 echo "kakaocloud: schema-registry.properties 내 Kafka broker 주소 변경"
-sudo sed -i \
-  "s|PLAINTEXT://localhost:9092|10.0.3.189:9092,10.0.2.254:9092|g" \
-  "${SCHEMA_REGISTRY_PROP}"
+sudo sed -i 's|PLAINTEXT://localhost:9092|10.0.3.189:9092,10.0.2.254:9092|g' /opt/confluent/etc/schema-registry/schema-registry.properties || {
+    echo "kakaocloud: Kafka broker 주소 변경 실패"; exit 1;
+}
 
 echo "kakaocloud: systemd 서비스 유닛 생성"
 sudo cp /home/ubuntu/tutorial/DataAnalyzeCourse/src/day1/Lab01/api_server/schema-registry.service /etc/logstash/conf.d/schema-registry.service || {
+    echo "kakaocloud: schema-registry.service 복사 실패"; exit 1;
+}
+sudo cp /home/ubuntu/tutorial/DataAnalyzeCourse/src/day1/Lab01/api_server/schema-registry.service /etc/systemd/system/schema-registry.service || {
     echo "kakaocloud: schema-registry.service 복사 실패"; exit 1;
 }
 
@@ -71,7 +71,7 @@ sudo /usr/share/logstash/bin/logstash-plugin install logstash-codec-avro_schema_
 }
 
 echo "kakaocloud: Avro 스키마 및 Logstash 설정 파일 생성"
-sudo mkdir -p "${LOGSTASH_SCHEMA_DIR}" || {
+sudo mkdir -p /etc/logstash/schema || {
     echo "kakaocloud: Avro 스키마 및 Logstash 설정 파일 생성 실패"; exit 1;
 }
 
