@@ -153,9 +153,6 @@ sudo cp /home/ubuntu/tutorial/DataAnalyzeCourse/src/day1/Lab01/api_server/filebe
 sudo cp /home/ubuntu/tutorial/DataAnalyzeCourse/src/day1/Lab01/api_server/logs-to-pubsub.conf /etc/logstash/conf.d/logs-to-pubsub.conf || {
     echo "kakaocloud: logs-to-pubsub.conf 복사 실패"; exit 1;
 }
-sudo cp /home/ubuntu/tutorial/DataAnalyzeCourse/src/day1/Lab01/api_server/logs-to-kafka.conf /etc/logstash/conf.d/logs-to-kafka.conf || {
-    echo "kakaocloud: logs-to-kafka.conf 복사 실패"; exit 1;
-}
 
 echo "kakaocloud: 8. api_full_setup.sh, setup_db.sh, api_arvo_setup.sh 스크립트 실행을 시작합니다."
 sudo chmod +x /home/ubuntu/api_full_setup.sh /home/ubuntu/setup_db.sh /home/ubuntu/api_arvo_setup.sh \
@@ -183,8 +180,3 @@ sudo systemctl restart filebeat \
   || { echo "kakaocloud: Failed to restart filebeat"; exit 1; }
 sudo systemctl restart logstash \
   || { echo "kakaocloud: Failed to restart logstash"; exit 1; }
-
-# 실습에 사용되는 폴더만 남기기 위해 tutorial 리포지토리 삭제
-sudo rm -rf /home/ubuntu/tutorial || {
-    echo "kakaocloud: Failed to remove the tutorial repository"; exit 1;
-}
