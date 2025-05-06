@@ -20,20 +20,17 @@ sudo apt-get install -y openjdk-11-jdk wget || {
 }
 
 echo "kakaocloud: Confluent 패키지 다운로드 및 설치"
-wget -q "https://packages.confluent.io/archive/${CONFLUENT_VERSION}/confluent-community-${CONFLUENT_VERSION}.tar.gz" || {
+sudo wget https://packages.confluent.io/archive/7.5/confluent-community-7.5.3.tar.gz || {
     echo "kakaocloud: Confluent 패키지 다운로드 실패"; exit 1;
 }
-tar -xzf "confluent-community-${CONFLUENT_VERSION}.tar.gz" || {
+sudo tar -xzvf confluent-community-7.5.3.tar.gz || {
     echo "kakaocloud: Confluent 패키지 압축 해제 실패"; exit 1;
 }
-sudo mv "confluent-${CONFLUENT_VERSION}" "${CONFLUENT_HOME}" || {
+sudo mv confluent-7.5.3 /opt/confluent || {
     echo "kakaocloud: Confluent 패키지 이동 실패"; exit 1;
 }
-rm "confluent-community-${CONFLUENT_VERSION}.tar.gz" || {
-    echo "kakaocloud: Confluent 패키지 압축파일 삭제 실패"; exit 1;
-}
 
-echo "[3/8] 환경변수 설정"
+echo "kakaocloud: 환경변수 설정"
 grep -qxF "export CONFLUENT_HOME=${CONFLUENT_HOME}" ~/.bashrc || \
   echo "export CONFLUENT_HOME=${CONFLUENT_HOME}" >> ~/.bashrc
 grep -qxF 'export PATH=$PATH:$CONFLUENT_HOME/bin' ~/.bashrc || \
@@ -46,7 +43,7 @@ export PATH="$PATH:${CONFLUENT_HOME}/bin"
 # 2. Schema Registry 설정 & 서비스 등록
 ###############
 
-echo "[4/8] schema-registry.properties 내 Kafka broker 주소 변경"
+echo "kakaocloud: schema-registry.properties 내 Kafka broker 주소 변경"
 sudo sed -i \
   "s|PLAINTEXT://localhost:9092|10.0.3.189:9092,10.0.2.254:9092|g" \
   "${SCHEMA_REGISTRY_PROP}"
