@@ -46,8 +46,7 @@ if [[ -z "${LOGSTASH_KAFKA_ENDPOINT:-}" ]]; then
   exit 1
 fi
 
-sudo sed -i "s|PLAINTEXT://localhost:9092|${LOGSTASH_KAFKA_ENDPOINT}|g" \
-  /opt/confluent/etc/schema-registry/schema-registry.properties
+sudo sed -i "s|PLAINTEXT://localhost:9092|10.0.2.180:9092,10.0.2.27:9092|g" /opt/confluent/etc/schema-registry/schema-registry.properties
 
 echo "systemd 서비스 유닛 생성"
 sudo cp /home/ubuntu/tutorial/DataAnalyzeCourse/src/day1/Lab01/api_server/schema-registry.service /etc/logstash/conf.d/schema-registry.service || {
@@ -57,16 +56,16 @@ sudo cp /home/ubuntu/tutorial/DataAnalyzeCourse/src/day1/Lab01/api_server/schema
     echo "kakaocloud: schema-registry.service 복사 실패"; exit 1;
 }
 
-# echo "systemd 데몬 리로드 및 schema-registry 서비스 활성화/시작"
-# sudo systemctl daemon-reload || {
-#     echo "kakaocloud: systemd 데몬 리로드 실패"; exit 1;
-# }
-# sudo systemctl enable schema-registry.service || {
-#     echo "kakaocloud: schema-registry 서비스 활성화 실패"; exit 1;
-# }
-# sudo systemctl start  schema-registry.service || {
-#     echo "kakaocloud: schema-registry 서비스 시작 실패"; exit 1;
-# }
+echo "systemd 데몬 리로드 및 schema-registry 서비스 활성화/시작"
+sudo systemctl daemon-reload || {
+    echo "kakaocloud: systemd 데몬 리로드 실패"; exit 1;
+}
+sudo systemctl enable schema-registry.service || {
+    echo "kakaocloud: schema-registry 서비스 활성화 실패"; exit 1;
+}
+sudo systemctl start  schema-registry.service || {
+    echo "kakaocloud: schema-registry 서비스 시작 실패"; exit 1;
+}
 
 # 3. Logstash Avro 플러그인 & 스키마
 echo "Logstash Avro codec 플러그인 설치"
