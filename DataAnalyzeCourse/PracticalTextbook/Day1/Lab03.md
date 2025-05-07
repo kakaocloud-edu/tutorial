@@ -627,13 +627,13 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     sudo systemctl daemon-reload
     ```
     ```bash
+    sudo systemctl restart schema-registry.service
+    ```
+    ```bash
     sudo systemctl enable kafka-connect
     ```
     ```bash
     sudo systemctl start kafka-connect
-    ```
-    ```bash
-    sudo systemctl restart schema-registry.service
     ```
 
     ![Image](https://github.com/user-attachments/assets/43cc5d53-98f3-45e5-919b-cad3015cfba8)
