@@ -185,3 +185,5 @@ sudo systemctl restart filebeat \
   || { echo "kakaocloud: Failed to restart filebeat"; exit 1; }
 sudo systemctl restart logstash \
   || { echo "kakaocloud: Failed to restart logstash"; exit 1; }
+
+echo "kakaocloud: Setup 완료"
