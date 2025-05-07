@@ -39,12 +39,6 @@ grep -qxF 'export PATH=$PATH:$CONFLUENT_HOME/bin' ~/.bashrc || \
 export CONFLUENT_HOME="${CONFLUENT_HOME}"
 export PATH="$PATH:${CONFLUENT_HOME}/bin"
 
-# 2. Schema Registry 설정 & 서비스 등록
-echo "schema-registry.properties 내 Kafka broker 주소 변경"
-sudo sed -i 's|PLAINTEXT://localhost:9092|10.0.3.189:9092,10.0.2.254:9092|g' /opt/confluent/etc/schema-registry/schema-registry.properties || {
-    echo "kakaocloud: Kafka broker 주소 변경 실패"; exit 1;
-}
-
 echo "systemd 서비스 유닛 생성"
 sudo cp /home/ubuntu/tutorial/DataAnalyzeCourse/src/day1/Lab01/api_server/schema-registry.service /etc/logstash/conf.d/schema-registry.service || {
     echo "kakaocloud: schema-registry.service 복사 실패"; exit 1;
