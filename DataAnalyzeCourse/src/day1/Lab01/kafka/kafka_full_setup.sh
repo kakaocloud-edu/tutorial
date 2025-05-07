@@ -229,11 +229,6 @@ echo "kakaocloud: 16. Schema Registry 다운로드 및 설치 시작"
 sudo wget https://packages.confluent.io/archive/7.5/confluent-7.5.3.tar.gz || { echo "kakaocloud: Schema Registry 다운로드 실패"; exit 1; }
 sudo tar -xzvf confluent-7.5.3.tar.gz -C /confluent-hub/plugins || { echo "kakaocloud: Schema Registry 압축 해제 실패"; exit 1; }
 sudo rm confluent-7.5.3.tar.gz || { echo "kakaocloud: Schema Registry 압축파일 삭제 실패"; exit 1; }
-if [[ -z "${KAFKA_BOOTSTRAP_SERVER:-}" ]]; then
-  echo "ERROR: KAFKA_BOOTSTRAP_SERVER 환경변수가 설정되어 있지 않습니다." >&2
-  exit 1
-fi
-sudo sed -i "s|PLAINTEXT://localhost:9092|${KAFKA_BOOTSTRAP_SERVER}|g" /opt/confluent/etc/schema-registry/schema-registry.properties || { echo "kakaocloud: Schema Registry 설정 실패"; exit 1; }
 
 ################################################################################
 # 15. systemd 유닛 파일 생성 및 Schema Registry 서비스 등록
