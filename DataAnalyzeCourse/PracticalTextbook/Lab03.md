@@ -607,10 +607,18 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     ls /etc/systemd/system | grep kafka-connect.service
     ```
 
-    
-9. 데몬 리로드 및 kafka-connect 서비스를 시작하는 명령어 실행
-    
+9. Schema Registry 설정파일에서 Kafka 브로커 주소 변경
+   - **Note**: `{실제 Kafka 클러스터 부트스트랩 서버값}`을 개인 환경에 맞게 수정 필요
+
     #### lab**2-8-9**
+    
+    ```bash
+    sudo sed -i 's|PLAINTEXT://localhost:9092|{실제 Kafka 클러스터 부트스트랩 서버값}|' /confluent-hub/plugins/confluent-7.5.3/etc/schema-registry/schema-registry.properties
+    ```
+    
+10. 데몬 리로드 및 kafka-connect 서비스를 시작하는 명령어 실행
+    
+    #### lab**2-8-10**
     
     ```bash
     sudo systemctl daemon-reload
@@ -624,7 +632,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
 
     ![Image](https://github.com/user-attachments/assets/43cc5d53-98f3-45e5-919b-cad3015cfba8)
 
-10. `s3-sink-connector` 상태 정보 확인
+11. `s3-sink-connector` 상태 정보 확인
    
     #### lab**2-8-10**
     
@@ -634,9 +642,9 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
 
     ![Image](https://github.com/user-attachments/assets/88fa4485-7919-4df1-aa42-9183b81f0df7)
 
-11. 카카오 클라우드 콘솔 > Beyond Storage Service > Object Storage
-12. `data-catalog-bucket` 클릭
-13. NGINX 로그가 쌓인 디렉터리로 이동 후 버킷 내 적재된 NGINX 로그 적재 확인
+12. 카카오 클라우드 콘솔 > Beyond Storage Service > Object Storage
+13. `data-catalog-bucket` 클릭
+14. NGINX 로그가 쌓인 디렉터리로 이동 후 버킷 내 적재된 NGINX 로그 적재 확인
     - **Note**: `/kafka-nginx-log/nginx-topic/partition_0/year_{현재 연도}/month_{현재 월}/day_{현재 일}/hour_{현재 시}`디렉터리로 이동
    ![nginx로그 object storage 적재](https://github.com/user-attachments/assets/f825bf28-1302-4c4c-92e0-7d250cb5d86f)
 
