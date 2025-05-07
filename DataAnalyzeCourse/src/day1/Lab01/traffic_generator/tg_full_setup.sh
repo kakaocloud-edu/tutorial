@@ -178,3 +178,5 @@ sudo pip3 install kafka-python || { echo "kakaocloud: kafka-python 라이브러�
 
 # 현재 쉘 세션의 PATH에 변경 내용 적용
 source ~/.bashrc
+
+echo "kakaocloud: Setup 완료"
