@@ -84,9 +84,9 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     sudo sed -i 's|PLAINTEXT://localhost:9092|{실제 Kafka 클러스터 부트스트랩 서버값}|g' /opt/confluent/etc/schema-registry/schema-registry.properties
     ```
     
-4. `api-server-1`, `api-server-2`에서 Logstash, Filebeat 재시작 및 상태 확인
+5. `api-server-1`, `api-server-2`에서 Logstash, Filebeat 재시작 및 상태 확인
     
-    #### **lab3-2-4**
+    #### **lab3-2-5**
     
     ```bash
     sudo systemctl daemon-reload
@@ -101,15 +101,15 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     sudo systemctl restart schema-registry.service
     ```
 
-5. `api-server-1`, `api-server-2`에서 Logstash 가 `Active:active (running)` 상태인 것을 확인
+6. `api-server-1`, `api-server-2`에서 Logstash 가 `Active:active (running)` 상태인 것을 확인
 
-    #### **lab3-2-5**
+    #### **lab3-2-6**
 
     ```bash
     sudo systemctl status logstash
     ```
 
-6. `ctrl` + `c`로 종료
+7. `ctrl` + `c`로 종료
 
     ![Image](https://github.com/user-attachments/assets/d6b11193-66a6-4bf3-a86f-7cd3a7169b51)
 
