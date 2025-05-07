@@ -375,8 +375,11 @@
     kakaocloud: 5. filebeat, logstash 환경변수 설정을 시작합니다.
     kakaocloud: 6. flask_app.service 환경 변수를 설정합니다.
     kakaocloud: 7. 스크립트 및 실습 진행에 필요한 파일들을 다운로드합니다.
-    kakaocloud: 8. api_full_setup.sh, setup_db.sh 스크립트 실행을 시작합니다.
-    kakaocloud: 9. logstash.yml 구성 및 filebeat,logstash 재시작을 시작합니다.
+    kakaocloud: 8. api_full_setup.sh 스크립트 실행을 시작합니다.
+    kakaocloud: 9. setup_db.sh 스크립트 실행을 시작합니다.
+    kakaocloud: 10. api_arvo_setup.sh 스크립트 실행을 시작합니다.
+    kakaocloud: 11. logstash.yml 구성을 시작합니다.
+    kakaocloud: 12. filebeat, logstash를 재시작합니다.
     kakaocloud: Setup 완료
     ```
 
