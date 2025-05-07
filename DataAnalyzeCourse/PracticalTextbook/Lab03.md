@@ -74,7 +74,16 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     ```
     sudo sed -i 's/logs-to-pubsub.conf/logs-to-kafka.conf/g' /etc/logstash/logstash.yml
     ```
+    
+4. Schema Registry 설정파일에서 Kafka 브로커 주소 변경
+   - **Note**: `{실제 Kafka 클러스터 부트스트랩 서버값}`을 개인 환경에 맞게 수정 필요
 
+    #### lab**2-8-4**
+    
+    ```bash
+    sudo sed -i 's|PLAINTEXT://localhost:9092|{실제 Kafka 클러스터 부트스트랩 서버값}|g' /opt/confluent/etc/schema-registry/schema-registry.properties
+    ```
+    
 4. `api-server-1`, `api-server-2`에서 Logstash, Filebeat 재시작 및 상태 확인
     
     #### **lab3-2-4**
