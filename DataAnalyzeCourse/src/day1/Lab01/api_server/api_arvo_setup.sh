@@ -66,7 +66,7 @@ sudo systemctl start  schema-registry.service || {
 
 # 3. Logstash Avro 플러그인 & 스키마
 echo "Logstash Avro codec 플러그인 설치"
-sudo /usr/share/logstash/bin/logstash-plugin install logstash-codec-avro_schema_registry || {
+sudo /usr/share/logstash/bin/logstash-plugin install logstash-codec-avro || {
     echo "kakaocloud: Logstash Avro codec 플러그인 설치 실패"; exit 1;
 }
 
