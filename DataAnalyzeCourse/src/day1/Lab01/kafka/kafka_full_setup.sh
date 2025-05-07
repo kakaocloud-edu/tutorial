@@ -223,6 +223,61 @@ EOF
 if [ $? -ne 0 ]; then echo "kakaocloud: Kafka Connect 서비스 등록 실패"; exit 1; fi
 
 ################################################################################
+# 14. Schema Registry 다운로드 및 설치
+################################################################################
+sudo wget https://packages.confluent.io/archive/7.5/confluent-7.5.3.tar.gz || { echo "kakaocloud: Schema Registry 다운로드 실패"; exit 1; }
+sudo tar -xzvf confluent-7.5.3.tar.gz -C /confluent-hub/plugins || { echo "kakaocloud: Schema Registry 압축 해제 실패"; exit 1; }
+sudo rm confluent-7.5.3.tar.gz || { echo "kakaocloud: Schema Registry 압축파일 삭제 실패"; exit 1; }
+
+################################################################################
+# 15. Schema Registry 설정파일에서 Kafka 브로커 주소 변경
+################################################################################
+sudo sed -i 's|PLAINTEXT://localhost:9092|10.0.3.189:9092,10.0.2.254:9092|' /confluent-hub/plugins/confluent-7.5.3/etc/schema-registry/schema-registry.properties || { echo "kakaocloud: Kafka 브로커 주소 변경 실패"; exit 1; }
+
+################################################################################
+# 16. systemd 유닛 파일 생성 및 Schema Registry 서비스 등록
+################################################################################
+cat <<EOF > /etc/systemd/system/schema-registry.service
+[Unit]
+Description=Confluent Schema Registry
+After=network.target
+
+[Service]
+Type=simple
+User=ubuntu
+ExecStart=/confluent-hub/plugins/confluent-7.5.3/bin/schema-registry-start /confluent-hub/plugins/confluent-7.5.3/etc/schema-registry/schema-registry.properties
+Restart=on-failure
+RestartSec=5s
+
+[Install]
+WantedBy=multi-user.target
+EOF
+if [ $? -ne 0 ]; then echo "kakaocloud: Schema Registry Service 파일 작성 실패"; exit 1; fi
+
+sudo systemctl daemon-reload || { echo "kakaocloud: daemon-reload 실패"; exit 1; }
+sudo systemctl enable schema-registry.service || { echo "kakaocloud: schema-registry 서비스 생성 실패"; exit 1; }
+sudo systemctl start schema-registry.service || { echo "kakaocloud: schema-registry 서비스 시작 실패"; exit 1; }
+
+################################################################################
+# 17. S3 커넥터 플러그인 경로에 Avro 컨버터 설치
+################################################################################
+sudo wget -P /confluent-hub/plugins/confluentinc-kafka-connect-s3/lib https://github.com/kakaocloud-edu/tutorial/raw/refs/heads/main/DataAnalyzeCourse/src/day2/Lab01/confluentinc-kafka-connect-avro-converter-7.5.3.zip || { echo "kakaocloud: confluentinc-kafka-connect-avro-converter 다운로드 실패"; exit 1; }
+unzip confluentinc-kafka-connect-avro-converter-7.5.3.zip || { echo "kakaocloud: confluentinc-kafka-connect-avro-converter 압축 해제 실패"; exit 1; }
+sudo rm confluentinc-kafka-connect-avro-converter-7.5.3.zip || { echo "kakaocloud: confluentinc-kafka-connect-avro-converter 압축파일 삭제 실패"; exit 1; }
+sudo mv confluentinc-kafka-connect-avro-converter-7.5.3/lib/*.jar /confluent-hub/plugins/confluentinc-kafka-connect-s3/lib || { echo "kakaocloud: confluentinc-kafka-connect-avro-converter 파일 이동 실패"; exit 1; }
+
+################################################################################
+# 18. S3 커넥터 추가 의존성 다운로드
+################################################################################
+sudo wget -P /confluent-hub/plugins/confluentinc-kafka-connect-s3/lib \
+  https://repo1.maven.org/maven2/com/google/guava/guava/30.1.1-jre/guava-30.1.1-jre.jar \
+  https://packages.confluent.io/maven/io/confluent/kafka-connect-protobuf-converter/7.5.3/kafka-connect-protobuf-converter-7.5.3.jar \
+  https://packages.confluent.io/maven/io/confluent/kafka-protobuf-serializer/7.5.3/kafka-protobuf-serializer-7.5.3.jar \
+  https://packages.confluent.io/maven/io/confluent/common-config/7.5.3/common-config-7.5.3.jar \
+  https://repo1.maven.org/maven2/com/google/protobuf/protobuf-java/3.25.1/protobuf-java-3.25.1.jar \
+  https://repo1.maven.org/maven2/com/google/guava/failureaccess/1.0.2/failureaccess-1.0.2.jar || { echo -e "\nERROR: S3 커넥터 추가 의존성 다운로드 실패"; exit 1; }
+
+################################################################################
 # 완료
 ################################################################################
 echo "kakaocloud: Setup 완료"
