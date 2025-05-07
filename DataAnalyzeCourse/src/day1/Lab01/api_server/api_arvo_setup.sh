@@ -39,6 +39,16 @@ grep -qxF 'export PATH=$PATH:$CONFLUENT_HOME/bin' ~/.bashrc || \
 export CONFLUENT_HOME="${CONFLUENT_HOME}"
 export PATH="$PATH:${CONFLUENT_HOME}/bin"
 
+# 2. Schema Registry 설정 & 서비스 등록
+echo "schema-registry.properties 내 Kafka broker 주소 변경"
+if [[ -z "${LOGSTASH_KAFKA_ENDPOINT:-}" ]]; then
+  echo "ERROR: LOGSTASH_KAFKA_ENDPOINT 환경변수가 설정되어 있지 않습니다." >&2
+  exit 1
+fi
+
+sudo sed -i "s|PLAINTEXT://localhost:9092|${LOGSTASH_KAFKA_ENDPOINT}|g" \
+  /opt/confluent/etc/schema-registry/schema-registry.properties
+
 echo "systemd 서비스 유닛 생성"
 sudo cp /home/ubuntu/tutorial/DataAnalyzeCourse/src/day1/Lab01/api_server/schema-registry.service /etc/logstash/conf.d/schema-registry.service || {
     echo "kakaocloud: schema-registry.service 복사 실패"; exit 1;
