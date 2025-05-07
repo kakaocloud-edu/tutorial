@@ -152,7 +152,6 @@ sudo wget -O /confluent-hub/plugins/confluentinc-kafka-connect-s3/lib/custom-fil
 ################################################################################
 echo "kakaocloud: 13. s3-sink-connector.properties 생성"
 cat <<EOF > /opt/kafka/config/s3-sink-connector.properties
-# Connector 설정 파일
 name=s3-sink-connector
 connector.class=io.confluent.connect.s3.S3SinkConnector
 tasks.max=1
@@ -163,15 +162,15 @@ s3.part.size=5242880
 aws.access.key.id=${AWS_ACCESS_KEY_ID_VALUE}
 aws.secret.access.key=${AWS_SECRET_ACCESS_KEY_VALUE}
 store.url=https://objectstorage.kr-central-2.kakaocloud.com
-key.converter=org.apache.kafka.connect.json.JsonConverter
-value.converter=org.apache.kafka.connect.json.JsonConverter
-key.converter.schemas.enable=false
-value.converter.schemas.enable=false
 storage.class=io.confluent.connect.s3.storage.S3Storage
-format.class=io.confluent.connect.s3.format.json.JsonFormat
+format.class=io.confluent.connect.s3.format.parquet.ParquetFormat
+parquet.codec=snappy
+key.converter=org.apache.kafka.connect.storage.StringConverter
+value.converter=io.confluent.connect.avro.AvroConverter
+value.converter.schema.registry.url=http://localhost:8081
+value.converter.schemas.enable=true
 flush.size=1
 partitioner.class=com.mycompany.connect.FlexibleTimeBasedPartitioner
-format.class=com.mycompany.connect.CustomJsonFormat
 topics.dir=kafka-nginx-log
 custom.topic.dir=nginx-topic
 custom.partition.prefix=partition_
