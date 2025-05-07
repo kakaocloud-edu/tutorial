@@ -41,7 +41,7 @@ export PATH="$PATH:${CONFLUENT_HOME}/bin"
 
 # 2. Schema Registry 설정 & 서비스 등록
 echo "schema-registry.properties 내 Kafka broker 주소 변경"
-sudo sed -i "s|PLAINTEXT://localhost:9092|${LOGSTASH_KAFKA_ENDPOINT}|g" /opt/confluent/etc/schema-registry/schema-registry.properties || {
+sudo sed -i "s|PLAINTEXT://localhost:9092|10.0.2.180:9092,10.0.2.27:9092|g" /opt/confluent/etc/schema-registry/schema-registry.properties || {
     echo "kakaocloud: Kafka broker 주소 변경 실패"; exit 1;
 }
 
