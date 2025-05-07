@@ -46,7 +46,7 @@ if [[ -z "${LOGSTASH_KAFKA_ENDPOINT:-}" ]]; then
   exit 1
 fi
 
-sudo sed -i "s|PLAINTEXT://localhost:9092|10.0.2.180:9092,10.0.2.27:9092|g" /opt/confluent/etc/schema-registry/schema-registry.properties
+sudo sed -i "s|PLAINTEXT://localhost:9092|${LOGSTASH_KAFKA_ENDPOINT}|g" /opt/confluent/etc/schema-registry/schema-registry.properties
 
 echo "systemd 서비스 유닛 생성"
 sudo cp /home/ubuntu/tutorial/DataAnalyzeCourse/src/day1/Lab01/api_server/schema-registry.service /etc/logstash/conf.d/schema-registry.service || {
