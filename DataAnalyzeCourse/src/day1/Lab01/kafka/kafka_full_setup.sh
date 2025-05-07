@@ -134,7 +134,7 @@ source /home/ubuntu/.bashrc || { echo "kakaocloud: .bashrc 재적용 실패"; ex
 ################################################################################
 # 9. Kafka 설정 폴더 생성 및 권한 부여
 ################################################################################
-echo "kakaocloud: 11. Kafka 설정 폴더 생성 및 권한 부여"
+echo "kakaocloud: 11. Kafka 설정 폴더 생성 및 권한 부여 시작"
 sudo mkdir -p /opt/kafka/config || { echo "kakaocloud: Kafka 설정 폴더 생성 실패"; exit 1; }
 sudo chown -R ubuntu:ubuntu /opt/kafka || { echo "kakaocloud: Kafka 설정 폴더 권한 변경 실패"; exit 1; }
 
@@ -150,7 +150,7 @@ sudo wget -O /confluent-hub/plugins/confluentinc-kafka-connect-s3/lib/custom-fil
 ################################################################################
 # 11. s3-sink-connector.properties 생성
 ################################################################################
-echo "kakaocloud: 13. s3-sink-connector.properties 생성"
+echo "kakaocloud: 13. s3-sink-connector.properties 생성 시작"
 cat <<EOF > /opt/kafka/config/s3-sink-connector.properties
 name=s3-sink-connector
 connector.class=io.confluent.connect.s3.S3SinkConnector
@@ -186,7 +186,7 @@ if [ $? -ne 0 ]; then echo "kakaocloud: s3-sink-connector.properties 생성 실�
 ################################################################################
 # 12. worker.properties 생성
 ################################################################################
-echo "kakaocloud: 14. worker.properties 생성"
+echo "kakaocloud: 14. worker.properties 생성 시작"
 cat <<EOF > /opt/kafka/config/worker.properties
 bootstrap.servers=${KAFKA_BOOTSTRAP_SERVER}
 key.converter=org.apache.kafka.connect.json.JsonConverter
@@ -203,7 +203,7 @@ if [ $? -ne 0 ]; then echo "kakaocloud: worker.properties 생성 실패"; exit 1
 ################################################################################
 # 13. kafka-connect systemd 서비스 등록
 ################################################################################
-echo "kakaocloud: 15. Kafka Connect 서비스 등록"
+echo "kakaocloud: 15. Kafka Connect 서비스 등록 시작"
 cat <<EOF | sudo tee /etc/systemd/system/kafka-connect.service
 [Unit]
 Description=Kafka Connect Standalone Service
@@ -225,18 +225,15 @@ if [ $? -ne 0 ]; then echo "kakaocloud: Kafka Connect 서비스 등록 실패"; 
 ################################################################################
 # 14. Schema Registry 다운로드 및 설치
 ################################################################################
+echo "kakaocloud: 16. Schema Registry 다운로드 및 설치 시작"
 sudo wget https://packages.confluent.io/archive/7.5/confluent-7.5.3.tar.gz || { echo "kakaocloud: Schema Registry 다운로드 실패"; exit 1; }
 sudo tar -xzvf confluent-7.5.3.tar.gz -C /confluent-hub/plugins || { echo "kakaocloud: Schema Registry 압축 해제 실패"; exit 1; }
 sudo rm confluent-7.5.3.tar.gz || { echo "kakaocloud: Schema Registry 압축파일 삭제 실패"; exit 1; }
 
 ################################################################################
-# 15. Schema Registry 설정파일에서 Kafka 브로커 주소 변경
+# 15. systemd 유닛 파일 생성 및 Schema Registry 서비스 등록
 ################################################################################
-sudo sed -i 's|PLAINTEXT://localhost:9092|10.0.3.189:9092,10.0.2.254:9092|' /confluent-hub/plugins/confluent-7.5.3/etc/schema-registry/schema-registry.properties || { echo "kakaocloud: Kafka 브로커 주소 변경 실패"; exit 1; }
-
-################################################################################
-# 16. systemd 유닛 파일 생성 및 Schema Registry 서비스 등록
-################################################################################
+echo "kakaocloud: 17. systemd 유닛 파일 생성 및 Schema Registry 서비스 등록 시작"
 cat <<EOF > /etc/systemd/system/schema-registry.service
 [Unit]
 Description=Confluent Schema Registry
@@ -259,16 +256,13 @@ sudo systemctl enable schema-registry.service || { echo "kakaocloud: schema-regi
 sudo systemctl start schema-registry.service || { echo "kakaocloud: schema-registry 서비스 시작 실패"; exit 1; }
 
 ################################################################################
-# 17. S3 커넥터 플러그인 경로에 Avro 컨버터 설치
+# 16. S3 커넥터 플러그인 경로에 Avro 컨버터 설치 및 설정
 ################################################################################
+echo "kakaocloud: 18. Avro 컨버터 설치 및 설정 시작"
 sudo wget https://github.com/kakaocloud-edu/tutorial/raw/refs/heads/main/DataAnalyzeCourse/src/day2/Lab01/confluentinc-kafka-connect-avro-converter-7.5.3.zip || { echo "kakaocloud: confluentinc-kafka-connect-avro-converter 다운로드 실패"; exit 1; }
 unzip confluentinc-kafka-connect-avro-converter-7.5.3.zip || { echo "kakaocloud: confluentinc-kafka-connect-avro-converter 압축 해제 실패"; exit 1; }
 sudo rm confluentinc-kafka-connect-avro-converter-7.5.3.zip || { echo "kakaocloud: confluentinc-kafka-connect-avro-converter 압축파일 삭제 실패"; exit 1; }
 sudo mv confluentinc-kafka-connect-avro-converter-7.5.3/lib/*.jar /confluent-hub/plugins/confluentinc-kafka-connect-s3/lib || { echo "kakaocloud: confluentinc-kafka-connect-avro-converter 파일 이동 실패"; exit 1; }
-
-################################################################################
-# 18. S3 커넥터 추가 의존성 다운로드
-################################################################################
 sudo wget -P /confluent-hub/plugins/confluentinc-kafka-connect-s3/lib \
   https://repo1.maven.org/maven2/com/google/guava/guava/30.1.1-jre/guava-30.1.1-jre.jar \
   https://packages.confluent.io/maven/io/confluent/kafka-connect-protobuf-converter/7.5.3/kafka-connect-protobuf-converter-7.5.3.jar \
