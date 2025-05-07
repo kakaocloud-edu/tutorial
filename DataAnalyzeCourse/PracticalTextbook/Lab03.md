@@ -88,6 +88,9 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     ```bash
     sudo systemctl restart filebeat
     ```
+    ```bash
+    sudo systemctl restart schema-registry.service
+    ```
 
 5. `api-server-1`, `api-server-2`에서 Logstash 가 `Active:active (running)` 상태인 것을 확인
 
@@ -630,7 +633,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     sudo systemctl start kafka-connect
     ```
     ```bash
-    sudo systemctl start schema-registry.service
+    sudo systemctl restart schema-registry.service
     ```
 
     ![Image](https://github.com/user-attachments/assets/43cc5d53-98f3-45e5-919b-cad3015cfba8)
