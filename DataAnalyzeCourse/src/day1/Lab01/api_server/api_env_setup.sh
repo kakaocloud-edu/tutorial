@@ -129,7 +129,7 @@ if [ ! -d "/home/ubuntu/tutorial/DataAnalyzeCourse/src/day1/Lab01/api_server" ];
     echo "kakaocloud: The previous clone seems incomplete, re-cloning..."
     sudo rm -rf /home/ubuntu/tutorial
     sudo git clone https://github.com/kakaocloud-edu/tutorial.git /home/ubuntu/tutorial || {
-        echo "kakaocloud: git clone 실패"; exit 1;
+        echo "kakaocloud: git clone 재시도 실패"; exit 1;
     }
 fi
 
