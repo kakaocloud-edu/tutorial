@@ -92,10 +92,10 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     sudo systemctl daemon-reload
     ```
     ```bash
-    sudo systemctl restart logstash
+    sudo systemctl restart filebeat
     ```
     ```bash
-    sudo systemctl restart filebeat
+    sudo systemctl restart logstash
     ```
     ```bash
     sudo systemctl restart schema-registry.service
