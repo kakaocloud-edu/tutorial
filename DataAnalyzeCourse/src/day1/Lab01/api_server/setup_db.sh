@@ -15,7 +15,7 @@ fi
 # 초기 스키마 및 데이터 설정용 SQL을 HERE DOC으로 직접 포함
 SQL_COMMANDS=$(cat <<'EOF'
 DROP DATABASE IF EXISTS shopdb;
-CREATE DATABASE shopdb;
+CREATE DATABASE IF NOT EXISTS shopdb;
 USE shopdb;
 
 CREATE TABLE IF NOT EXISTS push_messages (
