@@ -234,26 +234,26 @@ sudo rm confluent-7.5.3.tar.gz || { echo "kakaocloud: Schema Registry 압축파�
 # 15. systemd 유닛 파일 생성 및 Schema Registry 서비스 등록
 ################################################################################
 echo "kakaocloud: 17. systemd 유닛 파일 생성 및 Schema Registry 서비스 등록 시작"
-cat <<EOF > /etc/systemd/system/schema-registry.service
-[Unit]
-Description=Confluent Schema Registry
-After=network.target
+# cat <<EOF > /etc/systemd/system/schema-registry.service
+# [Unit]
+# Description=Confluent Schema Registry
+# After=network.target
 
-[Service]
-Type=simple
-User=ubuntu
-ExecStart=/confluent-hub/plugins/confluent-7.5.3/bin/schema-registry-start /confluent-hub/plugins/confluent-7.5.3/etc/schema-registry/schema-registry.properties
-Restart=on-failure
-RestartSec=5s
+# [Service]
+# Type=simple
+# User=ubuntu
+# ExecStart=/confluent-hub/plugins/confluent-7.5.3/bin/schema-registry-start /confluent-hub/plugins/confluent-7.5.3/etc/schema-registry/schema-registry.properties
+# Restart=on-failure
+# RestartSec=5s
 
-[Install]
-WantedBy=multi-user.target
-EOF
-if [ $? -ne 0 ]; then echo "kakaocloud: Schema Registry Service 파일 작성 실패"; exit 1; fi
+# [Install]
+# WantedBy=multi-user.target
+# EOF
+# if [ $? -ne 0 ]; then echo "kakaocloud: Schema Registry Service 파일 작성 실패"; exit 1; fi
 
-sudo systemctl daemon-reload || { echo "kakaocloud: daemon-reload 실패"; exit 1; }
-sudo systemctl enable schema-registry.service || { echo "kakaocloud: schema-registry 서비스 생성 실패"; exit 1; }
-sudo systemctl start schema-registry.service || { echo "kakaocloud: schema-registry 서비스 시작 실패"; exit 1; }
+# sudo systemctl daemon-reload || { echo "kakaocloud: daemon-reload 실패"; exit 1; }
+# sudo systemctl enable schema-registry.service || { echo "kakaocloud: schema-registry 서비스 생성 실패"; exit 1; }
+# sudo systemctl start schema-registry.service || { echo "kakaocloud: schema-registry 서비스 시작 실패"; exit 1; }
 
 ################################################################################
 # 16. S3 커넥터 플러그인 경로에 Avro 컨버터 설치 및 설정
