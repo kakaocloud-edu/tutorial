@@ -129,7 +129,7 @@ if [ ! -d "/home/ubuntu/tutorial/DataAnalyzeCourse/src/day1/Lab01/api_server" ];
     echo "kakaocloud: The previous clone seems incomplete, re-cloning..."
     sudo rm -rf /home/ubuntu/tutorial
     sudo git clone https://github.com/kakaocloud-edu/tutorial.git /home/ubuntu/tutorial || {
-        echo "kakaocloud: git clone 실패"; exit 1;
+        echo "kakaocloud: git clone 재시도 실패"; exit 1;
     }
 fi
 
@@ -140,33 +140,39 @@ sudo cp /home/ubuntu/tutorial/DataAnalyzeCourse/src/day1/Lab01/api_server/api_fu
 sudo cp /home/ubuntu/tutorial/DataAnalyzeCourse/src/day1/Lab01/api_server/setup_db.sh /home/ubuntu/setup_db.sh || {
     echo "kakaocloud: setup_db.sh 복사 실패"; exit 1;
 }
+sudo cp /home/ubuntu/tutorial/DataAnalyzeCourse/src/day1/Lab01/api_server/api_arvo_setup.sh /home/ubuntu/api_arvo_setup.sh || {
+    echo "kakaocloud: api_arvo_setup.sh 복사 실패"; exit 1;
+}
 
 # 2) filebeat.yml → /etc/filebeat
 sudo cp /home/ubuntu/tutorial/DataAnalyzeCourse/src/day1/Lab01/api_server/filebeat.yml /etc/filebeat/filebeat.yml || {
     echo "kakaocloud: filebeat.yml 복사 실패"; exit 1;
 }
 
-# 3) logs-to-pubsub.conf, logs-to-kafka.conf → /etc/logstash/conf.d
+# 3) logs-to-pubsub.conf → /etc/logstash/conf.d
 sudo cp /home/ubuntu/tutorial/DataAnalyzeCourse/src/day1/Lab01/api_server/logs-to-pubsub.conf /etc/logstash/conf.d/logs-to-pubsub.conf || {
     echo "kakaocloud: logs-to-pubsub.conf 복사 실패"; exit 1;
 }
-sudo cp /home/ubuntu/tutorial/DataAnalyzeCourse/src/day1/Lab01/api_server/logs-to-kafka.conf /etc/logstash/conf.d/logs-to-kafka.conf || {
-    echo "kakaocloud: logs-to-kafka.conf 복사 실패"; exit 1;
-}
 
-echo "kakaocloud: 8. api_full_setup.sh, setup_db.sh 스크립트 실행을 시작합니다."
-sudo chmod +x /home/ubuntu/api_full_setup.sh /home/ubuntu/setup_db.sh \
+sudo chmod +x /home/ubuntu/api_full_setup.sh /home/ubuntu/setup_db.sh /home/ubuntu/api_arvo_setup.sh \
   || { echo "kakaocloud: api_full_setup.sh, setup_db.sh에 실행 권한 부여 실패"; exit 1; }
 
+echo "kakaocloud: 8. api_full_setup.sh 스크립트 실행을 시작합니다."
 sudo -E /home/ubuntu/api_full_setup.sh \
-  || { echo "kakaocloud: api_full_setup.sh execution failed"; exit 1; }
+  || { echo "kakaocloud: api_full_setup.sh 실행 실패"; exit 1; }
+
+echo "kakaocloud: 9. setup_db.sh 스크립트 실행을 시작합니다."
 sudo -E /home/ubuntu/setup_db.sh \
-  || { echo "kakaocloud: setup_db.sh execution failed"; exit 1; }
+  || { echo "kakaocloud: setup_db.sh 실행 실패"; exit 1; }
+
+echo "kakaocloud: 10. api_arvo_setup.sh 스크립트 실행을 시작합니다."
+sudo -E /home/ubuntu/api_arvo_setup.sh \
+  || { echo "kakaocloud: api_arvo_setup.sh 실행 실패"; exit 1; }
 
 ###############################################################################
 # 5) logstash.yml 구성 및 filebeat,logstash 재시작
 ###############################################################################
-echo "kakaocloud: 9. logstash.yml 구성 및 filebeat,logstash 재시작을 시작합니다."
+echo "kakaocloud: 11. logstash.yml 구성을 시작합니다."
 sudo tee /etc/logstash/logstash.yml <<'EOF' > /dev/null \
   || { echo "kakaocloud: Failed to write logstash.yml"; exit 1; }
 path.data: /var/lib/logstash
@@ -174,12 +180,10 @@ path.logs: /var/log/logstash
 path.config: /etc/logstash/conf.d/logs-to-pubsub.conf
 EOF
 
+echo "kakaocloud: 12. filebeat, logstash를 재시작합니다."
 sudo systemctl restart filebeat \
   || { echo "kakaocloud: Failed to restart filebeat"; exit 1; }
 sudo systemctl restart logstash \
   || { echo "kakaocloud: Failed to restart logstash"; exit 1; }
 
-# 실습에 사용되는 폴더만 남기기 위해 tutorial 리포지토리 삭제
-sudo rm -rf /home/ubuntu/tutorial || {
-    echo "kakaocloud: Failed to remove the tutorial repository"; exit 1;
-}
+echo "kakaocloud: Setup 완료"
