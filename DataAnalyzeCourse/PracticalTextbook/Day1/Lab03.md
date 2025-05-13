@@ -568,11 +568,14 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     kakaocloud: 8. S3 Sink Connector 설치 시작
     kakaocloud: 9. AWS CLI 설치 시작
     kakaocloud: 10. AWS CLI 설정 시작
-    kakaocloud: 11. Kafka 설정 폴더 생성 및 권한 부여
+    kakaocloud: 11. Kafka 설정 폴더 생성 및 권한 부여 시작
     kakaocloud: 12. 커스텀 플러그인 다운로드 시작
-    kakaocloud: 13. s3-sink-connector.properties 생성
-    kakaocloud: 14. worker.properties 생성
-    kakaocloud: 15. Kafka Connect 서비스 등록
+    kakaocloud: 13. s3-sink-connector.properties 생성 시작
+    kakaocloud: 14. worker.properties 생성 시작
+    kakaocloud: 15. Kafka Connect 서비스 등록 시작
+    kakaocloud: 16. Schema Registry 다운로드 및 설치 시작
+    kakaocloud: 17. systemd 유닛 파일 생성 및 Schema Registry 서비스 등록 시작
+    kakaocloud: 18. Avro 컨버터 설치 및 설정 시작
     kakaocloud: Setup 완료
     ```
 6. `data-catalog-bucket`에 nginx 로그를 쌓기 위해 필요한 쓰기 권한을 부여하는 명령어 실행
