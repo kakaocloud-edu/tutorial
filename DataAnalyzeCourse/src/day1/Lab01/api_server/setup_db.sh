@@ -6,16 +6,33 @@ MYSQL_USER="${MYSQL_USER:-admin}"
 MYSQL_PASS="${MYSQL_PASS:-admin1234}"
 source /home/ubuntu/.bashrc
 
-# MySQL 포트 체크 (선택사항)
 if ! timeout 3 bash -c "</dev/tcp/$MYSQL_HOST/3306" 2>/dev/null; then
   echo "MySQL이 $MYSQL_HOST:3306 에서 응답하지 않습니다."
   exit 1
 fi
 
+# shopdb 존재 여부 확인
+DB_EXISTS=$(mysql -h "$MYSQL_HOST" -u "$MYSQL_USER" -p"$MYSQL_PASS" -sse \
+  "SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME = 'shopdb';")
+
+# 존재하면 삭제
+if [ "$DB_EXISTS" = "shopdb" ]; then
+  mysql -h "$MYSQL_HOST" -u "$MYSQL_USER" -p"$MYSQL_PASS" -e "DROP DATABASE shopdb;"
+  if [ $? -ne 0 ]; then
+    echo "DROP DATABASE 실패"
+    exit 1
+  fi
+fi
+
+# 항상 새로 생성
+mysql -h "$MYSQL_HOST" -u "$MYSQL_USER" -p"$MYSQL_PASS" -e "CREATE DATABASE shopdb;"
+if [ $? -ne 0 ]; then
+  echo "CREATE DATABASE 실패"
+  exit 1
+fi
+
 # 초기 스키마 및 데이터 설정용 SQL을 HERE DOC으로 직접 포함
 SQL_COMMANDS=$(cat <<'EOF'
-DROP DATABASE IF EXISTS shopdb;
-CREATE DATABASE shopdb;
 USE shopdb;
 
 CREATE TABLE IF NOT EXISTS push_messages (
