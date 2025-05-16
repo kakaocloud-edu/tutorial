@@ -116,7 +116,7 @@ Data Catalog와 Pub/Sub, Object Storage를 연동하여 테이블을 생성하�
       #### lab4-6-1
       
       ```
-      cd /home/ubuntu/DataAnalyzeCourse/src/day1/Lab03
+      cd /home/ubuntu/DataAnalyzeCourse/src/day1/Lab04
       ```
 
 2. 테이블의 이벤트 메시지 확인을 위한 메세지 수신 스크립트 실행
