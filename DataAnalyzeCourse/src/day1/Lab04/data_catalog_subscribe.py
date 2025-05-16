@@ -18,7 +18,7 @@ import os
 current_dir = os.path.dirname(os.path.abspath(__file__))
 
 # config.py가 있는 Lab00/traffic_generator 경로를 sys.path에 추가
-config_path = os.path.abspath(os.path.join(current_dir, "..", "Lab00", "traffic_generator"))
+config_path = os.path.abspath(os.path.join(current_dir, "..", "Lab01", "traffic_generator"))
 sys.path.append(config_path)
 
 #절대경로 지정
