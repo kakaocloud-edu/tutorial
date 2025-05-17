@@ -630,6 +630,6 @@ if __name__ == "__main__":
                 # 4) 트래픽 실행 (1시간 분량)
                 launch_traffic(num_users, max_threads, time_range)
 
-                # 5) 다음 패턴까지 1분 대기
-                logging.info(f"[Continuous][{pattern}] done. sleeping 60s before next pattern")
-                time.sleep(60)
+                # 5) 다음 패턴까지 5초 대기
+                logging.info(f"[Continuous][{pattern}] done. sleeping 5s before next pattern")
+                time.sleep(5)
