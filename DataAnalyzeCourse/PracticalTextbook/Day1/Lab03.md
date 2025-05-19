@@ -101,6 +101,17 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
 
     ![Image](https://github.com/user-attachments/assets/d6b11193-66a6-4bf3-a86f-7cd3a7169b51)
 
+7. Confluent Schema Registry 서버 시작
+    - **Note**: 해당 명령어 실행 종료 및 터미널 창을 닫히지 않도록 주의
+
+    #### **lab3-2-6**
+
+    ```bash
+    sudo /opt/confluent/bin/schema-registry-start /opt/confluent/etc/schema-registry/schema-registry.properties
+    ```
+
+    ![image](https://github.com/user-attachments/assets/7babff84-b946-4eea-95d9-f5182f619d8f)
+
 
 ## 3. Kafka 실습을 위한 Traffic Generator 환경 설정
 
