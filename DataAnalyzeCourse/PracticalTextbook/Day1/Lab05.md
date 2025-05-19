@@ -124,9 +124,7 @@ Data Query 기능을 활용하여 NGINX 로그 및 MySQL 데이터를 이용한 
       SELECT 
          COUNT(DISTINCT user_id) AS new_users
       FROM users_logs
-      WHERE event_type = 'CREATED'
-      AND event_time BETWEEN TIMESTAMP '2025-03-01 00:00:00'
-         AND TIMESTAMP '2025-03-31 23:59:59';
+      WHERE event_type = 'CREATED';
       ```
    - 쿼리 결과 탭에서 신규 사용자 수 확인
    ![image](https://github.com/user-attachments/assets/b9f095a5-9746-4fdf-9219-e16ab7fd845b)
