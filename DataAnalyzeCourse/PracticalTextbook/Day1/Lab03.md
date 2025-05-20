@@ -102,7 +102,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     ![Image](https://github.com/user-attachments/assets/d6b11193-66a6-4bf3-a86f-7cd3a7169b51)
 
 7. Confluent Schema Registry 서버 시작
-    - **Note**: 해당 명령어 실행 종료 및 터미널 창을 닫히지 않도록 주의
+    - **Note**: 명령어 실행 종료 또는 터미널 창이 닫히지 않도록 주의
 
     #### **lab3-2-6**
 
