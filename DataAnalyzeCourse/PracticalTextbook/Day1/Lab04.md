@@ -92,7 +92,7 @@ Data Catalog와 Pub/Sub, Object Storage를 연동하여 테이블을 생성하�
       - S3 연결: `체크`  
       - 버킷 이름: `data-catalog-bucket`  
       - 디렉터리: `kafka-nginx-log/nginx-topic/partition_0/year_{현재 연도}/month_{현재 월}`  
-   - 데이터 유형: `JSON`  
+   - 데이터 유형: `Parquet`  
    - Pub/Sub 연동: `사용`  
       - 토픽 선택: `data-catalog-topic`  
    - 설명(선택): 빈 칸  
