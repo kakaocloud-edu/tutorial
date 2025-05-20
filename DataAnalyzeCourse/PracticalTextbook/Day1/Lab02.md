@@ -220,12 +220,13 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 활용하여 �
     ```
 
 2. `traffic-generator-1`에서 트래픽 로그를 생성
+   - **Note**: 명령어 실행 종료 또는 터미널 창이 닫히지 않도록 주의
    - **Note**: [`traffic_generator.py`](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day1/Lab02/pubsub/traffic_generator.py)
 
     #### **lab2-5-2**
     
     ```bash
-    python3 traffic_generator.py
+    python3 traffic_generator.py --mode continuous
     ```
     
 3. 실행 완료 후 새로 생성된 `traffic_generator.log` 로그 파일 확인(2분)
