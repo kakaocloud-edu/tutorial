@@ -33,12 +33,13 @@ CREATE TABLE IF NOT EXISTS push_messages (
 );
 
 CREATE TABLE IF NOT EXISTS users (
-    user_id VARCHAR(36) PRIMARY KEY,
-    name VARCHAR(100),
-    email VARCHAR(100),
-    gender CHAR(1),
-    age INT
-);
+    user_id VARCHAR(36) NOT NULL PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    email VARCHAR(100) NOT NULL,
+    gender CHAR(1) NOT NULL,
+    age INT NOT NULL,
+updated_at DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE IF NOT EXISTS users_logs (
     history_id INT AUTO_INCREMENT PRIMARY KEY,        -- 고유 이력 ID
