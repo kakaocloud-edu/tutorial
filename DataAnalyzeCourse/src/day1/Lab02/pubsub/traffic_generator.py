@@ -245,14 +245,11 @@ def perform_anon_sub_action(session: requests.Session, user_unique_id: str, sub_
     elif sub_state == "Anon_Sub_ViewProduct":
             # 101~124 범위의 상품 ID를 랜덤 선택하여 조회
             pid = random.randint(101, 124)
-            cat = get_category_for_product(pid)
-            headers["X-Category"] = cat
-            
             url = f"{config.API_URL_WITH_HTTP}{config.API_ENDPOINTS['PRODUCT_DETAIL']}?id={pid}"
             
             try:
                 r = session.get(url, headers=headers)
-                logging.info(f"[{user_unique_id}] GET /product?id={pid}, category={cat} => {r.status_code}")
+                logging.info(f"[{user_unique_id}] GET /product?id={pid} => {r.status_code}")
             except Exception as err:
                 logging.error(f"[{user_unique_id}] view product error: {err}")
 
@@ -292,20 +289,20 @@ def perform_anon_sub_action(session: requests.Session, user_unique_id: str, sub_
             logging.error(f"[{user_unique_id}] error page fail: {err}")
     
     # 사용자 행동 사이의 대기 추가        
-    time.sleep(random.uniform(1.0, 3.0))
+    time.sleep(random.uniform(0.5, 1.0))
 
 #################################
 # 로그인 하위 FSM
 #################################
 def do_logged_sub_fsm(session: requests.Session,
                       user_unique_id: str,
-                      gender: str,
-                      age_segment: str,
-                      age: int):
+                      gender,
+                      age_segment: str
+                      ):
     sub_state = "Login_Sub_Initial"
     while sub_state != "Login_Sub_Done":
         logging.info(f"[{user_unique_id}] Logged Sub-FSM state = {sub_state}")
-        perform_logged_sub_action(session, user_unique_id, sub_state, gender, age_segment, age)
+        perform_logged_sub_action(session, user_unique_id, sub_state, gender, age_segment)
 
         if sub_state not in config.LOGGED_SUB_TRANSITIONS:
             logging.warning(f"[{user_unique_id}] {sub_state} not in LOGGED_SUB_TRANSITIONS => break")
@@ -327,21 +324,16 @@ def perform_logged_sub_action(session: requests.Session,
                               user_unique_id: str,
                               sub_state: str,
                               gender: str,
-                              age_segment: str,
-                              age: int):
+                              age_segment: str
+                              ):
     headers = {
         "Accept": "application/json",
         "X-User-Id": user_unique_id,
-        "X-Age": str(age),
-        "X-Gender": gender,
-        "X-Category": ""
     }
     
     if sub_state == "Login_Sub_ViewProduct":
         # 101~124 범위의 상품 ID를 랜덤 선택하여 상세 조회
         pid = random.randint(101, 124)
-        cat = get_category_for_product(pid)
-        headers["X-Category"] = cat
         url = f"{config.API_URL_WITH_HTTP}{config.API_ENDPOINTS['PRODUCT_DETAIL']}?id={pid}"
         try:
             r = session.get(url, headers=headers)
@@ -369,10 +361,9 @@ def perform_logged_sub_action(session: requests.Session,
     elif sub_state == "Login_Sub_CartAdd":
         pid = pick_preferred_product_id(gender, age_segment)
         qty = random.randint(1,5)     
-        cat = get_category_for_product(pid)
-        headers["X-Category"] = cat
+        
        
-        payload = {"id": pid, "quantity": str(qty), "category": cat}
+        payload = {"id": pid, "quantity": str(qty)}
         try:
             add_url = config.API_URL_WITH_HTTP + config.API_ENDPOINTS["CART_ADD"]
             r = session.post(add_url, data=payload, headers=headers)
@@ -391,7 +382,7 @@ def perform_logged_sub_action(session: requests.Session,
                     chosen_item = random.choice(items)
                     rid = chosen_item["product_id"]
                     rqty = random.randint(1, chosen_item["quantity"])
-                    remove_payload = {"product_id": rid, "quantity": rqty, "category": cat}
+                    remove_payload = {"product_id": rid, "quantity": rqty}
                     remove_url = config.API_URL_WITH_HTTP + config.API_ENDPOINTS["CART_REMOVE"]
                     rr = session.post(remove_url, data=remove_payload, headers=headers)
                     logging.info(f"[{user_unique_id}] POST /cart/remove (pid={rid}, qty={rqty}) => {rr.status_code}")
@@ -413,10 +404,9 @@ def perform_logged_sub_action(session: requests.Session,
     elif sub_state == "Login_Sub_AddReview":
         pid = pick_preferred_product_id(gender, age_segment)
         rating = random.randint(1,5)
-        cat = get_category_for_product(pid)
-        headers["X-Category"] = cat
+        
 
-        payload = {"product_id": pid, "rating": str(rating), "category": cat}
+        payload = {"product_id": pid, "rating": str(rating)}
         try:
             rev_url = config.API_URL_WITH_HTTP + config.API_ENDPOINTS["ADD_REVIEW"]
             r = session.post(rev_url, data=payload, headers=headers)
@@ -434,7 +424,7 @@ def perform_logged_sub_action(session: requests.Session,
             
             
     #사용자 행동 사이의 대기 추가
-    time.sleep(random.uniform(1.0, 3.0))
+    time.sleep(random.uniform(0.5, 1.0))
 
 #################################
 # do_top_level_action_and_confirm
@@ -482,7 +472,7 @@ def do_top_level_action_and_confirm(
 #################################
 def run_user_simulation(user_idx: int):
     session = requests.Session()
-
+    session.get(config.API_URL_WITH_HTTP) 
     gender = random.choice(["F", "M"])
     age = random.randint(18,70)
     age_segment = get_age_segment(age)
@@ -531,7 +521,7 @@ def run_user_simulation(user_idx: int):
         elif current_state == "Anon_Registered":
             do_anon_sub_fsm(session, user_unique_id)
         elif current_state == "Logged_In":
-            do_logged_sub_fsm(session, user_unique_id, gender, age_segment, age)
+            do_logged_sub_fsm(session, user_unique_id, gender, age_segment)
         elif current_state == "Logged_Out":
             logging.info(f"[{user_unique_id}] (Top) state=Logged_Out => no sub-FSM")
         elif current_state == "Unregistered":
