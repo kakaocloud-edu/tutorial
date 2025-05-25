@@ -21,7 +21,7 @@ graph LR
 
 
 1. 카카오 클라우드 콘솔 > 전체 서비스 > Virtual Machine 접속
-2. Instance 만들기 클릭
+2. Instance 생성 클릭
      - 이름 : `bastion`
      - Image : `Ubuntu 20.04`
      - Instance 타입 : `m2a.large`
@@ -31,9 +31,12 @@ graph LR
      - 만들기 클릭
 4. VPC 선택
      - VPC : `vpc_1`
-     - SecurityGroup 선택
-5. 새 Security Group 생성 클릭
-     - Security Group 이름: `bastion`
+     - 서브넷: public(외부 통신이 가능한) subnet 선택
+     - 유형: `새 인터페이스` 선택
+     - IP 할당 방식: `자동` 선택
+     - `보안 그룹`에서 `선택된 항목 (0)` 클릭
+5. `보안 그룹 생성` 클릭
+     - 보안 그룹 이름: `bastion`
      - Inbound :
        - 프로토콜: `TCP` 
        - 패킷 출발지: `{사용자 IP}/32`
@@ -45,11 +48,8 @@ graph LR
      - Outbound
           - 프로토콜 : `ALL` 
           - 패킷 목적지 : `0.0.0.0/0`
-     - 만들기 버튼 클릭
-7. 새 인터페이스 클릭
-     - Subnet : `main`
-     - IP 할당 방식: `자동` 
-8. 고급설정 버튼 클릭
+     - 생성 버튼 클릭
+7. 고급설정 버튼 클릭
      - 사용자 스크립트에 아래 내용 붙여넣기 (mysql client 사용을 위함)
        
      #### **lab4-1-7**
@@ -62,12 +62,12 @@ graph LR
 
      - **Note**: 고급 설정 스크립트 부분을 못하더라도 추후 설정할 수 있습니다. VM 접속 후 위 내용 붙여넣기
 
-9. 만들기 버튼 클릭
-10. Virtual Machine > Instance
-11. 생성된 인스턴스의 우측 메뉴바 > Public IP 연결 클릭
-    - `새로운 Public IP를 생성하고 자동으로 할당` 
-12. 확인 버튼 클릭
-13. 생성된 인스턴스의 우측 메뉴바 > SSH 연결 클릭
+8. `생성` 버튼 클릭
+9. Virtual Machine > 인스턴스
+10. 생성된 인스턴스의 우측 메뉴바 > 퍼블릭 IP 연결 클릭
+    - `새로운 퍼블릭 IP를 생성하고 자동으로 할당` 
+11. 확인 버튼 클릭
+12. 생성된 인스턴스의 우측 메뉴바 > SSH 연결 클릭
      - SSH 접속 명령어 복사(다운받은 keypair.pem 파일이 있는 경로에서 아래 명령어를 실행합니다.)
      - 터미널 열기
        keypair를 다운받아놓은 폴더로 이동
@@ -115,11 +115,14 @@ graph LR
      - Instance 타입 : `m2a.large`
      - Volume : `30 GB`
      - Key Pair : `keypair`
-3. VPC 선택
+4. VPC 선택
      - VPC : `vpc_1`
-     - 새 Security Group 생성
-4. SecurityGroup 만들기
-     - Security Group 이름 : `webserver`
+     - 서브넷: public(외부 통신이 가능한) subnet 선택
+     - 유형: `새 인터페이스` 선택
+     - IP 할당 방식: `자동` 선택
+     - `보안 그룹`에서 `선택된 항목 (0)` 클릭
+4. 보안 그룹 생성
+     - 보안 그룹 이름 : `webserver`
      - Inbound 
           - 프로토콜: `TCP`, 패킷 출발지: `0.0.0.0/0`, 포트번호: `80` 
           - 프로토콜: `TCP`, 패킷 출발지: `0.0.0.0/0`, 포트번호: `443`
@@ -130,14 +133,11 @@ graph LR
      - Outbound
           - 프로토콜 : `ALL` 
           - 패킷 목적지 : `0.0.0.0/0`
-6. 새 인터페이스 클릭
-     - Subnet : `main`
-     - IP 할당 방식: `자동` 
-7. 만들기 버튼 클릭
-8. 고급설정 버튼 클릭
-9. 사용자 스크립트에 아래 명령어 붙여넣기
-
-     #### **lab4-2-8**
+     - 생성 버튼 클릭
+6. 고급설정 버튼 클릭
+     - 사용자 스크립트에 아래 내용 붙여넣기 (mysql client 사용을 위함)
+       
+     #### **lab4-1-7**
      ```bash
      #!/bin/bash        
      sudo apt-get update
@@ -150,16 +150,16 @@ graph LR
      tar -xvf kakao.tar.gz
      sudo mv kakao/{index.php,get_user_list.php,add_user.php} /var/www/html/
      sudo systemctl restart apache2
-     ```
-     - **Note**: 첫번째 '#!/bin/bash'도 적어 주셔야 합니다.
-     - **Note**: 스크립트 설정을 못하더라도 추후 설정 가능합니다.
-     - 멀티스레딩: 활성화
      
-10. 만들기 버튼 클릭
-11. Virtual Machine > Instance > 생성한 인스턴스 ( web_server_1 )의 우측 메뉴바 클릭 > Public IP 연결 클릭
-     - `새로운 Public IP를 자동으로 할당` 선택
-12. 확인 버튼 클릭
+     ```
 
+     - **Note**: 고급 설정 스크립트 부분을 못하더라도 추후 설정할 수 있습니다. VM 접속 후 위 내용 붙여넣기
+
+7. `생성` 버튼 클릭
+8. Virtual Machine > 인스턴스
+9. 생성된 인스턴스의 우측 메뉴바 > 퍼블릭 IP 연결 클릭
+    - `새로운 퍼블릭 IP를 생성하고 자동으로 할당` 
+10. 확인 버튼 클릭
 
 ## 3. Bastion VM 인스턴스를 통해 Web 서버 접속
 
