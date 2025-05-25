@@ -84,6 +84,9 @@ graph LR
      ```bash
      mount
      ```
+     ```bash
+     df -hT
+     ```
 8. 마운트 된 디렉터리 권한 변경하기 - 터미널 명령어 입력 
       
      #### **lab9-2-8**
@@ -175,6 +178,9 @@ graph LR
      ```bash
      mount
      ```
+     ```bash
+     df -hT
+     ```
 7. 디렉터리 이동 및 테스트 파일 확인 - 터미널 명령어 입력 
       
      #### **lab9-3-11-1**
@@ -209,3 +215,7 @@ graph LR
      ```bash
      mount
      ```
+     ```bash
+     df -hT
+     ```
+     
