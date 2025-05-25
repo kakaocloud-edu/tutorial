@@ -23,43 +23,9 @@ graph LR
 
 
 1. 카카오 클라우드 콘솔 > 전체 서비스 > Virtual Machine > Instance
-2. 인스턴스 만들기 클릭
-     - 이름 : `web_server_2`
-     - 개수 : `1`
-     - Image : `Ubuntu 20.04`
-     - Instance 타입 : `m2a.large`
-     - Volume : `30 GB`
-     - Key Pair : `keypair`
-     - VPC : `vpc_1`
-     - Subnet : `main`
-     - Security Group : `webserver`
-3. 고급 설정 클릭
-     - 내부 스크립트 복사 후 클립보드에 보관
-      
-     #### **lab6-1-3**
-     ```bash
-     #!/bin/bash        
-     sudo apt-get update
-     sudo apt-get -y remove mariadb-server mariadb-client        
-     sudo apt-get -y install apache2 php mysql-client php-mysql wget    
-     sudo systemctl enable apache2    
-     cd /var/www/html  
-     sudo rm -f index.html   
-     wget https://github.com/kakaocloud-edu/tutorial/raw/main/EssentialBasicCourse/src/kakao.tar.gz -O kakao.tar.gz
-     tar -xvf kakao.tar.gz    
-     sudo mv kakao/{index.php,get_user_list.php,add_user.php} /var/www/html/ 
-     sudo systemctl restart apache2
-     ```
-4. 만들기 버튼 클릭
-5. 전체 서비스 > Virtual Machine > Instance
-6. web_server_2의 우측 메뉴바 클릭 > Public IP 연결 클릭
-     - `새로운 Public IP를 자동으로 할당` 선택
-7. 확인 버튼 클릭
-8. Web_server_2의 {Public IP} 복사 후 브라우저 창에 입력
-    
-> 💡 고급설정에서 스크립트 입력을 못했을 경우 VM에 접속하여 **lab6-1-3** 명령어 붙여넣기
+2. 앞서 진행한[Web VM 인스턴스 생성](https://github.com/kakaocloud-edu/tutorial/blob/main/EssentialBasicCourse/PracticalTextbook/Lab04.md#2-web-vm-%EC%9D%B8%EC%8A%A4%ED%84%B4%EC%8A%A4-%EC%83%9D%EC%84%B1)과 동일하게 진행하여 `web_server_2` 생성
 
-## 2. Web2 서버와 DB 연결
+## 2. Web2 서버와 DB 연결 test
 
 
 1. 카카오 클라우드 콘솔 > 전체 서비스 > Virtual Machine > Instance
