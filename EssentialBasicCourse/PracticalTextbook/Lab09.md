@@ -67,6 +67,7 @@ graph LR
      ```bash
      ls -al
      ```
+     
 4. 카카오 클라우드 콘솔 > 전체 서비스 > file Storage 접속
 5. fs-01 인스턴스의 마운트 정보 복사 버튼 클릭
 6. VM에서 마운트하기 - 터미널 명령어 붙여넣기 
@@ -96,10 +97,7 @@ graph LR
      ls -l
      ```
 
-## 3. 예제를 통한 File Storage 실습
-
-
-1. 테스트 파일 생성 - 터미널 명령어 입력 
+10. 테스트 파일 생성 - 터미널 명령어 입력 
       
      #### **lab9-3-1-1**
      ```bash
@@ -111,14 +109,16 @@ graph LR
      echo "This is a test message." > test.txt
      ``` 
 
-2. 테스트 파일 확인 - 터미널 명령어 입력 
+11. 테스트 파일 확인 - 터미널 명령어 입력 
       
      #### **lab9-3-2**
      ```bash
      cat test.txt
      ```
+     
+## 3. Web Server VM에서 마운트하기
 
-3. web_server_1 VM 접속
+1. web_server_1 VM 접속
      - 카카오 클라우드 콘솔 > 전체 서비스 > Virual Machine 접속
      - Virtual Machine > Instance 
      - Bastion VM과  Web Server의 IP 확인하기
@@ -143,7 +143,7 @@ graph LR
      yes
      ```
 
-4. web_server_1 VM에 NFS 패키지 설치 - 터미널 명령어 입력 
+2. web_server_1 VM에 NFS 패키지 설치 - 터미널 명령어 입력 
       
      #### **lab9-3-6-1**
      ```bash
@@ -159,9 +159,9 @@ graph LR
      ```bash
      ls -l
      ```
-5. 카카오 클라우드 콘솔 > 전체 서비스 > file Storage 접속
-6. fs-01 인스턴스의 마운트 정보 복사 버튼 클릭
-7. web_server_1 VM에서 마운트하기 - 터미널 명령어 붙여넣기 
+3. 카카오 클라우드 콘솔 > 전체 서비스 > file Storage 접속
+4. fs-01 인스턴스의 마운트 정보 복사 버튼 클릭
+5. web_server_1 VM에서 마운트하기 - 터미널 명령어 붙여넣기 
       
      #### **lab9-3-9**
      ```bash
@@ -169,13 +169,13 @@ graph LR
      sudo mount -t nfs {File Storage 인스턴스 사설 IP}:/{파일 공유 이름} fs2
      ```
      - **Note**: "{File Storage 인스턴스 사설 IP}:/{파일 공유 이름}" 부분을 마운트 정보 복사본으로 교체하세요.
-10. NFS마운트 여부 확인 
+6. NFS마운트 여부 확인 
       
      #### **lab9-3-10**
      ```bash
      mount
      ```
-11. 디렉터리 이동 및 테스트 파일 확인 - 터미널 명령어 입력 
+7. 디렉터리 이동 및 테스트 파일 확인 - 터미널 명령어 입력 
       
      #### **lab9-3-11-1**
      ```bash
@@ -186,13 +186,13 @@ graph LR
      ```bash
      ls -l
      ```
-12. 테스트 파일 확인 - 터미널 명령어 입력 
+8. 테스트 파일 확인 - 터미널 명령어 입력 
       
      #### **lab9-3-12**
      ```bash
      cat test.txt
      ```
-13. NFS 마운트 해제하기 - 터미널 명령어 입력 
+9. NFS 마운트 해제하기 - 터미널 명령어 입력 
       
      #### **lab9-3-13-1**
      ```bash
@@ -203,7 +203,7 @@ graph LR
      ```bash
      sudo umount fs2
      ```
-14. NFS 마운트 상태 확인하기 - 터미널 명령어 입력 
+10. NFS 마운트 상태 확인하기 - 터미널 명령어 입력 
       
      #### **lab9-3-14**
      ```bash
