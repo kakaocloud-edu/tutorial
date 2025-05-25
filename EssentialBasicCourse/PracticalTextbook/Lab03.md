@@ -2,6 +2,9 @@
 
 VPC 생성 방법 및 서브넷 설정에 대한 실습입니다.
 
+![image](https://github.com/user-attachments/assets/37ab57cb-49d4-4100-824b-f86be1b12056)
+
+
 ## 1. VPC 생성
 
 
