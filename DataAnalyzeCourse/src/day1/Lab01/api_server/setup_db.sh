@@ -59,8 +59,13 @@ CREATE TABLE IF NOT EXISTS products (
     id VARCHAR(10) PRIMARY KEY,
     name VARCHAR(255),
     price DECIMAL(10,2),
-    category VARCHAR(100)
+    category VARCHAR(100),
+  updated_at DATETIME(6)
+    NOT NULL
+    DEFAULT CURRENT_TIMESTAMP(6)
+    ON UPDATE CURRENT_TIMESTAMP(6)
 );
+
 INSERT INTO products (id, name, price, category) VALUES
 ('101', 'Wireless Earbuds', 79.99, 'Electronics'),
 ('102', 'Bluetooth Speaker', 49.99, 'Electronics'),
@@ -102,7 +107,9 @@ CREATE TABLE IF NOT EXISTS reviews (
     session_id VARCHAR(36),               -- 세션 ID
     product_id VARCHAR(10),               -- 리뷰 대상 상품 ID
     rating INT,                           -- 리뷰 점수
-    review_time DATETIME,                 -- 리뷰 작성 시간
+    review_time DATETIME(6)               -- 리뷰 작성 시간
+                 NOT NULL
+                 DEFAULT CURRENT_TIMESTAMP(6),                 
     FOREIGN KEY (session_id) REFERENCES sessions(session_id),
     FOREIGN KEY (product_id) REFERENCES products(id)
 );
@@ -114,7 +121,9 @@ CREATE TABLE IF NOT EXISTS orders (
     product_id VARCHAR(10),               -- 주문한 상품 ID
     price DECIMAL(10,2),                  -- 주문 가격 (단가)
     quantity INT DEFAULT 1,               -- 주문 수량
-    order_time DATETIME,                  -- 주문 시간
+    order_time DATETIME(6)                -- 주문 시간
+               NOT NULL
+               DEFAULT CURRENT_TIMESTAMP(6),
     FOREIGN KEY (session_id) REFERENCES sessions(session_id),
     FOREIGN KEY (product_id) REFERENCES products(id)
 );
