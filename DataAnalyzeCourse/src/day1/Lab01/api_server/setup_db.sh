@@ -59,11 +59,7 @@ CREATE TABLE IF NOT EXISTS products (
     id VARCHAR(10) PRIMARY KEY,
     name VARCHAR(255),
     price DECIMAL(10,2),
-    category VARCHAR(100),
-  updated_at DATETIME(6)
-    NOT NULL
-    DEFAULT CURRENT_TIMESTAMP(6)
-    ON UPDATE CURRENT_TIMESTAMP(6)
+    category VARCHAR(100)
 );
 
 INSERT INTO products (id, name, price, category) VALUES
