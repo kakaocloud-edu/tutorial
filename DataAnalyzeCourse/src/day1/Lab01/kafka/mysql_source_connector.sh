@@ -35,16 +35,15 @@ DEBEZIUM_MYSQL_CONNECTOR_URL="https://repo1.maven.org/maven2/io/debezium/debeziu
 DEBEZIUM_MYSQL_CONNECTOR_TGZ="debezium-connector-mysql-${DEBEZIUM_MYSQL_CONNECTOR_VERSION}-plugin.tar.gz"
 
 # 이 VM의 Kafka Connect REST API 포트
-CONNECT_REST_PORT="8084"
-
+CONNECT_REST_PORT="8084" # 8084 포트로 고정
 
 #------------------------------------------
 # 2. 필수 환경변수 검증 (env_vars.sh에서 로드되는 변수들)
 #------------------------------------------
 required_env_vars=(
-  KAFKA_BOOTSTRAP_SERVER
+  KAFKA_BOOTSTRAP_SERVER # env_vars.sh의 KAFKA_BOOTSTRAP_SERVER 변수
   MYSQL_DB_HOSTNAME MYSQL_DB_PORT MYSQL_DB_USER MYSQL_DB_PASSWORD
-  MYSQL_SERVER_ID MYSQL_SERVER_NAME
+  MYSQL_SERVER_ID MYSQL_SERVER_NAME # MySQL 관련 변수들
 )
 
 echo "kakaocloud: 2. 필수 환경 변수 검증 시작"
