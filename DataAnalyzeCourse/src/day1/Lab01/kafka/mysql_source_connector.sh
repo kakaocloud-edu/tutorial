@@ -153,7 +153,7 @@ sudo chown -R ubuntu:ubuntu "${KAFKA_INSTALL_DIR}" || { echo "kakaocloud: Kafka 
 ################################################################################
 # 8. Kafka Connect 시스템 서비스 등록 및 시작
 ################################################################################
-echo "kakaocloud: 8. Kafka Connect 시스템 서비스 등록 및 시작 시작"
+echo "kakaocloud: 8. Kafka Connect 시스템 서비스 등록 및 시작"
 sudo sh -c 'cat << EOF_SERVICE > /etc/systemd/system/kafka-connect.service
 [Unit]
 Description=Kafka Connect Distributed
