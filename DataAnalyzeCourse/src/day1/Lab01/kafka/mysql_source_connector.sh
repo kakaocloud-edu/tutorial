@@ -18,7 +18,6 @@ else
 fi
 
 exec > >(tee -a "$LOGFILE") 2>&1
-echo "kakaocloud: MySQL Source Connector 배포 스크립트 실행 시작"
 
 #------------------------------------------
 # 1. 메인 스크립트 내부 설정 변수 (env_vars.sh에서 오지 않는 값들)
