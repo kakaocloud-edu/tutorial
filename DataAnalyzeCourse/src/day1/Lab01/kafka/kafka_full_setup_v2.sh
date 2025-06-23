@@ -100,13 +100,34 @@ if [ $? -ne 0 ]; then echo "kakaocloud: 환경 변수 등록 실패"; exit 1; fi
 source /home/ubuntu/.bashrc || { echo "kakaocloud: .bashrc 적용 실패"; exit 1; }
 
 ################################################################################
+# 5.5. 임시 connect-standalone.properties 파일 생성 (Confluent Hub Client 요구사항 충족용)
+# Distributed 모드에서는 이 파일을 실제 Kafka Connect 워커가 사용하지 않지만,
+# 'confluent-hub install' 명령이 Kafka Connect 설치 경로를 감지하는 데 필요함.
+################################################################################
+echo "kakaocloud: 5.5. 임시 connect-standalone.properties 파일 생성 시작"
+cat <<EOF > /home/ubuntu/kafka/config/connect-standalone.properties
+bootstrap.servers=${KAFKA_BOOTSTRAP_SERVER}
+key.converter=org.apache.kafka.connect.json.JsonConverter
+value.converter=org.apache.kafka.connect.json.JsonConverter
+key.converter.schemas.enable=false
+value.converter.schemas.enable=false
+offset.storage.file.filename=/tmp/connect.offsets
+offset.flush.interval.ms=10000
+plugin.path=/confluent-hub/plugins
+listeners=http://0.0.0.0:8083
+EOF
+if [ $? -ne 0 ]; then echo "kakaocloud: 임시 connect-standalone.properties 생성 실패"; exit 1; fi
+sudo chown ubuntu:ubuntu /home/ubuntu/kafka/config/connect-standalone.properties || { echo "kakaocloud: 임시 connect-standalone.properties 권한 변경 실패"; exit 1; }
+
+
+################################################################################
 # 6. S3 Sink Connector 설치
 ################################################################################
 echo "kakaocloud: 8. S3 Sink Connector 설치 시작"
-# Distributed 모드에서는 worker-configs 인자가 불필요하므로 제거.
-# /home/ubuntu/kafka/config/connect-standalone.properties 파일은 더 이상 사용되지 않음.
+# --worker-configs 인자를 임시로 생성한 connect-standalone.properties 파일로 지정
 /confluent-hub/bin/confluent-hub install confluentinc/kafka-connect-s3:latest \
   --component-dir /confluent-hub/plugins \
+  --worker-configs /home/ubuntu/kafka/config/connect-standalone.properties \
   --no-prompt || { echo "kakaocloud: S3 Sink Connector 설치 실패"; exit 1; }
 
 ################################################################################
@@ -141,19 +162,17 @@ sudo chown -R ubuntu:ubuntu /opt/kafka || { echo "kakaocloud: Kafka 설정 폴�
 ################################################################################
 # 10. 커스텀 파티셔너, 파일네임 플러그인 다운로드
 ################################################################################
-# JSON 형식으로 S3에 저장 시 custom-partitioner가 일반적으로 필요하지 않으므로,
-# 해당 커스텀 플러그인 다운로드 및 관련된 주석을 남겨둠.
-# 필요시 해당 로직을 제거하거나, s3-sink-connector.json에서 사용 여부를 결정.
 echo "kakaocloud: 12. 커스텀 플러그인 다운로드 시작 (JSON 포맷에서는 보통 불필요)"
+# 이 커스텀 플러그인들이 S3 Sink Connector의 lib 디렉토리에 설치되도록 경로를 지정
 sudo wget -O /confluent-hub/plugins/confluentinc-kafka-connect-s3/lib/custom-partitioner-1.0-SNAPSHOT.jar \
   "https://raw.githubusercontent.com/kakaocloud-edu/tutorial/main/DataAnalyzeCourse/src/day1/Lab03/kafka_connector/custom-partitioner-1.0-SNAPSHOT.jar" || { echo "kakaocloud: custom-partitioner 다운로드 실패"; exit 1; }
 sudo wget -O /confluent-hub/plugins/confluentinc-kafka-connect-s3/lib/custom-filename-1.0-SNAPSHOT.jar \
   "https://raw.githubusercontent.com/kakaocloud-edu/tutorial/main/DataAnalyzeCourse/src/day1/Lab03/kafka_connector/custom-filename-1.0-SNAPSHOT.jar" || { echo "kakaocloud: custom-filename 다운로드 실패"; exit 1; }
 
 ################################################################################
-# 11. s3-sink-connector.properties 생성 (Distributed 모드에서는 JSON으로 대체)
+# 11. s3-sink-connector.json 생성
 ################################################################################
-echo "kakaocloud: 13. s3-sink-connector.properties 생성 단계 건너뛰고, s3-sink-connector.json 생성 시작"
+echo "kakaocloud: 13. s3-sink-connector.json 생성 시작"
 # Distributed 모드에서는 .properties 파일 대신 JSON을 사용하며, 환경 변수를 직접 삽입
 cat <<EOF > /opt/kafka/config/s3-sink-connector.json
 {
@@ -190,7 +209,7 @@ if [ $? -ne 0 ]; then echo "kakaocloud: s3-sink-connector.json 생성 실패"; e
 
 
 ################################################################################
-# 12. worker.properties 생성 (Distributed 모드용으로 수정)
+# 12. worker.properties 생성 (Distributed 모드용)
 ################################################################################
 echo "kakaocloud: 14. worker.properties 생성 시작 (Distributed 모드)"
 cat <<EOF > /opt/kafka/config/worker.properties
@@ -256,7 +275,7 @@ if [ $? -ne 0 ]; then echo "kakaocloud: Kafka Connect 서비스 등록 실패"; 
 ################################################################################
 # 14. Schema Registry 다운로드 및 설치 (JSON 포맷 사용 시 불필요하므로 주석 처리)
 ################################################################################
-echo "kakaocloud: 16. Schema Registry 다운로드 및 설치 시작 (JSON 포맷 사용 시 불필요)"
+echo "kakaocloud: 16. Schema Registry 다운로드 및 설치 시작 (JSON 포맷 사용 시 불필요하므로 건너뜀)"
 # sudo wget https://packages.confluent.io/archive/7.5/confluent-7.5.3.tar.gz || { echo "kakaocloud: Schema Registry 다운로드 실패"; exit 1; }
 # sudo tar -xzvf confluent-7.5.3.tar.gz -C /confluent-hub/plugins || { echo "kakaocloud: Schema Registry 압축 해제 실패"; exit 1; }
 # sudo rm confluent-7.5.3.tar.gz || { echo "kakaocloud: Schema Registry 압축파일 삭제 실패"; exit 1; }
@@ -264,7 +283,7 @@ echo "kakaocloud: 16. Schema Registry 다운로드 및 설치 시작 (JSON 포�
 ################################################################################
 # 15. systemd 유닛 파일 생성 및 Schema Registry 서비스 등록 (JSON 포맷 사용 시 불필요하므로 주석 처리)
 ################################################################################
-echo "kakaocloud: 17. systemd 유닛 파일 생성 및 Schema Registry 서비스 등록 시작 (JSON 포맷 사용 시 불필요)"
+echo "kakaocloud: 17. systemd 유닛 파일 생성 및 Schema Registry 서비스 등록 시작 (JSON 포맷 사용 시 불필요하므로 건너뜀)"
 # cat <<EOF > /etc/systemd/system/schema-registry.service
 # [Unit]
 # Description=Confluent Schema Registry
@@ -289,7 +308,20 @@ echo "kakaocloud: 17. systemd 유닛 파일 생성 및 Schema Registry 서비스
 ################################################################################
 # 16. S3 커넥터 플러그인 경로에 Avro 컨버터 설치 및 설정 (JSON 포맷 사용 시 불필요하므로 주석 처리)
 ################################################################################
-echo "kakaocloud: 18. Avro 컨버터 설치 및 설정 시작 (JSON 포맷 사용 시 불필요)"
+echo "kakaocloud: 18. Avro 컨버터 설치 및 설정 시작 (JSON 포맷 사용 시 불필요하므로 건너뜀)"
 # sudo wget https://github.com/kakaocloud-edu/tutorial/raw/refs/heads/main/DataAnalyzeCourse/src/day2/Lab01/confluentinc-kafka-connect-avro-converter-7.5.3.zip || { echo "kakaocloud: confluentinc-kafka-connect-avro-converter 다운로드 실패"; exit 1; }
 # unzip confluentinc-kafka-connect-avro-converter-7.5.3.zip || { echo "kakaocloud: confluentinc-kafka-connect-avro-converter 압축 해제 실패"; exit 1; }
-# sudo rm confluentinc-kafka-connect-avro-converter-7.5
+# sudo rm confluentinc-kafka-connect-avro-converter-7.5.3.zip || { echo "kakaocloud: confluentinc-kafka-connect-avro-converter 압축파일 삭제 실패"; exit 1; }
+# sudo mv confluentinc-kafka-connect-avro-converter-7.5.3/lib/*.jar /confluent-hub/plugins/confluentinc-kafka-connect-s3/lib || { echo "kakaocloud: confluentinc-kafka-connect-avro-converter 파일 이동 실패"; exit 1; }
+# sudo wget -P /confluent-hub/plugins/confluentinc-kafka-connect-s3/lib \
+#   https://repo1.maven.org/maven2/com/google/guava/guava/30.1.1-jre/guava-30.1.1-jre.jar \
+#   https://packages.confluent.io/maven/io/confluent/kafka-connect-protobuf-converter/7.5.3/kafka-connect-protobuf-converter-7.5.3.jar \
+#   https://packages.confluent.io/maven/io/confluent/kafka-protobuf-serializer/7.5.3/kafka-protobuf-serializer-7.5.3.jar \
+#   https://packages.confluent.io/maven/io/confluent/common-config/7.5.3/common-config-7.5.3.jar \
+#   https://repo1.maven.org/maven2/com/google/protobuf/protobuf-java/3.25.1/protobuf-java-3.25.1.jar \
+#   https://repo1.maven.org/maven2/com/google/guava/failureaccess/1.0.2/failureaccess-1.0.2.jar || { echo -e "\nERROR: S3 커넥터 추가 의존성 다운로드 실패"; exit 1; }
+
+################################################################################
+# 완료
+################################################################################
+echo "kakaocloud: Setup 완료"
