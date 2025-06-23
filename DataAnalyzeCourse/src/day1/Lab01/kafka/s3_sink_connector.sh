@@ -288,4 +288,4 @@ echo "kakaocloud: 16. Schema Registry 관련 설치 건너뜀 (JSON 포맷 사�
 # 이 섹션은 완전히 비워둠 (이전 스크립트에서 불필요한 설치/설정 로직 제거됨)
 
 
-echo "kakaocloud: $(date '+%Y-%m-%d %H:%M:%S') - Setup 완료"
+echo "kakaocloud: Setup 완료"
