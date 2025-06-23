@@ -42,7 +42,6 @@ CONNECT_REST_PORT="8083" # 이 VM의 Kafka Connect REST API 포트
 DEBEZIUM_SOURCE_SERVER_NAME="mysql-server-latest" # Debezium Source Connector의 logical name (topic.prefix)
 
 # S3 Sink Connector가 구독할 Debezium 토픽 목록 (Debezium VM의 'kafka-topics.sh --list' 결과와 정확히 일치해야 함)
-# 이 값은 env_vars.sh에서 오지 않으므로 여기에 직접 정의합니다.
 DEBEZIUM_TOPICS="mysql-server-latest.shopdb.cart,mysql-server-latest.shopdb.cart_logs,mysql-server-latest.shopdb.orders,mysql-server-latest.shopdb.products,mysql-server-latest.shopdb.reviews,mysql-server-latest.shopdb.search_logs,mysql-server-latest.shopdb.sessions,mysql-server-latest.shopdb.users,mysql-server-latest.shopdb.users_logs"
 
 
@@ -110,8 +109,8 @@ export JAVA_HOME="/usr/lib/jvm/java-21-openjdk-amd64"
 export PATH="\$JAVA_HOME/bin:\$PATH"
 export CLASSPATH="\$CLASSPATH:\$JAVA_HOME/lib/ext:\$JAVA_HOME/tools.jar"
 EOF
-if [ $? -ne 0 ]; then echo "kakaocloud: Java 환경 변수 등록 실패"; exit 1; }
-source /home/ubuntu/.bashrc || { echo "kakaocloud: .bashrc 재적용 실패"; exit 1; } # 환경 변수 다시 적용
+if [ $? -ne 0 ]; then echo "kakaocloud: Java 환경 변수 등록 실패"; exit 1; fi
+source /home/ubuntu/.bashrc || { echo "kakaocloud: .bashrc 재적용 실패"; exit 1; }
 
 ################################################################################
 # 7. 임시 connect-standalone.properties 파일 생성 (Confluent Hub Client 요구사항 충족용)
@@ -129,7 +128,7 @@ offset.flush.interval.ms=10000
 plugin.path=/confluent-hub/plugins
 listeners=http://0.0.0.0:${CONNECT_REST_PORT}
 EOF
-if [ $? -ne 0 ]; then echo "kakaocloud: 임시 connect-standalone.properties 생성 실패"; exit 1; }
+if [ $? -ne 0 ]; then echo "kakaocloud: 임시 connect-standalone.properties 생성 실패"; exit 1; fi
 sudo chown ubuntu:ubuntu "${KAFKA_INSTALL_DIR}/config/connect-standalone.properties" || { echo "kakaocloud: 임시 connect-standalone.properties 권한 변경 실패"; exit 1; }
 
 
@@ -161,7 +160,7 @@ sudo -u ubuntu -i aws configure set aws_access_key_id "$AWS_ACCESS_KEY_ID_VALUE"
 sudo -u ubuntu -i aws configure set aws_secret_access_key "$AWS_SECRET_ACCESS_KEY_VALUE" || { echo "kakaocloud: AWS CLI aws_secret_access_key 설정 실패"; exit 1; }
 sudo -u ubuntu -i aws configure set default.region "$AWS_DEFAULT_REGION_VALUE" || { echo "kakaocloud: AWS CLI default.region 설정 실패"; exit 1; }
 sudo -u ubuntu -i aws configure set default.output "$AWS_DEFAULT_OUTPUT_VALUE" || { echo "kakaocloud: AWS CLI default.output 설정 실패"; exit 1; }
-source /home/ubuntu/.bashrc || { echo "kakaocloud: .bashrc 재적용 실패"; exit 1; } # 환경 변수 다시 적용
+source /home/ubuntu/.bashrc || { echo "kakaocloud: .bashrc 재적용 실패"; exit 1; }
 
 ################################################################################
 # 11. Kafka Connect 설정 폴더 권한 부여
@@ -214,7 +213,7 @@ cat <<EOF > "${KAFKA_INSTALL_DIR}/config/s3-sink-connector.json"
   }
 }
 EOF
-if [ $? -ne 0 ]; then echo "kakaocloud: s3-sink-connector.json 생성 실패"; exit 1; fi
+if [ $? -ne 0 ]; then echo "kakaocloud: s3-sink-connector.json 생성 실패"; exit 1; fi # 구문 오류 수정
 
 ################################################################################
 # 14. worker.properties 생성 (Distributed 모드용)
@@ -258,7 +257,7 @@ listeners=http://0.0.0.0:${CONNECT_REST_PORT}
 rest.advertised.host.name=$(hostname -I | awk '{print $1}')
 rest.advertised.port=${CONNECT_REST_PORT}
 EOF
-if [ $? -ne 0 ]; then echo "kakaocloud: worker.properties 생성 실패"; exit 1; fi
+if [ $? -ne 0 ]; then echo "kakaocloud: worker.properties 생성 실패"; exit 1; fi # 구문 오류 수정
 
 ################################################################################
 # 15. kafka-connect systemd 서비스 등록 (Distributed 모드용)
@@ -279,7 +278,7 @@ RestartSec=5
 [Install]
 WantedBy=multi-user.target
 EOF
-if [ $? -ne 0 ]; then echo "kakaocloud: Kafka Connect 서비스 등록 실패"; exit 1; fi
+if [ $? -ne 0 ]; then echo "kakaocloud: Kafka Connect 서비스 등록 실패"; exit 1; fi # 구문 오류 수정
 
 ################################################################################
 # 16. Schema Registry 관련 (JSON 포맷 사용 시 불필요하므로 제거)
