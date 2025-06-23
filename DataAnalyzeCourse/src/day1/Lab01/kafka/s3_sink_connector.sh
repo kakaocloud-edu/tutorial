@@ -204,6 +204,8 @@ cat <<EOF > "${KAFKA_INSTALL_DIR}/config/s3-sink-connector.json"
 }
 EOF
 if [ $? -ne 0 ]; then echo "kakaocloud: s3-sink-connector.json 생성 실패"; exit 1; fi
+sudo chown ubuntu:ubuntu "${KAFKA_INSTALL_DIR}/config/s3-sink-connector.json" || { echo "소유권 변경 실패"; exit 1; }
+
 
 ################################################################################
 # 14. worker.properties 생성 (Distributed 모드용)
@@ -248,6 +250,8 @@ rest.advertised.host.name=$(hostname -I | awk '{print $1}')
 rest.advertised.port=${CONNECT_REST_PORT}
 EOF
 if [ $? -ne 0 ]; then echo "kakaocloud: worker.properties 생성 실패"; exit 1; fi
+sudo chown ubuntu:ubuntu "${KAFKA_INSTALL_DIR}/config/worker.properties" || { echo "소유권 변경 실패"; exit 1; }
+
 
 ################################################################################
 # 15. kafka-connect systemd 서비스 등록 (Distributed 모드용)
