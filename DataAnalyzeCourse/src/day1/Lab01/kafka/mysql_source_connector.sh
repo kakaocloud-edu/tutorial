@@ -28,22 +28,22 @@ KAFKA_VERSION="3.7.1"
 KAFKA_SCALA_VERSION="2.13"
 KAFKA_TGZ="kafka_${KAFKA_SCALA_VERSION}-${KAFKA_VERSION}.tgz"
 KAFKA_DOWNLOAD_URL="https://archive.apache.org/dist/kafka/${KAFKA_VERSION}/${KAFKA_TGZ}"
-KAFKA_INSTALL_DIR="/home/ubuntu/kafka" # Kafka Connect 설치 경로
+KAFKA_INSTALL_DIR="/home/ubuntu/kafka"
 
-DEBEZIUM_MYSQL_CONNECTOR_VERSION="3.0.2.Final" # 사용하려는 Debezium 버전
+DEBEZIUM_MYSQL_CONNECTOR_VERSION="3.0.2.Final"
 DEBEZIUM_MYSQL_CONNECTOR_URL="https://repo1.maven.org/maven2/io/debezium/debezium-connector-mysql/${DEBEZIUM_MYSQL_CONNECTOR_VERSION}/debezium-connector-mysql-${DEBEZIUM_MYSQL_CONNECTOR_VERSION}-plugin.tar.gz"
 DEBEZIUM_MYSQL_CONNECTOR_TGZ="debezium-connector-mysql-${DEBEZIUM_MYSQL_CONNECTOR_VERSION}-plugin.tar.gz"
 
 # 이 VM의 Kafka Connect REST API 포트
-CONNECT_REST_PORT="8084" # 8084 포트로 고정
+CONNECT_REST_PORT="8084"
 
 #------------------------------------------
 # 2. 필수 환경변수 검증 (env_vars.sh에서 로드되는 변수들)
 #------------------------------------------
 required_env_vars=(
-  KAFKA_BOOTSTRAP_SERVER # env_vars.sh의 KAFKA_BOOTSTRAP_SERVER 변수
+  KAFKA_BOOTSTRAP_SERVER
   MYSQL_DB_HOSTNAME MYSQL_DB_PORT MYSQL_DB_USER MYSQL_DB_PASSWORD
-  MYSQL_SERVER_ID MYSQL_SERVER_NAME # MySQL 관련 변수들
+  MYSQL_SERVER_ID MYSQL_SERVER_NAME
 )
 
 echo "kakaocloud: 2. 필수 환경 변수 검증 시작"
@@ -118,10 +118,10 @@ echo "kakaocloud: 7. Kafka Connect 분산 모드 설정 (worker.properties) 시�
 cat <<EOF > "${KAFKA_INSTALL_DIR}/config/worker.properties"
 bootstrap.servers=${KAFKA_BOOTSTRAP_SERVERS}
 
-group.id=connect-cluster-mysql-source # MySQL Source 전용 그룹 ID
-config.storage.topic=connect-configs-mysql # MySQL Source 전용 토픽
-offset.storage.topic=connect-offsets-mysql # MySQL Source 전용 토픽
-status.storage.topic=connect-statuses-mysql # MySQL Source 전용 토픽
+group.id=connect-cluster-mysql-source
+config.storage.topic=connect-configs-mysql
+offset.storage.topic=connect-offsets-mysql
+status.storage.topic=connect-statuses-mysql
 
 config.storage.replication.factor=1
 offset.storage.replication.factor=1
@@ -140,11 +140,11 @@ value.converter.schemas.enable=false
 offset.flush.interval.ms=10000
 offset.flush.timeout.ms=5000
 
-plugin.path=${KAFKA_INSTALL_DIR}/plugins # Debezium 플러그인 경로
+plugin.path=${KAFKA_INSTALL_DIR}/plugins
 
-listeners=http://0.0.0.0:${CONNECT_REST_PORT} # 8084 포트
+listeners=http://0.0.0.0:${CONNECT_REST_PORT}
 rest.advertised.host.name=$(hostname -I | awk '{print $1}')
-rest.advertised.port=${CONNECT_REST_PORT} # 8084 포트
+rest.advertised.port=${CONNECT_REST_PORT}
 EOF
 if [ $? -ne 0 ]; then echo "kakaocloud: worker.properties 생성 실패"; exit 1; fi
 # Kafka 설치 디렉토리 전체의 권한을 변경하여 생성된 config 파일들도 ubuntu 소유가 되도록 합니다.
