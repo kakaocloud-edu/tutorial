@@ -18,7 +18,7 @@ else
 fi
 
 exec > >(tee -a "$LOGFILE") 2>&1
-echo "kakaocloud: $(date '+%Y-%m-%d %H:%M:%S') - S3 Sink Connector 배포 스크립트 실행 시작"
+echo "kakaocloud: $(date '+%Y-%m-%d %H:%M:%S') - S3 Sink Connector 환경 설정 스크립트 실행 시작"
 
 #------------------------------------------
 # 1. 메인 스크립트 내부 설정 변수 (env_vars.sh에서 오지 않는 값들)
@@ -28,7 +28,7 @@ KAFKA_VERSION="3.7.1"
 KAFKA_SCALA_VERSION="2.13"
 KAFKA_TGZ="kafka_${KAFKA_SCALA_VERSION}-${KAFKA_VERSION}.tgz"
 KAFKA_DOWNLOAD_URL="https://archive.apache.org/dist/kafka/${KAFKA_VERSION}/${KAFKA_TGZ}"
-KAFKA_INSTALL_DIR="/home/ubuntu/kafka" # Kafka Connect 설치 경로
+KAFKA_INSTALL_DIR="/home/ubuntu/kafka"
 
 CONFLUENT_HUB_DIR="/confluent-hub"
 CONFLUENT_HUB_URL="http://client.hub.confluent.io/confluent-hub-client-latest.tar.gz"
@@ -36,13 +36,12 @@ CONFLUENT_HUB_FILE="confluent-hub-client-latest.tar.gz"
 
 AWS_CLI_VERSION="2.22.0"
 AWS_CLI_ZIP="awscliv2.zip"
-AWS_CLI_DOWNLOAD_URL="https://awscli.amazonaws.com/awscli-exe-linux-x86_64-${AWS_CLI_VERSION}.zip"
+AWS_CLI_DOWNLOAD_URL="https://awscli.amazonaws.com/awscliv2-exe-linux-x86_64-${AWS_CLI_VERSION}.zip"
 
 CONNECT_REST_PORT="8083" # 이 VM의 Kafka Connect REST API 포트
 DEBEZIUM_SOURCE_SERVER_NAME="mysql-server-latest" # Debezium Source Connector의 logical name (topic.prefix)
 
-# S3 Sink Connector가 구독할 Debezium 토픽 목록
-# (Debezium VM의 'kafka-topics.sh --list' 결과와 정확히 일치해야 함)
+# S3 Sink Connector가 구독할 Debezium 토픽 목록 (Debezium VM의 'kafka-topics.sh --list' 결과와 정확히 일치해야 함)
 # 이 값은 env_vars.sh에서 오지 않으므로 여기에 직접 정의합니다.
 DEBEZIUM_TOPICS="mysql-server-latest.shopdb.cart,mysql-server-latest.shopdb.cart_logs,mysql-server-latest.shopdb.orders,mysql-server-latest.shopdb.products,mysql-server-latest.shopdb.reviews,mysql-server-latest.shopdb.search_logs,mysql-server-latest.shopdb.sessions,mysql-server-latest.shopdb.users,mysql-server-latest.shopdb.users_logs"
 
@@ -225,10 +224,10 @@ cat <<EOF > "${KAFKA_INSTALL_DIR}/config/worker.properties"
 bootstrap.servers=${KAFKA_BOOTSTRAP_SERVERS}
 
 # Distributed 모드 관련 필수 설정
-group.id=connect-cluster-s3-sink # S3 Sink 전용 그룹 ID
-config.storage.topic=connect-configs-s3 # S3 Sink 전용 토픽
-offset.storage.topic=connect-offsets-s3 # S3 Sink 전용 토픽
-status.storage.topic=connect-statuses-s3 # S3 Sink 전용 토픽
+group.id=connect-cluster-s3-sink
+config.storage.topic=connect-configs-s3
+offset.storage.topic=connect-offsets-s3
+status.storage.topic=connect-statuses-s3
 
 # 개발/테스트 환경에서는 복제 인자 1로 시작 가능. 프로덕션은 3 이상 권장.
 config.storage.replication.factor=1
@@ -255,8 +254,8 @@ offset.flush.timeout.ms=5000
 plugin.path=/confluent-hub/plugins
 
 # REST API 리스너 설정
-listeners=http://0.0.0.0:${CONNECT_REST_PORT} 
-rest.advertised.host.name=$(hostname -I | awk '{print $1}') 
+listeners=http://0.0.0.0:${CONNECT_REST_PORT}
+rest.advertised.host.name=$(hostname -I | awk '{print $1}')
 rest.advertised.port=${CONNECT_REST_PORT}
 EOF
 if [ $? -ne 0 ]; then echo "kakaocloud: worker.properties 생성 실패"; exit 1; fi
@@ -273,7 +272,7 @@ After=network.target
 [Service]
 User=ubuntu
 ExecStart=${KAFKA_INSTALL_DIR}/bin/connect-distributed.sh \
-  ${KAFKA_INSTALL_DIR}/config/worker.properties 
+  ${KAFKA_INSTALL_DIR}/config/worker.properties
 Restart=on-failure
 RestartSec=5
 
