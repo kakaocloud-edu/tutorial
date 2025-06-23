@@ -3,16 +3,12 @@
 #------------------------------------------
 # 0. 초기 환경 설정 및 로그 리디렉션
 #------------------------------------------
-# 환경 변수 파일을 소싱하여 설정 로드 (외부 스크립트에 의해 실행될 때)
-# 이 스크립트가 직접 실행될 경우를 대비해 한번 더 source.
 if [ -f "/tmp/env_vars.sh" ]; then
     source /tmp/env_vars.sh
-    # LOGFILE 변수가 env_vars.sh에 정의되어 있다고 가정
     if [ -z "$LOGFILE" ]; then
         LOGFILE="/home/ubuntu/setup_s3_sink_connector.log"
     fi
 else
-    # env_vars.sh가 없는 경우를 대비한 기본 LOGFILE
     LOGFILE="/home/ubuntu/setup_s3_sink_connector.log"
     echo "kakaocloud: 경고: /tmp/env_vars.sh 파일을 찾을 수 없습니다. 환경 변수가 외부에서 설정되어야 합니다."
 fi
@@ -21,9 +17,8 @@ exec > >(tee -a "$LOGFILE") 2>&1
 echo "kakaocloud: $(date '+%Y-%m-%d %H:%M:%S') - S3 Sink Connector 환경 설정 스크립트 실행 시작"
 
 #------------------------------------------
-# 1. 메인 스크립트 내부 설정 변수 (env_vars.sh에서 오지 않는 값들)
+# 1. 메인 스크립트 내부 설정 변수
 #------------------------------------------
-# Kafka Connect 및 S3 Sink Connector 관련 설정
 KAFKA_VERSION="3.7.1"
 KAFKA_SCALA_VERSION="2.13"
 KAFKA_TGZ="kafka_${KAFKA_SCALA_VERSION}-${KAFKA_VERSION}.tgz"
@@ -38,16 +33,14 @@ AWS_CLI_VERSION="2.22.0"
 AWS_CLI_ZIP="awscliv2.zip"
 AWS_CLI_DOWNLOAD_URL="https://awscli.amazonaws.com/awscliv2-exe-linux-x86_64-${AWS_CLI_VERSION}.zip"
 
-CONNECT_REST_PORT="8083" # 이 VM의 Kafka Connect REST API 포트
-DEBEZIUM_SOURCE_SERVER_NAME="mysql-server-latest" # Debezium Source Connector의 logical name (topic.prefix)
+CONNECT_REST_PORT="8083"
+DEBEZIUM_SOURCE_SERVER_NAME="mysql-server-latest"
 
-# S3 Sink Connector가 구독할 Debezium 토픽 목록 (Debezium VM의 'kafka-topics.sh --list' 결과와 정확히 일치해야 함)
 DEBEZIUM_TOPICS="mysql-server-latest.shopdb.cart,mysql-server-latest.shopdb.cart_logs,mysql-server-latest.shopdb.orders,mysql-server-latest.shopdb.products,mysql-server-latest.shopdb.reviews,mysql-server-latest.shopdb.search_logs,mysql-server-latest.shopdb.sessions,mysql-server-latest.shopdb.users,mysql-server-latest.shopdb.users_logs"
 
 
 #------------------------------------------
 # 2. 필수 환경변수 검증
-# (env_vars.sh에서 로드되는 변수들)
 #------------------------------------------
 required_env_vars=(
   KAFKA_BOOTSTRAP_SERVER BUCKET_NAME
@@ -63,7 +56,6 @@ for var in "${required_env_vars[@]}"; do
     fi
 done
 
-# KAFKA_BOOTSTRAP_SERVER 변수 이름을 KAFKA_BOOTSTRAP_SERVERS로 통일 (내부적으로)
 KAFKA_BOOTSTRAP_SERVERS="$KAFKA_BOOTSTRAP_SERVER"
 
 
@@ -98,12 +90,10 @@ sudo chown -R ubuntu:ubuntu /confluent-hub || { echo "kakaocloud: Confluent Hub 
 # 6. .bashrc에 JAVA_HOME 및 PATH 등록
 ################################################################################
 echo "kakaocloud: 6. Java 환경 변수 등록 시작"
-# 기존 Java 환경 변수 설정 제거
 sed -i '/^export JAVA_HOME=/d' /home/ubuntu/.bashrc
 sed -i '/^export PATH=.*\\$JAVA_HOME\/bin/d' /home/ubuntu/.bashrc
 sed -i '/^export CLASSPATH=.*\\$JAVA_HOME/d' /home/ubuntu/.bashrc
 
-# 새로운 Java 환경 변수 추가
 cat <<EOF >> /home/ubuntu/.bashrc
 export JAVA_HOME="/usr/lib/jvm/java-21-openjdk-amd64"
 export PATH="\$JAVA_HOME/bin:\$PATH"
@@ -257,7 +247,7 @@ listeners=http://0.0.0.0:${CONNECT_REST_PORT}
 rest.advertised.host.name=$(hostname -I | awk '{print $1}')
 rest.advertised.port=${CONNECT_REST_PORT}
 EOF
-if [ $? -ne 0 ]; then echo "kakaocloud: worker.properties 생성 실패"; exit 1; fi # 구문 오류 수정
+if [ $? -ne 0 ]; then echo "kakaocloud: worker.properties 생성 실패"; exit 1; fi
 
 ################################################################################
 # 15. kafka-connect systemd 서비스 등록 (Distributed 모드용)
@@ -278,7 +268,7 @@ RestartSec=5
 [Install]
 WantedBy=multi-user.target
 EOF
-if [ $? -ne 0 ]; then echo "kakaocloud: Kafka Connect 서비스 등록 실패"; exit 1; fi # 구문 오류 수정
+if [ $? -ne 0 ]; then echo "kakaocloud: Kafka Connect 서비스 등록 실패"; exit 1; fi
 
 ################################################################################
 # 16. Schema Registry 관련 (JSON 포맷 사용 시 불필요하므로 제거)
