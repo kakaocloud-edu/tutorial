@@ -196,7 +196,7 @@ value.converter.schemas.enable=false
 offset.storage.file.filename=/tmp/connect.offsets
 offset.flush.interval.ms=10000
 plugin.path=/confluent-hub/plugins
-listeners=http://0.0.0.0:8083
+listeners=http://0.0.0.0:8084
 EOF
 if [ $? -ne 0 ]; then echo "kakaocloud: worker.properties 생성 실패"; exit 1; fi
 
