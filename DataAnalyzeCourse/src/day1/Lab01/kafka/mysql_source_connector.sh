@@ -201,6 +201,7 @@ sudo tee "${KAFKA_INSTALL_DIR}/config/connectors/mysql-connector.json" << EOF_JS
     "database.password":                        "${MYSQL_DB_PASSWORD}",
     "database.server.id":                       "${MYSQL_SERVER_ID}",
     "database.server.name":                     "${MYSQL_SERVER_NAME}",
+    "topic.prefix":                             "${MYSQL_SERVER_NAME}",
     "database.include.list":                    "shopdb",
     "table.include.list":                       "shopdb.cart,shopdb.cart_logs,shopdb.orders,shopdb.products,shopdb.push_messages,shopdb.reviews,shopdb.search_logs,shopdb.sessions,shopdb.users,shopdb.users_logs",
     "schema.history.internal.kafka.bootstrap.servers": "${KAFKA_BOOTSTRAP_SERVERS}",
