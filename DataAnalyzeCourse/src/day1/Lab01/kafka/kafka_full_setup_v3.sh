@@ -148,54 +148,73 @@ sudo wget -O /confluent-hub/plugins/confluentinc-kafka-connect-s3/lib/custom-fil
   "https://raw.githubusercontent.com/kakaocloud-edu/tutorial/main/DataAnalyzeCourse/src/day1/Lab03/kafka_connector/custom-filename-1.0-SNAPSHOT.jar" || { echo "kakaocloud: custom-filename 다운로드 실패"; exit 1; }
 
 ################################################################################
-# 11. s3-sink-connector.properties 생성
+# 11. s3-sink-connector.json 생성
 ################################################################################
-echo "kakaocloud: 13. s3-sink-connector.properties 생성 시작"
-cat <<EOF > /opt/kafka/config/s3-sink-connector.properties
-name=s3-sink-connector
-connector.class=io.confluent.connect.s3.S3SinkConnector
-tasks.max=1
-topics=nginx-topic
-s3.region=kr-central-2
-s3.bucket.name=${BUCKET_NAME}
-s3.part.size=5242880
-aws.access.key.id=${AWS_ACCESS_KEY_ID_VALUE}
-aws.secret.access.key=${AWS_SECRET_ACCESS_KEY_VALUE}
-store.url=https://objectstorage.kr-central-2.kakaocloud.com
-storage.class=io.confluent.connect.s3.storage.S3Storage
-format.class=io.confluent.connect.s3.format.parquet.ParquetFormat
-parquet.codec=snappy
-key.converter=org.apache.kafka.connect.storage.StringConverter
-value.converter=io.confluent.connect.avro.AvroConverter
-value.converter.schema.registry.url=http://localhost:8081
-value.converter.schemas.enable=true
-flush.size=1
-partitioner.class=com.mycompany.connect.FlexibleTimeBasedPartitioner
-topics.dir=kafka-nginx-log
-custom.topic.dir=nginx-topic
-custom.partition.prefix=partition_
-partition.duration.ms=3600000
-path.format='year_'yyyy/'month_'MM/'day_'dd/'hour_'HH
-locale=en-US
-timezone=Asia/Seoul
-timestamp.extractor=Wallclock
-custom.replacements==:_
+echo "kakaocloud: 13. s3-sink-connector.json 생성 시작"
+cat <<EOF > /opt/kafka/config/s3-sink-connector.json
+{
+  "name": "s3-sink-connector",
+  "config": {
+    "connector.class": "io.confluent.connect.s3.S3SinkConnector",
+    "tasks.max": "1",
+    "topics": "nginx-topic",
+    "s3.region": "kr-central-2",
+    "s3.bucket.name": "${BUCKET_NAME}",
+    "s3.part.size": "5242880",
+    "aws.access.key.id": "${AWS_ACCESS_KEY_ID_VALUE}",
+    "aws.secret.access.key": "${AWS_SECRET_ACCESS_KEY_VALUE}",
+    "store.url": "https://objectstorage.kr-central-2.kakaocloud.com",
+    "storage.class": "io.confluent.connect.s3.storage.S3Storage",
+    "format.class": "io.confluent.connect.s3.format.parquet.ParquetFormat",
+    "parquet.codec": "snappy",
+    "key.converter": "org.apache.kafka.connect.storage.StringConverter",
+    "value.converter": "io.confluent.connect.avro.AvroConverter",
+    "value.converter.schema.registry.url": "http://localhost:8081",
+    "value.converter.schemas.enable": "true",
+    "flush.size": "1",
+    "partitioner.class": "com.mycompany.connect.FlexibleTimeBasedPartitioner",
+    "topics.dir": "kafka-nginx-log",
+    "custom.topic.dir": "nginx-topic",
+    "custom.partition.prefix": "partition_",
+    "partition.duration.ms": "3600000",
+    "path.format": "'year_'yyyy/'month_'MM/'day_'dd/'hour_'HH",
+    "locale": "en-US",
+    "timezone": "Asia/Seoul",
+    "timestamp.extractor": "Wallclock",
+    "custom.replacements": "=_:"
+  }
+}
 EOF
-if [ $? -ne 0 ]; then echo "kakaocloud: s3-sink-connector.properties 생성 실패"; exit 1; fi
+if [ $? -ne 0 ]; then
+  echo "kakaocloud: s3-sink-connector.json 생성 실패"
+  exit 1
+fi
 
 ################################################################################
 # 12. worker.properties 생성
 ################################################################################
 echo "kakaocloud: 14. worker.properties 생성 시작"
-cat <<EOF > /opt/kafka/config/worker.properties
+cat <<EOF > /opt/kafka/config/worker-distributed.properties
 bootstrap.servers=${KAFKA_BOOTSTRAP_SERVER}
+
+# converters
 key.converter=org.apache.kafka.connect.json.JsonConverter
 value.converter=org.apache.kafka.connect.json.JsonConverter
 key.converter.schemas.enable=false
 value.converter.schemas.enable=false
-offset.storage.file.filename=/tmp/connect.offsets
-offset.flush.interval.ms=10000
+
+# internal topics (클러스터 공유)
+offset.storage.topic=connect-offsets
+config.storage.topic=connect-configs
+status.storage.topic=connect-statuses
+offset.storage.replication.factor=1
+config.storage.replication.factor=1
+status.storage.replication.factor=1
+
+# 플러그인 경로
 plugin.path=/confluent-hub/plugins
+
+# REST 인터페이스
 listeners=http://0.0.0.0:8083
 EOF
 if [ $? -ne 0 ]; then echo "kakaocloud: worker.properties 생성 실패"; exit 1; fi
@@ -211,9 +230,8 @@ After=network.target
 
 [Service]
 User=ubuntu
-ExecStart=/home/ubuntu/kafka/bin/connect-standalone.sh \
-  /opt/kafka/config/worker.properties \
-  /opt/kafka/config/s3-sink-connector.properties
+ExecStart=/home/ubuntu/kafka/bin/connect-distributed.sh \
+  /opt/kafka/config/worker-distributed.properties
 Restart=on-failure
 RestartSec=5
 
@@ -270,6 +288,36 @@ sudo wget -P /confluent-hub/plugins/confluentinc-kafka-connect-s3/lib \
   https://packages.confluent.io/maven/io/confluent/common-config/7.5.3/common-config-7.5.3.jar \
   https://repo1.maven.org/maven2/com/google/protobuf/protobuf-java/3.25.1/protobuf-java-3.25.1.jar \
   https://repo1.maven.org/maven2/com/google/guava/failureaccess/1.0.2/failureaccess-1.0.2.jar || { echo -e "\nERROR: S3 커넥터 추가 의존성 다운로드 실패"; exit 1; }
+
+################################################################################
+# 17. S3 Sink Connector REST API 등록
+################################################################################
+echo "kakaocloud: 19. S3 Sink Connector REST API 등록 시작"
+
+# Connect REST가 아직 살아날 때까지 대기 (최대 30초)
+for i in {1..6}; do
+  if curl -s http://localhost:8083/ | grep -q "connectors"; then
+    echo "kakaocloud: Kafka Connect REST ready"
+    break
+  fi
+  echo "kakaocloud: REST not ready yet, retrying..."
+  sleep 5
+done
+
+# 실제 등록
+HTTP_STATUS=$(curl -s -o /dev/null -w '%{http_code}' \
+  -X POST http://localhost:8083/connectors \
+  -H "Content-Type: application/json" \
+  --data @/opt/kafka/config/s3-sink-connector.json)
+
+if [ "$HTTP_STATUS" -eq 201 ]; then
+  echo "kakaocloud: 커넥터 생성 성공 (HTTP $HTTP_STATUS)"
+elif [ "$HTTP_STATUS" -eq 409 ]; then
+  echo "kakaocloud: 이미 존재하는 커넥터입니다 (HTTP $HTTP_STATUS)"
+else
+  echo "kakaocloud: 커넥터 등록 실패 (HTTP $HTTP_STATUS)" >&2
+  exit 1
+fi
 
 ################################################################################
 # 완료
