@@ -14,7 +14,6 @@ else
 fi
 
 exec > >(tee -a "$LOGFILE") 2>&1
-echo "kakaocloud: $(date '+%Y-%m-%d %H:%M:%S') - S3 Sink Connector 환경 설정 스크립트 실행 시작"
 
 #------------------------------------------
 # 1. 메인 스크립트 내부 설정 변수
@@ -105,7 +104,6 @@ source /home/ubuntu/.bashrc || { echo "kakaocloud: .bashrc 재적용 실패"; ex
 ################################################################################
 # 7. 임시 connect-standalone.properties 파일 생성 (Confluent Hub Client 요구사항 충족용)
 ################################################################################
-echo "kakaocloud: 7. 임시 connect-standalone.properties 파일 생성 시작"
 sudo mkdir -p "${KAFKA_INSTALL_DIR}/config" || { echo "kakaocloud: Kafka Connect config 디렉토리 생성 실패"; exit 1; }
 cat <<EOF > "${KAFKA_INSTALL_DIR}/config/connect-standalone.properties"
 bootstrap.servers=${KAFKA_BOOTSTRAP_SERVERS}
@@ -125,7 +123,7 @@ sudo chown ubuntu:ubuntu "${KAFKA_INSTALL_DIR}/config/connect-standalone.propert
 ################################################################################
 # 8. S3 Sink Connector 설치
 ################################################################################
-echo "kakaocloud: 8. S3 Sink Connector 설치 시작"
+echo "kakaocloud: 7. S3 Sink Connector 설치 시작"
 /confluent-hub/bin/confluent-hub install confluentinc/kafka-connect-s3:latest \
   --component-dir /confluent-hub/plugins \
   --worker-configs "${KAFKA_INSTALL_DIR}/config/connect-standalone.properties" \
@@ -134,7 +132,7 @@ echo "kakaocloud: 8. S3 Sink Connector 설치 시작"
 ################################################################################
 # 9. AWS CLI 설치
 ################################################################################
-echo "kakaocloud: 9. AWS CLI 설치 시작"
+echo "kakaocloud: 8. AWS CLI 설치 시작"
 cd /home/ubuntu || { echo "kakaocloud: 홈 디렉토리 이동 실패"; exit 1; }
 curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64-${AWS_CLI_VERSION}.zip" -o "${AWS_CLI_ZIP}" || { echo "kakaocloud: AWS CLI 다운로드 실패"; exit 1; }
 unzip "${AWS_CLI_ZIP}" || { echo "kakaocloud: AWS CLI 압축 해제 실패"; exit 1; }
@@ -145,7 +143,7 @@ AWS_VERSION=$(aws --version 2>&1 || true)
 ################################################################################
 # 10. AWS CLI configure 파일 설정
 ################################################################################
-echo "kakaocloud: 10. AWS CLI 설정 시작"
+echo "kakaocloud: 9. AWS CLI 설정 시작"
 sudo -u ubuntu -i aws configure set aws_access_key_id "$AWS_ACCESS_KEY_ID_VALUE" || { echo "kakaocloud: AWS CLI aws_access_key_id 설정 실패"; exit 1; }
 sudo -u ubuntu -i aws configure set aws_secret_access_key "$AWS_SECRET_ACCESS_KEY_VALUE" || { echo "kakaocloud: AWS CLI aws_secret_access_key 설정 실패"; exit 1; }
 sudo -u ubuntu -i aws configure set default.region "$AWS_DEFAULT_REGION_VALUE" || { echo "kakaocloud: AWS CLI default.region 설정 실패"; exit 1; }
@@ -155,14 +153,14 @@ source /home/ubuntu/.bashrc || { echo "kakaocloud: .bashrc 재적용 실패"; ex
 ################################################################################
 # 11. Kafka Connect 설정 폴더 권한 부여
 ################################################################################
-echo "kakaocloud: 11. Kafka Connect 설정 폴더 권한 부여 시작"
+echo "kakaocloud: 10. Kafka Connect 설정 폴더 권한 부여 시작"
 sudo mkdir -p "${KAFKA_INSTALL_DIR}/config" || { echo "kakaocloud: Kafka 설정 폴더 생성 실패"; exit 1; }
 sudo chown -R ubuntu:ubuntu "${KAFKA_INSTALL_DIR}" || { echo "kakaocloud: Kafka 설치 디렉토리 권한 변경 실패"; exit 1; }
 
 ################################################################################
 # 12. 커스텀 파티셔너, 파일네임 플러그인 다운로드 (선택적)
 ################################################################################
-echo "kakaocloud: 12. 커스텀 플러그인 다운로드 시작 (JSON 포맷에서는 보통 불필요)"
+echo "kakaocloud: 11. 커스텀 플러그인 다운로드 시작"
 sudo wget -O /confluent-hub/plugins/confluentinc-kafka-connect-s3/lib/custom-partitioner-1.0-SNAPSHOT.jar \
   "https://raw.githubusercontent.com/kakaocloud-edu/tutorial/main/DataAnalyzeCourse/src/day1/Lab03/kafka_connector/custom-partitioner-1.0-SNAPSHOT.jar" || { echo "kakaocloud: custom-partitioner 다운로드 실패"; exit 1; }
 sudo wget -O /confluent-hub/plugins/confluentinc-kafka-connect-s3/lib/custom-filename-1.0-SNAPSHOT.jar \
@@ -171,7 +169,7 @@ sudo wget -O /confluent-hub/plugins/confluentinc-kafka-connect-s3/lib/custom-fil
 ################################################################################
 # 13. s3-sink-connector.json 생성 (Distributed 모드용)
 ################################################################################
-echo "kakaocloud: 13. s3-sink-connector.json 생성 시작"
+echo "kakaocloud: 12. s3-sink-connector.json 생성 시작"
 cat <<EOF > "${KAFKA_INSTALL_DIR}/config/s3-sink-connector.json"
 {
   "name": "s3-sink-connector-shopdb-all-tables",
@@ -210,7 +208,7 @@ sudo chown ubuntu:ubuntu "${KAFKA_INSTALL_DIR}/config/s3-sink-connector.json" ||
 ################################################################################
 # 14. worker.properties 생성 (Distributed 모드용)
 ################################################################################
-echo "kakaocloud: 14. worker.properties 생성 시작 (Distributed 모드)"
+echo "kakaocloud: 13. worker.properties 생성 시작"
 cat <<EOF > "${KAFKA_INSTALL_DIR}/config/worker.properties"
 bootstrap.servers=${KAFKA_BOOTSTRAP_SERVERS}
 
@@ -254,9 +252,9 @@ sudo chown ubuntu:ubuntu "${KAFKA_INSTALL_DIR}/config/worker.properties" || { ec
 
 
 ################################################################################
-# 15. kafka-connect systemd 서비스 등록 (Distributed 모드용)
+# 15. kafka-connect systemd 서비스 등록
 ################################################################################
-echo "kakaocloud: 15. Kafka Connect 서비스 등록 시작 (Distributed 모드)"
+echo "kakaocloud: 14. Kafka Connect 서비스 등록 시작"
 cat <<EOF | sudo tee /etc/systemd/system/kafka-connect.service
 [Unit]
 Description=Kafka Connect Distributed Service
@@ -275,9 +273,9 @@ EOF
 if [ $? -ne 0 ]; then echo "kakaocloud: Kafka Connect 서비스 등록 실패"; exit 1; fi
 
 ################################################################################
-# 16. Schema Registry 관련 (JSON 포맷 사용 시 불필요하므로 제거)
+# 16. Schema Registry 관련
 ################################################################################
-echo "kakaocloud: 16. Schema Registry 관련 설치 건너뜀 (JSON 포맷 사용)"
+echo "kakaocloud: 15. Schema Registry 관련 설치 건너뜀 (JSON 포맷 사용)"
 # 이 섹션은 완전히 비워둠 (이전 스크립트에서 불필요한 설치/설정 로직 제거됨)
 
 
