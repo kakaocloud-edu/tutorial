@@ -63,7 +63,7 @@ KAFKA_BOOTSTRAP_SERVERS="$KAFKA_BOOTSTRAP_SERVER"
 ################################################################################
 echo "kakaocloud: 3. 시스템 업데이트 및 필수 패키지 설치 시작"
 sudo apt update -y || { echo "kakaocloud: apt update 실패"; exit 1; }
-sudo apt install -y openjdk-21-jdk mysql-client curl jq || { echo "kakaocloud: 필수 패키지 설치 실패"; exit 1; }
+sudo apt install -y python3 python3-pip openjdk-21-jdk unzip jq aria2 curl || { echo "kakaocloud: 필수 패키지 설치 실패"; exit 1; }
 
 ################################################################################
 # 4. Kafka 다운로드 및 설치
