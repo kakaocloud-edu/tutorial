@@ -240,6 +240,10 @@ WantedBy=multi-user.target
 EOF
 if [ $? -ne 0 ]; then echo "kakaocloud: Kafka Connect 서비스 등록 실패"; exit 1; fi
 
+sudo systemctl daemon-reload
+sudo systemctl enable kafka-connect.service
+sudo systemctl start kafka-connect.service
+
 ################################################################################
 # 14. Schema Registry 다운로드 및 설치
 ################################################################################
