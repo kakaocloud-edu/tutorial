@@ -18,7 +18,7 @@ else
 fi
 
 exec > >(tee -a "$LOGFILE") 2>&1
-echo "kakaocloud: $(date '+%Y-%m-%d %H:%M:%S') - MySQL Source Connector 배포 스크립트 실행 시작"
+echo "kakaocloud: MySQL Source Connector 배포 스크립트 실행 시작"
 
 #------------------------------------------
 # 1. 메인 스크립트 내부 설정 변수 (env_vars.sh에서 오지 않는 값들)
@@ -107,7 +107,6 @@ sudo tar -xzf "${DEBEZIUM_MYSQL_CONNECTOR_TGZ}" -C "${KAFKA_INSTALL_DIR}/plugins
 # 다운로드된 tar.gz 파일 삭제
 sudo rm "${DEBEZIUM_MYSQL_CONNECTOR_TGZ}" || { echo "kakaocloud: 임시 Debezium tar.gz 파일 삭제 실패"; exit 1; }
 
-echo "kakaocloud: 플러그인 디렉토리 내용 확인:"
 ls -F "${KAFKA_INSTALL_DIR}/plugins/debezium-connector-mysql/" || { echo "kakaocloud: Debezium 플러그인 확인 실패"; exit 1; }
 
 
@@ -176,12 +175,10 @@ if [ $? -ne 0 ]; then echo "kakaocloud: Kafka Connect 서비스 파일 생성 �
 
 sudo systemctl daemon-reload || { echo "kakaocloud: systemd daemon-reload 실패"; exit 1; }
 
-echo "kakaocloud: Kafka Connect 서비스 시작 중... 잠시 기다려주세요."
 sudo systemctl start kafka-connect || { echo "kakaocloud: Kafka Connect 서비스 시작 실패"; exit 1; }
 
 sudo systemctl enable kafka-connect || { echo "kakaocloud: Kafka Connect 서비스 자동 시작 설정 실패"; exit 1; }
 
-echo "kakaocloud: Kafka Connect 서비스 상태 확인:"
 sudo systemctl status kafka-connect || { echo "kakaocloud: Kafka Connect 서비스 상태 확인 실패"; exit 1; }
 
 
@@ -222,4 +219,4 @@ sudo tee "${KAFKA_INSTALL_DIR}/config/connectors/mysql-connector.json" << EOF_JS
 EOF_JSON
 if [ $? -ne 0 ]; then echo "kakaocloud: mysql-connector.json 생성 실패"; exit 1; fi
 
-echo "kakaocloud: $(date '+%Y-%m-%d %H:%M:%S') - Setup 완료"
+echo "kakaocloud: Setup 완료"
