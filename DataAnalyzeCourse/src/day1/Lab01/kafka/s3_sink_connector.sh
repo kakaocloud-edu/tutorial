@@ -34,9 +34,9 @@ AWS_CLI_ZIP="awscliv2.zip"
 AWS_CLI_DOWNLOAD_URL="https://awscli.amazonaws.com/awscliv2-exe-linux-x86_64-${AWS_CLI_VERSION}.zip"
 
 CONNECT_REST_PORT="8084"
-DEBEZIUM_SOURCE_SERVER_NAME="mysql-server-latest"
+DEBEZIUM_SOURCE_SERVER_NAME="mysql-server"
 
-DEBEZIUM_TOPICS="mysql-server-latest.shopdb.cart,mysql-server-latest.shopdb.cart_logs,mysql-server-latest.shopdb.orders,mysql-server-latest.shopdb.products,mysql-server-latest.shopdb.reviews,mysql-server-latest.shopdb.search_logs,mysql-server-latest.shopdb.sessions,mysql-server-latest.shopdb.users,mysql-server-latest.shopdb.users_logs"
+DEBEZIUM_TOPICS="mysql-server.shopdb.cart,mysql-server.shopdb.cart_logs,mysql-server.shopdb.orders,mysql-server.shopdb.products,mysql-server.shopdb.reviews,mysql-server.shopdb.search_logs,mysql-server.shopdb.sessions,mysql-server.shopdb.users,mysql-server.shopdb.users_logs"
 
 
 #------------------------------------------
