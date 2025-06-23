@@ -213,7 +213,7 @@ cat <<EOF > "${KAFKA_INSTALL_DIR}/config/s3-sink-connector.json"
   }
 }
 EOF
-if [ $? -ne 0 ]; then echo "kakaocloud: s3-sink-connector.json 생성 실패"; exit 1; fi # 구문 오류 수정
+if [ $? -ne 0 ]; then echo "kakaocloud: s3-sink-connector.json 생성 실패"; exit 1; fi
 
 ################################################################################
 # 14. worker.properties 생성 (Distributed 모드용)
