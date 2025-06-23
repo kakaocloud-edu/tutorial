@@ -200,8 +200,6 @@ cat <<EOF > /opt/kafka/config/s3-sink-connector.json
     "path.format": "'shopdb'/'users'/'year='yyyy/'month='MM/'day='dd/'hour='HH",
     "locale": "en-US",
     "timezone": "Asia/Seoul"
-    // "custom.replacements": "==:_" // 필요시 주석 해제 (파일명에 영향을 줄 수 있음)
-    // "partitioner.class": "com.mycompany.connect.FlexibleTimeBasedPartitioner" // custom partitioner를 사용할 경우 활성화
   }
 }
 EOF
