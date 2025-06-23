@@ -255,8 +255,8 @@ offset.flush.timeout.ms=5000
 plugin.path=/confluent-hub/plugins
 
 # REST API 리스너 설정
-listeners=http://0.0.0.0:${CONNECT_REST_PORT} # 워커와 커넥터 등록을 위한 API 엔드포인트
-rest.advertised.host.name=$(hostname -I | awk '{print $1}') # 이 VM의 IP 주소로 설정
+listeners=http://0.0.0.0:${CONNECT_REST_PORT} 
+rest.advertised.host.name=$(hostname -I | awk '{print $1}') 
 rest.advertised.port=${CONNECT_REST_PORT}
 EOF
 if [ $? -ne 0 ]; then echo "kakaocloud: worker.properties 생성 실패"; exit 1; fi
@@ -273,7 +273,7 @@ After=network.target
 [Service]
 User=ubuntu
 ExecStart=${KAFKA_INSTALL_DIR}/bin/connect-distributed.sh \
-  ${KAFKA_INSTALL_DIR}/config/worker.properties # worker.properties 파일만 전달
+  ${KAFKA_INSTALL_DIR}/config/worker.properties 
 Restart=on-failure
 RestartSec=5
 
