@@ -170,9 +170,9 @@ sudo wget -O /confluent-hub/plugins/confluentinc-kafka-connect-s3/lib/custom-fil
 # 13. s3-sink-connector.json 생성 (Distributed 모드용)
 ################################################################################
 echo "kakaocloud: 13. s3-sink-connector.json 생성 시작"
-cat <<EOF > "${KAFKA_INSTALL_DIR}/config/s3-sink-connector.json"
+cat <<EOF > "${KAFKA_INSTALL_DIR}/config/kafka-s3-sink-connector.json"
 {
-  "name": "s3-sink-connector-shopdb-all-tables",
+  "name": "kafka-s3-sink-connector",
   "config": {
     "connector.class": "io.confluent.connect.s3.S3SinkConnector",
     "tasks.max": "1",
@@ -201,8 +201,8 @@ cat <<EOF > "${KAFKA_INSTALL_DIR}/config/s3-sink-connector.json"
   }
 }
 EOF
-if [ $? -ne 0 ]; then echo "kakaocloud: s3-sink-connector.json 생성 실패"; exit 1; fi
-sudo chown ubuntu:ubuntu "${KAFKA_INSTALL_DIR}/config/s3-sink-connector.json" || { echo "소유권 변경 실패"; exit 1; }
+if [ $? -ne 0 ]; then echo "kakaocloud: kafka-s3-sink-connector.json 생성 실패"; exit 1; fi
+sudo chown ubuntu:ubuntu "${KAFKA_INSTALL_DIR}/config/kafka-s3-sink-connector.json" || { echo "소유권 변경 실패"; exit 1; }
 
 
 ################################################################################
