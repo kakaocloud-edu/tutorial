@@ -1,6 +1,6 @@
 #!/bin/bash
 # kafka_vm_init.sh
-echo "kakaocloud: 1.환경 변수 설정 시작"
+echo "kakaocloud: 1. 환경 변수 설정 시작"
 
 cat <<'EOF' > /tmp/env_vars.sh
 # Kafka 설정
@@ -23,7 +23,7 @@ EOF
 source /tmp/env_vars.sh
 echo "source /tmp/env_vars.sh" >> /home/ubuntu/.bashrc
 
-echo "kakaocloud: 2.스크립트 다운로드 사이트 유효성 검사 시작"
+echo "kakaocloud: 2. 스크립트 다운로드 사이트 유효성 검사 시작"
 SCRIPT_URL="https://raw.githubusercontent.com/kakaocloud-edu/tutorial/refs/heads/main/DataAnalyzeCourse/src/day1/Lab01/kafka/s3_sink_connector.sh"
 
 curl -L --output /dev/null --silent --head --fail "$SCRIPT_URL" || { echo "kakaocloud: Script download site is not valid"; exit 1; }
