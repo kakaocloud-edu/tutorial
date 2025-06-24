@@ -47,7 +47,7 @@ required_env_vars=(
   AWS_DEFAULT_REGION_VALUE AWS_DEFAULT_OUTPUT_VALUE
 )
 
-echo "kakaocloud: 2. 필수 환경 변수 검증 시작"
+echo "kakaocloud: 3. 필수 환경 변수 검증 시작"
 for var in "${required_env_vars[@]}"; do
     if [ -z "${!var}" ]; then
         echo "kakaocloud: 오류: 필수 환경 변수 $var 가 설정되지 않았습니다. 스크립트를 종료합니다."
@@ -61,14 +61,14 @@ KAFKA_BOOTSTRAP_SERVERS="$KAFKA_BOOTSTRAP_SERVER"
 ################################################################################
 # 3. 시스템 업데이트 및 필수 패키지 설치
 ################################################################################
-echo "kakaocloud: 3. 시스템 업데이트 및 필수 패키지 설치 시작"
+echo "kakaocloud: 4. 시스템 업데이트 및 필수 패키지 설치 시작"
 sudo apt-get update -y || { echo "kakaocloud: apt-get update 실패"; exit 1; }
 sudo apt-get install -y python3 python3-pip openjdk-21-jdk unzip jq aria2 curl || { echo "kakaocloud: 필수 패키지 설치 실패"; exit 1; }
 
 ################################################################################
 # 4. Kafka 다운로드 및 설치
 ################################################################################
-echo "kakaocloud: 4. Kafka 설치 시작"
+echo "kakaocloud: 5. Kafka 설치 시작"
 aria2c -x 16 -s 16 -d /home/ubuntu -o "${KAFKA_TGZ}" "${KAFKA_DOWNLOAD_URL}" || { echo "kakaocloud: Kafka 다운로드 실패"; exit 1; }
 tar -xzf /home/ubuntu/"${KAFKA_TGZ}" -C /home/ubuntu || { echo "kakaocloud: Kafka 압축 해제 실패"; exit 1; }
 rm /home/ubuntu/"${KAFKA_TGZ}" || { echo "kakaocloud: 임시 파일 삭제 실패"; exit 1; }
@@ -77,7 +77,7 @@ mv /home/ubuntu/kafka_${KAFKA_SCALA_VERSION}-${KAFKA_VERSION} "${KAFKA_INSTALL_D
 ################################################################################
 # 5. Confluent Hub Client 설치
 ################################################################################
-echo "kakaocloud: 5. Confluent Hub Client 설치 시작"
+echo "kakaocloud: 6. Confluent Hub Client 설치 시작"
 sudo mkdir -p /confluent-hub/plugins || { echo "kakaocloud: Confluent Hub 디렉토리 생성 실패"; exit 1; }
 sudo mkdir -p "$CONFLUENT_HUB_DIR" || { echo "kakaocloud: Confluent Hub 디렉토리 생성 실패"; exit 1; }
 cd "$CONFLUENT_HUB_DIR" || { echo "kakaocloud: Confluent Hub 디렉토리 이동 실패"; exit 1; }
@@ -88,7 +88,7 @@ sudo chown -R ubuntu:ubuntu /confluent-hub || { echo "kakaocloud: Confluent Hub 
 ################################################################################
 # 6. .bashrc에 JAVA_HOME 및 PATH 등록
 ################################################################################
-echo "kakaocloud: 6. Java 환경 변수 등록 시작"
+echo "kakaocloud: 7. Java 환경 변수 등록 시작"
 sed -i '/^export JAVA_HOME=/d' /home/ubuntu/.bashrc
 sed -i '/^export PATH=.*\\$JAVA_HOME\/bin/d' /home/ubuntu/.bashrc
 sed -i '/^export CLASSPATH=.*\\$JAVA_HOME/d' /home/ubuntu/.bashrc
@@ -123,7 +123,7 @@ sudo chown ubuntu:ubuntu "${KAFKA_INSTALL_DIR}/config/connect-standalone.propert
 ################################################################################
 # 8. S3 Sink Connector 설치
 ################################################################################
-echo "kakaocloud: 7. S3 Sink Connector 설치 시작"
+echo "kakaocloud: 8. S3 Sink Connector 설치 시작"
 /confluent-hub/bin/confluent-hub install confluentinc/kafka-connect-s3:latest \
   --component-dir /confluent-hub/plugins \
   --worker-configs "${KAFKA_INSTALL_DIR}/config/connect-standalone.properties" \
@@ -132,7 +132,7 @@ echo "kakaocloud: 7. S3 Sink Connector 설치 시작"
 ################################################################################
 # 9. AWS CLI 설치
 ################################################################################
-echo "kakaocloud: 8. AWS CLI 설치 시작"
+echo "kakaocloud: 9. AWS CLI 설치 시작"
 cd /home/ubuntu || { echo "kakaocloud: 홈 디렉토리 이동 실패"; exit 1; }
 curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64-${AWS_CLI_VERSION}.zip" -o "${AWS_CLI_ZIP}" || { echo "kakaocloud: AWS CLI 다운로드 실패"; exit 1; }
 unzip "${AWS_CLI_ZIP}" || { echo "kakaocloud: AWS CLI 압축 해제 실패"; exit 1; }
@@ -143,7 +143,7 @@ AWS_VERSION=$(aws --version 2>&1 || true)
 ################################################################################
 # 10. AWS CLI configure 파일 설정
 ################################################################################
-echo "kakaocloud: 9. AWS CLI 설정 시작"
+echo "kakaocloud: 10. AWS CLI 설정 시작"
 sudo -u ubuntu -i aws configure set aws_access_key_id "$AWS_ACCESS_KEY_ID_VALUE" || { echo "kakaocloud: AWS CLI aws_access_key_id 설정 실패"; exit 1; }
 sudo -u ubuntu -i aws configure set aws_secret_access_key "$AWS_SECRET_ACCESS_KEY_VALUE" || { echo "kakaocloud: AWS CLI aws_secret_access_key 설정 실패"; exit 1; }
 sudo -u ubuntu -i aws configure set default.region "$AWS_DEFAULT_REGION_VALUE" || { echo "kakaocloud: AWS CLI default.region 설정 실패"; exit 1; }
@@ -153,14 +153,14 @@ source /home/ubuntu/.bashrc || { echo "kakaocloud: .bashrc 재적용 실패"; ex
 ################################################################################
 # 11. Kafka Connect 설정 폴더 권한 부여
 ################################################################################
-echo "kakaocloud: 10. Kafka Connect 설정 폴더 권한 부여 시작"
+echo "kakaocloud: 11. Kafka Connect 설정 폴더 권한 부여 시작"
 sudo mkdir -p "${KAFKA_INSTALL_DIR}/config" || { echo "kakaocloud: Kafka 설정 폴더 생성 실패"; exit 1; }
 sudo chown -R ubuntu:ubuntu "${KAFKA_INSTALL_DIR}" || { echo "kakaocloud: Kafka 설치 디렉토리 권한 변경 실패"; exit 1; }
 
 ################################################################################
 # 12. 커스텀 파티셔너, 파일네임 플러그인 다운로드 (선택적)
 ################################################################################
-echo "kakaocloud: 11. 커스텀 플러그인 다운로드 시작"
+echo "kakaocloud: 12. 커스텀 플러그인 다운로드 시작"
 sudo wget -O /confluent-hub/plugins/confluentinc-kafka-connect-s3/lib/custom-partitioner-1.0-SNAPSHOT.jar \
   "https://raw.githubusercontent.com/kakaocloud-edu/tutorial/main/DataAnalyzeCourse/src/day1/Lab03/kafka_connector/custom-partitioner-1.0-SNAPSHOT.jar" || { echo "kakaocloud: custom-partitioner 다운로드 실패"; exit 1; }
 sudo wget -O /confluent-hub/plugins/confluentinc-kafka-connect-s3/lib/custom-filename-1.0-SNAPSHOT.jar \
@@ -169,7 +169,7 @@ sudo wget -O /confluent-hub/plugins/confluentinc-kafka-connect-s3/lib/custom-fil
 ################################################################################
 # 13. s3-sink-connector.json 생성 (Distributed 모드용)
 ################################################################################
-echo "kakaocloud: 12. s3-sink-connector.json 생성 시작"
+echo "kakaocloud: 13. s3-sink-connector.json 생성 시작"
 cat <<EOF > "${KAFKA_INSTALL_DIR}/config/s3-sink-connector.json"
 {
   "name": "s3-sink-connector-shopdb-all-tables",
@@ -208,7 +208,7 @@ sudo chown ubuntu:ubuntu "${KAFKA_INSTALL_DIR}/config/s3-sink-connector.json" ||
 ################################################################################
 # 14. worker.properties 생성 (Distributed 모드용)
 ################################################################################
-echo "kakaocloud: 13. worker.properties 생성 시작"
+echo "kakaocloud: 14. worker.properties 생성 시작"
 cat <<EOF > "${KAFKA_INSTALL_DIR}/config/worker.properties"
 bootstrap.servers=${KAFKA_BOOTSTRAP_SERVERS}
 
@@ -254,7 +254,7 @@ sudo chown ubuntu:ubuntu "${KAFKA_INSTALL_DIR}/config/worker.properties" || { ec
 ################################################################################
 # 15. kafka-connect systemd 서비스 등록
 ################################################################################
-echo "kakaocloud: 14. Kafka Connect 서비스 등록 시작"
+echo "kakaocloud: 15. Kafka Connect 서비스 등록 시작"
 cat <<EOF | sudo tee /etc/systemd/system/kafka-connect.service
 [Unit]
 Description=Kafka Connect Distributed Service
@@ -275,7 +275,7 @@ if [ $? -ne 0 ]; then echo "kakaocloud: Kafka Connect 서비스 등록 실패"; 
 ################################################################################
 # 16. Schema Registry 관련
 ################################################################################
-echo "kakaocloud: 15. Schema Registry 다운로드 및 설치 시작"
+echo "kakaocloud: 16. Schema Registry 다운로드 및 설치 시작"
 sudo wget https://packages.confluent.io/archive/7.5/confluent-7.5.3.tar.gz || { echo "kakaocloud: Schema Registry 다운로드 실패"; exit 1; }
 sudo tar -xzvf confluent-7.5.3.tar.gz -C /confluent-hub/plugins || { echo "kakaocloud: Schema Registry 압축 해제 실패"; exit 1; }
 sudo rm confluent-7.5.3.tar.gz || { echo "kakaocloud: Schema Registry 압축파일 삭제 실패"; exit 1; }
@@ -283,7 +283,7 @@ sudo rm confluent-7.5.3.tar.gz || { echo "kakaocloud: Schema Registry 압축파�
 ################################################################################
 # 17. systemd 유닛 파일 생성 및 Schema Registry 서비스 등록
 ################################################################################
-echo "kakaocloud: 16. systemd 유닛 파일 생성 및 Schema Registry 서비스 등록 시작"
+echo "kakaocloud: 17. systemd 유닛 파일 생성 및 Schema Registry 서비스 등록 시작"
 cat <<EOF > /etc/systemd/system/schema-registry.service
 [Unit]
 Description=Confluent Schema Registry
@@ -308,7 +308,7 @@ sudo systemctl start schema-registry.service || { echo "kakaocloud: schema-regis
 ################################################################################
 # 18. S3 커넥터 플러그인 경로에 Avro 컨버터 설치 및 설정
 ################################################################################
-echo "kakaocloud: 17. Avro 컨버터 설치 및 설정 시작"
+echo "kakaocloud: 18. Avro 컨버터 설치 및 설정 시작"
 sudo wget https://github.com/kakaocloud-edu/tutorial/raw/refs/heads/main/DataAnalyzeCourse/src/day2/Lab01/confluentinc-kafka-connect-avro-converter-7.5.3.zip || { echo "kakaocloud: confluentinc-kafka-connect-avro-converter 다운로드 실패"; exit 1; }
 unzip confluentinc-kafka-connect-avro-converter-7.5.3.zip || { echo "kakaocloud: confluentinc-kafka-connect-avro-converter 압축 해제 실패"; exit 1; }
 sudo rm confluentinc-kafka-connect-avro-converter-7.5.3.zip || { echo "kakaocloud: confluentinc-kafka-connect-avro-converter 압축파일 삭제 실패"; exit 1; }
@@ -324,7 +324,7 @@ sudo wget -P /confluent-hub/plugins/confluentinc-kafka-connect-s3/lib \
 ################################################################################
 # 19. 순수 KEY=VALUE 파일 생성 (Distributed 모드)
 ################################################################################
-echo "kakaocloud: 18. 순수 KEY=VALUE 파일 생성 시작"
+echo "kakaocloud: 19. 순수 KEY=VALUE 파일 생성 시작"
 sudo mkdir -p /etc/kafka-connect || { echo "kakaocloud: env_vars 디렉토리 생성 실패"; exit 1; }
 # /tmp/env_vars.sh 에서 export 키워드와 따옴표를 제거하여 env_vars 파일로 저장
 grep -E '^export ' /tmp/env_vars.sh \
@@ -336,7 +336,7 @@ sudo chmod 600 /etc/kafka-connect/env_vars || { echo "kakaocloud: env_vars 권�
 ################################################################################
 # 20. 8083 포트용 Distributed 설정 파일 생성
 ################################################################################
-echo "kakaocloud: 19. Distributed 모드 connect-distributed-8083.properties 생성 시작"
+echo "kakaocloud: 20. Distributed 모드 connect-distributed-8083.properties 생성 시작"
 sudo mkdir -p /home/ubuntu/kafka/config || { echo "kakaocloud: config 디렉토리 생성 실패"; exit 1; }
 cat <<EOF | sudo tee /home/ubuntu/kafka/config/connect-distributed-8083.properties
 bootstrap.servers=\${env:KAFKA_BOOTSTRAP_SERVER}
@@ -370,7 +370,7 @@ sudo chown ubuntu:ubuntu /home/ubuntu/kafka/config/connect-distributed-8083.prop
 ################################################################################
 # 21. 8083 포트용 systemd 서비스 등록 및 시작
 ################################################################################
-echo "kakaocloud: 20. kafka-connect-8083.service 등록 시작"
+echo "kakaocloud: 21. kafka-connect-8083.service 등록 시작"
 cat <<EOF | sudo tee /etc/systemd/system/kafka-connect-8083.service
 [Unit]
 Description=Kafka Connect Distributed Sinks Service (8083)
@@ -395,7 +395,7 @@ sudo systemctl start kafka-connect-8083.service
 ################################################################################
 # 22. s3-sink-avro Dist용 Connector JSON 생성
 ################################################################################
-echo "kakaocloud: 21. s3-sink-avro-dist.json 생성 시작"
+echo "kakaocloud: 22. s3-sink-avro-dist.json 생성 시작"
 sudo mkdir -p /home/ubuntu/kafka/config/connectors
 cat <<EOF | sudo tee /home/ubuntu/kafka/config/connectors/s3-sink-avro-dist.json
 {
