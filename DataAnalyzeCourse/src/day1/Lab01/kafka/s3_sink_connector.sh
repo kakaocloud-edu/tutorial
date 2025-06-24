@@ -275,8 +275,163 @@ if [ $? -ne 0 ]; then echo "kakaocloud: Kafka Connect 서비스 등록 실패"; 
 ################################################################################
 # 16. Schema Registry 관련
 ################################################################################
-echo "kakaocloud: 15. Schema Registry 관련 설치 건너뜀 (JSON 포맷 사용)"
-# 이 섹션은 완전히 비워둠 (이전 스크립트에서 불필요한 설치/설정 로직 제거됨)
+echo "kakaocloud: 15. Schema Registry 다운로드 및 설치 시작"
+sudo wget https://packages.confluent.io/archive/7.5/confluent-7.5.3.tar.gz || { echo "kakaocloud: Schema Registry 다운로드 실패"; exit 1; }
+sudo tar -xzvf confluent-7.5.3.tar.gz -C /confluent-hub/plugins || { echo "kakaocloud: Schema Registry 압축 해제 실패"; exit 1; }
+sudo rm confluent-7.5.3.tar.gz || { echo "kakaocloud: Schema Registry 압축파일 삭제 실패"; exit 1; }
+
+################################################################################
+# 17. systemd 유닛 파일 생성 및 Schema Registry 서비스 등록
+################################################################################
+echo "kakaocloud: 16. systemd 유닛 파일 생성 및 Schema Registry 서비스 등록 시작"
+cat <<EOF > /etc/systemd/system/schema-registry.service
+[Unit]
+Description=Confluent Schema Registry
+After=network.target
+
+[Service]
+Type=simple
+User=ubuntu
+ExecStart=/confluent-hub/plugins/confluent-7.5.3/bin/schema-registry-start /confluent-hub/plugins/confluent-7.5.3/etc/schema-registry/schema-registry.properties
+Restart=on-failure
+RestartSec=5s
+
+[Install]
+WantedBy=multi-user.target
+EOF
+if [ $? -ne 0 ]; then echo "kakaocloud: Schema Registry Service 파일 작성 실패"; exit 1; fi
+
+sudo systemctl daemon-reload || { echo "kakaocloud: daemon-reload 실패"; exit 1; }
+sudo systemctl enable schema-registry.service || { echo "kakaocloud: schema-registry 서비스 생성 실패"; exit 1; }
+sudo systemctl start schema-registry.service || { echo "kakaocloud: schema-registry 서비스 시작 실패"; exit 1; }
+
+################################################################################
+# 18. S3 커넥터 플러그인 경로에 Avro 컨버터 설치 및 설정
+################################################################################
+echo "kakaocloud: 17. Avro 컨버터 설치 및 설정 시작"
+sudo wget https://github.com/kakaocloud-edu/tutorial/raw/refs/heads/main/DataAnalyzeCourse/src/day2/Lab01/confluentinc-kafka-connect-avro-converter-7.5.3.zip || { echo "kakaocloud: confluentinc-kafka-connect-avro-converter 다운로드 실패"; exit 1; }
+unzip confluentinc-kafka-connect-avro-converter-7.5.3.zip || { echo "kakaocloud: confluentinc-kafka-connect-avro-converter 압축 해제 실패"; exit 1; }
+sudo rm confluentinc-kafka-connect-avro-converter-7.5.3.zip || { echo "kakaocloud: confluentinc-kafka-connect-avro-converter 압축파일 삭제 실패"; exit 1; }
+sudo mv confluentinc-kafka-connect-avro-converter-7.5.3/lib/*.jar /confluent-hub/plugins/confluentinc-kafka-connect-s3/lib || { echo "kakaocloud: confluentinc-kafka-connect-avro-converter 파일 이동 실패"; exit 1; }
+sudo wget -P /confluent-hub/plugins/confluentinc-kafka-connect-s3/lib \
+  https://repo1.maven.org/maven2/com/google/guava/guava/30.1.1-jre/guava-30.1.1-jre.jar \
+  https://packages.confluent.io/maven/io/confluent/kafka-connect-protobuf-converter/7.5.3/kafka-connect-protobuf-converter-7.5.3.jar \
+  https://packages.confluent.io/maven/io/confluent/kafka-protobuf-serializer/7.5.3/kafka-protobuf-serializer-7.5.3.jar \
+  https://packages.confluent.io/maven/io/confluent/common-config/7.5.3/common-config-7.5.3.jar \
+  https://repo1.maven.org/maven2/com/google/protobuf/protobuf-java/3.25.1/protobuf-java-3.25.1.jar \
+  https://repo1.maven.org/maven2/com/google/guava/failureaccess/1.0.2/failureaccess-1.0.2.jar || { echo -e "\nERROR: S3 커넥터 추가 의존성 다운로드 실패"; exit 1; }
+
+################################################################################
+# 19. 순수 KEY=VALUE 파일 생성 (Distributed 모드)
+################################################################################
+echo "kakaocloud: 18. 순수 KEY=VALUE 파일 생성 시작"
+sudo mkdir -p /etc/kafka-connect || { echo "kakaocloud: env_vars 디렉토리 생성 실패"; exit 1; }
+# /tmp/env_vars.sh 에서 export 키워드와 따옴표를 제거하여 env_vars 파일로 저장
+grep -E '^export ' /tmp/env_vars.sh \
+  | sed -e 's/^export //' -e 's/"//g' \
+  | sudo tee /etc/kafka-connect/env_vars \
+  || { echo "kakaocloud: env_vars 파일 생성 실패"; exit 1; }
+sudo chmod 600 /etc/kafka-connect/env_vars || { echo "kakaocloud: env_vars 권한 변경 실패"; exit 1; }
+
+################################################################################
+# 20. 8083 포트용 Distributed 설정 파일 생성
+################################################################################
+echo "kakaocloud: 19. Distributed 모드 connect-distributed-8083.properties 생성 시작"
+sudo mkdir -p /home/ubuntu/kafka/config || { echo "kakaocloud: config 디렉토리 생성 실패"; exit 1; }
+cat <<EOF | sudo tee /home/ubuntu/kafka/config/connect-distributed-8083.properties
+bootstrap.servers=\${env:KAFKA_BOOTSTRAP_SERVER}
+group.id=connect-cluster-8083
+key.converter=org.apache.kafka.connect.json.JsonConverter
+value.converter=io.confluent.connect.avro.AvroConverter
+key.converter.schemas.enable=true
+value.converter.schemas.enable=true
+value.converter.schema.registry.url=http://localhost:8081
+
+offset.storage.topic=connect-offsets-8083
+offset.storage.replication.factor=1
+config.storage.topic=connect-configs-8083
+config.storage.replication.factor=1
+status.storage.topic=connect-statuses-8083
+status.storage.replication.factor=1
+
+auto.create-topics.enable=true
+topic.creation.enable=true
+topic.creation.default.partitions=1
+topic.creation.default.replication.factor=1
+listeners=http://0.0.0.0:8083
+
+plugin.path=/home/ubuntu/kafka/plugins,/confluent-hub/plugins
+
+config.providers=env
+config.providers.env.class=org.apache.kafka.common.config.provider.EnvVarConfigProvider
+EOF
+sudo chown ubuntu:ubuntu /home/ubuntu/kafka/config/connect-distributed-8083.properties
+
+################################################################################
+# 21. 8083 포트용 systemd 서비스 등록 및 시작
+################################################################################
+echo "kakaocloud: 20. kafka-connect-8083.service 등록 시작"
+cat <<EOF | sudo tee /etc/systemd/system/kafka-connect-8083.service
+[Unit]
+Description=Kafka Connect Distributed Sinks Service (8083)
+After=network.target kafka.service
+
+[Service]
+Type=simple
+User=ubuntu
+EnvironmentFile=/etc/kafka-connect/env_vars
+Environment="KAFKA_HEAP_OPTS=-Xms128M -Xmx512M"
+ExecStart=/home/ubuntu/kafka/bin/connect-distributed.sh /home/ubuntu/kafka/config/connect-distributed-8083.properties
+Restart=always
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target
+EOF
+sudo systemctl daemon-reload
+sudo systemctl enable kafka-connect-8083.service
+sudo systemctl start kafka-connect-8083.service
+
+################################################################################
+# 22. s3-sink-avro Dist용 Connector JSON 생성
+################################################################################
+echo "kakaocloud: 21. s3-sink-avro-dist.json 생성 시작"
+sudo mkdir -p /home/ubuntu/kafka/config/connectors
+cat <<EOF | sudo tee /home/ubuntu/kafka/config/connectors/s3-sink-avro-dist.json
+{
+  "name": "s3-sink-avro",
+  "config": {
+    "connector.class": "io.confluent.connect.s3.S3SinkConnector",
+    "tasks.max": "1",
+    "topics": "nginx-topic",
+    "s3.region": "kr-central-2",
+    "s3.bucket.name": "data-catalog-bucket",
+    "s3.part.size": "5242880",
+    "aws.access.key.id": "\${env:AWS_ACCESS_KEY_ID_VALUE}",
+    "aws.secret.access.key": "\${env:AWS_SECRET_ACCESS_KEY_VALUE}",
+    "store.url": "https://objectstorage.kr-central-2.kakaocloud.com",
+    "storage.class": "io.confluent.connect.s3.storage.S3Storage",
+    "format.class": "io.confluent.connect.s3.format.parquet.ParquetFormat",
+    "parquet.codec": "snappy",
+    "key.converter": "org.apache.kafka.connect.storage.StringConverter",
+    "value.converter": "io.confluent.connect.avro.AvroConverter",
+    "value.converter.schema.registry.url": "http://localhost:8081",
+    "value.converter.schemas.enable": "true",
+    "flush.size": "1",
+    "partitioner.class": "com.mycompany.connect.FlexibleTimeBasedPartitioner",
+    "topics.dir": "kafka-nginx-log",
+    "custom.topic.dir": "nginx-topic",
+    "custom.partition.prefix": "partition_",
+    "partition.duration.ms": "3600000",
+    "path.format": "'year_'yyyy'/month_'MM'/day_'dd'/hour_'HH'",
+    "locale": "en-US",
+    "timezone": "Asia/Seoul",
+    "timestamp.extractor": "Wallclock",
+    "custom.replacements": "=_:"
+  }
+}
+EOF
+
 
 
 echo "kakaocloud: Setup 완료"
