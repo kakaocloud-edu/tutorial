@@ -50,3 +50,73 @@
     | TCP | 0.0.0.0/0 | 9092 | Kafka |
     | TCP | 0.0.0.0/0 | 8081 | Schema Registry |
     | TCP | 0.0.0.0/0 | 22 | SSH |
+
+---
+1. Hadoop Eco - Core Hadoop 유형 생성
+    - 클러스터 이름: `core-hadoop`
+    - 클러스터 구성
+        - 클러스터 버전: `Hadoop Eco 2.1.0 (Ubuntu 22.04, Core Hadoop, HBase, Trino, Dataflow)`
+        - 클러스터 유형:  `Core Hadoop`
+        - 클러스터 가용성: `클러스터 고가용성 (HA) 선택 안 함`
+    - 관리자 설정
+        - 관리자 아이디: `admin`
+        - 관리자 비밀번호: `Admin1234!`
+        - 관리자 비밀번호 확인: `Admin1234!`
+    - VPC 설정
+        - VPC: `kc-vpc`
+        - 서브넷: `kr-central-2-a의 Public 서브넷`
+    - 보안 그룹 설정: `새 보안 그룹 생성`
+    - 다음 버튼 클릭
+    - 마스터 노드 설정
+        - 마스터 노드 인스턴스 개수: `1`
+        - 마스터 노드 인스턴스 유형: `m2a.xlarge`
+        - 디스크 볼륨 크기: `50GB`
+    - 워커 노드 설정
+        - 워커 노드 인스턴스 개수: `2`
+        - 워커 노드 인스턴스 유형: `m2a.xlarge`
+        - 디스크 볼륨 크기: `100GB`
+    - 총 YARN 사용량: `6`
+    - 키 페어: lab00에서 생성한 `keypair`
+    - 사용자 스크립트 (선택): `빈 칸`
+    - 다음 버튼 클릭
+    - 모니터링 에이전트 설치: `설치 안 함`
+    - 서비스 연동: `Data Catalog 연동`
+        - 하둡 VPC/서브넷 정보: `kc-vpc / main`
+        - 카탈로그 이름(VPC/서브넷 이름): `data_catalog(kc-vpc / main)`
+    - HDFS 설정
+        - HDFS 블록 크기: `128MB`
+        - HDFS 복제 개수: `2`
+    - 클러스터 구성 설정 (선택): `자신의 환경 변수에 맞게 수정 후 삽입`
+        - **클러스터 구성 설정 파일**
+            
+            ```sql
+            {
+              "configurations": [
+                {
+                  "classification": "core-site",
+                  "properties": {
+                    "fs.swifta.service.kic.credential.id": "${ACCESS_KEY}",
+                    "fs.swifta.service.kic.credential.secret": "${ACCESS_SECRET_KEY}",
+                    "fs.s3a.endpoint": "objectstorage.kr-central-2.kakaocloud.com",
+                    "s3service.s3-endpoint": "objectstorage.kr-central-2.kakaocloud.com",
+                    "fs.s3a.access.key": "${S3A_ACCESS_KEY}",
+                    "fs.s3a.secret.key": "${S3A_SECRET_KEY}"
+                  }
+                }
+              ]
+            }
+            ```
+            
+    - 로그 저장 설정: `미사용`
+    - Kerberos 설치: `설치 안 함`
+    - Ranger 설치:`설치 안 함`
+    - 생성 버튼 클릭
+2. Hadoop Eco 클러스터 `Running` 상태 확인
+3. Hadoop Eco 클러스터 클릭 후 보안 그룹 클릭
+4. 인바운드 규칙 관리 클릭
+5. 아래 인바운드 규칙 추가
+
+| **프로토콜** | **패킷 출발지** | **포트 번호** | **정책 설명** |
+| --- | --- | --- | --- |
+| TCP | 0.0.0.0/0 | 22 | SSH |
+| TCP | 0.0.0.0/0 | 8888 | Hue |
