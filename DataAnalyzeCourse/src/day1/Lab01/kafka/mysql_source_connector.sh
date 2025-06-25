@@ -213,6 +213,7 @@ sudo tee "${KAFKA_INSTALL_DIR}/config/connectors/mysql-connector.json" << EOF_JS
     "value.converter": "org.apache.kafka.connect.json.JsonConverter",
     "key.converter.schemas.enable": "false",
     "value.converter.schemas.enable": "false",
+    "decimal.handling.mode": "string",
     "snapshot.mode": "initial"
   }
 }
