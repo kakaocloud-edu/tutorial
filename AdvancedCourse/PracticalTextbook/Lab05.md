@@ -5,7 +5,7 @@ nginx pod을 위한 deployment, LoadBalancer type의 서비스가 포함된 ingr
 
 ## 1. <a href="https://github.com/kakaocloud-edu/tutorial/blob/main/AdvancedCourse/src/manifests/ingress-nginx-controller.yaml" target="_blank">ingress-nignx controller</a> 배포
 
-1. 인그레스 컨트롤러 배포
+1. 인그레스 컨트롤러 배포 (Demo)
      - 접속 중인 Bastion VM 인스턴스에 명령어 입력
      #### **lab5-1-1**
      ```bash
