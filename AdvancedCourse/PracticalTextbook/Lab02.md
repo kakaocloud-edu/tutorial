@@ -1,4 +1,4 @@
-# Kubernetes Engine Cluster 생성
+# Kubernetes Engine Cluster 생성 (Demo)
 
 Kakao Cloud Kubernetes Engine Cluster 생성에 대한 실습입니다.
 
