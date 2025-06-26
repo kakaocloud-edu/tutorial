@@ -447,12 +447,12 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
 
     ![Image](https://github.com/user-attachments/assets/9e2bf8ff-5869-40e5-b151-1360cbb6ea59)
 
-## 8. Kafka Connector VM 생성 (2분)
+## 8. s3 sink connector VM 생성 (2분)
 
 1. 카카오 클라우드 콘솔 > Beyond Compute Service > Virtual Machine
 2. 인스턴스 생성 버튼 클릭
     - 기본 정보
-        - 이름: `kafka-connector`
+        - 이름: `s3-sink-connector`
         - 개수: `1`
     - 이미지: `Ubuntu 22.04`
     - 인스턴스유형: `m2a.4xlarge`
@@ -464,8 +464,8 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
         - 유형: `새 인터페이스`
         - IP 할당 방식: `자동`
         - 보안 그룹
-        - **Note**: 기존에 Traffic Generator VM에서 사용한 보안그룹 사용
-            - 보안 그룹 이름: `tg-sg`
+            - `보안 그룹 생성` 버튼 클릭  
+            - 보안 그룹 이름: `s3-con-sg`
                 - 인바운드 규칙
                     - 프로토콜: TCP, 출발지: 0.0.0.0/0, 포트 번호: `22`
                     - 프로토콜: TCP, 출발지: 0.0.0.0/0, 포트 번호: `9092`
@@ -473,58 +473,56 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
                     - 프로토콜: ALL, 출발지: 0.0.0.0/0, 포트 번호: `ALL`
         
     - 고급 설정
-        - 사용자 스크립트: [`kafka_vm_init.sh`](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day1/Lab01/kafka/kafka_vm_init.sh)의 쌍따옴표(“”) 사이에 자신의 리소스 값 입력
+        - 사용자 스크립트: [`s3_sink_connector_init.sh`](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day1/Lab01/kafka/s3_sink_connector_init.sh)의 쌍따옴표(“”) 사이에 자신의 리소스 값 입력
             - **Note**: 스크립트에 대한 자세한 내용은 아래 파일들 참고
-                - [tg_full_setup.sh](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day1/Lab01/traffic_generator/tg_full_setup.sh)
-                - [config.yml](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day1/Lab01/traffic_generator/config.yml)
-                - [config.py](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day1/Lab01/traffic_generator/config.py)
-
-    #### **lab3-8-2**
-    ```
-    #!/bin/bash
-            
-    echo "kakaocloud: 1.환경 변수 설정 시작"
-            
-    cat <<'EOF' > /tmp/env_vars.sh
-    # Kafka 설정
-    export KAFKA_BOOTSTRAP_SERVER="{Kafka 부트스트랩 서버}"
-            
-    # S3 인증 정보
-    export AWS_ACCESS_KEY_ID_VALUE="{콘솔에서 발급한 S3 액세스 키의 인증 키 값}"
-    export AWS_SECRET_ACCESS_KEY_VALUE="{콘솔에서 발급한 S3 액세스 키의 보안 액세스 키 값}"
-            
-    # AWS 환경 변수 설정
-    export BUCKET_NAME="data-catalog-bucket"
-    export AWS_DEFAULT_REGION_VALUE="kr-central-2"
-    export AWS_DEFAULT_OUTPUT_VALUE="json"
-            
-    # 로그 파일 경로
-    export LOGFILE="/home/ubuntu/setup.log"
-    EOF
-            
-    # 환경 변수 적용 
-    source /tmp/env_vars.sh
-    echo "source /tmp/env_vars.sh" >> /home/ubuntu/.bashrc
-            
-    echo "kakaocloud: 2.스크립트 다운로드 사이트 유효성 검사 시작"
-    SCRIPT_URL="https://raw.githubusercontent.com/kakaocloud-edu/tutorial/refs/heads/main/DataAnalyzeCourse/src/day1/Lab01/kafka/kafka_full_setup.sh"
-            
-    curl -L --output /dev/null --silent --head --fail "$SCRIPT_URL" || { echo "kakaocloud: Script download site is not valid"; exit 1; }
-    wget -q "$SCRIPT_URL"
-    chmod +x kafka_full_setup.sh
-    sudo -E ./kafka_full_setup.sh
-    ```
+                - [s3_sink_connector.sh](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day1/Lab01/kafka/s3_sink_connector.sh)
+                  
+        #### **lab3-8-2**
+        ```
+        #!/bin/bash
+                
+        echo "kakaocloud: 1.환경 변수 설정 시작"
+                
+        cat <<'EOF' > /tmp/env_vars.sh
+        # Kafka 설정
+        export KAFKA_BOOTSTRAP_SERVER="{Kafka 부트스트랩 서버}"
+                
+        # S3 인증 정보
+        export AWS_ACCESS_KEY_ID_VALUE="{콘솔에서 발급한 S3 액세스 키의 인증 키 값}"
+        export AWS_SECRET_ACCESS_KEY_VALUE="{콘솔에서 발급한 S3 액세스 키의 보안 액세스 키 값}"
+                
+        # AWS 환경 변수 설정
+        export BUCKET_NAME="data-catalog-bucket"
+        export AWS_DEFAULT_REGION_VALUE="kr-central-2"
+        export AWS_DEFAULT_OUTPUT_VALUE="json"
+                
+        # 로그 파일 경로
+        export LOGFILE="/home/ubuntu/setup.log"
+        EOF
+                
+        # 환경 변수 적용 
+        source /tmp/env_vars.sh
+        echo "source /tmp/env_vars.sh" >> /home/ubuntu/.bashrc
+                
+        echo "kakaocloud: 2.스크립트 다운로드 사이트 유효성 검사 시작"
+        SCRIPT_URL="https://raw.githubusercontent.com/kakaocloud-edu/tutorial/refs/heads/main/DataAnalyzeCourse/src/day1/Lab01/kafka/s3_sink_connector.sh"
+                
+        curl -L --output /dev/null --silent --head --fail "$SCRIPT_URL" || { echo "kakaocloud: Script download site is not valid"; exit 1; }
+        wget -q "$SCRIPT_URL"
+        chmod +x s3_sink_connector.sh
+        sudo -E ./s3_sink_connector.sh
+        ```
                 
     - CPU 멀티스레딩: `활성화`
         
     - 생성 버튼 클릭
 
-3. `kafka-connector` 상태 Actice 확인 후 인스턴스의 우측 메뉴바 > `Public IP 연결` 클릭
+3. `s3-sink-connector` 상태 Actice 확인 후 인스턴스의 우측 메뉴바 > `Public IP 연결` 클릭
 
     - `새로운 퍼블릭 IP를 생성하고 자동으로 할당`
     - 확인 버튼 클릭
 
-4. `kafka-connector` 인스턴스의 우측 메뉴바 > `SSH 연결` 클릭
+4. `s3-sink-connector` 인스턴스의 우측 메뉴바 > `SSH 연결` 클릭
 
     - SSH 접속 명령어 복사
     - 터미널 열기
@@ -549,10 +547,10 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     #### **lab3-8-4-3**
     
     ```bash
-    ssh -i keypair.pem ubuntu@{kafka-connector의 public ip주소}
+    ssh -i keypair.pem ubuntu@{s3-sink-connector public ip주소}
     ```
     
-    - {kafka-connector의 public ip주소}: 복사한 각 IP 주소 입력
+    - {s3-sink-connector의 public ip주소}: 복사한 각 IP 주소 입력
     
     #### **lab3-8-4-4**
     
