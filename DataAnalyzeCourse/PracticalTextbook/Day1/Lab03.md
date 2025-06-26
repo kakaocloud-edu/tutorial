@@ -569,22 +569,26 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     ```
     kakaocloud: 1.환경 변수 설정 시작
     kakaocloud: 2.스크립트 다운로드 사이트 유효성 검사 시작
-    kakaocloud: 3. 필수 환경변수 검증 시작
+    kakaocloud: 3. 필수 환경 변수 검증 시작
     kakaocloud: 4. 시스템 업데이트 및 필수 패키지 설치 시작
     kakaocloud: 5. Kafka 설치 시작
     kakaocloud: 6. Confluent Hub Client 설치 시작
-    kakaocloud: 7. 환경 변수 등록 시작
+    kakaocloud: 7. Java 환경 변수 등록 시작
     kakaocloud: 8. S3 Sink Connector 설치 시작
     kakaocloud: 9. AWS CLI 설치 시작
     kakaocloud: 10. AWS CLI 설정 시작
-    kakaocloud: 11. Kafka 설정 폴더 생성 및 권한 부여 시작
+    kakaocloud: 11. Kafka Connect 설정 폴더 권한 부여 시작
     kakaocloud: 12. 커스텀 플러그인 다운로드 시작
-    kakaocloud: 13. s3-sink-connector.properties 생성 시작
+    kakaocloud: 13. s3-sink-connector.json 생성 시작
     kakaocloud: 14. worker.properties 생성 시작
     kakaocloud: 15. Kafka Connect 서비스 등록 시작
     kakaocloud: 16. Schema Registry 다운로드 및 설치 시작
     kakaocloud: 17. systemd 유닛 파일 생성 및 Schema Registry 서비스 등록 시작
     kakaocloud: 18. Avro 컨버터 설치 및 설정 시작
+    kakaocloud: 19. 순수 KEY=VALUE 파일 생성 시작
+    kakaocloud: 20. Distributed 모드 connect-distributed-8083.properties 생성 시작
+    kakaocloud: 21. kafka-connect-8083.service 등록 시작
+    kakaocloud: 22. s3-sink-avro-dist.json 생성 시작
     kakaocloud: Setup 완료
     ```
 6. `data-catalog-bucket`에 nginx 로그를 쌓기 위해 필요한 쓰기 권한을 부여하는 명령어 실행
@@ -597,69 +601,49 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
       --grant-write 'uri="http://acs.amazonaws.com/groups/global/AllUsers"' \
       --endpoint-url https://objectstorage.kr-central-2.kakaocloud.com
     ```
-    
-7. S3 Sink Connector, Standalone Worker 설정 파일 생성 확인
 
-   - **Note**: [`s3-sink-connector.properties`](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day1/Lab03/kafka_connector/s3-sink-connector.properties)
-   - **Note**: [`worker.properties`](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day1/Lab03/kafka_connector/worker.properties)
-
-    #### **lab3-8-7**
-    
-    ```
-    ls /opt/kafka/config
-    ```
-
-8. kafka-connect 시스템 서비스 파일 생성 확인
-
-   - **Note**: [`kafka-connect.service`](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day1/Lab03/kafka_connector/kafka-connect.service)
-    
-    #### **lab3-8-8**
-    
-    ```bash
-    ls /etc/systemd/system | grep kafka-connect.service
-    ```
-
-9. Schema Registry 설정파일에서 Kafka 브로커 주소 변경
+7. Schema Registry 설정파일에서 Kafka 브로커 주소 변경
    - **Note**: `{실제 Kafka 클러스터 부트스트랩 서버값}`을 개인 환경에 맞게 수정 필요
 
-    #### lab**2-8-9**
+    #### lab**3-8-7**
     
     ```bash
     sudo sed -i 's|PLAINTEXT://localhost:9092|{실제 Kafka 클러스터 부트스트랩 서버값}|' /confluent-hub/plugins/confluent-7.5.3/etc/schema-registry/schema-registry.properties
     ```
     
-10. 데몬 리로드 및 kafka-connect 서비스를 시작하는 명령어 실행
+8. 데몬 리로드 및 kafka-connect 서비스를 시작하는 명령어 실행
     
-    #### lab**2-8-10**
+    #### lab**2-8-8-1**
     
     ```bash
     sudo systemctl daemon-reload
     ```
+    #### lab**3-8-8-2**
     ```bash
     sudo systemctl restart schema-registry.service
     ```
-    ```bash
-    sudo systemctl enable kafka-connect
-    ```
-    ```bash
-    sudo systemctl start kafka-connect
-    ```
 
-    ![Image](https://github.com/user-attachments/assets/43cc5d53-98f3-45e5-919b-cad3015cfba8)
+9. s3-sink-avro Connector 생성
+   #### lab**3-8-9**
+   ```bash
+   curl -X POST -H "Content-Type: application/json" \
+     --data @/home/ubuntu/kafka/config/connectors/s3-sink-avro-dist.json \
+     http://localhost:8083/connectors
+   ```
 
-11. `s3-sink-connector` 상태 정보 확인
+
+10. `s3-sink-avro` 커넥터 상태 확인
    
-    #### lab**2-8-10**
+    #### lab**3-8-10-**
     
      ```bash
-     watch -n 1 "curl -s http://localhost:8083/connectors/s3-sink-connector/status | jq"
+     curl -s http://localhost:8083/connectors/s3-sink-avro/status | jq .
      ```
+    <img width="846" alt="스크린샷 2025-06-26 오후 4 59 34" src="https://github.com/user-attachments/assets/8ec67565-f498-4708-8382-7603e2365f4a" />
 
-    ![Image](https://github.com/user-attachments/assets/88fa4485-7919-4df1-aa42-9183b81f0df7)
-
-12. 카카오 클라우드 콘솔 > Beyond Storage Service > Object Storage
-13. `data-catalog-bucket` 클릭
-14. NGINX 로그가 쌓인 디렉터리로 이동 후 버킷 내 적재된 NGINX 로그 적재 확인
+11. 카카오 클라우드 콘솔 > Beyond Storage Service > Object Storage
+12. `data-catalog-bucket` 클릭
+13. NGINX 로그가 쌓인 디렉터리로 이동 후 버킷 내 적재된 NGINX 로그 적재 확인
     - **Note**: `/kafka-nginx-log/nginx-topic/partition_0/year_{현재 연도}/month_{현재 월}/day_{현재 일}/hour_{현재 시}`디렉터리로 이동
    ![nginx로그 object storage 적재](https://github.com/user-attachments/assets/f825bf28-1302-4c4c-92e0-7d250cb5d86f)
 
