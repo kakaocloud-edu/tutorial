@@ -152,13 +152,11 @@ echo "kakaocloud: 8. S3 Sink Connector 설치 시작"
 ################################################################################
 echo "kakaocloud: 9. AWS CLI 설치 시작"
 cd /home/ubuntu || { echo "kakaocloud: 홈 디렉토리 이동 실패"; exit 1; }
-# curl 대신 aria2c를 사용하여 AWS CLI 다운로드 (더 안정적)
-aria2c -x 16 -s 16 -d /home/ubuntu -o "${AWS_CLI_ZIP}" "${AWS_CLI_DOWNLOAD_URL}" || { echo "kakaocloud: AWS CLI 다운로드 실패"; exit 1; }
+curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64-${AWS_CLI_VERSION}.zip" -o "${AWS_CLI_ZIP}" || { echo "kakaocloud: AWS CLI 다운로드 실패"; exit 1; }
 unzip "${AWS_CLI_ZIP}" || { echo "kakaocloud: AWS CLI 압축 해제 실패"; exit 1; }
 sudo ./aws/install || { echo "kakaocloud: AWS CLI 설치 실패"; exit 1; }
-rm -rf aws "${AWS_CLI_ZIP}" || { echo "kakaocloud: AWS CLI 설치 후 정리 실패 실패"; exit 1; }
+rm -rf aws "${AWS_CLI_ZIP}" || { echo "kakaocloud: AWS CLI 설치 후 정리 실패"; exit 1; }
 AWS_VERSION=$(aws --version 2>&1 || true)
-echo "kakaocloud: AWS CLI 버전: ${AWS_VERSION}"
 
 ################################################################################
 # 10. AWS CLI configure 파일 설정
