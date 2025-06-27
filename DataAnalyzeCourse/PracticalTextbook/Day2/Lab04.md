@@ -291,9 +291,9 @@ hadoop eco의 hive를 활용하여 nginx 로그 데이터와 mysql 데이터를 
 
     - 쿼리문 입력 후 입력창 좌측의 화살표 클릭하여 실행
 
-    - 로그인율
+2. 로그인율
 
-    #### **lab4-4-1-1**
+    #### **lab4-4-2**
 
     ```bash
     SELECT
@@ -313,9 +313,9 @@ hadoop eco의 hive를 활용하여 nginx 로그 데이터와 mysql 데이터를 
        OR endpoint IS NOT NULL;
     ```
 
-    - 검색 키워드 빈도
+3. 검색 키워드 빈도
 
-    #### **lab4-3-6-2**
+    #### **lab4-4-3**
 
     ```bash
     SELECT
@@ -327,9 +327,9 @@ hadoop eco의 hive를 활용하여 nginx 로그 데이터와 mysql 데이터를 
     ORDER BY frequency DESC;
     ```
 
-    - 장바구니 담기 전환율
+4. 장바구니 담기 전환율
 
-    #### **lab4-3-6-3**
+    #### **lab4-4-4**
 
     ```bash
     WITH
@@ -373,9 +373,9 @@ hadoop eco의 hive를 활용하여 nginx 로그 데이터와 mysql 데이터를 
     CROSS JOIN converted conv;
     ```
 
-    - 인기 상품 상위 10개
+5. 인기 상품 상위 10개
 
-    #### **lab4-3-6-4**
+    #### **lab4-4-5**
 
     ```bash
     WITH product_views AS (
@@ -405,9 +405,9 @@ hadoop eco의 hive를 활용하여 nginx 로그 데이터와 mysql 데이터를 
     LIMIT 10;
     ```
 
-    - 페이지뷰(PV) 추이
+6. 페이지뷰(PV) 추이
 
-    #### **lab4-3-6-5**
+    #### **lab4-4-6**
 
     ```bash
     SELECT
@@ -421,9 +421,9 @@ hadoop eco의 hive를 활용하여 nginx 로그 데이터와 mysql 데이터를 
     ORDER BY dt, hour_of_day;
     ```
 
-    - 매출 합계
+7. 매출 합계
 
-    #### **lab4-3-6-6**
+    #### **lab4-4-7**
 
     ```bash
     SELECT 
@@ -432,9 +432,9 @@ hadoop eco의 hive를 활용하여 nginx 로그 데이터와 mysql 데이터를 
     WHERE order_ts BETWEEN '2025-01-01' AND '2025-12-31';
     ```
 
-    - 카테고리별 매출 비중
+8. 카테고리별 매출 비중
 
-    #### **lab4-3-6-7**
+    #### **lab4-4-8**
 
     ```bash
     SELECT
@@ -455,9 +455,9 @@ hadoop eco의 hive를 활용하여 nginx 로그 데이터와 mysql 데이터를 
     GROUP BY p.category, total.total_sales;
     ```
 
-    - 사용자 행동 경로 분석
+9. 사용자 행동 경로 분석
 
-    #### **lab4-3-6-8**
+    #### **lab4-4-9**
 
     ```bash
     WITH user_path AS (
@@ -486,9 +486,9 @@ hadoop eco의 hive를 활용하여 nginx 로그 데이터와 mysql 데이터를 
       ON up.session_id = p.session_id;
     ```
 
-    - 상품 상세 페이지 방문 후 구매 전환율
+10. 상품 상세 페이지 방문 후 구매 전환율
 
-    #### **lab4-3-6-9**
+    #### **lab4-4-10**
 
     ```bash
     WITH
@@ -531,9 +531,9 @@ hadoop eco의 hive를 활용하여 nginx 로그 데이터와 mysql 데이터를 
     CROSS JOIN converted cv;
     ``` 
 
-    - 사용자 나이대별 구매율
+11. 사용자 나이대별 구매율
 
-    #### **lab4-3-6-10**
+    #### **lab4-4-11**
 
     ```bash
     WITH purchase AS (
@@ -586,9 +586,9 @@ hadoop eco의 hive를 활용하여 nginx 로그 데이터와 mysql 데이터를 
     ORDER BY t.gender ASC, t.age_order ASC;
     ``` 
 
-    - 검색 키워드와 구매 연관성
+12. 검색 키워드와 구매 연관성
 
-    #### **lab4-3-6-11**
+    #### **lab4-4-12**
 
     ```bash
     WITH search_sessions AS (
@@ -622,19 +622,115 @@ hadoop eco의 hive를 활용하여 nginx 로그 데이터와 mysql 데이터를 
     ORDER BY conversion_rate DESC;
     ``` 
 
+13. 장바구니에서 제거된 상품 비율
 
+    #### **lab4-4-13**
 
+    ```bash
+    SELECT 
+      CONCAT(
+        CAST(
+          ROUND(
+            (SUM(CASE WHEN endpoint = '/cart/remove' THEN 1 ELSE 0 END) * 1.0) /
+            NULLIF(SUM(CASE WHEN endpoint = '/cart/add' THEN 1 ELSE 0 END), 0) * 100, 
+          2
+          ) AS STRING
+        ), '%'
+      ) AS cart_removal_rate
+    FROM external_nginx_log
+    WHERE endpoint IN ('/cart/add', '/cart/remove');
+    ``` 
 
+14. 사용자 재구매율
 
+    #### **lab4-4-14**
 
+    ```bash
+    WITH product_user_orders AS (
+      SELECT 
+        product_id,
+        user_id,
+        COUNT(DISTINCT order_id) AS order_count
+      FROM hive_orders_flat
+      GROUP BY product_id, user_id
+    )
+    SELECT 
+      puo.product_id,
+      p.name AS product_name,
+      CONCAT(
+        CAST(
+          ROUND(
+            SUM(CASE WHEN order_count > 1 THEN 1 ELSE 0 END) * 1.0 
+            / COUNT(*) * 100, 
+          2
+          ) AS STRING
+        ), '%'
+      ) AS repeat_purchase_rate
+    FROM product_user_orders puo
+    JOIN hive_products_flat p 
+      ON puo.product_id = p.product_id
+    GROUP BY puo.product_id, p.name;
+    ``` 
 
+15. 주문 당 평균 상품 수
 
+    #### **lab4-4-15**
 
+    ```bash
+    SELECT 
+      ROUND(AVG(items), 2) AS avg_items_per_order
+    FROM (
+      SELECT 
+        order_id, 
+        SUM(quantity) AS items
+      FROM hive_orders_flat
+      GROUP BY order_id
+    ) t;
+    ``` 
 
+16. URL별 에러 발생 비율
 
+    #### **lab4-4-16**
 
+    ```bash
+    SELECT
+      endpoint,
+      CONCAT(
+        CAST(
+          ROUND(
+            SUM(CASE WHEN CAST(status.member1 AS INT) >= 400 THEN 1 ELSE 0 END) * 1.0 
+            / COUNT(*) * 100,
+          2
+          ) AS STRING
+        ), '%'
+      ) AS error_rate
+    FROM external_nginx_log
+    GROUP BY endpoint;
+    ``` 
 
+17. 지연 응답 요청 비율
 
+    #### **lab4-4-17**
+
+    ```bash
+    SELECT
+      CONCAT(
+        CAST(
+          ROUND(
+            SUM(
+              CASE 
+                WHEN CAST(upstream_response_time.member1 AS DOUBLE) > 1 
+                THEN 1 
+                ELSE 0 
+              END
+            ) * 1.0 
+            / COUNT(*) * 100,
+          2
+          ) AS STRING
+        ), '%'
+      ) AS latency_exceed_rate
+    FROM external_nginx_log;
+    ``` 
 
 
 
