@@ -296,7 +296,7 @@ RestartSec=10
 [Install]
 WantedBy=multi-user.target
 EOF
-if [ $? -ne 0 ]; then echo "kakaocloud: kafka-connect-mysql-s3-sink.service 등록 실패"; exit 1; }
+if [ $? -ne 0 ]; then echo "kakaocloud: kafka-connect-mysql-s3-sink.service 등록 실패"; exit 1; fi
 
 # 사용자가 직접 실행할 부분 (systemd daemon-reload, enable, start, status)
 # sudo systemctl daemon-reload || { echo "kakaocloud: daemon-reload 실패"; exit 1; }
@@ -475,4 +475,10 @@ cat <<EOF | sudo tee /home/ubuntu/kafka/config/connectors/nginx-s3-sink-connecto
     }
 }
 EOF
-if [ $? -ne 0 ]; then echo "kakaoclo
+if [ $? -ne 0 ]; then
+    echo "kakaocloud: nginx-s3-sink-connector.json 생성 실패" >&2
+    exit 1
+fi
+
+echo "kakaocloud: Setup 완료"
+exit 0
