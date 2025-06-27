@@ -1,6 +1,6 @@
 # hadoop eco의 hive로 테이블 생성 및 hue 쿼리
 
-hadoop eco의 hive를 활용한 테이블 생성 후 생성된 테이블을 이용하여 hue로 쿼리를 진행하는 실습입니다.
+hadoop eco의 hive를 활용하여 nginx 로그 데이터와 mysql 데이터를 external table로 생성합니다. 생성된 테이블을 이용하여 hue로 쿼리를 진행하는 실습입니다.
 
 ---
 ## 1. 생성한 hadoop-eco 마스터 노드에 접속
