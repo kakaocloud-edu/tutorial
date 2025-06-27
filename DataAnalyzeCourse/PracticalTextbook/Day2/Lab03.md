@@ -1,5 +1,7 @@
 ## 실시간 분석 대시보드 구축
 
+---
+
 Kafka로 들어오는 데이터를 Druid에서 실시간으로 수집 및 가공하고, Superset을 통해 분석 결과를 시각화하여 대시보드를 만드는 실습입니다.
 
 ## 1. Druid 확장 설정
@@ -11,7 +13,7 @@ Kafka로 들어오는 데이터를 Druid에서 실시간으로 수집 및 가공
     - 터미널 열기
     - keypair를 다운받아놓은 폴더로 이동 후 터미널에 명령어 붙여넣기 및 **yes** 입력
     
-    ### **lab3-2-1**
+    #### lab3-1-2-1
     
     ```bash
     cd {keypair.pem 다운로드 위치}
@@ -19,13 +21,13 @@ Kafka로 들어오는 데이터를 Druid에서 실시간으로 수집 및 가공
     
     - 리눅스의 경우 아래와 같이 키페어 권한 조정
     
-    ### lab3-2-2
+    #### lab3-1-2-2
     
     ```bash
     chmod 400 keypair.pem
     ```
     
-    ### lab3-2-3
+    #### lab3-1-2-3
     
     ```bash
     ssh -i keypair.pem ubuntu@{api-server-1의 public ip 주소}
@@ -33,7 +35,7 @@ Kafka로 들어오는 데이터를 Druid에서 실시간으로 수집 및 가공
     
     - **Note**: {api-server-1의 public ip 주소} 부분을 복사한 각 IP 주소로 교체
     
-    ### lab3-2-4
+    #### lab3-1-2-4
     
     ```bash
     yes
@@ -41,7 +43,7 @@ Kafka로 들어오는 데이터를 Druid에서 실시간으로 수집 및 가공
     
     - **Note**: 윈도우에서 ssh 접근이 안될 경우, cmd 창에서 keypair.pem가 있는 경로로 이동 후 아래 명령어 실행
     
-    ### lab3-2-5
+    #### lab3-1-2-5
     
     ```bash
     icacls.exe keypair.pem /reset
@@ -52,13 +54,14 @@ Kafka로 들어오는 데이터를 Druid에서 실시간으로 수집 및 가공
 3. API 서버에서 schema-registry 구동
     - **Note**: 해당 터미널을 닫거나 명령어 실행이 종료되지 않도록 주의
     
-    ### lab3-3
+    #### lab3-1-3
     
     ```bash
     sudo /opt/confluent/bin/schema-registry-start /opt/confluent/etc/schema-registry/schema-registry.properties
     ```
     
-    ![image.png](attachment:5b6c4a67-de1f-4f97-80e1-0a575bb5c7e9:image.png)
+    ![image](https://github.com/user-attachments/assets/051bfc1f-e65c-4b1e-ac9a-498bf3617147)
+
     
 4. 마스터, 워커 노드(`HadoopMST-hadoop-dataflow-1`, `HadoopWRK-hadoop-dataflow-1, 2`)에 각각 Public IP 연결
     - 각 인스턴스의 우측 메뉴바 > `Public IP 연결` 클릭
@@ -70,7 +73,7 @@ Kafka로 들어오는 데이터를 Druid에서 실시간으로 수집 및 가공
     - 터미널 열기
     - keypair를 다운받아놓은 폴더로 이동 후 터미널에 명령어 붙여넣기 및 **yes** 입력
     
-    ### **lab3-2-1**
+    #### lab3-1-5-1
     
     ```bash
     cd {keypair.pem 다운로드 위치}
@@ -78,13 +81,13 @@ Kafka로 들어오는 데이터를 Druid에서 실시간으로 수집 및 가공
     
     - 리눅스의 경우 아래와 같이 키페어 권한 조정
     
-    ### lab3-2-2
+    #### lab3-1-5-2
     
     ```bash
     chmod 400 keypair.pem
     ```
     
-    ### lab3-2-3
+    #### lab3-1-5-3
     
     ```bash
     ssh -i keypair.pem ubuntu@{마스터 또는 워커 노드의 public ip 주소}
@@ -92,7 +95,7 @@ Kafka로 들어오는 데이터를 Druid에서 실시간으로 수집 및 가공
     
     - **Note**: {마스터 또는 워커 노드의 public ip 주소} 부분을 복사한 각 IP 주소로 교체
     
-    ### lab3-2-4
+    #### lab3-1-5-4
     
     ```bash
     yes
@@ -100,7 +103,7 @@ Kafka로 들어오는 데이터를 Druid에서 실시간으로 수집 및 가공
     
     - **Note**: 윈도우에서 ssh 접근이 안될 경우, cmd 창에서 keypair.pem가 있는 경로로 이동 후 아래 명령어 실행
     
-    ### lab3-2-5
+    #### lab3-1-5-5
     
     ```bash
     icacls.exe keypair.pem /reset
@@ -109,14 +112,18 @@ Kafka로 들어오는 데이터를 Druid에서 실시간으로 수집 및 가공
     ```
     
 6. 마스터, 워커 노드 모두에서 Druid 설정 파일에서 druid.extensions.loadList 값 추가 후 druid 재시작
-    
+
+    #### lab3-1-6
+
     ```bash
     sudo sed -i 's|druid.extensions.loadList=.*|druid.extensions.loadList=["druid-avro-extensions", "druid-parquet-extensions", "mysql-metadata-storage", "druid-hdfs-storage", "druid-kafka-indexing-service", "druid-datasketches", "druid-multi-stage-query"]|' /opt/apache-druid-25.0.0/conf/druid/cluster/_common/common.runtime.properties && \
     sudo sed -i 's|druid.extensions.loadList=.*|druid.extensions.loadList=["druid-avro-extensions", "druid-hdfs-storage", "druid-kafka-indexing-service", "druid-datasketches", "druid-multi-stage-query"]|' /opt/apache-druid-25.0.0/conf/druid/auto/_common/common.runtime.properties
     ```
     
 7. 기존 druid 프로세스 전부 종료
-    
+
+    #### lab3-1-6
+
     ```bash
     pkill -f "druid.node.type"
     ```
@@ -124,21 +131,27 @@ Kafka로 들어오는 데이터를 Druid에서 실시간으로 수집 및 가공
 
 8. 세 가지 Druid 노드 프로세스가 모두 기동 중인지 확인
 
-```sql
-ps -ef | grep druid.node.type | grep -v grep
-```
+    #### lab3-1-8
 
-![image.png](attachment:bccf4c00-d5ad-4910-8e34-79c845e7673d:image.png)
+    ```sql
+    ps -ef | grep druid.node.type | grep -v grep
+    ```
+
+    ![image](https://github.com/user-attachments/assets/60c344cc-41c8-49a5-bd56-1d677cc5d5a8)
+
 
 ## 2. **Druid를 활용한 데이터 수집 및 가공**
 
 1. 마스터 노드(`HadoopMST-hadoop-dataflow-1`)의 Public IP를 이용하여 웹 브라우저에서 Druid에 접속
-    
+
+    #### lab3-2-1
+ 
     ```
     http://${MASTER_NODE_PUBLIC_IP}:3008
     ```
     
-    ![image.png](attachment:e2eaad3f-24fe-46be-a7b9-cdd6bb3e7590:image.png)
+    ![image](https://github.com/user-attachments/assets/b56858d8-2998-4e10-b398-59c61f1ac0f4)
+
     
 2. `api-server-1`의 Public IP 복사 후 메모장에 붙여넣기
 3. 카카오 클라우드 콘솔 > Advanced Managed Kafka > 클러스터
@@ -147,7 +160,9 @@ ps -ef | grep druid.node.type | grep -v grep
 6. Load Data > Streaming > Start a new streaming spec 버튼 클릭
 7. `Edit Spec` 버튼 클릭 후 아래 spec 입력
     - **Note**: Kafka 부트스트랩 서버, api-server-1의 Public IP를 복사해둔 값으로 변경
-    
+
+    #### lab3-2-7
+
     ```bash
     {
       "type": "kafka",
@@ -222,20 +237,23 @@ ps -ef | grep druid.node.type | grep -v grep
     }
     ```
     
-
-16. Parse data 버튼 클릭 후 데이터 확인
-
-![image.png](attachment:a51877af-3cc2-4279-9082-9221fe9fa505:image.png)
-
-1. `Edit Spec` 버튼 클릭 후 `Submit` 버튼 클릭
-2. 페이지 새로고침 후 nginx-topic Supervisors, Task의 Status가 RUNNING인 것을 확인
+8. Parse data 버튼 클릭 후 데이터 확인
     
-    ![image.png](attachment:6d2eeb7d-d71c-4543-88ab-7feab84e9e60:image.png)
+    ![image](https://github.com/user-attachments/assets/fadbd7ce-3df3-402d-8a8d-f07547a8efcb)
+
     
-3. Load Data > Streaming > Start a new streaming spec 버튼 클릭
-4. `Edit Spec` 버튼 클릭 후 아래 spec 입력
+9. `Edit Spec` 버튼 클릭 후 `Submit` 버튼 클릭
+10. 페이지 새로고침 후 nginx-topic Supervisors, Task의 Status가 RUNNING인 것을 확인
+    
+    ![image](https://github.com/user-attachments/assets/813bde00-86a7-40cd-bc31-6cb120911830)
+
+    
+11. Load Data > Streaming > Start a new streaming spec 버튼 클릭
+12. `Edit Spec` 버튼 클릭 후 아래 spec 입력
     - **Note**: Kafka 부트스트랩 서버를 복사해둔 값으로 변경
     - users
+
+        #### lab3-2-12-1
         
         ```bash
         {
@@ -341,6 +359,8 @@ ps -ef | grep druid.node.type | grep -v grep
         
     - users_logs
         
+        #### lab3-2-12-2
+
         ```bash
         {
           "type": "kafka",
@@ -433,6 +453,8 @@ ps -ef | grep druid.node.type | grep -v grep
         
     - products
         
+        #### lab3-2-12-3
+
         ```bash
         {
           "type": "kafka",
@@ -525,6 +547,8 @@ ps -ef | grep druid.node.type | grep -v grep
         
     - sessions
         
+        #### lab3-2-12-4
+
         ```bash
         {
           "type": "kafka",
@@ -628,7 +652,9 @@ ps -ef | grep druid.node.type | grep -v grep
         ```
         
     - reviews
-        
+       
+        #### lab3-2-12-5
+ 
         ```bash
         {
           "type": "kafka",
@@ -733,6 +759,8 @@ ps -ef | grep druid.node.type | grep -v grep
         
     - orders
         
+        #### lab3-2-12-6
+
         ```bash
         {
           "type": "kafka",
@@ -840,6 +868,8 @@ ps -ef | grep druid.node.type | grep -v grep
         
     - search_logs
         
+        #### lab3-2-12-7
+
         ```bash
         {
           "type": "kafka",
@@ -932,6 +962,8 @@ ps -ef | grep druid.node.type | grep -v grep
         
     - cart
         
+        #### lab3-2-12-8
+
         ```bash
         {
           "type": "kafka",
@@ -1048,6 +1080,8 @@ ps -ef | grep druid.node.type | grep -v grep
         
     - cart_logs
         
+        #### lab3-2-12-9
+
         ```bash
         {
           "type": "kafka",
@@ -1174,10 +1208,12 @@ ps -ef | grep druid.node.type | grep -v grep
         }
         ```
         
-5. 페이지 새로고침 후 각 Supervisors, Task의 Status가 RUNNING인 것을 확인
-6. Query 메뉴 클릭
-7. orders, users 테이블 JOIN 쿼리를 실행
-    
+13. 페이지 새로고침 후 각 Supervisors, Task의 Status가 RUNNING인 것을 확인
+14. Query 메뉴 클릭
+15. orders, users 테이블 JOIN 쿼리를 실행
+
+    #### lab3-2-15
+
     ```sql
     INSERT INTO dw_orders_users
     SELECT
@@ -1197,8 +1233,10 @@ ps -ef | grep druid.node.type | grep -v grep
     PARTITIONED BY DAY
     ```
     
-8. 일별 사용자, 상품 주문 건수를 집계하여 테이블에 저장하는 쿼리 실행
+16. 일별 사용자, 상품 주문 건수를 집계하여 테이블에 저장하는 쿼리 실행
     
+    #### lab3-2-16
+
     ```sql
     INSERT INTO dw_user_product_order_cnt
     SELECT
@@ -1211,8 +1249,10 @@ ps -ef | grep druid.node.type | grep -v grep
     PARTITIONED BY DAY
     ```
     
-9. cart, orders, products 테이블 JOIN 쿼리를 실행
+17. cart, orders, products 테이블 JOIN 쿼리를 실행
     
+    #### lab3-2-17
+
     ```sql
     INSERT INTO dw_cart_orders_products
     SELECT
@@ -1245,6 +1285,8 @@ ps -ef | grep druid.node.type | grep -v grep
 
 1. 마스터 노드(`HadoopMST-hadoop-dataflow-1`)의 Public IP를 이용하여 웹 브라우저에서 Superset에 접속
     
+    #### lab3-3-1
+
     ```
     http://${MASTER_NODE_PUBLIC_IP}:4000
     ```
@@ -1270,7 +1312,8 @@ ps -ef | grep druid.node.type | grep -v grep
             - SAVE 버튼 클릭
         - CREATE CHART 버튼 클릭
         
-        ![image.png](attachment:983cbfa2-9a01-47aa-95b2-6868cc1dd321:image.png)
+        ![image](https://github.com/user-attachments/assets/f8f0a53d-3cad-4806-9a83-dd8eb1a6f405)
+
         
         - SAVE 버튼 클릭
         - 저장 정보 입력
@@ -1291,7 +1334,8 @@ ps -ef | grep druid.node.type | grep -v grep
             - Rolling window(ROLLING FUNCTION): cumsum
         - CREATE CHART 버튼 클릭
         
-        ![image.png](attachment:8995494b-67d3-4c2c-8ad0-673c3de2c96d:image.png)
+        ![image](https://github.com/user-attachments/assets/f28e37f0-0ea4-4228-9a99-2ada1033c42d)
+
         
         - SAVE 버튼 클릭
         - 저장 정보 입력
@@ -1307,7 +1351,9 @@ ps -ef | grep druid.node.type | grep -v grep
     - METRICS 탭 클릭 후 + ADD ITEM 버튼 클릭
     - Metric: `총매출`
     - SQL expression
-        
+     
+        #### lab3-3-6-1
+   
         ```bash
         SUM(price * quantity)
         ```
@@ -1316,6 +1362,8 @@ ps -ef | grep druid.node.type | grep -v grep
     - Column: `age_group`
     - SQL EXPRESSION
         
+
+        #### lab3-3-6-2
         ```bash
         CASE
           WHEN age BETWEEN 10 AND 19 THEN '10대'
@@ -1335,14 +1383,17 @@ ps -ef | grep druid.node.type | grep -v grep
     - DIENSIONS: `age_group`
     - CREATE CHART 버튼 클릭
     
-    ![image.png](attachment:16cd3977-03bc-4f8e-ac90-a49701e69028:image.png)
+    ![image](https://github.com/user-attachments/assets/671bda92-7857-4e2b-86bb-5e2f5d22cfff)
+
     
 7. 상품별 재구매율 Top5 시각화
     - Datasets 메뉴 클릭 후 dw_user_product_order_cnt의 수정 버튼 클릭
     - METRICS 탭 클릭 후 + ADD ITEM 버튼 클릭
     - Metric: `재구매율(%)`
     - SQL expression
-        
+
+        #### lab3-3-7
+
         ```bash
         (
           APPROX_COUNT_DISTINCT(CASE WHEN cnt > 1 THEN user_id END)
@@ -1360,7 +1411,8 @@ ps -ef | grep druid.node.type | grep -v grep
     - SERIES LIMIT: 5
     - CREATE CHART 버튼 클릭
     
-    ![image.png](attachment:40e2e44d-e4c8-4f7c-bd7b-c4cbe739e8b5:image.png)
+    ![image](https://github.com/user-attachments/assets/e13c94d4-c68d-403f-b84d-8e950616eea7)
+
     
 8. 시간대별 매출 및 성장률
     - Datasets 메뉴 클릭 후 shopdb_orders_changes의 수정 버튼 클릭
@@ -1368,6 +1420,8 @@ ps -ef | grep druid.node.type | grep -v grep
     - Metric: `총매출`
     - SQL expression
         
+        #### lab3-3-8
+
         ```bash
         SUM(price * quantity)
         ```
@@ -1379,7 +1433,8 @@ ps -ef | grep druid.node.type | grep -v grep
     - METRICS: `총매출`
     - CREATE CHART 버튼 클릭
     
-    ![image.png](attachment:2150b93e-b819-45ff-9ac6-25a4f45f86ce:image.png)
+    ![image](https://github.com/user-attachments/assets/6578228d-0ae0-4829-851f-17ddc3e3618b)
+
     
 9. 장바구니 행동 분석
     - Datasets 메뉴 클릭 후 shopdb_cart_logs_changes의 수정 버튼 클릭
@@ -1387,6 +1442,8 @@ ps -ef | grep druid.node.type | grep -v grep
     - Column: `event_type_ko`
     - SQL EXPRESSION
         
+        #### lab3-3-9
+
         ```bash
         CASE
         WHEN event_type = 'ADDED'        THEN '추가'        -- 장바구니 담기
@@ -1409,4 +1466,4 @@ ps -ef | grep druid.node.type | grep -v grep
     - DIENSIONS: `event_type_ko`
     - CREATE CHART 버튼 클릭
     
-    ![image.png](attachment:fa17fbdd-08a7-4fa7-98ee-a1b3b7d8735f:image.png)
+    ![image](https://github.com/user-attachments/assets/7342ca12-d969-45b5-bd76-6edfaa10715f)
