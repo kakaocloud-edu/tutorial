@@ -192,7 +192,7 @@ sudo wget -O /confluent-hub/plugins/confluentinc-kafka-connect-s3/lib/custom-fil
 ################################################################################
 echo "kakaocloud: 13. mysql-s3-sink-connector.json 생성 시작 (8084 포트용)"
 # MySQL 데이터 적재용 S3 Sink Connector 설정을 파일로 저장
-sudo tee "${KAFKA_INSTALL_DIR}/config/mysql-s3-sink-connector.json" << EOF_JSON
+sudo tee "${KAFKA_INSTALL_DIR}/config/connectors/mysql-s3-sink-connector.json" << EOF_JSON
 {
     "name": "mysql-s3-sink-connector",
     "config": {
@@ -224,7 +224,7 @@ sudo tee "${KAFKA_INSTALL_DIR}/config/mysql-s3-sink-connector.json" << EOF_JSON
 }
 EOF_JSON
 if [ $? -ne 0 ]; then echo "kakaocloud: mysql-s3-sink-connector.json 생성 실패"; exit 1; fi
-sudo chown ubuntu:ubuntu "${KAFKA_INSTALL_DIR}/config/mysql-s3-sink-connector.json" || { echo "kakaocloud: mysql-s3-sink-connector.json 소유권 변경 실패"; exit 1; }
+sudo chown ubuntu:ubuntu "${KAFKA_INSTALL_DIR}/config/connectors/mysql-s3-sink-connector.json" || { echo "kakaocloud: mysql-s3-sink-connector.json 소유권 변경 실패"; exit 1; }
 
 
 ################################################################################
