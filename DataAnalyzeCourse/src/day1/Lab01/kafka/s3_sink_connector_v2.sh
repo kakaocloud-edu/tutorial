@@ -191,6 +191,7 @@ sudo wget -O /confluent-hub/plugins/confluentinc-kafka-connect-s3/lib/custom-fil
 # 13. MySQL 데이터 적재용 S3 Sink Connector JSON 생성 (8084 포트용)
 ################################################################################
 echo "kakaocloud: 13. mysql-s3-sink-connector.json 생성 시작 (8084 포트용)"
+sudo mkdir -p "${KAFKA_INSTALL_DIR}/config/connectors"
 # MySQL 데이터 적재용 S3 Sink Connector 설정을 파일로 저장
 sudo tee "${KAFKA_INSTALL_DIR}/config/connectors/mysql-s3-sink-connector.json" << EOF_JSON
 {
