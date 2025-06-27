@@ -39,13 +39,12 @@ hadoop eco의 hive를 활용하여 nginx 로그 데이터와 mysql 데이터를 
     ssh -i keypair.pem ubuntu@{HadoopMST-core-hadoop-1 public ip주소}
     ```
     
-    
-    
     #### **lab4-1-3-4**
     
     ```bash
     yes
     ```
+
 
 ## 2. hive에 external 테이블 생성
 
@@ -119,7 +118,7 @@ hadoop eco의 hive를 활용하여 nginx 로그 데이터와 mysql 데이터를 
 
     ```bash
     CREATE EXTERNAL TABLE IF NOT EXISTS mysql_users (
-    after STRUCT<
+      after STRUCT<
         user_id:    STRING,
         name:       STRING,
         email:      STRING,
@@ -141,17 +140,111 @@ hadoop eco의 hive를 활용하여 nginx 로그 데이터와 mysql 데이터를 
     SELECT * FROM mysql_users LIMIT 10;
     ```
 
+6. mysql orders 테이블 생성
+
+     #### **lab4-2-6**
+
+    ```bash
+    CREATE EXTERNAL TABLE IF NOT EXISTS mysql_orders (
+      after STRUCT<
+        quantity:    INT,
+        user_id:     STRING,
+        price:       STRING,
+        product_id:  STRING,
+        session_id:  STRING,
+        order_time:  BIGINT,
+        order_id:    STRING
+      >,
+      ts_ms BIGINT
+    )
+    ROW FORMAT SERDE 'org.apache.hive.hcatalog.data.JsonSerDe'
+    LOCATION 's3a://data-catalog-bucket/raw_cdc_events/mysql-server.shopdb.orders/';
+    ```
+
+7. 생성된 mysql orders 테이블 확인
+
+     #### **lab4-2-7**
+
+    ```bash
+    select * from mysql_orders limit 10;
+    ```
+
+8. mysql products 테이블 생성
+
+     #### **lab4-2-8**
+
+    ```bash
+    CREATE EXTERNAL TABLE IF NOT EXISTS mysql_products (
+      after STRUCT<
+        price:    STRING,
+        name:     STRING,
+        id:       STRING,
+        category: STRING
+      >,
+      ts_ms BIGINT
+    )
+    ROW FORMAT SERDE 'org.apache.hive.hcatalog.data.JsonSerDe'
+    LOCATION 's3a://data-catalog-bucket/raw_cdc_events/mysql-server.shopdb.products/';
+    ```
+
+9. 생성된 mysql products 테이블 확인
+
+     #### **lab4-2-9**
+
+    ```bash
+    select * from mysql_products limit 10;
+    ```
+
+10. hue 쿼리를 위한 view 생성
+
+     #### **lab4-2-10-1**
+
+    ```bash
+    CREATE VIEW hive_users_flat AS
+    SELECT
+      after.user_id    AS user_id,
+      after.name       AS name,
+      after.email      AS email,
+      after.gender     AS gender,
+      after.age        AS age,
+      after.updated_at AS updated_at,
+      ts_ms            AS ts_ms
+    FROM mysql_users;
+    ```
+
+    #### **lab4-2-10-2**
+
+    ```bash
+    CREATE VIEW hive_orders_flat AS
+    SELECT
+      after.order_id    AS order_id,
+      after.user_id     AS user_id,
+      after.product_id  AS product_id,
+      after.quantity    AS quantity,
+      CAST(after.price AS DOUBLE) AS price,
+      CAST(FROM_UNIXTIME(after.order_time DIV 1000000) AS TIMESTAMP) AS order_ts,
+      after.session_id  AS session_id,
+      ts_ms             AS ts_ms
+    FROM mysql_orders;
+    ```
+
+    #### **lab4-2-10-3**
+
+    ```bash
+    CREATE VIEW hive_products_flat AS
+    SELECT
+      after.id       AS product_id,
+      after.name     AS name,
+      after.category AS category,
+      CAST(after.price AS DOUBLE) AS price,
+      ts_ms          AS ts_ms
+    FROM mysql_products;
+    ```
 
 
+## 3. hue를 이용한 쿼리를 통해 지표 분석
 
-
-
-
-
-
-
-
-
+1. 
 
 
    
