@@ -288,7 +288,7 @@ hadoop eco의 hive를 활용하여 nginx 로그 데이터와 mysql 데이터를 
 
     - 쿼리문 입력 후 입력창 좌측의 화살표 클릭하여 실행
 
-    - 로그인율(Login Rate)
+    - 로그인율
 
     #### **lab4-3-6-1**
 
@@ -309,6 +309,326 @@ hadoop eco의 hive를 활용하여 nginx 로그 데이터와 mysql 데이터를 
     WHERE endpoint = '/login'
        OR endpoint IS NOT NULL;
     ```
+
+    - 검색 키워드 빈도
+
+    #### **lab4-3-6-2**
+
+    ```bash
+    SELECT
+      regexp_extract(query_params, 'query=([^&]+)', 1) AS keyword,
+      COUNT(*) AS frequency
+    FROM external_nginx_log
+    WHERE endpoint = '/search'
+    GROUP BY regexp_extract(query_params, 'query=([^&]+)', 1)
+    ORDER BY frequency DESC;
+    ```
+
+    - 장바구니 담기 전환율
+
+    #### **lab4-3-6-3**
+
+    ```bash
+    WITH
+    product_sessions AS (
+      SELECT DISTINCT session_id
+      FROM external_nginx_log
+      WHERE endpoint = '/product'
+        AND session_id IS NOT NULL
+        AND session_id <> ''
+    ),
+    cart_sessions AS (
+      SELECT DISTINCT session_id
+      FROM external_nginx_log
+      WHERE endpoint = '/cart/add'
+        AND session_id IS NOT NULL
+        AND session_id <> ''
+    ),
+    total_p AS (
+      SELECT COUNT(*) AS cnt
+      FROM product_sessions
+    ),
+    converted AS (
+      SELECT COUNT(*) AS cnt
+      FROM product_sessions p
+      JOIN cart_sessions c
+        ON p.session_id = c.session_id
+    )
+    
+    SELECT
+      CASE
+        WHEN tp.cnt = 0 THEN '0%'
+        ELSE CONCAT(
+          CAST(
+            ROUND(
+              (conv.cnt * 100.0) / tp.cnt
+            , 2) AS STRING
+          ), '%'
+        )
+      END AS session_conversion_rate
+    FROM total_p tp
+    CROSS JOIN converted conv;
+    ```
+
+    - 인기 상품 상위 10개
+
+    #### **lab4-3-6-4**
+
+    ```bash
+    WITH product_views AS (
+      SELECT 
+        CAST(product_id AS STRING) AS product_id, 
+        COUNT(*) AS view_count
+      FROM external_nginx_log
+      WHERE endpoint = '/product'
+      GROUP BY product_id
+    ),
+    product_orders AS (
+      SELECT 
+        product_id, 
+        COUNT(*) AS order_count
+      FROM hive_orders_flat
+      GROUP BY product_id
+    )
+    SELECT
+      pv.product_id,
+      pv.view_count,
+      COALESCE(po.order_count, 0) AS order_count,
+      (pv.view_count + COALESCE(po.order_count, 0)) AS popularity_score
+    FROM product_views pv
+    LEFT JOIN product_orders po 
+      ON pv.product_id = po.product_id
+    ORDER BY popularity_score DESC
+    LIMIT 10;
+    ```
+
+    - 페이지뷰(PV) 추이
+
+    #### **lab4-3-6-5**
+
+    ```bash
+    SELECT
+      from_unixtime(unix_timestamp(CAST(CAST(`timestamp` AS TIMESTAMP) AS STRING), 'yyyy-MM-dd HH:mm:ss'), 'yyyy-MM-dd') AS dt,
+      hour(from_unixtime(unix_timestamp(CAST(CAST(`timestamp` AS TIMESTAMP) AS STRING), 'yyyy-MM-dd HH:mm:ss'))) AS hour_of_day,
+      COUNT(*) AS page_views
+    FROM external_nginx_log
+    GROUP BY
+      from_unixtime(unix_timestamp(CAST(CAST(`timestamp` AS TIMESTAMP) AS STRING), 'yyyy-MM-dd HH:mm:ss'), 'yyyy-MM-dd'),
+      hour(from_unixtime(unix_timestamp(CAST(CAST(`timestamp` AS TIMESTAMP) AS STRING), 'yyyy-MM-dd HH:mm:ss')))
+    ORDER BY dt, hour_of_day;
+    ```
+
+    - 매출 합계
+
+    #### **lab4-3-6-6**
+
+    ```bash
+    SELECT 
+      format_number(ROUND(SUM(price * quantity), 2), 2) AS total_sales
+    FROM hive_orders_flat
+    WHERE order_ts BETWEEN '2025-01-01' AND '2025-12-31';
+    ```
+
+    - 카테고리별 매출 비중
+
+    #### **lab4-3-6-7**
+
+    ```bash
+    SELECT
+      p.category,
+      ROUND(SUM(o.price * o.quantity), 2) AS category_sales,
+      CONCAT(
+        CAST(
+          ROUND(SUM(o.price * o.quantity) / total.total_sales * 100, 2) AS STRING
+        ), '%'
+      ) AS sales_ratio
+    FROM hive_orders_flat o
+    JOIN hive_products_flat p 
+      ON o.product_id = p.product_id
+    CROSS JOIN (
+      SELECT SUM(price * quantity) AS total_sales
+      FROM hive_orders_flat
+    ) total
+    GROUP BY p.category, total.total_sales;
+    ```
+
+    - 사용자 행동 경로 분석
+
+    #### **lab4-3-6-8**
+
+    ```bash
+    WITH user_path AS (
+      SELECT
+        session_id,
+        MAX(CASE WHEN endpoint = '/home' THEN 1 ELSE 0 END)     AS visited_home,
+        MAX(CASE WHEN endpoint = '/cart/view' THEN 1 ELSE 0 END) AS viewed_product,
+        MAX(CASE WHEN endpoint = '/cart/add' THEN 1 ELSE 0 END)  AS added_to_cart,
+        MAX(CASE WHEN endpoint = '/login' THEN 1 ELSE 0 END)     AS logged_in
+      FROM external_nginx_log
+      GROUP BY session_id
+    ),
+    user_purchase AS (
+      SELECT DISTINCT session_id
+      FROM hive_orders_flat
+    )
+    SELECT
+      up.session_id,
+      up.visited_home,
+      up.viewed_product,
+      up.added_to_cart,
+      up.logged_in,
+      CASE WHEN p.session_id IS NOT NULL THEN 1 ELSE 0 END AS purchased
+    FROM user_path up
+    LEFT JOIN user_purchase p 
+      ON up.session_id = p.session_id;
+    ```
+
+    - 상품 상세 페이지 방문 후 구매 전환율
+
+    #### **lab4-3-6-9**
+
+    ```bash
+    WITH
+      product_sessions AS (
+        SELECT DISTINCT session_id
+        FROM external_nginx_log
+        WHERE endpoint = '/product'
+          AND session_id IS NOT NULL
+          AND session_id <> ''
+      ),
+      purchased_sessions AS (
+        SELECT DISTINCT session_id
+        FROM hive_orders_flat
+        WHERE session_id IS NOT NULL
+          AND session_id <> ''
+      ),
+      total_product AS (
+        SELECT COUNT(*) AS cnt
+        FROM product_sessions
+      ),
+      converted AS (
+        SELECT COUNT(*) AS cnt
+        FROM product_sessions p
+        JOIN purchased_sessions ps
+          ON p.session_id = ps.session_id
+      )
+    SELECT
+      CASE
+        WHEN tp.cnt = 0 THEN '0%'
+        ELSE CONCAT(
+          CAST(
+            ROUND(
+              (cv.cnt * 100.0) / tp.cnt
+            , 2) AS STRING
+          ),
+          '%'
+        )
+      END AS detail_to_purchase_rate
+    FROM total_product tp
+    CROSS JOIN converted cv;
+    ``` 
+
+    - 사용자 나이대별 구매율
+
+    #### **lab4-3-6-10**
+
+    ```bash
+    WITH purchase AS (
+      SELECT DISTINCT user_id
+      FROM hive_orders_flat
+    )
+    SELECT gender, age_group, purchase_rate
+    FROM (
+      SELECT
+        u.gender,
+        CASE
+          WHEN u.age < 20 THEN '20대 미만'
+          WHEN u.age BETWEEN 20 AND 29 THEN '20대'
+          WHEN u.age BETWEEN 30 AND 39 THEN '30대'
+          WHEN u.age BETWEEN 40 AND 49 THEN '40대'
+          ELSE '50대 이상'
+        END AS age_group,
+        ROUND(
+          COUNT(DISTINCT CASE WHEN p.user_id IS NOT NULL THEN u.user_id END) * 1.0 
+          / COUNT(DISTINCT u.user_id), 
+        2
+        ) AS purchase_rate,
+        CASE
+          WHEN u.age < 20 THEN 1
+          WHEN u.age BETWEEN 20 AND 29 THEN 2
+          WHEN u.age BETWEEN 30 AND 39 THEN 3
+          WHEN u.age BETWEEN 40 AND 49 THEN 4
+          ELSE 5
+        END AS age_order
+      FROM hive_users_flat u
+      LEFT JOIN purchase p 
+        ON u.user_id = p.user_id
+      GROUP BY 
+        u.gender,
+        CASE
+          WHEN u.age < 20 THEN '20대 미만'
+          WHEN u.age BETWEEN 20 AND 29 THEN '20대'
+          WHEN u.age BETWEEN 30 AND 39 THEN '30대'
+          WHEN u.age BETWEEN 40 AND 49 THEN '40대'
+          ELSE '50대 이상'
+        END,
+        CASE
+          WHEN u.age < 20 THEN 1
+          WHEN u.age BETWEEN 20 AND 29 THEN 2
+          WHEN u.age BETWEEN 30 AND 39 THEN 3
+          WHEN u.age BETWEEN 40 AND 49 THEN 4
+          ELSE 5
+        END
+    ) t
+    ORDER BY t.gender ASC, t.age_order ASC;
+    ``` 
+
+    - 검색 키워드와 구매 연관성
+
+    #### **lab4-3-6-11**
+
+    ```bash
+    WITH search_sessions AS (
+      SELECT DISTINCT 
+        session_id, 
+        regexp_extract(query_params, 'query=([^&]+)', 1) AS keyword
+      FROM external_nginx_log
+      WHERE endpoint = '/search'
+    ),
+    purchased_sessions AS (
+      SELECT DISTINCT session_id
+      FROM hive_orders_flat
+    )
+    SELECT
+      s.keyword,
+      COUNT(DISTINCT s.session_id)     AS search_count,
+      COUNT(DISTINCT CASE WHEN p.session_id IS NOT NULL THEN s.session_id END) AS purchase_count,
+      CONCAT(
+        CAST(
+          ROUND(
+            COUNT(DISTINCT CASE WHEN p.session_id IS NOT NULL THEN s.session_id END) * 1.0 
+            / COUNT(DISTINCT s.session_id) * 100, 
+          2
+          ) AS STRING
+        ), '%'
+      ) AS conversion_rate
+    FROM search_sessions s
+    LEFT JOIN purchased_sessions p 
+      ON s.session_id = p.session_id
+    GROUP BY s.keyword
+    ORDER BY conversion_rate DESC;
+    ``` 
+
+
+
+
+
+
+
+
+
+
+
 
 
 
