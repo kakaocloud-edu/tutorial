@@ -264,15 +264,15 @@ hadoop eco의 hive를 활용하여 nginx 로그 데이터와 mysql 데이터를 
 4. 좌측 상단 생성된 테이블 및 뷰 확인
 
     - 테이블 목록
-    - `external_nginx_log`
-    - `mysql_orders`
-    - `mysql_products`
-    - `mysql_users`
+        - `external_nginx_log`
+        - `mysql_orders`
+        - `mysql_products`
+        - `mysql_users`
   
     - 뷰 목록
-    - `hive_orders_flat`
-    - `hive_products_flat`
-    - `hive_users_flat`
+        - `hive_orders_flat`
+        - `hive_products_flat`
+        - `hive_users_flat`
 
 5. 중앙 쿼리문 입력창에 jar 파일 입력 후 실행
 
