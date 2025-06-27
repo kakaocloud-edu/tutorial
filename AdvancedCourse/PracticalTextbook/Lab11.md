@@ -15,10 +15,10 @@
    ```
    3. ingress-controller 삭제 (LB 자동 삭제)
    - 접속 중인 Bastion VM 인스턴스에서 아래 명령어 입력
-   <!--#### **lab11-3**
+   #### **lab11-3**
    ```bash
    kubectl delete -f https://github.com/kakaocloud-edu/tutorial/raw/main/AdvancedCourse/src/manifests/ingress-nginx-controller.yaml
-   ``` -->
+   ```
    
    4. 리소스 삭제 확인
    #### **lab11-4**
