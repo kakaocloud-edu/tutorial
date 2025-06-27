@@ -337,10 +337,10 @@ EOF
 if [ $? -ne 0 ]; then echo "kakaocloud: Schema Registry Service 파일 작성 실패"; exit 1; fi
 
 # 사용자가 직접 실행할 부분 (systemd daemon-reload, enable, start, status)
-# sudo systemctl daemon-reload || { echo "kakaocloud: daemon-reload 실패"; exit 1; }
-# sudo systemctl enable schema-registry.service || { echo "kakaocloud: schema-registry 서비스 자동 시작 설정 실패"; exit 1; }
-# sudo systemctl start schema-registry.service || { echo "kakaocloud: schema-registry 서비스 시작 실패"; exit 1; }
-# sudo systemctl status schema-registry.service || { echo "kakaocloud: schema-registry 서비스 상태 확인 실패"; exit 1; }
+sudo systemctl daemon-reload || { echo "kakaocloud: daemon-reload 실패"; exit 1; }
+sudo systemctl enable schema-registry.service || { echo "kakaocloud: schema-registry 서비스 자동 시작 설정 실패"; exit 1; }
+sudo systemctl start schema-registry.service || { echo "kakaocloud: schema-registry 서비스 시작 실패"; exit 1; }
+sudo systemctl status schema-registry.service || { echo "kakaocloud: schema-registry 서비스 상태 확인 실패"; exit 1; }
 
 ################################################################################
 # 18. S3 커넥터 플러그인 경로에 Avro 컨버터 설치 및 추가 의존성 다운로드
