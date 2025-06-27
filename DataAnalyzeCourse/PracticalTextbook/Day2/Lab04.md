@@ -244,7 +244,7 @@ hadoop eco의 hive를 활용하여 nginx 로그 데이터와 mysql 데이터를 
 11. `ctrl` + `c`로 종료
 
 
-## 3. hue를 이용한 쿼리를 통해 지표 분석
+## 3. hue를 이용하기 위한 환경 설정
 
 1. 웹 브라우저 주소창에서 아래 URL 입력을 통해 hue 접속
 
@@ -284,13 +284,16 @@ hadoop eco의 hive를 활용하여 nginx 로그 데이터와 mysql 데이터를 
     ADD JAR /opt/apache-hive-3.1.3-bin/lib/hive-hcatalog-core-3.1.3.jar;
     ```
 
-6. 쿼리문을 통한 지표 분석
+
+## 4. hue를 이용한 쿼리를 통해 지표 분석
+
+1. 쿼리문을 통한 지표 분석
 
     - 쿼리문 입력 후 입력창 좌측의 화살표 클릭하여 실행
 
     - 로그인율
 
-    #### **lab4-3-6-1**
+    #### **lab4-4-1-1**
 
     ```bash
     SELECT
