@@ -274,7 +274,7 @@ hadoop eco의 hive를 활용하여 nginx 로그 데이터와 mysql 데이터를 
         - `hive_products_flat`
         - `hive_users_flat`
 
-5. 중앙 쿼리문 입력창에 jar 파일 입력 후 실행
+5. 쿼리문 입력창에 jar 파일 입력 후 실행
 
     - 쿼리문 입력 후 입력창 좌측의 화살표 클릭하여 실행
 
@@ -285,6 +285,8 @@ hadoop eco의 hive를 활용하여 nginx 로그 데이터와 mysql 데이터를 
     ```
 
 6. 쿼리문을 통한 지표 분석
+
+    - 쿼리문 입력 후 입력창 좌측의 화살표 클릭하여 실행
 
     - 로그인율(Login Rate)
 
