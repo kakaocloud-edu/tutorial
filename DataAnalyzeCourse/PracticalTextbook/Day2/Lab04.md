@@ -260,15 +260,53 @@ hadoop eco의 hive를 활용하여 nginx 로그 데이터와 mysql 데이터를 
     - id:`admin`
     - pw:`Admin1234!`
 
-3.
+3. 좌측 상단 `default` 데이터베이스 확인
+4. 좌측 상단 생성된 테이블 및 뷰 확인
 
+    - 테이블 목록
+    - `external_nginx_log`
+    - `mysql_orders`
+    - `mysql_products`
+    - `mysql_users`
+  
+    - 뷰 목록
+    - `hive_orders_flat`
+    - `hive_products_flat`
+    - `hive_users_flat`
 
+5. 중앙 쿼리문 입력창에 jar 파일 입력 후 실행
 
+    - 쿼리문 입력 후 입력창 좌측의 화살표 클릭하여 실행
 
+    #### **lab4-3-5**
 
+    ```bash
+    ADD JAR /opt/apache-hive-3.1.3-bin/lib/hive-hcatalog-core-3.1.3.jar;
+    ```
 
+6. 쿼리문을 통한 지표 분석
 
+    - 로그인율(Login Rate)
 
+    #### **lab4-3-6-1**
+
+    ```bash
+    SELECT
+      COUNT(DISTINCT CASE WHEN endpoint = '/login' THEN session_id END) AS login_sessions,
+      COUNT(DISTINCT session_id) AS total_sessions,
+      CONCAT(
+        CAST(
+          ROUND(
+            (COUNT(DISTINCT CASE WHEN endpoint = '/login' THEN session_id END) * 1.0 
+             / COUNT(DISTINCT session_id)) * 100,
+          2
+          ) AS STRING
+        ), '%'
+      ) AS login_rate
+    FROM external_nginx_log
+    WHERE endpoint = '/login'
+       OR endpoint IS NOT NULL;
+    ```
 
 
 
