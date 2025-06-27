@@ -241,6 +241,8 @@ hadoop eco의 hive를 활용하여 nginx 로그 데이터와 mysql 데이터를 
     FROM mysql_products;
     ```
 
+11. `ctrl` + `c`로 종료
+
 
 ## 3. hue를 이용한 쿼리를 통해 지표 분석
 
