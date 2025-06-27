@@ -246,7 +246,33 @@ hadoop eco의 hive를 활용하여 nginx 로그 데이터와 mysql 데이터를 
 
 ## 3. hue를 이용한 쿼리를 통해 지표 분석
 
-1. 
+1. 웹 브라우저 주소창에서 아래 URL 입력을 통해 hue 접속
+
+    #### **lab4-3-1**
+
+    ```bash
+    http://{HadoopMST-core-hadoop-1 public ip주소}:8888
+    ```
+
+2. hue에 로그인
+
+    - hadoop eco 생성 시에 만든 id와 pw 입력하여 접속
+    - id:`admin`
+    - pw:`Admin1234!`
+
+3.
+
+
+
+
+
+
+
+
+
+
+
+
 
 
    
