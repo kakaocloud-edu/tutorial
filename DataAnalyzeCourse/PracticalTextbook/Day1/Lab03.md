@@ -558,7 +558,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     yes
     ```
 
-6. Kafka Connector 스크립트 적용 확인
+5. Kafka Connector 스크립트 적용 확인
     #### **lab3-8-5**
     - **Note**: 터미널 창이 작으면 로그가 안보일 수도 있으니, 터미널 창의 크기를 늘려주세요.
    
@@ -591,7 +591,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     kakaocloud: 22. s3-sink-avro-dist.json 생성 시작
     kakaocloud: Setup 완료
     ```
-7. `data-catalog-bucket`에 nginx 로그를 쌓기 위해 필요한 쓰기 권한을 부여하는 명령어 실행
+6. `data-catalog-bucket`에 nginx 로그를 쌓기 위해 필요한 쓰기 권한을 부여하는 명령어 실행
 
     #### **lab3-8-6**
     
@@ -602,7 +602,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
       --endpoint-url https://objectstorage.kr-central-2.kakaocloud.com
     ```
 
-8. Schema Registry 설정파일에서 Kafka 브로커 주소 변경
+7. Schema Registry 설정파일에서 Kafka 브로커 주소 변경
    - **Note**: `{실제 Kafka 클러스터 부트스트랩 서버값}`을 개인 환경에 맞게 수정 필요
 
     #### lab**3-8-7**
@@ -611,7 +611,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     sudo sed -i 's|PLAINTEXT://localhost:9092|{실제 Kafka 클러스터 부트스트랩 서버값}|' /confluent-hub/plugins/confluent-7.5.3/etc/schema-registry/schema-registry.properties
     ```
     
-9. 데몬 리로드 및 kafka-connect 서비스를 시작하는 명령어 실행
+8. 데몬 리로드 및Schema Registry 서비스 재실행
     
     #### lab**3-8-8-1**
     
@@ -622,19 +622,38 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     ```bash
     sudo systemctl restart schema-registry.service
     ```
-
+    
+9. kafka 서비스 등록
+    #### lab**3-8-9-1**
+    
+    ```bash
+    sudo systemctl enable kafka-connect-nginx-s3-sink.service
+    ```
+    
+    #### lab**3-8-9-2**
+    
+    ```bash
+    sudo systemctl start kafka-connect-nginx-s3-sink.service
+    ```
+    
+    #### lab**3-8-9-3**
+    
+    ```bash
+    sudo systemctl status kafka-connect-nginx-s3-sink.service
+    ```
 10. s3-sink-avro Connector 생성
-   #### lab**3-8-9**
-   ```bash
-   curl -X POST -H "Content-Type: application/json" \
-     --data @/home/ubuntu/kafka/config/connectors/s3-sink-avro-dist.json \
-     http://localhost:8083/connectors
-   ```
-
+    
+    #### lab**3-8-10**
+   
+    ```bash
+    curl -X POST -H "Content-Type: application/json" \
+      --data @/home/ubuntu/kafka/config/connectors/s3-sink-avro-dist.json \
+      http://localhost:8083/connectors
+    ```
 
 11. `s3-sink-avro` 커넥터 상태 확인
-   
-    #### lab**3-8-10**
+
+    #### lab**3-8-11**
     
      ```bash
      curl -s http://localhost:8083/connectors/s3-sink-avro/status | jq .
