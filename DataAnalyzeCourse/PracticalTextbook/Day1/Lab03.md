@@ -641,22 +641,22 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     ```bash
     sudo systemctl status kafka-connect-nginx-s3-sink.service
     ```
-10. s3-sink-avro Connector 생성
+10. nginx-s3-sink-connector 생성
     
     #### lab**3-8-10**
    
     ```bash
     curl -X POST -H "Content-Type: application/json" \
-      --data @/home/ubuntu/kafka/config/connectors/s3-sink-avro-dist.json \
-      http://localhost:8083/connectors
+     --data @/home/ubuntu/kafka/config/connectors/nginx-s3-sink-connector.json \
+     http://localhost:8083/connectors
     ```
 
-11. `s3-sink-avro` 커넥터 상태 확인
+11. `nginx-s3-sink-connector` 커넥터 상태 확인
 
     #### lab**3-8-11**
     
      ```bash
-     curl -s http://localhost:8083/connectors/s3-sink-avro/status | jq .
+     curl -s http://localhost:8083/connectors/nginx-s3-sink-connector/status | jq .
      ```
     <img width="846" alt="스크린샷 2025-06-26 오후 4 59 34" src="https://github.com/user-attachments/assets/8ec67565-f498-4708-8382-7603e2365f4a" />
 
