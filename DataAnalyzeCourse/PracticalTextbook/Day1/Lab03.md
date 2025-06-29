@@ -658,7 +658,8 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
      ```bash
      curl -s http://localhost:8083/connectors/nginx-s3-sink-connector/status | jq .
      ```
-    <img width="846" alt="스크린샷 2025-06-26 오후 4 59 34" src="https://github.com/user-attachments/assets/8ec67565-f498-4708-8382-7603e2365f4a" />
+    ![image](https://github.com/user-attachments/assets/012ca5ef-70e6-499e-a8d1-22a4fa83eae0)
+
 
 12. 카카오 클라우드 콘솔 > Beyond Storage Service > Object Storage
 13. `data-catalog-bucket` 클릭
