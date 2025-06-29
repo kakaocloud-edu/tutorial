@@ -1,4 +1,3 @@
-.
 # Kafka Connect를 활용한 CDC 데이터 파이프라인 구축
 
 MySQL Connector VM 생성을 통해 MySQL 데이터의 CDC(Change Data Capture) 변경 사항을 Kafka로 실시간 전송하고, S3 Sink Connector를 이용하여 Kafka 데이터를 Object Storage에 자동 적재하는 데이터 파이프라인 구축하는 실습을 진행합니다.
@@ -163,7 +162,6 @@ MySQL Connector VM 생성을 통해 MySQL 데이터의 CDC(Change Data Capture) 
     ![image](https://github.com/user-attachments/assets/c7760bf2-b15d-4e0d-9d2e-4dc263e0563a)
 
 ## 2. S3 Sink Connector VM에서 Connector 추가
----
 1. `s3-sink-connector` 인스턴스의 우측 메뉴바 > `SSH 연결` 클릭
     - SSH 접속 명령어 복사
     - 터미널 열기
