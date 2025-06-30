@@ -210,7 +210,7 @@ hadoop eco의 hive를 활용하여 이미 만들어진 aggregated logs 테이블
     ```
 
 
-## 4. data query로 데이터 마트에서 쿼리 진행
+## 4. 데이터 마트를 이용한 data query 진행
 
 
 
