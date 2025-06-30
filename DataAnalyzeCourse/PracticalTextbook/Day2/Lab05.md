@@ -84,7 +84,7 @@ hadoop eco의 hive를 활용하여 이미 만들어진 nginx 로그 데이터 �
     SET hive.exec.dynamic.partition.mode = strict;
     ```
 
-4. 데이터 적재
+4. aggregated logs 테이블에 데이터 적재
 
     #### **lab5-2-4**
 
