@@ -193,8 +193,6 @@ hadoop eco의 hive를 활용하여 이미 만들어진 aggregated logs 테이블
     };
     ```
 
-    - mysql에 적재
-
     #### **lab6-3-5-2**
 
     ```bash
