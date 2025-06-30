@@ -19,7 +19,7 @@ hadoop eco의 hive를 활용하여 이미 만들어진 aggregated logs 테이블
     - 터미널에 명령어 붙여넣기
     - yes 입력
 
-    #### **lab5-1-3-1**
+    #### **lab6-1-3-1**
     
     ```bash
     cd {keypair.pem 다운로드 위치}
@@ -27,19 +27,19 @@ hadoop eco의 hive를 활용하여 이미 만들어진 aggregated logs 테이블
     
     - 리눅스의 경우에 아래와 같이 키페어의 권한을 조정
     
-    #### **lab5-1-3-2**
+    #### **lab6-1-3-2**
     
     ```bash
     chmod 400 keypair.pem
     ```
     
-    #### **lab5-1-3-3**
+    #### **lab6-1-3-3**
     
     ```bash
     ssh -i keypair.pem ubuntu@{HadoopMST-core-hadoop-1 public ip주소}
     ```
     
-    #### **lab5-1-3-4**
+    #### **lab6-1-3-4**
     
     ```bash
     yes
