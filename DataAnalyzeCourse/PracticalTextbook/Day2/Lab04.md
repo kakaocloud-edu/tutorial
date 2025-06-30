@@ -423,6 +423,8 @@ hadoop eco의 hive를 활용하여 nginx 로그 데이터와 mysql 데이터를 
 
 7. 매출 합계
 
+    - 기간 조정 가능
+
     #### **lab4-4-7**
 
     ```bash
