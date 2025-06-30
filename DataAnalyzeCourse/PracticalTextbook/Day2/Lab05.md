@@ -45,7 +45,7 @@ hadoop eco의 hive를 활용하여 이미 만들어진 nginx 로그 데이터 �
     yes
     ```
 
-## 2. aggregated_logs 테이블 생성
+## 2. hive에서 aggregated_logs 테이블 생성
 
 1. hive에 접속
 
