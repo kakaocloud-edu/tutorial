@@ -62,24 +62,24 @@ hadoop eco의 hive를 활용하여 nginx 로그 데이터와 mysql 데이터를 
 
     ```bash
     CREATE EXTERNAL TABLE IF NOT EXISTS external_nginx_log (
-    `timestamp`              STRING,
-    remote_addr              STRING,
-    request                  STRING,
-    status                   STRUCT<member0:INT, member1:INT>,
-    body_bytes_sent          STRUCT<member0:BIGINT, member1:BIGINT>,
-    http_referer             STRING,
-    http_user_agent          STRING,
-    session_id               STRING,
-    user_id                  STRING,
-    request_time             STRUCT<member0:DOUBLE, member1:DOUBLE>,
-    upstream_response_time   STRUCT<member0:DOUBLE, member1:DOUBLE>,
-    endpoint                 STRING,
-    method                   STRING,
-    query_params             STRING,
-    product_id               STRING,
-    request_body             STRING,
-    x_forwarded_for          STRING,
-    host                     STRING
+      `timestamp`              STRING,
+      remote_addr              STRING,
+      request                  STRING,
+      status                   STRUCT<member0:INT, member1:INT>,
+      body_bytes_sent          STRUCT<member0:BIGINT, member1:BIGINT>,
+      http_referer             STRING,
+      http_user_agent          STRING,
+      session_id               STRING,
+      user_id                  STRING,
+      request_time             STRUCT<member0:DOUBLE, member1:DOUBLE>,
+      upstream_response_time   STRUCT<member0:DOUBLE, member1:DOUBLE>,
+      endpoint                 STRING,
+      method                   STRING,
+      query_params             STRING,
+      product_id               STRING,
+      request_body             STRING,
+      x_forwarded_for          STRING,
+      host                     STRING
     )
     STORED AS PARQUET
     LOCATION 's3a://data-catalog-bucket/kafka-nginx-log/nginx-topic/';
@@ -91,23 +91,23 @@ hadoop eco의 hive를 활용하여 nginx 로그 데이터와 mysql 데이터를 
 
     ```bash
     SELECT
-    remote_addr,
-    request,
-    method,
-    status.member1               AS http_status,
-    body_bytes_sent.member1      AS bytes_sent,
-    request_time.member1         AS resp_time,
-    upstream_response_time.member1 AS up_resp_time,
-    CAST(`timestamp` AS TIMESTAMP) AS event_time,
-    http_referer,
-    session_id,
-    user_id,
-    query_params,
-    product_id,
-    x_forwarded_for,
-    host,
-    http_user_agent,
-    endpoint
+      remote_addr,
+      request,
+      method,
+      status.member1               AS http_status,
+      body_bytes_sent.member1      AS bytes_sent,
+      request_time.member1         AS resp_time,
+      upstream_response_time.member1 AS up_resp_time,
+      CAST(`timestamp` AS TIMESTAMP) AS event_time,
+      http_referer,
+      session_id,
+      user_id,
+      query_params,
+      product_id,
+      x_forwarded_for,
+      host,
+      http_user_agent,
+      endpoint
     FROM external_nginx_log
     LIMIT 10;
     ```
