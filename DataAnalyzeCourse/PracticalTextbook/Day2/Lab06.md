@@ -212,10 +212,103 @@ hadoop eco의 hive를 활용하여 이미 만들어진 aggregated logs 테이블
 
 ## 4. 데이터 마트를 이용한 data query 진행
 
+1. 카카오 클라우드 콘솔 > Analytics > Data Query
+2. 쿼리 편집기 탭 클릭
+3. user cart metrics 테이블 10개 조회
+    - 데이터 원본: `data_origin`
+    - 데이터베이스: `shopdb`
+    - 우측 편집기의 `Query1` 탭 아래 쿼리문 입력
 
+    #### **lab6-4-3**
 
+    ```bash
+    SELECT * FROM data_origin.shopdb.user_cart_metrics LIMIT 10
+    ```
 
+4. Top 10 사용자별 주문 횟수 조회
+    - 데이터 원본: `data_origin`
+    - 데이터베이스: `shopdb`
+    - 우측 편집기의 `+` 버튼 클릭
+    - 우측 편집기의 `Query2` 탭 아래 쿼리문 입력
 
+    #### **lab6-4-4**
+
+    ```bash
+    SELECT
+      user_id,
+      order_count,
+      pageview_count,
+      total_request_time,
+      avg_request_time,
+      last_active_time
+    FROM shopdb.user_cart_metrics
+    ORDER BY order_count DESC
+    LIMIT 10;
+    ```
+
+5. Top 10 사용자별 페이지뷰 횟수 조회
+    - 데이터 원본: `data_origin`
+    - 데이터베이스: `shopdb`
+    - 우측 편집기의 `+` 버튼 클릭
+    - 우측 편집기의 `Query3` 탭 아래 쿼리문 입력
+
+    #### **lab6-4-5**
+
+    ```bash
+    SELECT
+      user_id,
+      pageview_count,
+      order_count,
+      total_request_time,
+      avg_request_time,
+      last_active_time
+    FROM shopdb.user_cart_metrics
+    ORDER BY pageview_count DESC
+    LIMIT 10;
+    ```
+
+6. 사용자별 평균 요청 시간 상위 10명 조회
+    - 데이터 원본: `data_origin`
+    - 데이터베이스: `shopdb`
+    - 우측 편집기의 `+` 버튼 클릭
+    - 우측 편집기의 `Query4` 탭 아래 쿼리문 입력
+
+    #### **lab6-4-6**
+
+    ```bash
+    SELECT
+      user_id,
+      avg_request_time,
+      total_request_time,
+      order_count + pageview_count AS total_events,
+      last_active_time
+    FROM shopdb.user_cart_metrics
+    WHERE total_request_time > 0 
+    ORDER BY avg_request_time DESC
+    LIMIT 10;
+    ```
+
+7. 특정 날짜에 마지막 활동이 있었던 사용자 조회
+    - 데이터 원본: `data_origin`
+    - 데이터베이스: `shopdb`
+    - 우측 편집기의 `+` 버튼 클릭
+    - 우측 편집기의 `Query5` 탭 아래 쿼리문 입력
+    - `WHERE last_active_time LIKE 'YYYY-MM-DD%'` 에서 `'YYYY-MM-DD%'`부분 실습 날짜로 변경
+
+    #### **lab6-4-7**
+
+    ```bash
+    SELECT
+      user_id,
+      order_count,
+      pageview_count,
+      total_request_time,
+      avg_request_time,
+      last_active_time
+    FROM shopdb.user_cart_metrics
+    WHERE last_active_time LIKE 'YYYY-MM-DD%'
+    ORDER BY last_active_time DESC;
+    ```
 
 
 
