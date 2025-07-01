@@ -425,7 +425,7 @@ cat <<EOF | sudo tee /home/ubuntu/kafka/config/connectors/nginx-s3-sink-connecto
         "value.converter": "io.confluent.connect.avro.AvroConverter",
         "value.converter.schema.registry.url": "http://localhost:8081",
         "value.converter.schemas.enable": "true",
-        "flush.size": "1",
+        "flush.size": "500",
         "partitioner.class": "com.mycompany.connect.FlexibleTimeBasedPartitioner",
         "topics.dir": "kafka-nginx-log",
         "custom.topic.dir": "nginx-topic",
