@@ -115,4 +115,5 @@ hadoop eco의 hive를 활용하여 이미 만들어진 nginx 로그 데이터 �
 
     - 아래와 같은 형식의 내용 확인
    
-![aggregated_logs 확인](https://github.com/user-attachments/assets/d2976f39-c622-4587-86e1-fda0a7af71c6)
+![aggregated_logs 확인](https://github.com/user-attachments/assets/002ef40d-3d70-47a0-95df-09666ca52abd)
+
