@@ -355,103 +355,9 @@ Kafka로 들어오는 데이터를 Druid에서 실시간으로 수집 및 가공
         }
         ```
         
-    - users_logs
-        
-        #### lab3-2-12-2
-
-        ```bash
-        {
-          "type": "kafka",
-          "spec": {
-            "dataSchema": {
-              "dataSource": "shopdb_users_logs_changes",
-              "timestampSpec": {
-                "column": "event_time",
-                "format": "millis"
-              },
-              "dimensionsSpec": {
-                "dimensions": [
-                  "history_id",
-                  "user_id",
-                  "event_type",
-                  "event_time",
-                  "operation_type",
-                  {
-                    "name": "__deleted",
-                    "type": "boolean"
-                  }
-                ]
-              },
-              "granularitySpec": {
-                "type": "uniform",
-                "segmentGranularity": "all",
-                "queryGranularity": "MINUTE",
-                "rollup": false
-              }
-            },
-            "tuningConfig": {
-              "type": "kafka",
-              "maxRowsPerSegment": 5000000,
-              "maxBytesInMemory": 25000000
-            },
-            "ioConfig": {
-              "topic": "mysql-server.shopdb.users_logs",
-              "consumerProperties": {
-                "bootstrap.servers": "{Kafka 부트스트랩 서버}",
-                "group.id": "druid-shopdb-users_logs"
-              },
-              "taskCount": 1,
-              "replicas": 1,
-              "taskDuration": "PT1H",
-              "completionTimeout": "PT20M",
-              "inputFormat": {
-                "type": "json",
-                "flattenSpec": {
-                  "useFieldDiscovery": false,
-                  "fields": [
-                    {
-                      "type": "jq",
-                      "name": "history_id",
-                      "expr": ".before.history_id // .after.history_id"
-                    },
-                    {
-                      "type": "jq",
-                      "name": "user_id",
-                      "expr": ".before.user_id // .after.user_id"
-                    },
-                    {
-                      "type": "jq",
-                      "name": "event_type",
-                      "expr": ".before.event_type // .after.event_type"
-                    },
-                    {
-                      "type": "jq",
-                      "name": "event_time",
-                      "expr": ".before.event_time // .after.event_time"
-                    },
-                    {
-                      "type": "jq",
-                      "name": "operation_type",
-                      "expr": ".op"
-                    },
-                    {
-                      "type": "jq",
-                      "name": "__deleted",
-                      "expr": ".op == \"d\""
-                    }
-                  ]
-                }
-              },
-              "type": "kafka",
-              "useEarliestOffset": true
-            }
-          }
-        }
-        ```
-        
     - products
         
-        #### lab3-2-12-3
+        #### lab3-2-12-2
 
         ```bash
         {
@@ -543,221 +449,9 @@ Kafka로 들어오는 데이터를 Druid에서 실시간으로 수집 및 가공
         }
         ```
         
-    - sessions
-        
-        #### lab3-2-12-4
-
-        ```bash
-        {
-          "type": "kafka",
-          "spec": {
-            "dataSchema": {
-              "dataSource": "shopdb_sessions_changes",
-              "timestampSpec": {
-                "column": "created_at",
-                "format": "micro"
-              },
-              "dimensionsSpec": {
-                "dimensions": [
-                  "session_id",
-                  "user_id",
-                  "created_at",
-                  "login_time",
-                  "logout_time",
-                  "last_active",
-                  "operation_type",
-                  {
-                    "name": "__deleted",
-                    "type": "boolean"
-                  }
-                ]
-              },
-              "granularitySpec": {
-                "type": "uniform",
-                "segmentGranularity": "all",
-                "queryGranularity": "MINUTE",
-                "rollup": false
-              }
-            },
-            "tuningConfig": {
-              "type": "kafka",
-              "maxRowsPerSegment": 5000000,
-              "maxBytesInMemory": 25000000
-            },
-            "ioConfig": {
-              "topic": "mysql-server.shopdb.sessions",
-              "consumerProperties": {
-                "bootstrap.servers": "{Kafka 부트스트랩 서버}",
-                "group.id": "druid-shopdb-sessions"
-              },
-              "taskCount": 1,
-              "replicas": 1,
-              "taskDuration": "PT1H",
-              "completionTimeout": "PT20M",
-              "inputFormat": {
-                "type": "json",
-                "flattenSpec": {
-                  "useFieldDiscovery": false,
-                  "fields": [
-                    {
-                      "type": "jq",
-                      "name": "session_id",
-                      "expr": ".before.session_id // .after.session_id"
-                    },
-                    {
-                      "type": "jq",
-                      "name": "user_id",
-                      "expr": ".before.user_id // .after.user_id"
-                    },
-                    {
-                      "type": "jq",
-                      "name": "created_at",
-                      "expr": ".before.created_at // .after.created_at"
-                    },
-                    {
-                      "type": "jq",
-                      "name": "login_time",
-                      "expr": ".before.login_time // .after.login_time"
-                    },
-                    {
-                      "type": "jq",
-                      "name": "logout_time",
-                      "expr": ".before.logout_time // .after.logout_time"
-                    },
-                    {
-                      "type": "jq",
-                      "name": "last_active",
-                      "expr": ".before.last_active // .after.last_active"
-                    },
-                    {
-                      "type": "jq",
-                      "name": "operation_type",
-                      "expr": ".op"
-                    },
-                    {
-                      "type": "jq",
-                      "name": "__deleted",
-                      "expr": ".op == \"d\""
-                    }
-                  ]
-                }
-              },
-              "type": "kafka",
-              "useEarliestOffset": true
-            }
-          }
-        }
-        ```
-        
-    - reviews
-       
-        #### lab3-2-12-5
- 
-        ```bash
-        {
-          "type": "kafka",
-          "spec": {
-            "dataSchema": {
-              "dataSource": "shopdb_reviews_changes",
-              "timestampSpec": {
-                "column": "review_time",
-                "format": "micro"
-              },
-              "dimensionsSpec": {
-                "dimensions": [
-                  "review_id",
-                  "user_id",
-                  "session_id",
-                  "product_id",
-                  "rating",
-                  "review_time",
-                  "operation_type",
-                  {
-                    "name": "__deleted",
-                    "type": "boolean"
-                  }
-                ]
-              },
-              "granularitySpec": {
-                "type": "uniform",
-                "segmentGranularity": "all",
-                "queryGranularity": "MINUTE",
-                "rollup": false
-              }
-            },
-            "tuningConfig": {
-              "type": "kafka",
-              "maxRowsPerSegment": 5000000,
-              "maxBytesInMemory": 25000000
-            },
-            "ioConfig": {
-              "topic": "mysql-server.shopdb.reviews",
-              "consumerProperties": {
-                "bootstrap.servers": "{Kafka 부트스트랩 서버}",
-                "group.id": "druid-shopdb-reviews"
-              },
-              "taskCount": 1,
-              "replicas": 1,
-              "taskDuration": "PT1H",
-              "completionTimeout": "PT20M",
-              "inputFormat": {
-                "type": "json",
-                "flattenSpec": {
-                  "useFieldDiscovery": false,
-                  "fields": [
-                    {
-                      "type": "jq",
-                      "name": "review_id",
-                      "expr": ".before.review_id // .after.review_id"
-                    },
-                    {
-                      "type": "jq",
-                      "name": "user_id",
-                      "expr": ".before.user_id // .after.user_id"
-                    },
-                    {
-                      "type": "jq",
-                      "name": "session_id",
-                      "expr": ".before.session_id // .after.session_id"
-                    },
-                    {
-                      "type": "jq",
-                      "name": "product_id",
-                      "expr": ".before.product_id // .after.product_id"
-                    },
-                    {
-                      "type": "jq",
-                      "name": "rating",
-                      "expr": ".before.rating // .after.rating"
-                    },
-                    {
-                      "type": "jq",
-                      "name": "review_time",
-                      "expr": ".before.review_time // .after.review_time"
-                    },
-                    {
-                      "type": "jq",
-                      "name": "operation_type",
-                      "expr": ".op"
-                    },
-                    {
-                      "type": "jq",
-                      "name": "__deleted",
-                      "expr": ".op == \"d\""
-                    }
-                  ]
-                }
-              },
-              "type": "kafka",
-              "useEarliestOffset": true
-            }
-          }
-        }
-        ```
-        
     - orders
         
-        #### lab3-2-12-6
+        #### lab3-2-12-3
 
         ```bash
         {
@@ -864,103 +558,9 @@ Kafka로 들어오는 데이터를 Druid에서 실시간으로 수집 및 가공
         }
         ```
         
-    - search_logs
-        
-        #### lab3-2-12-7
-
-        ```bash
-        {
-          "type": "kafka",
-          "spec": {
-            "dataSchema": {
-              "dataSource": "shopdb_search_logs_changes",
-              "timestampSpec": {
-                "column": "searched_at",
-                "format": "millis"
-              },
-              "dimensionsSpec": {
-                "dimensions": [
-                  "log_id",
-                  "session_id",
-                  "search_query",
-                  "searched_at",
-                  "operation_type",
-                  {
-                    "name": "__deleted",
-                    "type": "boolean"
-                  }
-                ]
-              },
-              "granularitySpec": {
-                "type": "uniform",
-                "segmentGranularity": "all",
-                "queryGranularity": "MINUTE",
-                "rollup": false
-              }
-            },
-            "tuningConfig": {
-              "type": "kafka",
-              "maxRowsPerSegment": 5000000,
-              "maxBytesInMemory": 25000000
-            },
-            "ioConfig": {
-              "topic": "mysql-server.shopdb.search_logs",
-              "consumerProperties": {
-                "bootstrap.servers": "{Kafka 부트스트랩 서버}",
-                "group.id": "druid-shopdb-search_logs"
-              },
-              "taskCount": 1,
-              "replicas": 1,
-              "taskDuration": "PT1H",
-              "completionTimeout": "PT20M",
-              "inputFormat": {
-                "type": "json",
-                "flattenSpec": {
-                  "useFieldDiscovery": false,
-                  "fields": [
-                    {
-                      "type": "jq",
-                      "name": "log_id",
-                      "expr": ".before.log_id // .after.log_id"
-                    },
-                    {
-                      "type": "jq",
-                      "name": "session_id",
-                      "expr": ".before.session_id // .after.session_id"
-                    },
-                    {
-                      "type": "jq",
-                      "name": "search_query",
-                      "expr": ".before.search_query // .after.search_query"
-                    },
-                    {
-                      "type": "jq",
-                      "name": "searched_at",
-                      "expr": ".before.searched_at // .after.searched_at"
-                    },
-                    {
-                      "type": "jq",
-                      "name": "operation_type",
-                      "expr": ".op"
-                    },
-                    {
-                      "type": "jq",
-                      "name": "__deleted",
-                      "expr": ".op == \"d\""
-                    }
-                  ]
-                }
-              },
-              "type": "kafka",
-              "useEarliestOffset": true
-            }
-          }
-        }
-        ```
-        
     - cart
         
-        #### lab3-2-12-8
+        #### lab3-2-12-4
 
         ```bash
         {
@@ -1078,7 +678,7 @@ Kafka로 들어오는 데이터를 Druid에서 실시간으로 수집 및 가공
         
     - cart_logs
         
-        #### lab3-2-12-9
+        #### lab3-2-12-5
 
         ```bash
         {
@@ -1208,75 +808,93 @@ Kafka로 들어오는 데이터를 Druid에서 실시간으로 수집 및 가공
         
 13. 페이지 새로고침 후 각 Supervisors, Task의 Status가 RUNNING인 것을 확인
 14. Query 메뉴 클릭
-15. orders, users 테이블 JOIN 쿼리를 실행
+15. 테이블 JOIN 쿼리를 실행
 
-    #### lab3-2-15
+    - orders, users 테이블 JOIN
 
-    ```sql
-    INSERT INTO dw_orders_users
-    SELECT
-      o.__time            AS __time,
-      o.order_id,
-      o.user_id,
-      u.gender,
-      CAST(u.age AS INTEGER) AS age,
-      o.product_id,
-      o.price,
-      o.quantity
-    FROM shopdb_orders_changes o
-    LEFT JOIN shopdb_users_changes u
-      ON o.user_id = u.user_id
-    WHERE o.__deleted='false'
-      AND u.__deleted='false'
-    PARTITIONED BY DAY
-    ```
+        #### lab3-2-15-1
     
-16. 일별 사용자, 상품 주문 건수를 집계하여 테이블에 저장하는 쿼리 실행
+        ```sql
+        INSERT INTO dw_orders_users
+        SELECT
+          o.__time            AS __time,
+          o.order_id,
+          o.user_id,
+          u.gender,
+          CAST(u.age AS INTEGER) AS age,
+          o.product_id,
+          o.price,
+          o.quantity
+        FROM shopdb_orders_changes o
+        LEFT JOIN shopdb_users_changes u
+          ON o.user_id = u.user_id
+        WHERE o.__deleted='false'
+          AND u.__deleted='false'
+        PARTITIONED BY DAY
+        ```
+        
+    - 일별 사용자, 상품 주문 건수를 집계하여 테이블에 저장
+        
+        #### lab3-2-15-2
     
-    #### lab3-2-16
+        ```sql
+        INSERT INTO dw_user_product_order_cnt
+        SELECT
+          __time,
+          user_id,
+          product_id,
+          COUNT(*) AS cnt
+        FROM dw_orders_users
+        GROUP BY 1,2,3
+        PARTITIONED BY DAY
+        ```
+        
+    - cart, orders, products 테이블 JOIN
+        
+        #### lab3-2-15-3
+    
+        ```sql
+        INSERT INTO dw_cart_orders_products
+        SELECT
+          c.__time         AS __time,
+          c.cart_id,
+          c.user_id,
+          c.event_type,
+          c.event_time,
+          o.order_id,
+          o.order_time,
+          p.id             AS product_id,
+          p.category,
+          c.new_quantity   AS cart_qty,
+          o.quantity       AS order_qty
+        FROM shopdb_cart_logs_changes c
+        LEFT JOIN shopdb_orders_changes o
+          ON c.user_id = o.user_id
+             AND c.product_id = o.product_id
+             AND DATE_TRUNC('DAY', CAST(c.event_time AS TIMESTAMP))
+               = DATE_TRUNC('DAY', CAST(o.order_time AS TIMESTAMP))
+        LEFT JOIN shopdb_products_changes p
+          ON c.product_id = p.id
+        WHERE c.__deleted = 'false'
+          AND p.__deleted = 'false'
+        PARTITIONED BY DAY
+        ```
 
-    ```sql
-    INSERT INTO dw_user_product_order_cnt
-    SELECT
-      __time,
-      user_id,
-      product_id,
-      COUNT(*) AS cnt
-    FROM dw_orders_users
-    GROUP BY 1,2,3
-    PARTITIONED BY DAY
-    ```
-    
-17. cart, orders, products 테이블 JOIN 쿼리를 실행
-    
-    #### lab3-2-17
+    - 일별 사용자, 상품 주문 건수 집계를 바탕으로 재구매율 논리 추가
 
-    ```sql
-    INSERT INTO dw_cart_orders_products
-    SELECT
-      c.__time         AS __time,
-      c.cart_id,
-      c.user_id,
-      c.event_type,
-      c.event_time,
-      o.order_id,
-      o.order_time,
-      p.id             AS product_id,
-      p.category,
-      c.new_quantity   AS cart_qty,
-      o.quantity       AS order_qty
-    FROM shopdb_cart_logs_changes c
-    LEFT JOIN shopdb_orders_changes o
-      ON c.user_id = o.user_id
-         AND c.product_id = o.product_id
-         AND DATE_TRUNC('DAY', CAST(c.event_time AS TIMESTAMP))
-           = DATE_TRUNC('DAY', CAST(o.order_time AS TIMESTAMP))
-    LEFT JOIN shopdb_products_changes p
-      ON c.product_id = p.id
-    WHERE c.__deleted = 'false'
-      AND p.__deleted = 'false'
-    PARTITIONED BY DAY
-    ```
+        #### lab3-2-15-4
+              
+        ```sql
+        INSERT INTO dw_user_product_order_cnt
+        SELECT
+          __time,
+          user_id,
+          product_id,
+          COUNT(*) AS cnt
+        FROM dw_orders_users
+        GROUP BY 1,2,3
+        PARTITIONED BY DAY
+        ```
     
 
 ## 3. **Superset을 활용한 데이터 시각화**
