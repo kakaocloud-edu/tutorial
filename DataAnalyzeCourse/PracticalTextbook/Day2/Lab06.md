@@ -141,6 +141,7 @@ hadoop eco의 hive를 활용하여 이미 만들어진 aggregated logs 테이블
         .jdbc(url=jdbc_url, table="user_cart_metrics", properties=connection_properties)
     ```
 
+6. `ctrl` + `d`로 종료
 
 ## 3. 데이터 마트를 이용한 data query 진행
 
