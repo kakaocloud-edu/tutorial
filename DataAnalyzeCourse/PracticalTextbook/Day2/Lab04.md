@@ -686,29 +686,6 @@ hadoop eco의 hive를 활용하여 nginx 로그 데이터와 mysql 데이터를 
     GROUP BY endpoint;
     ``` 
 
-16. 지연 응답 요청 비율
-
-    #### **lab4-4-16**
-
-    ```bash
-    SELECT
-      CONCAT(
-        CAST(
-          ROUND(
-            SUM(
-              CASE 
-                WHEN CAST(upstream_response_time.member1 AS DOUBLE) > 1 
-                THEN 1 
-                ELSE 0 
-              END
-            ) * 1.0 
-            / COUNT(*) * 100,
-          2
-          ) AS STRING
-        ), '%'
-      ) AS latency_exceed_rate
-    FROM external_nginx_log;
-    ``` 
 
 
 
