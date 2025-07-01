@@ -1,9 +1,9 @@
 # Hadoop Eco의 Hive로 aggregated 테이블 생성 및 데이터 적재 과정
 
-Hadoop Eco의 Hive를 활용하여 이미 만들어진 Nginx 로그 데이터 테이블과 MySQL 데이터 테이블을 사용하여 aggregated 테이블을 생성합니다.
+Hadoop Eco의 Hive를 활용하여 이미 만들어진 Nginx 로그 데이터 테이블과 MySQL 데이터 테이블을 사용하여 Aggregated 테이블을 생성합니다.
 
 ---
-## 1. Hive에서 aggregated logs 테이블 생성
+## 1. Hive에서 aggregated_logs 테이블 생성
 
 1. 사용하던 `HadoopMST-core-hadoop-1`에서 hive에 접속
 
@@ -13,7 +13,7 @@ Hadoop Eco의 Hive를 활용하여 이미 만들어진 Nginx 로그 데이터 �
     hive
     ```
 
-2. aggregated logs 테이블 생성
+2. aggregated_logs 테이블 생성
 
     #### **lab5-1-2**
 
@@ -42,7 +42,7 @@ Hadoop Eco의 Hive를 활용하여 이미 만들어진 Nginx 로그 데이터 �
     SET hive.exec.dynamic.partition.mode = strict;
     ```
 
-4. aggregated logs 테이블에 데이터 적재
+4. aggregated_logs 테이블에 데이터 적재
 
     #### **lab5-1-4**
 
@@ -105,7 +105,7 @@ Hadoop Eco의 Hive를 활용하여 이미 만들어진 Nginx 로그 데이터 �
     ;
     ```
 
-5. aggregated logs 테이블에 적재된 데이터 결과 확인
+5. aggregated_logs 테이블에 적재된 데이터 결과 확인
 
     #### **lab5-1-5**
 
