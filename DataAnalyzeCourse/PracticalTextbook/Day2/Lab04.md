@@ -1,6 +1,6 @@
 # Hadoop Eco의 Hive로 테이블 생성 및 Hue 쿼리
 
-Hadoop Eco의 Hive를 활용하여 Nginx 로그 데이터와 mysql 데이터를 사용하여 External 테이블로 생성합니다. 생성된 테이블을 이용하여 Hue로 쿼리를 진행하는 실습입니다.
+Hadoop Eco의 Hive를 활용하여 Nginx 로그 데이터와 MySQL 데이터를 사용하여 External 테이블로 생성합니다. 생성된 테이블을 이용하여 Hue로 쿼리를 진행하는 실습입니다.
 
 ---
 ## 1. 생성한 Hadoop-Eco 마스터 노드에 접속
@@ -51,7 +51,7 @@ Hadoop Eco의 Hive를 활용하여 Nginx 로그 데이터와 mysql 데이터를 
     hive
     ```
 
-2. external nginx log 테이블 생성
+2. external_nginx_log 테이블 생성
 
     #### **lab4-2-2**
 
@@ -80,7 +80,7 @@ Hadoop Eco의 Hive를 활용하여 Nginx 로그 데이터와 mysql 데이터를 
     LOCATION 's3a://data-catalog-bucket/kafka-nginx-log/nginx-topic/';
     ```
 
-3. 생성된 external nginx log 테이블 확인
+3. 생성된 external_nginx_log 테이블 확인
 
     #### **lab4-2-3**
 
@@ -110,7 +110,7 @@ Hadoop Eco의 Hive를 활용하여 Nginx 로그 데이터와 mysql 데이터를 
     
 ![1 external table 확인v1](https://github.com/user-attachments/assets/51602989-3f1d-45c8-a0c6-d9e6421180fc)
 
-4. mysql users 테이블 생성
+4. mysql_users 테이블 생성
 
      #### **lab4-2-4**
 
@@ -130,7 +130,7 @@ Hadoop Eco의 Hive를 활용하여 Nginx 로그 데이터와 mysql 데이터를 
     LOCATION 's3a://data-catalog-bucket/raw_cdc_events/mysql-server.shopdb.users/';
     ```
 
-5. 생성된 mysql users 테이블 확인
+5. 생성된 mysql_users 테이블 확인
 
      #### **lab4-2-5**
 
@@ -141,7 +141,7 @@ Hadoop Eco의 Hive를 활용하여 Nginx 로그 데이터와 mysql 데이터를 
    
 ![2 mysql users 확인v1](https://github.com/user-attachments/assets/c3cccdea-4157-47f5-a4ce-559231b95eec)
 
-6. mysql orders 테이블 생성
+6. mysql_orders 테이블 생성
 
      #### **lab4-2-6**
 
@@ -162,7 +162,7 @@ Hadoop Eco의 Hive를 활용하여 Nginx 로그 데이터와 mysql 데이터를 
     LOCATION 's3a://data-catalog-bucket/raw_cdc_events/mysql-server.shopdb.orders/';
     ```
 
-7. 생성된 mysql orders 테이블 확인
+7. 생성된 mysql_orders 테이블 확인
 
      #### **lab4-2-7**
 
@@ -173,7 +173,7 @@ Hadoop Eco의 Hive를 활용하여 Nginx 로그 데이터와 mysql 데이터를 
     
 ![3 mysql orders 확인v1](https://github.com/user-attachments/assets/d9a0e233-91ae-4660-97d1-847dac08a249)
 
-8. mysql products 테이블 생성
+8. mysql_products 테이블 생성
 
      #### **lab4-2-8**
 
@@ -191,7 +191,7 @@ Hadoop Eco의 Hive를 활용하여 Nginx 로그 데이터와 mysql 데이터를 
     LOCATION 's3a://data-catalog-bucket/raw_cdc_events/mysql-server.shopdb.products/';
     ```
 
-9. 생성된 mysql products 테이블 확인
+9. 생성된 mysql_products 테이블 확인
 
      #### **lab4-2-9**
 
