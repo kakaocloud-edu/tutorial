@@ -137,7 +137,8 @@ hadoop eco의 hive를 활용하여 nginx 로그 데이터와 mysql 데이터를 
     ```bash
     SELECT * FROM mysql_users LIMIT 10;
     ```
-    
+    - 아래와 같은 형식의 내용 확인
+   
 ![2 mysql users 확인v1](https://github.com/user-attachments/assets/85b80c77-366b-42db-a08c-88299c4dec03)
 
 6. mysql orders 테이블 생성
@@ -168,6 +169,7 @@ hadoop eco의 hive를 활용하여 nginx 로그 데이터와 mysql 데이터를 
     ```bash
     select * from mysql_orders limit 10;
     ```
+    - 아래와 같은 형식의 내용 확인
     
 ![3 mysql orders 확인v1](https://github.com/user-attachments/assets/3156829d-2893-4daf-8432-ee30a2fd125c)
 
@@ -196,7 +198,8 @@ hadoop eco의 hive를 활용하여 nginx 로그 데이터와 mysql 데이터를 
     ```bash
     select * from mysql_products limit 10;
     ```
-   
+    - 아래와 같은 형식의 내용 확인
+
 ![4 mysql products 확인v1](https://github.com/user-attachments/assets/ec21b66f-aa46-45f5-8a70-4c5819d28aa4)
 
 10. hue 쿼리를 위한 view 생성
