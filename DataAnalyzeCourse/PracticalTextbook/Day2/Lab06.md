@@ -3,61 +3,11 @@
 hadoop eco의 hive를 활용하여 이미 만들어진 aggregated logs 테이블과 mysql 데이터 테이블을 사용하여 user cart metrics 테이블을 생성합니다. 만들어진 user cart metrics를 mysql에 적재하여 데이터 마트를 구축합니다.
 
 ---
-## 1. hadoop-eco 마스터 노드에 접속
+## 1. hive에서 user cart metrics 테이블 생성
 
-1. 카카오 클라우드 콘솔 > Beyond Compute Service > Virtual Machine
-2. `HadoopMST-core-hadoop-1` 상태 Actice 확인 후 인스턴스의 우측 메뉴바 > `Public IP 연결` 클릭
+1. user cart metrics 테이블 생성
 
-    - `새로운 퍼블릭 IP를 생성하고 자동으로 할당`
-    - 확인 버튼 클릭
-
-3. `HadoopMST-core-hadoop-1` 인스턴스의 우측 메뉴바 > `SSH 연결` 클릭
-
-    - SSH 접속 명령어 복사
-    - 터미널 열기
-    - keypair를 다운받아놓은 폴더로 이동
-    - 터미널에 명령어 붙여넣기
-    - yes 입력
-
-    #### **lab6-1-3-1**
-    
-    ```bash
-    cd {keypair.pem 다운로드 위치}
-    ```
-    
-    - 리눅스의 경우에 아래와 같이 키페어의 권한을 조정
-    
-    #### **lab6-1-3-2**
-    
-    ```bash
-    chmod 400 keypair.pem
-    ```
-    
-    #### **lab6-1-3-3**
-    
-    ```bash
-    ssh -i keypair.pem ubuntu@{HadoopMST-core-hadoop-1 public ip주소}
-    ```
-    
-    #### **lab6-1-3-4**
-    
-    ```bash
-    yes
-    ```
-
-## 2. hive에서 user cart metrics 테이블 생성
-
-1. hive에 접속
-
-    #### **lab6-2-1**
-
-    ```bash
-    hive
-    ```
-
-2. user cart metrics 테이블 생성
-
-    #### **lab6-2-2**
+    #### **lab6-1-1**
 
     ```bash
     CREATE EXTERNAL TABLE IF NOT EXISTS user_cart_metrics_temp (
@@ -72,9 +22,9 @@ hadoop eco의 hive를 활용하여 이미 만들어진 aggregated logs 테이블
     LOCATION 's3a://data-catalog-bucket/hive-tables/user_cart_metrics_temp/';
     ```
 
-3. user cart metrics 테이블에 데이터 적재
+2. user cart metrics 테이블에 데이터 적재
 
-    #### **lab6-2-3**
+    #### **lab6-1-2**
 
     ```bash
     INSERT OVERWRITE TABLE user_cart_metrics_temp
@@ -104,30 +54,25 @@ hadoop eco의 hive를 활용하여 이미 만들어진 aggregated logs 테이블
     ;
     ```
 
-4. user cart metrics 테이블에 적재된 데이터 확인
+3. user cart metrics 테이블에 적재된 데이터 확인
 
-    #### **lab6-2-4**
+    #### **lab6-1-3**
 
     ```bash
     select * from user_cart_metrics_temp limit 10;
     ```
 
-    - 아래와 비슷한 결과 확인
-
-    ```bash
-    user_06b63f     1       3       0.048   0.012   2025-06-29 06:22:18
-    user_081fa7     0       5       0.085   0.017   2025-06-29 06:49:09
-    user_0c0d95     0       1       0.014   0.014   2025-06-29 06:13:16
-    ```
-
-5. `ctrl` + `c`로 hive 종료
+    - 아래와 같은 형식의 내용 확인
 
 
-## 3. spark에서 mysql로 데이터 마트 구축
+4. `ctrl` + `c`로 hive 종료
+
+
+## 2. spark에서 mysql로 데이터 마트 구축
 
 1. spark 설정파일을 hive와 같게 설정
 
-    #### **lab6-3-1**
+    #### **lab6-2-1**
 
     ```bash
     cp /opt/apache-hive-3.1.3-bin/conf/hive-site.xml /opt/spark-3.5.2-bin-hadoop3/conf/
@@ -135,7 +80,7 @@ hadoop eco의 hive를 활용하여 이미 만들어진 aggregated logs 테이블
 
 2. pyspark 실행
 
-    #### **lab6-3-2**
+    #### **lab6-2-2**
 
     ```bash
     pyspark \
@@ -146,7 +91,7 @@ hadoop eco의 hive를 활용하여 이미 만들어진 aggregated logs 테이블
 
 3. spark에서 session 시작
 
-    #### **lab6-3-3**
+    #### **lab6-2-3**
 
     ```bash
     from pyspark.sql import SparkSession
@@ -159,37 +104,26 @@ hadoop eco의 hive를 활용하여 이미 만들어진 aggregated logs 테이블
 
 4. hive의 메타스토어에 있는 user cart metrics temp 테이블 spark로 가져온 후 확인
 
-    #### **lab6-3-4-1**
+    #### **lab6-2-4-1**
 
     ```bash
     df = spark.table("default.user_cart_metrics_temp")
     ```
 
-    #### **lab6-3-4-2**
+    #### **lab6-2-4-2**
 
     ```bash
     df.show(5)
     ```
 
-    - 아래와 비슷한 결과 확인
+    - 아래와 같은 형식의 내용 확인
 
-    ```bash
-    +-----------+-----------+--------------+------------------+----------------+-------------------+
-    |    user_id|order_count|pageview_count|total_request_time|avg_request_time|   last_active_time|
-    +-----------+-----------+--------------+------------------+----------------+-------------------+
-    |user_0553b5|          2|             2|             0.133|           0.033|2025-06-29 06:23:58|
-    |user_167234|          0|             6|             0.131|           0.022|2025-06-29 06:28:55|
-    |user_169ee4|          2|             4|             0.076|           0.013|2025-06-29 06:28:54|
-    |user_190000|          0|             3|             0.038|           0.013|2025-06-29 06:16:23|
-    |user_3623d8|          0|             1|             0.037|           0.037|2025-06-29 06:27:30|
-    +-----------+-----------+--------------+------------------+----------------+-------------------+
-    ```
 
 5. jdbc로 mysql과 연결 후 적재
 
     - mysql 엔드포인트 입력
 
-    #### **lab6-3-5-1**
+    #### **lab6-2-5-1**
 
     ```bash
     jdbc_url = "jdbc:mysql://{mysql 엔드포인트}:3306/shopdb?useSSL=false"
@@ -201,7 +135,7 @@ hadoop eco의 hive를 활용하여 이미 만들어진 aggregated logs 테이블
     };
     ```
 
-    #### **lab6-3-5-2**
+    #### **lab6-2-5-2**
 
     ```bash
     df.write \
@@ -210,7 +144,7 @@ hadoop eco의 hive를 활용하여 이미 만들어진 aggregated logs 테이블
     ```
 
 
-## 4. 데이터 마트를 이용한 data query 진행
+## 3. 데이터 마트를 이용한 data query 진행
 
 1. 카카오 클라우드 콘솔 > Analytics > Data Query
 2. 쿼리 편집기 탭 클릭
@@ -219,7 +153,7 @@ hadoop eco의 hive를 활용하여 이미 만들어진 aggregated logs 테이블
     - 데이터베이스: `shopdb`
     - 우측 편집기의 `Query1` 탭 아래 쿼리문 입력
 
-    #### **lab6-4-3**
+    #### **lab6-3-3**
 
     ```bash
     SELECT * FROM data_origin.shopdb.user_cart_metrics LIMIT 10
@@ -231,7 +165,7 @@ hadoop eco의 hive를 활용하여 이미 만들어진 aggregated logs 테이블
     - 우측 편집기의 `+` 버튼 클릭
     - 우측 편집기의 `Query2` 탭 아래 쿼리문 입력
 
-    #### **lab6-4-4**
+    #### **lab6-3-4**
 
     ```bash
     SELECT
@@ -252,7 +186,7 @@ hadoop eco의 hive를 활용하여 이미 만들어진 aggregated logs 테이블
     - 우측 편집기의 `+` 버튼 클릭
     - 우측 편집기의 `Query3` 탭 아래 쿼리문 입력
 
-    #### **lab6-4-5**
+    #### **lab6-3-5**
 
     ```bash
     SELECT
@@ -273,7 +207,7 @@ hadoop eco의 hive를 활용하여 이미 만들어진 aggregated logs 테이블
     - 우측 편집기의 `+` 버튼 클릭
     - 우측 편집기의 `Query4` 탭 아래 쿼리문 입력
 
-    #### **lab6-4-6**
+    #### **lab6-3-6**
 
     ```bash
     SELECT
@@ -295,7 +229,7 @@ hadoop eco의 hive를 활용하여 이미 만들어진 aggregated logs 테이블
     - 우측 편집기의 `Query5` 탭 아래 쿼리문 입력
     - `WHERE last_active_time LIKE 'YYYY-MM-DD%'` 에서 `'YYYY-MM-DD%'`부분 실습 날짜로 변경
 
-    #### **lab6-4-7**
+    #### **lab6-3-7**
 
     ```bash
     SELECT
