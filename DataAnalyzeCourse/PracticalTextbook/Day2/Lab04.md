@@ -1,9 +1,9 @@
-# hadoop eco의 hive로 테이블 생성 및 hue 쿼리
+# Hadoop Eco의 Hive로 테이블 생성 및 Hue 쿼리
 
-hadoop eco의 hive를 활용하여 nginx 로그 데이터와 mysql 데이터를 사용하여 external 테이블로 생성합니다. 생성된 테이블을 이용하여 hue로 쿼리를 진행하는 실습입니다.
+Hadoop Eco의 Hive를 활용하여 Nginx 로그 데이터와 mysql 데이터를 사용하여 External 테이블로 생성합니다. 생성된 테이블을 이용하여 Hue로 쿼리를 진행하는 실습입니다.
 
 ---
-## 1. 생성한 hadoop-eco 마스터 노드에 접속
+## 1. 생성한 Hadoop-Eco 마스터 노드에 접속
 
 1. 카카오 클라우드 콘솔 > Beyond Compute Service > Virtual Machine
 2. `HadoopMST-core-hadoop-1` 인스턴스의 우측 메뉴바 > `SSH 연결` 클릭
@@ -41,9 +41,9 @@ hadoop eco의 hive를 활용하여 nginx 로그 데이터와 mysql 데이터를 
     ```
 
 
-## 2. hive에 external 테이블 생성
+## 2. Hive에 External 테이블 생성
 
-1. hive에 접속
+1. Hive에 접속
 
     #### **lab4-2-1**
 
@@ -202,7 +202,7 @@ hadoop eco의 hive를 활용하여 nginx 로그 데이터와 mysql 데이터를 
 
 ![4 mysql products 확인v1](https://github.com/user-attachments/assets/6f23db7b-0525-438e-9c27-6bf866477397)
 
-10. hue 쿼리를 위한 view 생성
+10. Hue 쿼리를 위한 view 생성
 
      #### **lab4-2-10-1**
 
@@ -251,7 +251,7 @@ hadoop eco의 hive를 활용하여 nginx 로그 데이터와 mysql 데이터를 
 11. `ctrl` + `c`로 종료
 
 
-## 3. hue를 이용하기 위한 환경 설정
+## 3. Hue를 이용하기 위한 환경 설정
 
 1. 웹 브라우저 주소창에서 아래 URL 입력을 통해 hue 접속
 
@@ -261,7 +261,7 @@ hadoop eco의 hive를 활용하여 nginx 로그 데이터와 mysql 데이터를 
     http://{HadoopMST-core-hadoop-1 public ip주소}:8888
     ```
 
-2. hue에 로그인
+2. Hue에 로그인
 
     - hadoop eco 생성 시에 만든 id와 pw 입력하여 접속
     - id:`admin`
@@ -292,7 +292,7 @@ hadoop eco의 hive를 활용하여 nginx 로그 데이터와 mysql 데이터를 
     ```
 
 
-## 4. hue를 이용한 쿼리를 통해 지표 분석
+## 4. Hue를 이용한 쿼리를 통해 지표 분석
 
 1. 쿼리문을 통한 지표 분석
 
