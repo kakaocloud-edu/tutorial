@@ -106,6 +106,7 @@ hadoop eco의 hive를 활용하여 nginx 로그 데이터와 mysql 데이터를 
     FROM external_nginx_log
     LIMIT 10;
     ```
+    - 아래와 같은 형식의 내용 확인
     
 ![1 external table 확인v1](https://github.com/user-attachments/assets/f4a9c30c-b36e-4ef6-a26f-4b85624172f4)
 
