@@ -108,7 +108,7 @@ hadoop eco의 hive를 활용하여 nginx 로그 데이터와 mysql 데이터를 
     ```
     - 아래와 같은 형식의 내용 확인
     
-![1 external table 확인v1](https://github.com/user-attachments/assets/e779c3df-23dd-495e-b231-54410c160334)
+![1 external table 확인v1](https://github.com/user-attachments/assets/51602989-3f1d-45c8-a0c6-d9e6421180fc)
 
 4. mysql users 테이블 생성
 
@@ -139,7 +139,7 @@ hadoop eco의 hive를 활용하여 nginx 로그 데이터와 mysql 데이터를 
     ```
     - 아래와 같은 형식의 내용 확인
    
-![2 mysql users 확인v1](https://github.com/user-attachments/assets/d1ec39c2-05bb-4045-ad23-01b9eadcf47c)
+![2 mysql users 확인v1](https://github.com/user-attachments/assets/c3cccdea-4157-47f5-a4ce-559231b95eec)
 
 6. mysql orders 테이블 생성
 
@@ -171,7 +171,7 @@ hadoop eco의 hive를 활용하여 nginx 로그 데이터와 mysql 데이터를 
     ```
     - 아래와 같은 형식의 내용 확인
     
-![3 mysql orders 확인v1](https://github.com/user-attachments/assets/4b9baba6-3a14-4a08-8c25-4be9864ea284)
+![3 mysql orders 확인v1](https://github.com/user-attachments/assets/d9a0e233-91ae-4660-97d1-847dac08a249)
 
 8. mysql products 테이블 생성
 
@@ -200,7 +200,7 @@ hadoop eco의 hive를 활용하여 nginx 로그 데이터와 mysql 데이터를 
     ```
     - 아래와 같은 형식의 내용 확인
 
-![4 mysql products 확인v1](https://github.com/user-attachments/assets/abcbd53c-21f6-4027-9383-8eb7d50c3482)
+![4 mysql products 확인v1](https://github.com/user-attachments/assets/6f23db7b-0525-438e-9c27-6bf866477397)
 
 10. hue 쿼리를 위한 view 생성
 
