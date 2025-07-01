@@ -1,9 +1,9 @@
-# hadoop eco의 hive로 user cart metrics 테이블 생성 및 spark로 mysql에 데이터 마트 구축
+# Hadoop Eco의 Hive로 user cart metrics 테이블 생성 및 spark로 MySQL에 데이터 마트 구축
 
-hadoop eco의 hive를 활용하여 이미 만들어진 aggregated logs 테이블과 mysql 데이터 테이블을 사용하여 user cart metrics 테이블을 생성합니다. 만들어진 user cart metrics를 mysql에 적재하여 데이터 마트를 구축합니다.
+Hadoop Eco의 Hive를 활용하여 이미 만들어진 aggregated logs 테이블과 MySQL 데이터 테이블을 사용하여 user cart metrics 테이블을 생성합니다. 만들어진 user cart metrics를 MySQL에 적재하여 데이터 마트를 구축합니다.
 
 ---
-## 1. hive에서 user cart metrics 테이블 생성
+## 1. Hive에서 user cart metrics 테이블 생성
 
 1. user cart metrics temp 테이블 생성
 
@@ -66,9 +66,9 @@ hadoop eco의 hive를 활용하여 이미 만들어진 aggregated logs 테이블
 4. `ctrl` + `c`로 hive 종료
 
 
-## 2. spark에서 mysql로 데이터 마트 구축
+## 2. Spark에서 MySQL로 데이터 마트 구축
 
-1. spark 설정파일을 hive와 같게 설정
+1. Spark 설정파일을 hive와 같게 설정
 
     #### **lab6-2-1**
 
@@ -87,7 +87,7 @@ hadoop eco의 hive를 활용하여 이미 만들어진 aggregated logs 테이블
       --conf spark.hadoop.mapreduce.input.fileinputformat.input.dir.recursive=true
     ```
 
-3. spark에서 session 시작
+3. Spark에서 session 시작
 
     #### **lab6-2-3**
 
@@ -100,7 +100,7 @@ hadoop eco의 hive를 활용하여 이미 만들어진 aggregated logs 테이블
         .getOrCreate()
     ```
 
-4. hive의 메타스토어에 있는 user cart metrics temp 테이블 spark로 가져온 후 확인
+4. Hive의 메타스토어에 있는 user cart metrics temp 테이블을 Spark로 가져온 후 확인
 
     #### **lab6-2-4-1**
 
@@ -118,7 +118,7 @@ hadoop eco의 hive를 활용하여 이미 만들어진 aggregated logs 테이블
 
 ![df show](https://github.com/user-attachments/assets/c53a7a9f-6922-4a98-96d6-a760381c5e01)
 
-5. jdbc로 mysql과 연결 후 적재
+5. jdbc로 MySQL과 연결 후 적재
 
     - mysql 엔드포인트 입력
 
@@ -144,7 +144,7 @@ hadoop eco의 hive를 활용하여 이미 만들어진 aggregated logs 테이블
 
 6. `ctrl` + `d`로 종료
 
-## 3. 데이터 마트를 이용한 data query 진행
+## 3. 데이터 마트를 이용한 Data Query 진행
 
 1. 카카오 클라우드 콘솔 > Analytics > Data Query
 2. 쿼리 편집기 탭 클릭
