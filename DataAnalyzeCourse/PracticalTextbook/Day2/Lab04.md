@@ -6,12 +6,7 @@ hadoop eco의 hive를 활용하여 nginx 로그 데이터와 mysql 데이터를 
 ## 1. 생성한 hadoop-eco 마스터 노드에 접속
 
 1. 카카오 클라우드 콘솔 > Beyond Compute Service > Virtual Machine
-2. `HadoopMST-core-hadoop-1` 상태 Actice 확인 후 인스턴스의 우측 메뉴바 > `Public IP 연결` 클릭
-
-    - `새로운 퍼블릭 IP를 생성하고 자동으로 할당`
-    - 확인 버튼 클릭
-
-3. `HadoopMST-core-hadoop-1` 인스턴스의 우측 메뉴바 > `SSH 연결` 클릭
+2. `HadoopMST-core-hadoop-1` 인스턴스의 우측 메뉴바 > `SSH 연결` 클릭
 
     - SSH 접속 명령어 복사
     - 터미널 열기
