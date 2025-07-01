@@ -46,9 +46,6 @@ hadoop eco의 hive를 활용하여 이미 만들어진 aggregated logs 테이블
     FROM aggregated_logs
     WHERE
       user_id <> 'guest'
-      AND unix_timestamp(last_active_time, 'yyyy-MM-dd HH:mm:ss')
-          BETWEEN unix_timestamp('2025-06-29 06:00:00', 'yyyy-MM-dd HH:mm:ss')
-              AND unix_timestamp('2025-06-29 07:00:00', 'yyyy-MM-dd HH:mm:ss')
     GROUP BY
       COALESCE(NULLIF(user_id, ''), 'NULL')
     ;
