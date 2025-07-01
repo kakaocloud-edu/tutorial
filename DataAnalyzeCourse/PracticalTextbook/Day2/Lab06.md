@@ -10,7 +10,7 @@ hadoop eco의 hive를 활용하여 이미 만들어진 aggregated logs 테이블
     #### **lab6-1-1**
 
     ```bash
-    CREATE EXTERNAL TABLE IF NOT EXISTS user_cart_metrics_temp (
+    CREATE TABLE IF NOT EXISTS user_cart_metrics_temp (
       user_id            STRING,
       order_count        BIGINT,
       pageview_count     BIGINT,
