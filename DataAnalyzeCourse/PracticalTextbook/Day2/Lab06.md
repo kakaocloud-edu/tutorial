@@ -61,6 +61,7 @@ hadoop eco의 hive를 활용하여 이미 만들어진 aggregated logs 테이블
 
     - 아래와 같은 형식의 내용 확인
 
+![user cart metrics temp](https://github.com/user-attachments/assets/cab4c0ae-9a9c-476b-9eb5-2092fb824b2c)
 
 4. `ctrl` + `c`로 hive 종료
 
