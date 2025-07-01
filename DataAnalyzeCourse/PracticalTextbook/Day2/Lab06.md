@@ -5,7 +5,7 @@ hadoop eco의 hive를 활용하여 이미 만들어진 aggregated logs 테이블
 ---
 ## 1. hive에서 user cart metrics 테이블 생성
 
-1. user cart metrics 테이블 생성
+1. user cart metrics temp 테이블 생성
 
     #### **lab6-1-1**
 
@@ -22,7 +22,7 @@ hadoop eco의 hive를 활용하여 이미 만들어진 aggregated logs 테이블
     LOCATION 's3a://data-catalog-bucket/hive-tables/user_cart_metrics_temp/';
     ```
 
-2. user cart metrics 테이블에 데이터 적재
+2. user cart metrics temp 테이블에 데이터 적재
 
     #### **lab6-1-2**
 
@@ -51,7 +51,7 @@ hadoop eco의 hive를 활용하여 이미 만들어진 aggregated logs 테이블
     ;
     ```
 
-3. user cart metrics 테이블에 적재된 데이터 확인
+3. user cart metrics temp 테이블에 적재된 데이터 확인
 
     #### **lab6-1-3**
 
