@@ -107,7 +107,7 @@ hadoop eco의 hive를 활용하여 nginx 로그 데이터와 mysql 데이터를 
     LIMIT 10;
     ```
     
-![1 external table 확인v1](https://github.com/user-attachments/assets/746e5a94-c61f-4052-aab9-1b2c5c4d23e9)
+![1 external table 확인v1](https://github.com/user-attachments/assets/f4a9c30c-b36e-4ef6-a26f-4b85624172f4)
 
 4. mysql users 테이블 생성
 
@@ -137,7 +137,7 @@ hadoop eco의 hive를 활용하여 nginx 로그 데이터와 mysql 데이터를 
     SELECT * FROM mysql_users LIMIT 10;
     ```
     
-![2 mysql users 확인v1](https://github.com/user-attachments/assets/09f46e26-51f1-4959-9108-0eb8e2d88ba8)
+![2 mysql users 확인v1](https://github.com/user-attachments/assets/85b80c77-366b-42db-a08c-88299c4dec03)
 
 6. mysql orders 테이블 생성
 
@@ -168,7 +168,7 @@ hadoop eco의 hive를 활용하여 nginx 로그 데이터와 mysql 데이터를 
     select * from mysql_orders limit 10;
     ```
     
-![3 mysql orders 확인v1](https://github.com/user-attachments/assets/dd02d3e9-70ff-4a01-86e8-31708f866df1)
+![3 mysql orders 확인v1](https://github.com/user-attachments/assets/3156829d-2893-4daf-8432-ee30a2fd125c)
 
 8. mysql products 테이블 생성
 
@@ -195,8 +195,8 @@ hadoop eco의 hive를 활용하여 nginx 로그 데이터와 mysql 데이터를 
     ```bash
     select * from mysql_products limit 10;
     ```
-    
-![4 mysql products 확인v1](https://github.com/user-attachments/assets/8e1608cd-6f0a-4f92-bc74-dfe18a7eb428)
+   
+![4 mysql products 확인v1](https://github.com/user-attachments/assets/ec21b66f-aa46-45f5-8a70-4c5819d28aa4)
 
 10. hue 쿼리를 위한 view 생성
 
@@ -334,57 +334,9 @@ hadoop eco의 hive를 활용하여 nginx 로그 데이터와 mysql 데이터를 
     
 ![쿼리2](https://github.com/user-attachments/assets/563daec5-9269-45c8-8631-35178a28cc14)
 
-4. 장바구니 담기 전환율
+4. 인기 상품 상위 10개
 
     #### **lab4-4-4**
-
-    ```bash
-    WITH
-    product_sessions AS (
-      SELECT DISTINCT session_id
-      FROM external_nginx_log
-      WHERE endpoint = '/product'
-        AND session_id IS NOT NULL
-        AND session_id <> ''
-    ),
-    cart_sessions AS (
-      SELECT DISTINCT session_id
-      FROM external_nginx_log
-      WHERE endpoint = '/cart/add'
-        AND session_id IS NOT NULL
-        AND session_id <> ''
-    ),
-    total_p AS (
-      SELECT COUNT(*) AS cnt
-      FROM product_sessions
-    ),
-    converted AS (
-      SELECT COUNT(*) AS cnt
-      FROM product_sessions p
-      JOIN cart_sessions c
-        ON p.session_id = c.session_id
-    )
-    
-    SELECT
-      CASE
-        WHEN tp.cnt = 0 THEN '0%'
-        ELSE CONCAT(
-          CAST(
-            ROUND(
-              (conv.cnt * 100.0) / tp.cnt
-            , 2) AS STRING
-          ), '%'
-        )
-      END AS session_conversion_rate
-    FROM total_p tp
-    CROSS JOIN converted conv;
-    ```
-    
-![쿼리3](https://github.com/user-attachments/assets/841a34f0-2b19-4372-8840-f1d02442d0d3)
-
-5. 인기 상품 상위 10개
-
-    #### **lab4-4-5**
 
     ```bash
     WITH product_views AS (
@@ -416,9 +368,9 @@ hadoop eco의 hive를 활용하여 nginx 로그 데이터와 mysql 데이터를 
     
 ![쿼리4](https://github.com/user-attachments/assets/299b3524-ccb6-4079-bf60-7bdce81c898e)
 
-6. 페이지뷰(PV) 추이
+5. 페이지뷰(PV) 추이
 
-    #### **lab4-4-6**
+    #### **lab4-4-5**
 
     ```bash
     SELECT
@@ -434,11 +386,11 @@ hadoop eco의 hive를 활용하여 nginx 로그 데이터와 mysql 데이터를 
     
 ![쿼리5](https://github.com/user-attachments/assets/021c432d-3054-4d85-b07e-9ce31fee77cc)
 
-7. 매출 합계
+6. 매출 합계
 
     - 기간 조정 가능
 
-    #### **lab4-4-7**
+    #### **lab4-4-6**
 
     ```bash
     SELECT 
@@ -449,9 +401,9 @@ hadoop eco의 hive를 활용하여 nginx 로그 데이터와 mysql 데이터를 
     
 ![쿼리6](https://github.com/user-attachments/assets/222b45c0-7d6a-45da-8165-604bf02562d1)
 
-8. 카테고리별 매출 비중
+7. 카테고리별 매출 비중
 
-    #### **lab4-4-8**
+    #### **lab4-4-7**
 
     ```bash
     SELECT
@@ -474,9 +426,9 @@ hadoop eco의 hive를 활용하여 nginx 로그 데이터와 mysql 데이터를 
     
 ![쿼리7](https://github.com/user-attachments/assets/464d8326-073f-4437-9013-498e728b7928)
 
-9. 사용자 행동 경로 분석
+8. 사용자 행동 경로 분석
 
-    #### **lab4-4-9**
+    #### **lab4-4-8**
 
     ```bash
     WITH user_path AS (
@@ -505,58 +457,11 @@ hadoop eco의 hive를 활용하여 nginx 로그 데이터와 mysql 데이터를 
       ON up.session_id = p.session_id;
     ```
     
-![쿼리10](https://github.com/user-attachments/assets/c9acbb47-5568-496f-aee2-516546b0672e)
+![쿼리8](https://github.com/user-attachments/assets/dcf4bdde-8755-4c21-ba32-3872b4a6f9bb)
 
-10. 상품 상세 페이지 방문 후 구매 전환율
+9. 사용자 나이대별 구매율
 
-    #### **lab4-4-10**
-
-    ```bash
-    WITH
-      product_sessions AS (
-        SELECT DISTINCT session_id
-        FROM external_nginx_log
-        WHERE endpoint = '/product'
-          AND session_id IS NOT NULL
-          AND session_id <> ''
-      ),
-      purchased_sessions AS (
-        SELECT DISTINCT session_id
-        FROM hive_orders_flat
-        WHERE session_id IS NOT NULL
-          AND session_id <> ''
-      ),
-      total_product AS (
-        SELECT COUNT(*) AS cnt
-        FROM product_sessions
-      ),
-      converted AS (
-        SELECT COUNT(*) AS cnt
-        FROM product_sessions p
-        JOIN purchased_sessions ps
-          ON p.session_id = ps.session_id
-      )
-    SELECT
-      CASE
-        WHEN tp.cnt = 0 THEN '0%'
-        ELSE CONCAT(
-          CAST(
-            ROUND(
-              (cv.cnt * 100.0) / tp.cnt
-            , 2) AS STRING
-          ),
-          '%'
-        )
-      END AS detail_to_purchase_rate
-    FROM total_product tp
-    CROSS JOIN converted cv;
-    ```
-    
-![쿼리11](https://github.com/user-attachments/assets/24a9b69a-c90d-420b-b6dd-2617de55c25b)
-
-11. 사용자 나이대별 구매율
-
-    #### **lab4-4-11**
+    #### **lab4-4-9**
 
     ```bash
     WITH purchase AS (
@@ -609,11 +514,11 @@ hadoop eco의 hive를 활용하여 nginx 로그 데이터와 mysql 데이터를 
     ORDER BY t.gender ASC, t.age_order ASC;
     ```
     
-![쿼리12](https://github.com/user-attachments/assets/45517097-0b9f-49da-b84c-f9e115328dda)
+![쿼리9](https://github.com/user-attachments/assets/9e84f561-c876-464b-b3be-b1edcb4e19b7)
 
-12. 검색 키워드와 구매 연관성
+10. 검색 키워드와 구매 연관성
 
-    #### **lab4-4-12**
+    #### **lab4-4-10**
 
     ```bash
     WITH search_sessions AS (
@@ -645,11 +550,13 @@ hadoop eco의 hive를 활용하여 nginx 로그 데이터와 mysql 데이터를 
       ON s.session_id = p.session_id
     GROUP BY s.keyword
     ORDER BY conversion_rate DESC;
-    ``` 
+    ```
+    
+![쿼리10](https://github.com/user-attachments/assets/cd82fd46-1bbc-40d4-b78a-ff3e5efeb64c)
 
-13. 사용자 재구매율
+11. 사용자 재구매율
 
-    #### **lab4-4-13**
+    #### **lab4-4-11**
 
     ```bash
     WITH product_user_orders AS (
@@ -676,11 +583,13 @@ hadoop eco의 hive를 활용하여 nginx 로그 데이터와 mysql 데이터를 
     JOIN hive_products_flat p 
       ON puo.product_id = p.product_id
     GROUP BY puo.product_id, p.name;
-    ``` 
+    ```
+    
+![쿼리11](https://github.com/user-attachments/assets/82ec5a4e-b567-4230-82c9-d7a97145f56a)
 
-14. 주문 당 평균 상품 수
+12. 주문 당 평균 상품 수
 
-    #### **lab4-4-14**
+    #### **lab4-4-12**
 
     ```bash
     SELECT 
@@ -692,11 +601,13 @@ hadoop eco의 hive를 활용하여 nginx 로그 데이터와 mysql 데이터를 
       FROM hive_orders_flat
       GROUP BY order_id
     ) t;
-    ``` 
+    ```
+    
+![쿼리12](https://github.com/user-attachments/assets/bb12f438-84b7-4d68-aea1-6e49ac0d11b7)
 
-15. URL별 에러 발생 비율
+13. URL별 에러 발생 비율
 
-    #### **lab4-4-15**
+    #### **lab4-4-13**
 
     ```bash
     SELECT
@@ -714,6 +625,7 @@ hadoop eco의 hive를 활용하여 nginx 로그 데이터와 mysql 데이터를 
     GROUP BY endpoint;
     ``` 
 
+![쿼리13](https://github.com/user-attachments/assets/985fac64-db10-48d7-bec5-f1173e26fb35)
 
 
 
