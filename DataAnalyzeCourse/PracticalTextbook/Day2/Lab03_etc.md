@@ -1,5 +1,1033 @@
 # 기타 Superset 지표
 
+## 1. Druid를 활용한 데이터 수집 및 가공
+
+1. Load Data > Streaming > Start a new streaming spec 버튼 클릭
+2. `Edit Spec` 버튼 클릭 후 아래 spec 입력
+    - **Note**: Kafka 부트스트랩 서버를 복사해둔 값으로 변경
+    - users
+        
+        ```bash
+        {
+          "type": "kafka",
+          "spec": {
+            "dataSchema": {
+              "dataSource": "shopdb_users_changes",
+              "timestampSpec": {
+                "column": "updated_at",
+                "format": "micro"
+              },
+              "dimensionsSpec": {
+                "dimensions": [
+                  "user_id",
+                  "name",
+                  "email",
+                  "gender",
+                  "age",
+                  "updated_at",
+                  "operation_type",
+                  {
+                    "name": "__deleted",
+                    "type": "boolean"
+                  }
+                ]
+              },
+              "granularitySpec": {
+                "type": "uniform",
+                "segmentGranularity": "all",
+                "queryGranularity": "MINUTE",
+                "rollup": false
+              }
+            },
+            "tuningConfig": {
+              "type": "kafka",
+              "maxRowsPerSegment": 5000000,
+              "maxBytesInMemory": 25000000
+            },
+            "ioConfig": {
+              "topic": "mysql-server.shopdb.users",
+              "consumerProperties": {
+                "bootstrap.servers": "{Kafka 부트스트랩 서버}",
+                "group.id": "druid-shopdb-users"
+              },
+              "taskCount": 1,
+              "replicas": 1,
+              "taskDuration": "PT1H",
+              "completionTimeout": "PT20M",
+              "inputFormat": {
+                "type": "json",
+                "flattenSpec": {
+                  "useFieldDiscovery": false,
+                  "fields": [
+                    {
+                      "type": "jq",
+                      "name": "user_id",
+                      "expr": ".before.user_id // .after.user_id"
+                    },
+                    {
+                      "type": "jq",
+                      "name": "name",
+                      "expr": ".before.name // .after.name"
+                    },
+                    {
+                      "type": "jq",
+                      "name": "email",
+                      "expr": ".before.email // .after.email"
+                    },
+                    {
+                      "type": "jq",
+                      "name": "gender",
+                      "expr": ".before.gender // .after.gender"
+                    },
+                    {
+                      "type": "jq",
+                      "name": "age",
+                      "expr": ".before.age // .after.age"
+                    },
+                    {
+                      "type": "jq",
+                      "name": "updated_at",
+                      "expr": ".before.updated_at // .after.updated_at"
+                    },
+                    {
+                      "type": "jq",
+                      "name": "operation_type",
+                      "expr": ".op"
+                    },
+                    {
+                      "type": "jq",
+                      "name": "__deleted",
+                      "expr": ".op == \"d\""
+                    }
+                  ]
+                }
+              },
+              "type": "kafka",
+              "useEarliestOffset": true
+            }
+          }
+        }
+        ```
+        
+    - users_logs
+        
+        ```bash
+        {
+          "type": "kafka",
+          "spec": {
+            "dataSchema": {
+              "dataSource": "shopdb_users_logs_changes",
+              "timestampSpec": {
+                "column": "event_time",
+                "format": "millis"
+              },
+              "dimensionsSpec": {
+                "dimensions": [
+                  "history_id",
+                  "user_id",
+                  "event_type",
+                  "event_time",
+                  "operation_type",
+                  {
+                    "name": "__deleted",
+                    "type": "boolean"
+                  }
+                ]
+              },
+              "granularitySpec": {
+                "type": "uniform",
+                "segmentGranularity": "all",
+                "queryGranularity": "MINUTE",
+                "rollup": false
+              }
+            },
+            "tuningConfig": {
+              "type": "kafka",
+              "maxRowsPerSegment": 5000000,
+              "maxBytesInMemory": 25000000
+            },
+            "ioConfig": {
+              "topic": "mysql-server.shopdb.users_logs",
+              "consumerProperties": {
+                "bootstrap.servers": "{Kafka 부트스트랩 서버}",
+                "group.id": "druid-shopdb-users_logs"
+              },
+              "taskCount": 1,
+              "replicas": 1,
+              "taskDuration": "PT1H",
+              "completionTimeout": "PT20M",
+              "inputFormat": {
+                "type": "json",
+                "flattenSpec": {
+                  "useFieldDiscovery": false,
+                  "fields": [
+                    {
+                      "type": "jq",
+                      "name": "history_id",
+                      "expr": ".before.history_id // .after.history_id"
+                    },
+                    {
+                      "type": "jq",
+                      "name": "user_id",
+                      "expr": ".before.user_id // .after.user_id"
+                    },
+                    {
+                      "type": "jq",
+                      "name": "event_type",
+                      "expr": ".before.event_type // .after.event_type"
+                    },
+                    {
+                      "type": "jq",
+                      "name": "event_time",
+                      "expr": ".before.event_time // .after.event_time"
+                    },
+                    {
+                      "type": "jq",
+                      "name": "operation_type",
+                      "expr": ".op"
+                    },
+                    {
+                      "type": "jq",
+                      "name": "__deleted",
+                      "expr": ".op == \"d\""
+                    }
+                  ]
+                }
+              },
+              "type": "kafka",
+              "useEarliestOffset": true
+            }
+          }
+        }
+        ```
+        
+    - products
+        
+        ```bash
+        {
+          "type": "kafka",
+          "spec": {
+            "dataSchema": {
+              "dataSource": "shopdb_products_changes",
+              "timestampSpec": {
+                "column": "!!!_no_such_column_!!!",
+                "missingValue": "2010-01-01T00:00:00Z"
+              },
+              "dimensionsSpec": {
+                "dimensions": [
+                  "id",
+                  "name",
+                  "price",
+                  "category",
+                  "operation_type",
+                  {
+                    "name": "__deleted",
+                    "type": "boolean"
+                  }
+                ]
+              },
+              "granularitySpec": {
+                "type": "uniform",
+                "segmentGranularity": "all",
+                "queryGranularity": "MINUTE",
+                "rollup": false
+              }
+            },
+            "tuningConfig": {
+              "type": "kafka",
+              "maxRowsPerSegment": 5000000,
+              "maxBytesInMemory": 25000000
+            },
+            "ioConfig": {
+              "topic": "mysql-server.shopdb.products",
+              "consumerProperties": {
+                "bootstrap.servers": "{Kafka 부트스트랩 서버}",
+                "group.id": "druid-shopdb-products"
+              },
+              "taskCount": 1,
+              "replicas": 1,
+              "taskDuration": "PT1H",
+              "completionTimeout": "PT20M",
+              "inputFormat": {
+                "type": "json",
+                "flattenSpec": {
+                  "useFieldDiscovery": false,
+                  "fields": [
+                    {
+                      "type": "jq",
+                      "name": "id",
+                      "expr": ".before.id // .after.id"
+                    },
+                    {
+                      "type": "jq",
+                      "name": "name",
+                      "expr": ".before.name // .after.name"
+                    },
+                    {
+                      "type": "jq",
+                      "name": "price",
+                      "expr": ".before.price // .after.price"
+                    },
+                    {
+                      "type": "jq",
+                      "name": "category",
+                      "expr": ".before.category // .after.category"
+                    },
+                    {
+                      "type": "jq",
+                      "name": "operation_type",
+                      "expr": ".op"
+                    },
+                    {
+                      "type": "jq",
+                      "name": "__deleted",
+                      "expr": ".op == \"d\""
+                    }
+                  ]
+                }
+              },
+              "type": "kafka",
+              "useEarliestOffset": true
+            }
+          }
+        }
+        ```
+        
+    - sessions
+        
+        ```bash
+        {
+          "type": "kafka",
+          "spec": {
+            "dataSchema": {
+              "dataSource": "shopdb_sessions_changes",
+              "timestampSpec": {
+                "column": "created_at",
+                "format": "micro"
+              },
+              "dimensionsSpec": {
+                "dimensions": [
+                  "session_id",
+                  "user_id",
+                  "created_at",
+                  "login_time",
+                  "logout_time",
+                  "last_active",
+                  "operation_type",
+                  {
+                    "name": "__deleted",
+                    "type": "boolean"
+                  }
+                ]
+              },
+              "granularitySpec": {
+                "type": "uniform",
+                "segmentGranularity": "all",
+                "queryGranularity": "MINUTE",
+                "rollup": false
+              }
+            },
+            "tuningConfig": {
+              "type": "kafka",
+              "maxRowsPerSegment": 5000000,
+              "maxBytesInMemory": 25000000
+            },
+            "ioConfig": {
+              "topic": "mysql-server.shopdb.sessions",
+              "consumerProperties": {
+                "bootstrap.servers": "{Kafka 부트스트랩 서버}",
+                "group.id": "druid-shopdb-sessions"
+              },
+              "taskCount": 1,
+              "replicas": 1,
+              "taskDuration": "PT1H",
+              "completionTimeout": "PT20M",
+              "inputFormat": {
+                "type": "json",
+                "flattenSpec": {
+                  "useFieldDiscovery": false,
+                  "fields": [
+                    {
+                      "type": "jq",
+                      "name": "session_id",
+                      "expr": ".before.session_id // .after.session_id"
+                    },
+                    {
+                      "type": "jq",
+                      "name": "user_id",
+                      "expr": ".before.user_id // .after.user_id"
+                    },
+                    {
+                      "type": "jq",
+                      "name": "created_at",
+                      "expr": ".before.created_at // .after.created_at"
+                    },
+                    {
+                      "type": "jq",
+                      "name": "login_time",
+                      "expr": ".before.login_time // .after.login_time"
+                    },
+                    {
+                      "type": "jq",
+                      "name": "logout_time",
+                      "expr": ".before.logout_time // .after.logout_time"
+                    },
+                    {
+                      "type": "jq",
+                      "name": "last_active",
+                      "expr": ".before.last_active // .after.last_active"
+                    },
+                    {
+                      "type": "jq",
+                      "name": "operation_type",
+                      "expr": ".op"
+                    },
+                    {
+                      "type": "jq",
+                      "name": "__deleted",
+                      "expr": ".op == \"d\""
+                    }
+                  ]
+                }
+              },
+              "type": "kafka",
+              "useEarliestOffset": true
+            }
+          }
+        }
+        ```
+        
+    - reviews
+        
+        ```bash
+        {
+          "type": "kafka",
+          "spec": {
+            "dataSchema": {
+              "dataSource": "shopdb_reviews_changes",
+              "timestampSpec": {
+                "column": "review_time",
+                "format": "micro"
+              },
+              "dimensionsSpec": {
+                "dimensions": [
+                  "review_id",
+                  "user_id",
+                  "session_id",
+                  "product_id",
+                  "rating",
+                  "review_time",
+                  "operation_type",
+                  {
+                    "name": "__deleted",
+                    "type": "boolean"
+                  }
+                ]
+              },
+              "granularitySpec": {
+                "type": "uniform",
+                "segmentGranularity": "all",
+                "queryGranularity": "MINUTE",
+                "rollup": false
+              }
+            },
+            "tuningConfig": {
+              "type": "kafka",
+              "maxRowsPerSegment": 5000000,
+              "maxBytesInMemory": 25000000
+            },
+            "ioConfig": {
+              "topic": "mysql-server.shopdb.reviews",
+              "consumerProperties": {
+                "bootstrap.servers": "{Kafka 부트스트랩 서버}",
+                "group.id": "druid-shopdb-reviews"
+              },
+              "taskCount": 1,
+              "replicas": 1,
+              "taskDuration": "PT1H",
+              "completionTimeout": "PT20M",
+              "inputFormat": {
+                "type": "json",
+                "flattenSpec": {
+                  "useFieldDiscovery": false,
+                  "fields": [
+                    {
+                      "type": "jq",
+                      "name": "review_id",
+                      "expr": ".before.review_id // .after.review_id"
+                    },
+                    {
+                      "type": "jq",
+                      "name": "user_id",
+                      "expr": ".before.user_id // .after.user_id"
+                    },
+                    {
+                      "type": "jq",
+                      "name": "session_id",
+                      "expr": ".before.session_id // .after.session_id"
+                    },
+                    {
+                      "type": "jq",
+                      "name": "product_id",
+                      "expr": ".before.product_id // .after.product_id"
+                    },
+                    {
+                      "type": "jq",
+                      "name": "rating",
+                      "expr": ".before.rating // .after.rating"
+                    },
+                    {
+                      "type": "jq",
+                      "name": "review_time",
+                      "expr": ".before.review_time // .after.review_time"
+                    },
+                    {
+                      "type": "jq",
+                      "name": "operation_type",
+                      "expr": ".op"
+                    },
+                    {
+                      "type": "jq",
+                      "name": "__deleted",
+                      "expr": ".op == \"d\""
+                    }
+                  ]
+                }
+              },
+              "type": "kafka",
+              "useEarliestOffset": true
+            }
+          }
+        }
+        ```
+        
+    - orders
+        
+        ```bash
+        {
+          "type": "kafka",
+          "spec": {
+            "dataSchema": {
+              "dataSource": "shopdb_orders_changes",
+              "timestampSpec": {
+                "column": "order_time",
+                "format": "micro"
+              },
+              "dimensionsSpec": {
+                "dimensions": [
+                  { "name": "order_id", "type": "string" },
+                  { "name": "user_id", "type": "string" },
+                  { "name": "session_id", "type": "string" },
+                  { "name": "product_id", "type": "string" },
+                  { "name": "price", "type": "double" },
+                  { "name": "quantity", "type": "long" },
+                  { "name": "order_time", "type": "timestamp" },
+                  { "name": "operation_type", "type": "string" },
+                  { "name": "__deleted", "type": "boolean" }
+                ]
+              },
+              "granularitySpec": {
+                "type": "uniform",
+                "segmentGranularity": "all",
+                "queryGranularity": "MINUTE",
+                "rollup": false
+              }
+            },
+            "tuningConfig": {
+              "type": "kafka",
+              "maxRowsPerSegment": 5000000,
+              "maxBytesInMemory": 25000000
+            },
+            "ioConfig": {
+              "topic": "mysql-server.shopdb.orders",
+              "consumerProperties": {
+                "bootstrap.servers": "{Kafka 부트스트랩 서버}",
+                "group.id": "druid-shopdb-orders"
+              },
+              "taskCount": 1,
+              "replicas": 1,
+              "taskDuration": "PT1H",
+              "completionTimeout": "PT20M",
+              "inputFormat": {
+                "type": "json",
+                "flattenSpec": {
+                  "useFieldDiscovery": false,
+                  "fields": [
+                    {
+                      "type": "jq",
+                      "name": "order_id",
+                      "expr": ".before.order_id // .after.order_id"
+                    },
+                    {
+                      "type": "jq",
+                      "name": "user_id",
+                      "expr": ".before.user_id // .after.user_id"
+                    },
+                    {
+                      "type": "jq",
+                      "name": "session_id",
+                      "expr": ".before.session_id // .after.session_id"
+                    },
+                    {
+                      "type": "jq",
+                      "name": "product_id",
+                      "expr": ".before.product_id // .after.product_id"
+                    },
+                    {
+                      "type": "jq",
+                      "name": "price",
+                      "expr": ".before.price // .after.price"
+                    },
+                    {
+                      "type": "jq",
+                      "name": "quantity",
+                      "expr": ".before.quantity // .after.quantity"
+                    },
+                    {
+                      "type": "jq",
+                      "name": "order_time",
+                      "expr": ".before.order_time // .after.order_time"
+                    },
+                    {
+                      "type": "jq",
+                      "name": "operation_type",
+                      "expr": ".op"
+                    },
+                    {
+                      "type": "jq",
+                      "name": "__deleted",
+                      "expr": ".op == \"d\""
+                    }
+                  ]
+                }
+              },
+              "type": "kafka",
+              "useEarliestOffset": true
+            }
+          }
+        }
+        ```
+        
+    - search_logs
+        
+        ```bash
+        {
+          "type": "kafka",
+          "spec": {
+            "dataSchema": {
+              "dataSource": "shopdb_search_logs_changes",
+              "timestampSpec": {
+                "column": "searched_at",
+                "format": "millis"
+              },
+              "dimensionsSpec": {
+                "dimensions": [
+                  "log_id",
+                  "session_id",
+                  "search_query",
+                  "searched_at",
+                  "operation_type",
+                  {
+                    "name": "__deleted",
+                    "type": "boolean"
+                  }
+                ]
+              },
+              "granularitySpec": {
+                "type": "uniform",
+                "segmentGranularity": "all",
+                "queryGranularity": "MINUTE",
+                "rollup": false
+              }
+            },
+            "tuningConfig": {
+              "type": "kafka",
+              "maxRowsPerSegment": 5000000,
+              "maxBytesInMemory": 25000000
+            },
+            "ioConfig": {
+              "topic": "mysql-server.shopdb.search_logs",
+              "consumerProperties": {
+                "bootstrap.servers": "{Kafka 부트스트랩 서버}",
+                "group.id": "druid-shopdb-search_logs"
+              },
+              "taskCount": 1,
+              "replicas": 1,
+              "taskDuration": "PT1H",
+              "completionTimeout": "PT20M",
+              "inputFormat": {
+                "type": "json",
+                "flattenSpec": {
+                  "useFieldDiscovery": false,
+                  "fields": [
+                    {
+                      "type": "jq",
+                      "name": "log_id",
+                      "expr": ".before.log_id // .after.log_id"
+                    },
+                    {
+                      "type": "jq",
+                      "name": "session_id",
+                      "expr": ".before.session_id // .after.session_id"
+                    },
+                    {
+                      "type": "jq",
+                      "name": "search_query",
+                      "expr": ".before.search_query // .after.search_query"
+                    },
+                    {
+                      "type": "jq",
+                      "name": "searched_at",
+                      "expr": ".before.searched_at // .after.searched_at"
+                    },
+                    {
+                      "type": "jq",
+                      "name": "operation_type",
+                      "expr": ".op"
+                    },
+                    {
+                      "type": "jq",
+                      "name": "__deleted",
+                      "expr": ".op == \"d\""
+                    }
+                  ]
+                }
+              },
+              "type": "kafka",
+              "useEarliestOffset": true
+            }
+          }
+        }
+        ```
+        
+    - cart
+        
+        ```bash
+        {
+          "type": "kafka",
+          "spec": {
+            "dataSchema": {
+              "dataSource": "shopdb_cart_changes",
+              "timestampSpec": {
+                "column": "added_at",
+                "format": "millis"
+              },
+              "dimensionsSpec": {
+                "dimensions": [
+                  "cart_id",
+                  "session_id",
+                  "user_id",
+                  "product_id",
+                  "quantity",
+                  "price",
+                  "added_at",
+                  "updated_at",
+                  "operation_type",
+                  {
+                    "name": "__deleted",
+                    "type": "boolean"
+                  }
+                ]
+              },
+              "granularitySpec": {
+                "type": "uniform",
+                "segmentGranularity": "all",
+                "queryGranularity": "MINUTE",
+                "rollup": false
+              }
+            },
+            "tuningConfig": {
+              "type": "kafka",
+              "maxRowsPerSegment": 5000000,
+              "maxBytesInMemory": 25000000
+            },
+            "ioConfig": {
+              "topic": "mysql-server.shopdb.cart",
+              "consumerProperties": {
+                "bootstrap.servers": "{Kafka 부트스트랩 서버}",
+                "group.id": "druid-shopdb-cart"
+              },
+              "taskCount": 1,
+              "replicas": 1,
+              "taskDuration": "PT1H",
+              "completionTimeout": "PT20M",
+              "inputFormat": {
+                "type": "json",
+                "flattenSpec": {
+                  "useFieldDiscovery": false,
+                  "fields": [
+                    {
+                      "type": "jq",
+                      "name": "cart_id",
+                      "expr": ".before.cart_id // .after.cart_id"
+                    },
+                    {
+                      "type": "jq",
+                      "name": "session_id",
+                      "expr": ".before.session_id // .after.session_id"
+                    },
+                    {
+                      "type": "jq",
+                      "name": "user_id",
+                      "expr": ".before.user_id // .after.user_id"
+                    },
+                    {
+                      "type": "jq",
+                      "name": "product_id",
+                      "expr": ".before.product_id // .after.product_id"
+                    },
+                    {
+                      "type": "jq",
+                      "name": "quantity",
+                      "expr": ".before.quantity // .after.quantity"
+                    },
+                    {
+                      "type": "jq",
+                      "name": "price",
+                      "expr": ".before.price // .after.price"
+                    },
+                    {
+                      "type": "jq",
+                      "name": "added_at",
+                      "expr": ".before.added_at // .after.added_at"
+                    },
+                    {
+                      "type": "jq",
+                      "name": "updated_at",
+                      "expr": ".before.updated_at // .after.updated_at"
+                    },
+                    {
+                      "type": "jq",
+                      "name": "operation_type",
+                      "expr": ".op"
+                    },
+                    {
+                      "type": "jq",
+                      "name": "__deleted",
+                      "expr": ".op == \"d\""
+                    }
+                  ]
+                }
+              },
+              "type": "kafka",
+              "useEarliestOffset": true
+            }
+          }
+        }
+        ```
+        
+    - cart_logs
+        
+        ```bash
+        {
+          "type": "kafka",
+          "spec": {
+            "dataSchema": {
+              "dataSource": "shopdb_cart_logs_changes",
+              "timestampSpec": {
+                "column": "event_time",
+                "format": "millis"
+              },
+              "dimensionsSpec": {
+                "dimensions": [
+                  "log_id",
+                  "cart_id",
+                  "session_id",
+                  "user_id",
+                  "product_id",
+                  "old_quantity",
+                  "new_quantity",
+                  "price",
+                  "event_type",
+                  "event_time",
+                  "operation_type",
+                  {
+                    "name": "__deleted",
+                    "type": "boolean"
+                  }
+                ]
+              },
+              "granularitySpec": {
+                "type": "uniform",
+                "segmentGranularity": "all",
+                "queryGranularity": "MINUTE",
+                "rollup": false
+              }
+            },
+            "tuningConfig": {
+              "type": "kafka",
+              "maxRowsPerSegment": 5000000,
+              "maxBytesInMemory": 25000000
+            },
+            "ioConfig": {
+              "topic": "mysql-server.shopdb.cart_logs",
+              "consumerProperties": {
+                "bootstrap.servers": "{Kafka 부트스트랩 서버}",
+                "group.id": "druid-shopdb-cart_logs"
+              },
+              "taskCount": 1,
+              "replicas": 1,
+              "taskDuration": "PT1H",
+              "completionTimeout": "PT20M",
+              "inputFormat": {
+                "type": "json",
+                "flattenSpec": {
+                  "useFieldDiscovery": false,
+                  "fields": [
+                    {
+                      "type": "jq",
+                      "name": "log_id",
+                      "expr": ".before.log_id // .after.log_id"
+                    },
+                    {
+                      "type": "jq",
+                      "name": "cart_id",
+                      "expr": ".before.cart_id // .after.cart_id"
+                    },
+                    {
+                      "type": "jq",
+                      "name": "session_id",
+                      "expr": ".before.session_id // .after.session_id"
+                    },
+                    {
+                      "type": "jq",
+                      "name": "user_id",
+                      "expr": ".before.user_id // .after.user_id"
+                    },
+                    {
+                      "type": "jq",
+                      "name": "product_id",
+                      "expr": ".before.product_id // .after.product_id"
+                    },
+                    {
+                      "type": "jq",
+                      "name": "old_quantity",
+                      "expr": ".before.old_quantity // .after.old_quantity"
+                    },
+                    {
+                      "type": "jq",
+                      "name": "new_quantity",
+                      "expr": ".before.new_quantity // .after.new_quantity"
+                    },
+                    {
+                      "type": "jq",
+                      "name": "price",
+                      "expr": ".before.price // .after.price"
+                    },
+                    {
+                      "type": "jq",
+                      "name": "event_type",
+                      "expr": ".before.event_type // .after.event_type"
+                    },
+                    {
+                      "type": "jq",
+                      "name": "event_time",
+                      "expr": ".before.event_time // .after.event_time"
+                    },
+                    {
+                      "type": "jq",
+                      "name": "operation_type",
+                      "expr": ".op"
+                    },
+                    {
+                      "type": "jq",
+                      "name": "__deleted",
+                      "expr": ".op == \"d\""
+                    }
+                  ]
+                }
+              },
+              "type": "kafka",
+              "useEarliestOffset": true
+            }
+          }
+        }
+        ```
+        
+3. 페이지 새로고침 후 각 Supervisors, Task의 Status가 RUNNING인 것을 확인
+4. Query 메뉴 클릭
+5. 테이블 JOIN 쿼리를 실행
+
+    - orders, users 테이블 JOIN
+    
+        ```sql
+        INSERT INTO dw_orders_users
+        SELECT
+          o.__time            AS __time,
+          o.order_id,
+          o.user_id,
+          u.gender,
+          CAST(u.age AS INTEGER) AS age,
+          o.product_id,
+          o.price,
+          o.quantity
+        FROM shopdb_orders_changes o
+        LEFT JOIN shopdb_users_changes u
+          ON o.user_id = u.user_id
+        WHERE o.__deleted='false'
+          AND u.__deleted='false'
+        PARTITIONED BY DAY
+        ```
+        
+    - 일별 사용자, 상품 주문 건수를 집계하여 테이블에 저장
+            
+        ```sql
+        INSERT INTO dw_user_product_order_cnt
+        SELECT
+          __time,
+          user_id,
+          product_id,
+          COUNT(*) AS cnt
+        FROM dw_orders_users
+        GROUP BY 1,2,3
+        PARTITIONED BY DAY
+        ```
+        
+    - cart, orders, products 테이블 JOIN
+            
+        ```sql
+        INSERT INTO dw_cart_orders_products
+        SELECT
+          c.__time         AS __time,
+          c.cart_id,
+          c.user_id,
+          c.event_type,
+          c.event_time,
+          o.order_id,
+          o.order_time,
+          p.id             AS product_id,
+          p.category,
+          c.new_quantity   AS cart_qty,
+          o.quantity       AS order_qty
+        FROM shopdb_cart_logs_changes c
+        LEFT JOIN shopdb_orders_changes o
+          ON c.user_id = o.user_id
+             AND c.product_id = o.product_id
+             AND DATE_TRUNC('DAY', CAST(c.event_time AS TIMESTAMP))
+               = DATE_TRUNC('DAY', CAST(o.order_time AS TIMESTAMP))
+        LEFT JOIN shopdb_products_changes p
+          ON c.product_id = p.id
+        WHERE c.__deleted = 'false'
+          AND p.__deleted = 'false'
+        PARTITIONED BY DAY
+        ```
+
+    - 일별 사용자, 상품 주문 건수 집계를 바탕으로 재구매율 논리 추가
+              
+        ```sql
+        INSERT INTO dw_user_product_order_cnt
+        SELECT
+          __time,
+          user_id,
+          product_id,
+          COUNT(*) AS cnt
+        FROM dw_orders_users
+        GROUP BY 1,2,3
+        PARTITIONED BY DAY
+        ```
+
+## 2. Superset을 활용한 데이터 시각화
+
 1. 제품별 장바구니→주문 전환율(dw_cart_orders_products)
     - Time-series Bar Chart
         - dw_cart_orders_products Dataset 수정 버튼 클릭
