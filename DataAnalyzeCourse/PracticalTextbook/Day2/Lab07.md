@@ -147,7 +147,7 @@ Hadoop 클러스터 환경에서 실시간 스트리밍 데이터와 배치 데�
     ```
     
 
-1. nginx_log.avsc 스키마 파일 구성(wget으로 변경 예정)
+1. nginx_log.avsc 스키마 파일 구성
     
     **lab7-2-4**
     
