@@ -106,6 +106,8 @@ hadoop eco의 hive를 활용하여 nginx 로그 데이터와 mysql 데이터를 
     FROM external_nginx_log
     LIMIT 10;
     ```
+    
+![1 external table 확인v1](https://github.com/user-attachments/assets/746e5a94-c61f-4052-aab9-1b2c5c4d23e9)
 
 4. mysql users 테이블 생성
 
@@ -134,6 +136,8 @@ hadoop eco의 hive를 활용하여 nginx 로그 데이터와 mysql 데이터를 
     ```bash
     SELECT * FROM mysql_users LIMIT 10;
     ```
+    
+![2 mysql users 확인v1](https://github.com/user-attachments/assets/09f46e26-51f1-4959-9108-0eb8e2d88ba8)
 
 6. mysql orders 테이블 생성
 
@@ -163,6 +167,8 @@ hadoop eco의 hive를 활용하여 nginx 로그 데이터와 mysql 데이터를 
     ```bash
     select * from mysql_orders limit 10;
     ```
+    
+![3 mysql orders 확인v1](https://github.com/user-attachments/assets/dd02d3e9-70ff-4a01-86e8-31708f866df1)
 
 8. mysql products 테이블 생성
 
@@ -189,6 +195,8 @@ hadoop eco의 hive를 활용하여 nginx 로그 데이터와 mysql 데이터를 
     ```bash
     select * from mysql_products limit 10;
     ```
+    
+![4 mysql products 확인v1](https://github.com/user-attachments/assets/8e1608cd-6f0a-4f92-bc74-dfe18a7eb428)
 
 10. hue 쿼리를 위한 view 생성
 
@@ -307,6 +315,8 @@ hadoop eco의 hive를 활용하여 nginx 로그 데이터와 mysql 데이터를 
     WHERE endpoint = '/login'
        OR endpoint IS NOT NULL;
     ```
+    
+![쿼리1](https://github.com/user-attachments/assets/7350f02b-7ee8-4f6d-83cd-6bf601c93333)
 
 3. 검색 키워드 빈도
 
@@ -321,6 +331,8 @@ hadoop eco의 hive를 활용하여 nginx 로그 데이터와 mysql 데이터를 
     GROUP BY regexp_extract(query_params, 'query=([^&]+)', 1)
     ORDER BY frequency DESC;
     ```
+    
+![쿼리2](https://github.com/user-attachments/assets/563daec5-9269-45c8-8631-35178a28cc14)
 
 4. 장바구니 담기 전환율
 
@@ -367,6 +379,8 @@ hadoop eco의 hive를 활용하여 nginx 로그 데이터와 mysql 데이터를 
     FROM total_p tp
     CROSS JOIN converted conv;
     ```
+    
+![쿼리3](https://github.com/user-attachments/assets/841a34f0-2b19-4372-8840-f1d02442d0d3)
 
 5. 인기 상품 상위 10개
 
@@ -399,6 +413,8 @@ hadoop eco의 hive를 활용하여 nginx 로그 데이터와 mysql 데이터를 
     ORDER BY popularity_score DESC
     LIMIT 10;
     ```
+    
+![쿼리4](https://github.com/user-attachments/assets/299b3524-ccb6-4079-bf60-7bdce81c898e)
 
 6. 페이지뷰(PV) 추이
 
@@ -415,6 +431,8 @@ hadoop eco의 hive를 활용하여 nginx 로그 데이터와 mysql 데이터를 
       hour(from_unixtime(unix_timestamp(CAST(CAST(`timestamp` AS TIMESTAMP) AS STRING), 'yyyy-MM-dd HH:mm:ss')))
     ORDER BY dt, hour_of_day;
     ```
+    
+![쿼리5](https://github.com/user-attachments/assets/021c432d-3054-4d85-b07e-9ce31fee77cc)
 
 7. 매출 합계
 
@@ -428,6 +446,8 @@ hadoop eco의 hive를 활용하여 nginx 로그 데이터와 mysql 데이터를 
     FROM hive_orders_flat
     WHERE order_ts BETWEEN '2025-01-01' AND '2025-12-31';
     ```
+    
+![쿼리6](https://github.com/user-attachments/assets/222b45c0-7d6a-45da-8165-604bf02562d1)
 
 8. 카테고리별 매출 비중
 
@@ -451,6 +471,8 @@ hadoop eco의 hive를 활용하여 nginx 로그 데이터와 mysql 데이터를 
     ) total
     GROUP BY p.category, total.total_sales;
     ```
+    
+![쿼리7](https://github.com/user-attachments/assets/464d8326-073f-4437-9013-498e728b7928)
 
 9. 사용자 행동 경로 분석
 
@@ -482,6 +504,8 @@ hadoop eco의 hive를 활용하여 nginx 로그 데이터와 mysql 데이터를 
     LEFT JOIN user_purchase p 
       ON up.session_id = p.session_id;
     ```
+    
+![쿼리10](https://github.com/user-attachments/assets/c9acbb47-5568-496f-aee2-516546b0672e)
 
 10. 상품 상세 페이지 방문 후 구매 전환율
 
@@ -526,7 +550,9 @@ hadoop eco의 hive를 활용하여 nginx 로그 데이터와 mysql 데이터를 
       END AS detail_to_purchase_rate
     FROM total_product tp
     CROSS JOIN converted cv;
-    ``` 
+    ```
+    
+![쿼리11](https://github.com/user-attachments/assets/24a9b69a-c90d-420b-b6dd-2617de55c25b)
 
 11. 사용자 나이대별 구매율
 
@@ -581,7 +607,9 @@ hadoop eco의 hive를 활용하여 nginx 로그 데이터와 mysql 데이터를 
         END
     ) t
     ORDER BY t.gender ASC, t.age_order ASC;
-    ``` 
+    ```
+    
+![쿼리12](https://github.com/user-attachments/assets/45517097-0b9f-49da-b84c-f9e115328dda)
 
 12. 검색 키워드와 구매 연관성
 
