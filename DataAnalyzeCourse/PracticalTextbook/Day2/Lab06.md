@@ -61,7 +61,7 @@ hadoop eco의 hive를 활용하여 이미 만들어진 aggregated logs 테이블
 
     - 아래와 같은 형식의 내용 확인
 
-![user cart metrics temp](https://github.com/user-attachments/assets/cab4c0ae-9a9c-476b-9eb5-2092fb824b2c)
+![user cart metrics temp](https://github.com/user-attachments/assets/c21c393d-a635-4e99-bbac-65e80d537e7a)
 
 4. `ctrl` + `c`로 hive 종료
 
@@ -116,7 +116,7 @@ hadoop eco의 hive를 활용하여 이미 만들어진 aggregated logs 테이블
 
     - 아래와 같은 형식의 내용 확인
 
-![user cart metrics temp](https://github.com/user-attachments/assets/e314ae7a-edb0-40bc-b686-49cd3a24cdea)
+![df show](https://github.com/user-attachments/assets/783915ae-668b-4ccd-97f2-8b74e843d5ea)
 
 5. jdbc로 mysql과 연결 후 적재
 
