@@ -55,7 +55,7 @@
 1. Hadoop Eco - Core Hadoop 유형 생성
     - 클러스터 이름: `core-hadoop`
     - 클러스터 구성
-        - 클러스터 버전: `Hadoop Eco 2.1.0 (Ubuntu 22.04, Core Hadoop, HBase, Trino, Dataflow)`
+        - 클러스터 버전: `Hadoop Eco 2.2.0 (Ubuntu 22.04)`
         - 클러스터 유형:  `Core Hadoop`
         - 클러스터 가용성: `클러스터 고가용성 (HA) 선택 안 함`
     - 관리자 설정
@@ -65,7 +65,7 @@
     - VPC 설정
         - VPC: `kc-vpc`
         - 서브넷: `kr-central-2-a의 Public 서브넷`
-    - 보안 그룹 설정: `새 보안 그룹 생성`
+    - 보안 그룹 설정: `보안 그룹 자동 생성`
     - 다음 버튼 클릭
     - 마스터 노드 설정
         - 마스터 노드 인스턴스 개수: `1`
