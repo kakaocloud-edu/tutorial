@@ -113,7 +113,7 @@ hadoop eco의 hive를 활용하여 이미 만들어진 nginx 로그 데이터 �
     select * from aggregated_logs limit 10;
     ```
 
-    - 아래와 같은 형식의 결과 확인
+    - 아래와 같은 형식의 내용 확인
    
 ![aggregated_logs 확인](https://github.com/user-attachments/assets/3ca3710f-feba-4c87-be9f-b4ab4eb435e5)
 
