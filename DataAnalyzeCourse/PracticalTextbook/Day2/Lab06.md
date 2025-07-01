@@ -230,7 +230,7 @@ hadoop eco의 hive를 활용하여 이미 만들어진 aggregated logs 테이블
     
 ![쿼리4](https://github.com/user-attachments/assets/6121261c-486f-45ee-b3dc-8c19489c00b2)
 
-7. 특정 날짜에 마지막 활동이 있었던 사용자 조회
+7. 특정 기간에 마지막 활동이 있었던 사용자 조회
     - 데이터 원본: `data_origin`
     - 데이터베이스: `shopdb`
     - 우측 편집기의 `+` 버튼 클릭
