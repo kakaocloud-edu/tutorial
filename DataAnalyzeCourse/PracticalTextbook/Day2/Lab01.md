@@ -1,4 +1,4 @@
-## 1.  Hadoop Eco 서비스 생성
+## 1.  Dataflow 서비스 생성
 
 1. Hadoop Eco Dataflow 유형 생성
     - 클러스터 이름: `hadoop-dataflow`
@@ -52,6 +52,7 @@
     | TCP | 0.0.0.0/0 | 22 | SSH |
 
 ---
+## 2. Core Hadoop 서비스 생성
 1. Hadoop Eco - Core Hadoop 유형 생성
     - 클러스터 이름: `core-hadoop`
     - 클러스터 구성
