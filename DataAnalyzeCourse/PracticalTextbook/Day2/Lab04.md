@@ -619,28 +619,9 @@ hadoop eco의 hive를 활용하여 nginx 로그 데이터와 mysql 데이터를 
     ORDER BY conversion_rate DESC;
     ``` 
 
-13. 장바구니에서 제거된 상품 비율
+13. 사용자 재구매율
 
     #### **lab4-4-13**
-
-    ```bash
-    SELECT 
-      CONCAT(
-        CAST(
-          ROUND(
-            (SUM(CASE WHEN endpoint = '/cart/remove' THEN 1 ELSE 0 END) * 1.0) /
-            NULLIF(SUM(CASE WHEN endpoint = '/cart/add' THEN 1 ELSE 0 END), 0) * 100, 
-          2
-          ) AS STRING
-        ), '%'
-      ) AS cart_removal_rate
-    FROM external_nginx_log
-    WHERE endpoint IN ('/cart/add', '/cart/remove');
-    ``` 
-
-14. 사용자 재구매율
-
-    #### **lab4-4-14**
 
     ```bash
     WITH product_user_orders AS (
@@ -669,9 +650,9 @@ hadoop eco의 hive를 활용하여 nginx 로그 데이터와 mysql 데이터를 
     GROUP BY puo.product_id, p.name;
     ``` 
 
-15. 주문 당 평균 상품 수
+14. 주문 당 평균 상품 수
 
-    #### **lab4-4-15**
+    #### **lab4-4-14**
 
     ```bash
     SELECT 
@@ -685,9 +666,9 @@ hadoop eco의 hive를 활용하여 nginx 로그 데이터와 mysql 데이터를 
     ) t;
     ``` 
 
-16. URL별 에러 발생 비율
+15. URL별 에러 발생 비율
 
-    #### **lab4-4-16**
+    #### **lab4-4-15**
 
     ```bash
     SELECT
@@ -705,9 +686,9 @@ hadoop eco의 hive를 활용하여 nginx 로그 데이터와 mysql 데이터를 
     GROUP BY endpoint;
     ``` 
 
-17. 지연 응답 요청 비율
+16. 지연 응답 요청 비율
 
-    #### **lab4-4-17**
+    #### **lab4-4-16**
 
     ```bash
     SELECT
