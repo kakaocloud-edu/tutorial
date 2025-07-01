@@ -113,13 +113,10 @@ hadoop eco의 hive를 활용하여 이미 만들어진 nginx 로그 데이터 �
     select * from aggregated_logs limit 10;
     ```
 
-    - 아래와 비슷한 형식의 결과 확인
+    - 아래와 같은 형식의 결과 확인
    
-    ```bash
-    cc85d37a-b04b-4b89-99aa-c2f70b5b5e5b    guest   112     pageview        1       0.041   2025-06-29 06:19:09     200
-    cc85d37a-b04b-4b89-99aa-c2f70b5b5e5b    user_2df7a5     102     pageview        1       0.012   2025-06-29 06:19:20    200
-    cc85d37a-b04b-4b89-99aa-c2f70b5b5e5b    user_2df7a5     112     order   1       0.0     2025-06-29 06:19:26     200
-    ```
+![aggregated_logs 확인](https://github.com/user-attachments/assets/3ca3710f-feba-4c87-be9f-b4ab4eb435e5)
+
 
 
 
