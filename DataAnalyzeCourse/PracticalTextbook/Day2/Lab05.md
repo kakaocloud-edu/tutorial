@@ -3,48 +3,11 @@
 hadoop eco의 hive를 활용하여 이미 만들어진 nginx 로그 데이터 테이블과 mysql 데이터 테이블을 사용하여 aggregated 테이블을 생성합니다.
 
 ---
-## 1. hadoop-eco 마스터 노드에 접속
+## 1. hive에서 aggregated_logs 테이블 생성
 
-1. 카카오 클라우드 콘솔 > Beyond Compute Service > Virtual Machine
-2. `HadoopMST-core-hadoop-1` 인스턴스의 우측 메뉴바 > `SSH 연결` 클릭
+1. 사용하던 `HadoopMST-core-hadoop-1`에서 hive에 접속
 
-    - SSH 접속 명령어 복사
-    - 터미널 열기
-    - keypair를 다운받아놓은 폴더로 이동
-    - 터미널에 명령어 붙여넣기
-    - yes 입력
-
-    #### **lab5-1-3-1**
-    
-    ```bash
-    cd {keypair.pem 다운로드 위치}
-    ```
-    
-    - 리눅스의 경우에 아래와 같이 키페어의 권한을 조정
-    
-    #### **lab5-1-3-2**
-    
-    ```bash
-    chmod 400 keypair.pem
-    ```
-    
-    #### **lab5-1-3-3**
-    
-    ```bash
-    ssh -i keypair.pem ubuntu@{HadoopMST-core-hadoop-1 public ip주소}
-    ```
-    
-    #### **lab5-1-3-4**
-    
-    ```bash
-    yes
-    ```
-
-## 2. hive에서 aggregated_logs 테이블 생성
-
-1. hive에 접속
-
-    #### **lab5-2-1**
+    #### **lab5-1-1**
 
     ```bash
     hive
@@ -52,7 +15,7 @@ hadoop eco의 hive를 활용하여 이미 만들어진 nginx 로그 데이터 �
 
 2. aggregated_logs 테이블 생성
 
-    #### **lab5-2-2**
+    #### **lab5-1-2**
 
     ```bash
     CREATE TABLE IF NOT EXISTS aggregated_logs (
@@ -71,7 +34,7 @@ hadoop eco의 hive를 활용하여 이미 만들어진 nginx 로그 데이터 �
 
 3. 파티션 설정 및 JAR 등록
 
-    #### **lab5-2-3**
+    #### **lab5-1-3**
 
     ```bash
     ADD JAR /opt/apache-hive-3.1.3-bin/lib/hive-hcatalog-core-3.1.3.jar;
@@ -81,7 +44,7 @@ hadoop eco의 hive를 활용하여 이미 만들어진 nginx 로그 데이터 �
 
 4. aggregated logs 테이블에 데이터 적재
 
-    #### **lab5-2-4**
+    #### **lab5-1-4**
 
     ```bash
     INSERT OVERWRITE TABLE aggregated_logs
@@ -144,7 +107,7 @@ hadoop eco의 hive를 활용하여 이미 만들어진 nginx 로그 데이터 �
 
 5. aggregated_logs 테이블에 적재된 데이터 결과 확인
 
-    #### **lab5-2-5**
+    #### **lab5-1-5**
 
     ```bash
     select * from aggregated_logs limit 10;
