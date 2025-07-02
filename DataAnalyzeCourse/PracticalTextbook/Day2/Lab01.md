@@ -1,3 +1,6 @@
+# 사전 환경 구성
+사전 환경 구성에 대한 실습입니다.
+
 ## 1.  Dataflow 서비스 생성
 
 1. Hadoop Eco Dataflow 유형 생성
