@@ -46,22 +46,27 @@ Data Query 기능을 활용하여 NGINX 로그 및 MySQL 데이터를 이용한 
       #### **lab5-3-2**
       
       ```
-      SELECT 
-         status,
+      SELECT
+         status.member1 AS http_status_code,
          COUNT(*) AS code_count,
          ROUND(COUNT(*) * 100.0 / total.total_count, 2) AS percentage
-      FROM kafka_log_table
+      FROM
+         data_catalog.data_catalog_database.kafka_log_table
       CROSS JOIN (
-         SELECT COUNT(*) AS total_count
-         FROM kafka_log_table
+         SELECT
+            COUNT(*) AS total_count
+         FROM
+            data_catalog.data_catalog_database.kafka_log_table
       ) AS total
-      GROUP BY status, total.total_count
-      ORDER BY status; 
+      GROUP BY
+         status.member1, total.total_count
+      ORDER BY
+         http_status_code;
       ```
    - 쿼리 결과 탭에서 HTTP 상태 코드 분포 확인
-      ![image](https://github.com/user-attachments/assets/0416754a-a6dc-4b59-80a1-ecc873a031c2)
+      <img width="981" alt="HTTP 상태 분포" src="https://github.com/user-attachments/assets/d904ba19-bf52-4733-8c6d-b8821da1894c" />
 
-      
+
 3. NGINX 로그를 활용하여 인기 상품 클릭 수 쿼리
    - 데이터 원본: `data_catalog`
    - 데이터 베이스: `data_catalog_database`
