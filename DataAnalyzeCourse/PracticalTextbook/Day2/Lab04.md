@@ -3,7 +3,7 @@
 Hadoop Eco의 Hive를 활용하여 Nginx 로그 데이터와 MySQL 데이터를 사용하여 External 테이블로 생성합니다. 생성된 테이블을 이용하여 Hue로 쿼리를 진행하는 실습입니다.
 
 ---
-## 1. 생성한 Hadoop-Eco 마스터 노드에 접속
+## 1. Hadoop-Eco 마스터 노드 접속
 
 1. 카카오 클라우드 콘솔 > Beyond Compute Service > Virtual Machine
 2. `HadoopMST-core-hadoop-1` 인스턴스의 우측 메뉴바 > `SSH 연결` 클릭
@@ -251,7 +251,7 @@ Hadoop Eco의 Hive를 활용하여 Nginx 로그 데이터와 MySQL 데이터를 
 11. `ctrl` + `c`로 종료
 
 
-## 3. Hue를 이용하기 위한 환경 설정
+## 3. Hue 환경 설정
 
 1. 웹 브라우저 주소창에서 아래 URL 입력을 통해 hue 접속
 
