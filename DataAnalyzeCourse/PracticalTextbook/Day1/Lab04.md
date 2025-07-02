@@ -111,7 +111,8 @@ Data Catalog와 Pub/Sub, Object Storage를 연동하여 테이블을 생성하�
         | 미사용   | 3        | endpoint     | string     | 빈 칸      |
    - 생성 버튼 클릭
 3. `kafka_log_table` 테이블의 상태가 `Active`인 것을 확인
-![image](https://github.com/user-attachments/assets/966a8c56-0803-4a5c-935c-330e243b9c35)
+      <img width="1920" alt="결과 이미지" src="https://github.com/user-attachments/assets/a5279b23-2a8b-401d-81b3-82cb542bfaa2" />
+
 
 
 ## 6. Data Catalog 이벤트 메시지 수신
