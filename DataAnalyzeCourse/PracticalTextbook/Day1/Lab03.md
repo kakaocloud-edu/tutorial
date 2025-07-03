@@ -46,7 +46,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
 
 ![최최종 그림 lab02](https://github.com/user-attachments/assets/e2042303-f606-49e9-8a60-df66872581bf)
 
-1. `api-server-1`, `api-server-2`에서 `temp-kafka-bootstrap-server` 값을 실제 생성된 Kafka 클러스터 부트스트랩 서버 값으로 수정
+1. `api-server-1`에서 `temp-kafka-bootstrap-server` 값을 실제 생성된 Kafka 클러스터 부트스트랩 서버 값으로 수정
    - **Note**: `{실제 Kafka 클러스터 부트스트랩 서버값}`을 개인 환경에 맞게 수정 필요
 
     #### **lab3-2-1**
@@ -55,7 +55,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     sudo sed -i 's/temp-kafka-bootstrap-server/{실제 Kafka 클러스터 부트스트랩 서버값}/g' /home/ubuntu/.bashrc /etc/default/logstash /opt/confluent/etc/schema-registry/schema-registry.properties
     ```
 
-2. `api-server-1`, `api-server-2`에서 Kafka Output 활성화 및 Pub/Sub 송신 설정 제거
+2. `api-server-1`에서 Kafka Output 활성화 및 Pub/Sub 송신 설정 제거
 
     #### **lab3-2-2-1**
     
@@ -67,7 +67,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     ```
     
 
-3. `api-server-1`, `api-server-2`에서 Logstash 설정 파일을 수정하여 Kafka로 송신하도록 설정
+3. `api-server-1`서 Logstash 설정 파일을 수정하여 Kafka로 송신하도록 설정
 
     #### **lab3-2-3**
    
@@ -75,7 +75,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     sudo sed -i 's/logs-to-pubsub.conf/logs-to-kafka.conf/g' /etc/logstash/logstash.yml
     ```
     
-4. `api-server-1`, `api-server-2`에서 Logstash, Filebeat 재시작 및 상태 확인
+4. `api-server-1`에서 Logstash, Filebeat 재시작 및 상태 확인
     
     #### **lab3-2-4**
     
@@ -89,7 +89,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     sudo systemctl restart logstash
     ```
 
-5. `api-server-1`, `api-server-2`에서 Logstash 가 `Active:active (running)` 상태인 것을 확인
+5. `api-server-1`에서 Logstash 가 `Active:active (running)` 상태인 것을 확인
 
     #### **lab3-2-5**
 
