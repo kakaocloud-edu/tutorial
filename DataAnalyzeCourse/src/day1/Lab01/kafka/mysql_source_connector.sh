@@ -45,7 +45,7 @@ required_env_vars=(
   MYSQL_SERVER_ID MYSQL_SERVER_NAME
 )
 
-echo "kakaocloud: 2. 필수 환경 변수 검증 시작"
+echo "kakaocloud: 3. 필수 환경 변수 검증 시작"
 for var in "${required_env_vars[@]}"; do
     if [ -z "${!var}" ]; then
         echo "kakaocloud: 오류: 필수 환경 변수 $var 가 설정되지 않았습니다. 스크립트를 종료합니다."
@@ -60,14 +60,14 @@ KAFKA_BOOTSTRAP_SERVERS="$KAFKA_BOOTSTRAP_SERVER"
 ################################################################################
 # 3. 시스템 업데이트 및 필수 패키지 설치
 ################################################################################
-echo "kakaocloud: 3. 시스템 업데이트 및 필수 패키지 설치 시작"
+echo "kakaocloud: 4. 시스템 업데이트 및 필수 패키지 설치 시작"
 sudo apt update -y || { echo "kakaocloud: apt update 실패"; exit 1; }
 sudo apt install -y python3 python3-pip openjdk-21-jdk unzip jq aria2 curl || { echo "kakaocloud: 필수 패키지 설치 실패"; exit 1; }
 
 ################################################################################
 # 4. Kafka 다운로드 및 설치
 ################################################################################
-echo "kakaocloud: 4. Kafka 설치 시작"
+echo "kakaocloud: 5. Kafka 설치 시작"
 aria2c -x 16 -s 16 -d /home/ubuntu -o "${KAFKA_TGZ}" "${KAFKA_DOWNLOAD_URL}" || { echo "kakaocloud: Kafka 다운로드 실패"; exit 1; }
 tar -xzf /home/ubuntu/"${KAFKA_TGZ}" -C /home/ubuntu || { echo "kakaocloud: Kafka 압축 해제 실패"; exit 1; }
 rm /home/ubuntu/"${KAFKA_TGZ}" || { echo "kakaocloud: 임시 파일 삭제 실패"; exit 1; }
@@ -76,7 +76,7 @@ mv /home/ubuntu/kafka_${KAFKA_SCALA_VERSION}-${KAFKA_VERSION} "${KAFKA_INSTALL_D
 ################################################################################
 # 5. .bashrc에 JAVA_HOME 및 PATH 등록
 ################################################################################
-echo "kakaocloud: 5. Java 환경 변수 등록 시작"
+echo "kakaocloud: 6. Java 환경 변수 등록 시작"
 sed -i '/^export JAVA_HOME=/d' /home/ubuntu/.bashrc
 sed -i '/^export PATH=.*\\$JAVA_HOME\/bin/d' /home/ubuntu/.bashrc
 sed -i '/^export CLASSPATH=.*\\$JAVA_HOME/d' /home/ubuntu/.bashrc
@@ -92,7 +92,7 @@ source /home/ubuntu/.bashrc || { echo "kakaocloud: .bashrc 재적용 실패"; ex
 ################################################################################
 # 6. Debezium MySQL 커넥터 플러그인 다운로드 및 설치
 ################################################################################
-echo "kakaocloud: 6. Debezium MySQL Connector 플러그인 다운로드 및 설치 시작"
+echo "kakaocloud: 7. Debezium MySQL Connector 플러그인 다운로드 및 설치 시작"
 # Kafka Connect 플러그인 디렉토리 생성
 sudo mkdir -p "${KAFKA_INSTALL_DIR}/plugins" || { echo "kakaocloud: Kafka Connect 플러그인 디렉토리 생성 실패"; exit 1; }
 sudo chown -R ubuntu:ubuntu "${KAFKA_INSTALL_DIR}/plugins" || { echo "kakaocloud: 플러그인 디렉토리 권한 설정 실패"; exit 1; }
@@ -112,7 +112,7 @@ ls -F "${KAFKA_INSTALL_DIR}/plugins/debezium-connector-mysql/" || { echo "kakaoc
 ################################################################################
 # 7. Kafka Connect 분산 모드 설정 (worker.properties)
 ################################################################################
-echo "kakaocloud: 7. Kafka Connect 분산 모드 설정 (worker.properties) 시작"
+echo "kakaocloud: 8. Kafka Connect 분산 모드 설정 (worker.properties) 시작"
 cat <<EOF > "${KAFKA_INSTALL_DIR}/config/worker.properties"
 bootstrap.servers=${KAFKA_BOOTSTRAP_SERVERS}
 
@@ -152,7 +152,7 @@ sudo chown -R ubuntu:ubuntu "${KAFKA_INSTALL_DIR}" || { echo "kakaocloud: Kafka 
 ################################################################################
 # 8. Kafka Connect 시스템 서비스 등록 및 시작
 ################################################################################
-echo "kakaocloud: 8. Kafka Connect 시스템 서비스 등록 및 시작"
+echo "kakaocloud: 9. Kafka Connect 시스템 서비스 등록 및 시작"
 sudo sh -c 'cat << EOF_SERVICE > /etc/systemd/system/kafka-connect.service
 [Unit]
 Description=Kafka Connect Distributed
@@ -184,7 +184,7 @@ sudo systemctl status kafka-connect || { echo "kakaocloud: Kafka Connect 서비�
 ################################################################################
 # 9. Debezium Connector 구성 파일 생성 (REST API 배포용)
 ################################################################################
-echo "kakaocloud: 9. Debezium Connector 구성 파일 생성 시작"
+echo "kakaocloud: 10. Debezium Connector 구성 파일 생성 시작"
 sudo mkdir -p "${KAFKA_INSTALL_DIR}/config/connectors" || { echo "kakaocloud: 커넥터 설정 디렉토리 생성 실패"; exit 1; }
 
 # mysql-connector.json 파일 생성 또는 덮어쓰기
