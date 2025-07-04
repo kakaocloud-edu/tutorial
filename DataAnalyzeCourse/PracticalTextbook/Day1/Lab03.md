@@ -480,7 +480,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
         #### **lab3-8-2**
         ```
         #!/bin/bash
-        # kafka_vm_init.sh
+        # s3_sink_connector_init.sh
         echo "kakaocloud: 1. 환경 변수 설정 시작"
         
         cat <<'EOF' > /tmp/env_vars.sh
