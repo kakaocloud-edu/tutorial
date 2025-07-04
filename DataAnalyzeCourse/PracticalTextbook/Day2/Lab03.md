@@ -109,7 +109,7 @@ Kafka로 들어오는 데이터를 Druid에서 실시간으로 수집 및 가공
     icacls.exe keypair.pem /inheritance:r
     ```
     
-6. 마스터, 워커 노드 모두에서 Druid 설정 파일에서 druid.extensions.loadList 값 추가 후 druid 재시작
+6. 마스터, 워커 노드 모두에서 Druid 설정 파일에서 druid.extensions.loadList 값 추가
 
     #### lab3-1-6
 
