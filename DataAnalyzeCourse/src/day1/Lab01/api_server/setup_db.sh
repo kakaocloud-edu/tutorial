@@ -12,14 +12,6 @@ if ! timeout 3 bash -c "</dev/tcp/$MYSQL_HOST/3306" 2>/dev/null; then
   exit 1
 fi
 
-# 동시 실행 방지용 락 획득 (최대 15초 대기)
-mysql -h "$MYSQL_HOST" -u "$MYSQL_USER" -p"$MYSQL_PASS" -e \
-  "SELECT GET_LOCK('shopdb_init_lock', 15);" | grep -q 1
-if [ $? -ne 0 ]; then
-  echo "다른 VM이 초기화 중이거나 락 획득 실패. 종료."
-  exit 1
-fi
-
 # 초기 스키마 및 데이터 설정용 SQL을 HERE DOC으로 직접 포함
 SQL_COMMANDS=$(cat <<'EOF'
 DROP DATABASE IF EXISTS shopdb;
