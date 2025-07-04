@@ -154,17 +154,6 @@ MySQL Connector VM 생성을 통해 MySQL 데이터의 CDC(Change Data Capture) 
     
     ![image](https://github.com/user-attachments/assets/faedd699-2cd2-4ebf-9137-b438404cfb15)
 
-
-10. users 테이블 정보가 쌓인 토픽의 메시지 확인
-    #### **lab2-1-9**
-    
-    ```bash
-    /home/ubuntu/kafka/bin/kafka-console-consumer.sh \
-    --bootstrap-server "$KAFKA_BOOTSTRAP_SERVER" \
-    --topic mysql-server.shopdb.users --from-beginning
-    ```
-    ![image](https://github.com/user-attachments/assets/c7760bf2-b15d-4e0d-9d2e-4dc263e0563a)
-
 ## 2. S3 Sink Connector VM에서 Connector 추가
 1. `s3-sink-connector` 인스턴스의 우측 메뉴바 > `SSH 연결` 클릭
     - SSH 접속 명령어 복사
