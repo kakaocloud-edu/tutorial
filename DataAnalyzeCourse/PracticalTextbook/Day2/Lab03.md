@@ -118,24 +118,13 @@ Kafka로 들어오는 데이터를 Druid에서 실시간으로 수집 및 가공
     sudo sed -i 's|druid.extensions.loadList=.*|druid.extensions.loadList=["druid-avro-extensions", "druid-hdfs-storage", "druid-kafka-indexing-service", "druid-datasketches", "druid-multi-stage-query"]|' /opt/apache-druid-25.0.0/conf/druid/auto/_common/common.runtime.properties
     ```
     
-7. 기존 druid 프로세스 전부 종료
+7. 마스터, 워커 노드 모두에서 Druid 관련 서비스 재시작
 
-    #### lab3-1-6
+    #### lab3-1-7
 
     ```bash
-    pkill -f "druid.node.type"
+    sudo systemctl restart 'druid-*'
     ```
-    
-
-8. 세 가지 Druid 노드 프로세스가 모두 기동 중인지 확인
-
-    #### lab3-1-8
-
-    ```sql
-    ps -ef | grep druid.node.type | grep -v grep
-    ```
-
-    ![image](https://github.com/user-attachments/assets/60c344cc-41c8-49a5-bd56-1d677cc5d5a8)
 
 
 ## 2. **Druid를 활용한 데이터 수집 및 가공**
