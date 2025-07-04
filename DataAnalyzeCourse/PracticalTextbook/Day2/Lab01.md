@@ -1,9 +1,9 @@
 # 사전 환경 구성
 사전 환경 구성에 대한 실습입니다.
 
-## 1.  Dataflow 서비스 생성
+## 1.  Dataflow 유형 Hadoop Eco 클러스터 생성
 
-1. Hadoop Eco Dataflow 유형 생성
+1. Hadoop Eco 클러스터를 Dataflow 유형 생성
     - 클러스터 이름: `hadoop-dataflow`
     - 클러스터 구성
         - 클러스터 가용성: `클러스터 고가용성 (HA) 선택 안 함`
@@ -55,8 +55,8 @@
     | TCP | 0.0.0.0/0 | 22 | SSH |
 
 ---
-## 2. Core Hadoop 서비스 생성
-1. Hadoop Eco - Core Hadoop 유형 생성
+## 2. Core Hadoop 유형 Hadoop Eco 클러스터 생성
+1. Hadoop Eco 클러스터를 Core Hadoop 유형 생성
     - 클러스터 이름: `core-hadoop`
     - 클러스터 구성
         - 클러스터 버전: `Hadoop Eco 2.2.0 (Ubuntu 22.04)`
