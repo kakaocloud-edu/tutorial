@@ -611,18 +611,6 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     sudo sed -i 's|PLAINTEXT://localhost:9092|{실제 Kafka 클러스터 부트스트랩 서버값}|' /confluent-hub/plugins/confluent-7.5.3/etc/schema-registry/schema-registry.properties
     ```
     
-8. 데몬 리로드 및Schema Registry 서비스 재실행
-    
-    #### lab**3-8-8-1**
-    
-    ```bash
-    sudo systemctl daemon-reload
-    ```
-    #### lab**3-8-8-2**
-    ```bash
-    sudo systemctl restart schema-registry.service
-    ```
-    
 9. kafka 서비스 등록
     #### lab**3-8-9-1**
     
