@@ -52,7 +52,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     #### **lab3-2-1**
     
     ```bash
-    sudo sed -i 's/temp-kafka-bootstrap-server/{실제 Kafka 클러스터 부트스트랩 서버값}/g' /home/ubuntu/.bashrc /etc/default/logstash /opt/confluent/etc/schema-registry/schema-registry.properties
+    sed -i "s|temp-kafka-bootstrap-server|${KAFKA_BOOTSTRAP_SERVER}|g" /home/ubuntu/.bashrc /etc/default/logstash /opt/confluent/etc/schema-registry/schema-registry.properties
     ```
 
 2. `api-server-1`에서 Kafka Output 활성화 및 Pub/Sub 송신 설정 제거
