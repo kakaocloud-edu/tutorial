@@ -38,8 +38,6 @@ Hadoop Eco의 Hive를 활용하여 이미 만들어진 Nginx 로그 데이터 �
 
     ```bash
     ADD JAR /opt/apache-hive-3.1.3-bin/lib/hive-hcatalog-core-3.1.3.jar;
-    SET hive.exec.dynamic.partition = false;
-    SET hive.exec.dynamic.partition.mode = strict;
     ```
 
 4. aggregated_logs 테이블에 데이터 적재
