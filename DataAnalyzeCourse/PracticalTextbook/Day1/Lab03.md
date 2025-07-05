@@ -470,7 +470,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
                     - 프로토콜: `TCP`, 출발지: `0.0.0.0/0`, 포트 번호: `22`, 설명(선택): `ssh`
                     - 프로토콜: `TCP`, 출발지: `0.0.0.0/0`, 포트 번호: `9092`, 설명(선택): `kafka`
                 - 아웃바운드 규칙
-                    - 프로토콜: ALL, 출발지: 0.0.0.0/0, 포트 번호: `ALL`
+                    - 프로토콜: `ALL`, 출발지: `0.0.0.0/0`, 포트 번호: `ALL`
         
     - 고급 설정
         - 사용자 스크립트: [`s3_sink_connector_init.sh`](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day1/Lab01/kafka/s3_sink_connector_init.sh)의 쌍따옴표(“”) 사이에 자신의 리소스 값 입력
