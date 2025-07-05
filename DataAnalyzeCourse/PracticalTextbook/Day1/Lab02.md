@@ -211,33 +211,25 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 활용하여 �
 
 
 ## 5. Object Storage에 NGINX 로그 적재
-1. `traffic-generator-1`에서 트래픽 생성을 위해 디렉터리 이동
-    
+1. `traffic-generator-1`에서 트래픽 로그를 생성
+   - **Note**: [`traffic_generator.py`](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day1/Lab02/pubsub/traffic_generator.py)
+
     #### **lab2-5-1**
     
     ```bash
-    cd /home/ubuntu/DataAnalyzeCourse/src/day1/Lab02/pubsub/
+    nohup python3 /home/ubuntu/DataAnalyzeCourse/src/day1/Lab02/pubsub/traffic_generator.py --mode continuous > /dev/null 2>&1 &
     ```
-
-2. `traffic-generator-1`에서 트래픽 로그를 생성
-   - **Note**: [`traffic_generator.py`](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day1/Lab02/pubsub/traffic_generator.py)
+    
+2. 실행 후 새로 생성된 `traffic_generator.log` 로그 파일 확인
 
     #### **lab2-5-2**
     
     ```bash
-    nohup python3 traffic_generator.py --mode continuous > /dev/null 2>&1 &
-    ```
-    
-3. 실행 후 새로 생성된 `traffic_generator.log` 로그 파일 확인
-
-    #### **lab2-5-3**
-    
-    ```bash
-    cat traffic_generator.log
+    cat /home/ubuntu/DataAnalyzeCourse/src/day1/Lab02/pubsub/traffic_generator.log
     ```
     ![그림1](https://github.com/user-attachments/assets/18a43d5b-61c5-4812-b2eb-3788357c2890)
 
-4. 카카오 클라우드 콘솔 > Beyond Storage Service > Object Storage
-5. `pubsub-log-bucket` 버킷 클릭
-6. 현재 연도/월/일/시 디렉터리로 이동하여 생성된 NGINX 로그 확인
+3. 카카오 클라우드 콘솔 > Beyond Storage Service > Object Storage
+4. `pubsub-log-bucket` 버킷 클릭
+5. 현재 연도/월/일/시 디렉터리로 이동하여 생성된 NGINX 로그 확인
    ![16](https://github.com/user-attachments/assets/50308a92-97e5-4325-b620-5ceb457ddd37)
