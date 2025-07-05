@@ -65,6 +65,29 @@ sudo cp /home/ubuntu/tutorial/DataAnalyzeCourse/src/day1/Lab01/api_server/logs-t
 
 sudo systemctl restart logstash
 
+echo "kakaocloud: 11. systemd 유닛 파일 생성 및 Schema Registry 서비스 등록 시작"
+cat <<EOF | sudo tee /etc/systemd/system/schema-registry.service
+[Unit]
+Description=Confluent Schema Registry
+After=network.target
+
+[Service]
+Type=simple
+User=ubuntu
+ExecStart=/opt/confluent/bin/schema-registry-start /opt/confluent/etc/schema-registry/schema-registry.properties
+Restart=on-failure
+RestartSec=5s
+
+[Install]
+WantedBy=multi-user.target
+EOF
+if [ $? -ne 0 ]; then echo "kakaocloud: Schema Registry Service 파일 작성 실패"; exit 1; fi
+
+sudo systemctl daemon-reload || { echo "kakaocloud: daemon-reload 실패"; exit 1; }
+sudo systemctl enable schema-registry.service || { echo "kakaocloud: schema-registry 서비스 자동 시작 설정 실패"; exit 1; }
+sudo systemctl start schema-registry.service || { echo "kakaocloud: schema-registry 서비스 시작 실패"; exit 1; }
+sudo systemctl status schema-registry.service || { echo "kakaocloud: schema-registry 서비스 상태 확인 실패"; exit 1; }
+
 # 실습에 사용되는 폴더만 남기기 위해 tutorial 리포지토리 삭제
 sudo rm -rf /home/ubuntu/tutorial || {
     echo "kakaocloud: Failed to remove the tutorial repository"; exit 1;
