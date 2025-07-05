@@ -140,33 +140,62 @@ Kafka로 들어오는 데이터를 Druid에서 실시간으로 수집 및 가공
 
     ```bash
     {
+      // 인게스트 타입: Kafka 스트리밍
       "type": "kafka",
       "spec": {
+        // ─────────────────────────────────────────────────
+        // 1) 입력(io) 설정
+        // ─────────────────────────────────────────────────
         "ioConfig": {
+          // io 타입: kafka 스트리밍
           "type": "kafka",
+    
           "consumerProperties": {
-            "bootstrap.servers": "{Kafka 부트스트랩 서버}"
+            // Kafka 브로커 주소 (필수)
+            "bootstrap.servers": "10.0.3.76:9092,10.0.1.38:9092"
           },
+          // 구독할 토픽 (필수)
           "topic": "nginx-topic",
+    
           "inputFormat": {
+            // 메시지 포맷: Avro 스트림 (필수)
             "type": "avro_stream",
             "avroBytesDecoder": {
+              // Avro 스키마 조회 방식: Schema Registry (필수)
               "type": "schema_registry",
-              "url": "http://{api-server-1의 Public IP}:8081"
+              // Schema Registry URL (필수)
+              "url": "http://210.109.83.191:8081"
             }
           },
+    
+          // Earliest 오프셋부터 읽을지 여부 (선택, default=false)
           "useEarliestOffset": false
         },
+    
+        // ─────────────────────────────────────────────────
+        // 2) 튜닝(tuning) 설정
+        // ─────────────────────────────────────────────────
         "tuningConfig": {
+          // Kafka용 튜닝
           "type": "kafka"
         },
+    
+        // ─────────────────────────────────────────────────
+        // 3) 스키마(dataSchema) 설정
+        // ─────────────────────────────────────────────────
         "dataSchema": {
+          // Druid datasource 이름 (필수)
           "dataSource": "nginx-topic",
+    
           "timestampSpec": {
+            // 타임스탬프가 저장된 컬럼 (필수)
             "column": "timestamp",
+            // 자동 포맷 감지 (선택, default="auto")
             "format": "auto"
           },
+    
           "dimensionsSpec": {
+            // dimension으로 사용할 컬럼 목록 (선택)
             "dimensions": [
               "remote_addr",
               "request",
@@ -202,9 +231,13 @@ Kafka로 들어오는 데이터를 Druid에서 실시간으로 수집 및 가공
               }
             ]
           },
+    
           "granularitySpec": {
+            // 쿼리 기본 단위 (필수)
             "queryGranularity": "none",
+            // 롤업 수행 여부 (필수)
             "rollup": false,
+            // 세그먼트 생성 단위 (필수)
             "segmentGranularity": "all"
           }
         }
