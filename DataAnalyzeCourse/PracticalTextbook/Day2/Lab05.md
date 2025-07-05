@@ -53,7 +53,9 @@ Hadoop Eco의 Hive를 활용하여 이미 만들어진 Nginx 로그 데이터 �
       COALESCE(NULLIF(t.product_id, ''), 'NULL')      AS product_id,
     
       CASE WHEN SUM(CASE WHEN t.src='order' THEN 1 ELSE 0 END) > 0
-           THEN 'order' ELSE 'pageview' END             AS event_type,
+           THEN 'order'
+           ELSE 'pageview'
+      END                                             AS event_type,
     
       CASE WHEN SUM(CASE WHEN t.src='order' THEN 1 ELSE 0 END) > 0
            THEN SUM(CASE WHEN t.src='order' THEN 1 ELSE 0 END)
@@ -64,9 +66,13 @@ Hadoop Eco의 Hive를 활용하여 이미 만들어진 Nginx 로그 데이터 �
     
       DATE_FORMAT(MAX(t.log_ts), 'yyyy-MM-dd HH:mm:ss') AS last_active_time,
     
-      MAX(t.status)                                  AS status
+      -- 성공(HTTP 200) 이벤트만 카운트
+      SUM(
+        CASE WHEN t.status = 200 THEN 1 ELSE 0 END
+      )                                             AS success_count
     
     FROM (
+      -- (A) pageview 원본
       SELECT
         n.session_id,
         n.user_id,
@@ -80,6 +86,7 @@ Hadoop Eco의 Hive를 활용하여 이미 만들어진 Nginx 로그 데이터 �
     
       UNION ALL
     
+      -- (B) 주문 이벤트 (pageview 포함 세션만)
       SELECT DISTINCT
         o.after.session_id                     AS session_id,
         o.after.user_id                        AS user_id,
@@ -98,8 +105,7 @@ Hadoop Eco의 Hive를 활용하여 이미 만들어진 Nginx 로그 데이터 �
       AND t.product_id       IS NOT NULL
       AND t.product_id <> ''
       AND t.product_id <> 'NULL'
-    GROUP BY t.session_id, t.user_id, t.product_id
-    ;
+    GROUP BY t.session_id, t.user_id, t.product_id;
     ```
 
 5. aggregated_logs 테이블에 적재된 데이터 결과 확인
