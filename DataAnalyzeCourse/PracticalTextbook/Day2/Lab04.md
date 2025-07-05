@@ -55,7 +55,7 @@ Hadoop Eco의 Hive를 활용하여 Nginx 로그 데이터와 MySQL 데이터를 
     
     ![hive 접속 확인](https://github.com/user-attachments/assets/b0517aae-5142-4c5c-b6ac-fb5f565505ed)
 
-2. external_nginx_log 테이블 생성
+3. external_nginx_log 테이블 생성
 
     #### **lab4-2-2**
 
@@ -84,7 +84,7 @@ Hadoop Eco의 Hive를 활용하여 Nginx 로그 데이터와 MySQL 데이터를 
     LOCATION 's3a://data-catalog-bucket/kafka-nginx-log/nginx-topic/';
     ```
 
-3. 생성된 external_nginx_log 테이블 확인
+4. 생성된 external_nginx_log 테이블 확인
 
     - 테이블의 컬럼명이 뜨도록 설정
   
@@ -122,7 +122,7 @@ Hadoop Eco의 Hive를 활용하여 Nginx 로그 데이터와 MySQL 데이터를 
     
     ![1 external table 확인v1](https://github.com/user-attachments/assets/7b941b20-fd5a-4add-9b53-1427f6d109aa)
 
-4. mysql_users 테이블 생성
+5. mysql_users 테이블 생성
 
      #### **lab4-2-4**
 
@@ -142,7 +142,7 @@ Hadoop Eco의 Hive를 활용하여 Nginx 로그 데이터와 MySQL 데이터를 
     LOCATION 's3a://data-catalog-bucket/raw_cdc_events/mysql-server.shopdb.users/';
     ```
 
-5. 생성된 mysql_users 테이블 확인
+6. 생성된 mysql_users 테이블 확인
 
      #### **lab4-2-5**
 
@@ -161,7 +161,7 @@ Hadoop Eco의 Hive를 활용하여 Nginx 로그 데이터와 MySQL 데이터를 
    
     ![2 mysql users 확인v1](https://github.com/user-attachments/assets/3b9b3e65-ca93-482f-8144-47970207f465)
 
-6. mysql_orders 테이블 생성
+7. mysql_orders 테이블 생성
 
      #### **lab4-2-6**
 
@@ -182,7 +182,7 @@ Hadoop Eco의 Hive를 활용하여 Nginx 로그 데이터와 MySQL 데이터를 
     LOCATION 's3a://data-catalog-bucket/raw_cdc_events/mysql-server.shopdb.orders/';
     ```
 
-7. 생성된 mysql_orders 테이블 확인
+8. 생성된 mysql_orders 테이블 확인
 
      #### **lab4-2-7**
 
@@ -193,7 +193,7 @@ Hadoop Eco의 Hive를 활용하여 Nginx 로그 데이터와 MySQL 데이터를 
     
     ![3 mysql orders 확인v1](https://github.com/user-attachments/assets/d9a0e233-91ae-4660-97d1-847dac08a249)
 
-8. mysql_products 테이블 생성
+9. mysql_products 테이블 생성
 
      #### **lab4-2-8**
 
@@ -211,7 +211,7 @@ Hadoop Eco의 Hive를 활용하여 Nginx 로그 데이터와 MySQL 데이터를 
     LOCATION 's3a://data-catalog-bucket/raw_cdc_events/mysql-server.shopdb.products/';
     ```
 
-9. 생성된 mysql_products 테이블 확인
+10. 생성된 mysql_products 테이블 확인
 
      #### **lab4-2-9**
 
@@ -222,7 +222,7 @@ Hadoop Eco의 Hive를 활용하여 Nginx 로그 데이터와 MySQL 데이터를 
 
     ![4 mysql products 확인v1](https://github.com/user-attachments/assets/6f23db7b-0525-438e-9c27-6bf866477397)
 
-10. Hue 쿼리를 위한 view 생성
+11. Hue 쿼리를 위한 view 생성
 
      #### **lab4-2-10-1**
 
@@ -268,7 +268,7 @@ Hadoop Eco의 Hive를 활용하여 Nginx 로그 데이터와 MySQL 데이터를 
     FROM mysql_products;
     ```
 
-11. 생성한 테이블들 확인
+12. 생성한 테이블들 확인
 
     #### **lab4-2-11**
 
@@ -276,7 +276,7 @@ Hadoop Eco의 Hive를 활용하여 Nginx 로그 데이터와 MySQL 데이터를 
     show tables;
     ```
 
-12. `ctrl` + `c`로 종료
+13. `ctrl` + `c`로 종료
 
 
 ## 3. Hue 환경 설정
