@@ -66,13 +66,11 @@ Hadoop Eco의 Hive를 활용하여 이미 만들어진 Nginx 로그 데이터 �
     
       DATE_FORMAT(MAX(t.log_ts), 'yyyy-MM-dd HH:mm:ss') AS last_active_time,
     
-      -- 성공(HTTP 200) 이벤트만 카운트
       SUM(
         CASE WHEN t.status = 200 THEN 1 ELSE 0 END
       )                                             AS success_count
     
     FROM (
-      -- (A) pageview 원본
       SELECT
         n.session_id,
         n.user_id,
@@ -86,7 +84,6 @@ Hadoop Eco의 Hive를 활용하여 이미 만들어진 Nginx 로그 데이터 �
     
       UNION ALL
     
-      -- (B) 주문 이벤트 (pageview 포함 세션만)
       SELECT DISTINCT
         o.after.session_id                     AS session_id,
         o.after.user_id                        AS user_id,
