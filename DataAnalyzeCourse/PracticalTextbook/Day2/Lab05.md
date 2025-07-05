@@ -125,6 +125,10 @@ Hadoop Eco의 Hive를 활용하여 이미 만들어진 Nginx 로그 데이터 �
     SET hive.metastore.warehouse.dir;
     ```
 
+    - 아래와 같은 형식의 내용 확인
+
+    ![hive에서 hdfs 경로 확인](https://github.com/user-attachments/assets/5f3fd033-491c-461e-a283-4d8ee892e1c8)
+
 7. `ctrl` + `c`로 종료
 
 8. Hadoop Eco의 HDFS에 생성된 aggregated_logs 테이블 확인
