@@ -157,15 +157,15 @@ sudo cp /home/ubuntu/tutorial/DataAnalyzeCourse/src/day1/Lab01/api_server/logs-t
 sudo chmod +x /home/ubuntu/api_full_setup.sh /home/ubuntu/setup_db.sh /home/ubuntu/api_avro_setup.sh \
   || { echo "kakaocloud: api_full_setup.sh, setup_db.sh에 실행 권한 부여 실패"; exit 1; }
 
-echo "kakaocloud: 8. api_full_setup.sh 스크립트 실행 시작"
+echo "kakaocloud: 8. API 서버·파이프라인 가동용 api_full_setup.sh 실행 시작"
 sudo -E /home/ubuntu/api_full_setup.sh \
   || { echo "kakaocloud: api_full_setup.sh 실행 실패"; exit 1; }
 
-echo "kakaocloud: 9. setup_db.sh 스크립트 실행 시작"
+echo "kakaocloud: 9. DB 스키마·데이터 설정용 setup_db.sh 실행 시작"
 sudo -E /home/ubuntu/setup_db.sh \
   || { echo "kakaocloud: setup_db.sh 실행 실패"; exit 1; }
 
-echo "kakaocloud: 10. api_avro_setup.sh 스크립트 실행 시작"
+echo "kakaocloud: 10. Avro 플러그인 설치용 api_arvo_setup.sh 실행 시작"
 sudo -E /home/ubuntu/api_avro_setup.sh \
   || { echo "kakaocloud: api_avro_setup.sh 실행 실패"; exit 1; }
 
