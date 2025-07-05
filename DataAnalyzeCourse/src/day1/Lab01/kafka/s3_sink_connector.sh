@@ -412,7 +412,7 @@ cat <<EOF | sudo tee /home/ubuntu/kafka/config/connectors/nginx-s3-sink-connecto
         "tasks.max": "1",
         "topics": "${NGINX_LOG_TOPIC}",
         "s3.region": "kr-central-2",
-        "s3.bucket.name": "data-catalog-bucket",
+        "s3.bucket.name": "${BUCKET_NAME}",
         "s3.part.size": "5242880",
         "aws.access.key.id": "\${env:AWS_ACCESS_KEY_ID_VALUE}",
         "aws.secret.access.key": "\${env:AWS_SECRET_ACCESS_KEY_VALUE}",
