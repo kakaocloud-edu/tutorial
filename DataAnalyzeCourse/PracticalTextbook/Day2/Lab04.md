@@ -191,7 +191,7 @@ Hadoop Eco의 Hive를 활용하여 Nginx 로그 데이터와 MySQL 데이터를 
     ```
     - 아래와 같은 형식의 내용 확인
     
-    ![3 mysql orders 확인v1](https://github.com/user-attachments/assets/d9a0e233-91ae-4660-97d1-847dac08a249)
+    ![3 mysql orders 확인v1](https://github.com/user-attachments/assets/94cc9eed-fc0d-4eab-b6d9-20a718951fbe)
 
 9. mysql_products 테이블 생성
 
