@@ -23,7 +23,7 @@ Hadoop Eco의 Spark를 활용하여 이미 만들어진 aggregated_logs 테이�
 
 3. user_cart_metrics.py에 실행 권한 부여
 
-    #### **lab6-1-2**
+    #### **lab6-2-2**
 
     ```bash
     chmod +x user_cart_metrics.py
@@ -36,7 +36,7 @@ Hadoop Eco의 Spark를 활용하여 이미 만들어진 aggregated_logs 테이�
    - conf: 파티션 디렉토리가 중첩된 경우에도 하위 디렉토리를 재귀적으로 스캔하여 파일을 모두 읽을 수 있게 함
    - `{MySQL_엔드포인트}`: 위에서 복사해둔 엔드포인트로 수정
 
-    #### **lab6-1-3**
+    #### **lab6-2-3**
 
     ```bash
    spark-submit \
@@ -51,7 +51,7 @@ Hadoop Eco의 Spark를 활용하여 이미 만들어진 aggregated_logs 테이�
 
 
 
-## 2. 데이터 마트를 이용한 Data Query 진행
+## 3. 데이터 마트를 이용한 Data Query 진행
 
 1. 카카오 클라우드 콘솔 > Analytics > Data Query
 2. 쿼리 편집기 탭 클릭
@@ -60,7 +60,7 @@ Hadoop Eco의 Spark를 활용하여 이미 만들어진 aggregated_logs 테이�
     - 데이터베이스: `shopdb`
     - 우측 편집기의 `Query1` 탭 아래 쿼리문 입력
 
-    #### **lab6-2-3**
+    #### **lab6-3-3**
 
     ```bash
     SELECT * FROM data_origin.shopdb.user_cart_metrics LIMIT 10
@@ -74,7 +74,7 @@ Hadoop Eco의 Spark를 활용하여 이미 만들어진 aggregated_logs 테이�
     - 우측 편집기의 `+` 버튼 클릭
     - 우측 편집기의 `Query2` 탭 아래 쿼리문 입력
 
-    #### **lab6-2-4**
+    #### **lab6-3-4**
 
     ```bash
     SELECT
@@ -97,7 +97,7 @@ Hadoop Eco의 Spark를 활용하여 이미 만들어진 aggregated_logs 테이�
     - 우측 편집기의 `+` 버튼 클릭
     - 우측 편집기의 `Query3` 탭 아래 쿼리문 입력
 
-    #### **lab6-2-5**
+    #### **lab6-3-5**
 
     ```bash
     SELECT
@@ -120,7 +120,7 @@ Hadoop Eco의 Spark를 활용하여 이미 만들어진 aggregated_logs 테이�
     - 우측 편집기의 `+` 버튼 클릭
     - 우측 편집기의 `Query4` 탭 아래 쿼리문 입력
 
-    #### **lab6-2-6**
+    #### **lab6-3-6**
 
     ```bash
     SELECT
@@ -144,7 +144,7 @@ Hadoop Eco의 Spark를 활용하여 이미 만들어진 aggregated_logs 테이�
     - 우측 편집기의 `Query5` 탭 아래 쿼리문 입력
     - `WHERE last_active_time LIKE 'YYYY-MM-DD%'` 에서 `'YYYY-MM-DD%'`부분 실습 날짜로 변경
 
-    #### **lab6-2-7**
+    #### **lab6-3-7**
 
     ```bash
     SELECT
