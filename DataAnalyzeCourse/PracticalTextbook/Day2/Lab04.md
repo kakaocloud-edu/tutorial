@@ -295,8 +295,7 @@ Hadoop Eco의 Hive를 활용하여 Nginx 로그 데이터와 MySQL 데이터를 
 
     - 아래와 같은 테이블 목록 확인
    
-    ![table 목록 확인](https://github.com/user-attachments/assets/32843662-5bca-4728-bedf-5ab921ac5c1c)
-
+    ![table 목록 확인](https://github.com/user-attachments/assets/27888a21-348d-42dd-b3e2-8bd9ab6d137c)
 
 13. `ctrl` + `c`로 종료
 
