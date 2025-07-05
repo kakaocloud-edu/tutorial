@@ -143,4 +143,5 @@ Hadoop Eco의 Hive를 활용하여 이미 만들어진 Nginx 로그 데이터 �
 
     - 아래와 같은 형식의 내용 확인
 
+    ![hdfs 리스트 확인](https://github.com/user-attachments/assets/53a9c311-c2ab-49f6-a1bb-9a32b1b31f27)
 
