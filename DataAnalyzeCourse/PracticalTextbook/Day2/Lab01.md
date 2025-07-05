@@ -93,21 +93,25 @@
     - 클러스터 구성 설정 (선택): `자신의 환경 변수에 맞게 수정 후 삽입`
         - **클러스터 구성 설정 파일**
             
-            ```sql
+            ```bash
             {
-              "configurations": [
-                {
-                  "classification": "core-site",
-                  "properties": {
-                    "fs.swifta.service.kic.credential.id": "${ACCESS_KEY}",
-                    "fs.swifta.service.kic.credential.secret": "${ACCESS_SECRET_KEY}",
-                    "fs.s3a.endpoint": "objectstorage.kr-central-2.kakaocloud.com",
-                    "s3service.s3-endpoint": "objectstorage.kr-central-2.kakaocloud.com",
-                    "fs.s3a.access.key": "${S3A_ACCESS_KEY}",
-                    "fs.s3a.secret.key": "${S3A_SECRET_KEY}"
-                  }
-                }
-              ]
+                "configurations":
+                [
+                    {
+                        "classification": "core-site",
+                        "properties":
+                        {
+                            "fs.swifta.service.kic.credential.id": "credential_id",
+                            "fs.swifta.service.kic.credential.secret": "credential_secret",
+                            "fs.s3a.access.key": "access_key",
+                            "fs.s3a.secret.key": "secret_key",
+                            "fs.s3a.buckets.create.region": "kr-central-2",
+                            "fs.s3a.endpoint.region": "kr-central-2",
+                            "fs.s3a.endpoint": "objectstorage.kr-central-2.kakaocloud.com",
+                            "s3service.s3-endpoint": "objectstorage.kr-central-2.kakaocloud.com"
+                        }
+                    }
+                ]
             }
             ```
             
