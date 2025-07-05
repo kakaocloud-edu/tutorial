@@ -601,25 +601,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
       --grant-write 'uri="http://acs.amazonaws.com/groups/global/AllUsers"' \
       --endpoint-url https://objectstorage.kr-central-2.kakaocloud.com
     ```
-    
-9. kafka 서비스 등록
-    #### lab**3-8-9-1**
-    
-    ```bash
-    sudo systemctl enable kafka-connect-nginx-s3-sink.service
-    ```
-    
-    #### lab**3-8-9-2**
-    
-    ```bash
-    sudo systemctl start kafka-connect-nginx-s3-sink.service
-    ```
-    
-    #### lab**3-8-9-3**
-    
-    ```bash
-    sudo systemctl status kafka-connect-nginx-s3-sink.service
-    ```
+
 10. nginx-s3-sink-connector 생성
     
     #### lab**3-8-10**
