@@ -18,7 +18,7 @@ export LOGSTASH_KAFKA_ENDPOINT="temp-kafka-bootstrap-server"
 export LOGSTASH_ENV_FILE="/etc/default/logstash"
 export ENV_SETUP_SCRIPT_URL="https://github.com/kakaocloud-edu/tutorial/raw/refs/heads/main/DataAnalyzeCourse/src/day1/Lab01/api_server/api_env_setup.sh"
 
-echo "kakaocloud: 1. api_env_setup.sh 스크립트 다운로드."
+echo "kakaocloud: 1. api_env_setup.sh 스크립트 다운로드"
 curl --output /dev/null --silent --head --fail "$ENV_SETUP_SCRIPT_URL" || {
   echo "kakaocloud: api_env_setup.sh 다운로드 링크가 유효하지 않습니다."
   exit 1
@@ -26,6 +26,6 @@ curl --output /dev/null --silent --head --fail "$ENV_SETUP_SCRIPT_URL" || {
 
 wget -O api_env_setup.sh "$ENV_SETUP_SCRIPT_URL"
 
-echo "kakaocloud: 2. api_env_setup.sh 실행."
+echo "kakaocloud: 2. api_env_setup.sh 실행"
 chmod +x api_env_setup.sh
 sudo -E ./api_env_setup.sh
