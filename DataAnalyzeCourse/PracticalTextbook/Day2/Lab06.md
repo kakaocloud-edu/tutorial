@@ -22,7 +22,7 @@ Hadoop Eco의 Spark를 활용하여 이미 만들어진 aggregated_logs 테이�
     SELECT * FROM data_origin.shopdb.user_cart_metrics LIMIT 10
     ```
     
-![쿼리1](https://github.com/user-attachments/assets/4c7ef33f-fdc5-4d58-9fe6-3ed2beb34836)
+    ![쿼리1](https://github.com/user-attachments/assets/4c7ef33f-fdc5-4d58-9fe6-3ed2beb34836)
 
 4. Top 10 사용자별 주문 횟수 조회
     - 데이터 원본: `data_origin`
@@ -45,7 +45,7 @@ Hadoop Eco의 Spark를 활용하여 이미 만들어진 aggregated_logs 테이�
     LIMIT 10;
     ```
     
-![쿼리2](https://github.com/user-attachments/assets/6e9e3a73-810d-4a14-bd77-526539996f23)
+    ![쿼리2](https://github.com/user-attachments/assets/6e9e3a73-810d-4a14-bd77-526539996f23)
 
 5. Top 10 사용자별 페이지뷰 횟수 조회
     - 데이터 원본: `data_origin`
@@ -68,7 +68,7 @@ Hadoop Eco의 Spark를 활용하여 이미 만들어진 aggregated_logs 테이�
     LIMIT 10;
     ```
     
-![쿼리3](https://github.com/user-attachments/assets/11a4d8a7-5ba0-4b15-b41c-fb5bc98e5ae8)
+    ![쿼리3](https://github.com/user-attachments/assets/11a4d8a7-5ba0-4b15-b41c-fb5bc98e5ae8)
 
 6. 사용자별 평균 요청 시간 상위 10명 조회
     - 데이터 원본: `data_origin`
@@ -91,7 +91,7 @@ Hadoop Eco의 Spark를 활용하여 이미 만들어진 aggregated_logs 테이�
     LIMIT 10;
     ```
     
-![쿼리4](https://github.com/user-attachments/assets/6121261c-486f-45ee-b3dc-8c19489c00b2)
+    ![쿼리4](https://github.com/user-attachments/assets/6121261c-486f-45ee-b3dc-8c19489c00b2)
 
 7. 특정 기간에 마지막 활동이 있었던 사용자 조회
     - 데이터 원본: `data_origin`
@@ -115,7 +115,7 @@ Hadoop Eco의 Spark를 활용하여 이미 만들어진 aggregated_logs 테이�
     ORDER BY last_active_time DESC;
     ```
 
-![쿼리5](https://github.com/user-attachments/assets/b593cefb-49e3-41c1-9f2b-148be17bbf39)
+    ![쿼리5](https://github.com/user-attachments/assets/b593cefb-49e3-41c1-9f2b-148be17bbf39)
 
 
 
