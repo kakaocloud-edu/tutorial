@@ -351,6 +351,8 @@ Hadoop Eco의 Hive를 활용하여 Nginx 로그 데이터와 MySQL 데이터를 
 
 2. 로그인율
 
+    - /login 엔드포인트를 호출한 고유 세션 수를 전체 세션 수로 나눠 백분율로 계산
+
     #### **lab4-4-2**
 
     ```bash
@@ -375,6 +377,8 @@ Hadoop Eco의 Hive를 활용하여 Nginx 로그 데이터와 MySQL 데이터를 
 
 3. 검색 키워드 빈도
 
+    - /search 엔드포인트의 query_params에서 키워드를 추출해 그룹별 등장 횟수를 집계
+
     #### **lab4-4-3**
 
     ```bash
@@ -390,6 +394,8 @@ Hadoop Eco의 Hive를 활용하여 Nginx 로그 데이터와 MySQL 데이터를 
     ![쿼리2](https://github.com/user-attachments/assets/563daec5-9269-45c8-8631-35178a28cc14)
 
 4. 인기 상품 상위 10개
+
+    - 상품 상세 조회 수(view_count)와 주문 수(order_count)를 더해 만든 popularity_score로 내림차순 정렬 후 상위 10개 추출
 
     #### **lab4-4-4**
 
@@ -425,6 +431,8 @@ Hadoop Eco의 Hive를 활용하여 Nginx 로그 데이터와 MySQL 데이터를 
 
 5. 페이지뷰(PV) 추이
 
+    - 로그의 타임스탬프를 날짜·시간별로 변환해 각 그룹별 페이지뷰 수를 집계
+
     #### **lab4-4-5**
 
     ```bash
@@ -443,7 +451,8 @@ Hadoop Eco의 Hive를 활용하여 Nginx 로그 데이터와 MySQL 데이터를 
 
 6. 매출 합계
 
-    - 기간 조정 가능
+    - 지정 기간 내 모든 주문의 price * quantity를 합산해 총 매출 산출
+    - 지정 기간 조정 가능
 
     #### **lab4-4-6**
 
@@ -457,6 +466,8 @@ Hadoop Eco의 Hive를 활용하여 Nginx 로그 데이터와 MySQL 데이터를 
     ![쿼리6](https://github.com/user-attachments/assets/222b45c0-7d6a-45da-8165-604bf02562d1)
 
 7. 카테고리별 매출 비중
+
+    - 상품 카테고리별 매출액을 계산한 뒤 전체 매출액 대비 비율(%)로 환산
 
     #### **lab4-4-7**
 
@@ -482,6 +493,8 @@ Hadoop Eco의 Hive를 활용하여 Nginx 로그 데이터와 MySQL 데이터를 
     ![쿼리7](https://github.com/user-attachments/assets/464d8326-073f-4437-9013-498e728b7928)
 
 8. 사용자 행동 경로 분석
+
+    - 세션별로 주요 엔드포인트 방문 여부를 플래그로 표시하고, 주문 세션 유무를 결합해 사용자 히스토리 파악
 
     #### **lab4-4-8**
 
@@ -515,6 +528,8 @@ Hadoop Eco의 Hive를 활용하여 Nginx 로그 데이터와 MySQL 데이터를 
     ![쿼리8](https://github.com/user-attachments/assets/dcf4bdde-8755-4c21-ba32-3872b4a6f9bb)
 
 9. 사용자 나이대별 구매율
+
+    - 연령대·성별로 그룹화한 사용자 중 주문을 한 비율을 계산
 
     #### **lab4-4-9**
 
@@ -573,6 +588,8 @@ Hadoop Eco의 Hive를 활용하여 Nginx 로그 데이터와 MySQL 데이터를 
 
 10. 검색 키워드와 구매 연관성
 
+    - 키워드별 검색 세션 수와 구매 세션 수를 비교해 전환율(%)을 산출
+
     #### **lab4-4-10**
 
     ```bash
@@ -611,6 +628,8 @@ Hadoop Eco의 Hive를 활용하여 Nginx 로그 데이터와 MySQL 데이터를 
 
 11. 사용자 재구매율
 
+    - 상품별로 사용자당 주문 횟수를 집계해, 2회 이상 주문한 사용자 비율을 계산
+
     #### **lab4-4-11**
 
     ```bash
@@ -644,6 +663,8 @@ Hadoop Eco의 Hive를 활용하여 Nginx 로그 데이터와 MySQL 데이터를 
 
 12. 주문 당 평균 상품 수
 
+    - 주문별로 담은 상품 수(quantity 합계)의 평균을 산출
+
     #### **lab4-4-12**
 
     ```bash
@@ -661,6 +682,8 @@ Hadoop Eco의 Hive를 활용하여 Nginx 로그 데이터와 MySQL 데이터를 
     ![쿼리12](https://github.com/user-attachments/assets/bb12f438-84b7-4d68-aea1-6e49ac0d11b7)
 
 13. URL별 에러 발생 비율
+
+    - 엔드포인트별로 HTTP 상태 코드가 400 이상인 로그 비율을 계산해 에러율로 표시
 
     #### **lab4-4-13**
 
