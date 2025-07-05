@@ -282,43 +282,9 @@ EOF
 if [ $? -ne 0 ]; then echo "kakaocloud: kafka-connect-mysql-s3-sink.service 등록 실패"; exit 1; fi
 
 ################################################################################
-# 16. Schema Registry 관련 (Avro 컨버터 사용 시 필요)
+# 16. S3 커넥터 플러그인 경로에 Avro 컨버터 설치 및 추가 의존성 다운로드
 ################################################################################
-echo "kakaocloud: 16. Schema Registry 다운로드 및 설치 시작"
-sudo wget https://packages.confluent.io/archive/7.5/confluent-7.5.3.tar.gz || { echo "kakaocloud: Schema Registry 다운로드 실패"; exit 1; }
-sudo tar -xzvf confluent-7.5.3.tar.gz -C /confluent-hub/plugins || { echo "kakaocloud: Schema Registry 압축 해제 실패"; exit 1; }
-sudo rm confluent-7.5.3.tar.gz || { echo "kakaocloud: Schema Registry 압축파일 삭제 실패"; exit 1; }
-
-################################################################################
-# 17. systemd 유닛 파일 생성 및 Schema Registry 서비스 등록
-################################################################################
-echo "kakaocloud: 17. systemd 유닛 파일 생성 및 Schema Registry 서비스 등록 시작"
-cat <<EOF | sudo tee /etc/systemd/system/schema-registry.service
-[Unit]
-Description=Confluent Schema Registry
-After=network.target
-
-[Service]
-Type=simple
-User=ubuntu
-ExecStart=/confluent-hub/plugins/confluent-7.5.3/bin/schema-registry-start /confluent-hub/plugins/confluent-7.5.3/etc/schema-registry/schema-registry.properties
-Restart=on-failure
-RestartSec=5s
-
-[Install]
-WantedBy=multi-user.target
-EOF
-if [ $? -ne 0 ]; then echo "kakaocloud: Schema Registry Service 파일 작성 실패"; exit 1; fi
-
-sudo systemctl daemon-reload || { echo "kakaocloud: daemon-reload 실패"; exit 1; }
-sudo systemctl enable schema-registry.service || { echo "kakaocloud: schema-registry 서비스 자동 시작 설정 실패"; exit 1; }
-sudo systemctl start schema-registry.service || { echo "kakaocloud: schema-registry 서비스 시작 실패"; exit 1; }
-sudo systemctl status schema-registry.service || { echo "kakaocloud: schema-registry 서비스 상태 확인 실패"; exit 1; }
-
-################################################################################
-# 18. S3 커넥터 플러그인 경로에 Avro 컨버터 설치 및 추가 의존성 다운로드
-################################################################################
-echo "kakaocloud: 18. Avro 컨버터 설치 및 설정 시작"
+echo "kakaocloud: 16. Avro 컨버터 설치 및 설정 시작"
 sudo wget https://github.com/kakaocloud-edu/tutorial/raw/refs/heads/main/DataAnalyzeCourse/src/day2/Lab01/confluentinc-kafka-connect-avro-converter-7.5.3.zip || { echo "kakaocloud: confluentinc-kafka-connect-avro-converter 다운로드 실패"; exit 1; }
 unzip confluentinc-kafka-connect-avro-converter-7.5.3.zip || { echo "kakaocloud: confluentinc-kafka-connect-avro-converter 압축 해제 실패"; exit 1; }
 sudo rm confluentinc-kafka-connect-avro-converter-7.5.3.zip || { echo "kakaocloud: confluentinc-kafka-connect-avro-converter 압축파일 삭제 실패"; exit 1; }
@@ -332,9 +298,9 @@ sudo wget -P /confluent-hub/plugins/confluentinc-kafka-connect-s3/lib \
     https://repo1.maven.org/maven2/com/google/guava/failureaccess/1.0.2/failureaccess-1.0.2.jar || { echo -e "\nERROR: S3 커넥터 추가 의존성 다운로드 실패"; exit 1; }
 
 ################################################################################
-# 19. 순수 KEY=VALUE 파일 생성 (Distributed 모드 환경 변수 로딩용)
+# 17. 순수 KEY=VALUE 파일 생성 (Distributed 모드 환경 변수 로딩용)
 ################################################################################
-echo "kakaocloud: 19. 순수 KEY=VALUE 파일 생성 시작"
+echo "kakaocloud: 17. 순수 KEY=VALUE 파일 생성 시작"
 sudo mkdir -p /etc/kafka-connect || { echo "kakaocloud: env_vars 디렉토리 생성 실패"; exit 1; }
 grep -E '^export ' /tmp/env_vars.sh \
     | sed -e 's/^export //' -e 's/"//g' \
@@ -343,9 +309,9 @@ grep -E '^export ' /tmp/env_vars.sh \
 sudo chmod 600 /etc/kafka-connect/env_vars || { echo "kakaocloud: env_vars 권한 변경 실패"; exit 1; }
 
 ################################################################################
-# 20. Kafka Connect Worker Properties 생성 (8083 포트용 - Nginx S3 Sink Connect Instance)
+# 18. Kafka Connect Worker Properties 생성 (8083 포트용 - Nginx S3 Sink Connect Instance)
 ################################################################################
-echo "kakaocloud: 20. connect-distributed-nginx-s3-sink.properties 생성 시작 (8083 포트용)"
+echo "kakaocloud: 18. connect-distributed-nginx-s3-sink.properties 생성 시작 (8083 포트용)"
 sudo mkdir -p /home/ubuntu/kafka/config || { echo "kakaocloud: config 디렉토리 생성 실패"; exit 1; }
 cat <<EOF | sudo tee /home/ubuntu/kafka/config/connect-distributed-nginx-s3-sink.properties
 bootstrap.servers=\${env:KAFKA_BOOTSTRAP_SERVER}
@@ -377,9 +343,9 @@ EOF
 sudo chown ubuntu:ubuntu /home/ubuntu/kafka/config/connect-distributed-nginx-s3-sink.properties || { echo "kakaocloud: connect-distributed-nginx-s3-sink.properties 소유권 변경 실패"; exit 1; }
 
 ################################################################################
-# 21. systemd 서비스 등록 및 시작 (8083 포트용 - Nginx S3 Sink Connect Instance)
+# 19. systemd 서비스 등록 및 시작 (8083 포트용 - Nginx S3 Sink Connect Instance)
 ################################################################################
-echo "kakaocloud: 21. kafka-connect-nginx-s3-sink.service 등록 시작 (8083 포트용)"
+echo "kakaocloud: 19. kafka-connect-nginx-s3-sink.service 등록 시작 (8083 포트용)"
 cat <<EOF | sudo tee /etc/systemd/system/kafka-connect-nginx-s3-sink.service
 [Unit]
 Description=Kafka Connect Distributed Nginx S3 Sink Service (8083)
@@ -400,9 +366,9 @@ EOF
 sudo systemctl daemon-reload || { echo "kakaocloud: daemon-reload 실패"; exit 1; }
 
 ################################################################################
-# 22. Nginx 데이터 적재용 S3 Sink Connector JSON 생성 (8083 포트용)
+# 20. Nginx 데이터 적재용 S3 Sink Connector JSON 생성 (8083 포트용)
 ################################################################################
-echo "kakaocloud: 22. nginx-s3-sink-connector.json 생성 시작 (8083 포트용)"
+echo "kakaocloud: 20. nginx-s3-sink-connector.json 생성 시작 (8083 포트용)"
 sudo mkdir -p /home/ubuntu/kafka/config/connectors || { echo "kakaocloud: 커넥터 설정 디렉토리 생성 실패"; exit 1; }
 cat <<EOF | sudo tee /home/ubuntu/kafka/config/connectors/nginx-s3-sink-connector.json
 {
@@ -422,7 +388,7 @@ cat <<EOF | sudo tee /home/ubuntu/kafka/config/connectors/nginx-s3-sink-connecto
         "parquet.codec": "snappy",
         "key.converter": "org.apache.kafka.connect.storage.StringConverter",
         "value.converter": "io.confluent.connect.avro.AvroConverter",
-        "value.converter.schema.registry.url": "http://localhost:8081",
+        "value.converter.schema.registry.url": "http://${API_SRV_IP}:8081",
         "value.converter.schemas.enable": "true",
         "flush.size": "1",
         "partitioner.class": "com.mycompany.connect.FlexibleTimeBasedPartitioner",
