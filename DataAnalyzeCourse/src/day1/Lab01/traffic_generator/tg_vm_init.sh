@@ -11,7 +11,7 @@ export PROJECT_ID="{프로젝트 ID}"
 export CREDENTIAL_ID="{액세스 키 ID}"
 export CREDENTIAL_SECRET="{보안 액세스 키}"
 
-# 생성한 리소스의 값
+# 콘솔에서 생성한 리소스 정보
 export API_BASE_URL="{ALB의 Public IP}"
 export TOPIC_NAME="test-topic"
 export SUB_NAME="test-pull-sub"
