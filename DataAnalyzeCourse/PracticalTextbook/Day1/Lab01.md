@@ -170,7 +170,7 @@
       #!/bin/bash
       # tg_vm_init.sh
       set -e  # 오류 발생 시 스크립트 종료
-
+      
       echo "kakaocloud: 1.환경 변수 설정 시작"
       # 환경 변수 정의
       command=$(cat <<EOF
@@ -324,8 +324,8 @@
       
       echo "kakaocloud: 1. api_env_setup.sh 스크립트를 다운로드합니다."
       curl --output /dev/null --silent --head --fail "$ENV_SETUP_SCRIPT_URL" || {
-      echo "kakaocloud: api_env_setup.sh 다운로드 링크가 유효하지 않습니다."
-      exit 1
+        echo "kakaocloud: api_env_setup.sh 다운로드 링크가 유효하지 않습니다."
+        exit 1
       }
       
       wget -O api_env_setup.sh "$ENV_SETUP_SCRIPT_URL"
