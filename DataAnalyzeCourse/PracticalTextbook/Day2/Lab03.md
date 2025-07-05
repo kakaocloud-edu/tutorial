@@ -140,14 +140,14 @@ Kafka로 들어오는 데이터를 Druid에서 실시간으로 수집 및 가공
 
     ```bash
     {
-      // 인게스트 타입: Kafka 스트리밍
+      // Ingestion 타입: Kafka 스트리밍
       "type": "kafka",
       "spec": {
         // ─────────────────────────────────────────────────
-        // 1) 입력(io) 설정
+        // 1) 입력 설정
         // ─────────────────────────────────────────────────
         "ioConfig": {
-          // io 타입: kafka 스트리밍
+          // 입력 타입
           "type": "kafka",
     
           "consumerProperties": {
@@ -158,10 +158,10 @@ Kafka로 들어오는 데이터를 Druid에서 실시간으로 수집 및 가공
           "topic": "nginx-topic",
     
           "inputFormat": {
-            // 메시지 포맷: Avro 스트림 (필수)
+            // 메시지 포맷 (필수)
             "type": "avro_stream",
             "avroBytesDecoder": {
-              // Avro 스키마 조회 방식: Schema Registry (필수)
+              // Avro 스키마 조회 방식 (필수)
               "type": "schema_registry",
               // Schema Registry URL (필수)
               "url": "http://210.109.83.191:8081"
