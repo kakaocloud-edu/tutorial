@@ -168,13 +168,13 @@ Hadoop Eco의 Hive를 활용하여 Nginx 로그 데이터와 MySQL 데이터를 
     ```bash
     CREATE EXTERNAL TABLE IF NOT EXISTS mysql_orders (
       after STRUCT<
-        quantity:    INT,
+        order_id:    STRING,
         user_id:     STRING,
-        price:       STRING,
         product_id:  STRING,
+        quantity:    INT,
+        price:       STRING,
         session_id:  STRING,
-        order_time:  BIGINT,
-        order_id:    STRING
+        order_time:  BIGINT
       >,
       ts_ms BIGINT
     )
@@ -187,7 +187,17 @@ Hadoop Eco의 Hive를 활용하여 Nginx 로그 데이터와 MySQL 데이터를 
      #### **lab4-2-7**
 
     ```bash
-    select * from mysql_orders limit 10;
+    SELECT
+      `after`.order_id    AS order_id,
+      `after`.user_id     AS user_id,
+      `after`.product_id  AS product_id,
+      `after`.quantity    AS quantity,
+      `after`.price       AS price,
+      `after`.session_id  AS session_id,
+      `after`.order_time  AS order_time,
+      ts_ms               AS ts_ms
+    FROM mysql_orders
+    LIMIT 10;
     ```
     - 아래와 같은 형식의 내용 확인
     
@@ -200,10 +210,10 @@ Hadoop Eco의 Hive를 활용하여 Nginx 로그 데이터와 MySQL 데이터를 
     ```bash
     CREATE EXTERNAL TABLE IF NOT EXISTS mysql_products (
       after STRUCT<
-        price:    STRING,
-        name:     STRING,
         id:       STRING,
-        category: STRING
+        name:     STRING,
+        category: STRING,
+        price:    STRING
       >,
       ts_ms BIGINT
     )
@@ -216,11 +226,18 @@ Hadoop Eco의 Hive를 활용하여 Nginx 로그 데이터와 MySQL 데이터를 
      #### **lab4-2-9**
 
     ```bash
-    select * from mysql_products limit 10;
+    SELECT
+      `after`.id       AS id,
+      `after`.name     AS name,
+      `after`.category AS category,
+      `after`.price    AS price,
+      ts_ms            AS ts_ms
+    FROM mysql_products
+    LIMIT 10;
     ```
     - 아래와 같은 형식의 내용 확인
 
-    ![4 mysql products 확인v1](https://github.com/user-attachments/assets/6f23db7b-0525-438e-9c27-6bf866477397)
+    ![4 mysql products 확인v1](https://github.com/user-attachments/assets/de7f5686-9b04-40ef-849c-1ec95b3e672a)
 
 11. Hue 쿼리를 위한 view 생성
 
