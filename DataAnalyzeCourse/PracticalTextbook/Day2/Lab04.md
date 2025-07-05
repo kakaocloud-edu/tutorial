@@ -336,6 +336,8 @@ Hadoop Eco의 Hive를 활용하여 Nginx 로그 데이터와 MySQL 데이터를 
 
     #### **lab4-3-5**
 
+   - Hive 메타스토어에 저장된 테이블 정보를 Hadoop Eco와 공유해주는 메타데이터 서비스 추가 
+
     ```bash
     ADD JAR /opt/apache-hive-3.1.3-bin/lib/hive-hcatalog-core-3.1.3.jar;
     ```
