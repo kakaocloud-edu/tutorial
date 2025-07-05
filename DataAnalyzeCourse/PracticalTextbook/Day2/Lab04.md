@@ -52,7 +52,7 @@ Hadoop Eco의 Hive를 활용하여 Nginx 로그 데이터와 MySQL 데이터를 
     ```bash
     hive
     ```
-    ![hive 접속 확인](https://github.com/user-attachments/assets/bb3931e8-e938-4e09-a710-91d3a1982beb)
+    <img width="1478" height="425" alt="Image" src="https://github.com/user-attachments/assets/36574ed3-164e-440d-a9a7-785e91ee474a" />
 
 2. external_nginx_log 테이블 생성
 
@@ -119,7 +119,7 @@ Hadoop Eco의 Hive를 활용하여 Nginx 로그 데이터와 MySQL 데이터를 
     ```
     - 아래와 같은 형식의 내용 확인
     
-    ![1 external table 확인v1](https://github.com/user-attachments/assets/654750de-295b-4a47-8e3e-8abd26696267)
+    <img width="1781" height="509" alt="Image" src="https://github.com/user-attachments/assets/4312349b-f32c-4e8d-9d4f-714d3399f2dc" />
 
 4. mysql_users 테이블 생성
 
