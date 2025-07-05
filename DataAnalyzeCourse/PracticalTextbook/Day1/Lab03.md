@@ -601,15 +601,6 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
       --grant-write 'uri="http://acs.amazonaws.com/groups/global/AllUsers"' \
       --endpoint-url https://objectstorage.kr-central-2.kakaocloud.com
     ```
-
-7. Schema Registry 설정파일에서 Kafka 브로커 주소 변경
-   - **Note**: `{실제 Kafka 클러스터 부트스트랩 서버값}`을 개인 환경에 맞게 수정 필요
-
-    #### lab**3-8-7**
-    
-    ```bash
-    sudo sed -i 's|PLAINTEXT://localhost:9092|{실제 Kafka 클러스터 부트스트랩 서버값}|' /confluent-hub/plugins/confluent-7.5.3/etc/schema-registry/schema-registry.properties
-    ```
     
 9. kafka 서비스 등록
     #### lab**3-8-9-1**
