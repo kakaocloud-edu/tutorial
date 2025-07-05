@@ -404,7 +404,9 @@
    ```bash
    sudo -E /home/ubuntu/setup_db.sh
    ```
-    
+
+   ![setupdb 결과](https://github.com/user-attachments/assets/f588008d-9c3e-4fe7-9a57-c7f56aa9d440)
+   
 ## 9. 로드 밸런서 대상 그룹 생성 (15분)
 1. 카카오 클라우드 콘솔 > Beyond Networking Service > Load Balancing
 2. 대상 그룹 탭 클릭 후 대상 그룹 생성 버튼 클릭 
