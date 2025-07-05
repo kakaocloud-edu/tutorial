@@ -50,8 +50,7 @@ Hadoop Eco의 Hive를 활용하여 Nginx 로그 데이터와 MySQL 데이터를 
     ```bash
     hive
     ```
-
-    ![hive 접속 확인](https://github.com/user-attachments/assets/9894de0f-c2d8-4d5a-a04d-1777df25174a)
+    ![hive 접속 확인](https://github.com/user-attachments/assets/bb3931e8-e938-4e09-a710-91d3a1982beb)
 
 2. external_nginx_log 테이블 생성
 
