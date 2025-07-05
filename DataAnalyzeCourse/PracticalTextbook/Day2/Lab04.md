@@ -85,7 +85,15 @@ Hadoop Eco의 Hive를 활용하여 Nginx 로그 데이터와 MySQL 데이터를 
 
 3. 생성된 external_nginx_log 테이블 확인
 
-    #### **lab4-2-3**
+    - 테이블의 컬럼명이 뜨도록 설정
+  
+     #### **lab4-2-3-1**
+
+    ```bash
+    SET hive.cli.print.header=true;
+    ``` 
+
+    #### **lab4-2-3-2**
 
     ```bash
     SELECT
