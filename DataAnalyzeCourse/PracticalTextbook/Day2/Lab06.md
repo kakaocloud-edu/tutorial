@@ -6,7 +6,7 @@ Hadoop Eco의 Spark를 활용하여 이미 만들어진 aggregated_logs 테이�
 ## 1. Spark를 활용하여 user cart metrics temp 테이블 생성 후 MySQL 에 적재 
 1. user_cart_metrics.py 다운로드
 
-   [ - user_cart_metrics.py 스크립트 ](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day2/Lab06/user_cart_metrics.py)
+   - [ user_cart_metrics.py 스크립트 ](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day2/Lab06/user_cart_metrics.py)
 
     #### **lab6-1-1**
 
