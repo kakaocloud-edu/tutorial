@@ -285,13 +285,18 @@ Hadoop Eco의 Hive를 활용하여 Nginx 로그 데이터와 MySQL 데이터를 
     FROM mysql_products;
     ```
 
-12. 생성한 테이블들 확인
+12. 생성한 테이블 목록 확인
 
     #### **lab4-2-11**
 
     ```bash
     show tables;
     ```
+
+    - 아래와 같은 테이블 목록 확인
+   
+    ![table 목록 확인](https://github.com/user-attachments/assets/32843662-5bca-4728-bedf-5ab921ac5c1c)
+
 
 13. `ctrl` + `c`로 종료
 
