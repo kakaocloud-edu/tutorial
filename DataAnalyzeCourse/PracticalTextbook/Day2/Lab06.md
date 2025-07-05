@@ -5,83 +5,9 @@ Hadoop Eco의 Spark를 활용하여 이미 만들어진 aggregated_logs 테이�
 ---
 ## 1. Spark를 활용한 user cart metrics temp 테이블 생성 및 MySQL 에 적재하여 데이터 마트 구축 
 
-1. Spark 설정파일을 Hive와 같게 설정
 
-    #### **lab6-2-1**
 
-    ```bash
-    cp /opt/apache-hive-3.1.3-bin/conf/hive-site.xml /opt/spark-3.5.2-bin-hadoop3/conf/
-    ```
-
-2. pyspark 실행
-
-    #### **lab6-2-2**
-
-    ```bash
-    pyspark \
-      --packages org.apache.hadoop:hadoop-aws:3.3.1,com.amazonaws:aws-java-sdk-bundle:1.12.375 \
-      --jars /opt/hive/lib/mysql-connector-j-8.0.33.jar,/opt/hive/lib/hive-hcatalog-core-3.1.3.jar \
-      --conf spark.hadoop.mapreduce.input.fileinputformat.input.dir.recursive=true
-    ```
-
-3. Spark에서 session 시작
-
-    #### **lab6-2-3**
-
-    ```bash
-    from pyspark.sql import SparkSession
-    
-    spark = SparkSession.builder \
-        .appName("UserMetricsToMySQL") \
-        .enableHiveSupport() \
-        .getOrCreate()
-    ```
-
-4. Hive의 메타스토어에 있는 user_cart_metrics_temp 테이블을 Spark로 가져온 후 확인
-
-    #### **lab6-2-4-1**
-
-    ```bash
-    df = spark.table("default.user_cart_metrics_temp")
-    ```
-
-    #### **lab6-2-4-2**
-
-    ```bash
-    df.show(5)
-    ```
-
-    - 아래와 같은 형식의 내용 확인
-
-![df show](https://github.com/user-attachments/assets/c53a7a9f-6922-4a98-96d6-a760381c5e01)
-
-5. jdbc로 MySQL과 연결 후 적재
-
-    - mysql 엔드포인트 입력
-
-    #### **lab6-2-5-1**
-
-    ```bash
-    jdbc_url = "jdbc:mysql://{mysql 엔드포인트}:3306/shopdb?useSSL=false"
-    
-    connection_properties = {
-        "user": "admin",
-        "password": "admin1234",
-        "driver": "com.mysql.cj.jdbc.Driver"
-    };
-    ```
-
-    #### **lab6-2-5-2**
-
-    ```bash
-    df.write \
-        .mode("overwrite") \
-        .jdbc(url=jdbc_url, table="user_cart_metrics", properties=connection_properties)
-    ```
-
-6. `ctrl` + `d`로 종료
-
-## 3. 데이터 마트를 이용한 Data Query 진행
+## 2. 데이터 마트를 이용한 Data Query 진행
 
 1. 카카오 클라우드 콘솔 > Analytics > Data Query
 2. 쿼리 편집기 탭 클릭
@@ -90,7 +16,7 @@ Hadoop Eco의 Spark를 활용하여 이미 만들어진 aggregated_logs 테이�
     - 데이터베이스: `shopdb`
     - 우측 편집기의 `Query1` 탭 아래 쿼리문 입력
 
-    #### **lab6-3-3**
+    #### **lab6-2-3**
 
     ```bash
     SELECT * FROM data_origin.shopdb.user_cart_metrics LIMIT 10
@@ -104,7 +30,7 @@ Hadoop Eco의 Spark를 활용하여 이미 만들어진 aggregated_logs 테이�
     - 우측 편집기의 `+` 버튼 클릭
     - 우측 편집기의 `Query2` 탭 아래 쿼리문 입력
 
-    #### **lab6-3-4**
+    #### **lab6-2-4**
 
     ```bash
     SELECT
@@ -127,7 +53,7 @@ Hadoop Eco의 Spark를 활용하여 이미 만들어진 aggregated_logs 테이�
     - 우측 편집기의 `+` 버튼 클릭
     - 우측 편집기의 `Query3` 탭 아래 쿼리문 입력
 
-    #### **lab6-3-5**
+    #### **lab6-2-5**
 
     ```bash
     SELECT
@@ -150,7 +76,7 @@ Hadoop Eco의 Spark를 활용하여 이미 만들어진 aggregated_logs 테이�
     - 우측 편집기의 `+` 버튼 클릭
     - 우측 편집기의 `Query4` 탭 아래 쿼리문 입력
 
-    #### **lab6-3-6**
+    #### **lab6-2-6**
 
     ```bash
     SELECT
@@ -174,7 +100,7 @@ Hadoop Eco의 Spark를 활용하여 이미 만들어진 aggregated_logs 테이�
     - 우측 편집기의 `Query5` 탭 아래 쿼리문 입력
     - `WHERE last_active_time LIKE 'YYYY-MM-DD%'` 에서 `'YYYY-MM-DD%'`부분 실습 날짜로 변경
 
-    #### **lab6-3-7**
+    #### **lab6-2-7**
 
     ```bash
     SELECT
