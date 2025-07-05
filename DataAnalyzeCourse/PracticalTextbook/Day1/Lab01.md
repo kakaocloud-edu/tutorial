@@ -322,7 +322,7 @@
       export LOGSTASH_ENV_FILE="/etc/default/logstash"
       export ENV_SETUP_SCRIPT_URL="https://github.com/kakaocloud-edu/tutorial/raw/refs/heads/main/DataAnalyzeCourse/src/day1/Lab01/api_server/api_env_setup.sh"
       
-      echo "kakaocloud: 1. api_env_setup.sh 스크립트를 다운로드합니다."
+      echo "kakaocloud: 1. api server VM 환경 설정용 api_env_setup.sh 다운로드"
       curl --output /dev/null --silent --head --fail "$ENV_SETUP_SCRIPT_URL" || {
         echo "kakaocloud: api_env_setup.sh 다운로드 링크가 유효하지 않습니다."
         exit 1
@@ -330,7 +330,7 @@
       
       wget -O api_env_setup.sh "$ENV_SETUP_SCRIPT_URL"
       
-      echo "kakaocloud: 2. api_env_setup.sh 실행합니다."
+      echo "kakaocloud: 2. api_env_setup.sh 실행"
       chmod +x api_env_setup.sh
       sudo -E ./api_env_setup.sh
       ```
@@ -377,18 +377,19 @@
     ```
     - 모든 스크립트 완료 시 아래 출력됨:
     ```
-    kakaocloud: 1. api_env_setup.sh 스크립트를 다운로드합니다.
-    kakaocloud: 2. api_env_setup.sh 실행합니다.
-    kakaocloud: 3. 환경 변수를 ~/.bashrc에 추가합니다.
-    kakaocloud: 4. filebeat, logstash 설치를 시작합니다.
-    kakaocloud: 5. filebeat, logstash 환경변수 설정을 시작합니다.
-    kakaocloud: 6. flask_app.service 환경 변수를 설정합니다.
-    kakaocloud: 7. 스크립트 및 실습 진행에 필요한 파일들을 다운로드합니다.
-    kakaocloud: 8. api_full_setup.sh 스크립트 실행을 시작합니다.
-    kakaocloud: 9. setup_db.sh 스크립트 실행을 시작합니다.
-    kakaocloud: 10. api_arvo_setup.sh 스크립트 실행을 시작합니다.
-    kakaocloud: 11. logstash.yml 구성을 시작합니다.
-    kakaocloud: 12. filebeat, logstash를 재시작합니다.
+    kakaocloud: 1. api server VM 환경 설정용 api_env_setup.sh 다운로드
+    kakaocloud: 2. api_env_setup.sh 실행
+    kakaocloud: 3. 환경 변수를 ~/.bashrc에 추가
+    kakaocloud: 4. filebeat, logstash 다운로드
+    kakaocloud: 5. filebeat, logstash 환경 변수 설정
+    kakaocloud: 6. flask_app.service 환경 변수 설정
+    kakaocloud: 7. 스크립트 및 실습 진행에 필요한 파일 다운로드
+    kakaocloud: 8. API 서버·파이프라인 가동용 api_full_setup.sh 실행 시작
+    kakaocloud: 9. DB 스키마·데이터 설정용 setup_db.sh 실행 시작
+    kakaocloud: 10. Avro 플러그인 설치용 api_arvo_setup.sh 실행 시작
+    kakaocloud: 11. systemd 유닛 파일 생성 및 Schema Registry 서비스 등록 시작
+    kakaocloud: 12. logstash.yml 구성 시작
+    kakaocloud: 13. filebeat, logstash 재시작
     kakaocloud: Setup 완료
     ```
 
