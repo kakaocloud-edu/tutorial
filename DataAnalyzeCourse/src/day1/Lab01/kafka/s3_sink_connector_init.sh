@@ -3,8 +3,9 @@
 echo "kakaocloud: 1. 환경 변수 설정 시작"
 
 cat <<'EOF' > /tmp/env_vars.sh
-# Kafka 설정
+# 기존 리소스 정보
 export KAFKA_BOOTSTRAP_SERVER="{Kafka 부트스트랩 서버}"
+export API_SRV_IP="{API Server의 Public IP}"
 
 # S3 인증 정보
 export AWS_ACCESS_KEY_ID_VALUE="{콘솔에서 발급한 S3 액세스 키의 인증 키 값}"
