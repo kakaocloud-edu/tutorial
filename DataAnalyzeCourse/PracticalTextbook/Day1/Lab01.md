@@ -385,14 +385,25 @@
     kakaocloud: 6. flask_app.service 환경 변수 설정
     kakaocloud: 7. 스크립트 및 실습 진행에 필요한 파일 다운로드
     kakaocloud: 8. API 서버·파이프라인 가동용 api_full_setup.sh 실행 시작
-    kakaocloud: 9. DB 스키마·데이터 설정용 setup_db.sh 실행 시작
-    kakaocloud: 10. Avro 플러그인 설치용 api_arvo_setup.sh 실행 시작
-    kakaocloud: 11. systemd 유닛 파일 생성 및 Schema Registry 서비스 등록 시작
-    kakaocloud: 12. logstash.yml 구성 시작
-    kakaocloud: 13. filebeat, logstash 재시작
+    kakaocloud: 9. Avro 플러그인 설치용 api_arvo_setup.sh 실행 시작
+    kakaocloud: 10. logstash.yml 구성 시작
+    kakaocloud: 11. filebeat, logstash 재시작
     kakaocloud: Setup 완료
     ```
 
+5. `api-server-1`에서 `setup_db.sh` 실행
+
+   #### **lab1-8-5-1**
+
+   ```bash
+   sudo chmod +x /home/ubuntu/setup_db.sh
+   ```
+
+   #### **lab1-8-5-2**
+
+   ```bash
+   sudo -E /home/ubuntu/setup_db.sh
+   ```
     
 ## 9. 로드 밸런서 대상 그룹 생성 (15분)
 1. 카카오 클라우드 콘솔 > Beyond Networking Service > Load Balancing
