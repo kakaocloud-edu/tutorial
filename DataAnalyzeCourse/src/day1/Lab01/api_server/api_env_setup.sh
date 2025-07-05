@@ -172,7 +172,7 @@ sudo -E /home/ubuntu/api_arvo_setup.sh \
 ###############################################################################
 # 5) logstash.yml 구성 및 filebeat,logstash 재시작
 ###############################################################################
-echo "kakaocloud: 11. logstash.yml 구성을 시작합니다."
+echo "kakaocloud: 12. logstash.yml 구성을 시작합니다."
 sudo tee /etc/logstash/logstash.yml <<'EOF' > /dev/null \
   || { echo "kakaocloud: Failed to write logstash.yml"; exit 1; }
 path.data: /var/lib/logstash
@@ -180,7 +180,7 @@ path.logs: /var/log/logstash
 path.config: /etc/logstash/conf.d/logs-to-pubsub.conf
 EOF
 
-echo "kakaocloud: 12. filebeat, logstash를 재시작합니다."
+echo "kakaocloud: 13. filebeat, logstash를 재시작합니다."
 sudo systemctl restart filebeat \
   || { echo "kakaocloud: Failed to restart filebeat"; exit 1; }
 sudo systemctl restart logstash \
