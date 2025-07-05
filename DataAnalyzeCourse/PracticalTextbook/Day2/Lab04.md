@@ -119,7 +119,7 @@ Hadoop Eco의 Hive를 활용하여 Nginx 로그 데이터와 MySQL 데이터를 
     ```
     - 아래와 같은 형식의 내용 확인
     
-    ![1 external table 확인v1](https://github.com/user-attachments/assets/51602989-3f1d-45c8-a0c6-d9e6421180fc)
+    ![1 external table 확인v1](https://github.com/user-attachments/assets/654750de-295b-4a47-8e3e-8abd26696267)
 
 4. mysql_users 테이블 생성
 
