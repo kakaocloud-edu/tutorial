@@ -34,6 +34,8 @@ Hadoop Eco의 Hive를 활용하여 이미 만들어진 Nginx 로그 데이터 �
 
 3. 파티션 설정 및 jar 등록
 
+    - Hive 메타스토어에 저장된 테이블 정보를 Hadoop Eco와 공유해주는 HCatalog 코어 라이브러리 추가 
+
     #### **lab5-1-3**
 
     ```bash
