@@ -28,8 +28,7 @@ Hadoop Eco의 Hive를 활용하여 이미 만들어진 Nginx 로그 데이터 �
       last_active_time   STRING,
       status             INT
     )
-    STORED AS PARQUET
-    LOCATION 's3a://data-catalog-bucket/hive-tables/aggregated_logs/';
+    STORED AS PARQUET;
     ```
 
 3. 파티션 설정 및 jar 등록
@@ -116,4 +115,17 @@ Hadoop Eco의 Hive를 활용하여 이미 만들어진 Nginx 로그 데이터 �
     - 아래와 같은 형식의 내용 확인
    
 ![aggregated_logs 확인](https://github.com/user-attachments/assets/002ef40d-3d70-47a0-95df-09666ca52abd)
+
+6. `ctrl` + `c`로 종료
+
+7. Hadoop Eco의 데이터 웨어하우스에 생성된 aggregated_logs 테이블 확인
+
+    #### **lab5-1-7**
+
+    ```bash
+    hdfs dfs -ls hdfs://host-10-0-2-16/apps/hive/warehouse
+    ```
+
+    - 아래와 같은 형식의 내용 확인
+
 
