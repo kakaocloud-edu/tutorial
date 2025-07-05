@@ -67,7 +67,6 @@ Hadoop Eco의 Hive를 활용하여 이미 만들어진 Nginx 로그 데이터 �
       MAX(t.status)                                  AS status
     
     FROM (
-      -- (A) pageview 원본 (product_id 가 있는 요청만)
       SELECT
         n.session_id,
         n.user_id,
@@ -81,7 +80,6 @@ Hadoop Eco의 Hive를 활용하여 이미 만들어진 Nginx 로그 데이터 �
     
       UNION ALL
     
-      -- (B) “페이지뷰가 한 번이라도 있어야” 포함되는 주문 (중복 제거)
       SELECT DISTINCT
         o.after.session_id                     AS session_id,
         o.after.user_id                        AS user_id,
