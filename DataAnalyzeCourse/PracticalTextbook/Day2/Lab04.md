@@ -45,6 +45,8 @@ Hadoop Eco의 Hive를 활용하여 Nginx 로그 데이터와 MySQL 데이터를 
 
 1. Hive에 접속
 
+    - Hive 연결 시 로깅 관련 경고와 세션 정보 뜨는 것 확인
+
     #### **lab4-2-1**
 
     ```bash
