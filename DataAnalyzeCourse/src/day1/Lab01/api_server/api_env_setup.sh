@@ -113,7 +113,7 @@ fi
 ###############################################################################
 # 4) 스크립트 및 실습 진행에 필요한 파일들(api_full_setup.sh, setup_db.sh, filebeat.yml, logs-to-pubsub.conf, logs-to-kafka.conf) 다운로드 및 실행
 ###############################################################################
-echo "kakaocloud: 7. 스크립트 및 실습 진행에 필요한 파일 다운로드."
+echo "kakaocloud: 7. 스크립트 및 실습 진행에 필요한 파일 다운로드"
 
 # /home/ubuntu/tutorial 디렉터리가 없으면 clone, 있으면 스킵
 if [ ! -d "/home/ubuntu/tutorial" ]; then
