@@ -133,7 +133,7 @@ Hadoop Eco의 Hive를 활용하여 이미 만들어진 Nginx 로그 데이터 �
 
 8. Hadoop Eco의 HDFS에 생성된 aggregated_logs 테이블 확인
 
-    - 위에서 확인한 HDFS 경로로 `{hive.metastore.warehouse.dir}` 수정
+    - 개개인의 HDFS 경로로 `{hive.metastore.warehouse.dir}` 수정
 
     #### **lab5-1-8**
 
