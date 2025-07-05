@@ -147,11 +147,19 @@ Hadoop Eco의 Hive를 활용하여 Nginx 로그 데이터와 MySQL 데이터를 
      #### **lab4-2-5**
 
     ```bash
-    SELECT * FROM mysql_users LIMIT 10;
+    SELECT
+       `after`.user_id    AS user_id,
+       `after`.name       AS name,
+       `after`.email      AS email,
+       `after`.gender     AS gender,
+       `after`.age        AS age,
+       ts_ms
+     FROM mysql_users
+     LIMIT 10;
     ```
     - 아래와 같은 형식의 내용 확인
    
-    ![2 mysql users 확인v1](https://github.com/user-attachments/assets/c3cccdea-4157-47f5-a4ce-559231b95eec)
+    ![2 mysql users 확인v1](https://github.com/user-attachments/assets/3b9b3e65-ca93-482f-8144-47970207f465)
 
 6. mysql_orders 테이블 생성
 
