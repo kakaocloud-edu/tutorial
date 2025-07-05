@@ -331,7 +331,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     #### **lab3-5-2**
 
     ```bash
-    cd /home/ubuntu/DataAnalyzeCourse/src/day1/Lab02/kafka
+    cd /home/ubuntu/DataAnalyzeCourse/src/day1/Lab03/kafka
     ```
 
 3. `traffic-generator-1`에서 `python-topic`으로 메세지를 전송
@@ -349,7 +349,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     #### **lab3-5-4**
     
     ```bash
-    cd /home/ubuntu/DataAnalyzeCourse/src/day1/Lab02/kafka
+    cd /home/ubuntu/DataAnalyzeCourse/src/day1/Lab03/kafka
     ```
 
 5. `traffic-generator-2`에서 `python-topic`으로부터 메세지를 수신
