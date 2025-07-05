@@ -110,7 +110,7 @@ Hadoop Eco의 Hive를 활용하여 Nginx 로그 데이터와 MySQL 데이터를 
     ```
     - 아래와 같은 형식의 내용 확인
     
-![1 external table 확인v1](https://github.com/user-attachments/assets/51602989-3f1d-45c8-a0c6-d9e6421180fc)
+    ![1 external table 확인v1](https://github.com/user-attachments/assets/51602989-3f1d-45c8-a0c6-d9e6421180fc)
 
 4. mysql_users 테이블 생성
 
@@ -141,7 +141,7 @@ Hadoop Eco의 Hive를 활용하여 Nginx 로그 데이터와 MySQL 데이터를 
     ```
     - 아래와 같은 형식의 내용 확인
    
-![2 mysql users 확인v1](https://github.com/user-attachments/assets/c3cccdea-4157-47f5-a4ce-559231b95eec)
+    ![2 mysql users 확인v1](https://github.com/user-attachments/assets/c3cccdea-4157-47f5-a4ce-559231b95eec)
 
 6. mysql_orders 테이블 생성
 
@@ -173,7 +173,7 @@ Hadoop Eco의 Hive를 활용하여 Nginx 로그 데이터와 MySQL 데이터를 
     ```
     - 아래와 같은 형식의 내용 확인
     
-![3 mysql orders 확인v1](https://github.com/user-attachments/assets/d9a0e233-91ae-4660-97d1-847dac08a249)
+    ![3 mysql orders 확인v1](https://github.com/user-attachments/assets/d9a0e233-91ae-4660-97d1-847dac08a249)
 
 8. mysql_products 테이블 생성
 
@@ -202,7 +202,7 @@ Hadoop Eco의 Hive를 활용하여 Nginx 로그 데이터와 MySQL 데이터를 
     ```
     - 아래와 같은 형식의 내용 확인
 
-![4 mysql products 확인v1](https://github.com/user-attachments/assets/6f23db7b-0525-438e-9c27-6bf866477397)
+    ![4 mysql products 확인v1](https://github.com/user-attachments/assets/6f23db7b-0525-438e-9c27-6bf866477397)
 
 10. Hue 쿼리를 위한 view 생성
 
@@ -330,7 +330,7 @@ Hadoop Eco의 Hive를 활용하여 Nginx 로그 데이터와 MySQL 데이터를 
        OR endpoint IS NOT NULL;
     ```
     
-![쿼리1](https://github.com/user-attachments/assets/7350f02b-7ee8-4f6d-83cd-6bf601c93333)
+    ![쿼리1](https://github.com/user-attachments/assets/7350f02b-7ee8-4f6d-83cd-6bf601c93333)
 
 3. 검색 키워드 빈도
 
@@ -346,7 +346,7 @@ Hadoop Eco의 Hive를 활용하여 Nginx 로그 데이터와 MySQL 데이터를 
     ORDER BY frequency DESC;
     ```
     
-![쿼리2](https://github.com/user-attachments/assets/563daec5-9269-45c8-8631-35178a28cc14)
+    ![쿼리2](https://github.com/user-attachments/assets/563daec5-9269-45c8-8631-35178a28cc14)
 
 4. 인기 상품 상위 10개
 
@@ -380,7 +380,7 @@ Hadoop Eco의 Hive를 활용하여 Nginx 로그 데이터와 MySQL 데이터를 
     LIMIT 10;
     ```
     
-![쿼리4](https://github.com/user-attachments/assets/299b3524-ccb6-4079-bf60-7bdce81c898e)
+    ![쿼리4](https://github.com/user-attachments/assets/299b3524-ccb6-4079-bf60-7bdce81c898e)
 
 5. 페이지뷰(PV) 추이
 
@@ -398,7 +398,7 @@ Hadoop Eco의 Hive를 활용하여 Nginx 로그 데이터와 MySQL 데이터를 
     ORDER BY dt, hour_of_day;
     ```
     
-![쿼리5](https://github.com/user-attachments/assets/021c432d-3054-4d85-b07e-9ce31fee77cc)
+    ![쿼리5](https://github.com/user-attachments/assets/021c432d-3054-4d85-b07e-9ce31fee77cc)
 
 6. 매출 합계
 
@@ -413,7 +413,7 @@ Hadoop Eco의 Hive를 활용하여 Nginx 로그 데이터와 MySQL 데이터를 
     WHERE order_ts BETWEEN '2025-01-01' AND '2025-12-31';
     ```
     
-![쿼리6](https://github.com/user-attachments/assets/222b45c0-7d6a-45da-8165-604bf02562d1)
+    ![쿼리6](https://github.com/user-attachments/assets/222b45c0-7d6a-45da-8165-604bf02562d1)
 
 7. 카테고리별 매출 비중
 
@@ -438,7 +438,7 @@ Hadoop Eco의 Hive를 활용하여 Nginx 로그 데이터와 MySQL 데이터를 
     GROUP BY p.category, total.total_sales;
     ```
     
-![쿼리7](https://github.com/user-attachments/assets/464d8326-073f-4437-9013-498e728b7928)
+    ![쿼리7](https://github.com/user-attachments/assets/464d8326-073f-4437-9013-498e728b7928)
 
 8. 사용자 행동 경로 분석
 
@@ -471,7 +471,7 @@ Hadoop Eco의 Hive를 활용하여 Nginx 로그 데이터와 MySQL 데이터를 
       ON up.session_id = p.session_id;
     ```
     
-![쿼리8](https://github.com/user-attachments/assets/dcf4bdde-8755-4c21-ba32-3872b4a6f9bb)
+    ![쿼리8](https://github.com/user-attachments/assets/dcf4bdde-8755-4c21-ba32-3872b4a6f9bb)
 
 9. 사용자 나이대별 구매율
 
@@ -528,7 +528,7 @@ Hadoop Eco의 Hive를 활용하여 Nginx 로그 데이터와 MySQL 데이터를 
     ORDER BY t.gender ASC, t.age_order ASC;
     ```
     
-![쿼리9](https://github.com/user-attachments/assets/9e84f561-c876-464b-b3be-b1edcb4e19b7)
+    ![쿼리9](https://github.com/user-attachments/assets/9e84f561-c876-464b-b3be-b1edcb4e19b7)
 
 10. 검색 키워드와 구매 연관성
 
@@ -566,7 +566,7 @@ Hadoop Eco의 Hive를 활용하여 Nginx 로그 데이터와 MySQL 데이터를 
     ORDER BY conversion_rate DESC;
     ```
     
-![쿼리10](https://github.com/user-attachments/assets/cd82fd46-1bbc-40d4-b78a-ff3e5efeb64c)
+    ![쿼리10](https://github.com/user-attachments/assets/cd82fd46-1bbc-40d4-b78a-ff3e5efeb64c)
 
 11. 사용자 재구매율
 
@@ -599,7 +599,7 @@ Hadoop Eco의 Hive를 활용하여 Nginx 로그 데이터와 MySQL 데이터를 
     GROUP BY puo.product_id, p.name;
     ```
     
-![쿼리11](https://github.com/user-attachments/assets/82ec5a4e-b567-4230-82c9-d7a97145f56a)
+    ![쿼리11](https://github.com/user-attachments/assets/82ec5a4e-b567-4230-82c9-d7a97145f56a)
 
 12. 주문 당 평균 상품 수
 
@@ -617,7 +617,7 @@ Hadoop Eco의 Hive를 활용하여 Nginx 로그 데이터와 MySQL 데이터를 
     ) t;
     ```
     
-![쿼리12](https://github.com/user-attachments/assets/bb12f438-84b7-4d68-aea1-6e49ac0d11b7)
+    ![쿼리12](https://github.com/user-attachments/assets/bb12f438-84b7-4d68-aea1-6e49ac0d11b7)
 
 13. URL별 에러 발생 비율
 
@@ -639,7 +639,7 @@ Hadoop Eco의 Hive를 활용하여 Nginx 로그 데이터와 MySQL 데이터를 
     GROUP BY endpoint;
     ``` 
 
-![쿼리13](https://github.com/user-attachments/assets/985fac64-db10-48d7-bec5-f1173e26fb35)
+    ![쿼리13](https://github.com/user-attachments/assets/985fac64-db10-48d7-bec5-f1173e26fb35)
 
 
 
