@@ -207,7 +207,6 @@
       wget https://raw.githubusercontent.com/kakaocloud-edu/tutorial/main/DataAnalyzeCourse/src/day1/Lab01/traffic_generator/tg_full_setup.sh
       chmod +x tg_full_setup.sh
       sudo -E ./tg_full_setup.sh
-      echo "kakaocloud: Setup 완료"
       ```
      - CPU 멀티스레딩: `활성화`  
    - 생성 버튼 클릭  
@@ -334,7 +333,6 @@
       echo "kakaocloud: 2. api_env_setup.sh 실행합니다."
       chmod +x api_env_setup.sh
       sudo -E ./api_env_setup.sh
-      echo "kakaocloud: Setup 완료"
       ```
      - CPU 멀티스레딩: `활성화`  
 2. `api-server-1`, `api-server-2` 상태 Actice 확인 후 Public IP 연결
