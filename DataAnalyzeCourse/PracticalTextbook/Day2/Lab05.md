@@ -116,7 +116,9 @@ Hadoop Eco의 Hive를 활용하여 이미 만들어진 Nginx 로그 데이터 �
    
     ![aggregated_logs 확인](https://github.com/user-attachments/assets/002ef40d-3d70-47a0-95df-09666ca52abd)
 
-6. Hadoop Eco의 데이터 레이크인 HDFS의 위치 확인
+6. Hadoop Eco의 HDFS의 위치 확인
+
+    - **NOTE** HDFS는 원시 형태의 다양한 데이터를 저장해두는 분산 스토리지 계층
 
 
 
