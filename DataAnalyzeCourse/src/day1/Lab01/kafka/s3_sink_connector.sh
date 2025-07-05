@@ -363,7 +363,10 @@ RestartSec=10
 [Install]
 WantedBy=multi-user.target
 EOF
+
 sudo systemctl daemon-reload || { echo "kakaocloud: daemon-reload 실패"; exit 1; }
+sudo systemctl enable kafka-connect-nginx-s3-sink.service || { echo "kakaocloud: kafka-connect-nginx-s3-sink.service enable 실패"; exit 1; }
+sudo systemctl start kafka-connect-nginx-s3-sink.service || { echo "kakaocloud: kafka-connect-nginx-s3-sink.service start 실패"; exit 1; }
 
 ################################################################################
 # 20. Nginx 데이터 적재용 S3 Sink Connector JSON 생성 (8083 포트용)
