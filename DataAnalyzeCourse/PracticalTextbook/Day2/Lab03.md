@@ -49,29 +49,17 @@ Kafka로 들어오는 데이터를 Druid에서 실시간으로 수집 및 가공
     icacls.exe keypair.pem /inheritance:r
     ```
     
-3. API 서버에서 schema-registry 구동
-    - **Note**: 해당 터미널을 닫거나 명령어 실행이 종료되지 않도록 주의
-    
-    #### lab3-1-3
-    
-    ```bash
-    sudo /opt/confluent/bin/schema-registry-start /opt/confluent/etc/schema-registry/schema-registry.properties
-    ```
-    
-    ![image](https://github.com/user-attachments/assets/051bfc1f-e65c-4b1e-ac9a-498bf3617147)
-
-    
-4. 마스터, 워커 노드(`HadoopMST-hadoop-dataflow-1`, `HadoopWRK-hadoop-dataflow-1, 2`)에 각각 Public IP 연결
+3. 마스터, 워커 노드(`HadoopMST-hadoop-dataflow-1`, `HadoopWRK-hadoop-dataflow-1, 2`)에 각각 Public IP 연결
     - 각 인스턴스의 우측 메뉴바 > `Public IP 연결` 클릭
     - `새로운 퍼블릭 IP를 생성하고 자동으로 할당`
     - 확인 버튼 클릭
-5. 마스터, 워커 노드(`HadoopMST-hadoop-dataflow-1`, `HadoopWRK-hadoop-dataflow-1, 2`)에 SSH 접속
+4. 마스터, 워커 노드(`HadoopMST-hadoop-dataflow-1`, `HadoopWRK-hadoop-dataflow-1, 2`)에 SSH 접속
     - 각 인스턴스의 우측 메뉴바 > `SSH 연결` 클릭
     - SSH 접속 명령어 복사
     - 터미널 열기
     - keypair를 다운받아놓은 폴더로 이동 후 터미널에 명령어 붙여넣기 및 **yes** 입력
     
-    #### lab3-1-5-1
+    #### lab3-1-4-1
     
     ```bash
     cd {keypair.pem 다운로드 위치}
@@ -79,13 +67,13 @@ Kafka로 들어오는 데이터를 Druid에서 실시간으로 수집 및 가공
     
     - 리눅스의 경우 아래와 같이 키페어 권한 조정
     
-    #### lab3-1-5-2
+    #### lab3-1-4-2
     
     ```bash
     chmod 400 keypair.pem
     ```
     
-    #### lab3-1-5-3
+    #### lab3-1-4-3
     
     ```bash
     ssh -i keypair.pem ubuntu@{마스터 또는 워커 노드의 public ip 주소}
@@ -93,7 +81,7 @@ Kafka로 들어오는 데이터를 Druid에서 실시간으로 수집 및 가공
     
     - **Note**: {마스터 또는 워커 노드의 public ip 주소} 부분을 복사한 각 IP 주소로 교체
     
-    #### lab3-1-5-4
+    #### lab3-1-4-4
     
     ```bash
     yes
@@ -101,7 +89,7 @@ Kafka로 들어오는 데이터를 Druid에서 실시간으로 수집 및 가공
     
     - **Note**: 윈도우에서 ssh 접근이 안될 경우, cmd 창에서 keypair.pem가 있는 경로로 이동 후 아래 명령어 실행
     
-    #### lab3-1-5-5
+    #### lab3-1-4-5
     
     ```bash
     icacls.exe keypair.pem /reset
@@ -109,18 +97,18 @@ Kafka로 들어오는 데이터를 Druid에서 실시간으로 수집 및 가공
     icacls.exe keypair.pem /inheritance:r
     ```
     
-6. 마스터, 워커 노드 모두에서 Druid 설정 파일에서 druid.extensions.loadList 값 추가
+5. 마스터, 워커 노드 모두에서 Druid 설정 파일에서 druid.extensions.loadList 값 추가
 
-    #### lab3-1-6
+    #### lab3-1-5
 
     ```bash
     sudo sed -i 's|druid.extensions.loadList=.*|druid.extensions.loadList=["druid-avro-extensions", "druid-parquet-extensions", "mysql-metadata-storage", "druid-hdfs-storage", "druid-kafka-indexing-service", "druid-datasketches", "druid-multi-stage-query"]|' /opt/apache-druid-25.0.0/conf/druid/cluster/_common/common.runtime.properties && \
     sudo sed -i 's|druid.extensions.loadList=.*|druid.extensions.loadList=["druid-avro-extensions", "druid-hdfs-storage", "druid-kafka-indexing-service", "druid-datasketches", "druid-multi-stage-query"]|' /opt/apache-druid-25.0.0/conf/druid/auto/_common/common.runtime.properties
     ```
     
-7. 마스터, 워커 노드 모두에서 Druid 관련 서비스 재시작
+6. 마스터, 워커 노드 모두에서 Druid 관련 서비스 재시작
 
-    #### lab3-1-7
+    #### lab3-1-6
 
     ```bash
     sudo systemctl restart 'druid-*'
