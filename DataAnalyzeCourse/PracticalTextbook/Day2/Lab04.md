@@ -248,7 +248,15 @@ Hadoop Eco의 Hive를 활용하여 Nginx 로그 데이터와 MySQL 데이터를 
     FROM mysql_products;
     ```
 
-11. `ctrl` + `c`로 종료
+11. 생성한 테이블들 확인
+
+    #### **lab4-2-11**
+
+    ```bash
+    show tables;
+    ```
+
+12. `ctrl` + `c`로 종료
 
 
 ## 3. Hue 환경 설정
