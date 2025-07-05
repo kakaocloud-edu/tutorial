@@ -843,25 +843,9 @@ Kafka로 들어오는 데이터를 Druid에서 실시간으로 수집 및 가공
         PARTITIONED BY DAY
         ```
         
-    - 일별 사용자, 상품 주문 건수를 집계하여 테이블에 저장
-        
-        #### lab3-2-15-2
-    
-        ```sql
-        INSERT INTO dw_user_product_order_cnt
-        SELECT
-          __time,
-          user_id,
-          product_id,
-          COUNT(*) AS cnt
-        FROM dw_orders_users
-        GROUP BY 1,2,3
-        PARTITIONED BY DAY
-        ```
-        
     - cart, orders, products 테이블 JOIN
         
-        #### lab3-2-15-3
+        #### lab3-2-15-2
     
         ```sql
         INSERT INTO dw_cart_orders_products
@@ -887,6 +871,22 @@ Kafka로 들어오는 데이터를 Druid에서 실시간으로 수집 및 가공
           ON c.product_id = p.id
         WHERE c.__deleted = 'false'
           AND p.__deleted = 'false'
+        PARTITIONED BY DAY
+        ```
+        
+    - 일별 사용자, 상품 주문 건수를 집계하여 테이블에 저장
+        
+        #### lab3-2-15-3
+    
+        ```sql
+        INSERT INTO dw_user_product_order_cnt
+        SELECT
+          __time,
+          user_id,
+          product_id,
+          COUNT(*) AS cnt
+        FROM dw_orders_users
+        GROUP BY 1,2,3
         PARTITIONED BY DAY
         ```
 
