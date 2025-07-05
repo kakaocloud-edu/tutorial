@@ -51,7 +51,7 @@ sudo systemctl enable logstash \
 sudo systemctl start logstash  \
   || { echo "kakaocloud: logstash start 실패"; exit 1; }
 
-echo "kakaocloud: 5. filebeat, logstash 환경변수 설정"
+echo "kakaocloud: 5. filebeat, logstash 환경 변수 설정"
 sudo chmod 777 /etc/default/logstash \
   || { echo "kakaocloud: /etc/default/logstash 권한 변경 실패"; exit 1; }
 
