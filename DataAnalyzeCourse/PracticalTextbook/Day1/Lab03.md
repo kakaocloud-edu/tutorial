@@ -567,28 +567,26 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     ```
     - 모든 스크립트가 완료되면 아래와 같음
     ```
-    kakaocloud: 1.환경 변수 설정 시작
-    kakaocloud: 2.스크립트 다운로드 사이트 유효성 검사 시작
-    kakaocloud: 3. 필수 환경 변수 검증 시작
-    kakaocloud: 4. 시스템 업데이트 및 필수 패키지 설치 시작
-    kakaocloud: 5. Kafka 설치 시작
-    kakaocloud: 6. Confluent Hub Client 설치 시작
-    kakaocloud: 7. Java 환경 변수 등록 시작
+    kakaocloud: 1. 환경 변수 설정 시작
+    kakaocloud: 2. 스크립트 다운로드 사이트 유효성 검사 시작
+    kakaocloud: 2. 필수 환경 변수 검증 시작
+    kakaocloud: 3. 시스템 업데이트 및 필수 패키지 설치 시작
+    kakaocloud: 4. Kafka 설치 시작
+    kakaocloud: 5. Confluent Hub Client 설치 시작
+    kakaocloud: 6. Java 환경 변수 등록 시작
     kakaocloud: 8. S3 Sink Connector 설치 시작
     kakaocloud: 9. AWS CLI 설치 시작
     kakaocloud: 10. AWS CLI 설정 시작
     kakaocloud: 11. Kafka Connect 설정 폴더 권한 부여 시작
     kakaocloud: 12. 커스텀 플러그인 다운로드 시작
-    kakaocloud: 13. s3-sink-connector.json 생성 시작
-    kakaocloud: 14. worker.properties 생성 시작
-    kakaocloud: 15. Kafka Connect 서비스 등록 시작
-    kakaocloud: 16. Schema Registry 다운로드 및 설치 시작
-    kakaocloud: 17. systemd 유닛 파일 생성 및 Schema Registry 서비스 등록 시작
-    kakaocloud: 18. Avro 컨버터 설치 및 설정 시작
-    kakaocloud: 19. 순수 KEY=VALUE 파일 생성 시작
-    kakaocloud: 20. Distributed 모드 connect-distributed-8083.properties 생성 시작
-    kakaocloud: 21. kafka-connect-8083.service 등록 시작
-    kakaocloud: 22. s3-sink-avro-dist.json 생성 시작
+    kakaocloud: 13. mysql-s3-sink-connector.json 생성 시작 (8084 포트용)
+    kakaocloud: 14. connect-distributed-mysql-s3-sink.properties 생성 시작 (8084 포트용)
+    kakaocloud: 15. kafka-connect-mysql-s3-sink.service 등록 시작 (8084 포트용)
+    kakaocloud: 16. Avro 컨버터 설치 및 설정 시작
+    kakaocloud: 17. 순수 KEY=VALUE 파일 생성 시작
+    kakaocloud: 18. connect-distributed-nginx-s3-sink.properties 생성 시작 (8083 포트용)
+    kakaocloud: 19. kafka-connect-nginx-s3-sink.service 등록 시작 (8083 포트용)
+    kakaocloud: 20. nginx-s3-sink-connector.json 생성 시작 (8083 포트용)
     kakaocloud: Setup 완료
     ```
 6. `data-catalog-bucket`에 nginx 로그를 쌓기 위해 필요한 쓰기 권한을 부여하는 명령어 실행
