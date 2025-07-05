@@ -158,17 +158,11 @@ SELECT 'Database and initial setup completed.' AS message;
 EOF
 )
 
-# SQL 실행
 echo "MySQL에 초기 스키마 및 데이터 세팅 중..."
 echo "$SQL_COMMANDS" | mysql -h "$MYSQL_HOST" -u "$MYSQL_USER" -p"$MYSQL_PASS"
 if [ $? -eq 0 ]; then
     echo "DB 초기 세팅 완료."
 else
     echo "DB 초기 세팅 실패."
-    # 실패했더라도 락 해제는 해줘야 함
-    mysql -h "$MYSQL_HOST" -u "$MYSQL_USER" -p"$MYSQL_PASS" -e "SELECT RELEASE_LOCK('shopdb_init_lock');"
     exit 1
 fi
-
-# 성공 시에도 락 해제
-mysql -h "$MYSQL_HOST" -u "$MYSQL_USER" -p"$MYSQL_PASS" -e "SELECT RELEASE_LOCK('shopdb_init_lock');"
