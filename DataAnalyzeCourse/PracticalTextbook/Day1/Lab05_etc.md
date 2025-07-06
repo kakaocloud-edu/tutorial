@@ -85,8 +85,8 @@
     COUNT(DISTINCT user_id) AS new_users
   FROM users_logs
   WHERE event_type = 'CREATED'
-    AND event_time BETWEEN TIMESTAMP '2025-02-14 00:00:00'
-                       AND TIMESTAMP '2025-02-14 23:59:59';
+    AND event_time BETWEEN TIMESTAMP '2025-07-01 00:00:00'
+                        AND TIMESTAMP '2025-07-31 23:59:59';
   ```
 
 ## 7. 활성 사용자 수 (Active Users) (join 하는 케이스)
