@@ -83,6 +83,13 @@ Data Catalog와 Pub/Sub, Object Storage를 연동하여 테이블을 생성하�
 - **Note**: kafka_log_table 테이블 구조
       ![1](https://github.com/user-attachments/assets/aff57b09-30f1-4862-8d51-24de01a8aaa4)
 
+- **Note**: nginx-log 형식
+
+| timestamp           | remote\_addr | request                         | status                            | body\_bytes\_sent                | http\_referer | http\_user\_agent      | session\_id                          | user\_id     | request\_time                       | upstream\_response\_time            | endpoint           | method | query\_params | product\_id   | request\_body  | x\_forwarded\_for | host |
+| ------------------- | ------------ | ------------------------------- | --------------------------------- | -------------------------------- | ------------- | ---------------------- | ------------------------------------ | ------------ | ----------------------------------- | ----------------------------------- | ------------------ | ------ | ------------- | ------------- | -------------- | ----------------- | ---- |
+| 2025-07-03 02:18:07 | 10.0.3.79    | GET /checkout\_history HTTP/1.1 | {'member0': None, 'member1': 200} | {'member0': None, 'member1': 48} | None          | python-requests/2.25.1 | 9d35856d-0141-4e58-8a51-09f7cb9f1e95 | user\_d2ae43 | {'member0': None, 'member1': 0.014} | {'member0': None, 'member1': 0.008} | /checkout\_history | GET    | None          | 61.109.237.97 | 61.109.236.101 | None              | None |
+
+
 1. 좌측 테이블 탭 클릭
 2. `kafka_log_table` 테이블 생성 
    - 테이블 생성 버튼 클릭  
