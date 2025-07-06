@@ -48,6 +48,7 @@
 
 **설명**: 트래픽의 출처(`Referer`)에 따른 분포  
 **데이터 소스**: Nginx Log
+**필드**: http_referer
 
   #### lab5-etc-5
   
