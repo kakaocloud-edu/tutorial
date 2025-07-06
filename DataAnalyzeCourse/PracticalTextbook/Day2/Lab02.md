@@ -18,7 +18,14 @@ MySQL Connector VM 생성을 통해 MySQL 데이터의 CDC(Change Data Capture) 
         - 서브넷: `kr-central-2-a의 Public 서브넷`
         - 유형: `새 인터페이스`
         - IP 할당 방식: `자동`
-        - 보안 그룹: `con-sg`
+        - 보안 그룹 생성 클릭
+            - 보안 그룹 이름: `mysql-con-sg`
+            - 아래 인바운드 규칙 추가
+                | 프로토콜 | 출발지 | 포트 번호 | 정책 설명 |
+                | --- | --- | --- | --- |
+                | TCP | 0.0.0.0/0 | 22 | SSH |
+                | TCP | 0.0.0.0/0 | 3306 | MySQL |
+                | TCP | 0.0.0.0/0 | 9092 | Kafka |
     - 고급 설정
         - 사용자 스크립트: `mysql_source_connector_init.sh`의 쌍따옴표("") 사이에 자신의 리소스 값 입력
             - **Note**: 스크립트에 대한 자세한 내용은 아래 파일들 참고
