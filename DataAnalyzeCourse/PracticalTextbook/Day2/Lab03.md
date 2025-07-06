@@ -152,7 +152,7 @@ Kafka로 들어오는 데이터를 Druid에서 실시간으로 수집 및 가공
     
           "consumerProperties": {
             // Kafka 브로커 주소 (필수)
-            "bootstrap.servers": "10.0.3.76:9092,10.0.1.38:9092"
+            "bootstrap.servers": "{Kafka 부트스트랩 서버}"
           },
           // 구독할 토픽 (필수)
           "topic": "nginx-topic",
@@ -164,7 +164,7 @@ Kafka로 들어오는 데이터를 Druid에서 실시간으로 수집 및 가공
               // Avro 스키마 조회 방식 (필수)
               "type": "schema_registry",
               // Schema Registry URL (필수)
-              "url": "http://210.109.83.191:8081"
+              "url": "http://{api-server-1의 Public IP}:8081"
             }
           },
     
