@@ -149,13 +149,13 @@ Data Query 기능을 활용하여 NGINX 로그 및 MySQL 데이터를 이용한 
    WITH (
      format = 'JSON',
      external_location = 's3a://data-catalog-bucket/data-catalog-dir/tables/partitioned',
-     partitioned_by = ARRAY['status']
+     partitioned_by = ARRAY['status_code']
    )
    AS
    SELECT
      endpoint,
      query_params,
-     status
+     status.member1   AS status_code
    FROM data_catalog_database.kafka_log_table;
    ```
 
