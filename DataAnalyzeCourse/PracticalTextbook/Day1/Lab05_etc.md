@@ -81,12 +81,15 @@
   #### lab5-etc-6
   
   ```sql
-  SELECT 
-    COUNT(DISTINCT user_id) AS new_users
-  FROM users_logs
-  WHERE event_type = 'CREATED'
-    AND event_time BETWEEN TIMESTAMP '2025-07-01 00:00:00'
-                        AND TIMESTAMP '2025-07-31 23:59:59';
+    SELECT
+        CAST(DATE_PARSE(n.timestamp, '%Y-%m-%dT%H:%i:%s.000Z') AS DATE) AS activity_date,
+        COUNT(DISTINCT s.user_id) AS active_users
+    FROM data_origin.shopdb.sessions s
+    JOIN data_catalog.data_catalog_database.kafka_log_table n
+      ON s.session_id = n.session_id
+    WHERE n.timestamp BETWEEN '2025-07-01' AND '2025-07-31'
+    GROUP BY CAST(DATE_PARSE(n.timestamp, '%Y-%m-%dT%H:%i:%s.000Z') AS DATE)
+    ORDER BY activity_date;
   ```
 
 ## 7. 활성 사용자 수 (Active Users) (join 하는 케이스)
