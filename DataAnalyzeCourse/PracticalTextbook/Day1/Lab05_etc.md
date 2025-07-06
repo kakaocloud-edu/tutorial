@@ -4,21 +4,7 @@
 
 ---
 
-## 1. 총 요청 수 (Total Requests)
 
-**설명**: 특정 기간 동안의 총 HTTP 요청 수  
-**데이터 소스**: ALB Access Log
-
-#### lab5-etc-1
-
-```sql
-SELECT 
-    COUNT(*) AS request_count
-FROM alb_data
-WHERE request_creation_time 
-    BETWEEN '2025/02/14 09:00:00:00' 
-    AND '2025/02/14 10:00:00:00';
-```
 
 ## 2. 고유 방문자 수 (Unique Visitors)
 
@@ -54,50 +40,9 @@ WHERE request_creation_time
     ORDER BY 1;
     ```
 
-## 3. HTTP 메서드 분포 (HTTP Method Distribution)
 
-**설명**: 각 HTTP 메서드(GET, POST 등)의 비율  
-**데이터 소스**: ALB Access Log
 
-  #### lab5-etc-3
-  
-  ```sql
-  SELECT 
-      COALESCE(method, 'UNKNOWN') AS method,
-      COUNT(*) AS count,
-      ROUND(COUNT(*) * 100.0 / total.total_count, 2) AS percentage
-  FROM (
-      SELECT regexp_extract(trim(request), '^"?([A-Z]+)', 1) AS method
-      FROM alb_data
-  ) t
-  CROSS JOIN (
-      SELECT COUNT(*) AS total_count
-      FROM alb_data
-  ) total
-  GROUP BY COALESCE(method, 'UNKNOWN'), total.total_count
-  ORDER BY method;
-  ```
 
-## 4. HTTP 상태 코드 분포 (HTTP Status Code Distribution)
-
-**설명**: 각 HTTP 상태 코드(2xx, 3xx, 4xx, 5xx)의 비율  
-**데이터 소스**: ALB Access Log
-
-  #### lab5-etc-4
-  
-  ```sql
-  SELECT 
-      target_status_code,
-      COUNT(*) AS code_count,
-      ROUND(COUNT(*) * 100.0 / total.total_count, 2) AS percentage
-  FROM alb_data
-  CROSS JOIN (
-      SELECT COUNT(*) AS total_count
-      FROM alb_data
-  ) AS total
-  GROUP BY target_status_code, total.total_count
-  ORDER BY target_status_code;
-  ```
 
 ## 5. 트래픽 소스 (Traffic Sources)
 
@@ -248,30 +193,7 @@ Kafka 데이터 기준으로 SELECT 진행
   FROM joined j, rate r;
   ```
 
-## 10. 총 페이지뷰 수 (Total Page Views)
 
-**설명**: 특정 기간 동안의 총 페이지뷰 수  
-**데이터 소스**: ALB Access Log, Nginx 로그
-
-다음 예시는 2월 13일 기준이며, `/products` 경로에 대한 요청 횟수를 조회하는 예시이다.
-
-  #### lab5-etc-10
-  
-  ```sql
-  WITH page_filter AS (
-    SELECT 'products' AS page, '/products' AS pattern
-  )
-  SELECT 
-    pf.page,
-    COUNT(*) AS pageview_count
-  FROM data_catalog.database1.alb_data d
-  JOIN page_filter pf 
-    ON d.request LIKE CONCAT('%', pf.pattern, '%')
-  WHERE date_parse(request_creation_time, '%Y/%m/%d %H:%i:%s:%f')
-        BETWEEN TIMESTAMP '2025-02-13 00:00:00'
-            AND TIMESTAMP '2025-02-13 23:59:59'
-  GROUP BY pf.page;
-  ```
 
 ## 11. 세션 기반 방문자 수 (Unique Visitors)
 
@@ -291,21 +213,7 @@ Kafka 데이터 기준으로 SELECT 진행
   ```
 
 
-## 12. HTTP 응답 코드별 요청 수 (Requests by HTTP Status Code)
 
-**설명**: 각 HTTP 상태 코드(200, 404, 500 등)에 따른 요청 수  
-**데이터 소스**: ALB Access Log
-
-  #### lab5-etc-12
-  
-  ```sql
-  SELECT 
-    target_status_code AS status_code,
-    COUNT(*) AS request_count
-  FROM data_catalog.database1.alb_data
-  GROUP BY target_status_code
-  ORDER BY request_count DESC;
-  ```
 
 ## 13. 인기 상품 클릭 수 (Product Clicks)
 
