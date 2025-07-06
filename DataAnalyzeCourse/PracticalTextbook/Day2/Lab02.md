@@ -200,7 +200,8 @@ MySQL Connector VM 생성을 통해 MySQL 데이터의 CDC(Change Data Capture) 
     curl -X POST \
       -H "Content-Type: application/json" \
       --data @/home/ubuntu/kafka/config/connectors/mysql-s3-sink-connector.json \
-      http://localhost:8084/connectors
+      http://localhost:8084/connectors \
+    | jq .
     ```
     
 5. 커넥터 상태 확인
