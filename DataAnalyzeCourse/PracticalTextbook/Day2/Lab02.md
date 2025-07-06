@@ -121,7 +121,8 @@ MySQL Connector VM 생성을 통해 MySQL 데이터의 CDC(Change Data Capture) 
     ```bash
     curl -s -X POST -H "Content-Type: application/json" \
       --data @/home/ubuntu/kafka/config/connectors/mysql-connector.json \
-      http://localhost:8084/connectors
+      http://localhost:8084/connectors \
+    | jq .
     ```
     
 8. mysql-connector의 상태 확인
