@@ -19,8 +19,8 @@
     SELECT date_format(created_at, '%Y-%m-%d %H:00:00') AS hour,
          count(distinct session_id) AS unique_visitors
     FROM sessions
-    WHERE created_at BETWEEN TIMESTAMP '2025-02-14 00:00:00'
-                        AND TIMESTAMP '2025-02-14 23:59:59'
+    WHERE created_at BETWEEN TIMESTAMP '2025-07-01 00:00:00'
+                        AND TIMESTAMP '2025-07-31 23:59:59'
     GROUP BY 1
     ORDER BY 1;
     ```
@@ -34,8 +34,8 @@
          count(distinct user_id) AS unique_visitors
     FROM sessions
     WHERE user_id IS NOT NULL
-    AND login_time BETWEEN TIMESTAMP '2025-02-14 00:00:00'
-                        AND TIMESTAMP '2025-02-14 23:59:59'
+    AND login_time BETWEEN TIMESTAMP '2025-07-01 00:00:00'
+                        AND TIMESTAMP '2025-07-31 23:59:59'
     GROUP BY 1
     ORDER BY 1;
     ```
