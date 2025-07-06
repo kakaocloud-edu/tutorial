@@ -50,7 +50,7 @@ required_env_vars=(
     AWS_DEFAULT_REGION_VALUE AWS_DEFAULT_OUTPUT_VALUE
 )
 
-echo "kakaocloud: 2. 필수 환경 변수 검증 시작"
+echo "kakaocloud: 3. 필수 환경 변수 검증 시작"
 for var in "${required_env_vars[@]}"; do
     if [ -z "${!var}" ]; then
         echo "kakaocloud: 오류: 필수 환경 변수 $var 가 설정되지 않았습니다. 스크립트를 종료합니다."
@@ -65,14 +65,14 @@ KAFKA_BOOTSTRAP_SERVERS="$KAFKA_BOOTSTRAP_SERVER"
 ################################################################################
 # 3. 시스템 업데이트 및 필수 패키지 설치
 ################################################################################
-echo "kakaocloud: 3. 시스템 업데이트 및 필수 패키지 설치 시작"
+echo "kakaocloud: 4. 시스템 업데이트 및 필수 패키지 설치 시작"
 sudo apt-get update -y || { echo "kakaocloud: apt-get update 실패"; exit 1; }
 sudo apt-get install -y python3 python3-pip openjdk-21-jdk unzip jq aria2 curl || { echo "kakaocloud: 필수 패키지 설치 실패"; exit 1; }
 
 ################################################################################
 # 4. Kafka 다운로드 및 설치
 ################################################################################
-echo "kakaocloud: 4. Kafka 설치 시작"
+echo "kakaocloud: 5. Kafka 설치 시작"
 aria2c -x 16 -s 16 -d /home/ubuntu -o "${KAFKA_TGZ}" "${KAFKA_DOWNLOAD_URL}" || { echo "kakaocloud: Kafka 다운로드 실패"; exit 1; }
 tar -xzf /home/ubuntu/"${KAFKA_TGZ}" -C /home/ubuntu || { echo "kakaocloud: Kafka 압축 해제 실패"; exit 1; }
 rm /home/ubuntu/"${KAFKA_TGZ}" || { echo "kakaocloud: 임시 파일 삭제 실패"; exit 1; }
@@ -81,7 +81,7 @@ mv /home/ubuntu/kafka_${KAFKA_SCALA_VERSION}-${KAFKA_VERSION} "${KAFKA_INSTALL_D
 ################################################################################
 # 5. Confluent Hub Client 설치
 ################################################################################
-echo "kakaocloud: 5. Confluent Hub Client 설치 시작"
+echo "kakaocloud: 6. Confluent Hub Client 설치 시작"
 sudo mkdir -p /confluent-hub/plugins || { echo "kakaocloud: Confluent Hub 플러그인 디렉토리 생성 실패"; exit 1; }
 sudo mkdir -p "$CONFLUENT_HUB_DIR" || { echo "kakaocloud: Confluent Hub 디렉토리 생성 실패"; exit 1; }
 cd "$CONFLUENT_HUB_DIR" || { echo "kakaocloud: Confluent Hub 디렉토리 이동 실패"; exit 1; }
@@ -92,7 +92,7 @@ sudo chown -R ubuntu:ubuntu /confluent-hub || { echo "kakaocloud: Confluent Hub 
 ################################################################################
 # 6. .bashrc에 JAVA_HOME 및 PATH 등록
 ################################################################################
-echo "kakaocloud: 6. Java 환경 변수 등록 시작"
+echo "kakaocloud: 7. Java 환경 변수 등록 시작"
 sed -i '/^export JAVA_HOME=/d' /home/ubuntu/.bashrc
 sed -i '/^export PATH=.*\\$JAVA_HOME\/bin/d' /home/ubuntu/.bashrc
 sed -i '/^export CLASSPATH=.*\\$JAVA_HOME/d' /home/ubuntu/.bashrc
@@ -393,7 +393,7 @@ cat <<EOF | sudo tee /home/ubuntu/kafka/config/connectors/nginx-s3-sink-connecto
         "value.converter": "io.confluent.connect.avro.AvroConverter",
         "value.converter.schema.registry.url": "http://${API_SRV_IP}:8081",
         "value.converter.schemas.enable": "true",
-        "flush.size": "1",
+        "flush.size": "500",
         "partitioner.class": "com.mycompany.connect.FlexibleTimeBasedPartitioner",
         "topics.dir": "kafka-nginx-log",
         "custom.topic.dir": "nginx-topic",
