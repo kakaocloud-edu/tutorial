@@ -594,9 +594,11 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     #### lab**3-8-7**
    
     ```bash
-    curl -X POST -H "Content-Type: application/json" \
-     --data @/home/ubuntu/kafka/config/connectors/nginx-s3-sink-connector.json \
-     http://localhost:8083/connectors
+    curl -s -X POST \
+      -H "Content-Type: application/json" \
+      --data @/home/ubuntu/kafka/config/connectors/nginx-s3-sink-connector.json \
+      http://localhost:8083/connectors \
+    | jq .
     ```
 
 8. `nginx-s3-sink-connector` 커넥터 상태 확인
