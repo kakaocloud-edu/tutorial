@@ -559,11 +559,11 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     ```
     kakaocloud: 1. 환경 변수 설정 시작
     kakaocloud: 2. 스크립트 다운로드 사이트 유효성 검사 시작
-    kakaocloud: 2. 필수 환경 변수 검증 시작
-    kakaocloud: 3. 시스템 업데이트 및 필수 패키지 설치 시작
-    kakaocloud: 4. Kafka 설치 시작
-    kakaocloud: 5. Confluent Hub Client 설치 시작
-    kakaocloud: 6. Java 환경 변수 등록 시작
+    kakaocloud: 3. 필수 환경 변수 검증 시작
+    kakaocloud: 4. 시스템 업데이트 및 필수 패키지 설치 시작
+    kakaocloud: 5. Kafka 설치 시작
+    kakaocloud: 6. Confluent Hub Client 설치 시작
+    kakaocloud: 7. Java 환경 변수 등록 시작
     kakaocloud: 8. S3 Sink Connector 설치 시작
     kakaocloud: 9. AWS CLI 설치 시작
     kakaocloud: 10. AWS CLI 설정 시작
