@@ -152,7 +152,7 @@ Hadoop 클러스터 환경에서 실시간 스트리밍 데이터와 배치 데�
     **lab7-2-4**
     
     ```java
-    wget https://raw.githubusercontent.com/kakaocloud-edu/tutorial/refs/heads/main/DataAnalyzeCourse/src/day2/Lab01/Lab07/nginx_log.avsc
+    wget https://raw.githubusercontent.com/kakaocloud-edu/tutorial/refs/heads/main/DataAnalyzeCourse/src/day2/Lab07/nginx_log.avsc
     ```
     
 
