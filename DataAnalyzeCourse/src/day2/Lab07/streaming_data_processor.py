@@ -24,7 +24,7 @@ def load_debezium_users_fixed(spark, topic):
         raw_df = (
             spark.read
                  .format("kafka")
-                 .option("kafka.bootstrap.servers", "10.0.3.227:9092,10.0.0.71:9092")
+                 .option("kafka.bootstrap.servers", "BOOTSTRAP_SERVERS")
                  .option("subscribe", topic)
                  .option("startingOffsets", "earliest")
                  .load()
@@ -67,7 +67,7 @@ def load_debezium_sessions_fixed(spark, topic):
         raw_df = (
             spark.read
                  .format("kafka")
-                 .option("kafka.bootstrap.servers", "10.0.3.227:9092,10.0.0.71:9092")
+                 .option("kafka.bootstrap.servers", "BOOTSTRAP_SERVERS")
                  .option("subscribe", topic)
                  .option("startingOffsets", "earliest")
                  .load()
@@ -114,7 +114,7 @@ def load_kafka_avro_stream(spark, topic, avro_schema_str):
     raw = (
         spark.readStream
              .format("kafka")
-             .option("kafka.bootstrap.servers", "10.0.3.227:9092,10.0.0.71:9092")
+             .option("kafka.bootstrap.servers", "BOOTSTRAP_SERVERS")
              .option("subscribe", topic)
              .option("startingOffsets", "latest")
              .option("failOnDataLoss", "false")
