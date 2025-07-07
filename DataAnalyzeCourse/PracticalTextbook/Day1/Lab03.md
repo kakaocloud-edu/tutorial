@@ -601,8 +601,6 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
       http://localhost:8083/connectors \
     | jq .
     ```
-    
-    ![s3 sink connector 등록](https://github.com/user-attachments/assets/c272676b-4e12-4b5c-a4a9-6a47354abeef)
 
 8. `nginx-s3-sink-connector` 커넥터 상태 확인
 
