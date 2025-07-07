@@ -171,8 +171,7 @@ Hadoop 클러스터 환경에서 실시간 스트리밍 데이터와 배치 데�
      .orderBy("session_id", "page_depth")
      .show(100, truncate=False))
     ```
-    ![image](https://github.com/user-attachments/assets/71a93159-5fec-40aa-bd1d-64f20575ddbd)
-
+    ![image](https://github.com/user-attachments/assets/b664d8b4-5da9-4354-8917-d555c18ab5bd)
 
     
 14. Pyspark 셸 종료
