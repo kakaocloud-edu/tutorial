@@ -65,7 +65,7 @@ sudo cp /home/ubuntu/tutorial/DataAnalyzeCourse/src/day1/Lab01/api_server/logs-t
 
 sudo systemctl restart logstash
 
-echo "kakaocloud: 11. systemd 유닛 파일 생성 및 Schema Registry 서비스 등록 시작"
+echo "kakaocloud: 10. systemd 유닛 파일 생성 및 Schema Registry 서비스 등록 시작"
 cat <<EOF | sudo tee /etc/systemd/system/schema-registry.service
 [Unit]
 Description=Confluent Schema Registry
