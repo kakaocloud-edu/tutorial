@@ -1385,7 +1385,7 @@ server {
         proxy_set_header X-Forwarded-Proto $scheme;
     }
 
-    location ~ ^/(add_user|delete_user|login|logout|products|product|categories|category|search|cart/add|cart/remove|cart/view|checkout|checkout_history|add_review|error)$ {
+    location ~ ^/(push-subscription|push-messages|add_user|delete_user|login|logout|products|product|categories|category|search|cart/add|cart/remove|cart/view|checkout|checkout_history|add_review|error)$ {
         access_log /var/log/nginx/flask_app_access.log custom_json;
         proxy_pass http://127.0.0.1:8080;
         proxy_set_header Host              $host;
