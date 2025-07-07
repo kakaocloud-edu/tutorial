@@ -97,18 +97,28 @@ Kafka로 들어오는 데이터를 Druid에서 실시간으로 수집 및 가공
     icacls.exe keypair.pem /inheritance:r
     ```
     
-5. 마스터, 워커 노드 모두에서 Druid 설정 파일에서 druid.extensions.loadList 값 추가
+5. Druid 확장 모듈 목록 확인
 
     #### lab3-1-5
+
+    ```bash
+    ls -l /opt/apache-druid-25.0.0/extensions/
+    ```
+    ![image](https://github.com/user-attachments/assets/70e24570-32d5-4acb-bcd0-1fcc3e4f8f50)
+
+
+6. 마스터, 워커 노드 모두에서 Druid 설정 파일에서 druid.extensions.loadList 값 추가
+
+    #### lab3-1-6
 
     ```bash
     sudo sed -i 's|druid.extensions.loadList=.*|druid.extensions.loadList=["druid-avro-extensions", "druid-parquet-extensions", "mysql-metadata-storage", "druid-hdfs-storage", "druid-kafka-indexing-service", "druid-datasketches", "druid-multi-stage-query"]|' /opt/apache-druid-25.0.0/conf/druid/cluster/_common/common.runtime.properties && \
     sudo sed -i 's|druid.extensions.loadList=.*|druid.extensions.loadList=["druid-avro-extensions", "druid-hdfs-storage", "druid-kafka-indexing-service", "druid-datasketches", "druid-multi-stage-query"]|' /opt/apache-druid-25.0.0/conf/druid/auto/_common/common.runtime.properties
     ```
     
-6. 마스터, 워커 노드 모두에서 Druid 관련 서비스 재시작
+7. 마스터, 워커 노드 모두에서 Druid 관련 서비스 재시작
 
-    #### lab3-1-6
+    #### lab3-1-7
 
     ```bash
     sudo systemctl restart 'druid-*'
