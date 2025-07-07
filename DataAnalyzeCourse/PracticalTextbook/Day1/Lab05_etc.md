@@ -82,15 +82,15 @@
   #### lab5-etc-6
   
   ```sql
-    SELECT
-        CAST(DATE_PARSE(n.timestamp, '%Y-%m-%dT%H:%i:%s.000Z') AS DATE) AS activity_date,
-        COUNT(DISTINCT s.user_id) AS active_users
-    FROM data_origin.shopdb.sessions s
-    JOIN data_catalog.data_catalog_database.kafka_log_table n
-      ON s.session_id = n.session_id
-    WHERE n.timestamp BETWEEN '2025-07-01' AND '2025-07-31'
-    GROUP BY CAST(DATE_PARSE(n.timestamp, '%Y-%m-%dT%H:%i:%s.000Z') AS DATE)
-    ORDER BY activity_date;
+  SELECT
+      CAST(DATE_PARSE(n.timestamp, '%Y-%m-%dT%H:%i:%s.000Z') AS DATE) AS activity_date,
+      COUNT(DISTINCT s.user_id) AS active_users
+  FROM data_origin.shopdb.sessions s
+  JOIN data_catalog.data_catalog_database.kafka_log_table n
+    ON s.session_id = n.session_id
+  WHERE n.timestamp BETWEEN '2025-07-01' AND '2025-07-31'
+  GROUP BY CAST(DATE_PARSE(n.timestamp, '%Y-%m-%dT%H:%i:%s.000Z') AS DATE)
+  ORDER BY activity_date;
   ```
 
 ## 7. 활성 사용자 수 (Active Users) (join 하는 케이스)
@@ -107,14 +107,24 @@ Kafka 데이터 기준으로 SELECT 진행
   
   ```sql
   SELECT
-      CAST(DATE_PARSE(n.timestamp, '%Y-%m-%dT%H:%i:%s.000Z') AS DATE) AS activity_date,
-      COUNT(DISTINCT s.user_id) AS active_users
-  FROM data_origin.shopdb.sessions s
-  JOIN data_catalog_test.dc_database.kafka_data n
+    CAST(
+      DATE_PARSE(
+        n.timestamp,
+        '%Y-%m-%d %H:%i:%s'
+      ) AS DATE
+    ) AS activity_date,
+    COUNT(DISTINCT s.user_id) AS active_users
+  FROM data_origin.shopdb.sessions AS s
+  JOIN data_catalog.data_catalog_database.kafka_log_table AS n
     ON s.session_id = n.session_id
-  WHERE n.timestamp BETWEEN '2025-02-01' AND '2025-02-28'
-  GROUP BY CAST(DATE_PARSE(n.timestamp, '%Y-%m-%dT%H:%i:%s.000Z') AS DATE)
-  ORDER BY activity_date;
+  WHERE
+    CAST(
+      DATE_PARSE(n.timestamp, '%Y-%m-%d %H:%i:%s')
+    AS DATE)
+      BETWEEN DATE '2025-07-01'
+          AND DATE '2025-07-31'
+  GROUP BY 1
+  ORDER BY 1;
   ```
 
 ## 8. 세션 수 및 평균 세션 길이 (Session Count & Average Session Length)
