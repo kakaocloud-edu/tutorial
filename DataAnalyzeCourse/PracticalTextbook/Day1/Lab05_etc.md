@@ -97,6 +97,7 @@
 
 **설명**: 특정 기간 동안 활동한 사용자 수 (월별)  
 **데이터 소스**: MySQL DB, Nginx log  
+Data Origin 에서 진행
 
 Kafka 데이터 기준으로 SELECT 진행  
 `session_id`를 기준으로 join하여 한달 기준 활성 사용자 수 조회
