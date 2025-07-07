@@ -159,7 +159,9 @@ Hadoop 클러스터 환경에서 실시간 스트리밍 데이터와 배치 데�
 ## 3. PySpark를 활용한 일괄 정제 (수정)
 
 1. 배치 정제 파일 다운로드
-    
+   - **Note**: 스크립트에 대한 자세한 내용은 아래 파일 참고
+     - [historical_data_refiner.sh](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day2/Lab07/kafka/historical_data_refiner.sh)
+                  
     **lab7-3-1**
     
     ```java
@@ -167,7 +169,7 @@ Hadoop 클러스터 환경에서 실시간 스트리밍 데이터와 배치 데�
     ```
     
 
-2. 배치 정제 실행
+3. 배치 정제 실행
     
     **lab7-3-2**
     
@@ -182,13 +184,13 @@ Hadoop 클러스터 환경에서 실시간 스트리밍 데이터와 배치 데�
     ```
     
 
-3. 카카오 클라우드 콘솔 > Beyond Storage Service > Object Storage
-4. `data-catalog-bucket` 클릭
-5. 배치 정제 결과가 저장된 디렉터리로 이동 후 버킷 내 적재된배치 정제 결과 확인 
+4. 카카오 클라우드 콘솔 > Beyond Storage Service > Object Storage
+5. `data-catalog-bucket` 클릭
+6. 배치 정제 결과가 저장된 디렉터리로 이동 후 버킷 내 적재된배치 정제 결과 확인 
     - **Note**: `data-catalog-bucket/data-catalog-dir/user_behavior_batch/dt={실습 진행날짜}/`디렉터리로 이동
    ![결과 이미지](https://github.com/user-attachments/assets/705f5b68-f7d0-4dd0-a368-73dfd152bcf7)
 
-6. 배치 정제 결과 데이터 검증을 위한 PySpark 셸 실행
+7. 배치 정제 결과 데이터 검증을 위한 PySpark 셸 실행
     
     **lab7-3-6**
     
@@ -197,7 +199,7 @@ Hadoop 클러스터 환경에서 실시간 스트리밍 데이터와 배치 데�
     ```
     
 
-7. 현재 PySpark 셸 세션에서 S3 접근을 위한 Hadoop 설정값 구성
+8. 현재 PySpark 셸 세션에서 S3 접근을 위한 Hadoop 설정값 구성
     
     **lab7-3-7**
     
@@ -208,7 +210,7 @@ Hadoop 클러스터 환경에서 실시간 스트리밍 데이터와 배치 데�
     hconf.set("fs.s3a.impl", "org.apache.hadoop.fs.s3a.S3AFileSystem")
     ```
     
-8. 데이터 경로 정의
+9. 데이터 경로 정의
     - **Note**: `{실습 진행 날짜}`을 개인 환경에 맞게 수정 필요 (ex. dt=2025-06-30)
     
     **lab7-3-8**
@@ -218,7 +220,7 @@ Hadoop 클러스터 환경에서 실시간 스트리밍 데이터와 배치 데�
     ```
     
 
-9. Parquet 파일을 DataFrame으로 로드
+10. Parquet 파일을 DataFrame으로 로드
     
     **lab7-3-9**
     
@@ -227,7 +229,7 @@ Hadoop 클러스터 환경에서 실시간 스트리밍 데이터와 배치 데�
     ```
     
 
-10. 스키마 구조 출력
+11. 스키마 구조 출력
     
     **lab7-3-10**
     
@@ -238,7 +240,7 @@ Hadoop 클러스터 환경에서 실시간 스트리밍 데이터와 배치 데�
 
     
 
-11. 상위 100개 레코드 출력
+12. 상위 100개 레코드 출력
     
     **lab7-3-11**
     
@@ -248,7 +250,7 @@ Hadoop 클러스터 환경에서 실시간 스트리밍 데이터와 배치 데�
     ![image](https://github.com/user-attachments/assets/fd0460e5-8ef7-44cf-afd3-10b418b4ad0d)
 
     
-12. Pyspark 셸 종료
+13. Pyspark 셸 종료
     
     **lab7-3-12**
     
@@ -260,6 +262,9 @@ Hadoop 클러스터 환경에서 실시간 스트리밍 데이터와 배치 데�
 ## 4. Pyspark를 활용한 실시간 정제
 
 1. 실시간 정제 로직 파일 생성
+    - **Note**: 스크립트에 대한 자세한 내용은 아래 파일 참고
+     - [streaming_data_processor.sh](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day2/Lab07/kafka/streaming_data_processor.sh)
+    
     
     **lab7-4-1**
     
@@ -268,7 +273,7 @@ Hadoop 클러스터 환경에서 실시간 스트리밍 데이터와 배치 데�
     ```
     
 
-2. `BOOTSTRAP_SERVERS` 값을 실제 주소로 변경
+3. `BOOTSTRAP_SERVERS` 값을 실제 주소로 변경
     - **Note**: `{실제 Kafka 클러스터 부트스트랩 서버값}`을 개인 환경에 맞게 수정 필요
     
     **lab7-4-2**
@@ -278,7 +283,7 @@ Hadoop 클러스터 환경에서 실시간 스트리밍 데이터와 배치 데�
     ```
     
 
-3. 실시간 정제 작업 실행
+4. 실시간 정제 작업 실행
     
     **lab7-4-3**
     
@@ -291,7 +296,7 @@ Hadoop 클러스터 환경에서 실시간 스트리밍 데이터와 배치 데�
     ```
     
 
-4. 정제 프로세스 모니터링
+5. 정제 프로세스 모니터링
     
     **lab7-4-4**
     
@@ -300,7 +305,7 @@ Hadoop 클러스터 환경에서 실시간 스트리밍 데이터와 배치 데�
     ```
     
 
-5. 모니터링 종료
+6. 모니터링 종료
     - **Note**: 맥북은 “command” + “c”
     
     **lab7-4-5**
@@ -310,14 +315,14 @@ Hadoop 클러스터 환경에서 실시간 스트리밍 데이터와 배치 데�
     ```
     
 
-6. 카카오 클라우드 콘솔 > Beyond Storage Service > Object Storage
-7. `data-catalog-bucket` 클릭
-8. 배치 정제 결과가 저장된 디렉터리로 이동 후 버킷 내 적재된배치 정제 결과 확인 
+7. 카카오 클라우드 콘솔 > Beyond Storage Service > Object Storage
+8. `data-catalog-bucket` 클릭
+9. 배치 정제 결과가 저장된 디렉터리로 이동 후 버킷 내 적재된배치 정제 결과 확인 
     - **Note**: `data-catalog-bucket/data-catalog-dir/user_behavior_prediction/dt={실습 진행날짜}/`디렉터리로 이동
     ![실시간 결과 이미지](https://github.com/user-attachments/assets/5d205c50-8765-4e64-8fd7-8722f7a3d352)
     
 
-9. 배치 정제 결과 데이터 검증을 위한 PySpark 셸 실행
+10. 배치 정제 결과 데이터 검증을 위한 PySpark 셸 실행
     
     **lab7-4-9**
     
@@ -326,7 +331,7 @@ Hadoop 클러스터 환경에서 실시간 스트리밍 데이터와 배치 데�
     ```
     
 
-10. 파일 경로 설정
+11. 파일 경로 설정
 
     **lab7-4-10**
     
@@ -335,7 +340,7 @@ Hadoop 클러스터 환경에서 실시간 스트리밍 데이터와 배치 데�
     ```
     
 
-11. Parquet 파일 로드
+12. Parquet 파일 로드
     
     **lab7-4-11**
     
@@ -344,7 +349,7 @@ Hadoop 클러스터 환경에서 실시간 스트리밍 데이터와 배치 데�
     ```
     
 
-12. 스키마 구조 검증
+13. 스키마 구조 검증
     
     **lab7-4-12**
     
@@ -353,7 +358,7 @@ Hadoop 클러스터 환경에서 실시간 스트리밍 데이터와 배치 데�
     ```
     
 
-13. 상위 100개 데이터 샘플 확인
+14. 상위 100개 데이터 샘플 확인
     
     **lab7-4-13**
     
@@ -364,7 +369,7 @@ Hadoop 클러스터 환경에서 실시간 스트리밍 데이터와 배치 데�
 
     
 
-14. 세션 ID별 데이터 분포 확인
+15. 세션 ID별 데이터 분포 확인
     
     **lab7-4-14**
     
@@ -374,7 +379,7 @@ Hadoop 클러스터 환경에서 실시간 스트리밍 데이터와 배치 데�
     ![image](https://github.com/user-attachments/assets/d108e260-3801-4711-8236-ba5ff1497b58)
 
     
-15. Spark 셸 종료
+16. Spark 셸 종료
     
     **lab7-4-15**
     
