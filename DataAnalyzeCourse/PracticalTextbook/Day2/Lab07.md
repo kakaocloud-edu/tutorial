@@ -287,9 +287,6 @@ Hadoop 클러스터 환경에서 실시간 스트리밍 데이터와 배치 데�
       --master yarn \
       --deploy-mode client \
       --packages org.apache.spark:spark-sql-kafka-0-10_2.12:3.5.2,org.apache.spark:spark-avro_2.12:3.5.2,io.delta:delta-spark_2.12:3.1.0 \
-      --jars /home/ubuntu/jars/kafka-avro-serializer-7.2.1.jar \
-      --conf spark.sql.extensions=io.delta.sql.DeltaSparkSessionExtension \
-      --conf spark.sql.catalog.spark_catalog=org.apache.spark.sql.delta.catalog.DeltaCatalog \
       realtime_user_behavior_processor.py > realtime_user_behavior_processor.log 2>&1 &
     ```
     
