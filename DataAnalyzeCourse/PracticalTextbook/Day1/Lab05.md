@@ -79,7 +79,7 @@ Data Query 기능을 활용하여 NGINX 로그 및 MySQL 데이터를 이용한 
       SELECT 
          regexp_extract(query_params, 'id=([0-9]+)', 1) AS product_id,
          COUNT(*) AS click_count
-      FROM kafka_log_table
+      FROM data_catalog.data_catalog_database.kafka_log_table
       WHERE endpoint = '/product'
       GROUP BY regexp_extract(query_params, 'id=([0-9]+)', 1)
       ORDER BY click_count DESC;
@@ -104,7 +104,7 @@ Data Query 기능을 활용하여 NGINX 로그 및 MySQL 데이터를 이용한 
          SELECT 
             regexp_extract(query_params, 'id=([0-9]+)', 1) AS product_id,
             COUNT(*) AS click_count
-         FROM kafka_log_table
+         FROM data_catalog.data_catalog_database.kafka_log_table
          WHERE endpoint = '/product'
          GROUP BY regexp_extract(query_params, 'id=([0-9]+)', 1)
       ) AS pc
@@ -128,7 +128,7 @@ Data Query 기능을 활용하여 NGINX 로그 및 MySQL 데이터를 이용한 
       ```
       SELECT 
          COUNT(DISTINCT user_id) AS new_users
-      FROM users_logs
+      FROM data_origin.shopdb.users_logs
       WHERE event_type = 'CREATED';
       ```
    - 쿼리 결과 탭에서 신규 사용자 수 확인
