@@ -32,7 +32,7 @@ Hadoop 클러스터 환경에서 실시간 스트리밍 데이터와 배치 데�
     ssh -i keypair.pem ubuntu@{s3-sink-connector public ip주소}
     ```
     
-    **lab7-1-3-1**
+    **lab7-1-3-4**
     
     ```
     yes
@@ -84,28 +84,46 @@ Hadoop 클러스터 환경에서 실시간 스트리밍 데이터와 배치 데�
       --master yarn \
       --deploy-mode client \
       --packages io.delta:delta-spark_2.12:3.1.0 \
-      historical_data_refiner.py > batch_user_behavior_processor.log 2>&1 &
+      historical_data_refiner.py > historical_data_refiner.log 2>&1 &
+    ```
+    
+3. 배치 정제 프로세스 모니터링
+    
+    **lab7-3-3**
+    
+    ```java
+    tail -f historical_data_refiner.log 
     ```
     
 
-3. 카카오 클라우드 콘솔 > Beyond Storage Service > Object Storage
-4. `data-catalog-bucket` 클릭
-5. 배치 정제 결과가 저장된 디렉터리로 이동 후 버킷 내 적재된배치 정제 결과 확인 
+4. 모니터링 종료
+    - **Note**: 맥북은 “command” + “c”
+    
+    **lab7-3-4**
+    
+    ```java
+    "ctrl" + "c"
+    ```
+    
+
+5. 카카오 클라우드 콘솔 > Beyond Storage Service > Object Storage
+6. `data-catalog-bucket` 클릭
+7. 배치 정제 결과가 저장된 디렉터리로 이동 후 버킷 내 적재된배치 정제 결과 확인 
     - **Note**: `data-catalog-bucket/data-catalog-dir/user_behavior_batch/dt={실습 진행날짜}/`디렉터리로 이동
    ![결과 이미지](https://github.com/user-attachments/assets/705f5b68-f7d0-4dd0-a368-73dfd152bcf7)
 
-6. 배치 정제 결과 데이터 검증을 위한 PySpark 셸 실행
+8. 배치 정제 결과 데이터 검증을 위한 PySpark 셸 실행
     
-    **lab7-2-6**
+    **lab7-2-8**
     
     ```java
     pyspark
     ```
     
 
-7. 현재 PySpark 셸 세션에서 S3 접근을 위한 Hadoop 설정값 구성
+9. 현재 PySpark 셸 세션에서 S3 접근을 위한 Hadoop 설정값 구성
     
-    **lab7-2-7**
+    **lab7-2-9**
     
     ```java
     hconf = spark.sparkContext._jsc.hadoopConfiguration()
@@ -114,28 +132,28 @@ Hadoop 클러스터 환경에서 실시간 스트리밍 데이터와 배치 데�
     hconf.set("fs.s3a.impl", "org.apache.hadoop.fs.s3a.S3AFileSystem")
     ```
     
-8. 데이터 경로 정의
+10. 데이터 경로 정의
     - **Note**: `{실습 진행 날짜}`을 개인 환경에 맞게 수정 필요 (ex. dt=2025-06-30)
     
-    **lab7-2-8**
+    **lab7-2-10**
     
     ```java
     output_data_path = "s3a://data-catalog-bucket/data-catalog-dir/user_behavior_prediction_batch/{실습 진행 날짜}/"
     ```
     
 
-9. Parquet 파일을 DataFrame으로 로드
+11. Parquet 파일을 DataFrame으로 로드
     
-    **lab7-2-9**
+    **lab7-2-11**
     
     ```java
     df_enriched = spark.read.parquet(output_data_path)
     ```
     
 
-10. 스키마 구조 출력
+12. 스키마 구조 출력
     
-    **lab7-2-10**
+    **lab7-2-12**
     
     ```java
     df_enriched.printSchema()
@@ -144,9 +162,9 @@ Hadoop 클러스터 환경에서 실시간 스트리밍 데이터와 배치 데�
 
     
 
-11. 상위 100개 레코드 출력
+13. 상위 100개 레코드 출력
     
-    **lab7-2-11**
+    **lab7-2-13**
     
     ```java
     (df_enriched
@@ -157,9 +175,9 @@ Hadoop 클러스터 환경에서 실시간 스트리밍 데이터와 배치 데�
 
 
     
-12. Pyspark 셸 종료
+14. Pyspark 셸 종료
     
-    **lab7-2-12**
+    **lab7-2-14**
     
     ```java
     exit();
