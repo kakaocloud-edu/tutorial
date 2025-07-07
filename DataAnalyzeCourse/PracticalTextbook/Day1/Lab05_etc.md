@@ -48,6 +48,7 @@
 
 **설명**: 트래픽의 출처(`Referer`)에 따른 분포  
 **데이터 소스**: Nginx Log
+
 **필드**: http_referer
 
   #### lab5-etc-5
@@ -99,6 +100,8 @@
 
 Kafka 데이터 기준으로 SELECT 진행  
 `session_id`를 기준으로 join하여 한달 기준 활성 사용자 수 조회
+
+**필드**: session_id
 
   #### lab5-etc-7
   
