@@ -40,13 +40,14 @@ Hadoop 클러스터 환경에서 실시간 스트리밍 데이터와 배치 데�
     
 4. Avro 직렬화를 위한 의존성 설치
     
-    **lab7-1-4**
+    **lab7-1-4-1**
     
     ```java
-    # jars 디렉터리 생성
     mkdir -p /home/ubuntu/jars
+    ```
     
-    # Confluent Kafka Avro Serializer JAR 다운로드
+    **lab7-1-4-2**
+    ```java
     wget https://packages.confluent.io/maven/io/confluent/kafka-avro-serializer/7.2.1/kafka-avro-serializer-7.2.1.jar \
          -O /home/ubuntu/jars/kafka-avro-serializer-7.2.1.jar
     ```
@@ -61,7 +62,7 @@ Hadoop 클러스터 환경에서 실시간 스트리밍 데이터와 배치 데�
     ```
     
 
-## 2. PySpark를 활용한 일괄 정제 (수정중)
+## 2. PySpark를 활용한 일괄 정제
 
 1. 배치 정제 파일 다운로드
    - **Note**: 스크립트에 대한 자세한 내용은 아래 파일 참고
@@ -119,7 +120,7 @@ Hadoop 클러스터 환경에서 실시간 스트리밍 데이터와 배치 데�
     **lab7-2-8**
     
     ```java
-    output_data_path = "s3a://data-catalog-bucket/data-catalog-dir/user_behavior_batch/{실습 진행 날짜}/"
+    output_data_path = "s3a://data-catalog-bucket/data-catalog-dir/user_behavior_prediction_batch/{실습 진행 날짜}/"
     ```
     
 
@@ -148,8 +149,12 @@ Hadoop 클러스터 환경에서 실시간 스트리밍 데이터와 배치 데�
     **lab7-2-11**
     
     ```java
-    df_enriched.show(100, truncate=False)
+    (df_enriched
+     .orderBy("session_id", "page_depth")
+     .show(100, truncate=False))
     ```
+    ![image](https://github.com/user-attachments/assets/71a93159-5fec-40aa-bd1d-64f20575ddbd)
+
 
     
 12. Pyspark 셸 종료
@@ -265,10 +270,10 @@ Hadoop 클러스터 환경에서 실시간 스트리밍 데이터와 배치 데�
     **lab7-3-13**
     
     ```java
-    df_combined.show(100, truncate=False)
+    (df_combined
+     .orderBy("session_id", "page_depth")
+     .show(100, truncate=False))
     ```
-    ![image](https://github.com/user-attachments/assets/1061d169-e1b6-47d7-a837-669b3f03e7dd)
-
     
 
 14. 세션 ID별 데이터 분포 확인
@@ -278,8 +283,6 @@ Hadoop 클러스터 환경에서 실시간 스트리밍 데이터와 배치 데�
     ```java
     df_combined.groupBy("session_id").count().show(truncate=False)
     ```
-    ![image](https://github.com/user-attachments/assets/d108e260-3801-4711-8236-ba5ff1497b58)
-
     
 15. Spark 셸 종료
     
