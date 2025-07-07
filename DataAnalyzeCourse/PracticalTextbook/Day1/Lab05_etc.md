@@ -101,7 +101,7 @@
 Kafka 데이터 기준으로 SELECT 진행  
 `session_id`를 기준으로 join하여 한달 기준 활성 사용자 수 조회
 
-**필드**: session_id
+**필드**: session_id, timestamp
 
   #### lab5-etc-7
   
