@@ -163,7 +163,7 @@ Hadoop 클러스터 환경에서 실시간 스트리밍 데이터와 배치 데�
     **lab7-3-1**
     
     ```java
-    wget https://raw.githubusercontent.com/kakaocloud-edu/tutorial/refs/heads/main/DataAnalyzeCourse/src/day2/Lab01/Lab07/batch_user_behavior_processor.py
+    wget https://raw.githubusercontent.com/kakaocloud-edu/tutorial/refs/heads/main/DataAnalyzeCourse/src/day2/Lab07/batch_user_behavior_processor.py
     ```
     
 
@@ -264,7 +264,7 @@ Hadoop 클러스터 환경에서 실시간 스트리밍 데이터와 배치 데�
     **lab7-4-1**
     
     ```java
-    wget https://raw.githubusercontent.com/kakaocloud-edu/tutorial/refs/heads/main/DataAnalyzeCourse/src/day2/Lab01/Lab07/realtime_user_behavior_processor.py
+    wget https://raw.githubusercontent.com/kakaocloud-edu/tutorial/refs/heads/main/DataAnalyzeCourse/src/day2/Lab07/realtime_user_behavior_processor.py
     ```
     
 
