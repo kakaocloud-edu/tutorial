@@ -19,21 +19,23 @@ from delta.tables import DeltaTable
 # 1) Debezium JSON 파싱 (문자열 비교 수정 포함)
 # ----------------------------
 def load_debezium_users_fixed(spark, topic):
+    """Debezium users 토픽에서 데이터를 로드하고 파싱함."""
     try:
         raw_df = (
             spark.read
-                .format("kafka")
-                .option("kafka.bootstrap.servers", "BOOTSTRAP_SERVERS")
-                .option("subscribe", topic)
-                .option("startingOffsets", "earliest")
-                .load()
+                 .format("kafka")
+                 .option("kafka.bootstrap.servers", "10.0.3.227:9092,10.0.0.71:9092")
+                 .option("subscribe", topic)
+                 .option("startingOffsets", "earliest")
+                 .load()
         )
-        if raw_df.count() == 0:
+        if raw_df.rdd.isEmpty():
             return spark.createDataFrame([], StructType([
                 StructField("user_info_id", StringType(), True),
                 StructField("gender", StringType(), True),
                 StructField("age", IntegerType(), True)
             ]))
+
         parsed_df = raw_df.selectExpr("CAST(value AS STRING) AS json_str").select(
             get_json_object("json_str", "$.op").alias("operation"),
             get_json_object("json_str", "$.after.user_id").alias("user_info_id"),
@@ -41,6 +43,7 @@ def load_debezium_users_fixed(spark, topic):
             get_json_object("json_str", "$.after.age").cast("int").alias("age"),
             get_json_object("json_str", "$.ts_ms").cast("timestamp").alias("cdc_timestamp")
         )
+
         final_df = parsed_df.filter(
             col("operation").isin(["c", "u", "r"]) &
             col("user_info_id").isNotNull() &
@@ -48,6 +51,7 @@ def load_debezium_users_fixed(spark, topic):
             col("gender").isin(["M", "F"]) &
             col("age").between(1, 120)
         ).dropDuplicates(["user_info_id"])
+
         return final_df
     except Exception as e:
         print(f"사용자 로드 실패: {e}")
@@ -58,20 +62,22 @@ def load_debezium_users_fixed(spark, topic):
         ]))
 
 def load_debezium_sessions_fixed(spark, topic):
+    """Debezium sessions 토픽에서 데이터를 로드하고 파싱함."""
     try:
         raw_df = (
             spark.read
-                .format("kafka")
-                .option("kafka.bootstrap.servers", "BOOTSTRAP_SERVERS")
-                .option("subscribe", topic)
-                .option("startingOffsets", "earliest")
-                .load()
+                 .format("kafka")
+                 .option("kafka.bootstrap.servers", "10.0.3.227:9092,10.0.0.71:9092")
+                 .option("subscribe", topic)
+                 .option("startingOffsets", "earliest")
+                 .load()
         )
-        if raw_df.count() == 0:
+        if raw_df.rdd.isEmpty():
             return spark.createDataFrame([], StructType([
                 StructField("session_id", StringType(), True),
                 StructField("session_user_id", StringType(), True)
             ]))
+
         sessions_df = raw_df.selectExpr("CAST(value AS STRING) AS json_str").select(
             get_json_object("json_str", "$.op").alias("operation"),
             get_json_object("json_str", "$.after.session_id").alias("session_id"),
@@ -80,6 +86,7 @@ def load_debezium_sessions_fixed(spark, topic):
             col("operation").isin(["c", "u", "r"]) &
             col("session_id").isNotNull()
         ).dropDuplicates(["session_id"])
+
         return sessions_df
     except Exception as e:
         print(f"Sessions 로드 실패: {e}")
@@ -103,15 +110,16 @@ state_schema = StructType() \
 # 3) nginx Avro 토픽을 스트림(readStream)으로 로드
 # ------------------------------------------------
 def load_kafka_avro_stream(spark, topic, avro_schema_str):
+    """Kafka에서 Avro 형식의 Nginx 로그를 스트림으로 로드하고 파싱함."""
     raw = (
         spark.readStream
-            .format("kafka")
-            .option("kafka.bootstrap.servers", "BOOTSTRAP_SERVERS")
-            .option("subscribe", topic)
-            .option("startingOffsets", "latest")
-            .option("failOnDataLoss", "false")
-            .option("maxOffsetsPerTrigger", 200)
-            .load()
+             .format("kafka")
+             .option("kafka.bootstrap.servers", "10.0.3.227:9092,10.0.0.71:9092")
+             .option("subscribe", topic)
+             .option("startingOffsets", "latest")
+             .option("failOnDataLoss", "false")
+             .option("maxOffsetsPerTrigger", 200)
+             .load()
         .select(expr("substring(value, 6, length(value)-5)").cast("binary").alias("avro"))
         .select(from_avro(col("avro"), avro_schema_str, {"mode": "PERMISSIVE"}).alias("d"))
     )
@@ -126,6 +134,7 @@ def load_kafka_avro_stream(spark, topic, avro_schema_str):
         col("d.timestamp").cast("timestamp").alias("event_time")
     ).filter(
         col("session_id").isNotNull() &
+        (col("session_id") != "") &  # session_id가 빈 문자열이 아닌 경우만 필터링
         col("endpoint").isNotNull() &
         col("event_time").isNotNull()
     )
@@ -134,6 +143,7 @@ def load_kafka_avro_stream(spark, topic, avro_schema_str):
 # 4) foreach_batch - 중복 컬럼/행 모호성 완전 제거
 # ------------------------------------------------
 def foreach_batch_nodup(logs_df, batch_id):
+    """마이크로 배치별로 데이터를 처리하는 함수."""
     try:
         spark = logs_df.sparkSession
         if logs_df.rdd.isEmpty():
@@ -255,11 +265,11 @@ def foreach_batch_nodup(logs_df, batch_id):
             "current_state", "search_count", "cart_item_count",
             "page_depth", "last_action_elapsed", "next_state", "dt"
         ).repartition(col("dt")) \
-            .write.mode("append") \
-            .format("parquet") \
-            .partitionBy("dt") \
-            .option("maxRecordsPerFile", 500000) \
-            .save("s3a://data-catalog-bucket/data-catalog-dir/user_behavior_prediction/")
+           .write.mode("append") \
+           .format("parquet") \
+           .partitionBy("dt") \
+           .option("maxRecordsPerFile", 500000) \
+           .save("s3a://data-catalog-bucket/data-catalog-dir/user_behavior_prediction/")
 
         new_state = final_df.groupBy("session_id").agg(
             spark_max("search_count").alias("search_count"),
@@ -306,13 +316,16 @@ if __name__ == "__main__":
     except FileNotFoundError:
         print("nginx_log.avsc file not found!")
         exit(1)
+
     logs_df = load_kafka_avro_stream(spark, "nginx-topic", nginx_avro_schema)
+
     query = (logs_df.writeStream
         .foreachBatch(foreach_batch_nodup)
         .option("checkpointLocation", "/tmp/checkpoint/nodup_cdc_enriched")
         .trigger(processingTime="60 seconds")
         .start()
     )
+
     try:
         query.awaitTermination()
     except KeyboardInterrupt:
