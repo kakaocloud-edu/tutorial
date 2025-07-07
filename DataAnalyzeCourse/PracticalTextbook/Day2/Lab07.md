@@ -263,6 +263,8 @@ Hadoop 클러스터 환경에서 실시간 스트리밍 데이터와 배치 데�
     ```java
     df_combined.printSchema()
     ```
+    ![image](https://github.com/user-attachments/assets/301e9cf7-06eb-4855-bedd-7488c3ac3a4f)
+
     
 
 13. 상위 100개 데이터 샘플 확인
@@ -274,6 +276,8 @@ Hadoop 클러스터 환경에서 실시간 스트리밍 데이터와 배치 데�
      .orderBy("session_id", "page_depth")
      .show(100, truncate=False))
     ```
+    ![image](https://github.com/user-attachments/assets/84c3ca82-51f0-47fb-aa6e-aa325a159eb0)
+
     
 
 14. 세션 ID별 데이터 분포 확인
