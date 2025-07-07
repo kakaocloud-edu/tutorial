@@ -237,7 +237,9 @@ Kafka 데이터 기준으로 SELECT 진행
 
 1. Nginx 로그만을 활용하여 인기 상품 클릭 수 쿼리
     **설명**: 특정 기간 동안 클릭된 상품의 수  
-    **데이터 소스**: Nginx 로그
+    **데이터 소스**: Nginx 로그'
+
+    **필드**: endpoint, query_params
     
     #### lab5-etc-13-1
     
@@ -251,7 +253,7 @@ Kafka 데이터 기준으로 SELECT 진행
     ORDER BY click_count DESC;
     ```
 
-2. Nginx 로그와 MySQL 데이터를 join하여 인기 상품 클릭 수 쿼리
+3. Nginx 로그와 MySQL 데이터를 join하여 인기 상품 클릭 수 쿼리
     **설명**: 특정 기간 동안 클릭된 상품의 수  
     **데이터 소스**: Nginx 로그
     
