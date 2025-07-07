@@ -160,7 +160,7 @@ Hadoop 클러스터 환경에서 실시간 스트리밍 데이터와 배치 데�
 
 1. 배치 정제 파일 다운로드
    - **Note**: 스크립트에 대한 자세한 내용은 아래 파일 참고
-     - [historical_data_refiner.sh](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day2/Lab07/historical_data_refiner.sh)
+     - [historical_data_refiner.sh](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day2/Lab07/historical_data_refiner.py)
                   
     **lab7-3-1**
     
@@ -263,7 +263,7 @@ Hadoop 클러스터 환경에서 실시간 스트리밍 데이터와 배치 데�
 
 1. 실시간 정제 로직 파일 생성
     - **Note**: 스크립트에 대한 자세한 내용은 아래 파일 참고
-        - [streaming_data_processor.sh](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day2/Lab07/streaming_data_processor.sh)
+        - [streaming_data_processor.sh](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day2/Lab07/streaming_data_processor.py)
     
     
     **lab7-4-1**
