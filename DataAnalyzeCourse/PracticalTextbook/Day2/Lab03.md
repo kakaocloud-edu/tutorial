@@ -195,7 +195,7 @@ Kafka로 들어오는 데이터를 Druid에서 실시간으로 수집 및 가공
           },
     
           "dimensionsSpec": {
-            // dimension으로 사용할 컬럼 목록 (선택)
+            // Druid가 집계, 분석 시 기준으로 삼을 컬럼 목록 (선택)
             "dimensions": [
               "remote_addr",
               "request",
