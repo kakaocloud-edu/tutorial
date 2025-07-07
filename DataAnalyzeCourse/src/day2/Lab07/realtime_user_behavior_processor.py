@@ -62,7 +62,7 @@ def load_debezium_sessions_fixed(spark, topic):
         raw_df = (
             spark.read
                 .format("kafka")
-                .option("kafka.bootstrap.servers", "10.0.3.58:9092,10.0.0.208:9092")
+                .option("kafka.bootstrap.servers", "BOOTSTRAP_SERVERS")
                 .option("subscribe", topic)
                 .option("startingOffsets", "earliest")
                 .load()
