@@ -1,8 +1,7 @@
 # Core Hadoop, PySpark 실습
 Hadoop 클러스터 환경에서 실시간 스트리밍 데이터와 배치 데이터를 통합 처리하여 사용자 행동 예측 데이터셋을 구축하고 PySpark를 활용하여 데이터를 검증하는 실습입니다.
 
-## 1. Hive 테이블 생성
-
+## **1. Spark 및 Avro 환경 설정**
 1. Beyond Computer Service → Virtual Machine → 인스턴스
 2. `HadoopMST-core-hadoop-1` 상태 Actice 확인 후 인스턴스의 우측 메뉴바 > `Public IP 연결` 클릭
     - `새로운 퍼블릭 IP를 생성하고 자동으로 할당`
@@ -20,10 +19,9 @@ Hadoop 클러스터 환경에서 실시간 스트리밍 데이터와 배치 데�
     cd {keypair.pem 다운로드 위치}
     ```
     
-    - 리눅스의 경우에 아래와 같이 키페어의 권한을 조정
     
     **lab7-1-3-2**
-    
+    - 리눅스의 경우에 아래와 같이 키페어의 권한을 조정
     ```
     chmod 400 keypair.pem
     ```
@@ -40,71 +38,9 @@ Hadoop 클러스터 환경에서 실시간 스트리밍 데이터와 배치 데�
     yes
     ```
     
-
-1. Hive 접속
+4. Avro 직렬화를 위한 의존성 설치
     
     **lab7-1-4**
-    
-    ```java
-    hive
-    ```
-    
-2. Hive 테이블 생성 및 스키마 정의
-    
-    **lab7-1-5**
-    
-    ```java
-    CREATE EXTERNAL TABLE IF NOT EXISTS user_behavior (
-      session_id          STRING,
-      user_id             STRING,
-      gender              STRING,
-      age                 INT,
-      current_state       STRING,
-      search_count        INT,
-      cart_item_count     INT,
-      page_depth          INT,
-      last_action_elapsed DOUBLE,
-      next_state          STRING
-    )
-    STORED AS PARQUET
-    LOCATION 's3a://data-catalog-bucket/data-catalog-dir/user_behavior_prediction/';
-    
-    ```
-    
-
-1. 생성된 테이블 확인
-    
-    **lab7-1-6**
-    
-    ```java
-    show tables
-    ```
-    
-
-1. Hive 세션 종료
-    
-    **lab7-1-7**
-    
-    ```java
-    exit()
-    ```
-    
-
-## **2. Spark 및 Avro 환경 설정**
-
-
-1. Hive 설정을 Spark로 복사
-    
-    **lab7-2-2**
-    
-    ```java
-    cp /opt/hive/conf/hive-site.xml /opt/spark-3.5.2-bin-hadoop3/conf/
-    ```
-    
-
-1. Avro 직렬화를 위한 의존성 설치
-    
-    **lab7-2-3**
     
     ```java
     # jars 디렉터리 생성
@@ -116,61 +52,59 @@ Hadoop 클러스터 환경에서 실시간 스트리밍 데이터와 배치 데�
     ```
     
 
-1. nginx_log.avsc 스키마 파일 구성
+5. nginx_log.avsc 스키마 파일 구성
     
-    **lab7-2-4**
+    **lab7-1-5**
     
     ```java
     wget https://raw.githubusercontent.com/kakaocloud-edu/tutorial/refs/heads/main/DataAnalyzeCourse/src/day2/Lab07/nginx_log.avsc
     ```
     
 
-## 3. PySpark를 활용한 일괄 정제 (수정중)
+## 2. PySpark를 활용한 일괄 정제 (수정중)
 
 1. 배치 정제 파일 다운로드
    - **Note**: 스크립트에 대한 자세한 내용은 아래 파일 참고
      - [historical_data_refiner.sh](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day2/Lab07/historical_data_refiner.py)
                   
-    **lab7-3-1**
+    **lab7-2-1**
     
     ```java
     wget https://raw.githubusercontent.com/kakaocloud-edu/tutorial/refs/heads/main/DataAnalyzeCourse/src/day2/Lab07/historical_data_refiner.py
     ```
     
 
-3. 배치 정제 실행
+2. 배치 정제 실행
     
-    **lab7-3-2**
+    **lab7-2-2**
     
     ```java
-    spark-submit \
+    nohup spark-submit \
       --master yarn \
       --deploy-mode client \
       --packages io.delta:delta-spark_2.12:3.1.0 \
-      --conf spark.sql.extensions=io.delta.sql.DeltaSparkSessionExtension \
-      --conf spark.sql.catalog.spark_catalog=org.apache.spark.sql.delta.catalog.DeltaCatalog \
-      historical_data_refiner.py
+      historical_data_refiner.py > batch_user_behavior_processor.log 2>&1 &
     ```
     
 
-4. 카카오 클라우드 콘솔 > Beyond Storage Service > Object Storage
-5. `data-catalog-bucket` 클릭
-6. 배치 정제 결과가 저장된 디렉터리로 이동 후 버킷 내 적재된배치 정제 결과 확인 
+3. 카카오 클라우드 콘솔 > Beyond Storage Service > Object Storage
+4. `data-catalog-bucket` 클릭
+5. 배치 정제 결과가 저장된 디렉터리로 이동 후 버킷 내 적재된배치 정제 결과 확인 
     - **Note**: `data-catalog-bucket/data-catalog-dir/user_behavior_batch/dt={실습 진행날짜}/`디렉터리로 이동
    ![결과 이미지](https://github.com/user-attachments/assets/705f5b68-f7d0-4dd0-a368-73dfd152bcf7)
 
-7. 배치 정제 결과 데이터 검증을 위한 PySpark 셸 실행
+6. 배치 정제 결과 데이터 검증을 위한 PySpark 셸 실행
     
-    **lab7-3-6**
+    **lab7-2-6**
     
     ```java
     pyspark
     ```
     
 
-8. 현재 PySpark 셸 세션에서 S3 접근을 위한 Hadoop 설정값 구성
+7. 현재 PySpark 셸 세션에서 S3 접근을 위한 Hadoop 설정값 구성
     
-    **lab7-3-7**
+    **lab7-2-7**
     
     ```java
     hconf = spark.sparkContext._jsc.hadoopConfiguration()
@@ -179,28 +113,28 @@ Hadoop 클러스터 환경에서 실시간 스트리밍 데이터와 배치 데�
     hconf.set("fs.s3a.impl", "org.apache.hadoop.fs.s3a.S3AFileSystem")
     ```
     
-9. 데이터 경로 정의
+8. 데이터 경로 정의
     - **Note**: `{실습 진행 날짜}`을 개인 환경에 맞게 수정 필요 (ex. dt=2025-06-30)
     
-    **lab7-3-8**
+    **lab7-2-8**
     
     ```java
     output_data_path = "s3a://data-catalog-bucket/data-catalog-dir/user_behavior_batch/{실습 진행 날짜}/"
     ```
     
 
-10. Parquet 파일을 DataFrame으로 로드
+9. Parquet 파일을 DataFrame으로 로드
     
-    **lab7-3-9**
+    **lab7-2-9**
     
     ```java
     df_enriched = spark.read.parquet(output_data_path)
     ```
     
 
-11. 스키마 구조 출력
+10. 스키마 구조 출력
     
-    **lab7-3-10**
+    **lab7-2-10**
     
     ```java
     df_enriched.printSchema()
@@ -209,52 +143,51 @@ Hadoop 클러스터 환경에서 실시간 스트리밍 데이터와 배치 데�
 
     
 
-12. 상위 100개 레코드 출력
+11. 상위 100개 레코드 출력
     
-    **lab7-3-11**
+    **lab7-2-11**
     
     ```java
     df_enriched.show(100, truncate=False)
     ```
-    ![image](https://github.com/user-attachments/assets/fd0460e5-8ef7-44cf-afd3-10b418b4ad0d)
 
     
-13. Pyspark 셸 종료
+12. Pyspark 셸 종료
     
-    **lab7-3-12**
+    **lab7-2-12**
     
     ```java
     exit();
     ```
     
 
-## 4. Pyspark를 활용한 실시간 정제
+## 3. Pyspark를 활용한 실시간 정제
 
 1. 실시간 정제 로직 파일 생성
     - **Note**: 스크립트에 대한 자세한 내용은 아래 파일 참고
         - [streaming_data_processor.sh](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day2/Lab07/streaming_data_processor.py)
     
     
-    **lab7-4-1**
+    **lab7-3-1**
     
     ```java
     wget https://raw.githubusercontent.com/kakaocloud-edu/tutorial/refs/heads/main/DataAnalyzeCourse/src/day2/Lab07/streaming_data_processor.py
     ```
     
 
-3. `BOOTSTRAP_SERVERS` 값을 실제 주소로 변경
+2. `BOOTSTRAP_SERVERS` 값을 실제 주소로 변경
     - **Note**: `{실제 Kafka 클러스터 부트스트랩 서버값}`을 개인 환경에 맞게 수정 필요
     
-    **lab7-4-2**
+    **lab7-3-2**
     
     ```java
     sed -i 's/BOOTSTRAP_SERVERS/{실제 Kafka 클러스터 부트스트랩 서버값}/g' streaming_data_processor.py
     ```
     
 
-4. 실시간 정제 작업 실행
+3. 실시간 정제 작업 실행
     
-    **lab7-4-3**
+    **lab7-3-3**
     
     ```java
     nohup spark-submit \
@@ -265,71 +198,71 @@ Hadoop 클러스터 환경에서 실시간 스트리밍 데이터와 배치 데�
     ```
     
 
-5. 정제 프로세스 모니터링
+4. 정제 프로세스 모니터링
     
-    **lab7-4-4**
+    **lab7-3-4**
     
     ```java
     tail -f streaming_data_processor.log 
     ```
     
 
-6. 모니터링 종료
+5. 모니터링 종료
     - **Note**: 맥북은 “command” + “c”
     
-    **lab7-4-5**
+    **lab7-3-5**
     
     ```java
     "ctrl" + "c"
     ```
     
 
-7. 카카오 클라우드 콘솔 > Beyond Storage Service > Object Storage
-8. `data-catalog-bucket` 클릭
-9. 배치 정제 결과가 저장된 디렉터리로 이동 후 버킷 내 적재된배치 정제 결과 확인 
+6. 카카오 클라우드 콘솔 > Beyond Storage Service > Object Storage
+7. `data-catalog-bucket` 클릭
+8. 배치 정제 결과가 저장된 디렉터리로 이동 후 버킷 내 적재된배치 정제 결과 확인 
     - **Note**: `data-catalog-bucket/data-catalog-dir/user_behavior_prediction/dt={실습 진행날짜}/`디렉터리로 이동
     ![실시간 결과 이미지](https://github.com/user-attachments/assets/5d205c50-8765-4e64-8fd7-8722f7a3d352)
     
 
-10. 배치 정제 결과 데이터 검증을 위한 PySpark 셸 실행
+9. 배치 정제 결과 데이터 검증을 위한 PySpark 셸 실행
     
-    **lab7-4-9**
+    **lab7-3-9**
     
     ```java
     pyspark
     ```
     
 
-11. 파일 경로 설정
+10. 파일 경로 설정
 
-    **lab7-4-10**
+    **lab7-3-10**
     
     ```java
     directory_path= "s3a://data-catalog-bucket/data-catalog-dir/user_behavior_prediction/"
     ```
     
 
-12. Parquet 파일 로드
+11. Parquet 파일 로드
     
-    **lab7-4-11**
+    **lab7-3-11**
     
     ```java
     df_combined = spark.read.parquet(directory_path)
     ```
     
 
-13. 스키마 구조 검증
+12. 스키마 구조 검증
     
-    **lab7-4-12**
+    **lab7-3-12**
     
     ```java
     df_combined.printSchema()
     ```
     
 
-14. 상위 100개 데이터 샘플 확인
+13. 상위 100개 데이터 샘플 확인
     
-    **lab7-4-13**
+    **lab7-3-13**
     
     ```java
     df_combined.show(100, truncate=False)
@@ -338,9 +271,9 @@ Hadoop 클러스터 환경에서 실시간 스트리밍 데이터와 배치 데�
 
     
 
-15. 세션 ID별 데이터 분포 확인
+14. 세션 ID별 데이터 분포 확인
     
-    **lab7-4-14**
+    **lab7-3-14**
     
     ```java
     df_combined.groupBy("session_id").count().show(truncate=False)
@@ -348,9 +281,9 @@ Hadoop 클러스터 환경에서 실시간 스트리밍 데이터와 배치 데�
     ![image](https://github.com/user-attachments/assets/d108e260-3801-4711-8236-ba5ff1497b58)
 
     
-16. Spark 셸 종료
+15. Spark 셸 종료
     
-    **lab7-4-15**
+    **lab7-3-15**
     
     ```java
     exit()
