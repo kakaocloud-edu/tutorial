@@ -196,7 +196,7 @@ sudo tee "${KAFKA_INSTALL_DIR}/config/connectors/mysql-s3-sink-connector.json" <
         "value.converter": "org.apache.kafka.connect.json.JsonConverter",
         "key.converter.schemas.enable": "false",
         "value.converter.schemas.enable": "false",
-        "flush.size": "1",
+        "flush.size": "500",
         "rotate.schedule.interval.ms": "5000",
         "timestamp.extractor": "RecordField",
         "timestamp.field": "ts_ms",
