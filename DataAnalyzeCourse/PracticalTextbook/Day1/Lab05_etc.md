@@ -104,6 +104,10 @@ WHERE login_time >= TIMESTAMP '2025-07-01'
 
 **필드**: `http_referer` (kafka_log_table 필드에 추가)
 
+| 파티션 키 | 컬럼 번호 | 필드 이름     | 데이터 유형 |설명(선택)|
+|----------|----------|--------------|------------|------------|
+| 미사용   | 4        | http_referer | string     | 빈 칸      |
+
 - 데이터 원본: `data_catalog`
 - 데이터 베이스: `data_catalog_database`
 
@@ -137,6 +141,10 @@ ORDER BY count DESC;
 **데이터 소스**: Nginx Log
 
 **필드**: `endpoint` , `query_params` (kafka_log_table 필드에 추가)
+| 파티션 키 | 컬럼 번호 | 필드 이름     | 데이터 유형 |설명(선택)|
+|----------|----------|--------------|------------|------------|
+| 미사용   | 5        | endpoint     | string     | 빈 칸      |
+| 미사용   | 6        | query_params | string     | 빈 칸      |
 
 - 데이터 원본: `data_catalog`
 - 데이터 베이스: `data_catalog_database`
@@ -161,6 +169,11 @@ ORDER BY pageview_count DESC;
 **데이터 소스**: Nginx Log
 
 **필드**: 1. kafka - `endpoint` , `query_params`(kafka_log_table 필드에 추가)
+
+| 파티션 키 | 컬럼 번호 | 필드 이름     | 데이터 유형 |설명(선택)|
+|----------|----------|--------------|------------|------------|
+| 미사용   | 5        | endpoint     | string     | 빈 칸      |
+| 미사용   | 6        | query_params | string     | 빈 칸      |
 
 **필드**: 2. mysql - `sessions` (크롤링으로 추가됨)
 
@@ -212,6 +225,11 @@ ORDER BY pc.click_count DESC;
 **데이터 소스**: MySQL DB, Nginx log
 
 **필드**: 1. kafka - `session_id` , `timestamp`(kafka_log_table 필드에 추가)
+
+| 파티션 키 | 컬럼 번호 | 필드 이름     | 데이터 유형 |설명(선택)|
+|----------|----------|--------------|------------|------------|
+| 미사용   | 7        | session_id   | string     | 빈 칸      |
+| 미사용   | 8        | timestamp    | string     | 빈 칸      |
 
 **필드**: 2. mysql - `sessions` (크롤링으로 추가됨)
 
