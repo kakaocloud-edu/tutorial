@@ -92,37 +92,6 @@ Hadoop 클러스터 환경에서 실시간 스트리밍 데이터와 배치 데�
 
 ## **2. Spark 및 Avro 환경 설정**
 
-1. Spark 설정 파일 업데이트
-    
-    **lab7-2-1-1**
-    
-    ```java
-    sudo vi /opt/spark/conf/spark-defaults.conf
-    ```
-    
-    **lab7-2-1-2**
-    
-    ```java
-    # 기존 설정들
-    gpark.master                             yarn
-    spark.serializer                         org.apache.spark.serializer.KryoSerializer
-    spark.driver.memory                      2g
-    spark.driver.extraJavaOptions            -Dspark.log.dir=/var/log/spark -Dspark.log.file=spark.log
-    spark.executor.extraLibraryPath          /opt/hadoop/lib/native
-    spark.eventLog.enabled                   true
-    spark.eventLog.dir                       hdfs:///var/log/spark/apps
-    spark.sql.hive.metastore.jars            /opt/hive/lib/*
-    spark.sql.hive.metastore.version         3.1.3
-    spark.sql.hive.metastore.sharedPrefixes  com.mysql.jdbc
-    
-    # 추가해야 할 설정들
-    spark.jars                               /opt/hive/lib/hive-hcatalog-core-3.1.3.jar
-    spark.driver.extraClassPath              /opt/hive/lib/hive-hcatalog-core-3.1.3.jar
-    spark.executor.extraClassPath            /opt/hive/lib/hive-hcatalog-core-3.1.3.jar
-    spark.hadoop.mapreduce.input.fileinputformat.input.dir.recursive true
-    
-    ```
-    
 
 1. Hive 설정을 Spark로 복사
     
@@ -156,7 +125,7 @@ Hadoop 클러스터 환경에서 실시간 스트리밍 데이터와 배치 데�
     ```
     
 
-## 3. PySpark를 활용한 일괄 정제 (수정)
+## 3. PySpark를 활용한 일괄 정제 (수정중)
 
 1. 배치 정제 파일 다운로드
    - **Note**: 스크립트에 대한 자세한 내용은 아래 파일 참고
