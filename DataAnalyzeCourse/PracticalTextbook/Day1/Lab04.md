@@ -2,9 +2,9 @@
 
 Data Catalog와 Pub/Sub, Object Storage를 연동하여 테이블을 생성하고 이벤트를 처리하는 과정을 실습하며, 크롤러를 활용해 MySQL의 메타데이터를 추출하는 방법도 함께 다룹니다.
 
----
-![image](https://github.com/user-attachments/assets/3e2ab2fd-1192-4a0f-9838-f7830b2bdf2b)
 
+![image](https://github.com/user-attachments/assets/3e2ab2fd-1192-4a0f-9838-f7830b2bdf2b)
+---
 ## 1. Object Storage 버킷 권한 설정
 1. 카카오 클라우드 콘솔 > Beyond Storage Service > Object Storage
 2. `data-catalog-bucket` 버킷 설정
