@@ -156,14 +156,14 @@ Hadoop 클러스터 환경에서 실시간 스트리밍 데이터와 배치 데�
     ```
     
 
-## 3. Pyspark를 활용한 배치 정제
+## 3. PySpark를 활용한 일괄 정제 (수정)
 
 1. 배치 정제 파일 다운로드
     
     **lab7-3-1**
     
     ```java
-    wget https://raw.githubusercontent.com/kakaocloud-edu/tutorial/refs/heads/main/DataAnalyzeCourse/src/day2/Lab07/batch_user_behavior_processor.py
+    wget https://raw.githubusercontent.com/kakaocloud-edu/tutorial/refs/heads/main/DataAnalyzeCourse/src/day2/Lab07/historical_data_refiner.py
     ```
     
 
@@ -178,7 +178,7 @@ Hadoop 클러스터 환경에서 실시간 스트리밍 데이터와 배치 데�
       --packages io.delta:delta-spark_2.12:3.1.0 \
       --conf spark.sql.extensions=io.delta.sql.DeltaSparkSessionExtension \
       --conf spark.sql.catalog.spark_catalog=org.apache.spark.sql.delta.catalog.DeltaCatalog \
-      batch_user_behavior_processor.py
+      historical_data_refiner.py
     ```
     
 
@@ -264,7 +264,7 @@ Hadoop 클러스터 환경에서 실시간 스트리밍 데이터와 배치 데�
     **lab7-4-1**
     
     ```java
-    wget https://raw.githubusercontent.com/kakaocloud-edu/tutorial/refs/heads/main/DataAnalyzeCourse/src/day2/Lab07/realtime_user_behavior_processor.py
+    wget https://raw.githubusercontent.com/kakaocloud-edu/tutorial/refs/heads/main/DataAnalyzeCourse/src/day2/Lab07/streaming_data_processor.py
     ```
     
 
@@ -274,7 +274,7 @@ Hadoop 클러스터 환경에서 실시간 스트리밍 데이터와 배치 데�
     **lab7-4-2**
     
     ```java
-    sed -i 's/BOOTSTRAP_SERVERS/{실제 Kafka 클러스터 부트스트랩 서버값}/g' realtime_user_behavior_processor.py
+    sed -i 's/BOOTSTRAP_SERVERS/{실제 Kafka 클러스터 부트스트랩 서버값}/g' streaming_data_processor.py
     ```
     
 
@@ -287,7 +287,7 @@ Hadoop 클러스터 환경에서 실시간 스트리밍 데이터와 배치 데�
       --master yarn \
       --deploy-mode client \
       --packages org.apache.spark:spark-sql-kafka-0-10_2.12:3.5.2,org.apache.spark:spark-avro_2.12:3.5.2,io.delta:delta-spark_2.12:3.1.0 \
-      realtime_user_behavior_processor.py > realtime_user_behavior_processor.log 2>&1 &
+      streaming_data_processor.py > streaming_data_processor.log 2>&1 &
     ```
     
 
@@ -296,7 +296,7 @@ Hadoop 클러스터 환경에서 실시간 스트리밍 데이터와 배치 데�
     **lab7-4-4**
     
     ```java
-    tail -f realtime_user_behavior_processor.log 
+    tail -f streaming_data_processor.log 
     ```
     
 
