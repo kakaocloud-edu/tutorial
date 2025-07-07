@@ -11,11 +11,16 @@ Hadoop Eco의 Spark를 활용하여 이미 만들어진 aggregated_logs 테이�
    ![스크린샷](https://github.com/user-attachments/assets/c5e2e829-02f1-41dc-9932-e14efddfca1c)  
 
 ## 2. Spark를 활용하여 user cart metrics temp 테이블 생성 후 MySQL에 적재 
-1. user_cart_metrics.py 다운로드
+1. Spark 설정 파일 업데이트
+   - **Note**: 지정한 입력 경로의 모든 하위 디렉토리에 있는 파일까지 읽도록 설정
+   ```bash
+   echo "spark.hadoop.mapreduce.input.fileinputformat.input.dir.recursive true" | sudo tee -a /opt/spark/conf/spark-defaults.conf
+   ```
+2. user_cart_metrics.py 다운로드
 
    - 스크립트: [ `user_cart_metrics.py` ](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day2/Lab06/user_cart_metrics.py)
 
-    #### **lab6-2-1**
+    #### **lab6-2-2**
 
     ```bash
     wget https://raw.githubusercontent.com/kakaocloud-edu/tutorial/main/DataAnalyzeCourse/src/day2/Lab06/user_cart_metrics.py
@@ -23,19 +28,19 @@ Hadoop Eco의 Spark를 활용하여 이미 만들어진 aggregated_logs 테이�
 
 3. user_cart_metrics.py에 실행 권한 부여
 
-    #### **lab6-2-2**
+    #### **lab6-2-3**
 
     ```bash
     chmod +x user_cart_metrics.py
     ```
 
-3. user_cart_metrics.py 실행
+4. user_cart_metrics.py 실행
 
    - packages: S3와 같은 스토리지 접근에 필요한 Hadoop-AWS 모듈과 AWS SDK 라이브러리 사용
    - jars: MySQL에 데이터를 쓰기 위한 JDBC 드라이버와 Hive 메타스토어 연결을 위한 HCatalog 코어 JAR 사용
    - `{MySQL_엔드포인트}`: 위에서 복사해둔 엔드포인트로 수정
 
-    #### **lab6-2-3**
+    #### **lab6-2-4**
 
     ```bash
    spark-submit \
