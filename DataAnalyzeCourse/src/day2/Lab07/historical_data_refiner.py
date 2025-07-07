@@ -1,10 +1,12 @@
 #!/usr/bin/env python3
 import os
+import time  # 시간 측정을 위해 임포트
 from pyspark.sql import SparkSession, Window
 from pyspark.sql.functions import (
-    col, expr, when, coalesce, lit, broadcast, # broadcast 임포트
+    col, expr, when, coalesce, lit, broadcast,
     date_format, unix_timestamp, to_timestamp,
     lag, lead, row_number, round,
+    trim,
     sum as spark_sum,
     max as spark_max
 )
@@ -12,7 +14,13 @@ from pyspark.sql.types import (
     StructType, StructField, StringType, LongType,
     IntegerType, TimestampType, DoubleType
 )
+from pyspark.sql.utils import AnalysisException
 from delta.tables import DeltaTable
+
+# --- 로깅 함수 정의 ---
+def log_time(message):
+    """현재 시간과 함께 메시지를 출력하는 함수"""
+    print(f"[{time.strftime('%Y-%m-%d %H:%M:%S')}] {message}")
 
 # --- S3 데이터 소스 경로 정의 ---
 NGINX_LOGS_S3_PATH = "s3a://data-catalog-bucket/kafka-nginx-log/nginx-topic/"
@@ -50,46 +58,66 @@ nginx_log_schema = StructType([
 # 1. 데이터 로드 함수 정의 (S3 소스)
 # ==============================================================================
 def load_debezium_users_batch(spark, path):
+    empty_df = spark.createDataFrame([], StructType([StructField("user_info_id", StringType(), True), StructField("gender", StringType(), True), StructField("age", IntegerType(), True)]))
     try:
         raw_df = spark.read.json(path)
-        if raw_df.rdd.isEmpty(): return spark.createDataFrame([], StructType([StructField("user_info_id", StringType(), True), StructField("gender", StringType(), True), StructField("age", IntegerType(), True)]))
+        if raw_df.rdd.isEmpty(): return empty_df
         parsed_df = raw_df.select(col("op").alias("operation"), col("after.user_id").alias("user_info_id"), col("after.gender").alias("gender"), col("after.age").cast("int").alias("age"))
         return parsed_df.filter(col("operation").isin(["c", "u", "r"]) & col("user_info_id").isNotNull() & (col("user_info_id") != "") & col("gender").isin(["M", "F"]) & col("age").between(1, 120)).dropDuplicates(["user_info_id"])
-    except Exception as e: return spark.createDataFrame([], StructType([StructField("user_info_id", StringType(), True), StructField("gender", StringType(), True), StructField("age", IntegerType(), True)]))
+    except AnalysisException:
+        print(f"경고: Debezium Users 경로를 찾을 수 없습니다: {path}")
+        return empty_df
 
 def load_debezium_sessions_batch(spark, path):
+    empty_df = spark.createDataFrame([], StructType([StructField("session_id", StringType(), True), StructField("session_user_id", StringType(), True)]))
     try:
         raw_df = spark.read.json(path)
-        if raw_df.rdd.isEmpty(): return spark.createDataFrame([], StructType([StructField("session_id", StringType(), True), StructField("session_user_id", StringType(), True)]))
+        if raw_df.rdd.isEmpty(): return empty_df
         sessions_df = raw_df.select(col("op").alias("operation"), col("after.session_id").alias("session_id"), col("after.user_id").alias("session_user_id"))
         return sessions_df.filter(col("operation").isin(["c", "u", "r"]) & col("session_id").isNotNull()).dropDuplicates(["session_id"])
-    except Exception as e: return spark.createDataFrame([], StructType([StructField("session_id", StringType(), True), StructField("session_user_id", StringType(), True)]))
+    except AnalysisException:
+        print(f"경고: Debezium Sessions 경로를 찾을 수 없습니다: {path}")
+        return empty_df
 
 def load_nginx_logs_batch(spark, path):
+    empty_df = spark.createDataFrame([], StructType([StructField("session_id", StringType(), True), StructField("user_id", StringType(), True), StructField("endpoint", StringType(), True), StructField("method", StringType(), True), StructField("query_params", StringType(), True), StructField("product_id", StringType(), True), StructField("request_body", StringType(), True), StructField("event_time", TimestampType(), True)]))
     try:
         raw_df = spark.read.option("recursiveFileLookup", "true").schema(nginx_log_schema).parquet(path)
-        if raw_df.rdd.isEmpty(): return spark.createDataFrame([], StructType([StructField("session_id", StringType(), True), StructField("user_id", StringType(), True), StructField("endpoint", StringType(), True), StructField("method", StringType(), True), StructField("query_params", StringType(), True), StructField("product_id", StringType(), True), StructField("request_body", StringType(), True), StructField("event_time", TimestampType(), True)]))
+        if raw_df.rdd.isEmpty(): return empty_df
+        
         transformed_df = raw_df.select(col("session_id"), when(col("user_id") == "", lit(None)).otherwise(col("user_id")).alias("user_id"), col("endpoint"), col("method"), col("query_params"), col("product_id"), col("request_body"), to_timestamp(col("timestamp")).alias("event_time"))
-        return transformed_df.filter(col("session_id").isNotNull() & col("endpoint").isNotNull() & col("event_time").isNotNull())
-    except Exception as e: return spark.createDataFrame([], StructType([StructField("session_id", StringType(), True), StructField("user_id", StringType(), True), StructField("endpoint", StringType(), True), StructField("method", StringType(), True), StructField("query_params", StringType(), True), StructField("product_id", StringType(), True), StructField("request_body", StringType(), True), StructField("event_time", TimestampType(), True)]))
+        
+        return transformed_df.filter(
+            (col("session_id").isNotNull()) & 
+            (trim(col("session_id")) != "") &
+            col("endpoint").isNotNull() &
+            col("event_time").isNotNull()
+        )
+    except AnalysisException as e:
+        if "Path does not exist" in str(e):
+            print(f"정보: Nginx 로그 경로를 찾을 수 없습니다: {path}")
+        else:
+            print(f"Nginx 로그 데이터 로드 중 오류 발생: {e}")
+        return empty_df
 
 # ==============================================================================
-# 2. 사용자 행동 데이터 처리 함수 (성능 최적화)
+# 2. 사용자 행동 데이터 처리 함수
 # ==============================================================================
-
 def process_user_behavior_batch(logs_df, sessions_df, users_df, spark):
     try:
+        log_time("사용자 행동 데이터 처리 시작")
         if logs_df.rdd.isEmpty():
-            print("현재 배치에 처리할 Nginx 로그 데이터가 없어 건너뜁니다.")
+            log_time("처리할 Nginx 로그 데이터가 없어 건너뜁니다.")
             return
 
-        if DeltaTable.isDeltaTable(spark, STATE_TABLE_PATH_BATCH):
+        is_delta_table = DeltaTable.isDeltaTable(spark, STATE_TABLE_PATH_BATCH)
+        if is_delta_table:
             state_df = spark.read.format("delta").load(STATE_TABLE_PATH_BATCH)
         else:
+            log_time(f"정보: Delta 상태 테이블({STATE_TABLE_PATH_BATCH})이 없어, 빈 상태로 시작합니다.")
             state_df = spark.createDataFrame([], state_schema)
-            print(f"Delta 상태 테이블이 없어 새로 생성합니다: {STATE_TABLE_PATH_BATCH}")
 
-        # [성능 최적화 1: 브로드캐스트 조인] 작은 테이블을 브로드캐스트하여 Shuffle 방지
+        log_time("로그, 세션, 사용자 데이터 조인 시작")
         logs_sessions_joined = logs_df.alias("l") \
             .join(broadcast(sessions_df.alias("s")), col("l.session_id") == col("s.session_id"), "left")
         
@@ -103,17 +131,21 @@ def process_user_behavior_batch(logs_df, sessions_df, users_df, spark):
                 col("l.event_time"), col("l.endpoint").alias("current_state"),
                 col("l.method"), col("l.query_params"), col("l.product_id"), col("l.request_body")
             )
+        log_time("데이터 조인 완료. 캐싱 및 카운팅 시작")
 
-        # [성능 최적화 2: 캐싱] 복잡한 윈도우 연산 전, 조인 결과를 메모리에 캐시
         enriched.cache()
-        # .count()와 같은 액션으로 캐시를 트리거하고, 디버깅을 위해 레코드 수 확인
-        print(f"DEBUG: 조인 및 캐싱 후 enriched DF 레코드 수: {enriched.count()}")
+        enriched_count = enriched.count()
+        log_time(f"캐싱 및 카운팅 완료. Enriched DF 레코드 수: {enriched_count}")
+        if enriched_count == 0:
+            spark.catalog.clearCache()
+            return
 
+        log_time("윈도우 함수 및 상태 계산 시작")
         window_spec = Window.partitionBy("session_id").orderBy("event_time")
         batch_flagged = enriched.withColumn("batch_search", when(col("current_state").like("/search%"), 1).otherwise(0)) \
-                                .withColumn("batch_cart", when(col("current_state") == "/cart/add", 1).otherwise(0)) \
-                                .withColumn("prev_state", lag("current_state", 1).over(window_spec)) \
-                                .withColumn("prev_time", lag("event_time", 1).over(window_spec))
+                                  .withColumn("batch_cart", when(col("current_state") == "/cart/add", 1).otherwise(0)) \
+                                  .withColumn("prev_state", lag("current_state", 1).over(window_spec)) \
+                                  .withColumn("prev_time", lag("event_time", 1).over(window_spec))
         
         dedup = batch_flagged.filter(col("prev_time").isNull() | (~((col("current_state") == col("prev_state")) & (col("event_time") == col("prev_time")))))
         dedup = dedup.withColumn("batch_search_cum", expr("sum(batch_search) OVER (PARTITION BY session_id ORDER BY event_time ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW)")) \
@@ -140,35 +172,55 @@ def process_user_behavior_batch(logs_df, sessions_df, users_df, spark):
                          .withColumn("page_depth", col("page_depth").cast(IntegerType())) \
                          .withColumn("last_action_elapsed", round(col("last_action_elapsed"), 2)) \
                          .dropDuplicates(["session_id", "user_id", "current_state", "page_depth"])
+        log_time("윈도우 함수 및 상태 계산 완료. 최종 DF 생성 및 persist 시작")
         
-        if final_df.rdd.isEmpty(): print("모든 처리 후 최종 DataFrame이 비어있어 저장 및 상태 업데이트를 건너뜁니다."); return
+        final_df.persist()
+        final_df_count = final_df.count()
+        log_time(f"최종 DF persist 및 카운팅 완료. 레코드 수: {final_df_count}")
 
+        if final_df_count == 0: 
+            log_time("최종 DataFrame이 비어있어 저장 및 상태 업데이트를 건너뜁니다.")
+            final_df.unpersist()
+            return
+
+        log_time("최종 결과 Parquet으로 저장 시작")
         final_df.select("session_id", "user_id", "gender", "age", "current_state", "search_count", "cart_item_count", "page_depth", "last_action_elapsed", "next_state", "dt") \
             .write.mode("append").format("parquet").partitionBy("dt") \
             .option("maxRecordsPerFile", 500000).save(FINAL_OUTPUT_PATH_BATCH)
+        log_time("최종 결과 저장 완료")
 
+        log_time("새로운 상태 계산 시작")
         new_state = final_df.groupBy("session_id").agg(spark_max("search_count").alias("search_count"), spark_max("cart_item_count").alias("cart_item_count"), spark_max("page_depth").alias("page_depth"), spark_max("event_time").alias("last_event_time"))
+        log_time("새로운 상태 계산 완료")
         
-        if DeltaTable.isDeltaTable(spark, STATE_TABLE_PATH_BATCH):
-            DeltaTable.forPath(spark, STATE_TABLE_PATH_BATCH).alias("s").merge(new_state.alias("n"), "s.session_id = n.session_id").whenMatchedUpdateAll().whenNotMatchedInsertAll().execute()
-        else: new_state.write.format("delta").mode("overwrite").save(STATE_TABLE_PATH_BATCH)
+        final_df.unpersist()
+
+        if is_delta_table:
+            log_time("기존 Delta 상태 테이블에 새로운 상태를 병합합니다.")
+            DeltaTable.forPath(spark, STATE_TABLE_PATH_BATCH).alias("s").merge(
+                new_state.alias("n"), "s.session_id = n.session_id"
+            ).whenMatchedUpdateAll().whenNotMatchedInsertAll().execute()
+        else:
+            log_time("Delta 상태 테이블이 없으므로, 현재 상태로 새로 생성합니다.")
+            new_state.write.format("delta").mode("overwrite").save(STATE_TABLE_PATH_BATCH)
+        log_time("상태 업데이트 완료.")
         
-        print(f"배치 처리 성공 - 최종 레코드 수: {final_df.count()}")
+        log_time(f"배치 처리 성공 - 최종 레코드 수: {final_df_count}")
 
     except Exception as e:
-        print(f"배치 처리 중 에러 발생: {str(e)}")
+        log_time(f"배치 처리 중 에러 발생: {str(e)}")
         import traceback; traceback.print_exc(); raise e
     finally:
-        # 사용이 끝난 캐시 메모리 해제
         spark.catalog.clearCache()
 
 # ==============================================================================
 # 3. Main: 배치 정의 및 실행
 # ==============================================================================
 if __name__ == "__main__":
+    log_time("Spark 세션 생성 시작")
     spark = (
         SparkSession.builder
-            .appName("S3BatchUserBehaviorProcessorOptimized")
+            .appName("S3BatchUserBehaviorProcessorWithLogging")
             .config("spark.sql.extensions", "io.delta.sql.DeltaSparkSessionExtension")
             .config("spark.sql.catalog.spark_catalog", "org.apache.spark.sql.delta.catalog.DeltaCatalog")
             .config("spark.sql.adaptive.enabled", "true")
@@ -176,27 +228,32 @@ if __name__ == "__main__":
             .getOrCreate()
     )
     spark.sparkContext.setLogLevel("WARN")
+    log_time("Spark 세션 생성 완료")
 
     try:
-        print("S3에서 Nginx 로그 데이터 로드 중...")
+        log_time("S3에서 Nginx 로그 데이터 로드 시작")
         logs_df = load_nginx_logs_batch(spark, NGINX_LOGS_S3_PATH)
-        print(f"Nginx 로그 데이터 로드 완료. 레코드 수: {logs_df.count()}")
+        logs_count = logs_df.count()
+        log_time(f"Nginx 로그 데이터 로드 완료. 레코드 수: {logs_count}")
 
-        print("S3에서 Debezium Users 데이터 로드 중...")
-        users_df = load_debezium_users_batch(spark, USERS_CDC_S3_PATH)
-        print(f"Debezium Users 데이터 로드 완료. 레코드 수: {users_df.count()}")
+        if logs_count > 0:
+            log_time("S3에서 Debezium Users 데이터 로드 시작")
+            users_df = load_debezium_users_batch(spark, USERS_CDC_S3_PATH)
+            log_time(f"Debezium Users 데이터 로드 완료. 레코드 수: {users_df.count()}")
 
-        print("S3에서 Debezium Sessions 데이터 로드 중...")
-        sessions_df = load_debezium_sessions_batch(spark, SESSIONS_CDC_S3_PATH)
-        print(f"Debezium Sessions 데이터 로드 완료. 레코드 수: {sessions_df.count()}")
+            log_time("S3에서 Debezium Sessions 데이터 로드 시작")
+            sessions_df = load_debezium_sessions_batch(spark, SESSIONS_CDC_S3_PATH)
+            log_time(f"Debezium Sessions 데이터 로드 완료. 레코드 수: {sessions_df.count()}")
 
-        print("\n사용자 행동 데이터 배치 처리 시작...")
-        process_user_behavior_batch(logs_df, sessions_df, users_df, spark)
-        print("사용자 행동 데이터 배치 처리 완료.")
+            process_user_behavior_batch(logs_df, sessions_df, users_df, spark)
+            log_time("사용자 행동 데이터 배치 처리 완료.")
+        else:
+            log_time("처리할 Nginx 로그가 없으므로 배치를 종료합니다.")
 
     except Exception as e:
-        print(f"메인 처리 중 에러 발생: {str(e)}")
+        log_time(f"메인 처리 중 에러 발생: {str(e)}")
         import traceback; traceback.print_exc()
     finally:
-        print("\n스파크 세션 종료.")
+        log_time("Spark 세션 종료 시작")
         spark.stop()
+        log_time("Spark 세션 종료 완료")
