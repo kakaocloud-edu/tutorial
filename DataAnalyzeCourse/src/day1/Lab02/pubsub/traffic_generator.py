@@ -243,15 +243,15 @@ def perform_anon_sub_action(session: requests.Session, user_unique_id: str, sub_
             logging.error(f"[{user_unique_id}] Anon_Sub_Products error: {e}")
 
     elif sub_state == "Anon_Sub_ViewProduct":
-            # 101~124 범위의 상품 ID를 랜덤 선택하여 조회
-            pid = random.randint(101, 124)
-            url = f"{config.API_URL_WITH_HTTP}{config.API_ENDPOINTS['PRODUCT_DETAIL']}?id={pid}"
-            
-            try:
-                r = session.get(url, headers=headers)
-                logging.info(f"[{user_unique_id}] GET /product?id={pid} => {r.status_code}")
-            except Exception as err:
-                logging.error(f"[{user_unique_id}] view product error: {err}")
+        # 101~124 범위의 상품 ID를 랜덤 선택하여 조회
+        pid = random.randint(101, 124)
+        url = f"{config.API_URL_WITH_HTTP}{config.API_ENDPOINTS['PRODUCT_DETAIL']}?id={pid}"
+        
+        try:
+            r = session.get(url, headers=headers)
+            logging.info(f"[{user_unique_id}] GET /product?id={pid} => {r.status_code}")
+        except Exception as err:
+            logging.error(f"[{user_unique_id}] view product error: {err}")
 
     elif sub_state == "Anon_Sub_Categories":
         try:
@@ -331,16 +331,65 @@ def perform_logged_sub_action(session: requests.Session,
         "X-User-Id": user_unique_id,
     }
     
-    if sub_state == "Login_Sub_ViewProduct":
-        # 101~124 범위의 상품 ID를 랜덤 선택하여 상세 조회
-        pid = random.randint(101, 124)
+    if sub_state == "Login_Sub_Initial":
+        # 진입점: 특별한 액션 없이 상태 확인만
+        logging.info(f"[{user_unique_id}] Login Sub-FSM initialized")
+    
+    elif sub_state == "Login_Sub_Main":
+        try:
+            r = session.get(config.API_URL_WITH_HTTP, headers=headers)
+            logging.info(f"[{user_unique_id}] GET / (logged) => {r.status_code}")
+        except Exception as e:
+            logging.error(f"[{user_unique_id}] Login_Sub_Main error: {e}")
+    
+    elif sub_state == "Login_Sub_Products":
+        try:
+            url = config.API_URL_WITH_HTTP + config.API_ENDPOINTS["PRODUCTS"]
+            r = session.get(url, headers=headers)
+            logging.info(f"[{user_unique_id}] GET /products (logged) => {r.status_code}")
+        except Exception as e:
+            logging.error(f"[{user_unique_id}] Login_Sub_Products error: {e}")
+    
+    elif sub_state == "Login_Sub_ViewProduct":
+        # 선호 카테고리 기반으로 상품 선택
+        pid = pick_preferred_product_id(gender, age_segment)
         url = f"{config.API_URL_WITH_HTTP}{config.API_ENDPOINTS['PRODUCT_DETAIL']}?id={pid}"
         try:
             r = session.get(url, headers=headers)
-            logging.info(f"[{user_unique_id}] GET id={pid} => {r.status_code}")
+            logging.info(f"[{user_unique_id}] GET /product?id={pid} (logged) => {r.status_code}")
         except Exception as err:
-            logging.error(f"[{user_unique_id}] view product error: {err}")
-        return
+            logging.error(f"[{user_unique_id}] Login_Sub_ViewProduct error: {err}")
+
+    elif sub_state == "Login_Sub_Search":
+        q = random.choice(config.SEARCH_KEYWORDS)
+        search_url = f"http://{config.API_BASE_URL}/{config.API_ENDPOINTS['SEARCH']}?query={q}"
+        try:
+            r = session.get(search_url, headers=headers)
+            logging.info(f"[{user_unique_id}] GET /search?query={q} (logged) => {r.status_code}")
+        except Exception as err:
+            logging.error(f"[{user_unique_id}] Login_Sub_Search error: {err}")
+
+    elif sub_state == "Login_Sub_Categories":
+        try:
+            url = config.API_URL_WITH_HTTP + config.API_ENDPOINTS["CATEGORIES"]
+            r = session.get(url, headers=headers)
+            logging.info(f"[{user_unique_id}] GET /categories (logged) => {r.status_code}")
+        except Exception as err:
+            logging.error(f"[{user_unique_id}] Login_Sub_Categories error: {err}")
+
+    elif sub_state == "Login_Sub_CategoryList":
+        if categories_cache:
+            # 선호 카테고리 기반으로 선택
+            preferred_cats = config.CATEGORY_PREFERENCE.get(gender, {}).get(age_segment, [])
+            available_cats = [cat for cat in categories_cache if cat in preferred_cats]
+            chosen_cat = random.choice(available_cats) if available_cats else random.choice(categories_cache)
+            
+            cat_url = f"http://{config.API_BASE_URL}/{config.API_ENDPOINTS['CATEGORY']}?name={chosen_cat}"
+            try:
+                r = session.get(cat_url, headers=headers)
+                logging.info(f"[{user_unique_id}] GET /category?name={chosen_cat} (logged) => {r.status_code}")
+            except Exception as err:
+                logging.error(f"[{user_unique_id}] Login_Sub_CategoryList error: {err}")
 
     elif sub_state == "Login_Sub_ViewCart":
         url = config.API_URL_WITH_HTTP + config.API_ENDPOINTS["CART_VIEW"]
@@ -348,7 +397,7 @@ def perform_logged_sub_action(session: requests.Session,
             r = session.get(url, headers=headers)
             logging.info(f"[{user_unique_id}] GET /cart/view => {r.status_code}")
         except Exception as e:
-            logging.error(f"[{user_unique_id}] view cart error: {e}")
+            logging.error(f"[{user_unique_id}] Login_Sub_ViewCart error: {e}")
 
     elif sub_state == "Login_Sub_CheckoutHistory":
         url = config.API_URL_WITH_HTTP + config.API_ENDPOINTS["CHECKOUT_HISTORY"]
@@ -356,20 +405,19 @@ def perform_logged_sub_action(session: requests.Session,
             r = session.get(url, headers=headers)
             logging.info(f"[{user_unique_id}] GET /checkout_history => {r.status_code}")
         except Exception as e:
-            logging.error(f"[{user_unique_id}] checkout_history error: {e}")
+            logging.error(f"[{user_unique_id}] Login_Sub_CheckoutHistory error: {e}")
 
     elif sub_state == "Login_Sub_CartAdd":
         pid = pick_preferred_product_id(gender, age_segment)
         qty = random.randint(1,5)     
         
-       
         payload = {"id": pid, "quantity": str(qty)}
         try:
             add_url = config.API_URL_WITH_HTTP + config.API_ENDPOINTS["CART_ADD"]
             r = session.post(add_url, data=payload, headers=headers)
-            logging.info(f"[pid={pid}, qty={qty}) => {r.status_code}")
+            logging.info(f"[{user_unique_id}] POST /cart/add (pid={pid}, qty={qty}) => {r.status_code}")
         except Exception as e:
-            logging.error(f"[{user_unique_id}] cart add error: {e}")
+            logging.error(f"[{user_unique_id}] Login_Sub_CartAdd error: {e}")
 
     elif sub_state == "Login_Sub_CartRemove":
         view_url = config.API_URL_WITH_HTTP + config.API_ENDPOINTS["CART_VIEW"]
@@ -391,7 +439,7 @@ def perform_logged_sub_action(session: requests.Session,
             else:
                 logging.error(f"[{user_unique_id}] GET /cart/view fail => {vr.status_code}")
         except Exception as e:
-            logging.error(f"[{user_unique_id}] remove cart error: {e}")
+            logging.error(f"[{user_unique_id}] Login_Sub_CartRemove error: {e}")
 
     elif sub_state == "Login_Sub_Checkout":
         check_url = config.API_URL_WITH_HTTP + config.API_ENDPOINTS["CHECKOUT"]
@@ -399,20 +447,19 @@ def perform_logged_sub_action(session: requests.Session,
             r = session.post(check_url, headers=headers)
             logging.info(f"[{user_unique_id}] POST /checkout => {r.status_code}")
         except Exception as e:
-            logging.error(f"[{user_unique_id}] checkout error: {e}")
+            logging.error(f"[{user_unique_id}] Login_Sub_Checkout error: {e}")
 
     elif sub_state == "Login_Sub_AddReview":
         pid = pick_preferred_product_id(gender, age_segment)
         rating = random.randint(1,5)
         
-
         payload = {"product_id": pid, "rating": str(rating)}
         try:
             rev_url = config.API_URL_WITH_HTTP + config.API_ENDPOINTS["ADD_REVIEW"]
             r = session.post(rev_url, data=payload, headers=headers)
             logging.info(f"[{user_unique_id}] POST /add_review (pid={pid},rating={rating}) => {r.status_code}")
         except Exception as e:
-            logging.error(f"[{user_unique_id}] add review error: {e}")
+            logging.error(f"[{user_unique_id}] Login_Sub_AddReview error: {e}")
 
     elif sub_state == "Login_Sub_Error":
         err_url = config.API_URL_WITH_HTTP + config.API_ENDPOINTS["ERROR_PAGE"]
@@ -420,10 +467,9 @@ def perform_logged_sub_action(session: requests.Session,
             rr = session.get(err_url, headers=headers)
             logging.info(f"[{user_unique_id}] GET /error => {rr.status_code}")
         except Exception as e:
-            logging.error(f"[{user_unique_id}] error page => {e}")
+            logging.error(f"[{user_unique_id}] Login_Sub_Error => {e}")
             
-            
-    #사용자 행동 사이의 대기 추가
+    # 사용자 행동 사이의 대기 추가
     time.sleep(random.uniform(0.5, 1.0))
 
 #################################
