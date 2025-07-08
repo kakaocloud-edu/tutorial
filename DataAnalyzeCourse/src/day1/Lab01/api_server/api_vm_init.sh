@@ -10,9 +10,9 @@ export CREDENTIAL_SECRET="{보안 액세스 키}"
 export MYSQL_HOST="{MySQL 엔드포인트}"
 
 # Pub/Sub 및 Kafka 설정
+export LOGSTASH_KAFKA_ENDPOINT="{Kafka 부트스트랩 서버}"
 export PUBSUB_TOPIC_NAME="log-topic"
 export KAFKA_TOPIC_NAME="nginx-topic"
-export LOGSTASH_KAFKA_ENDPOINT="temp-kafka-bootstrap-server"
 
 # 로그 및 환경 설정
 export LOGSTASH_ENV_FILE="/etc/default/logstash"
