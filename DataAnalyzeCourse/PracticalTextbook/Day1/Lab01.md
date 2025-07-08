@@ -130,7 +130,8 @@
 7. 우측 상단 계정 프로필 > 계정 정보
 8. 비밀번호 재확인 > 비밀번호 입력 > 비밀번호 확인
 9. 우측 하단 `조직 ID` 복사 후 클립보드 등에 붙여넣기
-   - **Note**: API 인증 토큰 발급 시, 어느 조직의 어떤 프로젝트에 권한을 부여할지 명확히 지정하기 위해 필요
+   - **Note**: pub/sub 토큰 생성 API 호출 시 `조직 id`와 `프로젝트 id`를 경로 변수로 사용
+   - {endpoint-url}/v1/domains/`{조직 id}`/projects/`{프로젝트 id}`/topics/{topic-name}
 
    ![조직 ID](https://github.com/user-attachments/assets/16382315-5f49-4ee7-86bd-c724c3fe39e0)
 
