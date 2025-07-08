@@ -160,66 +160,140 @@ ANON_SUB_TRANSITIONS = {
 # 로그인 하위머신 전이 표
 #################################
 LOGGED_SUB_TRANSITIONS = {
+    # 진입점
     "Login_Sub_Initial": {
-        "Login_Sub_ViewCart": 0.2,
+        "Login_Sub_Main": 0.9,
+        "Login_Sub_Error": 0.1
+    },
+    
+    # 메인 페이지
+    "Login_Sub_Main": {
+        "Login_Sub_Main": 0.1,
+        "Login_Sub_Products": 0.2,
+        "Login_Sub_ViewProduct": 0.2,
+        "Login_Sub_Search": 0.1,
+        "Login_Sub_Categories": 0.1,
         "Login_Sub_CheckoutHistory": 0.1,
-        "Login_Sub_CartAdd": 0.2,
-        "Login_Sub_CartRemove": 0.1,
-        "Login_Sub_Checkout": 0.1,
-        "Login_Sub_AddReview": 0.1,
         "Login_Sub_Error": 0.1,
         "Login_Sub_Done": 0.1
     },
-    "Login_Sub_ViewCart": {
+    
+    # 상품 목록
+    "Login_Sub_Products": {
+        "Login_Sub_Main": 0.1,
+        "Login_Sub_Products": 0.2,
+        "Login_Sub_ViewProduct": 0.2,
+        "Login_Sub_Categories": 0.1,
+        "Login_Sub_Search": 0.2,
+        "Login_Sub_Error": 0.1,
+        "Login_Sub_Done": 0.1
+    },
+    
+    # 상품 상세
+    "Login_Sub_ViewProduct": {
+        "Login_Sub_Main": 0.1,
+        "Login_Sub_ViewProduct": 0.1,
+        "Login_Sub_Products": 0.1,
+        "Login_Sub_Search": 0.1,
+        "Login_Sub_Categories": 0.1,
         "Login_Sub_ViewCart": 0.1,
-        "Login_Sub_CartAdd": 0.2,
+        "Login_Sub_CartAdd": 0.1,
+        "Login_Sub_Checkout": 0.1,
+        "Login_Sub_Error": 0.1,
+        "Login_Sub_Done": 0.1
+    },
+    
+    # 검색
+    "Login_Sub_Search": {
+        "Login_Sub_Main": 0.2,
+        # 상품명을 정확하게가 아니라 상품 목록을 검색할 수도 있다. ex)모니터
+        "Login_Sub_Products": 0.2,
+        # 카테고리를 검색할 수도 있다. ex) 가전제품, 식품 
+        "Login_Sub_Categories": 0.1, 
+        "Login_Sub_ViewProduct": 0.3,
+        "Login_Sub_Error": 0.1,
+        "Login_Sub_Done": 0.1
+    },
+    
+    # 카테고리 목록
+    "Login_Sub_Categories": {
+        "Login_Sub_Main": 0.2,
+        "Login_Sub_CategoryList": 0.3,
+        "Login_Sub_Search": 0.3,
+        "Login_Sub_Error": 0.1,
+        "Login_Sub_Done": 0.1
+    },
+    
+    # 특정 카테고리 상품 목록
+    "Login_Sub_CategoryList": {
+        "Login_Sub_Main": 0.2,
+        "Login_Sub_Categories": 0.3,
+        "Login_Sub_ViewProduct": 0.3,
+        "Login_Sub_Error": 0.1,
+        "Login_Sub_Done": 0.1
+    },
+    
+    # 장바구니 보기
+    "Login_Sub_ViewCart": {
+        "Login_Sub_Main": 0.3,
         "Login_Sub_CartRemove": 0.2,
-        "Login_Sub_Checkout": 0.1,
+        "Login_Sub_Checkout": 0.3,
         "Login_Sub_Error": 0.1,
-        "Login_Sub_Done": 0.3
+        "Login_Sub_Done": 0.1
     },
+    
+    # 결제 이력 보기
     "Login_Sub_CheckoutHistory": {
-        "Login_Sub_CheckoutHistory": 0.1,
+        "Login_Sub_Main": 0.4,
         "Login_Sub_ViewCart": 0.2,
-        "Login_Sub_CartAdd": 0.1,
+        "Login_Sub_CartAdd": 0.2,
         "Login_Sub_Error": 0.1,
-        "Login_Sub_Done": 0.5
+        "Login_Sub_Done": 0.1
     },
+    
+    # 장바구니에 상품 추가
     "Login_Sub_CartAdd": {
-        "Login_Sub_CartAdd": 0.1,
+        "Login_Sub_Main": 0.2,
         "Login_Sub_ViewCart": 0.3,
-        "Login_Sub_Checkout": 0.1,
+        "Login_Sub_Checkout": 0.3,
         "Login_Sub_Error": 0.1,
-        "Login_Sub_Done": 0.4
+        "Login_Sub_Done": 0.1
     },
+    
+    # 장바구니 상품 제거
     "Login_Sub_CartRemove": {
-        "Login_Sub_CartRemove": 0.1,
-        "Login_Sub_ViewCart": 0.3,
-        "Login_Sub_Checkout": 0.1,
+        "Login_Sub_Main": 0.3,
+        "Login_Sub_ViewCart": 0.4,
         "Login_Sub_Error": 0.1,
-        "Login_Sub_Done": 0.4
+        "Login_Sub_Done": 0.2
     },
+    
+    # 결제
     "Login_Sub_Checkout": {
-        "Login_Sub_Checkout": 0.0,
-        "Login_Sub_CheckoutHistory": 0.2,
-        "Login_Sub_ViewCart": 0.2,
-        "Login_Sub_AddReview": 0.1,
+        "Login_Sub_Main": 0.2,
+        "Login_Sub_CheckoutHistory": 0.3,
+        "Login_Sub_ViewCart": 0.1,
+        "Login_Sub_AddReview": 0.2,
         "Login_Sub_Error": 0.1,
-        "Login_Sub_Done": 0.4
+        "Login_Sub_Done": 0.1
     },
+    
+    # 리뷰 작성
     "Login_Sub_AddReview": {
-        "Login_Sub_AddReview": 0.1,
-        "Login_Sub_ViewCart": 0.2,
-        "Login_Sub_CheckoutHistory": 0.1,
+        "Login_Sub_Main": 0.3,
+        "Login_Sub_AddReview": 0.2,
+        "Login_Sub_ViewCart": 0.1,
+        "Login_Sub_CheckoutHistory": 0.2,
         "Login_Sub_Error": 0.1,
-        "Login_Sub_Done": 0.5
+        "Login_Sub_Done": 0.1
     },
+    
+    # 에러
     "Login_Sub_Error": {
-        "Login_Sub_ViewCart": 0.2,
-        "Login_Sub_AddReview": 0.1,
-        "Login_Sub_Checkout": 0.1,
-        "Login_Sub_Done": 0.6
+        "Login_Sub_Done": 1.0
     },
+    
+    # 종료
     "Login_Sub_Done": {}
 }
 
@@ -245,5 +319,5 @@ CATEGORY_PREFERENCE = {
 SEARCH_KEYWORDS = [
     "Bluetooth", "Laptop", "Fashion", "Camera", "Book", "Home",
     "Coffee", "Mouse", "Sneakers", "Bag", "Sunglasses", "Mug",
-    "cofee", "blu tooth", "iphon", "labtop", "rayban"
+    "iphon", "labtop", "rayban"
 ]
