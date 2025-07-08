@@ -152,17 +152,20 @@ CREATE TABLE IF NOT EXISTS cart_logs (
     FOREIGN KEY (session_id) REFERENCES sessions(session_id), -- 세션 참조
     FOREIGN KEY (product_id) REFERENCES products(id) -- 상품 참조
 );
-
-
-SELECT 'Database and initial setup completed.' AS message;
 EOF
 )
 
 echo "MySQL에 초기 스키마 및 데이터 세팅"
-echo "$SQL_COMMANDS" | mysql -h "$MYSQL_HOST" -u "$MYSQL_USER" -p"$MYSQL_PASS"
-if [ $? -eq 0 ]; then
-    echo "DB 초기 세팅 완료."
+if echo "$SQL_COMMANDS" | mysql \
+     -h "$MYSQL_HOST" \
+     -u "$MYSQL_USER" \
+     -p"$MYSQL_PASS" \
+     --silent \
+     --skip-column-names \
+     >/dev/null 2>&1
+then
+    echo "DB 초기 세팅 완료"
 else
-    echo "DB 초기 세팅 실패."
+    echo "DB 초기 세팅 실패"
     exit 1
 fi
