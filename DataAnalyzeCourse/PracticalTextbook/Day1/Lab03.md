@@ -290,7 +290,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     ```
 
 5. `traffic-generator-2`에서 `python-topic`으로부터 메세지를 수신
-    - **Note**: [`kafka_subscriber.py`](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day1/Lab02/kafka/kafka_subscriber.py)
+    - **Note**: [`kafka_subscriber.py`](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day1/Lab03/kafka/kafka_subscriber.py)
 
     #### **lab3-4-5**
 
