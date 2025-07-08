@@ -4,60 +4,13 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
 
 ---
 
-## 1. Kafka Cluster 생성 (3분)
-
-1. 카카오 클라우드 콘솔 > Analytics > Advanced Managed Kafka
-2. 클러스터 생성 버튼 클릭
-    - 기본 설정
-        - 클러스터 이름: `kafka`
-        - Kafka 버전: `3.7.1`
-        - 포트: `9092`
-    - 인스턴스 유형: `r2a.2xlarge`
-    - 네트워크 설정
-        - VPC: `kc-vpc`
-        - Subnet: `kr-central-2-a의 Public 서브넷`
-        - 보안 그룹
-            - `보안 그룹 생성` 버튼 클릭
-            - 보안 그룹 이름: `kafka-clu-sg`
-            - 보안 그룹 설명: `빈 칸`
-            - **Note**: `인바운드`, `아웃바운드` 생성 시 `+`버튼을 눌러 생성
-            - 인바운드 규칙
-                - 프로토콜: `TCP`, 출발지: `0.0.0.0/0`, 포트 번호: `9092`, 설명(선택): `kafka`
-            - 아웃바운드 규칙
-                - 프로토콜: `ALL`, 출발지: `0.0.0.0/0`, 포트 번호: `ALL`
-            - `생성` 버튼 클릭
-    - 브로커 구성 설정
-        - 지정된 가용 영역 수: `1`
-        - 브로커 수: `2`
-        - 볼륨 유형/크기: `SSD`/`50`
-        - 최대 IOPS: `3000`
-    - 생성 버튼 클릭
-
-3. `kafka` Kafka Cluster 생성 확인
-    ![image](https://github.com/user-attachments/assets/cca5102a-b111-4a78-90ee-d1d1886f37f9)
-
-4. 생성한 `kafka` 클러스터 클릭
-    ![Image](https://github.com/user-attachments/assets/614eb148-ce90-40a0-bcd5-1b9881f825b5)
-
-5. `부트스트랩 서버` 복사 후 클립보드 등에 붙여넣기
-    ![Image](https://github.com/user-attachments/assets/32e09004-a8c2-4b3f-8f36-9e7df3b6d34a)
-
-## 2. Kafka 실습을 위한 API Server 환경 설정
+## 1. Kafka 실습을 위한 API Server 환경 설정
 
 ![최최종 그림 lab02](https://github.com/user-attachments/assets/e2042303-f606-49e9-8a60-df66872581bf)
 
-1. `api-server-1`에서 `temp-kafka-bootstrap-server` 값을 실제 생성된 Kafka 클러스터 부트스트랩 서버 값으로 수정
-   - **Note**: `{Kafka 부트스트랩 서버}`을 개인 환경에 맞게 수정 필요
+1. `api-server-1`에서 Kafka Output 활성화 및 Pub/Sub 송신 설정 제거
 
-    #### **lab3-2-1**
-    
-    ```bash
-    sudo sed -i 's/temp-kafka-bootstrap-server/{Kafka 부트스트랩 서버}/g' /home/ubuntu/.bashrc /etc/default/logstash /opt/confluent/etc/schema-registry/schema-registry.properties
-    ```
-
-2. `api-server-1`에서 Kafka Output 활성화 및 Pub/Sub 송신 설정 제거
-
-    #### **lab3-2-2-1**
+    #### **lab3-1-1-1**
     
     ```bash
     sudo sed -i 's/^ENABLE_KAFKA_OUTPUT="false"/ENABLE_KAFKA_OUTPUT="true"/' /etc/default/logstash
@@ -67,71 +20,66 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     ```
     
 
-3. `api-server-1`서 Logstash 설정 파일을 수정하여 Kafka로 송신하도록 설정
+2. `api-server-1`서 Logstash 설정 파일을 수정하여 Kafka로 송신하도록 설정
 
-    #### **lab3-2-3**
+    #### **lab3-1-2**
    
     ```
     sudo sed -i 's/logs-to-pubsub.conf/logs-to-kafka.conf/g' /etc/logstash/logstash.yml
     ```
     
-4. `api-server-1`에서 Logstash, Filebeat 재시작 및 상태 확인
+3. `api-server-1`에서 Logstash, Filebeat 재시작 및 상태 확인
     
-    #### **lab3-2-4**
+    #### **lab3-1-3-1**
     
     ```bash
     sudo systemctl daemon-reload
     ```
+
+    #### **lab3-1-3-2**
+   
     ```bash
     sudo systemctl restart filebeat
     ```
+
+    #### **lab3-1-3-3**
     ```bash
     sudo systemctl restart logstash
     ```
 
-5. `api-server-1`에서 Logstash 가 `Active:active (running)` 상태인 것을 확인
+4. `api-server-1`에서 Logstash 가 `Active:active (running)` 상태인 것을 확인
 
-    #### **lab3-2-5**
+    #### **lab3-1-4**
 
     ```bash
     sudo systemctl status logstash
     ```
 
-6. `ctrl` + `c`로 종료
+5. `ctrl` + `c`로 종료
 
     ![Image](https://github.com/user-attachments/assets/d6b11193-66a6-4bf3-a86f-7cd3a7169b51)
 
 
-## 3. Kafka 실습을 위한 Traffic Generator 환경 설정
+## 2. Kafka 실습을 위한 Traffic Generator 환경 설정
 
-1. `traffic-generator-1`, `traffic-generator-2`에서 Kafka 부트스트랩 서버 주소를 환경 변수로 설정
-    - **Note**: `{Kafka 부트스트랩 서버}`: `kafka` 클러스터의 부트스트랩 서버 입력
+    
+1. `traffic-generator-1`, `traffic-generator-2`에서 Kafka 클러스터와 통신 확인
 
-    #### **lab3-3-1**
+    #### **lab3-2-1**
    
     ```bash
-    echo 'export KAFKA_BOOTSTRAP_SERVERS="{Kafka 부트스트랩 서버}"' >> ~/.bashrc \
-    && source ~/.bashrc
-    ```
-    
-3. `traffic-generator-1`, `traffic-generator-2`에서 Kafka 클러스터와 통신 확인
-    - **Note**: 콤마(,) 기준으로 앞뒤의 kafka 클러스터의 부트스트랩 서버 주소 하나씩 입력
-    - **Note**: 포트 번호 입력 시 콜론(:) 대신 공백(space) 넣은 후 진행
-    
-    #### **lab3-3-2**
-   
-    ```bash
-    nc -zv {Kafka 클러스터의 부트스트랩 서버}
+    for s in $(echo $KAFKA_BOOTSTRAP_SERVERS | tr ',' ' '); do nc -zv ${s%:*} ${s##*:} 2>&1 | grep "succeeded"; done
     ```
 
-    ![Image](https://github.com/user-attachments/assets/923c51ed-0cf3-4fea-8c13-442beb0005ee)
+    <img width="702" alt="image" src="https://github.com/user-attachments/assets/6d00a842-60dd-4998-ae90-f3f90c8b10f8" />
 
 
-## 4. 콘솔을 활용한 Kafka 메시지 송수신 확인
+
+## 3. 콘솔을 활용한 Kafka 메시지 송수신 확인
 
 1. `traffic-generator-1`에서 Kafka 실습용 디렉터리로 이동
     
-    #### **lab3-4-1**
+    #### **lab3-3-1**
         
     ```bash
     cd /opt/kafka
@@ -139,7 +87,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     
 2. `traffic-generator-1`에서 스크립트를 이용하여 메세지를 받을 `consol-topic` 생성
     
-    #### **lab3-4-2**
+    #### **lab3-3-2**
         
     ```bash
     bin/kafka-topics.sh --bootstrap-server ${KAFKA_BOOTSTRAP_SERVERS} \
@@ -150,7 +98,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
 
 3. `traffic-generator-1`에서 `consol-topic`으로 메세지 전송 스크립트 실행
     
-    #### **lab3-4-3**
+    #### **lab3-3-3**
         
     ```bash
     bin/kafka-console-producer.sh --broker-list ${KAFKA_BOOTSTRAP_SERVERS} --topic consol-topic
@@ -158,7 +106,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
 
 4. 송신할 메세지를 하나씩 입력 후 `Enter` 입력
 
-    #### **lab3-4-4**
+    #### **lab3-3-4**
 
     ```
     test1
@@ -176,7 +124,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
 
 6. `traffic-generator-2`에서 Kafka 실습용 디렉터리로 이동
     
-    #### **lab3-4-6**
+    #### **lab3-3-6**
         
     ```bash
     cd /opt/kafka
@@ -184,7 +132,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     
 7. `traffic-generator-2`에서 `consumer-group-earliest` 그룹으로 `consol-topic`의 메시지를 `earlist` 옵션으로 메시지 수신
     
-    #### **lab3-4-7**
+    #### **lab3-3-7**
         
     ```bash
     bin/kafka-console-consumer.sh --bootstrap-server ${KAFKA_BOOTSTRAP_SERVERS} \
@@ -199,7 +147,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
 
 9. `traffic-generator-2`에서 `consumer-group-earliest-notcommit` 그룹으로 `consol-topic`의 메시지를 `earlist` 옵션과 `not commit` 옵션으로 메세지 수신
 
-    #### **lab3-4-9**
+    #### **lab3-3-9**
         
     ```bash
     bin/kafka-console-consumer.sh --bootstrap-server ${KAFKA_BOOTSTRAP_SERVERS} \
@@ -213,7 +161,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
 
 11. `traffic-generator-2`에서 `consumer-group-latest` 그룹으로 `consol-topic`의 메시지를 `latest` 옵션으로 메세지 수신
 
-    #### **lab3-4-11**
+    #### **lab3-3-11**
 
     ```bash
     bin/kafka-console-consumer.sh --bootstrap-server ${KAFKA_BOOTSTRAP_SERVERS} \
@@ -226,7 +174,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
 
 13. traffic-generator-1에서 consol-topic으로 메세지 전송 스크립트 실행
 
-    #### **lab3-4-13**
+    #### **lab3-3-13**
         
     ```bash
     bin/kafka-console-producer.sh --broker-list ${KAFKA_BOOTSTRAP_SERVERS} --topic consol-topic
@@ -234,7 +182,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
 
 14. 송신할 메세지를 하나씩 입력 후 `Enter` 입력
 
-    #### **lab3-4-14**
+    #### **lab3-3-14**
 
     ```
     test4
@@ -252,7 +200,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
 
 16. `traffic-generator-2`에서 `consumer-group-earliest` 그룹으로 `consol-topic`의 메시지를 `earlist` 옵션으로 메시지 수신
     
-    #### **lab3-4-16**
+    #### **lab3-3-16**
         
     ```bash
     bin/kafka-console-consumer.sh --bootstrap-server ${KAFKA_BOOTSTRAP_SERVERS} \
@@ -266,7 +214,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
 
 18. `traffic-generator-2`에서 `consumer-group-earliest-notcommit` 그룹으로 `consol-topic`의 메시지를 `earlist` 옵션과 `not commit` 옵션으로 메세지 수신
 
-    #### **lab3-4-18**
+    #### **lab3-3-18**
         
     ```bash
     bin/kafka-console-consumer.sh --bootstrap-server ${KAFKA_BOOTSTRAP_SERVERS} \
@@ -282,7 +230,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
 
 20. `traffic-generator-2`에서 `consumer-group-latest` 그룹으로 `consol-topic`의 메시지를 `latest` 옵션으로 메세지 수신
 
-    #### **lab3-4-20**
+    #### **lab3-3-20**
 
     ```bash
     bin/kafka-console-consumer.sh --bootstrap-server ${KAFKA_BOOTSTRAP_SERVERS} \
@@ -297,17 +245,17 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
 
 22. `traffic-generator-2`에서 생성된 consumer 그룹 목록 확인
 
-    #### **lab3-4-22**
+    #### **lab3-3-22**
 
     ```bash
     bin/kafka-consumer-groups.sh --bootstrap-server ${KAFKA_BOOTSTRAP_SERVERS} --list
     ```
     ![컨슈머 그룹 최종](https://github.com/user-attachments/assets/332734ef-912d-43cd-8286-4da3dbf69b38)
 
-## 5. Python SDK를 활용한 Kafka 메시지 송수신 확인
+## 4. Python SDK를 활용한 Kafka 메시지 송수신 확인
 
 1. `traffic-generator-1`에서 Python-SDK를 이용하여 메세지를 받을 `python-topic` 생성
-    #### **lab3-5-1**
+    #### **lab3-4-1**
     
     ```bash
     bin/kafka-topics.sh --bootstrap-server ${KAFKA_BOOTSTRAP_SERVERS} \
@@ -317,7 +265,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     ![Image](https://github.com/user-attachments/assets/f9cf89d8-fd0b-46ac-8043-914a22228f8d)
 
 2. `traffic-generator-1`에서 Kafka 실습용 디렉터리로 이동
-    #### **lab3-5-2**
+    #### **lab3-4-2**
 
     ```bash
     cd /home/ubuntu/DataAnalyzeCourse/src/day1/Lab03/kafka
@@ -325,7 +273,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
 
 3. `traffic-generator-1`에서 `python-topic`으로 메세지를 전송
     - **Note**: [`kafka_publisher.py`](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day1/Lab02/kafka/kafka_publisher.py) 
-    #### **lab3-5-3**
+    #### **lab3-4-3**
     
     ```bash
     python3 kafka_publisher.py
@@ -335,7 +283,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
 
 4. `traffic-generator-2`에서 Kafka 실습용 디렉터리로 이동
 
-    #### **lab3-5-4**
+    #### **lab3-4-4**
     
     ```bash
     cd /home/ubuntu/DataAnalyzeCourse/src/day1/Lab03/kafka
@@ -344,7 +292,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
 5. `traffic-generator-2`에서 `python-topic`으로부터 메세지를 수신
     - **Note**: [`kafka_subscriber.py`](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day1/Lab02/kafka/kafka_subscriber.py)
 
-    #### **lab3-5-5**
+    #### **lab3-4-5**
 
     ```bash
     python3 kafka_subscriber.py
@@ -353,24 +301,24 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
 
 6. `traffic-generator-2`에서 오프셋 3부터 메시지 소비 시작 및 오프셋 4에서 커밋 옵션을 추가하여 메세지 수신
 
-    #### **lab3-5-6**
+    #### **lab3-4-6**
 
     ```bash
     python3 kafka_subscriber.py --start-offset 3 --commit-threshold 4
     ```
     ![Image](https://github.com/user-attachments/assets/7ffe09d3-efc2-4f01-9827-3d760f8fb452)
 
-## 6. Logstash와 콘솔을 활용한 Nginx 로그 수신 확인
+## 5. Logstash와 콘솔을 활용한 Nginx 로그 수신 확인
 
 1. `traffic-generator-1`에서 Kafka 실습용 디렉터리로 이동
-    #### **lab3-6-1**
+    #### **lab3-5-1**
         
     ```bash
     cd /opt/kafka
     ```
     
 2. `traffic-generator-1`에서 nginx을 이용하여 메세지를 받을 `nginx-topic` 생성
-    #### **lab3-6-2**
+    #### **lab3-5-2**
         
     ```bash
     bin/kafka-topics.sh --bootstrap-server $KAFKA_BOOTSTRAP_SERVERS \
@@ -380,7 +328,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     ![Image](https://github.com/user-attachments/assets/1574a7c0-9dfa-4945-8b5a-8ce0824b381e)
 
 3. `traffic-generator-2`에서 Kafka 실습용 디렉터리로 이동
-   #### **lab3-6-3**
+   #### **lab3-5-3**
         
     ```bash
     cd /opt/kafka
@@ -388,7 +336,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
 
 4. `traffic-generator-2`에서 `nginx-topic`의 메세지를 수신하기 위해 consumer 스크립트 실행
 
-    #### **lab3-6-4**
+    #### **lab3-5-4**
     
     ```bash
     bin/kafka-console-consumer.sh --bootstrap-server $KAFKA_BOOTSTRAP_SERVERS \
@@ -398,7 +346,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
 5. 웹 브라우저 주소창에서 아래 URL 입력
 
 
-    #### **lab3-6-5**
+    #### **lab3-5-5**
     
     ```bash
     http://{ALB의 Public IP}
@@ -415,7 +363,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
 8. `ctrl`+`c` 키를 입력하여 종료
 
 
-## 7. S3 액세스 키 발급
+## 6. S3 액세스 키 발급
 
 1. 카카오 클라우드 콘솔에서 우측 상단 계정 프로필 > 자격 증명
 2. 비밀번호 재확인 > 비밀번호 입력 > 비밀번호 확인
@@ -436,7 +384,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
 
     ![Image](https://github.com/user-attachments/assets/9e2bf8ff-5869-40e5-b151-1360cbb6ea59)
 
-## 8. s3 sink connector VM 생성 (2분)
+## 7. s3 sink connector VM 생성 (2분)
 
 1. 카카오 클라우드 콘솔 > Beyond Compute Service > Virtual Machine
 2. 인스턴스 생성 버튼 클릭
@@ -466,7 +414,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
             - **Note**: 스크립트에 대한 자세한 내용은 아래 파일들 참고
                 - [s3_sink_connector.sh](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day1/Lab01/kafka/s3_sink_connector.sh)
                   
-        #### **lab3-8-2**
+        #### **lab3-7-2**
         ```
         #!/bin/bash
         # s3_sink_connector_init.sh
@@ -520,7 +468,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     - 터미널에 명령어 붙여넣기
     - yes 입력
     
-    #### **lab3-8-4-1**
+    #### **lab3-7-4-1**
     
     ```bash
     cd {keypair.pem 다운로드 위치}
@@ -528,13 +476,13 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     
     - 리눅스의 경우에 아래와 같이 키페어의 권한을 조정
     
-    #### **lab3-8-4-2**
+    #### **lab3-7-4-2**
     
     ```bash
     chmod 400 keypair.pem
     ```
     
-    #### **lab3-8-4-3**
+    #### **lab3-7-4-3**
     
     ```bash
     ssh -i keypair.pem ubuntu@{s3-sink-connector public ip주소}
@@ -542,14 +490,14 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     
     
     
-    #### **lab3-8-4-4**
+    #### **lab3-7-4-4**
     
     ```bash
     yes
     ```
 
 5. Kafka Connector 스크립트 적용 확인
-    #### **lab3-8-5**
+    #### **lab3-7-5**
     - **Note**: 터미널 창이 작으면 로그가 안보일 수도 있으니, 터미널 창의 크기를 늘려주세요.
    
     ```
@@ -581,7 +529,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     ```
 6. `data-catalog-bucket`에 nginx 로그를 쌓기 위해 필요한 쓰기 권한을 부여하는 명령어 실행
 
-    #### **lab3-8-6**
+    #### **lab3-7-6**
     
     ```bash
     aws s3api put-bucket-acl \
@@ -592,7 +540,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
 
 7. nginx-s3-sink-connector 생성
     
-    #### lab**3-8-7**
+    #### lab**3-7-7**
    
     ```bash
     curl -s -X POST \
@@ -604,7 +552,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
 
 8. `nginx-s3-sink-connector` 커넥터 상태 확인
 
-    #### lab**3-8-8**
+    #### lab**3-7-8**
     
      ```bash
      curl -s http://localhost:8083/connectors/nginx-s3-sink-connector/status | jq .
@@ -617,6 +565,3 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
 11. NGINX 로그가 쌓인 디렉터리로 이동 후 버킷 내 적재된 NGINX 로그 적재 확인
     - **Note**: `/kafka-nginx-log/nginx-topic/partition_0/year_{현재 연도}/month_{현재 월}/day_{현재 일}/hour_{현재 시}`디렉터리로 이동
    ![nginx로그 object storage 적재](https://github.com/user-attachments/assets/f825bf28-1302-4c4c-92e0-7d250cb5d86f)
-
-
-
