@@ -452,7 +452,7 @@
    sudo -E /home/ubuntu/setup_db.sh
    ```
 
-   ![setupdb 결과](https://github.com/user-attachments/assets/d69a5f21-e232-4298-8ba1-f114fd8130e0)
+   ![setup db](https://github.com/user-attachments/assets/93915046-1e34-4874-a460-db76feafa0da)
    
 ## 10. 로드 밸런서 대상 그룹 생성 (15분)
 1. 카카오 클라우드 콘솔 > Beyond Networking Service > Load Balancing
