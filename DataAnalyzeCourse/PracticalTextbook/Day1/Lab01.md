@@ -117,8 +117,46 @@
       - 입력할 보안 액세스 키: 위에서 생성한 `보안 엑세스 키` 입력  
    - 적용 클릭
 
+## 6. Kafka Cluster 생성 (3분)
 
-## 6. 사용자 리소스 정보 조회
+1. 카카오 클라우드 콘솔 > Analytics > Advanced Managed Kafka
+2. 클러스터 생성 버튼 클릭
+    - 기본 설정
+        - 클러스터 이름: `kafka`
+        - Kafka 버전: `3.7.1`
+        - 포트: `9092`
+    - 인스턴스 유형: `r2a.2xlarge`
+    - 네트워크 설정
+        - VPC: `kc-vpc`
+        - Subnet: `kr-central-2-a의 Public 서브넷`
+        - 보안 그룹
+            - `보안 그룹 생성` 버튼 클릭
+            - 보안 그룹 이름: `kafka-clu-sg`
+            - 보안 그룹 설명: `빈 칸`
+            - **Note**: `인바운드`, `아웃바운드` 생성 시 `+`버튼을 눌러 생성
+            - 인바운드 규칙
+                - 프로토콜: `TCP`, 출발지: `0.0.0.0/0`, 포트 번호: `9092`, 설명(선택): `kafka`
+            - 아웃바운드 규칙
+                - 프로토콜: `ALL`, 출발지: `0.0.0.0/0`, 포트 번호: `ALL`
+            - `생성` 버튼 클릭
+    - 브로커 구성 설정
+        - 지정된 가용 영역 수: `1`
+        - 브로커 수: `2`
+        - 볼륨 유형/크기: `SSD`/`50`
+        - 최대 IOPS: `3000`
+    - 생성 버튼 클릭
+
+3. `kafka` Kafka Cluster 생성 확인
+    ![image](https://github.com/user-attachments/assets/cca5102a-b111-4a78-90ee-d1d1886f37f9)
+
+4. 생성한 `kafka` 클러스터 클릭
+    ![Image](https://github.com/user-attachments/assets/614eb148-ce90-40a0-bcd5-1b9881f825b5)
+
+5. `부트스트랩 서버` 복사 후 클립보드 등에 붙여넣기
+    ![Image](https://github.com/user-attachments/assets/32e09004-a8c2-4b3f-8f36-9e7df3b6d34a)
+
+
+## 7. 사용자 리소스 정보 조회
 1. 카카오 클라우드 콘솔 > Data Store > MySQL
 2. `database` Instance Group 클릭
 3. 우측 상단의 `엔드포인트` 복사 및 클립보드 등에 붙여넣기 후 좌측 상단 카카오 클라우드 로고 클릭
@@ -133,10 +171,11 @@
    - **Note**: pub/sub 토큰 생성 API 호출 시 `조직 id`와 `프로젝트 id`를 경로 변수로 사용
    - {endpoint-url}/v1/domains/`{조직 id}`/projects/`{프로젝트 id}`/topics/{topic-name}
 
+
    ![조직 ID](https://github.com/user-attachments/assets/16382315-5f49-4ee7-86bd-c724c3fe39e0)
 
 
-## 7. Traffic Generator VM 생성 (7분)
+## 8. Traffic Generator VM 생성 (7분)
 1. 카카오 클라우드 콘솔 > Beyond Compute Service > Virtual Machine
 2. 인스턴스 생성 버튼 클릭  
    - 기본 정보  
@@ -165,12 +204,12 @@
            - 아웃바운드 규칙  
              - 프로토콜: `ALL`, 출발지: `0.0.0.0/0`, 포트 번호: `ALL`  
    - 고급 설정  
-     - 사용자 스크립트: [`tg_vm_init.sh`](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day1/Lab00/traffic_generator/tg_vm_init.sh)의 쌍따옴표(“”) 사이에 자신의 리소스 값 입력  
+     - 사용자 스크립트: [`tg_vm_init.sh`](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day1/Lab01/traffic_generator/tg_vm_init.sh)의 쌍따옴표(“”) 사이에 자신의 리소스 값 입력  
        - **Note**: 스크립트에 대한 자세한 내용은 아래 파일들 참고
-         - [tg_full_setup.sh](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day1/Lab00/traffic_generator/tg_full_setup.sh)  
-         - [config.yml](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day1/Lab00/traffic_generator/config.yml)  
-         - [config.py](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day1/Lab00/traffic_generator/config.py)
-      - #### **lab1-7-2**
+         - [tg_full_setup.sh](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day1/Lab01/traffic_generator/tg_full_setup.sh)  
+         - [config.yml](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day1/Lab01/traffic_generator/config.yml)  
+         - [config.py](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day1/Lab01/traffic_generator/config.py)
+      - #### **lab1-8-2**
       ```bash
       #!/bin/bash
       # tg_vm_init.sh
@@ -187,6 +226,7 @@
       
       # 생성한 리소스의 값
       export API_BASE_URL="{ALB의 Public IP}"
+      export KAFKA_BOOTSTRAP_SERVERS="{Kafka 부트스트랩 서버}"
       export TOPIC_NAME="test-topic"
       export SUB_NAME="test-pull-sub"
       
@@ -224,12 +264,12 @@
    - SSH 접속 명령어 복사  
    - 터미널 열기  
    - keypair를 다운받아놓은 폴더로 이동 후 터미널에 명령어 붙여넣기 및 **yes** 입력  
-    #### **lab1-7-4-1**
+    #### **lab1-8-4-1**
     ```bash
     cd {keypair.pem 다운로드 위치}
     ```
     - 리눅스의 경우 아래와 같이 키페어 권한 조정  
-    #### **lab1-7-4-2**
+    #### **lab1-8-4-2**
     ```bash
     chmod 400 keypair.pem
     ```
@@ -238,13 +278,13 @@
     ssh -i keypair.pem ubuntu@{traffic-generator-1, 2의 public ip주소}
     ```
     - **Note**: {traffic-generator-1, 2의 public ip주소} 부분을 복사한 각 IP 주소로 교체  
-    #### **lab1-7-4-4**
+    #### **lab1-8-4-4**
     ```bash
     yes
     ```
 5. Traffic Generator 스크립트 적용 확인  
    - **Note**: 스크립트 적용에 약 7분 소요  
-    #### **lab1-7-5**
+    #### **lab1-8-5**
     - **Note**: 터미널 창이 작으면 로그가 안보일 수 있으니 터미널 창 크기 조절  
     ```bash
     watch -c "awk '/kakaocloud:/ {gsub(/([0-9]+)\\./,\"\\033[33m&\\033[0m\"); print}' < /var/log/cloud-init-output.log"
@@ -269,7 +309,7 @@
     ```
 
 
-## 8. API Server VM 생성 (3분)
+## 9. API Server VM 생성 (3분)
 1. 인스턴스 생성 버튼 클릭  
    - 기본 정보  
      - 이름: `api-server`  
@@ -298,15 +338,15 @@
    - 고급 설정  
      - **Note**: 메모장에 아래 링크의 코드를 복사 붙여넣기 하여 사용  
      - **Note**: 중괄호({})는 제거하고 쌍 따옴표는 유지  
-     - 사용자 스크립트: [`api_vm_init`](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day1/Lab00/api_server/api_vm_init.sh)의 쌍따옴표(“”) 사이에 자신의 리소스 값 입력  
+     - 사용자 스크립트: [`api_vm_init`](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day1/Lab01/api_server/api_vm_init.sh)의 쌍따옴표(“”) 사이에 자신의 리소스 값 입력  
        - **Note**: 스크립트에 대한 자세한 내용은 아래 파일들 참고
-         - [api_env_setup.sh](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day1/Lab00/api_server/api_env_setup.sh)  
-         - [api_full_setup.sh](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day1/Lab00/api_server/api_full_setup.sh)  
-         - [setup_db.sh](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day1/Lab00/api_server/setup_db.sh)  
-         - [filebeat.yml](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day1/Lab00/api_server/filebeat.yml)  
-         - [logs-to-pubsub.conf](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day1/Lab00/api_server/logs-to-pubsub.conf)  
-         - [logs-to-kafka.conf](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day1/Lab00/api_server/logs-to-kafka.conf)
-      #### **lab1-8-2**
+         - [api_env_setup.sh](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day1/Lab01/api_server/api_env_setup.sh)  
+         - [api_full_setup.sh](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day1/Lab01/api_server/api_full_setup.sh)  
+         - [setup_db.sh](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day1/Lab01/api_server/setup_db.sh)  
+         - [filebeat.yml](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day1/Lab01/api_server/filebeat.yml)  
+         - [logs-to-pubsub.conf](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day1/Lab01/api_server/logs-to-pubsub.conf)  
+         - [logs-to-kafka.conf](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day1/Lab01/api_server/logs-to-kafka.conf)
+      #### **lab1-9-2**
       ```bash
       #!/bin/bash
       # api_vm_init.sh
@@ -320,9 +360,9 @@
       export MYSQL_HOST="{MySQL 엔드포인트}"
       
       # Pub/Sub 및 Kafka 설정
+      export LOGSTASH_KAFKA_ENDPOINT="{Kafka 부트스트랩 서버}"
       export PUBSUB_TOPIC_NAME="log-topic"
       export KAFKA_TOPIC_NAME="nginx-topic"
-      export LOGSTASH_KAFKA_ENDPOINT="temp-kafka-bootstrap-server"
       
       # 로그 및 환경 설정
       export LOGSTASH_ENV_FILE="/etc/default/logstash"
@@ -350,33 +390,33 @@
    - SSH 접속 명령어 복사  
    - 터미널 열기  
    - keypair를 다운받아놓은 폴더로 이동 후 터미널에 명령어 붙여넣기 및 **yes** 입력  
-    #### **lab1-8-3-1**
+    #### **lab1-9-3-1**
     ```bash
     cd {keypair.pem 다운로드 위치}
     ```
     - 리눅스의 경우 아래와 같이 키페어 권한 조정  
-    #### **lab1-8-3-2**
+    #### **lab1-9-3-2**
     ```bash
     chmod 400 keypair.pem
     ```
-    #### **lab1-8-3-3**
+    #### **lab1-9-3-3**
     ```bash
     ssh -i keypair.pem ubuntu@{api-server-1의 public ip 주소}
     ```
     - **Note**: {api-server-1의 public ip 주소} 부분을 복사한 각 IP 주소로 교체  
-    #### **lab1-8-3-4**
+    #### **lab1-9-3-4**
     ```bash
     yes
     ```
     - **Note**: 윈도우에서 ssh 접근이 안될 경우, cmd 창에서 keypair.pem가 있는 경로로 이동 후 아래 명령어 실행  
-    #### **lab1-8-3-5**
+    #### **lab1-9-3-5**
     ```bash
     icacls.exe keypair.pem /reset
     icacls.exe keypair.pem /grant:r %username%:(R)
     icacls.exe keypair.pem /inheritance:r
     ```
 4. API Server 스크립트 적용 확인  
-    #### **lab1-8-4-1**
+    #### **lab1-9-4-1**
     - **Note**: 터미널 창이 작으면 로그가 안보일 수 있으니 터미널 창 크기 조절  
     ```bash
     watch -c "awk '/kakaocloud:/ {gsub(/([0-9]+)\\./,\"\\033[33m&\\033[0m\"); print}' < /var/log/cloud-init-output.log"
@@ -400,13 +440,13 @@
 
 5. `api-server-1`에서 `setup_db.sh` 실행
 
-   #### **lab1-8-5-1**
+   #### **lab1-9-5-1**
 
    ```bash
    sudo chmod +x /home/ubuntu/setup_db.sh
    ```
 
-   #### **lab1-8-5-2**
+   #### **lab1-9-5-2**
 
    ```bash
    sudo -E /home/ubuntu/setup_db.sh
@@ -414,7 +454,7 @@
 
    ![setupdb 결과](https://github.com/user-attachments/assets/d69a5f21-e232-4298-8ba1-f114fd8130e0)
    
-## 9. 로드 밸런서 대상 그룹 생성 (15분)
+## 10. 로드 밸런서 대상 그룹 생성 (15분)
 1. 카카오 클라우드 콘솔 > Beyond Networking Service > Load Balancing
 2. 대상 그룹 탭 클릭 후 대상 그룹 생성 버튼 클릭 
    - 로드 밸런서  
