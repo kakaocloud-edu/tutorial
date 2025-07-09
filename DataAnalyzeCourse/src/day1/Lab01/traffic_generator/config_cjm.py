@@ -13,7 +13,7 @@ current_dir = os.path.dirname(os.path.abspath(__file__))
 # 상위 디렉토리 경로 가져오기 (REST API의 상위 디렉토리는 TrafficGenerator)
 parent_dir = os.path.dirname(current_dir)
 # config.yml 파일의 전체 경로 설정
-config_path = os.path.join(current_dir, "config.yml")
+config_path = os.path.join(current_dir, "config_cjm.yml")
 
 # config.yml 파일 열기
 with open(config_path, "r") as f:
