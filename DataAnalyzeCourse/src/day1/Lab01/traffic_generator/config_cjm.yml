@@ -1,0 +1,251 @@
+# 공용 설정 파일: config.yml
+pubsub:
+  endpoint: "$PUBSUB_ENDPOINT"
+  domain_id: "$DOMAIN_ID"
+  project_id: "$PROJECT_ID"
+  topic_name: "$TOPIC_NAME"
+  topic_name_mk: "$TOPIC_NAME_MK"
+  topic_description: ""
+  topic_retention_duration: "600s"
+  sub_name: "$SUB_NAME"
+  credential_id: "$CREDENTIAL_ID"
+  credential_secret: "$CREDENTIAL_SECRET"
+
+object_storage_subscription:
+  name: "$OBJECT_STORAGE_SUBSCRIPTION_NAME"
+  bucket: "$OBJECT_STORAGE_BUCKET"
+  export_interval_min: 10
+  file_prefix: ""
+  file_suffix: ".log"
+  channel_count: 4
+  max_channel_count: 10
+  is_export_enabled: true
+
+logging:
+  filename: "traffic_generator.log"
+  level: "INFO"
+
+threads:
+  num_users: 10
+  max_threads: 5
+  actions_per_user: 30
+
+api:
+  base_url: "$API_BASE_URL"
+  endpoints:
+    add_user: "add_user"
+    delete_user: "delete_user"
+    login: "login"
+    logout: "logout"
+    products: "products"
+    product_detail: "product"
+    search: "search"
+    checkout_history: "checkout_history"
+    categories: "categories"
+    category: "category"
+    cart_view: "cart/view"
+    cart_add: "cart/add"
+    cart_remove: "cart/remove"
+    checkout: "checkout"
+    add_review: "add_review"
+    error_page: "error"
+  time_sleep_range:
+    min: 0.1
+    max: 1.0
+
+age_threshold:
+  young: 25
+  middle: 50
+
+# ──────────── FSM 전이표 ────────────
+state_transitions:
+  Anon_NotRegistered:
+    Anon_NotRegistered: 0.3
+    Anon_Registered:    0.5
+    Unregistered:       0.0
+    Done:               0.2
+  Anon_Registered:
+    Anon_Registered: 0.3
+    Logged_In:       0.5
+    Unregistered:    0.1
+    Done:            0.1
+  Logged_In:
+    Logged_In:      0.7
+    Logged_Out:     0.1
+    Unregistered:   0.1
+    Done:           0.1
+  Logged_Out:
+    Unregistered:    0.1
+    Anon_Registered: 0.1
+    Done:            0.8
+  Unregistered:
+    Done: 1.0
+  Done: {}
+
+anon_sub_transitions:
+  Anon_Sub_Initial:
+    Anon_Sub_Main:        1.0
+    Anon_Sub_Products:    0.2
+    Anon_Sub_Categories:  0.2
+    Anon_Sub_Search:      0.2
+    Anon_Sub_Done:        0.2
+  Anon_Sub_Main:
+    Anon_Sub_Main:        0.1
+    Anon_Sub_Products:    0.2
+    Anon_Sub_Search:      0.2
+    Anon_Sub_Categories:  0.2
+    Anon_Sub_Error:       0.1
+    Anon_Sub_Done:        0.2
+  Anon_Sub_Products:
+    Anon_Sub_ViewProduct: 0.2
+    Anon_Sub_Products:    0.2
+    Anon_Sub_Categories:  0.1
+    Anon_Sub_Search:      0.2
+    Anon_Sub_Error:       0.1
+    Anon_Sub_Done:        0.2
+  Anon_Sub_ViewProduct:
+    Anon_Sub_Products:    0.2
+    Anon_Sub_Search:      0.2
+    Anon_Sub_Categories:  0.1
+    Anon_Sub_Error:       0.1
+    Anon_Sub_Done:        0.4
+  Anon_Sub_Categories:
+    Anon_Sub_CategoryList: 0.4
+    Anon_Sub_Search:       0.2
+    Anon_Sub_Error:        0.1
+    Anon_Sub_Done:         0.3
+  Anon_Sub_CategoryList:
+    Anon_Sub_Categories:   0.2
+    Anon_Sub_ViewProduct:  0.3
+    Anon_Sub_Error:        0.1
+    Anon_Sub_Done:         0.4
+  Anon_Sub_Search:
+    Anon_Sub_ViewProduct:  0.3
+    Anon_Sub_Search:       0.2
+    Anon_Sub_Error:        0.1
+    Anon_Sub_Done:         0.4
+  Anon_Sub_Error:
+    Anon_Sub_Main:         0.3
+    Anon_Sub_Products:     0.2
+    Anon_Sub_Done:         0.5
+  Anon_Sub_Done: {}
+
+logged_sub_transitions:
+  Login_Sub_Initial:
+    Login_Sub_Main:  0.9
+    Login_Sub_Error: 0.1
+  Login_Sub_Main:
+    Login_Sub_Main:        0.1
+    Login_Sub_Products:    0.2
+    Login_Sub_ViewProduct: 0.2
+    Login_Sub_Search:      0.1
+    Login_Sub_Categories:  0.1
+    Login_Sub_CheckoutHistory: 0.1
+    Login_Sub_Error:       0.1
+    Login_Sub_Done:        0.1
+  Login_Sub_Products:
+    Login_Sub_Main:        0.1
+    Login_Sub_Products:    0.2
+    Login_Sub_ViewProduct: 0.2
+    Login_Sub_Categories:  0.1
+    Login_Sub_Search:      0.2
+    Login_Sub_Error:       0.1
+    Login_Sub_Done:        0.1
+  Login_Sub_ViewProduct:
+    Login_Sub_Main:        0.1
+    Login_Sub_ViewProduct: 0.1
+    Login_Sub_Products:    0.1
+    Login_Sub_Search:      0.1
+    Login_Sub_Categories:  0.1
+    Login_Sub_ViewCart:    0.1
+    Login_Sub_CartAdd:     0.1
+    Login_Sub_Checkout:    0.1
+    Login_Sub_Error:       0.1
+    Login_Sub_Done:        0.1
+  Login_Sub_Search:
+    Login_Sub_Main:        0.2
+    Login_Sub_Products:    0.2
+    Login_Sub_Categories:  0.1
+    Login_Sub_ViewProduct: 0.3
+    Login_Sub_Error:       0.1
+    Login_Sub_Done:        0.1
+  Login_Sub_Categories:
+    Login_Sub_Main:        0.2
+    Login_Sub_CategoryList:0.3
+    Login_Sub_Search:      0.3
+    Login_Sub_Error:       0.1
+    Login_Sub_Done:        0.1
+  Login_Sub_CategoryList:
+    Login_Sub_Main:        0.2
+    Login_Sub_Categories:  0.3
+    Login_Sub_ViewProduct: 0.3
+    Login_Sub_Error:       0.1
+    Login_Sub_Done:        0.1
+  Login_Sub_ViewCart:
+    Login_Sub_Main:        0.3
+    Login_Sub_CartRemove:  0.2
+    Login_Sub_Checkout:    0.3
+    Login_Sub_Error:       0.1
+    Login_Sub_Done:        0.1
+  Login_Sub_CheckoutHistory:
+    Login_Sub_Main:        0.4
+    Login_Sub_ViewCart:    0.2
+    Login_Sub_CartAdd:     0.2
+    Login_Sub_Error:       0.1
+    Login_Sub_Done:        0.1
+  Login_Sub_CartAdd:
+    Login_Sub_Main:        0.2
+    Login_Sub_ViewCart:    0.3
+    Login_Sub_Checkout:    0.3
+    Login_Sub_Error:       0.1
+    Login_Sub_Done:        0.1
+  Login_Sub_CartRemove:
+    Login_Sub_Main:        0.3
+    Login_Sub_ViewCart:    0.4
+    Login_Sub_Error:       0.1
+    Login_Sub_Done:        0.2
+  Login_Sub_Checkout:
+    Login_Sub_Main:        0.2
+    Login_Sub_CheckoutHistory: 0.3
+    Login_Sub_ViewCart:    0.1
+    Login_Sub_AddReview:   0.2
+    Login_Sub_Error:       0.1
+    Login_Sub_Done:        0.1
+  Login_Sub_AddReview:
+    Login_Sub_Main:        0.3
+    Login_Sub_AddReview:   0.2
+    Login_Sub_ViewCart:    0.1
+    Login_Sub_CheckoutHistory: 0.2
+    Login_Sub_Error:       0.1
+    Login_Sub_Done:        0.1
+  Login_Sub_Error:
+    Login_Sub_Done:        1.0
+  Login_Sub_Done: {}
+
+# --------------------------------------------------
+# 사용자 환경 정보 (추가)
+# --------------------------------------------------
+locations:
+  - US
+  - AU
+  - KR
+  - UK
+
+device_types:
+  - Mobile
+  - PC
+
+time_segment_weights:
+  morning: 1.2
+  lunch:   1.5
+  evening: 1.3
+  night:   0.8
+
+session_length_shape: 2.0
+revisit_probability: 0.2
+
+# 특가 세일 이벤트 리스트
+sale_events:
+  - start_hour: 14
+    end_hour:   15
+    bonus_factor: 2.0
