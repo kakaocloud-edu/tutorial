@@ -30,7 +30,7 @@ MySQL Connector VM 생성을 통해 MySQL 데이터의 CDC(Change Data Capture) 
     - 고급 설정
         - 사용자 스크립트: `mysql_source_connector_init.sh`의 쌍따옴표("") 사이에 자신의 리소스 값 입력
             - **Note**: 스크립트에 대한 자세한 내용은 아래 파일들 참고
-                - [mysql_source_connector_init.sh](https://github.com/kakaocloud-edu/tutorial/raw/refs/heads/main/DataAnalyzeCourse/src/day1/Lab01/kafka/mysql_source_connector_init.sh)
+                - [mysql_source_connector_init.sh](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day1/Lab01/kafka/mysql_source_connector_init.sh)
         #### **lab2-1-2**
         ```bash
         #!/bin/bash
