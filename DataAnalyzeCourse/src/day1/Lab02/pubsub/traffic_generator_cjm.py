@@ -20,7 +20,7 @@ config_path = os.path.abspath(os.path.join(current_dir, "..", "..", "Lab01", "tr
 sys.path.append(config_path)
 
 # config.py 불러오기
-import config
+import config_cjm
 
 #################################
 # 전역 상품/카테고리 캐시
