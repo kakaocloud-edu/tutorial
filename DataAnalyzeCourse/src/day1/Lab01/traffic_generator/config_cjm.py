@@ -321,3 +321,32 @@ SEARCH_KEYWORDS = [
     "Coffee", "Mouse", "Sneakers", "Bag", "Sunglasses", "Mug",
     "iphon", "labtop", "rayban"
 ]
+
+#################################
+# 사용자 환경 정보
+#################################
+
+LOCATIONS = [
+    "US", "AU", "KR", "UK"
+]
+
+DEVICE_TYPES = [
+    "Mobile", "PC"
+]
+
+TIME_SEGMENT_WEIGHTS = {
+    "morning": 1.2,
+    "lunch": 1.5,
+    "evening": 1.3,
+    "night": 0.8
+}
+
+SESSION_LENGTH_SHAPE = 2.0
+REVISIT_PROBABILITY = 0.2
+
+SALE_EVENTS = [
+    {"start_hour": 14, "end_hour": 15, "bonus_factor": 2.0}
+]
+
+
+    
