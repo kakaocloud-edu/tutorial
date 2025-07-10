@@ -3,8 +3,6 @@
 config.py
 
 - config.yml 파일을 로드하여 설정을 관리합니다.
-
-region 과 device 추가 버전
 """
 
 import os
