@@ -522,7 +522,6 @@ def do_top_level_action_and_confirm(
 #################################
 def run_user_simulation(user_idx: int):
     session = requests.Session()
-    session.get(config.API_URL_WITH_HTTP)
     
     gender = random.choice(["F", "M"])
     age = random.randint(18,70)
@@ -536,6 +535,13 @@ def run_user_simulation(user_idx: int):
     else:
         device = random.choices(["PC", "Mobile"], weights=[0.8, 0.2], k=1)[0]
 
+    session.headers.update({
+        "X-Region": region,
+        "X-Device": device
+    })
+    
+    session.get(config.API_URL_WITH_HTTP)
+        
     user_unique_id = f"user_{uuid.uuid4().hex[:6]}"
     logging.info(f"[{user_unique_id}] Start simulation. gender={gender}, age={age}, region={region}, device={device}")
 
