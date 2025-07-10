@@ -3,6 +3,8 @@
 config.py
 
 - config.yml 파일을 로드하여 설정을 관리합니다.
+
+region 과 device 추가 버전
 """
 
 import os
@@ -13,7 +15,7 @@ current_dir = os.path.dirname(os.path.abspath(__file__))
 # 상위 디렉토리 경로 가져오기 (REST API의 상위 디렉토리는 TrafficGenerator)
 parent_dir = os.path.dirname(current_dir)
 # config.yml 파일의 전체 경로 설정
-config_path = os.path.join(current_dir, "config_cjm.yml")
+config_path = os.path.join(current_dir, "config.yml")
 
 # config.yml 파일 열기
 with open(config_path, "r") as f:
@@ -58,6 +60,10 @@ API_ENDPOINTS = {k.upper(): v for k, v in config['api']['endpoints'].items()}
 
 # 요청 간 대기 시간 범위 (초)
 TIME_SLEEP_RANGE = (config['api']['time_sleep_range']['min'], config['api']['time_sleep_range']['max'])
+
+# 지역 및 기기 정보
+REGIONS = config.get('regions', [])
+DEVICE_TYPES = config.get('device_types', [])
 
 # 나이 구간 임계값
 AGE_THRESHOLD_YOUNG = config['age_threshold']['young']
@@ -321,32 +327,3 @@ SEARCH_KEYWORDS = [
     "Coffee", "Mouse", "Sneakers", "Bag", "Sunglasses", "Mug",
     "iphon", "labtop", "rayban"
 ]
-
-#################################
-# 사용자 환경 정보
-#################################
-
-LOCATIONS = [
-    "US", "AU", "KR", "UK"
-]
-
-DEVICE_TYPES = [
-    "Mobile", "PC"
-]
-
-TIME_SEGMENT_WEIGHTS = {
-    "morning": 1.2,
-    "lunch": 1.5,
-    "evening": 1.3,
-    "night": 0.8
-}
-
-SESSION_LENGTH_SHAPE = 2.0
-REVISIT_PROBABILITY = 0.2
-
-SALE_EVENTS = [
-    {"start_hour": 14, "end_hour": 15, "bonus_factor": 2.0}
-]
-
-
-    
