@@ -197,17 +197,24 @@ Hadoop 클러스터 환경에서 실시간 스트리밍 데이터와 배치 데�
     ```
     
 
-2. `BOOTSTRAP_SERVERS` 값을 실제 주소로 변경
+2. `BOOTSTRAP_SERVERS`, `API_VM_IP`값을 실제 주소로 변경
     - **Note**: `{실제 Kafka 클러스터 부트스트랩 서버값}`을 개인 환경에 맞게 수정 필요
+    - **Note**: `{API_VM의 퍼블릭 아이피}`을 개인 환경에 맞게 수정 필요
     
     **lab7-3-2**
     
-    ```java
+    ```bash
     sed -i 's/BOOTSTRAP_SERVERS/{실제 Kafka 클러스터 부트스트랩 서버값}/g' streaming_data_processor.py
+    ```
+
+    **lab7-3-2-2**
+
+    ```bash
+    sed -i "s/API_VM_IP/{API_VM의 퍼블릭 아이피}/g" streaming_data_processor.py
     ```
     
 
-3. 실시간 정제 작업 실행
+4. 실시간 정제 작업 실행
     
     **lab7-3-3**
     
@@ -220,7 +227,7 @@ Hadoop 클러스터 환경에서 실시간 스트리밍 데이터와 배치 데�
     ```
     
 
-4. 정제 프로세스 모니터링
+5. 정제 프로세스 모니터링
     
     **lab7-3-4**
     
@@ -229,7 +236,7 @@ Hadoop 클러스터 환경에서 실시간 스트리밍 데이터와 배치 데�
     ```
     
 
-5. 모니터링 종료
+6. 모니터링 종료
     - **Note**: 맥북은 “command” + “c”
     
     **lab7-3-5**
@@ -239,14 +246,14 @@ Hadoop 클러스터 환경에서 실시간 스트리밍 데이터와 배치 데�
     ```
     
 
-6. 카카오 클라우드 콘솔 > Beyond Storage Service > Object Storage
-7. `data-catalog-bucket` 클릭
-8. 배치 정제 결과가 저장된 디렉터리로 이동 후 버킷 내 적재된배치 정제 결과 확인 
+7. 카카오 클라우드 콘솔 > Beyond Storage Service > Object Storage
+8. `data-catalog-bucket` 클릭
+9. 배치 정제 결과가 저장된 디렉터리로 이동 후 버킷 내 적재된배치 정제 결과 확인 
     - **Note**: `data-catalog-bucket/data-catalog-dir/user_behavior_prediction/dt={실습 진행날짜}/`디렉터리로 이동
     ![실시간 결과 이미지](https://github.com/user-attachments/assets/5d205c50-8765-4e64-8fd7-8722f7a3d352)
     
 
-9. 배치 정제 결과 데이터 검증을 위한 PySpark 셸 실행
+10. 배치 정제 결과 데이터 검증을 위한 PySpark 셸 실행
     
     **lab7-3-9**
     
@@ -255,7 +262,7 @@ Hadoop 클러스터 환경에서 실시간 스트리밍 데이터와 배치 데�
     ```
     
 
-10. 파일 경로 설정
+11. 파일 경로 설정
 
     **lab7-3-10**
     
@@ -264,7 +271,7 @@ Hadoop 클러스터 환경에서 실시간 스트리밍 데이터와 배치 데�
     ```
     
 
-11. Parquet 파일 로드
+12. Parquet 파일 로드
     
     **lab7-3-11**
     
@@ -273,7 +280,7 @@ Hadoop 클러스터 환경에서 실시간 스트리밍 데이터와 배치 데�
     ```
     
 
-12. 스키마 구조 검증
+13. 스키마 구조 검증
     
     **lab7-3-12**
     
@@ -284,7 +291,7 @@ Hadoop 클러스터 환경에서 실시간 스트리밍 데이터와 배치 데�
 
     
 
-13. 상위 100개 데이터 샘플 확인
+14. 상위 100개 데이터 샘플 확인
     
     **lab7-3-13**
     
@@ -297,7 +304,7 @@ Hadoop 클러스터 환경에서 실시간 스트리밍 데이터와 배치 데�
 
     
 
-14. 세션 ID별 데이터 분포 확인
+15. 세션 ID별 데이터 분포 확인
     
     **lab7-3-14**
     
@@ -305,7 +312,7 @@ Hadoop 클러스터 환경에서 실시간 스트리밍 데이터와 배치 데�
     df_combined.groupBy("session_id").count().show(truncate=False)
     ```
     
-15. Spark 셸 종료
+16. Spark 셸 종료
     
     **lab7-3-15**
     
