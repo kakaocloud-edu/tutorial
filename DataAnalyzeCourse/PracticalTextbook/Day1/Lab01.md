@@ -167,12 +167,13 @@
    ![프로젝트 ID](https://github.com/user-attachments/assets/8c20f705-2aa1-41fe-872d-5eca55a79150)  
 7. 우측 상단 계정 프로필 > 계정 정보
 8. 비밀번호 재확인 > 비밀번호 입력 > 비밀번호 확인
-9. 우측 하단 `조직 ID` 복사 후 클립보드 등에 붙여넣기
+9. 우측 상단 `사용자 UUID`, 우측 하단 `조직 ID` 복사 후 클립보드 등에 붙여넣기
    - **Note**: pub/sub 토큰 생성 API 호출 시 `조직 id`와 `프로젝트 id`를 경로 변수로 사용
    - {endpoint-url}/v1/domains/`{조직 id}`/projects/`{프로젝트 id}`/topics/{topic-name}
+   - `사용자 UUID` 는 이후 s3 sink connector 생성 시 필요
+     
+  ![Image](https://github.com/user-attachments/assets/5fadd88d-d512-45a8-9ccb-23d42fdd94c0)
 
-
-   ![조직 ID](https://github.com/user-attachments/assets/16382315-5f49-4ee7-86bd-c724c3fe39e0)
 
 
 ## 8. Traffic Generator VM 생성 (7분)
