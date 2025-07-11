@@ -1,64 +1,62 @@
+#!/usr/bin/env python3
+"""
+traffic_generator.py (Advanced & API-Compatible)
+--------------------------------------------------
+현실적인 E-commerce 트래픽 시뮬레이터.
+- Flask API 서버 구조 완벽 대응 및 오류 수정
+- 사용자 재사용 및 파레토 분포 기반 행동 모델링
+- 실시간 연동 트래픽 볼륨 조절
+- 특가 세일(Flash Sale) 시뮬레이션
+- 컨텍스트(행동 이력) 기반 체류 시간 및 다음 행동 결정
+"""
+from __future__ import annotations
+import argparse
+import logging
 import os
-import sys  # 1. sys 모듈을 import 합니다.
-import requests
+import random
+import sys
 import threading
 import time
-import random
 import uuid
-import logging
-import argparse
+from datetime import datetime, time as dt_time, timedelta
+from typing import Any, Dict, List, Optional
+import requests
 import json
 
-# 2. config.py가 있는 고정된 경로를 계산합니다.
-# 현재 스크립트 위치: .../Lab02/pubsub
-# config.py 위치: .../Lab01/traffic_generator
-current_dir = os.path.dirname(os.path.abspath(__file__))
-config_path = os.path.abspath(os.path.join(current_dir, "..", "..", "Lab01", "traffic_generator"))
-
-# 3. 계산된 경로를 Python의 모듈 검색 경로 리스트에 추가합니다.
-sys.path.append(config_path)
-
-# 4. 이제 Python이 config.py를 찾을 수 있으므로, config 객체를 import 합니다.
+# ────────────────────────────────
+# 경로 & 설정 로드
+# ────────────────────────────────
 try:
     from config import config
 except ImportError:
-    print(f"Error: Could not import 'config' from the specified path: {config_path}")
-    print("Please ensure 'config.py' and 'config.yml' exist in that directory.")
-    sys.exit(1)
+    CUR_DIR = os.path.dirname(os.path.abspath(__file__))
+    CONFIG_PATH = os.path.abspath(os.path.join(CUR_DIR, "..", "..", "Lab01", "traffic_generator"))
+    sys.path.append(CONFIG_PATH)
+    from config import config
 
-#################################
-# 전역 상품/카테고리 캐시
-#################################
-products_cache = []
-categories_cache = []
-
-#################################
+# ────────────────────────────────
 # 로깅 설정
-#################################
-# MODIFIED: config 객체 접근 방식 변경
+# ────────────────────────────────
 logging.basicConfig(
-    filename=config.logging.filename,
-    level=config.logging.level.upper(),
-    format='%(asctime)s - %(levelname)s - %(message)s'
+    filename=config.logging.get('filename', 'traffic_generator.log'),
+    level=config.logging.get('level', 'INFO').upper(),
+    format="%(asctime)s - %(threadName)s - %(levelname)s - %(message)s",
 )
+logging.info(f"Traffic Generator Bootstrapped. API_BASE_URL={config.api.base_url}")
 
-# 로깅으로 config 값 확인
-logging.info(f"Config loaded: LOG_FILENAME={config.logging.filename}, LOG_LEVEL={config.logging.level}")
-logging.info(f"API_URL_WITH_HTTP: {config.api.url_with_http}")
-logging.info(f"Number of Users: {config.threads.num_users}")
+# ────────────────────────────────
+# 전역 상태 및 관리자
+# ────────────────────────────────
+products_cache: list[dict] = []
+categories_cache: list[str] = []
+global_user_manager: Optional[UserManager] = None
+global_sale_manager: Optional[SaleManager] = None
 
-# Argument parsing for mode
-def parse_args():
-    parser = argparse.ArgumentParser(description="Traffic generator: once vs continuous")
-    parser.add_argument('--mode', choices=['once','continuous'], default='once',
-                        help='한번 실행(once) vs 지속 실행(continuous)')
-    return parser.parse_args()
-
-#################################
-# 나이 구간 판단 함수
-#################################
+# ────────────────────────────────
+# 유틸리티 함수
+# ────────────────────────────────
 def get_age_segment(age: int) -> str:
-    # MODIFIED: config 객체 접근 방식 변경
+    """나이를 기반으로 연령대를 반환합니다."""
     if age < config.age_threshold.young:
         return "young"
     elif age < config.age_threshold.middle:
@@ -66,414 +64,308 @@ def get_age_segment(age: int) -> str:
     else:
         return "old"
 
-#################################
-# NGINX 로그를 위한 이벤트 헤더 생성 함수
-#################################
-def generate_event_headers(user_id: str, event_name: str, **kwargs) -> dict:
-    # MODIFIED: config 객체 접근 방식 변경
-    headers = {
-        "Accept": "application/json",
-        "X-Event-Id": str(uuid.uuid4()),
-        "X-Event-Name": event_name,
-        "X-User-Id": user_id,
-        "X-Device": random.choice(config.device_types),
-        "X-Region": random.choice(config.regions),
-        "X-Dwell-Time": f"{random.uniform(config.dwell_time_range.min, config.dwell_time_range.max):.2f}"
-    }
+# ────────────────────────────────
+# 핵심 관리자 클래스
+# ────────────────────────────────
+class UserManager:
+    """사용자 풀 관리, 신규/기존 사용자 분배, 파레토 분포 기반 세션 길이 결정"""
+    def __init__(self):
+        self.user_pool = [f"user_{uuid.uuid4().hex[:8]}" for _ in range(config.user_pool.size)]
+        self.lock = threading.Lock()
+        logging.info(f"UserManager initialized with pool size {config.user_pool.size}")
 
-    if 'quantity' in kwargs:
-        headers["X-Quantity"] = str(kwargs.get('quantity'))
-    if 'review_rating' in kwargs:
-        headers["X-Review-Rating"] = str(kwargs.get('review_rating'))
-    if 'event_context' in kwargs:
-        headers["X-Event-Context"] = json.dumps(kwargs.get('event_context'))
+    def get_user(self) -> tuple[str, bool]:
+        with self.lock:
+            if random.random() < config.user_pool.reuse_rate and self.user_pool:
+                return random.choice(self.user_pool), False  # 기존 유저
+            
+            new_user_id = f"user_{uuid.uuid4().hex[:8]}"
+            if len(self.user_pool) < config.user_pool.size:
+                self.user_pool.append(new_user_id)
+            return new_user_id, True # 신규 유저
 
+    def get_actions_for_user(self) -> int:
+        """파레토 분포에 따라 사용자의 세션 당 액션 수를 결정"""
+        actions = int(random.paretovariate(config.pareto.alpha)) + config.pareto.min_actions
+        return min(actions, config.pareto.max_actions)
+
+class SaleManager:
+    """특가 세일 상태를 관리"""
+    def __init__(self):
+        self.is_active = False
+        self.purchases_made = 0
+        self.lock = threading.Lock()
+        self.sale_config = config.special_sale
+        try:
+            self.start_time = dt_time.fromisoformat(self.sale_config.start_time)
+            logging.info(f"SaleManager initialized for product {self.sale_config.product_id} at {self.sale_config.start_time}")
+        except (ValueError, TypeError):
+            logging.error("Invalid start_time format in config.yml. Disabling special_sale.")
+            self.sale_config.enabled = False
+
+    def check_and_update_status(self):
+        if not hasattr(self, 'start_time') or not self.sale_config.enabled: return
+            
+        now_dt = datetime.now()
+        start_dt = datetime.combine(now_dt.date(), self.start_time)
+        end_dt = start_dt + timedelta(minutes=self.sale_config.duration_minutes)
+        currently_active = start_dt <= now_dt < end_dt
+
+        if currently_active and not self.is_active:
+            self.is_active = True
+            self.purchases_made = 0
+            logging.warning(f"FLASH SALE STARTED for product {self.sale_config.product_id}!")
+        elif not currently_active and self.is_active:
+            self.is_active = False
+            logging.warning("FLASH SALE ENDED.")
+
+    def attempt_purchase(self) -> bool:
+        if not self.is_active: return False
+        with self.lock:
+            if self.purchases_made < self.sale_config.max_purchases:
+                self.purchases_made += 1
+                logging.info(f"Successful flash sale! ({self.purchases_made}/{self.sale_config.max_purchases})")
+                return True
+            logging.warning("Flash sale stock depleted!")
+            return False
+
+class UserContext:
+    """개별 사용자의 상태 및 행동 이력(컨텍스트) 관리"""
+    def __init__(self, user_id: str, is_new: bool, region: str, device: str):
+        self.user_id, self.is_new, self.region, self.device = user_id, is_new, region, device
+        self.session_idx = 0
+        self.viewed_categories: List[str] = []
+        self.new_session()
+
+    def new_session(self):
+        self.session_idx += 1
+        self.session_id = str(uuid.uuid4())
+        self.is_return = "0" if self.session_idx == 1 else "1"
+        self.viewed_categories = []
+
+    def add_viewed_category(self, category: str):
+        if category and category not in self.viewed_categories:
+            self.viewed_categories.append(category)
+        if len(self.viewed_categories) > 3: self.viewed_categories.pop(0)
+
+def build_headers(ctx: UserContext, event_name: str, **kwargs: Any) -> dict:
+    headers = {"Accept": "application/json", "X-Event-Id": str(uuid.uuid4()), "X-Event-Name": event_name, "X-User-Id": ctx.user_id, "X-Region": ctx.region, "X-Device": ctx.device}
+    if 'dwell' in kwargs: headers['X-Dwell-Time'] = f"{kwargs['dwell']:.2f}"
+    if 'quantity' in kwargs: headers['X-Quantity'] = str(kwargs['quantity'])
+    if 'rating' in kwargs: headers['X-Review-Rating'] = str(kwargs['rating'])
+    if 'context' in kwargs: headers['X-Event-Context'] = json.dumps(kwargs['context'])
     return headers
 
-#################################
-# 상품/카테고리 데이터 가져오기
-#################################
-def fetch_products():
-    global products_cache
-    headers = {"Accept": "application/json"}
+# ────────────────────────────────
+# API 호출 및 액션 함수
+# ────────────────────────────────
+def safe_request(session: requests.Session, method: str, url: str, **kwargs: Any) -> Optional[requests.Response]:
+    """타임아웃 및 예외 처리를 포함한 안전한 요청 래퍼"""
     try:
-        # MODIFIED: config 객체 접근 방식 변경
-        url = config.api.url_with_http + config.api.endpoints.PRODUCTS
-        resp = requests.get(url, headers=headers)
-        if resp.status_code == 200:
-            data = resp.json()
-            products_cache = data.get("products", []) if isinstance(data, dict) else data
-            logging.info(f"Fetched {len(products_cache)} products.")
+        response = session.request(method, url, timeout=5, **kwargs)
+        if not response.ok:
+            logging.warning(f"Request to {url} returned status {response.status_code}")
+        return response
+    except requests.exceptions.RequestException as e:
+        logging.error(f"Request failed for {method} {url}: {e}")
+        return None
+
+def fetch_products():
+    """서버에서 상품 목록을 가져와 전역 캐시를 채웁니다."""
+    global products_cache
+    try:
+        url = f"http://{config.api.base_url}/{config.api.endpoints.products}"
+        # BUG-FIX: 서버가 JSON을 반환하도록 Accept 헤더 추가
+        headers = {"Accept": "application/json"}
+        resp = safe_request(requests, 'GET', url, headers=headers)
+        if resp and resp.ok:
+            products_cache = resp.json()
+            logging.info(f"Products fetched: {len(products_cache)}")
         else:
-            logging.error(f"Failed to fetch products: {resp.status_code}, content={resp.text}")
-    except Exception as e:
-        logging.error(f"Exception while fetching products: {e}")
+            logging.error(f"Failed to fetch products. Response was not OK or not valid JSON.")
+            products_cache = []
+    except Exception as exc:
+        logging.error(f"fetch_products critical error: {exc}")
+        products_cache = []
 
 def fetch_categories():
+    """서버에서 카테고리 목록을 가져와 전역 캐시를 채웁니다."""
     global categories_cache
-    headers = {"Accept": "application/json"}
     try:
-        # MODIFIED: config 객체 접근 방식 변경
-        url = config.api.url_with_http + config.api.endpoints.CATEGORIES
-        resp = requests.get(url, headers=headers)
-        if resp.status_code == 200:
+        url = f"http://{config.api.base_url}/{config.api.endpoints.categories}"
+        # BUG-FIX: 서버가 JSON을 반환하도록 Accept 헤더 추가
+        headers = {"Accept": "application/json"}
+        resp = safe_request(requests, 'GET', url, headers=headers)
+        if resp and resp.ok:
             data = resp.json()
+            # 서버 응답 형식에 맞춰 수정
             categories_cache = data.get("categories", []) if isinstance(data, dict) else data
-            logging.info(f"Fetched {len(categories_cache)} categories.")
+            logging.info(f"Categories fetched: {len(categories_cache)}")
         else:
-            logging.error(f"Failed to fetch categories: {resp.status_code}, content={resp.text}")
-    except Exception as e:
-        logging.error(f"Exception while fetching categories: {e}")
+            logging.error(f"Failed to fetch categories. Response was not OK or not valid JSON.")
+            categories_cache = []
+    except Exception as exc:
+        logging.error(f"fetch_categories critical error: {exc}")
+        categories_cache = []
 
-#################################
-# 확률 전이 및 상품 선택 함수
-#################################
-def pick_next_state(prob_dict: object) -> str:
-    # config 객체에서 직접 읽어오므로 dict 변환
-    prob_map = prob_dict.__dict__
-    states = list(prob_map.keys())
-    probs = list(prob_map.values())
-    return random.choices(states, weights=probs, k=1)[0]
+def get_product_category(pid: str) -> str:
+    return next((p.get("category", "") for p in products_cache if str(p.get("id")) == str(pid)), "")
 
-def pick_preferred_product_id(gender: str, age_segment: str) -> str:
-    if not products_cache:
-        return str(random.randint(101, 124))
-    # MODIFIED: config 객체 접근 방식 변경
-    cat_list = getattr(getattr(config.category_preference, gender), age_segment)
-    filtered = [p for p in products_cache if p.get("category", "") in cat_list]
-    if filtered:
-        return random.choice(filtered).get("id", "101")
-    else:
-        return random.choice(products_cache).get("id", "101")
-
-def get_category_for_product(pid: str) -> str:
-    for p in products_cache:
-        if str(p.get("id")) == str(pid):
-            return p.get("category", "")
-    return ""
-
-#################################
-# 실제 회원가입/로그인/로그아웃/탈퇴 시도
-#################################
-def try_register(session: requests.Session, user_id: str, gender: str, age_segment: str) -> bool:
-    headers = generate_event_headers(user_id, "register")
-    payload = {"user_id": user_id, "name": f"TestUser_{user_id}", "email": f"{user_id}@example.com", "gender": gender, "age": str(random.randint(18, 70))}
-    try:
-        url = config.api.url_with_http + config.api.endpoints.ADD_USER
-        r = session.post(url, data=payload, headers=headers)
-        logging.info(f"[{user_id}] POST /add_user => {r.status_code}")
-        return r.status_code == 201
-    except Exception as e:
-        logging.error(f"[{user_id}] register exception: {e}")
-        return False
-
-def try_login(session: requests.Session, user_id: str) -> bool:
-    headers = generate_event_headers(user_id, "login")
-    payload = {"user_id": user_id}
-    try:
-        url = config.api.url_with_http + config.api.endpoints.LOGIN
-        r = session.post(url, data=payload, headers=headers)
-        logging.info(f"[{user_id}] POST /login => {r.status_code}")
-        return 200 <= r.status_code < 300
-    except Exception as e:
-        logging.error(f"[{user_id}] login exception: {e}")
-        return False
-
-def try_logout(session: requests.Session, user_id: str) -> bool:
-    headers = generate_event_headers(user_id, "logout")
-    try:
-        url = config.api.url_with_http + config.api.endpoints.LOGOUT
-        r = session.post(url, headers=headers)
-        logging.info(f"[{user_id}] POST /logout => {r.status_code}")
-        return 200 <= r.status_code < 300
-    except Exception as e:
-        logging.error(f"[{user_id}] logout exception: {e}")
-        return False
-
-def try_delete_user(session: requests.Session, user_id: str) -> bool:
-    headers = generate_event_headers(user_id, "delete_user")
-    payload = {"user_id": user_id}
-    try:
-        url = config.api.url_with_http + config.api.endpoints.DELETE_USER
-        r = session.post(url, data=payload, headers=headers)
-        logging.info(f"[{user_id}] POST /delete_user => {r.status_code}")
-        return 200 <= r.status_code < 300
-    except Exception as e:
-        logging.error(f"[{user_id}] delete_user exception: {e}")
-        return False
-
-#################################
-# 비로그인 하위 FSM
-#################################
-def do_anon_sub_fsm(session: requests.Session, user_unique_id: str):
-    sub_state = "Anon_Sub_Initial"
-    # MODIFIED: config 객체 접근 방식 변경
-    sleep_range = (config.api.time_sleep_range.min, config.api.time_sleep_range.max)
-    while sub_state != "Anon_Sub_Done":
-        logging.info(f"[{user_unique_id}] Anon Sub-FSM state = {sub_state}")
-        perform_anon_sub_action(session, user_unique_id, sub_state)
-
-        transitions = getattr(config.anon_sub_transitions, sub_state, None)
-        if not transitions or not transitions.__dict__:
-            logging.warning(f"[{user_unique_id}] No next transitions from {sub_state} => break")
-            break
-
-        next_sub = pick_next_state(transitions)
-        logging.info(f"[{user_unique_id}] (AnonSub) {sub_state} -> {next_sub}")
-        sub_state = next_sub
-        time.sleep(random.uniform(*sleep_range))
-
-def perform_anon_sub_action(session: requests.Session, user_unique_id: str, sub_state: str):
-    if sub_state == "Anon_Sub_Main":
-        headers = generate_event_headers(user_unique_id, "page_view")
-        try:
-            r = session.get(config.api.url_with_http, headers=headers)
-            logging.info(f"[{user_unique_id}] GET / => {r.status_code}")
-        except Exception as e:
-            logging.error(f"[{user_unique_id}] Anon_Sub_Main error: {e}")
-
-    elif sub_state == "Anon_Sub_Products":
-        headers = generate_event_headers(user_unique_id, "product_list_view")
-        try:
-            url = config.api.url_with_http + config.api.endpoints.PRODUCTS
-            resp = session.get(url, headers=headers)
-            logging.info(f"[{user_unique_id}] GET /products => {resp.status_code}")
-        except Exception as e:
-            logging.error(f"[{user_unique_id}] Anon_Sub_Products error: {e}")
-
-    elif sub_state == "Anon_Sub_ViewProduct":
-        pid = random.randint(101, 124)
-        headers = generate_event_headers(user_unique_id, "product_view", event_context={"product_id": pid})
-        url = f"{config.api.url_with_http}{config.api.endpoints.PRODUCT_DETAIL}?id={pid}"
-        try:
-            r = session.get(url, headers=headers)
-            logging.info(f"[{user_unique_id}] GET /product?id={pid} => {r.status_code}")
-        except Exception as err:
-            logging.error(f"[{user_unique_id}] view product error: {err}")
-
-    elif sub_state == "Anon_Sub_Categories":
-        headers = generate_event_headers(user_unique_id, "category_list_view")
-        try:
-            url = config.api.url_with_http + config.api.endpoints.CATEGORIES
-            r = session.get(url, headers=headers)
-            logging.info(f"[{user_unique_id}] GET /categories => {r.status_code}")
-        except Exception as err:
-            logging.error(f"[{user_unique_id}] categories error: {err}")
-
-    elif sub_state == "Anon_Sub_CategoryList":
-        if categories_cache:
-            chosen_cat = random.choice(categories_cache)
-            headers = generate_event_headers(user_unique_id, "product_list_by_category", event_context={"category": chosen_cat})
-            cat_url = f"{config.api.url_with_http}{config.api.endpoints.CATEGORY}?name={chosen_cat}"
-            try:
-                r = session.get(cat_url, headers=headers)
-                logging.info(f"[{user_unique_id}] GET /category?name={chosen_cat} => {r.status_code}")
-            except Exception as err:
-                logging.error(f"[{user_unique_id}] category list error: {err}")
-
-    elif sub_state == "Anon_Sub_Search":
-        q = random.choice(config.search_keywords)
-        headers = generate_event_headers(user_unique_id, "search", event_context={"search_term": q})
-        search_url = f"{config.api.url_with_http}{config.api.endpoints.SEARCH}?query={q}"
-        try:
-            r = session.get(search_url, headers=headers)
-            logging.info(f"[{user_unique_id}] GET /search?query={q} => {r.status_code}")
-        except Exception as err:
-            logging.error(f"[{user_unique_id}] search error: {err}")
-
-    elif sub_state == "Anon_Sub_Error":
-        headers = generate_event_headers(user_unique_id, "error_view")
-        try:
-            err_url = config.api.url_with_http + config.api.endpoints.ERROR_PAGE
-            r = session.get(err_url, headers=headers)
-            logging.info(f"[{user_unique_id}] GET /error => {r.status_code}")
-        except Exception as err:
-            logging.error(f"[{user_unique_id}] error page fail: {err}")
-
-#################################
-# 로그인 하위 FSM
-#################################
-def do_logged_sub_fsm(session: requests.Session, user_unique_id: str, gender, age_segment: str):
-    sub_state = "Login_Sub_Initial"
-    sleep_range = (config.api.time_sleep_range.min, config.api.time_sleep_range.max)
-    while sub_state != "Login_Sub_Done":
-        logging.info(f"[{user_unique_id}] Logged Sub-FSM state = {sub_state}")
-        perform_logged_sub_action(session, user_unique_id, sub_state, gender, age_segment)
-
-        transitions = getattr(config.logged_sub_transitions, sub_state, None)
-        if not transitions or not transitions.__dict__:
-            logging.warning(f"[{user_unique_id}] No next transitions from {sub_state} => break")
-            break
-
-        next_sub = pick_next_state(transitions)
-        logging.info(f"[{user_unique_id}] (LoggedSub) {sub_state} -> {next_sub}")
-        sub_state = next_sub
-        time.sleep(random.uniform(*sleep_range))
-
-def perform_logged_sub_action(session: requests.Session, user_unique_id: str, sub_state: str, gender: str, age_segment: str):
-    # This function uses if/elif blocks similar to perform_anon_sub_action
-    # All internal calls to config should be updated to the new object notation
-    # e.g., config.api.endpoints.PRODUCTS, config.search_keywords etc.
-    # (The following code is a representation of the required changes)
-
-    if sub_state == "Login_Sub_Initial":
-        logging.info(f"[{user_unique_id}] Login Sub-FSM initialized")
-    elif sub_state == "Login_Sub_Main":
-        headers = generate_event_headers(user_unique_id, "page_view")
-        try:
-            r = session.get(config.api.url_with_http, headers=headers)
-            logging.info(f"[{user_unique_id}] GET / (logged) => {r.status_code}")
-        except Exception as e:
-            logging.error(f"[{user_unique_id}] Login_Sub_Main error: {e}")
-    elif sub_state == "Login_Sub_Products":
-        headers = generate_event_headers(user_unique_id, "product_list_view")
-        try:
-            url = config.api.url_with_http + config.api.endpoints.PRODUCTS
-            r = session.get(url, headers=headers)
-            logging.info(f"[{user_unique_id}] GET /products (logged) => {r.status_code}")
-        except Exception as e:
-            logging.error(f"[{user_unique_id}] Login_Sub_Products error: {e}")
-    elif sub_state == "Login_Sub_ViewProduct":
-        pid = pick_preferred_product_id(gender, age_segment)
-        headers = generate_event_headers(user_unique_id, "product_view", event_context={"product_id": pid})
-        url = f"{config.api.url_with_http}{config.api.endpoints.PRODUCT_DETAIL}?id={pid}"
-        try:
-            r = session.get(url, headers=headers)
-            logging.info(f"[{user_unique_id}] GET /product?id={pid} (logged) => {r.status_code}")
-        except Exception as err:
-            logging.error(f"[{user_unique_id}] Login_Sub_ViewProduct error: {err}")
-    elif sub_state == "Login_Sub_Search":
-        q = random.choice(config.search_keywords)
-        headers = generate_event_headers(user_unique_id, "search", event_context={"search_term": q})
-        search_url = f"{config.api.url_with_http}{config.api.endpoints.SEARCH}?query={q}"
-        try:
-            r = session.get(search_url, headers=headers)
-            logging.info(f"[{user_unique_id}] GET /search?query={q} (logged) => {r.status_code}")
-        except Exception as err:
-            logging.error(f"[{user_unique_id}] Login_Sub_Search error: {err}")
-    elif sub_state == "Login_Sub_CartAdd":
-        pid = pick_preferred_product_id(gender, age_segment)
-        qty = random.randint(1, 5)
-        headers = generate_event_headers(user_unique_id, "add_to_cart", quantity=qty, event_context={"product_id": pid})
-        payload = {"id": pid, "quantity": str(qty)}
-        try:
-            add_url = config.api.url_with_http + config.api.endpoints.CART_ADD
-            r = session.post(add_url, data=payload, headers=headers)
-            logging.info(f"[{user_unique_id}] POST /cart/add (pid={pid}, qty={qty}) => {r.status_code}")
-        except Exception as e:
-            logging.error(f"[{user_unique_id}] Login_Sub_CartAdd error: {e}")
-    # ... Other states for logged in users would follow the same pattern ...
+def pick_contextual_product_id(ctx: UserContext, gender: str, age_segment: str) -> str:
+    """사용자 컨텍스트(최근 본 카테고리)를 고려하여 상품 선택"""
+    if not products_cache: return ""
+    if ctx.viewed_categories and random.random() < 0.6:
+        cat_to_view = random.choice(ctx.viewed_categories)
+        subset = [p for p in products_cache if p.get("category") == cat_to_view]
+        if subset: return str(random.choice(subset).get("id"))
     
-#################################
-# 최상위 액션 결정 함수
-#################################
-def do_top_level_action_and_confirm(session: requests.Session, current_state: str, proposed_next: str, user_id: str, gender: str, age_segment: str) -> str:
-    # This function remains largely the same as it calls the try_* functions which are already updated
-    if current_state == "Anon_NotRegistered" and proposed_next == "Anon_Registered":
-        return "Anon_Registered" if try_register(session, user_id, gender, age_segment) else "Anon_NotRegistered"
-    if current_state == "Anon_Registered" and proposed_next == "Logged_In":
-        return "Logged_In" if try_login(session, user_id) else "Anon_Registered"
-    if current_state == "Logged_In" and proposed_next == "Logged_Out":
-        return "Logged_Out" if try_logout(session, user_id) else "Logged_In"
-    if current_state == "Logged_In" and proposed_next == "Unregistered":
-        return "Unregistered" if try_delete_user(session, user_id) else "Logged_In"
-    if current_state == "Logged_Out":
-        return "Unregistered" if proposed_next == "Unregistered" and try_delete_user(session, user_id) else "Anon_Registered"
-    return proposed_next
+    prefs = getattr(getattr(config.category_preference, gender), age_segment)
+    subset = [p for p in products_cache if p.get("category") in prefs] or products_cache
+    return str(random.choice(subset).get("id")) if subset else ""
 
-#################################
-# 사용자 전체 로직
-#################################
-def run_user_simulation(user_idx: int):
-    session = requests.Session()
-    session.get(config.api.url_with_http)
-    gender = random.choice(["F", "M"])
-    age = random.randint(18, 70)
-    age_segment = get_age_segment(age)
-    user_unique_id = f"user_{uuid.uuid4().hex[:6]}"
+# ────────────────────────────────
+# 시뮬레이션 메인 로직
+# ────────────────────────────────
+class UserSimulator:
+    def __init__(self, user_manager: UserManager, sale_manager: SaleManager):
+        self.user_manager, self.sale_manager, self.session = user_manager, sale_manager, requests.Session()
+        user_id, is_new = self.user_manager.get_user()
+        self.ctx = UserContext(user_id=user_id, is_new=is_new, region=random.choice(config.regions), device=random.choice(config.device_types))
+        self.gender, self.age = random.choice(["F", "M"]), random.randint(18, 70)
+        self.age_segment = get_age_segment(self.age)
+        self.actions_to_perform = self.user_manager.get_actions_for_user()
 
-    session_index = random.randint(1, 5)
-    is_return = "true" if session_index > 1 else "false"
-    session.cookies.set("session_idx", str(session_index))
-    session.cookies.set("is_return", is_return)
+    def run(self):
+        logging.info(f"Starting simulation for user {self.ctx.user_id} (new: {self.ctx.is_new}) with {self.actions_to_perform} actions.")
+        self.session.cookies.set("session_id", self.ctx.session_id)
+        self.session.cookies.set("session_idx", str(self.ctx.session_idx))
+        self.session.cookies.set("is_return", self.ctx.is_return)
 
-    logging.info(f"[{user_unique_id}] Start simulation. gender={gender}, age={age}, session_index={session_index}")
-    current_state = "Anon_NotRegistered"
-    transition_count = 0
-    
-    sleep_range = (config.api.time_sleep_range.min, config.api.time_sleep_range.max)
-    actions_per_user = config.threads.actions_per_user
+        state = "Anon" if self.ctx.is_new else ("Logged_Out" if random.random() < 0.7 else "Anon") # 기존 유저는 70% 확률로 로그아웃 상태에서 시작
+        
+        for _ in range(self.actions_to_perform):
+            if state == "Anon" and self.try_register(): state = "Logged_In"
+            elif state == "Logged_Out":
+                self.ctx.new_session()
+                self.session.cookies.set("session_id", self.ctx.session_id); self.session.cookies.set("session_idx", str(self.ctx.session_idx))
+                if self.try_login(): state = "Logged_In"
+            elif state == "Logged_In" and random.random() < 0.05: # 5% 확률로 로그아웃
+                if self.try_logout(): state = "Logged_Out"
+            
+            self.perform_state_action(state)
+        logging.info(f"Finished simulation for user {self.ctx.user_id}.")
 
-    while True:
-        if transition_count >= actions_per_user:
-            logging.info(f"[{user_unique_id}] Reached max transitions => end.")
-            break
-        if current_state == "Done":
-            logging.info(f"[{user_unique_id}] state=Done => end.")
-            break
+    def perform_state_action(self, state: str):
+        event = "add_to_cart_sale" if state == "Logged_In" and self.sale_manager.is_active and random.random() < self.sale_manager.sale_config.interest_boost else \
+                random.choice(["page_view", "product_view", "products_list", "search", "add_to_cart", "purchase"]) if state == "Logged_In" else \
+                random.choice(["page_view", "product_view", "products_list", "search"])
+        
+        start_time = time.time()
+        self.execute_event(event)
+        
+        base_sleep = random.uniform(config.api.time_sleep_range.min, config.api.time_sleep_range.max)
+        dwell_factor = config.dwell_factors.get(event, 1.0)
+        processing_time = time.time() - start_time
+        sleep_duration = (base_sleep * dwell_factor) - processing_time
+        
+        if sleep_duration > 0: time.sleep(sleep_duration)
 
-        transitions = getattr(config.state_transitions, current_state, None)
-        if not transitions or not transitions.__dict__:
-            logging.error(f"[{user_unique_id}] no transitions from {current_state} => end.")
-            break
+    def execute_event(self, event_name:str):
+        api_url, endpoints = f"http://{config.api.base_url}", config.api.endpoints
+        method, url_path, extra_headers, data = 'GET', None, {}, None
 
-        proposed_next = pick_next_state(transitions)
-        logging.info(f"[{user_unique_id}] (Top) {current_state} -> proposed={proposed_next}")
+        if event_name == "page_view": url_path = "/"
+        elif event_name == "products_list": url_path = f"/{endpoints.products}"
+        elif event_name == "product_view":
+            pid = pick_contextual_product_id(self.ctx, self.gender, self.age_segment)
+            if pid:
+                self.ctx.add_viewed_category(get_product_category(pid))
+                url_path, extra_headers['context'] = f"/{endpoints.product_detail}?id={pid}", {'product_id': pid}
+        elif event_name in ["add_to_cart", "add_to_cart_sale"]:
+            is_sale = event_name == "add_to_cart_sale"
+            pid = self.sale_manager.sale_config.product_id if is_sale else pick_contextual_product_id(self.ctx, self.gender, self.age_segment)
+            if pid and (not is_sale or self.sale_manager.attempt_purchase()):
+                qty = 1 if is_sale else random.randint(1, 3)
+                method, url_path = 'POST', f"/{endpoints.cart_add}"
+                data, extra_headers = {'id': pid, 'quantity': qty}, {'quantity': qty, 'context': {'product_id': pid}}
+        
+        if url_path:
+            final_headers = build_headers(self.ctx, event_name, **extra_headers)
+            safe_request(self.session, method, api_url + url_path, headers=final_headers, data=data)
 
-        actual_next = do_top_level_action_and_confirm(session, current_state, proposed_next, user_unique_id, gender, age_segment)
-        if actual_next != current_state:
-            logging.info(f"[{user_unique_id}] => confirmed next: {actual_next}")
-            current_state = actual_next
+    def try_register(self) -> bool:
+        url = f"http://{config.api.base_url}/{config.api.endpoints.add_user}"
+        payload = {"user_id": self.ctx.user_id, "name": f"Test_{self.ctx.user_id}", "email": f"{self.ctx.user_id}@example.com", "gender": self.gender, "age": str(self.age)}
+        headers = build_headers(self.ctx, 'register')
+        resp = safe_request(self.session, 'POST', url, headers=headers, data=payload)
+        return resp is not None and resp.status_code == 201
 
-        if current_state == "Anon_NotRegistered" or current_state == "Anon_Registered":
-            do_anon_sub_fsm(session, user_unique_id)
-        elif current_state == "Logged_In":
-            do_logged_sub_fsm(session, user_unique_id, gender, age_segment)
-        elif current_state == "Logged_Out":
-            logging.info(f"[{user_unique_id}] (Top) state=Logged_Out => no sub-FSM")
-        elif current_state == "Unregistered":
-            current_state = "Done"
+    def try_login(self) -> bool:
+        url = f"http://{config.api.base_url}/{config.api.endpoints.login}"
+        payload = {"user_id": self.ctx.user_id}
+        headers = build_headers(self.ctx, 'login')
+        resp = safe_request(self.session, 'POST', url, headers=headers, data=payload)
+        # BUG-FIX: .ok는 2xx, 3xx를 True로 간주. 명시적으로 2xx만 성공으로 처리.
+        return resp is not None and 200 <= resp.status_code < 300
 
-        transition_count += 1
-        time.sleep(random.uniform(*sleep_range))
+    def try_logout(self) -> bool:
+        url = f"http://{config.api.base_url}/{config.api.endpoints.logout}"
+        headers = build_headers(self.ctx, 'logout')
+        resp = safe_request(self.session, 'POST', url, headers=headers)
+        return resp is not None and 200 <= resp.status_code < 300
 
-    logging.info(f"[{user_unique_id}] Simulation ended. final={current_state}")
+# ────────────────────────────────
+# 스레드 실행 및 메인 함수
+# ────────────────────────────────
+def launch_traffic(num_users: int, max_threads: int):
+    semaphore, threads = threading.Semaphore(max_threads), []
+    def _thread_wrapper():
+        with semaphore:
+            if global_user_manager and global_sale_manager:
+                UserSimulator(global_user_manager, global_sale_manager).run()
 
-#################################
-# 멀티 스레드 실행
-#################################
-def user_thread(idx: int):
-    # MODIFIED: Use Semaphore from config
-    with threading.Semaphore(config.threads.max_threads):
-        run_user_simulation(idx)
-
-def launch_traffic(num_users, max_threads, time_sleep_range_tuple):
-    # MODIFIED: No need to override config, just use passed arguments
-    fetch_products()
-    fetch_categories()
-
-    threads = []
     for i in range(num_users):
-        t = threading.Thread(target=user_thread, args=(i,))
-        threads.append(t)
-        t.start()
-        delay = random.uniform(0.01, 0.1)
-        logging.info(f"[Launch] spawned user #{i}, next in {delay:.3f}s")
-        time.sleep(delay)
+        t = threading.Thread(target=_thread_wrapper, daemon=True, name=f"UserSim-{i+1}")
+        threads.append(t); t.start()
+        time.sleep(random.uniform(0.01, 0.1))
+    for t in threads: t.join()
 
-    for t in threads:
-        t.join()
-    logging.info("All user threads finished.")
-
-if __name__ == "__main__":
-    args = parse_args()
-    if args.mode == "once":
-        launch_traffic(config.threads.num_users, config.threads.max_threads, (config.api.time_sleep_range.min, config.api.time_sleep_range.max))
-        print("[Done] Single traffic launch completed.")
+def main():
+    global global_user_manager, global_sale_manager
+    fetch_products(); fetch_categories()
+    
+    global_user_manager, global_sale_manager = UserManager(), SaleManager()
+    
+    if config.special_sale.get('enabled', False):
+        def sale_checker():
+            while True:
+                global_sale_manager.check_and_update_status()
+                time.sleep(1)
+        threading.Thread(target=sale_checker, daemon=True, name="SaleManagerThread").start()
+    
+    parser = argparse.ArgumentParser(); parser.add_argument("--mode", choices=["once", "continuous"], default="continuous")
+    args = parser.parse_args()
+    
+    if args.mode == 'once':
+         launch_traffic(config.threads.num_users, config.threads.max_threads)
+         logging.warning("Finished 'once' mode execution.")
     else:
         while True:
-            # This continuous mode logic can also be updated to use the new config object
-            # For brevity, this part is left as an exercise but follows the same principles
-            # e.g., using config.time_segments.morning.factor_range
-            print("Continuous mode needs to be updated to use the new config object structure.")
-            time.sleep(3600) # Placeholder
+            current_hour = datetime.now().hour
+            segment_config = config.time_segments
+            current_segment_name = next((name for name, segment in segment_config.__dict__.items() if segment.start <= current_hour < segment.end), "night")
+            
+            segment_factors_config = getattr(config.time_segments, current_segment_name)
+            factors = segment_factors_config.factor_range
+            factor = random.uniform(factors[0], factors[1])
+            
+            n_users = max(1, int(config.threads.num_users * factor))
+            n_threads = max(1, int(config.threads.max_threads * factor))
+
+            logging.warning(f"[{current_segment_name.upper()}] Starting new wave. Users: {n_users}, Threads: {n_threads}")
+            launch_traffic(n_users, n_threads)
+            logging.info("Wave finished. Waiting for 60 seconds...")
+            time.sleep(60)
+
+if __name__ == "__main__":
+    main()
