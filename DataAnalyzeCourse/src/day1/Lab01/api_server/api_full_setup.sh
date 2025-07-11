@@ -1331,30 +1331,42 @@ NGINX_CONF_MAIN="/etc/nginx/nginx.conf"
 
 if ! grep -q "log_format $LOG_FORMAT_NAME" $NGINX_CONF_MAIN; then
     echo "Adding custom_json log format to NGINX configuration..."
-    sed -i "/http {/a \
-        log_format $LOG_FORMAT_NAME escape=json '{\\n\
-            \"timestamp\":\"\$time_local\",\\n\
-            \"remote_addr\":\"\$remote_addr\",\\n\
-            \"request\":\"\$request_method \$uri \$server_protocol\",\\n\
-            \"status\":\"\$status\",\\n\
-            \"body_bytes_sent\":\"\$body_bytes_sent\",\\n\
-            \"http_referer\":\"\$http_referer\",\\n\
-            \"http_user_agent\":\"\$http_user_agent\",\\n\
-            \"session_id\":\"\$cookie_session_id\",\\n\
-            \"user_id\":\"\$cookie_user_id\",\\n\
-            \"region\":\"\$http_x_region\",\\n\
-            \"device\":\"\$http_x_device\",\\n\
-            \"request_time\":\"\$request_time\",\\n\
-            \"upstream_response_time\":\"\$upstream_response_time\",\\n\
-            \"endpoint\":\"\$uri\",\\n\
-            \"method\":\"\$request_method\",\\n\
-            \"query_params\":\"\$args\",\\n\
-            \"product_id\":\"\$arg_id\",\\n\
-            \"category\":\"\$http_x_category\",\\n\
-            \"x_forwarded_for\":\"\$http_x_forwarded_for\",\\n\
-            \"host\":\"\$host\"\\n\
-        }';" $NGINX_CONF_MAIN
-    echo "custom_json log format added successfully."
+    sed -i "/http {/a \\
+    \ \ map \$time_iso8601 \$ts_hour { \\
+    \ \ \ \ ~T(\\d\\d): \$1; \\
+    };\\
+    \\n    map \$ts_hour \$time_segment { \\
+    \ \ \ \ 00 night; 01 night; 02 night; 03 night; 04 night; 05 night; \\
+    \ \ \ \ 06 morning; 07 morning; 08 morning; 09 morning; 10 morning; 11 morning; \\
+    \ \ \ \ 12 afternoon; 13 afternoon; 14 afternoon; 15 afternoon; 16 afternoon; 17 afternoon; \\
+    \ \ \ \ 18 evening; 19 evening; 20 evening; 21 evening; 22 evening; 23 evening; \\
+    \ \ \ \ default unknown; \\
+    };\\
+    \\n    log_format $LOG_FORMAT_NAME escape=json '{\\n\
+        \"timestamp\":\"\$time_local\",\\n\
+        \"time_segment\":\"\$time_segment\",\\n\
+        \"remote_addr\":\"\$remote_addr\",\\n\
+        \"request\":\"\$request_method \$uri \$server_protocol\",\\n\
+        \"status\":\"\$status\",\\n\
+        \"body_bytes_sent\":\"\$body_bytes_sent\",\\n\
+        \"http_referer\":\"\$http_referer\",\\n\
+        \"http_user_agent\":\"\$http_user_agent\",\\n\
+        \"session_id\":\"\$cookie_session_id\",\\n\
+        \"user_id\":\"\$cookie_user_id\",\\n\
+        \"region\":\"\$http_x_region\",\\n\
+        \"device\":\"\$http_x_device\",\\n\
+        \"request_time\":\"\$request_time\",\\n\
+        \"upstream_response_time\":\"\$upstream_response_time\",\\n\
+        \"endpoint\":\"\$uri\",\\n\
+        \"method\":\"\$request_method\",\\n\
+        \"query_params\":\"\$args\",\\n\
+        \"product_id\":\"\$arg_id\",\\n\
+        \"category\":\"\$http_x_category\",\\n\
+        \"dwell_time\":\"\$http_x_dwell_time\",\\n\
+        \"x_forwarded_for\":\"\$http_x_forwarded_for\",\\n\
+        \"host\":\"\$host\"\\n\
+    }';" "$NGINX_CONF_MAIN"
+    echo "Maps and custom_json log format added successfully."
 else
     echo "custom_json log format already exists. Skipping addition."
 fi
