@@ -56,3 +56,35 @@ api:
 age_threshold:
   young: 25
   middle: 50
+  
+regions:
+  - "US"
+  - "AU"
+  - "KR"
+  - "UK"
+  
+device_types:
+  - "Mobile"
+  - "PC"
+  
+dwell_time_range:
+  min: 2.0
+  max: 10.0
+  
+time_segments:
+  morning:
+    start: 6
+    end: 12
+    factor_range: [0.8, 1.0]
+  afternoon:
+    start: 12
+    end: 18
+    factor_range: [1.0, 1.3]
+  evening:
+    start: 18
+    end: 24
+    factor_range: [1.2, 1.5]
+  night:
+    start: 0
+    end: 6
+    factor_range: [0.3, 0.6]
