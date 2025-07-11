@@ -449,13 +449,22 @@ def perform_logged_sub_action(session: requests.Session,
 
     elif sub_state == "Login_Sub_CartAdd":
         pid = pick_preferred_product_id(gender, age_segment)
-        qty = random.randint(1,5)     
-        
+        qty = random.randint(1, 5)
+        cat = get_category_for_product(pid)
+
         payload = {"id": pid, "quantity": str(qty)}
+        headers.update({
+            "X-Product-Id": pid,
+            "X-Quantity": str(qty),
+            "X-Category": cat,
+        })
         try:
-            add_url = config.API_URL_WITH_HTTP + config.API_ENDPOINTS["CART_ADD"]
-            r = session.post(add_url, data=payload, headers=headers)
-            logging.info(f"[{user_unique_id}] POST /cart/add (pid={pid}, qty={qty}) => {r.status_code}")
+            r = session.post(
+                config.API_URL_WITH_HTTP + config.API_ENDPOINTS["CART_ADD"],
+                data=payload,
+                headers=headers
+            )
+            logging.info(f"[{user_unique_id}] POST /cart/add id={pid}, qty={qty} => {r.status_code}")
         except Exception as e:
             logging.error(f"[{user_unique_id}] Login_Sub_CartAdd error: {e}")
 
@@ -470,10 +479,20 @@ def perform_logged_sub_action(session: requests.Session,
                     chosen_item = random.choice(items)
                     rid = chosen_item["product_id"]
                     rqty = random.randint(1, chosen_item["quantity"])
-                    remove_payload = {"product_id": rid, "quantity": rqty}
-                    remove_url = config.API_URL_WITH_HTTP + config.API_ENDPOINTS["CART_REMOVE"]
-                    rr = session.post(remove_url, data=remove_payload, headers=headers)
-                    logging.info(f"[{user_unique_id}] POST /cart/remove (pid={rid}, qty={rqty}) => {rr.status_code}")
+                    cat = get_category_for_product(rid)
+
+                    payload = {"product_id": rid, "quantity": rqty}
+                    headers.update({
+                        "X-Product-Id": rid,
+                        "X-Quantity": str(rqty),
+                        "X-Category": cat,
+                    })
+                    rr = session.post(
+                        config.API_URL_WITH_HTTP + config.API_ENDPOINTS["CART_REMOVE"],
+                        data=payload,
+                        headers=headers
+                    )
+                    logging.info(f"[{user_unique_id}] POST /cart/remove id={rid}, qty={rqty} => {rr.status_code}")
                 else:
                     logging.info(f"[{user_unique_id}] Cart empty => skip remove")
             else:
@@ -566,13 +585,14 @@ def run_user_simulation(user_idx: int):
     gender = random.choice(["F", "M"])
     age = random.randint(18,70)
     
+    # 지역만 사용하도록 변경: timezone 로직 제거
     region = random.choice(config.REGIONS)
-    tz_name = REGION_TIMEZONES[region]
-    local_now = datetime.now(ZoneInfo(tz_name))
-    hour = local_now.hour
+    now = datetime.now()
+    hour = now.hour
     
     age_segment = get_age_segment(age)
     
+    # 디바이스 선택 로직
     if age_segment == "young":
         device = random.choices(["PC", "Mobile"], weights=[0.2, 0.8], k=1)[0]
     elif age_segment == "middle":
@@ -589,7 +609,7 @@ def run_user_simulation(user_idx: int):
     })
     
     session.get(config.API_URL_WITH_HTTP)
-        
+    
     user_unique_id = f"user_{uuid.uuid4().hex[:6]}"
     logging.info(f"[{user_unique_id}] Start simulation. gender={gender}, age={age}, region={region}, device={device}")
 
