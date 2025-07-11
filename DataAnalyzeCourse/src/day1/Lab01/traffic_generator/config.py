@@ -59,6 +59,16 @@ API_ENDPOINTS = {k.upper(): v for k, v in config['api']['endpoints'].items()}
 # 요청 간 대기 시간 범위 (초)
 TIME_SLEEP_RANGE = (config['api']['time_sleep_range']['min'], config['api']['time_sleep_range']['max'])
 
+# 지역 및 기기 정보
+REGIONS = config.get('regions', [])
+DEVICE_TYPES = config.get('device_types', [])
+
+# 페이지 체류 시간 범위 (초)
+DWELL_TIME_RANGE = (
+    config['dwell_time_range']['min'],
+    config['dwell_time_range']['max']
+)
+
 # 나이 구간 임계값
 AGE_THRESHOLD_YOUNG = config['age_threshold']['young']
 AGE_THRESHOLD_MIDDLE = config['age_threshold']['middle']
@@ -206,9 +216,7 @@ LOGGED_SUB_TRANSITIONS = {
     # 검색
     "Login_Sub_Search": {
         "Login_Sub_Main": 0.2,
-        # 상품명을 정확하게가 아니라 상품 목록을 검색할 수도 있다. ex)모니터
         "Login_Sub_Products": 0.2,
-        # 카테고리를 검색할 수도 있다. ex) 가전제품, 식품 
         "Login_Sub_Categories": 0.1, 
         "Login_Sub_ViewProduct": 0.3,
         "Login_Sub_Error": 0.1,
@@ -321,3 +329,20 @@ SEARCH_KEYWORDS = [
     "Coffee", "Mouse", "Sneakers", "Bag", "Sunglasses", "Mug",
     "iphon", "labtop", "rayban"
 ]
+
+#################################
+# 시간대 & 부하 계수 설정
+#################################
+_TIME_SEGMENTS_RAW = config.get('time_segments', {})
+
+# 시간대별 (start,end) 튜플
+TIME_SEGMENTS = {
+    name: (seg['start'], seg['end'])
+    for name, seg in _TIME_SEGMENTS_RAW.items()
+}
+
+# 시간대별 부하 계수 튜플
+SEGMENT_FACTORS = {
+    name: tuple(seg['factor_range'])
+    for name, seg in _TIME_SEGMENTS_RAW.items()
+}
