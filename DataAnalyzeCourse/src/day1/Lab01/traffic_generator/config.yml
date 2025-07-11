@@ -1,4 +1,5 @@
-# 공용 설정 파일: config.yml
+# config.yml
+
 pubsub:
   endpoint: "$PUBSUB_ENDPOINT"
   domain_id: "$DOMAIN_ID"
@@ -29,9 +30,15 @@ threads:
   num_users: 10
   max_threads: 5
   actions_per_user: 30
+  pareto_distribution:
+    power_user_ratio: 0.2
+    activity_multiplier: 5.0
+  returning_user_probability: 0.8
 
 api:
-  base_url: "$API_BASE_URL"
+  # 🚨 중요: "$API_BASE_URL"을 실제 실행 중인 API 서버 주소로 변경해야 함
+  # 예: "127.0.0.1:8000"
+  base_url: "210.109.80.40"
   endpoints:
     add_user: "add_user"
     delete_user: "delete_user"
@@ -53,6 +60,44 @@ api:
     min: 0.1
     max: 1.0
 
+flash_sale:
+  probability: 0.05
+  context:
+    sale_event: "flash_sale_2025"
+    discount_pct: 30
+
 age_threshold:
   young: 25
   middle: 50
+
+regions:
+  - "US"
+  - "AU"
+  - "KR"
+  - "UK"
+
+device_types:
+  - "Mobile"
+  - "PC"
+
+dwell_time_range:
+  min: 1.0
+  max: 15.0
+
+time_segments:
+  morning:
+    start: 6
+    end: 12
+    factor_range: [0.8, 1.0]
+  afternoon:
+    start: 12
+    end: 18
+    factor_range: [1.0, 1.3]
+  evening:
+    start: 18
+    end: 24
+    factor_range: [1.2, 1.5]
+  night:
+    start: 0
+    end: 6
+    factor_range: [0.3, 0.6]
