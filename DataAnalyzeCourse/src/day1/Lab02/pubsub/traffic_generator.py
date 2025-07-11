@@ -6,8 +6,9 @@ import time
 import random
 import uuid
 import logging
-
 import argparse
+from datetime import datetime
+from zoneinfo import ZoneInfo
 
 # 현재 스크립트의 디렉토리 경로 가져오기
 current_dir = os.path.dirname(os.path.abspath(__file__))
@@ -50,6 +51,24 @@ def parse_args():
     return parser.parse_args()
 
 #################################
+# 페이지 체류 시간 범위 (초)
+#################################
+TIME_SEGMENTS   = config.TIME_SEGMENTS
+SEGMENT_FACTORS = config.SEGMENT_FACTORS
+DWELL_TIME_RANGE = config.DWELL_TIME_RANGE
+
+#################################
+# 지역별 시간존
+#################################
+
+REGION_TIMEZONES = {
+    'KR': 'Asia/Seoul',
+    'US': 'America/New_York',
+    'AU': 'Australia/Sydney',
+    'UK': 'Europe/London',
+}
+
+#################################
 # 나이 구간 판단 함수
 #################################
 def get_age_segment(age: int) -> str:
@@ -59,6 +78,23 @@ def get_age_segment(age: int) -> str:
         return "middle"
     else:
         return "old"
+
+#################################
+# 시간대 판단 함수 및 부하 계수
+#################################
+def get_time_segment(hour: int) -> str:
+    """
+    config.TIME_SEGMENTS 에 정의된 구간 중
+    hour 가 속한 segment(name)를 리턴
+    """
+    for segment, (start, end) in TIME_SEGMENTS.items():
+        # 일반적인 구간 (start < end)
+        if start < end and start <= hour < end:
+            return segment
+        # 자정을 넘기는 구간 (start > end)
+        if start > end and (hour >= start or hour < end):
+            return segment
+    return "night"
 
 #################################
 # 상품/카테고리 데이터 가져오기
@@ -144,14 +180,16 @@ def get_category_for_product(pid: str) -> str:
 #################################
 # 실제 회원가입/로그인/로그아웃/탈퇴 시도
 #################################
-def try_register(session: requests.Session, user_id: str, gender: str, age_segment: str) -> bool:
+def try_register(session: requests.Session, user_id: str, gender: str, age_segment: str, region: str, device: str) -> bool:
     headers = {"Accept": "application/json"}
     payload = {
         "user_id": user_id,
         "name": f"TestUser_{user_id}",
         "email": f"{user_id}@example.com",
         "gender": gender,
-        "age": str(random.randint(18, 70))
+        "age": str(random.randint(18, 70)),
+        "region": region,
+        "device": device
     }
     try:
         url = config.API_URL_WITH_HTTP + config.API_ENDPOINTS["ADD_USER"]
@@ -288,8 +326,10 @@ def perform_anon_sub_action(session: requests.Session, user_unique_id: str, sub_
         except Exception as err:
             logging.error(f"[{user_unique_id}] error page fail: {err}")
     
-    # 사용자 행동 사이의 대기 추가        
-    time.sleep(random.uniform(0.5, 1.0))
+    # 페이지 체류 시간 로직     
+    dwell_time = random.uniform(*DWELL_TIME_RANGE)
+    session.headers.update({'X-Dwell-Time': f"{dwell_time:.2f}"})
+    time.sleep(dwell_time)
 
 #################################
 # 로그인 하위 FSM
@@ -469,8 +509,10 @@ def perform_logged_sub_action(session: requests.Session,
         except Exception as e:
             logging.error(f"[{user_unique_id}] Login_Sub_Error => {e}")
             
-    # 사용자 행동 사이의 대기 추가
-    time.sleep(random.uniform(0.5, 1.0))
+    # 페이지 체류 시간 로직
+    dwell_time = random.uniform(*DWELL_TIME_RANGE)
+    session.headers.update({'X-Dwell-Time': f"{dwell_time:.2f}"})
+    time.sleep(dwell_time)
 
 #################################
 # do_top_level_action_and_confirm
@@ -481,14 +523,16 @@ def do_top_level_action_and_confirm(
     proposed_next: str,
     user_id: str,
     gender: str,
-    age_segment: str
+    age_segment: str,
+    region: str,
+    device: str
 ) -> str:
     """
     실제 API 호출로 회원가입/로그인/로그아웃/탈퇴 시도.
     성공 => proposed_next 반환, 실패 시 현재 상태 유지.
     """
     if current_state == "Anon_NotRegistered" and proposed_next == "Anon_Registered":
-        ok = try_register(session, user_id, gender, age_segment)
+        ok = try_register(session, user_id, gender, age_segment, region, device)
         return "Anon_Registered" if ok else "Anon_NotRegistered"
 
     if current_state == "Anon_Registered" and proposed_next == "Logged_In":
@@ -518,13 +562,36 @@ def do_top_level_action_and_confirm(
 #################################
 def run_user_simulation(user_idx: int):
     session = requests.Session()
-    session.get(config.API_URL_WITH_HTTP) 
+    
     gender = random.choice(["F", "M"])
     age = random.randint(18,70)
+    
+    region = random.choice(config.REGIONS)
+    tz_name = REGION_TIMEZONES[region]
+    local_now = datetime.now(ZoneInfo(tz_name))
+    hour = local_now.hour
+    
     age_segment = get_age_segment(age)
+    
+    if age_segment == "young":
+        device = random.choices(["PC", "Mobile"], weights=[0.2, 0.8], k=1)[0]
+    elif age_segment == "middle":
+        device = random.choice(["PC", "Mobile"])
+    else:
+        device = random.choices(["PC", "Mobile"], weights=[0.8, 0.2], k=1)[0]
 
+    segment = get_time_segment(hour)
+
+    session.headers.update({
+        "X-Region": region,
+        "X-Device": device,
+        "X-Time-Segment": segment
+    })
+    
+    session.get(config.API_URL_WITH_HTTP)
+        
     user_unique_id = f"user_{uuid.uuid4().hex[:6]}"
-    logging.info(f"[{user_unique_id}] Start simulation. gender={gender}, age={age}")
+    logging.info(f"[{user_unique_id}] Start simulation. gender={gender}, age={age}, region={region}, device={device}")
 
     current_state = "Anon_NotRegistered"
     transition_count = 0
@@ -556,7 +623,9 @@ def run_user_simulation(user_idx: int):
             proposed_next=proposed_next,
             user_id=user_unique_id,
             gender=gender,
-            age_segment=age_segment
+            age_segment=age_segment,
+            region=region,
+            device=device
         )
         if actual_next != current_state:
             logging.info(f"[{user_unique_id}] => confirmed next: {actual_next}")
@@ -627,45 +696,26 @@ def launch_traffic(num_users, max_threads, time_sleep_range):
     config.MAX_THREADS     = orig_max_threads
     config.TIME_SLEEP_RANGE = orig_time_sleep_range
 
-
+# main
 if __name__ == "__main__":
     args = parse_args()
     if args.mode == "once":
         launch_traffic(config.NUM_USERS, config.MAX_THREADS, config.TIME_SLEEP_RANGE)
         print("[Done] Single traffic launch completed.")
     else:
-        # continuous 모드: 1시간 단위로 '적음(light)', '평균(normal)', '몰림(heavy)' 순서 랜덤 배치하여 실행
-        patterns = ["light", "normal", "heavy"]
+        spawn_batch = config.NUM_USERS     # 예: 10명
+        interval = 5                       # 사이클 간 5초 대기
+
         while True:
-            random.shuffle(patterns)
-            for pattern in patterns:
-                # 1) 패턴별 기본 부하 계수 범위 정의
-                if pattern == "light":
-                    base_factor_min, base_factor_max = 0.5, 0.8
-                elif pattern == "normal":
-                    base_factor_min, base_factor_max = 0.8, 1.2
-                else:  # heavy
-                    base_factor_min, base_factor_max = 1.2, 1.5
 
-                # 2) 사용자 수·스레드 수 랜덤 결정
-                factor      = random.uniform(base_factor_min, base_factor_max)
-                num_users   = max(1, int(config.NUM_USERS   * factor))
-                max_threads = max(1, int(config.MAX_THREADS * factor))
+            logging.info(f"Spawning batch of {spawn_batch} users across random regions")
+            # launch_traffic 호출 시 config.REGIONS 건드리지 않음!
+            # 내부 run_user_simulation() 에서 각자 random.choice(config.REGIONS) 사용
+            launch_traffic(
+                num_users=spawn_batch,
+                max_threads=config.MAX_THREADS,
+                time_sleep_range=config.TIME_SLEEP_RANGE
+            )
 
-                # 3) 액션 딜레이 범위에도 ±20% jitter 적용
-                base_min, base_max = config.TIME_SLEEP_RANGE
-                sleep_min = base_min * random.uniform(0.8, 1.2)
-                sleep_max = base_max * random.uniform(0.8, 1.2)
-                time_range = (sleep_min, sleep_max)
-
-                logging.info(
-                    f"[Continuous][{pattern}] users={num_users}, "
-                    f"threads={max_threads}, sleep_range=({sleep_min:.2f},{sleep_max:.2f})"
-                )
-
-                # 4) 트래픽 실행 (1시간 분량)
-                launch_traffic(num_users, max_threads, time_range)
-
-                # 5) 다음 패턴까지 5초 대기
-                logging.info(f"[Continuous][{pattern}] done. sleeping 5s before next pattern")
-                time.sleep(5)
+            logging.info(f"Batch done. Sleeping for {interval}s before next batch")
+            time.sleep(interval)
