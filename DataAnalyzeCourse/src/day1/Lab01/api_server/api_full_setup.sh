@@ -280,7 +280,29 @@ def home():
     session_id = get_or_create_session_id()
     resp.set_cookie('session_id', session_id)
     return resp
-
+    
+# 사용자 존재 확인 엔드포인트 추가
+@app.route('/users/<user_id>/exists', methods=['GET'])
+def check_user_exists(user_id):
+    """사용자 존재 여부 확인"""
+    try:
+        conn = get_db_connection()
+        cursor = conn.cursor()
+        
+        cursor.execute("SELECT user_id FROM users WHERE user_id = %s", (user_id,))
+        user = cursor.fetchone()
+        
+        cursor.close()
+        conn.close()
+        
+        if user:
+            return jsonify({"exists": True, "user_id": user_id}), 200
+        else:
+            return jsonify({"exists": False, "user_id": user_id}), 200
+            
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+        
 @app.route('/push-subscription', methods=['POST'])
 def push_subscription():
     """
