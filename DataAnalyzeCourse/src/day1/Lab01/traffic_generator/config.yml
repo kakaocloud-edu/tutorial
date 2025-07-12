@@ -1,39 +1,37 @@
-# Enhanced E-commerce Traffic Generator Configuration
-# 시계열 트래픽, 파레토 분포, 특가 세일 등 개선된 기능 포함
-
+# 공용 설정 파일: config.yml
 pubsub:
-  endpoint: "${PUBSUB_ENDPOINT}"
-  domain_id: "${DOMAIN_ID}"
-  project_id: "${PROJECT_ID}"
-  topic_name: "${TOPIC_NAME}"
-  topic_name_mk: "${TOPIC_NAME_MK}"
-  topic_description: "Enhanced e-commerce traffic logs"
+  endpoint: "$PUBSUB_ENDPOINT"
+  domain_id: "$DOMAIN_ID"
+  project_id: "$PROJECT_ID"
+  topic_name: "$TOPIC_NAME"
+  topic_name_mk: "$TOPIC_NAME_MK"
+  topic_description: ""
   topic_retention_duration: "600s"
-  sub_name: "${SUB_NAME}"
-  credential_id: "${CREDENTIAL_ID}"
-  credential_secret: "${CREDENTIAL_SECRET}"
+  sub_name: "$SUB_NAME"
+  credential_id: "$CREDENTIAL_ID"
+  credential_secret: "$CREDENTIAL_SECRET"
 
 object_storage_subscription:
-  name: "${OSS_SUB_NAME}"
-  bucket: "${OSS_BUCKET}"
+  name: "$OBJECT_STORAGE_SUBSCRIPTION_NAME"
+  bucket: "$OBJECT_STORAGE_BUCKET"
   export_interval_min: 10
-  file_prefix: "enhanced_traffic_"
+  file_prefix: ""
   file_suffix: ".log"
   channel_count: 4
   max_channel_count: 10
   is_export_enabled: true
 
 logging:
-  filename: "enhanced_traffic_generator.log"
+  filename: "traffic_generator.log"
   level: "INFO"
 
 threads:
-  num_users: 20              # 시뮬레이션 사용자 수 (증가)
-  max_threads: 8             # 동시 스레드 제한 (증가)
-  actions_per_user: 25       # 개인별 기본 액션 횟수
+  num_users: 10
+  max_threads: 5
+  actions_per_user: 30
 
 api:
-  base_url: "${API_BASE_URL}"
+  base_url: "210.109.80.40"
   endpoints:
     add_user: "add_user"
     delete_user: "delete_user"
@@ -51,277 +49,10 @@ api:
     checkout: "checkout"
     add_review: "add_review"
     error_page: "error"
-    wishlist: "wishlist"
-    recommendations: "recommendations"
   time_sleep_range:
-    min: 0.5
-    max: 2.0
+    min: 0.1
+    max: 1.0
 
 age_threshold:
   young: 25
   middle: 50
-
-regions:
-  - "KR"
-  - "US"
-  - "JP"
-  - "CN"
-  - "UK"
-  - "DE"
-  - "FR"
-  - "AU"
-
-device_types:
-  - "Mobile"
-  - "PC"
-  - "Tablet"
-
-dwell_time_range:
-  min: 1.0
-  max: 15.0
-
-# 시간대별 트래픽 가중치
-time_segments:
-  dawn:                    # 새벽 (0-6시)
-    start: 0
-    end: 6
-    factor_range: [0.2, 0.4]
-  
-  morning:                 # 아침 (6-9시)
-    start: 6
-    end: 9
-    factor_range: [0.6, 0.9]
-  
-  work_morning:            # 오전 업무시간 (9-12시)
-    start: 9
-    end: 12
-    factor_range: [0.8, 1.1]
-  
-  lunch:                   # 점심시간 (12-14시)
-    start: 12
-    end: 14
-    factor_range: [1.3, 1.6]
-  
-  afternoon:               # 오후 (14-18시)
-    start: 14
-    end: 18
-    factor_range: [1.0, 1.3]
-  
-  evening:                 # 저녁 (18-21시)
-    start: 18
-    end: 21
-    factor_range: [1.4, 1.8]
-  
-  night:                   # 밤 (21-24시)
-    start: 21
-    end: 24
-    factor_range: [1.1, 1.4]
-
-# 개선된 기능 설정
-enhanced_features:
-  # 파레토 분포 설정
-  pareto_distribution:
-    enabled: true
-    alpha: 1.16              # 파레토 분포 모수 (작을수록 불균등)
-    min_actions: 1           # 최소 액션 수
-    max_multiplier: 3.0      # 최대 액션 수 배수
-  
-  # 사용자 재사용 설정
-  user_reuse:
-    enabled: true
-    probability: 0.35        # 35% 확률로 기존 유저 재사용
-    max_existing_users: 1000 # 최대 기존 유저 수
-    returning_user_multiplier: 1.2  # 재방문 유저 세션 길이 배수
-  
-  # 특가 세일 이벤트
-  sale_events:
-    enabled: true
-    
-    morning_flash_sale:      # 아침 플래시 세일
-      start_hour: 9
-      start_minute: 0
-      end_hour: 11
-      end_minute: 0
-      discount_rate: 0.4
-      max_quantity: 200
-      categories: ["Electronics", "Fashion"]
-      urgency_multiplier: 1.5  # 구매 확률 증가
-    
-    lunch_deal:              # 점심 특가
-      start_hour: 12
-      start_minute: 0
-      end_hour: 14
-      end_minute: 0
-      discount_rate: 0.25
-      max_quantity: 150
-      categories: ["Home", "Books", "Food"]
-      urgency_multiplier: 1.2
-    
-    evening_sale:            # 저녁 세일
-      start_hour: 18
-      start_minute: 0
-      end_hour: 20
-      end_minute: 0
-      discount_rate: 0.3
-      max_quantity: 300
-      categories: ["Gaming", "Electronics", "Fashion"]
-      urgency_multiplier: 1.4
-    
-    weekend_mega_sale:       # 주말 메가 세일
-      days: ["Saturday", "Sunday"]
-      start_hour: 10
-      start_minute: 0
-      end_hour: 22
-      end_minute: 0
-      discount_rate: 0.5
-      max_quantity: 1000
-      categories: ["All"]
-      urgency_multiplier: 2.0
-  
-  # 사용자 참여도 레벨
-  engagement_levels:
-    weights: [0.25, 0.55, 0.20]  # [낮음, 보통, 높음] 비율
-    
-    low:
-      action_probability: 0.7
-      dwell_multiplier: 0.6
-      purchase_probability: 0.1
-    
-    normal:
-      action_probability: 1.0
-      dwell_multiplier: 1.0
-      purchase_probability: 0.3
-    
-    high:
-      action_probability: 1.4
-      dwell_multiplier: 1.6
-      purchase_probability: 0.6
-  
-  # 현실적 체류 시간
-  realistic_dwell_times:
-    enabled: true
-    use_lognormal: true      # 로그정규분포 사용
-    
-    # 페이지별 체류 시간 (초)
-    page_specific:
-      main: 
-        min: 2.0
-        max: 12.0
-        mean_log: 1.8
-      
-      product_list:
-        min: 3.0
-        max: 25.0
-        mean_log: 2.2
-      
-      product_detail:
-        min: 8.0
-        max: 120.0
-        mean_log: 3.0
-      
-      cart:
-        min: 5.0
-        max: 30.0
-        mean_log: 2.5
-      
-      checkout:
-        min: 15.0
-        max: 300.0
-        mean_log: 4.2
-      
-      search:
-        min: 2.0
-        max: 20.0
-        mean_log: 2.0
-      
-      category:
-        min: 3.0
-        max: 35.0
-        mean_log: 2.4
-  
-  # 개인화 추천
-  personalization:
-    enabled: true
-    
-    # 구매 이력 기반 추천 확률
-    purchase_history_weight: 0.4
-    
-    # 연령대/성별 선호도 가중치
-    demographic_weight: 0.3
-    
-    # 세션 내 행동 기반 가중치
-    session_behavior_weight: 0.3
-    
-    # 추천 상품 클릭 확률 증가
-    recommendation_click_multiplier: 2.5
-  
-  # 에러 및 예외 상황
-  error_simulation:
-    enabled: true
-    
-    # 서버 에러 확률
-    server_error_probability: 0.02
-    
-    # 네트워크 타임아웃 확률
-    timeout_probability: 0.01
-    
-    # 결제 실패 확률
-    payment_failure_probability: 0.05
-    
-    # 재고 부족 확률
-    out_of_stock_probability: 0.03
-
-# 고급 시나리오 설정
-advanced_scenarios:
-  # 계절성 이벤트
-  seasonal_events:
-    enabled: true
-    
-    black_friday:
-      date_range: ["11-24", "11-30"]
-      traffic_multiplier: 3.0
-      conversion_multiplier: 2.5
-    
-    christmas:
-      date_range: ["12-20", "12-25"]
-      traffic_multiplier: 2.0
-      gift_category_boost: ["Electronics", "Fashion", "Books"]
-    
-    new_year:
-      date_range: ["12-31", "01-03"]
-      traffic_multiplier: 1.5
-      health_category_boost: ["Fitness", "Books"]
-  
-  # A/B 테스트 시뮬레이션
-  ab_testing:
-    enabled: true
-    
-    # 사용자를 A/B 그룹으로 분할
-    test_variants:
-      - name: "checkout_flow_a"
-        percentage: 50
-        conversion_multiplier: 1.0
-      
-      - name: "checkout_flow_b"
-        percentage: 50
-        conversion_multiplier: 1.15
-  
-  # 모바일 vs 데스크톱 행동 차이
-  device_behavior:
-    mobile:
-      session_length_multiplier: 0.8
-      bounce_rate_multiplier: 1.3
-      conversion_rate_multiplier: 0.9
-      preferred_categories: ["Fashion", "Electronics"]
-    
-    pc:
-      session_length_multiplier: 1.2
-      bounce_rate_multiplier: 0.8
-      conversion_rate_multiplier: 1.1
-      preferred_categories: ["Electronics", "Home", "Books"]
-    
-    tablet:
-      session_length_multiplier: 1.0
-      bounce_rate_multiplier: 1.0
-      conversion_rate_multiplier: 1.0
-      preferred_categories: ["Books", "Home", "Entertainment"]
