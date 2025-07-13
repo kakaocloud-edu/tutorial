@@ -30,7 +30,9 @@ fi
 
 echo "kakaocloud: 4. Git 클론 시작"
 cd /home/ubuntu || { echo "kakaocloud: /home/ubuntu 디렉토리 이동 실패"; exit 1; }
-git clone https://github.com/kakaocloud-edu/tutorial.git /home/ubuntu/tutorial || { echo "kakaocloud: Git 클론 실패"; exit 1; }
+git clone --branch tg_lsh_per --single-branch \
+    https://github.com/kakaocloud-edu/tutorial.git /home/ubuntu/tutorial \
+    || { echo "kakaocloud: Git 클론 실패"; exit 1; }
 
 cp -r /home/ubuntu/tutorial/DataAnalyzeCourse /home/ubuntu/ || { echo "kakaocloud: DataAnalyzeCourse 복사 실패"; exit 1; }
 
