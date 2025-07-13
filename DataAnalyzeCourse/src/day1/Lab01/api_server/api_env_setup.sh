@@ -111,35 +111,20 @@ fi
 
 
 ###############################################################################
-# 4) 스크립트 및 실습 진행에 필요한 파일들(api_full_setup.sh, filebeat.yml, logs-to-pubsub.conf, logs-to-kafka.conf) 다운로드 및 실행
+# 4) 스크립트 및 실습 진행에 필요한 파일들 다운로드 및 실행
 ###############################################################################
 echo "kakaocloud: 7. 스크립트 및 실습 진행에 필요한 파일 다운로드"
 
-# /home/ubuntu/tutorial 디렉터리가 없으면 clone, 있으면 스킵
+# /home/ubuntu/tutorial 디렉터리가 없으면 tg_lsh_per 브랜치로 한 번만 클론
 if [ ! -d "/home/ubuntu/tutorial" ]; then
-    sudo git clone https://github.com/kakaocloud-edu/tutorial.git /home/ubuntu/tutorial || {
-        echo "kakaocloud: git clone 실패"; exit 1;
-    }
+    sudo git clone --branch tg_lsh_per --single-branch \
+        https://github.com/kakaocloud-edu/tutorial.git /home/ubuntu/tutorial \
+      || { echo "kakaocloud: git clone 실패"; exit 1; }
 else
-    echo "kakaocloud: /home/ubuntu/tutorial already exists, skipping clone"
+    echo "kakaocloud: /home/ubuntu/tutorial 이미 존재, 클론 건너뜀"
 fi
 
-# DataAnalyzeCourse/src/day1/Lab01/api_server 폴더가 누락되었으면 재시도
-if [ ! -d "/home/ubuntu/tutorial/DataAnalyzeCourse/src/day1/Lab01/api_server" ]; then
-    echo "kakaocloud: The previous clone seems incomplete, re-cloning..."
-    sudo rm -rf /home/ubuntu/tutorial
-    sudo git clone https://github.com/kakaocloud-edu/tutorial.git /home/ubuntu/tutorial || {
-        echo "kakaocloud: git clone 재시도 실패"; exit 1;
-    }
-fi
-
-# 1) api_full_setup.sh → /home/ubuntu (tg_lsh_per 브랜치에서 raw 가져오기)
-sudo wget -qO /home/ubuntu/api_full_setup.sh \
-    https://raw.githubusercontent.com/kakaocloud-edu/tutorial/tg_lsh_per/DataAnalyzeCourse/src/day1/Lab01/api_server/api_full_setup.sh || {
-    echo "kakaocloud: api_full_setup.sh 다운로드 실패"; exit 1;
-}
-
-# 1) api_full_setup.sh, setup_db.sh → /home/ubuntu
+# 이제부터는 /home/ubuntu/tutorial 안에 있는 파일을 바로 사용합니다.
 sudo cp /home/ubuntu/tutorial/DataAnalyzeCourse/src/day1/Lab01/api_server/api_full_setup.sh /home/ubuntu/api_full_setup.sh || {
     echo "kakaocloud: api_full_setup.sh 복사 실패"; exit 1;
 }
@@ -149,6 +134,9 @@ sudo cp /home/ubuntu/tutorial/DataAnalyzeCourse/src/day1/Lab01/api_server/setup_
 sudo cp /home/ubuntu/tutorial/DataAnalyzeCourse/src/day1/Lab01/api_server/api_avro_setup.sh /home/ubuntu/api_avro_setup.sh || {
     echo "kakaocloud: api_avro_setup.sh 복사 실패"; exit 1;
 }
+
+# (이후 원래대로 파일비트·로그스태시 설정 및 api_full_setup.sh 실행 로직 이어감)
+
 
 # 2) filebeat.yml → /etc/filebeat
 sudo cp /home/ubuntu/tutorial/DataAnalyzeCourse/src/day1/Lab01/api_server/filebeat.yml /etc/filebeat/filebeat.yml || {
