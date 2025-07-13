@@ -34,7 +34,7 @@ APP_DIR="/var/www/flask_app"
 log "Setting up Flask application in $APP_DIR..."
 run_command mkdir -p $APP_DIR
 
-cat > $APP_DIR/app.py <<'EOL'
+cat > $APP_DIR/app.py <<EOL
 from flask import Flask, request, make_response, jsonify
 import uuid, time, random, mysql.connector, json
 from datetime import datetime
