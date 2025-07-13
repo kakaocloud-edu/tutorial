@@ -133,12 +133,6 @@ if [ ! -d "/home/ubuntu/tutorial/DataAnalyzeCourse/src/day1/Lab01/api_server" ];
     }
 fi
 
-# 0) tutorial 레포를 tg_lsh_per 브랜치로 클론
-sudo git clone --branch tg_lsh_per --single-branch \
-    https://github.com/kakaocloud-edu/tutorial.git /home/ubuntu/tutorial || {
-    echo "kakaocloud: git clone 실패"; exit 1;
-}
-
 # 1) api_full_setup.sh, setup_db.sh → /home/ubuntu
 sudo cp /home/ubuntu/tutorial/DataAnalyzeCourse/src/day1/Lab01/api_server/api_full_setup.sh /home/ubuntu/api_full_setup.sh || {
     echo "kakaocloud: api_full_setup.sh 복사 실패"; exit 1;
