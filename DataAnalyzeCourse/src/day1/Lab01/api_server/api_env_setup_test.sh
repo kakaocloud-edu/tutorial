@@ -125,7 +125,7 @@ else
 fi
 
 # 이제부터는 /home/ubuntu/tutorial 안에 있는 파일을 바로 사용합니다.
-sudo cp /home/ubuntu/tutorial/DataAnalyzeCourse/src/day1/Lab01/api_server/api_full_setup_test.sh /home/ubuntu/api_full_setup.sh || {
+sudo cp /home/ubuntu/tutorial/DataAnalyzeCourse/src/day1/Lab01/api_server/api_full_setup_test.sh /home/ubuntu/api_full_setup_test.sh || {
     echo "kakaocloud: api_full_setup.sh 복사 실패"; exit 1;
 }
 sudo cp /home/ubuntu/tutorial/DataAnalyzeCourse/src/day1/Lab01/api_server/setup_db.sh /home/ubuntu/setup_db.sh || {
