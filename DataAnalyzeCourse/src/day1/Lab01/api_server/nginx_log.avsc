@@ -17,7 +17,7 @@
     { "name": "product_id",            "type": ["null","string"],    "default": null },
     { "name": "quantity",              "type": ["null","int"],       "default": null },
     { "name": "search_term",           "type": ["null","string"],    "default": null },
-    { "name": "review_rating",         "type": ["null","int"],       "default": null }
+    { "name": "review_rating",         "type": ["null","int"],       "default": null },
     { "name": "status",                "type": ["null","int"],       "default": null },
     { "name": "request_time",          "type": ["null","double"],    "default": null },
     { "name": "http_user_agent",       "type": "string" }
