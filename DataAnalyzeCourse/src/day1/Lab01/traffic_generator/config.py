@@ -223,7 +223,6 @@ DEMOGRAPHIC_DISTRIBUTION = {
     'genders': {
         'M': 0.48,
         'F': 0.50,
-        'Other': 0.02
     },
     'regions': {
         'Seoul': 0.20,
