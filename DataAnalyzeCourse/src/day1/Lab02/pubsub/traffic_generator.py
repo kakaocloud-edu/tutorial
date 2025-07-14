@@ -2,7 +2,7 @@
 """
 traffic_generator.py
 
-백엔드 오류 무시 - product_id 누락 문제 해결된 트래픽 생성기
+실제 백엔드 API 연동 트래픽 생성기
 """
 
 import os
@@ -205,7 +205,7 @@ class TrafficGenerator:
         )
         
         self.session = requests.Session()
-        self.session.timeout = 5  # 타임아웃 단축
+        self.session.timeout = 10
         self.running = False
         self.threads = []
         self.request_count = 0
@@ -234,6 +234,19 @@ class TrafficGenerator:
                     'rating': round(random.uniform(3.0, 5.0), 1)
                 }
         return products
+    
+    def check_user_exists(self, user_id):
+        """실제 백엔드 API로 사용자 존재 여부 확인"""
+        try:
+            url = f"{self.base_url}users/{user_id}/exists"
+            response = self.session.get(url, timeout=5)
+            if response.status_code == 200:
+                data = response.json()
+                return data.get('exists', False)
+            return False
+        except Exception as e:
+            logger.error(f"Error checking user existence for {user_id}: {e}")
+            return False
     
     def get_time_based_traffic_multiplier(self):
         """시간대별 트래픽 가중치 계산"""
@@ -305,7 +318,7 @@ class TrafficGenerator:
             return ['Home', 'Books', 'Fashion']
     
     def _make_request(self, method, endpoint_key, user_session, **kwargs):
-        """HTTP 요청 실행 - 백엔드 오류 무시"""
+        """HTTP 요청 실행"""
         
         # API_ENDPOINTS에서 실제 엔드포인트 가져오기
         endpoint = self.endpoints.get(endpoint_key.upper(), endpoint_key)
@@ -380,71 +393,62 @@ class TrafficGenerator:
         
         kwargs['headers'] = headers
         kwargs['cookies'] = cookies
-        kwargs['timeout'] = 5
+        kwargs['timeout'] = 10
         
         start_time = time.time()
         
         try:
-            # 백엔드 오류 무시 - 무조건 요청만 보냄
             response = self.session.request(method, url, **kwargs)
             response_time = time.time() - start_time
             
             with self.lock:
                 self.request_count += 1
-                # 에러 카운팅도 무시
-                
-            # 세션 통계 업데이트 (응답 코드 무관)
+                if response.status_code >= 400:
+                    self.error_count += 1
+            
+            # 세션 통계 업데이트
             self._update_session_stats(user_session, endpoint_key, response)
             
             return response
             
         except requests.RequestException as e:
             response_time = time.time() - start_time
-            # 에러 로깅도 최소화
+            logger.error(f"Request failed for {endpoint_key}: {e}")
             
             with self.lock:
                 self.request_count += 1
+                self.error_count += 1
             
-            # 가짜 성공 응답 반환
-            return self._create_success_response()
-    
-    def _create_success_response(self):
-        """가짜 성공 응답 생성"""
-        class MockResponse:
-            def __init__(self):
-                self.status_code = 200
-                self.text = "OK"
-                
-        return MockResponse()
+            return None
     
     def _update_session_stats(self, user_session, endpoint_key, response):
-        """세션 통계 업데이트 - 응답 코드 무관"""
+        """세션 통계 업데이트"""
         
-        # 무조건 성공으로 간주하고 통계 업데이트
-        if endpoint_key.lower() in ['products', 'categories', 'category']:
-            user_session.page_views += 1
-        
-        elif endpoint_key.lower() == 'search':
-            user_session.searches += 1
-        
-        elif endpoint_key.lower() == 'product_detail':
-            # URL에서 product_id 추출 시도
-            try:
-                if hasattr(response, 'request') and response.request.url:
-                    import urllib.parse
-                    parsed = urllib.parse.urlparse(response.request.url)
-                    params = urllib.parse.parse_qs(parsed.query)
-                    if 'id' in params:
-                        product_id = params['id'][0]
-                        user_session.visited_products.append(product_id)
-            except:
-                pass
-        
-        elif endpoint_key.lower() == 'cart_add':
-            user_session.cart_adds += 1
-        
-        elif endpoint_key.lower() == 'checkout':
-            user_session.purchases += 1
+        if response and response.status_code < 400:
+            if endpoint_key.lower() in ['products', 'categories', 'category']:
+                user_session.page_views += 1
+            
+            elif endpoint_key.lower() == 'search':
+                user_session.searches += 1
+            
+            elif endpoint_key.lower() == 'product_detail':
+                # URL에서 product_id 추출 시도
+                try:
+                    if hasattr(response, 'request') and response.request.url:
+                        import urllib.parse
+                        parsed = urllib.parse.urlparse(response.request.url)
+                        params = urllib.parse.parse_qs(parsed.query)
+                        if 'id' in params:
+                            product_id = params['id'][0]
+                            user_session.visited_products.append(product_id)
+                except:
+                    pass
+            
+            elif endpoint_key.lower() == 'cart_add':
+                user_session.cart_adds += 1
+            
+            elif endpoint_key.lower() == 'checkout':
+                user_session.purchases += 1
         
         user_session.action_count += 1
     
@@ -525,8 +529,8 @@ class TrafficGenerator:
             self._browse_products(user_session)
         elif sub_state == "Login_Sub_ViewProduct":
             self._view_product_detail(user_session)
-            # 상품 조회 후 즉시 장바구니 추가 시도 (50% 확률)
-            if random.random() < 0.5:
+            # 상품 조회 후 즉시 장바구니 추가 시도 (60% 확률)
+            if random.random() < 0.6:
                 self._add_to_cart(user_session)
         elif sub_state == "Login_Sub_Search":
             self._perform_search(user_session)
@@ -540,8 +544,8 @@ class TrafficGenerator:
             self._view_checkout_history(user_session)
         elif sub_state == "Login_Sub_CartAdd":
             self._add_to_cart(user_session)
-            # 장바구니 추가 후 즉시 결제 시도 (70% 확률)
-            if random.random() < 0.7:
+            # 장바구니 추가 후 즉시 결제 시도 (75% 확률)
+            if random.random() < 0.75:
                 self._checkout(user_session)
         elif sub_state == "Login_Sub_CartRemove":
             self._remove_from_cart(user_session)
@@ -574,9 +578,10 @@ class TrafficGenerator:
         time.sleep(dwell_time)
     
     def _view_product_detail(self, user_session):
-        """상품 상세 조회"""
+        """상품 상세 조회 - product_id를 URL 파라미터로 전달"""
         product_id = random.choice(list(self.products_cache.keys()))
         
+        # URL 파라미터로 product_id 전달 (Nginx $arg_id로 캡처)
         response = self._make_request('GET', 'product_detail', user_session, 
                                     params={'id': product_id})
         
@@ -620,7 +625,7 @@ class TrafficGenerator:
         search_term = random.choice(SEARCH_KEYWORDS)
         
         response = self._make_request('GET', 'search', user_session, 
-                                    params={'query': search_term})
+                                    params={'q': search_term})
         
         user_session.searches += 1
         user_session.search_terms.append(search_term)
@@ -648,7 +653,7 @@ class TrafficGenerator:
         time.sleep(dwell_time)
     
     def _add_to_cart(self, user_session):
-        """장바구니에 상품 추가 - product_id URL 파라미터 추가"""
+        """장바구니에 상품 추가 - product_id를 URL 파라미터로 전달"""
         if user_session.visited_products:
             product_id = random.choice(user_session.visited_products)
         else:
@@ -668,15 +673,15 @@ class TrafficGenerator:
                                     json=cart_data,
                                     params={'id': product_id})
         
-        # 백엔드 오류 무시하고 무조건 성공으로 간주
-        user_session.cart_items.append(cart_data)
-        user_session.cart_adds += 1
+        if response and response.status_code < 400:
+            user_session.cart_items.append(cart_data)
+            user_session.cart_adds += 1
         
         dwell_time = random.uniform(*self.time_sleep_range)
         time.sleep(dwell_time)
     
     def _remove_from_cart(self, user_session):
-        """장바구니에서 상품 제거 - product_id URL 파라미터 추가"""
+        """장바구니에서 상품 제거 - product_id를 URL 파라미터로 전달"""
         if user_session.cart_items:
             item_to_remove = random.choice(user_session.cart_items)
             product_id = item_to_remove['product_id']
@@ -686,8 +691,8 @@ class TrafficGenerator:
                                         json={'product_id': product_id},
                                         params={'id': product_id})
             
-            # 백엔드 오류 무시하고 무조건 제거
-            user_session.cart_items.remove(item_to_remove)
+            if response and response.status_code < 400:
+                user_session.cart_items.remove(item_to_remove)
         
         dwell_time = random.uniform(*self.time_sleep_range)
         time.sleep(dwell_time)
@@ -704,22 +709,22 @@ class TrafficGenerator:
             
             response = self._make_request('POST', 'checkout', user_session, json=checkout_data)
             
-            # 백엔드 오류 무시하고 무조건 성공으로 간주
-            user_session.purchases += 1
-            user_session.total_spent += total_amount
-            user_session.user_profile.total_purchases += 1
-            
-            # 구매한 상품을 구매 이력에 추가
-            for item in user_session.cart_items:
-                user_session.user_profile.purchase_history.append(item['product_id'])
-            
-            user_session.cart_items.clear()
+            if response and response.status_code < 400:
+                user_session.purchases += 1
+                user_session.total_spent += total_amount
+                user_session.user_profile.total_purchases += 1
+                
+                # 구매한 상품을 구매 이력에 추가
+                for item in user_session.cart_items:
+                    user_session.user_profile.purchase_history.append(item['product_id'])
+                
+                user_session.cart_items.clear()
         
         dwell_time = random.uniform(*self.time_sleep_range)
         time.sleep(dwell_time)
     
     def _add_review(self, user_session):
-        """리뷰 작성 - product_id URL 파라미터 추가"""
+        """리뷰 작성 - product_id를 URL 파라미터로 전달"""
         if user_session.user_profile.purchase_history:
             product_id = random.choice(user_session.user_profile.purchase_history)
         else:
@@ -759,6 +764,8 @@ class TrafficGenerator:
         
         dwell_time = random.uniform(*self.time_sleep_range)
         time.sleep(dwell_time)
+        
+        return response and response.status_code < 400
     
     def _perform_logout(self, user_session):
         """로그아웃 수행"""
@@ -766,9 +773,18 @@ class TrafficGenerator:
         
         dwell_time = random.uniform(*self.time_sleep_range)
         time.sleep(dwell_time)
+        
+        return response and response.status_code < 400
     
     def _perform_registration(self, user_session):
-        """회원가입 수행"""
+        """회원가입 수행 - 실제 백엔드 확인"""
+        # 먼저 사용자 존재 여부 확인
+        exists = self.check_user_exists(user_session.user_id)
+        
+        if exists:
+            logger.info(f"User {user_session.user_id} already exists")
+            return True
+        
         register_data = {
             'user_id': user_session.user_id,
             'name': f"User_{user_session.user_id[-4:]}",
@@ -781,6 +797,11 @@ class TrafficGenerator:
         
         dwell_time = random.uniform(*self.time_sleep_range)
         time.sleep(dwell_time)
+        
+        success = response and response.status_code in [200, 201, 409]  # 409는 이미 존재
+        if success:
+            logger.info(f"User {user_session.user_id} registration successful")
+        return success
     
     def _perform_unregistration(self, user_session):
         """회원탈퇴 수행"""
@@ -789,21 +810,27 @@ class TrafficGenerator:
         
         dwell_time = random.uniform(*self.time_sleep_range)
         time.sleep(dwell_time)
+        
+        return response and response.status_code < 400
     
     def _execute_guaranteed_purchase_flow(self, user_session):
-        """보장된 구매 플로우 - 무조건 구매까지 진행"""
+        """보장된 구매 플로우"""
         logger.info(f"Guaranteed purchase flow for {user_session.user_id}")
         
-        # 1. 로그인
+        # 1. 사용자 등록 (필요시)
+        if not self.check_user_exists(user_session.user_id):
+            self._perform_registration(user_session)
+        
+        # 2. 로그인
         self._perform_login(user_session)
         
-        # 2. 상품 조회
+        # 3. 상품 조회
         self._view_product_detail(user_session)
         
-        # 3. 장바구니 추가
+        # 4. 장바구니 추가
         self._add_to_cart(user_session)
         
-        # 4. 즉시 결제
+        # 5. 즉시 결제
         self._checkout(user_session)
         
         logger.info(f"Guaranteed purchase completed: {user_session.purchases} purchases")
@@ -817,8 +844,8 @@ class TrafficGenerator:
         self.user_pool.mark_user_active(user_id)
         
         try:
-            # 30% 확률로 보장된 구매 플로우 실행
-            if random.random() < 0.3:
+            # 40% 확률로 보장된 구매 플로우 실행
+            if random.random() < 0.4:
                 self._execute_guaranteed_purchase_flow(user_session)
                 return
             
@@ -846,31 +873,37 @@ class TrafficGenerator:
                             
                             engagement_config = USER_ENGAGEMENT_LEVELS[user_profile.engagement_level]
                             sleep_time = random.uniform(*self.time_sleep_range) * random.uniform(*engagement_config['sleep_multiplier'])
-                            time.sleep(min(sleep_time, 2.0))  # 최대 2초로 제한
+                            time.sleep(min(sleep_time, 2.0))
                     
                     elif current_state == "Anon_Registered":
-                        self._perform_registration(user_session)
-                        user_session.action_count += 1
+                        if self._perform_registration(user_session):
+                            user_session.action_count += 1
+                        else:
+                            # 회원가입 실패시 종료
+                            current_state = "Done"
                     
                     elif current_state == "Logged_In":
-                        self._perform_login(user_session)
-                        user_session.action_count += 1
-                        
-                        current_sub_state = "Login_Sub_Initial"
-                        sub_transitions = LOGGED_SUB_TRANSITIONS
-                        
-                        sub_action_count = 0
-                        while current_sub_state and "Done" not in current_sub_state and user_session.action_count < max_actions and sub_action_count < 10:
-                            self._execute_sub_action(current_sub_state, user_session)
-                            user_session.current_sub_state = current_sub_state
+                        if self._perform_login(user_session):
                             user_session.action_count += 1
-                            sub_action_count += 1
                             
-                            current_sub_state = self._get_next_sub_state(current_sub_state, user_session, sub_transitions)
+                            current_sub_state = "Login_Sub_Initial"
+                            sub_transitions = LOGGED_SUB_TRANSITIONS
                             
-                            engagement_config = USER_ENGAGEMENT_LEVELS[user_profile.engagement_level]
-                            sleep_time = random.uniform(*self.time_sleep_range) * random.uniform(*engagement_config['sleep_multiplier'])
-                            time.sleep(min(sleep_time, 2.0))  # 최대 2초로 제한
+                            sub_action_count = 0
+                            while current_sub_state and "Done" not in current_sub_state and user_session.action_count < max_actions and sub_action_count < 10:
+                                self._execute_sub_action(current_sub_state, user_session)
+                                user_session.current_sub_state = current_sub_state
+                                user_session.action_count += 1
+                                sub_action_count += 1
+                                
+                                current_sub_state = self._get_next_sub_state(current_sub_state, user_session, sub_transitions)
+                                
+                                engagement_config = USER_ENGAGEMENT_LEVELS[user_profile.engagement_level]
+                                sleep_time = random.uniform(*self.time_sleep_range) * random.uniform(*engagement_config['sleep_multiplier'])
+                                time.sleep(min(sleep_time, 2.0))
+                        else:
+                            # 로그인 실패시 이전 상태 유지
+                            pass
                     
                     elif current_state == "Logged_Out":
                         self._perform_logout(user_session)
@@ -984,7 +1017,7 @@ def main():
         while True:
             time.sleep(30)
             stats = generator.get_stats()
-            logger.info(f"Stats: Requests={stats['total_requests']}, "
+            logger.info(f"Stats: Requests={stats['total_requests']}, Errors={stats['total_errors']}, "
                        f"Pool={stats['user_pool']['pool_size']}, Active={stats['user_pool']['active_sessions']}, "
                        f"Created={stats['user_pool']['total_created']}, Reused={stats['user_pool']['total_reused']}")
             
