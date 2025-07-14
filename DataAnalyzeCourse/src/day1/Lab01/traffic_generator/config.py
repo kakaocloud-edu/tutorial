@@ -221,7 +221,7 @@ DEMOGRAPHIC_DISTRIBUTION = {
         '56+': 0.05
     },
     'genders': {
-        'M': 0.48,
+        'M': 0.50,
         'F': 0.50,
     },
     'regions': {
@@ -394,11 +394,8 @@ FSM_TRANSITIONS = {
 #################################
 ANON_SUB_TRANSITIONS = {
     "Anon_Sub_Initial": {
-        "Anon_Sub_Main": 1.0,
-        "Anon_Sub_Products": 0.2,
-        "Anon_Sub_Categories": 0.2,
-        "Anon_Sub_Search": 0.2,
-        "Anon_Sub_Done": 0.2
+        "Anon_Sub_Main": 0.9,
+        "Anon_Sub_Error": 0.1
     },
     "Anon_Sub_Main": {
         "Anon_Sub_Main": 0.1,
