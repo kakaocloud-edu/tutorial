@@ -31,7 +31,7 @@ threads:
   actions_per_user: 30
 
 api:
-  base_url: "210.109.80.40"
+  base_url: "$API_BASE_URL"
   endpoints:
     add_user: "add_user"
     delete_user: "delete_user"
