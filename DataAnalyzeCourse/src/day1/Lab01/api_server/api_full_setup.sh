@@ -942,28 +942,30 @@ if ! grep -q "log_format $LOG_FORMAT_NAME" $NGINX_CONF_MAIN; then
     sed -i "/http {/a \
         log_format $LOG_FORMAT_NAME escape=json '{\\n\
             \"timestamp\":\"\$time_local\",\\n\
-            \"remote_addr\":\"\$remote_addr\",\\n\
-            \"request\":\"\$request_method \$uri \$server_protocol\",\\n\
-            \"status\":\"\$status\",\\n\
-            \"body_bytes_sent\":\"\$body_bytes_sent\",\\n\
-            \"http_referer\":\"\$http_referer\",\\n\
-            \"http_user_agent\":\"\$http_user_agent\",\\n\
+            \"event_id\":\"\$http_x_event_id\",\\n\
+            \"event_name\":\"\$http_x_event_name\",\\n\
+            \"user_id\":\"\$http_x_user_id\",\\n\
             \"session_id\":\"\$cookie_session_id\",\\n\
-            \"user_id\":\"\$cookie_user_id\",\\n\
-            \"request_time\":\"\$request_time\",\\n\
-            \"upstream_response_time\":\"\$upstream_response_time\",\\n\
-            \"endpoint\":\"\$uri\",\\n\
-            \"method\":\"\$request_method\",\\n\
-            \"query_params\":\"\$args\",\\n\
+            \"session_index\":\"\$cookie_session_idx\",\\n\
+            \"is_return_visitor\":\"\$cookie_is_return\",\\n\
+            \"region\":\"\$http_x_region\",\\n\
+            \"device\":\"\$http_x_device\",\\n\
+            \"page_url\":\"\$scheme://\$host\$request_uri\",\\n\
+            \"dwell_time_seconds\":\"\$http_x_dwell_time\",\\n\
             \"product_id\":\"\$arg_id\",\\n\
-            \"category\":\"\$http_x_category\",\\n\
-            \"x_forwarded_for\":\"\$http_x_forwarded_for\",\\n\
-            \"host\":\"\$host\"\\n\
+            \"quantity\":\"\$http_x_quantity\",\\n\
+            \"search_term\":\"\$arg_query\",\\n\
+            \"review_rating\":\"\$http_x_review_rating\",\\n\
+            \"event_context\":\"\$http_x_event_context\",\\n\
+            \"status\":\"\$status\",\\n\
+            \"request_time\":\"\$request_time\",\\n\
+            \"http_user_agent\":\"\$http_user_agent\"\\n\
         }';" $NGINX_CONF_MAIN
     echo "custom_json log format added successfully."
 else
     echo "custom_json log format already exists. Skipping addition."
 fi
+
 
 
 NGINX_CONF="/etc/nginx/sites-available/flask_app"
