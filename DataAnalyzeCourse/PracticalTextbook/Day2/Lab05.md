@@ -3,11 +3,16 @@
 Hadoop Eco의 Hive를 활용하여 이미 만들어진 Nginx 로그 데이터 테이블과 MySQL 데이터 테이블을 사용하여 Aggregated 테이블을 생성합니다.
 
 ---
-## 1. Hive에서 aggregated_logs 테이블 생성
+## 1. Hadoop-Eco 마스터 노드 접속
+
+1. 카카오 클라우드 콘솔 > Beyond Compute Service > Virtual Machine
+2. `HadoopMST-core-hadoop-1` 인스턴스의 `private ip` 복사 및 클립보드 등에 붙여넣기
+
+## 2. Hive에서 aggregated_logs 테이블 생성
 
 1. 사용하던 `HadoopMST-core-hadoop-1`에서 hive에 접속
 
-    #### **lab5-1-1**
+    #### **lab5-2-1**
 
     ```bash
     hive
@@ -17,7 +22,7 @@ Hadoop Eco의 Hive를 활용하여 이미 만들어진 Nginx 로그 데이터 �
 
     - LOCATION에 `{HadoopMST-core-hadoop-1 private ip주소}` 입력
 
-    #### **lab5-1-2**
+    #### **lab5-2-2**
 
     ```bash
     CREATE TABLE IF NOT EXISTS aggregated_logs (
@@ -38,7 +43,7 @@ Hadoop Eco의 Hive를 활용하여 이미 만들어진 Nginx 로그 데이터 �
 
     - Hive 메타스토어에 저장된 테이블 정보를 Hadoop Eco와 공유해주는 HCatalog 코어 라이브러리 추가 
 
-    #### **lab5-1-3**
+    #### **lab5-2-3**
 
     ```bash
     ADD JAR /opt/apache-hive-3.1.3-bin/lib/hive-hcatalog-core-3.1.3.jar;
@@ -46,7 +51,7 @@ Hadoop Eco의 Hive를 활용하여 이미 만들어진 Nginx 로그 데이터 �
 
 4. aggregated_logs 테이블에 데이터 적재
 
-    #### **lab5-1-4**
+    #### **lab5-2-4**
 
     ```bash
     INSERT OVERWRITE TABLE aggregated_logs
@@ -110,7 +115,7 @@ Hadoop Eco의 Hive를 활용하여 이미 만들어진 Nginx 로그 데이터 �
 
 5. aggregated_logs 테이블에 적재된 데이터 결과 확인
 
-    #### **lab5-1-5**
+    #### **lab5-2-5**
 
     ```bash
     select * from aggregated_logs limit 10;
@@ -125,7 +130,7 @@ Hadoop Eco의 Hive를 활용하여 이미 만들어진 Nginx 로그 데이터 �
     - **Note**: HDFS는 원시 형태의 다양한 데이터를 저장해두는 분산 스토리지 계층이자 데이터 레이크이다.
     - `HDFS 경로` 복사 후 클립보드 등에 붙여넣기
 
-    #### **lab5-1-6**
+    #### **lab5-2-6**
 
     ```bash
     SET hive.metastore.warehouse.dir;
@@ -141,7 +146,7 @@ Hadoop Eco의 Hive를 활용하여 이미 만들어진 Nginx 로그 데이터 �
 
     - `HDFS 경로`로 `{hive.metastore.warehouse.dir}` 수정
 
-    #### **lab5-1-8**
+    #### **lab5-2-8**
 
     ```bash
     hdfs dfs -ls {hive.metastore.warehouse.dir}
