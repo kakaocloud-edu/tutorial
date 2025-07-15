@@ -204,7 +204,7 @@ Hadoop 클러스터 환경에서 실시간 스트리밍 데이터와 배치 데�
     **lab7-3-2**
     
     ```bash
-    sed -i 's/BOOTSTRAP_SERVERS/{실제 Kafka 클러스터 부트스트랩 서버값}/g' streaming_data_processor.py
+    sed -i 's/KAFKA_BOOTSTRAP_SERVERS/{실제 Kafka 클러스터 부트스트랩 서버값}/g' streaming_data_processor.py
     ```
 
     **lab7-3-2-2**
