@@ -57,7 +57,7 @@ sudo mkdir -p /etc/logstash/schema || {
 }
 
 sudo cp /home/ubuntu/tutorial/DataAnalyzeCourse/src/day1/Lab01/api_server/nginx.avsc /etc/logstash/schema/nginx.avsc || {
-    echo "kakaocloud: nginx_log.avsc 복사 실패"; exit 1;
+    echo "kakaocloud: nginx.avsc 복사 실패"; exit 1;
 }
 sudo cp /home/ubuntu/tutorial/DataAnalyzeCourse/src/day1/Lab01/api_server/logs-to-kafka.conf /etc/logstash/conf.d/logs-to-kafka.conf || {
     echo "kakaocloud: logs-to-kafka.conf 복사 실패"; exit 1;
