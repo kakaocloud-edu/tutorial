@@ -3,7 +3,7 @@
 Hadoop Eco의 Hive를 활용하여 이미 만들어진 Nginx 로그 데이터 테이블과 MySQL 데이터 테이블을 사용하여 Aggregated 테이블을 생성합니다.
 
 ---
-## 1. Hadoop-Eco 마스터 노드 접속
+## 1. Hadoop-Eco 마스터 노드 정보 조회
 
 1. 카카오 클라우드 콘솔 > Beyond Compute Service > Virtual Machine
 2. `HadoopMST-core-hadoop-1` 인스턴스의 `private ip` 복사 및 클립보드 등에 붙여넣기
