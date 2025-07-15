@@ -56,7 +56,7 @@ app = Flask(__name__)
 DB_CONFIG = {
     'user': 'admin',
     'password': 'admin1234',
-    'host': 'az-a.db-lsh.ae90ddc1b6dc4b0581bb44b31f8921b5.mysql.managed-service.kr-central-2.kakaocloud.com',
+    'host': '${MYSQL_HOST}',
     'database': 'shopdb',
     'ssl_disabled': True
 }
