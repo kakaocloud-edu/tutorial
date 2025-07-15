@@ -56,7 +56,7 @@ app = Flask(__name__)
 DB_CONFIG = {
     'user': 'admin',
     'password': 'admin1234',
-    'host': '${MYSQL_HOST}',
+    'host': 'az-a.db-lsh.ae90ddc1b6dc4b0581bb44b31f8921b5.mysql.managed-service.kr-central-2.kakaocloud.com',
     'database': 'shopdb',
     'ssl_disabled': True
 }
@@ -812,6 +812,41 @@ def products():
     except Exception as e:
         logger.error(f"상품 목록 에러: {e}")
         return jsonify({"error": "상품 목록 실패"}), 500
+    
+@app.route('/product', methods=['GET'])
+def product_detail():
+    """상품 상세 조회 - 단순 버전"""
+    try:
+        product_id = request.args.get('id')
+        
+        if not product_id:
+            return jsonify({'error': 'Product ID required'}), 400
+        
+        # 단순히 해당 상품만 조회
+        result = safe_execute("""
+            SELECT id, name, price, category 
+            FROM products 
+            WHERE id = %s
+        """, (product_id,), fetch=True)
+        
+        if not result:
+            return jsonify({'error': 'Product not found'}), 404
+        
+        row = result[0]
+        product_data = {
+            'id': row[0],
+            'name': row[1],
+            'price': float(row[2]),
+            'category': row[3]
+        }
+        
+        logger.info(f"Product 상세 조회 완료: {product_id}")
+        return jsonify(product_data), 200
+        
+    except Exception as e:
+        logger.error(f"Product 상세 조회 실패: {e}")
+        return jsonify({'error': 'Database error'}), 500
+
 
 @app.route('/users/<user_id>/exists')
 def check_user_exists(user_id):
