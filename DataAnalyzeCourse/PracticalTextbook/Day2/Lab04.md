@@ -61,24 +61,25 @@ Hadoop Eco의 Hive를 활용하여 Nginx 로그 데이터와 MySQL 데이터를 
 
     ```bash
     CREATE EXTERNAL TABLE IF NOT EXISTS external_nginx_log (
-      `timestamp`              STRING,
-      remote_addr              STRING,
-      request                  STRING,
-      status                   STRUCT<member0:INT, member1:INT>,
-      body_bytes_sent          STRUCT<member0:BIGINT, member1:BIGINT>,
-      http_referer             STRING,
-      http_user_agent          STRING,
-      session_id               STRING,
-      user_id                  STRING,
-      request_time             STRUCT<member0:DOUBLE, member1:DOUBLE>,
-      upstream_response_time   STRUCT<member0:DOUBLE, member1:DOUBLE>,
-      endpoint                 STRING,
-      method                   STRING,
-      query_params             STRING,
-      product_id               STRING,
-      request_body             STRING,
-      x_forwarded_for          STRING,
-      host                     STRING
+      `timestamp`          STRING,
+      event_id             STRING,
+      event_name           STRING,
+      user_id              STRING,
+      session_id           STRING,
+      session_index        STRING,
+      is_return_visitor    STRING,
+      region               STRING,
+      device               STRING,
+      page_url             STRING,
+      dwell_time_seconds   STRING,
+      product_id           STRING,
+      quantity             STRING,
+      search_term          STRING,
+      review_rating        STRING,
+      event_context        STRING,
+      status               STRING,
+      request_time         STRING,
+      http_user_agent      STRING
     )
     STORED AS PARQUET
     LOCATION 's3a://data-catalog-bucket/kafka-nginx-log/nginx-topic/';
@@ -98,29 +99,31 @@ Hadoop Eco의 Hive를 활용하여 Nginx 로그 데이터와 MySQL 데이터를 
 
     ```bash
     SELECT
-      remote_addr,
-      request,
-      method,
-      status.member1               AS http_status,
-      body_bytes_sent.member1      AS bytes_sent,
-      request_time.member1         AS resp_time,
-      upstream_response_time.member1 AS up_resp_time,
-      CAST(`timestamp` AS TIMESTAMP) AS event_time,
-      http_referer,
-      session_id,
+      `timestamp`,
+      event_id,
+      event_name,
       user_id,
-      query_params,
+      session_id,
+      session_index,
+      is_return_visitor,
+      region,
+      device,
+      page_url,
+      dwell_time_seconds,
       product_id,
-      x_forwarded_for,
-      host,
-      http_user_agent,
-      endpoint
+      quantity,
+      search_term,
+      review_rating,
+      event_context,
+      status,
+      request_time,
+      http_user_agent
     FROM external_nginx_log
     LIMIT 10;
     ```
     - 아래와 같은 형식의 내용 확인
     
-    ![1 external table 확인v1](https://github.com/user-attachments/assets/01a54ded-cb90-47fd-b57d-ce2c59206ccc)
+    - (사진 넣을 예정)
 
 5. mysql_users 테이블 생성
 
@@ -357,20 +360,18 @@ Hadoop Eco의 Hive를 활용하여 Nginx 로그 데이터와 MySQL 데이터를 
 
     ```bash
     SELECT
-      COUNT(DISTINCT CASE WHEN endpoint = '/login' THEN session_id END) AS login_sessions,
+      COUNT(DISTINCT CASE WHEN event_name = 'login' THEN session_id END) AS login_sessions,
       COUNT(DISTINCT session_id) AS total_sessions,
       CONCAT(
         CAST(
           ROUND(
-            (COUNT(DISTINCT CASE WHEN endpoint = '/login' THEN session_id END) * 1.0 
-             / COUNT(DISTINCT session_id)) * 100,
-          2
-          ) AS STRING
+            COUNT(DISTINCT CASE WHEN event_name = 'login' THEN session_id END) * 100.0
+            / COUNT(DISTINCT session_id)
+          , 2) AS STRING
         ), '%'
       ) AS login_rate
     FROM external_nginx_log
-    WHERE endpoint = '/login'
-       OR endpoint IS NOT NULL;
+    WHERE session_id IS NOT NULL AND session_id <> '';
     ```
     
     ![쿼리1](https://github.com/user-attachments/assets/7350f02b-7ee8-4f6d-83cd-6bf601c93333)
@@ -383,11 +384,13 @@ Hadoop Eco의 Hive를 활용하여 Nginx 로그 데이터와 MySQL 데이터를 
 
     ```bash
     SELECT
-      regexp_extract(query_params, 'query=([^&]+)', 1) AS keyword,
+      regexp_extract(page_url, 'search\\?q=([^&]+)', 1) AS keyword,
       COUNT(*) AS frequency
     FROM external_nginx_log
-    WHERE endpoint = '/search'
-    GROUP BY regexp_extract(query_params, 'query=([^&]+)', 1)
+    WHERE event_name = 'search'
+      AND page_url RLIKE 'search\\?q='
+    GROUP BY regexp_extract(page_url, 'search\\?q=([^&]+)', 1)
+    HAVING keyword <> ''
     ORDER BY frequency DESC;
     ```
     
@@ -401,16 +404,16 @@ Hadoop Eco의 Hive를 활용하여 Nginx 로그 데이터와 MySQL 데이터를 
 
     ```bash
     WITH product_views AS (
-      SELECT 
-        CAST(product_id AS STRING) AS product_id, 
+      SELECT
+        product_id,
         COUNT(*) AS view_count
       FROM external_nginx_log
-      WHERE endpoint = '/product'
+      WHERE event_name = 'product_view'
       GROUP BY product_id
     ),
     product_orders AS (
-      SELECT 
-        product_id, 
+      SELECT
+        product_id,
         COUNT(*) AS order_count
       FROM hive_orders_flat
       GROUP BY product_id
@@ -421,7 +424,7 @@ Hadoop Eco의 Hive를 활용하여 Nginx 로그 데이터와 MySQL 데이터를 
       COALESCE(po.order_count, 0) AS order_count,
       (pv.view_count + COALESCE(po.order_count, 0)) AS popularity_score
     FROM product_views pv
-    LEFT JOIN product_orders po 
+    LEFT JOIN product_orders po
       ON pv.product_id = po.product_id
     ORDER BY popularity_score DESC
     LIMIT 10;
@@ -437,13 +440,13 @@ Hadoop Eco의 Hive를 활용하여 Nginx 로그 데이터와 MySQL 데이터를 
 
     ```bash
     SELECT
-      from_unixtime(unix_timestamp(CAST(CAST(`timestamp` AS TIMESTAMP) AS STRING), 'yyyy-MM-dd HH:mm:ss'), 'yyyy-MM-dd') AS dt,
-      hour(from_unixtime(unix_timestamp(CAST(CAST(`timestamp` AS TIMESTAMP) AS STRING), 'yyyy-MM-dd HH:mm:ss'))) AS hour_of_day,
-      COUNT(*) AS page_views
+      date_format(CAST(`timestamp` AS TIMESTAMP), 'yyyy-MM-dd') AS dt,
+      hour(CAST(`timestamp` AS TIMESTAMP))              AS hour_of_day,
+      COUNT(*)                                         AS page_views
     FROM external_nginx_log
     GROUP BY
-      from_unixtime(unix_timestamp(CAST(CAST(`timestamp` AS TIMESTAMP) AS STRING), 'yyyy-MM-dd HH:mm:ss'), 'yyyy-MM-dd'),
-      hour(from_unixtime(unix_timestamp(CAST(CAST(`timestamp` AS TIMESTAMP) AS STRING), 'yyyy-MM-dd HH:mm:ss')))
+      date_format(CAST(`timestamp` AS TIMESTAMP), 'yyyy-MM-dd'),
+      hour(CAST(`timestamp` AS TIMESTAMP))
     ORDER BY dt, hour_of_day;
     ```
     
@@ -457,8 +460,8 @@ Hadoop Eco의 Hive를 활용하여 Nginx 로그 데이터와 MySQL 데이터를 
     #### **lab4-4-6**
 
     ```bash
-    SELECT 
-      format_number(ROUND(SUM(price * quantity), 2), 2) AS total_sales
+    SELECT
+      format_number( ROUND(SUM(price * quantity), 2), 2 ) AS total_sales
     FROM hive_orders_flat
     WHERE order_ts BETWEEN '2025-01-01' AND '2025-12-31';
     ```
@@ -477,11 +480,13 @@ Hadoop Eco의 Hive를 활용하여 Nginx 로그 데이터와 MySQL 데이터를 
       ROUND(SUM(o.price * o.quantity), 2) AS category_sales,
       CONCAT(
         CAST(
-          ROUND(SUM(o.price * o.quantity) / total.total_sales * 100, 2) AS STRING
+          ROUND(
+            SUM(o.price * o.quantity) / total.total_sales * 100
+          , 2) AS STRING
         ), '%'
       ) AS sales_ratio
     FROM hive_orders_flat o
-    JOIN hive_products_flat p 
+    JOIN hive_products_flat p
       ON o.product_id = p.product_id
     CROSS JOIN (
       SELECT SUM(price * quantity) AS total_sales
@@ -502,10 +507,11 @@ Hadoop Eco의 Hive를 활용하여 Nginx 로그 데이터와 MySQL 데이터를 
     WITH user_path AS (
       SELECT
         session_id,
-        MAX(CASE WHEN endpoint = '/home' THEN 1 ELSE 0 END)     AS visited_home,
-        MAX(CASE WHEN endpoint = '/cart/view' THEN 1 ELSE 0 END) AS viewed_product,
-        MAX(CASE WHEN endpoint = '/cart/add' THEN 1 ELSE 0 END)  AS added_to_cart,
-        MAX(CASE WHEN endpoint = '/login' THEN 1 ELSE 0 END)     AS logged_in
+        MAX(CASE WHEN event_name = 'page_view'
+                   AND regexp_extract(page_url,'https?://[^/]+(/[^?]+)',1) = '/' THEN 1 ELSE 0 END) AS visited_home,
+        MAX(CASE WHEN event_name = 'product_view' THEN 1 ELSE 0 END)   AS viewed_product,
+        MAX(CASE WHEN event_name = 'add_to_cart'  THEN 1 ELSE 0 END)   AS added_to_cart,
+        MAX(CASE WHEN event_name = 'login'        THEN 1 ELSE 0 END)   AS logged_in
       FROM external_nginx_log
       GROUP BY session_id
     ),
@@ -521,7 +527,7 @@ Hadoop Eco의 Hive를 활용하여 Nginx 로그 데이터와 MySQL 데이터를 
       up.logged_in,
       CASE WHEN p.session_id IS NOT NULL THEN 1 ELSE 0 END AS purchased
     FROM user_path up
-    LEFT JOIN user_purchase p 
+    LEFT JOIN user_purchase p
       ON up.session_id = p.session_id;
     ```
     
@@ -550,8 +556,8 @@ Hadoop Eco의 Hive를 활용하여 Nginx 로그 데이터와 MySQL 데이터를 
         END AS age_group,
         ROUND(
           COUNT(DISTINCT CASE WHEN p.user_id IS NOT NULL THEN u.user_id END) * 1.0
-          / COUNT(DISTINCT u.user_id),
-        2) AS purchase_rate,
+          / COUNT(DISTINCT u.user_id)
+        , 2) AS purchase_rate,
         CASE
           WHEN u.age < 20 THEN 1
           WHEN u.age BETWEEN 20 AND 29 THEN 2
@@ -598,33 +604,37 @@ Hadoop Eco의 Hive를 활용하여 Nginx 로그 데이터와 MySQL 데이터를 
     #### **lab4-4-10**
 
     ```bash
-    WITH search_sessions AS (
-      SELECT DISTINCT 
-        session_id, 
-        regexp_extract(query_params, 'query=([^&]+)', 1) AS keyword
-      FROM external_nginx_log
-      WHERE endpoint = '/search'
-    ),
-    purchased_sessions AS (
-      SELECT DISTINCT session_id
-      FROM hive_orders_flat
-    )
+    WITH
+      search_sessions AS (
+        SELECT DISTINCT
+          session_id,
+          regexp_extract(page_url, 'search\\?q=([^&]+)', 1) AS keyword
+        FROM external_nginx_log
+        WHERE event_name = 'search'
+          AND page_url RLIKE 'search\\?q='
+          AND session_id <> ''
+      ),
+      purchased_sessions AS (
+        SELECT DISTINCT session_id
+        FROM hive_orders_flat
+        WHERE session_id <> ''
+      )
     SELECT
       s.keyword,
-      COUNT(DISTINCT s.session_id)     AS search_count,
-      COUNT(DISTINCT CASE WHEN p.session_id IS NOT NULL THEN s.session_id END) AS purchase_count,
+      COUNT(DISTINCT s.session_id) AS search_count,
+      COUNT(DISTINCT p.session_id) AS purchase_count,
       CONCAT(
         CAST(
           ROUND(
-            COUNT(DISTINCT CASE WHEN p.session_id IS NOT NULL THEN s.session_id END) * 1.0 
-            / COUNT(DISTINCT s.session_id) * 100, 
-          2
-          ) AS STRING
+            COUNT(DISTINCT p.session_id) * 100.0
+            / COUNT(DISTINCT s.session_id)
+          , 2) AS STRING
         ), '%'
       ) AS conversion_rate
     FROM search_sessions s
-    LEFT JOIN purchased_sessions p 
+    LEFT JOIN purchased_sessions p
       ON s.session_id = p.session_id
+    WHERE s.keyword <> ''
     GROUP BY s.keyword
     ORDER BY conversion_rate DESC;
     ```
@@ -652,14 +662,13 @@ Hadoop Eco의 Hive를 활용하여 Nginx 로그 데이터와 MySQL 데이터를 
       CONCAT(
         CAST(
           ROUND(
-            SUM(CASE WHEN order_count > 1 THEN 1 ELSE 0 END) * 1.0 
-            / COUNT(*) * 100, 
-          2
-          ) AS STRING
+            SUM(CASE WHEN order_count > 1 THEN 1 ELSE 0 END) * 100.0
+            / COUNT(*) 
+          , 2) AS STRING
         ), '%'
       ) AS repeat_purchase_rate
     FROM product_user_orders puo
-    JOIN hive_products_flat p 
+    JOIN hive_products_flat p
       ON puo.product_id = p.product_id
     GROUP BY puo.product_id, p.name;
     ```
@@ -677,7 +686,7 @@ Hadoop Eco의 Hive를 활용하여 Nginx 로그 데이터와 MySQL 데이터를 
       ROUND(AVG(items), 2) AS avg_items_per_order
     FROM (
       SELECT 
-        order_id, 
+        order_id,
         SUM(quantity) AS items
       FROM hive_orders_flat
       GROUP BY order_id
@@ -694,18 +703,22 @@ Hadoop Eco의 Hive를 활용하여 Nginx 로그 데이터와 MySQL 데이터를 
 
     ```bash
     SELECT
-      endpoint,
+      regexp_extract(page_url, 'https?://[^/]+(/[^?]+)', 1) AS endpoint,
       CONCAT(
         CAST(
           ROUND(
-            SUM(CASE WHEN CAST(status.member1 AS INT) >= 400 THEN 1 ELSE 0 END) * 1.0 
-            / COUNT(*) * 100,
-          2
-          ) AS STRING
+            SUM(
+              CASE WHEN CAST(status AS INT) >= 400 THEN 1 ELSE 0 END
+            ) * 100.0
+            / COUNT(*)
+          , 2) AS STRING
         ), '%'
       ) AS error_rate
     FROM external_nginx_log
-    GROUP BY endpoint;
+    WHERE page_url NOT RLIKE '/users/.*/exists'
+    GROUP BY regexp_extract(page_url, 'https?://[^/]+(/[^?]+)', 1)
+    HAVING endpoint <> ''
+    ORDER BY error_rate DESC;
     ``` 
 
     ![쿼리13](https://github.com/user-attachments/assets/985fac64-db10-48d7-bec5-f1173e26fb35)
