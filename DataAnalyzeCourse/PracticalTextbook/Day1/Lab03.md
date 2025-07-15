@@ -424,6 +424,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
         # 기존 리소스 정보
         export KAFKA_BOOTSTRAP_SERVER="{Kafka 부트스트랩 서버}"
         export API_SRV_IP="{API Server의 Public IP}"
+        export USER_UUID="{사용자의 UUID}"
         
         # S3 인증 정보
         export AWS_ACCESS_KEY_ID_VALUE="{콘솔에서 발급한 S3 액세스 키의 인증 키 값}"
@@ -534,7 +535,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     ```bash
     aws s3api put-bucket-acl \
       --bucket data-catalog-bucket \
-      --grant-write 'id="{Lab01에서 복사한 사용자 UUID}"' \
+      --grant-write "id=\"$USER_UUID\"" \
       --endpoint-url https://objectstorage.kr-central-2.kakaocloud.com
     ```
 
