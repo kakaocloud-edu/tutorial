@@ -85,10 +85,11 @@ Data Catalog와 Pub/Sub, Object Storage를 연동하여 테이블을 생성하�
 
 - **Note**: nginx-log 형식
 
-| timestamp           | remote\_addr | request                         | status                            | body\_bytes\_sent                 | http\_referer | http\_user\_agent      | session\_id                          | user\_id     | request\_time                       | upstream\_response\_time            | endpoint           | method | query\_params | product\_id | request\_body | x\_forwarded\_for | host           |
-| ------------------- | ------------ | ------------------------------- | --------------------------------- | --------------------------------- | ------------- | ---------------------- | ------------------------------------ | ------------ | ----------------------------------- | ----------------------------------- | ------------------ | ------ | ------------- | ----------- | ------------- | ----------------- | -------------- |
-| 2025-07-03 02:18:07 | 10.0.3.79    | GET /checkout\_history HTTP/1.1 | {'member0': None, 'member1': 200} | {'member0': None, 'member1': 48}  | NULL          | python-requests/2.25.1 | 9d35856d-0141-4e58-8a51-09f7cb9f1e95 | user\_d2ae43 | {'member0': None, 'member1': 0.014} | {'member0': None, 'member1': 0.008} | /checkout\_history | GET    | NULL          | NULL        | None          | 61.109.237.97     | 61.109.236.101 |
-| 2025-07-03 02:18:08 | 10.0.3.79    | GET /error HTTP/1.1             | {'member0': None, 'member1': 500} | {'member0': None, 'member1': 290} | NULL          | python-requests/2.25.1 | 9d35856d-0141-4e58-8a51-09f7cb9f1e95 | user\_d2ae43 | {'member0': None, 'member1': 0.054} | {'member0': None, 'member1': 0.056} | /error             | GET    | NULL          | NULL        | None          | 61.109.237.97     | 61.109.236.101 |
+| timestamp           | event\_id         | event\_name | user\_id       | session\_id           | region | device  | page\_url                                                  | dwell\_time\_seconds | status | request\_time | http\_user\_agent                                                    |
+| ------------------- | ----------------- | ----------- | -------------- | --------------------- | ------ | ------- | ---------------------------------------------------------- | -------------------- | ------ | ------------- | -------------------------------------------------------------------- |
+| 2025-07-15 03:44:12 | evt\_11b90e32e998 | error\_page | user\_882a0649 | session\_96cee11df8b0 | Seoul  | mobile  | [http://61.109.236.101/error](http://61.109.236.101/error) | 1.23                 | 500    | 0.058         | Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36         |
+| 2025-07-15 03:44:55 | evt\_2330cf5a47b5 | login       | user\_6e00b31a | session\_a90fd8607cb6 | Seoul  | desktop | [http://61.109.236.101/login](http://61.109.236.101/login) | 3.08                 | 200    | 0.005         | Mozilla/5.0 (Macintosh; Intel Mac OS X 10\_15\_7) AppleWebKit/537.36 |
+
 
 
 
