@@ -8,7 +8,7 @@ SCHEMA_REGISTRY_PROP="${CONFLUENT_HOME}/etc/schema-registry/schema-registry.prop
 SYSTEMD_SR_UNIT="/etc/systemd/system/schema-registry.service"
 LOGSTASH_SCHEMA_DIR="/etc/logstash/schema"
 LOGSTASH_CONF="/etc/logstash/conf.d/logs-to-kafka.conf"
-AVSC_FILE="${LOGSTASH_SCHEMA_DIR}/nginx_log.avsc"
+AVSC_FILE="${LOGSTASH_SCHEMA_DIR}/nginx.avsc"
 
 # 1. Java & Confluent 설치
 echo "apt 업데이트 및 Java 설치"
