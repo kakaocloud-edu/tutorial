@@ -58,60 +58,70 @@ Hadoop Eco의 Hive를 활용하여 이미 만들어진 Nginx 로그 데이터 �
     ```bash
     INSERT OVERWRITE TABLE aggregated_logs
     SELECT
+      -- 빈 세션ID는 anonymous
       COALESCE(NULLIF(t.session_id, ''), 'anonymous') AS session_id,
+      -- 빈 user_id는 guest
       COALESCE(NULLIF(t.user_id,    ''), 'guest')     AS user_id,
+      -- 빈 product_id는 'NULL'
       COALESCE(NULLIF(t.product_id, ''), 'NULL')      AS product_id,
     
-      CASE WHEN SUM(CASE WHEN t.src='order' THEN 1 ELSE 0 END) > 0
+      -- 동일 세션·상품 그룹에 order 이벤트가 하나라도 있으면 'order', 아니면 'pageview'
+      CASE WHEN SUM(CASE WHEN t.src = 'order' THEN 1 ELSE 0 END) > 0
            THEN 'order'
            ELSE 'pageview'
       END                                             AS event_type,
     
-      CASE WHEN SUM(CASE WHEN t.src='order' THEN 1 ELSE 0 END) > 0
-           THEN SUM(CASE WHEN t.src='order' THEN 1 ELSE 0 END)
-           ELSE SUM(CASE WHEN t.src='pageview' THEN 1 ELSE 0 END)
+      -- event_type에 따라 해당 이벤트 건수를 합산
+      CASE WHEN SUM(CASE WHEN t.src = 'order' THEN 1 ELSE 0 END) > 0
+           THEN SUM(CASE WHEN t.src = 'order' THEN 1 ELSE 0 END)
+           ELSE SUM(CASE WHEN t.src = 'pageview' THEN 1 ELSE 0 END)
       END                                             AS event_count,
     
+      -- nginx request_time 합계 (order는 항상 0)
       ROUND(SUM(t.request_time), 3)                  AS total_request_time,
     
+      -- 세션 내 최신 타임스탬프
       DATE_FORMAT(MAX(t.log_ts), 'yyyy-MM-dd HH:mm:ss') AS last_active_time,
     
-      SUM(
-        CASE WHEN t.status = 200 THEN 1 ELSE 0 END
-      )                                             AS success_count
+      -- HTTP 200인 응답 수를 success_count로 저장
+      SUM(CASE WHEN t.status = 200 THEN 1 ELSE 0 END) AS success_count
     
     FROM (
+      -- A) nginx 로그 블록: 모든 event_name을 pageview로 취급
       SELECT
         n.session_id,
         n.user_id,
-        CAST(n.product_id AS STRING)           AS product_id,
+        n.product_id,
         'pageview'                             AS src,
-        CAST(n.request_time.member1 AS DOUBLE) AS request_time,
-        CAST(n.`timestamp` AS TIMESTAMP)       AS log_ts,
-        n.status.member1                       AS status
+        CAST(n.request_time  AS DOUBLE)        AS request_time,
+        CAST(n.`timestamp`   AS TIMESTAMP)     AS log_ts,
+        CAST(n.status        AS INT)           AS status
       FROM external_nginx_log n
-      WHERE n.product_id IS NOT NULL
+      WHERE n.session_id  <> ''
+        AND n.product_id  IS NOT NULL
+        AND n.product_id  <> ''
+        AND n.product_id  <> 'NULL'
     
       UNION ALL
     
-      SELECT DISTINCT
+      -- B) MySQL orders CDC 블록: session_id·product_id 매칭 없이 모든 주문 포함
+      SELECT
         o.after.session_id                     AS session_id,
         o.after.user_id                        AS user_id,
         CAST(o.after.product_id AS STRING)     AS product_id,
         'order'                                AS src,
         0.0                                    AS request_time,
-        CAST(from_unixtime(o.after.order_time DIV 1000000) AS TIMESTAMP) AS log_ts,
+        CAST(FROM_UNIXTIME(o.after.order_time DIV 1000000) AS TIMESTAMP) AS log_ts,
         200                                    AS status
       FROM mysql_orders o
-      JOIN external_nginx_log n
-        ON o.after.session_id = n.session_id
-       AND CAST(o.after.product_id AS STRING) = CAST(n.product_id AS STRING)
     ) t
-    WHERE
-      COALESCE(NULLIF(t.session_id, ''), 'anonymous') <> 'anonymous'
-      AND t.product_id       IS NOT NULL
+    
+    -- anonymous 세션·잘못된 product_id 행 제외
+    WHERE COALESCE(NULLIF(t.session_id, ''), 'anonymous') <> 'anonymous'
+      AND t.product_id IS NOT NULL
       AND t.product_id <> ''
       AND t.product_id <> 'NULL'
+    
     GROUP BY t.session_id, t.user_id, t.product_id;
     ```
 
