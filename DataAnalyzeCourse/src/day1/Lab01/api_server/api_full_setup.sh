@@ -35,274 +35,954 @@ log "Setting up Flask application in $APP_DIR..."
 run_command mkdir -p $APP_DIR
 
 cat > $APP_DIR/app.py <<EOL
-from flask import Flask, request, make_response
+from flask import Flask, request, make_response, jsonify
 import uuid
 import time
-import random
 import mysql.connector
 import json
+import logging
 from datetime import datetime
-from mysql.connector import Error
-from flask import jsonify
-from flask.json import JSONEncoder
-from decimal import Decimal
 
-
-
-class CustomJSONEncoder(JSONEncoder):
-    def default(self, obj):
-        if isinstance(obj, Decimal):
-            return float(obj)  # 또는 str(obj)로 변환할 수도 있습니다.
-        return super(CustomJSONEncoder, self).default(obj)
+# 로깅 설정
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(message)s'
+)
+logger = logging.getLogger(__name__)
 
 app = Flask(__name__)
 
-app.json_encoder = CustomJSONEncoder
-
-
+# DB 설정
 DB_CONFIG = {
     'user': 'admin',
     'password': 'admin1234',
     'host': '${MYSQL_HOST}',
     'database': 'shopdb',
     'ssl_disabled': True
-    
 }
 
-@app.before_request
-def update_last_active():
-    session_id = request.cookies.get('session_id')
-    if session_id:
-        try:
-            conn = get_db_connection()
-            cursor = conn.cursor()
-            cursor.execute(
-                "UPDATE sessions SET last_active = NOW() WHERE session_id = %s",
-                (session_id,)
-            )
-            conn.commit()
-        except Exception as e:
-            print(f"Failed to update last_active: {e}")
-        finally:
-            if cursor:
-                cursor.close()
-            if conn:
-                conn.close()
+# =====================================
+# 핵심 헬퍼 함수들
+# =====================================
 
+def get_request_data():
+    """JSON과 form 데이터를 확실하게 처리"""
+    try:
+        logger.info(f"Request Method: {request.method}")
+        logger.info(f"Content-Type: {request.content_type}")
+        
+        # JSON 데이터 우선 처리
+        if request.is_json:
+            data = request.get_json()
+            if data:
+                logger.info(f"JSON 데이터 파싱 성공: {data}")
+                return data
+        
+        # form 데이터 처리
+        if request.form:
+            data = dict(request.form)
+            logger.info(f"Form 데이터 파싱 성공: {data}")
+            return data
+        
+        # URL args도 확인
+        if request.args:
+            data = dict(request.args)
+            logger.info(f"Args 데이터 파싱: {data}")
+            return data
+        
+        logger.warning("모든 데이터 파싱 실패")
+        return {}
+    except Exception as e:
+        logger.error(f"데이터 파싱 에러: {e}")
+        return {}
 
 def get_db_connection():
-    return mysql.connector.connect(**DB_CONFIG)
-    
+    """DB 연결"""
+    try:
+        conn = mysql.connector.connect(**DB_CONFIG)
+        return conn
+    except Exception as e:
+        logger.error(f"DB 연결 실패: {e}")
+        raise
 
-
-def respond_html_or_json(data, html_renderer):
-    """
-    data: 파이썬 dict (JSON 형태로 직렬화할 원본)
-    html_renderer: 콜백 함수(또는 HTML 템플릿 렌더링 결과 반환)
-    
-    - 브라우저(기본) → text/html 반환
-    - API (Accept: application/json) → JSON 반환
-    """
-    accept_header = request.headers.get("Accept", "")
-
-    if "application/json" in accept_header:
-        # JSON을 원하는 경우
-        return jsonify(data)
-    else:
-        # 그 외 (주로 브라우저)
-        return html_renderer(data)
-
-
-def get_or_create_session_id():
-    session_id = request.cookies.get('session_id')
-    if not session_id:
-        session_id = str(uuid.uuid4())
-        # 세션을 DB에 저장
-        try:
-            conn = get_db_connection()
-            cursor = conn.cursor()
-            cursor.execute(
-                "INSERT INTO sessions (session_id) VALUES (%s)",
-                (session_id,)
-            )
-            conn.commit()
-        except Exception as e:
-            print(f"Failed to create session: {e}")
-        finally:
-            if cursor:
-                cursor.close()
-            if conn:
-                conn.close()
-    return session_id
-    
-def create_session_id():
-    session_id = str(uuid.uuid4())
-    # 세션을 DB에 저장
+def safe_execute(query, params=None, fetch=False):
+    """안전한 DB 실행"""
+    conn = None
+    cursor = None
     try:
         conn = get_db_connection()
         cursor = conn.cursor()
-        cursor.execute(
-            "INSERT INTO sessions (session_id) VALUES (%s)",
-            (session_id,)
-        )
+        
+        logger.info(f"실행할 쿼리: {query}")
+        logger.info(f"파라미터: {params}")
+        
+        if params:
+            cursor.execute(query, params)
+        else:
+            cursor.execute(query)
+        
+        if fetch:
+            result = cursor.fetchall()
+            logger.info(f"조회 결과: {len(result) if result else 0}개 행")
+        else:
+            result = cursor.rowcount
+            logger.info(f"영향받은 행: {result}개")
+        
         conn.commit()
+        return result
     except Exception as e:
-        print(f"Failed to create session: {e}")
+        if conn:
+            conn.rollback()
+        logger.error(f"DB 실행 에러: {e}")
+        raise
     finally:
         if cursor:
             cursor.close()
         if conn:
             conn.close()
-    return session_id
+
+def create_session():
+    """세션 생성"""
+    session_id = str(uuid.uuid4())
+    try:
+        safe_execute("""
+            INSERT INTO sessions (session_id, created_at) 
+            VALUES (%s, NOW())
+        """, (session_id,))
+        logger.info(f"세션 생성 완료: {session_id}")
+        return session_id
+    except Exception as e:
+        logger.error(f"세션 생성 실패: {e}")
+        return session_id
+
+def ensure_user_exists(user_id):
+    """사용자 존재 확인 및 생성"""
+    if not user_id:
+        return None
     
-    
+    try:
+        result = safe_execute("""
+            SELECT user_id FROM users WHERE user_id = %s
+        """, (user_id,), fetch=True)
+        
+        if result:
+            return user_id
+        
+        safe_execute("""
+            INSERT IGNORE INTO users (user_id, name, email, gender, age)
+            VALUES (%s, %s, %s, 'M', 25)
+        """, (user_id, f"Auto_{user_id[-6:]}", f"{user_id}@auto.com"))
+        
+        logger.info(f"사용자 자동 생성: {user_id}")
+        return user_id
+    except Exception as e:
+        logger.error(f"사용자 처리 실패: {e}")
+        return user_id
+
+# =====================================
+# 주요 API 라우트들
+# =====================================
+
 @app.route('/')
 def home():
-    
-    # 모든 엔드포인트를 링크와 상세 설명으로 나열
-    endpoints = {
-        "Home": {"url": "/", "description": "메인 페이지로 이동합니다."},
-        "Products": {"url": "/products", "description": "상품 목록을 확인할 수 있습니다."},
-        "Product Detail": {"url": "/product?id=101", "description": "특정 상품의 세부 정보를 확인합니다. 'id' 파라미터가 필요합니다."},
-        "Search": {"url": "/search?query=Bluetooth", "description": "검색 기능을 제공합니다. 'query' 파라미터로 키워드를 입력하세요."},
-        "Checkout History": {"url": "/checkout_history", "description": "사용자의 결제 내역을 확인합니다."},
-        "Categories": {"url": "/categories", "description": "모든 카테고리의 목록을 확인합니다."},
-        "Category": {"url": "/category?name=Electronics", "description": "특정 카테고리의 상품 목록을 확인합니다."},
-        "View Cart": {"url": "/cart/view", "description": "현재 세션의 장바구니를 확인합니다."},
-        "Trigger Error": {"url": "/error", "description": "오류를 발생시켜 테스트합니다."}
-    }
-
-    # HTML로 반환
-    html = "<h1>Online Shopping Mall</h1><p>이 사이트는 쇼핑몰 데이터를 축적하기 위한 테스트 환경입니다.</p><hr><ul>"
-    html += "<h2>Endpoints with Get Requests</h2>"
-    for name, info in endpoints.items():
-        html += f"<li><a href='{info['url']}'>{name}</a>: {info['description']}</li>"
-   
-
-    # POST 요청용 폼 추가
-    html += """
-    <h2>Endpoints with POST Requests</h2>
-    
-    <!-- Add User -->
-    <h3>Register</h3>
-    <p>새로운 사용자를 등록합니다.</p>
-    <form action="/add_user" method="post">
-        <label for="user_id">User ID:</label>
-        <input type="text" id="user_id" name="user_id" value="test_user" required>
-        <br>
-        <label for="name">Name:</label>
-        <input type="text" id="name" name="name" value="Test User" required>
-        <br>
-        <label for="email">Email:</label>
-        <input type="email" id="email" name="email" value="test@example.com" required>
-        <br>
-        <label for="gender">Gender (F/M):</label>
-        <input type="text" id="gender" name="gender" value="M" required>
-        <br>
-        <label for="age">Age:</label>
-        <input type="number" id="age" name="age" value="30" required>
-        <br>
-        <button type="submit">Register</button>
-    </form>
-    
-    
-    <!-- Delete User -->
-    <h3>Unregister</h3>
-    <p>사용자를 삭제합니다.</p>
-    <form action="/delete_user" method="post">
-        <label for="delete_user_id">User ID:</label>
-        <input type="text" id="delete_user_id" name="user_id" value="test_user" required>
-        <br>
-        <button type="submit">Unregister</button>
-    </form>
-
-    <!-- Login -->
-    <h3>Login</h3>
-    <p>사용자 ID를 입력하여 로그인합니다.</p>
-    <form action="/login" method="post">
-        <label for="user_id">User ID:</label>
-        <input type="text" id="user_id" name="user_id" value="u1" required>
-        <button type="submit">Login</button>
-    </form>
-
-    <!-- Logout -->
-    <h3>Logout</h3>
-    <p>현재 로그인한 사용자를 로그아웃합니다.</p>
-    <form action="/logout" method="post">
-        <button type="submit">Logout</button>
-    </form>
-
-    <!-- Add to Cart -->
-    <h3>Add to Cart</h3>
-    <p>상품 ID를 입력하여 장바구니에 추가합니다.</p>
-    <form action="/cart/add" method="post">
-        <label for="product_id">Product ID:</label>
-        <input type="text" id="product_id" name="id" value="101" required>
-        <label for="quantity">Quantity:</label>
-        <input type="number" id="quantity" name="quantity" value="1" min="1" required>
-        <button type="submit">Add to Cart</button>
-    </form>
-    
-    
-    <!-- Remove from Cart -->
-    <h3>Remove from Cart</h3>
-    <p>장바구니에서 특정 상품을 제거하거나 수량을 줄입니다.</p>
-    <form action="/cart/remove" method="post">
-        <label for="remove_product_id">Product ID:</label>
-        <input type="text" id="remove_product_id" name="product_id" value="101" required>
-        <label for="remove_quantity">Quantity to Remove:</label>
-        <input type="number" id="remove_quantity" name="quantity" min="1" value="1" required>
-        <button type="submit">Remove from Cart</button>
-    </form>
-
-
-    <!-- Checkout -->
-    <h3>Checkout</h3>
-    <p>장바구니에 있는 모든 상품을 결제합니다.</p>
-    <form action="/checkout" method="post">
-        <button type="submit">Checkout</button>
-    </form>
-
-    <!-- Add Review -->
-    <h3>Add Review</h3>
-    <p>상품에 대한 평점을 남깁니다.</p>
-    <form action="/add_review" method="post">
-        <label for="review_product_id">Product ID:</label>
-        <input type="text" id="review_product_id" name="product_id" value="101" required>
-        <br>
-        <label for="rating">Rating (1-5):</label>
-        <input type="number" id="rating" name="rating" value="5" min="1" max="5" required>
-        <button type="submit">Add Review</button>
-    </form>
+    """홈페이지"""
+    html = """
+    <!DOCTYPE html>
+    <html>
+    <head><title>쇼핑몰 API</title></head>
+    <body>
+        <h1>쇼핑몰 API 서버</h1>
+        <p>JSON과 Form 데이터를 모두 지원함</p>
+        <ul>
+            <li><a href="/products">상품 목록</a></li>
+            <li><a href="/cart/view">장바구니</a></li>
+            <li><a href="/reviews">리뷰 목록</a></li>
+        </ul>
+    </body>
+    </html>
     """
-    
     resp = make_response(html)
-    session_id = get_or_create_session_id()
-    resp.set_cookie('session_id', session_id)
+    session_id = create_session()
+    resp.set_cookie('session_id', session_id, max_age=86400)
     return resp
-    
-# 사용자 존재 확인 엔드포인트 추가
-@app.route('/users/<user_id>/exists', methods=['GET'])
-def check_user_exists(user_id):
-    """사용자 존재 여부 확인"""
+
+@app.route('/add_user', methods=['POST'])
+def add_user():
+    """사용자 등록"""
     try:
-        conn = get_db_connection()
-        cursor = conn.cursor()
+        data = get_request_data()
         
-        cursor.execute("SELECT user_id FROM users WHERE user_id = %s", (user_id,))
-        user = cursor.fetchone()
+        user_id = data.get('user_id')
+        name = data.get('name')
+        email = data.get('email')
+        gender = data.get('gender')
+        age = data.get('age')
         
-        cursor.close()
-        conn.close()
+        logger.info(f"사용자 등록 요청: {user_id}")
         
-        if user:
-            return jsonify({"exists": True, "user_id": user_id}), 200
-        else:
-            return jsonify({"exists": False, "user_id": user_id}), 200
-            
+        if not all([user_id, name, email, gender, age]):
+            return jsonify({"error": "필수 필드 누락"}), 400
+        
+        safe_execute("""
+            INSERT INTO users (user_id, name, email, gender, age)
+            VALUES (%s, %s, %s, %s, %s)
+        """, (user_id, name, email, gender, age))
+        
+        safe_execute("""
+            INSERT INTO users_logs (user_id, event_type)
+            VALUES (%s, 'CREATED')
+        """, (user_id,))
+        
+        logger.info(f"사용자 생성 완료: {user_id}")
+        return jsonify({"success": True, "user_id": user_id}), 201
+        
+    except mysql.connector.IntegrityError:
+        return jsonify({"error": "이미 존재하는 사용자"}), 409
     except Exception as e:
-        return jsonify({"error": str(e)}), 500
+        logger.error(f"사용자 생성 에러: {e}")
+        return jsonify({"error": "사용자 생성 실패"}), 500
+
+@app.route('/login', methods=['POST'])
+def login():
+    """로그인"""
+    try:
+        data = get_request_data()
+        user_id = data.get('user_id')
         
+        if not user_id:
+            return jsonify({"error": "user_id 필요"}), 400
+        
+        logger.info(f"로그인 요청: {user_id}")
+        
+        user_id = ensure_user_exists(user_id)
+        session_id = create_session()
+        
+        safe_execute("""
+            UPDATE sessions 
+            SET user_id = %s, login_time = NOW()
+            WHERE session_id = %s
+        """, (user_id, session_id))
+        
+        resp = make_response(jsonify({
+            "success": True,
+            "user_id": user_id,
+            "session_id": session_id
+        }))
+        
+        resp.set_cookie('user_id', user_id, max_age=86400)
+        resp.set_cookie('session_id', session_id, max_age=86400)
+        
+        logger.info(f"로그인 완료: {user_id}")
+        return resp
+        
+    except Exception as e:
+        logger.error(f"로그인 에러: {e}")
+        return jsonify({"error": "로그인 실패"}), 500
+
+@app.route('/cart/add', methods=['GET', 'POST'])
+def add_to_cart():
+    """장바구니 추가 - cart_logs 기록 포함"""
+    try:
+        if request.method == 'GET':
+            product_id = request.args.get('id')
+            quantity = int(request.args.get('quantity', 1))
+            price = float(request.args.get('price', 50.0))
+        else:
+            data = get_request_data()
+            product_id = data.get('id') or data.get('product_id')
+            quantity = int(data.get('quantity', 1))
+            price = float(data.get('price', 50.0))
+        
+        if not product_id:
+            return jsonify({"error": "product_id 필요"}), 400
+        
+        logger.info(f"장바구니 추가: {product_id}, 수량: {quantity}")
+        
+        session_id = request.cookies.get('session_id')
+        if not session_id:
+            session_id = create_session()
+        
+        user_id = request.cookies.get('user_id')
+        if not user_id:
+            user_id = f"guest_{session_id[:8]}"
+        
+        user_id = ensure_user_exists(user_id)
+        
+        # 기존 장바구니 확인
+        existing = safe_execute("""
+            SELECT cart_id, quantity FROM cart
+            WHERE session_id = %s AND product_id = %s
+        """, (session_id, product_id), fetch=True)
+        
+        if existing:
+            # 기존 항목 업데이트
+            cart_id, old_quantity = existing[0]
+            new_quantity = old_quantity + quantity
+            
+            safe_execute("""
+                UPDATE cart SET quantity = %s, price = %s
+                WHERE cart_id = %s
+            """, (new_quantity, price, cart_id))
+            
+            # cart_logs 기록 - 업데이트
+            safe_execute("""
+                INSERT INTO cart_logs (cart_id, session_id, user_id, product_id, 
+                                     old_quantity, new_quantity, price, event_type)
+                VALUES (%s, %s, %s, %s, %s, %s, %s, 'UPDATED')
+            """, (cart_id, session_id, user_id, product_id, old_quantity, new_quantity, price))
+            
+            logger.info(f"장바구니 업데이트 및 로그 기록: {product_id}")
+        else:
+            # 새 항목 추가
+            safe_execute("""
+                INSERT INTO cart (session_id, user_id, product_id, quantity, price)
+                VALUES (%s, %s, %s, %s, %s)
+            """, (session_id, user_id, product_id, quantity, price))
+            
+            # 새로 추가된 cart_id 조회
+            new_cart = safe_execute("""
+                SELECT cart_id FROM cart 
+                WHERE session_id = %s AND product_id = %s
+                ORDER BY cart_id DESC LIMIT 1
+            """, (session_id, product_id), fetch=True)
+            
+            if new_cart:
+                cart_id = new_cart[0][0]
+                
+                # cart_logs 기록 - 추가
+                safe_execute("""
+                    INSERT INTO cart_logs (cart_id, session_id, user_id, product_id, 
+                                         old_quantity, new_quantity, price, event_type)
+                    VALUES (%s, %s, %s, %s, %s, %s, %s, 'ADDED')
+                """, (cart_id, session_id, user_id, product_id, 0, quantity, price))
+                
+                logger.info(f"장바구니 추가 및 로그 기록: {product_id}")
+        
+        resp = make_response(jsonify({
+            "success": True,
+            "product_id": product_id,
+            "quantity": quantity,
+            "user_id": user_id,
+            "session_id": session_id
+        }))
+        
+        resp.set_cookie('user_id', user_id, max_age=86400)
+        resp.set_cookie('session_id', session_id, max_age=86400)
+        
+        return resp
+        
+    except Exception as e:
+        logger.error(f"장바구니 추가 에러: {e}")
+        return jsonify({"error": "장바구니 추가 실패"}), 500
+
+@app.route('/cart/remove', methods=['POST'])
+def remove_from_cart():
+    """장바구니 제거 - cart_logs 기록 포함"""
+    try:
+        data = get_request_data()
+        product_id = data.get('product_id')
+        
+        if not product_id:
+            return jsonify({"error": "product_id 필요"}), 400
+        
+        session_id = request.cookies.get('session_id')
+        if not session_id:
+            return jsonify({"error": "세션 없음"}), 401
+        
+        user_id = request.cookies.get('user_id')
+        if not user_id:
+            user_id = f"guest_{session_id[:8]}"
+        
+        logger.info(f"장바구니 제거: {product_id}")
+        
+        # 기존 항목 정보 조회
+        existing = safe_execute("""
+            SELECT cart_id, quantity, price FROM cart
+            WHERE session_id = %s AND product_id = %s
+        """, (session_id, product_id), fetch=True)
+        
+        if existing:
+            cart_id, old_quantity, price = existing[0]
+            
+            # cart_logs 기록 - 제거
+            safe_execute("""
+                INSERT INTO cart_logs (cart_id, session_id, user_id, product_id, 
+                                     old_quantity, new_quantity, price, event_type)
+                VALUES (%s, %s, %s, %s, %s, %s, %s, 'REMOVED')
+            """, (cart_id, session_id, user_id, product_id, old_quantity, 0, price))
+            
+            # 장바구니에서 제거
+            safe_execute("""
+                DELETE FROM cart 
+                WHERE session_id = %s AND product_id = %s
+            """, (session_id, product_id))
+            
+            logger.info(f"장바구니 제거 및 로그 기록 완료: {product_id}")
+            return jsonify({"success": True, "product_id": product_id})
+        else:
+            return jsonify({"error": "제거할 항목 없음"}), 404
+        
+    except Exception as e:
+        logger.error(f"장바구니 제거 에러: {e}")
+        return jsonify({"error": "장바구니 제거 실패"}), 500
+
+@app.route('/cart/view')
+def view_cart():
+    """장바구니 조회"""
+    try:
+        session_id = request.cookies.get('session_id')
+        if not session_id:
+            return jsonify({"cart_items": [], "total": 0})
+        
+        items = safe_execute("""
+            SELECT c.product_id, p.name, c.quantity, c.price, (c.quantity * c.price) as total
+            FROM cart c
+            LEFT JOIN products p ON c.product_id = p.id
+            WHERE c.session_id = %s
+        """, (session_id,), fetch=True)
+        
+        cart_items = []
+        total = 0
+        
+        for item in items:
+            cart_items.append({
+                "product_id": item[0],
+                "name": item[1] or f"Product {item[0]}",
+                "quantity": item[2],
+                "price": float(item[3]),
+                "total": float(item[4])
+            })
+            total += float(item[4])
+        
+        return jsonify({
+            "cart_items": cart_items,
+            "total": total,
+            "session_id": session_id
+        })
+        
+    except Exception as e:
+        logger.error(f"장바구니 조회 에러: {e}")
+        return jsonify({"error": "장바구니 조회 실패"}), 500
+
+@app.route('/checkout', methods=['POST'])
+def checkout():
+    """결제 처리"""
+    try:
+        session_id = request.cookies.get('session_id')
+        if not session_id:
+            return jsonify({"error": "세션 없음"}), 401
+        
+        user_id = request.cookies.get('user_id')
+        if not user_id:
+            user_id = f"guest_{session_id[:8]}"
+        
+        user_id = ensure_user_exists(user_id)
+        
+        logger.info(f"결제 요청: {user_id}")
+        
+        cart_items = safe_execute("""
+            SELECT cart_id, product_id, quantity, price
+            FROM cart WHERE session_id = %s
+        """, (session_id,), fetch=True)
+        
+        if not cart_items:
+            return jsonify({"error": "장바구니 비어있음"}), 400
+        
+        order_ids = []
+        for cart_id, product_id, quantity, price in cart_items:
+            order_id = str(uuid.uuid4())
+            
+            safe_execute("""
+                INSERT INTO orders (order_id, user_id, session_id, product_id, price, quantity, order_time)
+                VALUES (%s, %s, %s, %s, %s, %s, NOW())
+            """, (order_id, user_id, session_id, product_id, price, quantity))
+            
+            # cart_logs 기록 - 체크아웃
+            safe_execute("""
+                INSERT INTO cart_logs (cart_id, session_id, user_id, product_id, 
+                                     old_quantity, new_quantity, price, event_type)
+                VALUES (%s, %s, %s, %s, %s, %s, %s, 'CHECKED_OUT')
+            """, (cart_id, session_id, user_id, product_id, quantity, 0, price))
+            
+            order_ids.append(order_id)
+        
+        safe_execute("""
+            DELETE FROM cart WHERE session_id = %s
+        """, (session_id,))
+        
+        logger.info(f"결제 완료: {len(order_ids)}개 주문")
+        
+        return jsonify({
+            "success": True,
+            "order_count": len(order_ids),
+            "order_ids": order_ids,
+            "user_id": user_id
+        })
+        
+    except Exception as e:
+        logger.error(f"결제 에러: {e}")
+        return jsonify({"error": "결제 실패"}), 500
+        
+@app.route('/add_review', methods=['GET', 'POST'])
+def add_review():
+    """
+    TG 호환용 리뷰 API - 트래픽 제너레이터 완전 호환
+    """
+    try:
+        # 1. 다중 소스 데이터 추출 (우선순위: 헤더 > URL > JSON > Form)
+        data_all = {**request.args.to_dict(), **get_request_data()}
+        
+        # product_id 추출 (tg.py에서 params={'id': product_id}로 전달)
+        product_id = (
+            request.args.get('id')  # tg.py 호환성 우선
+            or data_all.get('product_id')
+            or data_all.get('productId')
+            or request.headers.get('X-Product-Id')
+        )
+        
+        # rating 추출 (tg.py에서 헤더와 JSON으로 전달)
+        rating_raw = (
+            request.headers.get('X-Review-Rating')  # tg.py 헤더 우선
+            or data_all.get('rating')
+            or data_all.get('review_rating')
+            or data_all.get('score')
+            or '5'  # 기본값
+        )
+        
+        # user_id 추출 (tg.py에서 X-User-Id 헤더로 전달)
+        user_id = (
+            request.headers.get('X-User-Id')  # tg.py 헤더 우선
+            or request.cookies.get('user_id')
+            or data_all.get('user_id')
+        )
+        
+        # session_id 추출 (tg.py에서 쿠키로 전달)
+        session_id = (
+            request.cookies.get('session_id')
+            or request.headers.get('X-Session-Id')
+            or data_all.get('session_id')
+        )
+
+        # 2. 필수 데이터 검증
+        if not product_id:
+            logger.warning("product_id 누락")
+            return jsonify(
+                success=False,
+                error="product_id 누락",
+                received_data={
+                    'args': dict(request.args),
+                    'headers': dict(request.headers),
+                    'json': get_request_data()
+                }
+            ), 400
+
+        # rating 정규화
+        try:
+            rating = int(float(rating_raw))
+        except (ValueError, TypeError):
+            rating = 5
+        rating = max(1, min(rating, 5))  # 1~5 클램프
+
+        # 3. 사용자 및 세션 처리
+        if not user_id:
+            # 사용자 ID가 없으면 게스트 생성
+            if not session_id:
+                session_id = create_session()
+            user_id = f"guest_{session_id[:8]}"
+            logger.info(f"게스트 사용자 생성: {user_id}")
+
+        # 사용자 존재 확인 및 생성
+        user_id = ensure_user_exists(user_id)
+        
+        # 세션 처리
+        if not session_id:
+            session_id = create_session()
+        else:
+            # 기존 세션 존재 확인 및 업데이트
+            existing_session = safe_execute("""
+                SELECT session_id FROM sessions WHERE session_id = %s
+            """, (session_id,), fetch=True)
+            
+            if not existing_session:
+                # 세션이 없으면 생성
+                safe_execute("""
+                    INSERT INTO sessions (session_id, user_id, created_at)
+                    VALUES (%s, %s, NOW())
+                """, (session_id, user_id))
+                logger.info(f"새 세션 생성: {session_id}")
+            else:
+                # 기존 세션 업데이트
+                safe_execute("""
+                    UPDATE sessions 
+                    SET user_id = %s, last_active = NOW()
+                    WHERE session_id = %s
+                """, (user_id, session_id))
+
+        # 4. 상품 존재 확인
+        existing_product = safe_execute(
+            "SELECT id, name FROM products WHERE id = %s",
+            (product_id,), fetch=True
+        )
+        if not existing_product:
+            logger.warning(f"존재하지 않는 상품: {product_id}")
+            return jsonify(
+                success=False,
+                error=f"상품 {product_id}를 찾을 수 없음",
+                available_products_count=safe_execute("SELECT COUNT(*) FROM products", fetch=True)[0][0]
+            ), 404
+
+        product_name = existing_product[0][1]
+
+        # 5. 리뷰 저장 (중복 처리)
+        existing_review = safe_execute("""
+            SELECT review_id FROM reviews
+            WHERE user_id = %s AND product_id = %s
+        """, (user_id, product_id), fetch=True)
+
+        if existing_review:
+            # 기존 리뷰 업데이트
+            review_id = existing_review[0][0]
+            safe_execute("""
+                UPDATE reviews
+                SET rating = %s, review_time = NOW()
+                WHERE review_id = %s
+            """, (rating, review_id))
+            action = "updated"
+            logger.info(f"리뷰 업데이트: {review_id} (상품: {product_id}, 평점: {rating})")
+        else:
+            # 새 리뷰 생성
+            review_id = str(uuid.uuid4())
+            safe_execute("""
+                INSERT INTO reviews (review_id, user_id, session_id, product_id, rating, review_time)
+                VALUES (%s, %s, %s, %s, %s, NOW())
+            """, (review_id, user_id, session_id, product_id, rating))
+            action = "created"
+            logger.info(f"리뷰 생성: {review_id} (상품: {product_id}, 평점: {rating})")
+
+        # 6. 성공 응답
+        response_data = {
+            'success': True,
+            'action': action,
+            'review_id': review_id,
+            'product_id': product_id,
+            'product_name': product_name,
+            'rating': rating,
+            'user_id': user_id,
+            'session_id': session_id,
+            'timestamp': datetime.now().isoformat(),
+            'message': f'리뷰가 성공적으로 {action}됨'
+        }
+
+        resp = make_response(jsonify(response_data))
+        
+        # 쿠키 설정 (tg.py 호환성)
+        resp.set_cookie('user_id', user_id, max_age=86400, samesite='Lax')
+        resp.set_cookie('session_id', session_id, max_age=86400, samesite='Lax')
+        
+        return resp, 201 if action == "created" else 200
+
+    except mysql.connector.Error as db_error:
+        logger.error(f"DB 에러 in add_review: {db_error}")
+        return jsonify(
+            success=False,
+            error="데이터베이스 에러",
+            error_type="database_error",
+            details=str(db_error)
+        ), 500
+        
+    except Exception as e:
+        logger.error(f"add_review 예외: {e}")
+        return jsonify(
+            success=False,
+            error="리뷰 처리 실패",
+            error_type="internal_error", 
+            details=str(e)
+        ), 500
+
+
+@app.route('/reviews', methods=['GET'])
+def get_reviews():
+    """리뷰 목록 조회"""
+    try:
+        product_id = request.args.get('product_id')
+        limit = int(request.args.get('limit', 10))
+        
+        if product_id:
+            reviews = safe_execute("""
+                SELECT review_id, product_id, rating, comment, user_id, review_time
+                FROM reviews WHERE product_id = %s
+                ORDER BY review_time DESC LIMIT %s
+            """, (product_id, limit), fetch=True)
+        else:
+            reviews = safe_execute("""
+                SELECT review_id, product_id, rating, comment, user_id, review_time
+                FROM reviews
+                ORDER BY review_time DESC LIMIT %s
+            """, (limit,), fetch=True)
+        
+        result = []
+        for review in reviews:
+            result.append({
+                "review_id": review[0],
+                "product_id": review[1],
+                "rating": review[2],
+                "comment": review[3],
+                "user_id": review[4],
+                "review_time": review[5].isoformat() if review[5] else None
+            })
+        
+        return jsonify({
+            "success": True,
+            "reviews": result,
+            "count": len(result)
+        })
+        
+    except Exception as e:
+        logger.error(f"리뷰 조회 에러: {e}")
+        return jsonify({"error": "리뷰 조회 실패"}), 500
+
+@app.route('/search')
+def search():
+    """검색"""
+    try:
+        query = request.args.get('q', '').strip()
+        
+        if not query:
+            return jsonify({"error": "검색어 필요"}), 400
+        
+        session_id = request.cookies.get('session_id')
+        if not session_id:
+            session_id = create_session()
+        
+        logger.info(f"검색 요청: {query}")
+        
+        results = safe_execute("""
+            SELECT id, name, category, price 
+            FROM products 
+            WHERE name LIKE %s OR category LIKE %s
+            LIMIT 20
+        """, (f"%{query}%", f"%{query}%"), fetch=True)
+        
+        safe_execute("""
+            INSERT INTO search_logs (session_id, search_query, searched_at)
+            VALUES (%s, %s, NOW())
+        """, (session_id, query))
+        
+        search_results = []
+        for result in results:
+            search_results.append({
+                "id": result[0],
+                "name": result[1],
+                "category": result[2],
+                "price": float(result[3])
+            })
+        
+        return jsonify({
+            "query": query,
+            "results": search_results,
+            "session_id": session_id
+        })
+        
+    except Exception as e:
+        logger.error(f"검색 에러: {e}")
+        return jsonify({"error": "검색 실패"}), 500
+
+@app.route('/products')
+def products():
+    """상품 목록"""
+    try:
+        products_list = safe_execute("""
+            SELECT id, name, category, price 
+            FROM products 
+            ORDER BY id 
+            LIMIT 50
+        """, fetch=True)
+        
+        result = []
+        for product in products_list:
+            result.append({
+                "id": product[0],
+                "name": product[1],
+                "category": product[2],
+                "price": float(product[3])
+            })
+        
+        return jsonify({"products": result})
+        
+    except Exception as e:
+        logger.error(f"상품 목록 에러: {e}")
+        return jsonify({"error": "상품 목록 실패"}), 500
+
+@app.route('/users/<user_id>/exists')
+def check_user_exists(user_id):
+    """사용자 존재 확인"""
+    try:
+        result = safe_execute("""
+            SELECT user_id FROM users WHERE user_id = %s
+        """, (user_id,), fetch=True)
+        
+        exists = len(result) > 0
+        return jsonify({"exists": exists, "user_id": user_id}), 200 if exists else 404
+        
+    except Exception as e:
+        logger.error(f"사용자 확인 에러: {e}")
+        return jsonify({"error": "사용자 확인 실패"}), 500
+
+@app.route('/delete_user', methods=['POST'])
+def delete_user():
+    """사용자 삭제"""
+    try:
+        data = get_request_data()
+        user_id = data.get('user_id')
+        
+        if not user_id:
+            return jsonify({"error": "user_id 필요"}), 400
+        
+        safe_execute("""
+            INSERT INTO users_logs (user_id, event_type)
+            VALUES (%s, 'DELETED')
+        """, (user_id,))
+        
+        rowcount = safe_execute("""
+            DELETE FROM users WHERE user_id = %s
+        """, (user_id,))
+        
+        if rowcount > 0:
+            return jsonify({"success": True, "user_id": user_id})
+        else:
+            return jsonify({"error": "사용자 없음"}), 404
+        
+    except Exception as e:
+        logger.error(f"사용자 삭제 에러: {e}")
+        return jsonify({"error": "사용자 삭제 실패"}), 500
+
+@app.route('/logout', methods=['POST'])
+def logout():
+    """로그아웃"""
+    try:
+        session_id = request.cookies.get('session_id')
+        if session_id:
+            safe_execute("""
+                UPDATE sessions SET logout_time = NOW()
+                WHERE session_id = %s
+            """, (session_id,))
+        
+        resp = make_response(jsonify({"success": True}))
+        resp.delete_cookie('session_id')
+        resp.delete_cookie('user_id')
+        return resp
+        
+    except Exception as e:
+        logger.error(f"로그아웃 에러: {e}")
+        return jsonify({"success": True})
+
+# 추가 유틸리티 API들
+@app.route('/categories')
+def categories():
+    """카테고리 목록"""
+    try:
+        categories_list = safe_execute("""
+            SELECT DISTINCT category FROM products ORDER BY category
+        """, fetch=True)
+        
+        result = [cat[0] for cat in categories_list]
+        return jsonify({"categories": result})
+        
+    except Exception as e:
+        logger.error(f"카테고리 조회 에러: {e}")
+        return jsonify({"error": "카테고리 조회 실패"}), 500
+
+@app.route('/category')
+def category():
+    """카테고리별 상품"""
+    try:
+        category_name = request.args.get('category')
+        
+        if not category_name:
+            return jsonify({"error": "카테고리 파라미터 필요"}), 400
+        
+        products_list = safe_execute("""
+            SELECT id, name, price FROM products 
+            WHERE category = %s LIMIT 20
+        """, (category_name,), fetch=True)
+        
+        result = []
+        for product in products_list:
+            result.append({
+                "id": product[0],
+                "name": product[1],
+                "price": float(product[2])
+            })
+        
+        return jsonify({
+            "category": category_name,
+            "products": result
+        })
+        
+    except Exception as e:
+        logger.error(f"카테고리별 상품 에러: {e}")
+        return jsonify({"error": "카테고리별 상품 조회 실패"}), 500
+
+@app.route('/checkout_history')
+def checkout_history():
+    """결제 내역 조회"""
+    try:
+        user_id = request.cookies.get('user_id')
+        
+        if not user_id:
+            return jsonify({"checkout_history": []})
+        
+        orders = safe_execute("""
+            SELECT o.order_id, p.name AS product_name, o.price, o.quantity, 
+                   (o.price * o.quantity) AS total_price, o.order_time
+            FROM orders o
+            LEFT JOIN products p ON o.product_id = p.id
+            WHERE o.user_id = %s
+            ORDER BY o.order_time DESC
+            LIMIT 50
+        """, (user_id,), fetch=True)
+        
+        result = []
+        for order in orders:
+            result.append({
+                "order_id": order[0],
+                "product_name": order[1] or "Unknown Product",
+                "price": float(order[2]),
+                "quantity": order[3],
+                "total_price": float(order[4]),
+                "order_time": order[5].isoformat() if order[5] else None
+            })
+        
+        return jsonify({
+            "user_id": user_id,
+            "checkout_history": result
+        })
+        
+    except Exception as e:
+        logger.error(f"결제 내역 조회 에러: {e}")
+        return jsonify({"error": "결제 내역 조회 실패"}), 500
+
+@app.route('/health')
+def health_check():
+    """서버 상태 확인"""
+    try:
+        # DB 연결 테스트
+        safe_execute("SELECT 1", fetch=True)
+        
+        return jsonify({
+            "status": "healthy",
+            "timestamp": datetime.now().isoformat(),
+            "database": "connected"
+        })
+        
+    except Exception as e:
+        logger.error(f"헬스체크 에러: {e}")
+        return jsonify({
+            "status": "unhealthy",
+            "error": str(e),
+            "timestamp": datetime.now().isoformat()
+        }), 500
+    
 @app.route('/push-subscription', methods=['POST'])
 def push_subscription():
     """
@@ -377,942 +1057,36 @@ def get_push_messages():
         import traceback
         traceback.print_exc()
         return f"An error occurred: {e}", 500
-
-
-    
-@app.route('/add_user', methods=['POST'])
-def add_user():
-    user_id = request.form.get('user_id')
-    name = request.form.get('name')
-    email = request.form.get('email')
-    gender = request.form.get('gender')
-    age = request.form.get('age')
-
-    if not (user_id and name and email and gender and age):
-        return "All fields are required: user_id, name, email, gender, age. <a href='/'>[Home]</a>", 400
-
-    if gender not in ['F', 'M']:
-        return "Gender must be 'F' or 'M'. <a href='/'>[Home]</a>", 400
-
-    try:
-        conn = get_db_connection()
-        cursor = conn.cursor()
-
-        # Check if the user_id already exists
-        cursor.execute("SELECT user_id FROM users WHERE user_id = %s", (user_id,))
-        existing_user = cursor.fetchone()
-        if existing_user:
-            return "User ID already exists. <a href='/'>[Home]</a>", 409
-
-        # Insert new user into the database
-        cursor.execute(
-            "INSERT INTO users (user_id, name, email, gender, age) VALUES (%s, %s, %s, %s, %s)",
-            (user_id, name, email, gender, age)
-        )
-        
-        # Add entry to users_logs table
-        cursor.execute(
-            "INSERT INTO users_logs (user_id, event_type) VALUES (%s, 'CREATED')",
-            (user_id,)
-        )
-        
-        conn.commit()
-        return f"User {name} added successfully. <a href='/'>[Home]</a>", 201
-    except Exception as e:
-        return f"An error occurred: {e}. <a href='/'>[Home]</a>", 500
-    finally:
-        if cursor:
-            cursor.close()
-        if conn:
-            conn.close()
-
-@app.route('/delete_user', methods=['POST'])
-def delete_user():
-    user_id = request.form.get('user_id')
-
-    if not user_id:
-        return "User ID is required. <a href='/'>[Home]</a>", 400
-
-    try:
-        conn = get_db_connection()
-        cursor = conn.cursor()
-
-        # Check if the user exists before deletion
-        cursor.execute("SELECT user_id FROM users WHERE user_id = %s", (user_id,))
-        existing_user = cursor.fetchone()
-
-        if not existing_user:
-            return "User not found. <a href='/'>[Home]</a>", 404
-
-        # Add entry to users_logs table BEFORE deleting the user
-        cursor.execute(
-            "INSERT INTO users_logs (user_id, event_type) VALUES (%s, 'DELETED')",
-            (user_id,)
-        )
-        
-        cursor.execute("""
-            UPDATE sessions
-               SET logout_time = NOW()
-             WHERE user_id = %s
-               AND logout_time IS NULL
-        """, (user_id,))
-
-        # Delete the user from the database
-        cursor.execute("DELETE FROM users WHERE user_id = %s", (user_id,))
-        conn.commit()
-
-        return f"User {user_id} deleted successfully. <a href='/'>[Home]</a>", 200
-    except Exception as e:
-        return f"An error occurred: {e}. <a href='/'>[Home]</a>", 500
-    finally:
-        if cursor:
-            cursor.close()
-        if conn:
-            conn.close()
-
-@app.route('/products')
-def products():
-    conn = get_db_connection()
-    cursor = conn.cursor(dictionary=True)
-    cursor.execute("""
-        SELECT p.id, p.name, p.category, 
-               CASE WHEN COUNT(r.review_id) = 0 THEN NULL ELSE AVG(r.rating) END AS avg_rating
-        FROM products p
-        LEFT JOIN reviews r ON p.id = r.product_id
-        GROUP BY p.id
-    """)
-    rows = cursor.fetchall()
-    cursor.close()
-    conn.close()
-
-    # rows는 DB 조회 결과 (list[dict]) 형태
-
-    # 1) HTML을 렌더링하는 콜백 함수 정의
-    def render_products_html(data):
-        if not data:
-            return "No products found. <a href='/'>[Home]</a>"
-
-        html = "<h1>Product List</h1><ul>"
-        for row in data:
-            avg_rating = "None" if row['avg_rating'] is None else f"{row['avg_rating']:.1f}"
-            html += (f"<li><a href='/product?id={row['id']}'>{row['name']} ({row['category']}) - "
-                     f"Average Rating: {avg_rating}</a></li>")
-        html += "</ul><a href='/'>[Home]</a>"
-        return html
-
-    return respond_html_or_json(rows, render_products_html)
-
-@app.route('/product')
-def product_detail():
-    product_id = request.args.get('id')
-    user_id = request.cookies.get('user_id')  # 현재 로그인된 사용자 확인
-    session_id = get_or_create_session_id()  # 세션 ID 가져오기
-
-    conn = get_db_connection()
-    cursor = conn.cursor(dictionary=True)
-
-    # 상품 정보 가져오기
-    cursor.execute("""
-        SELECT p.id, p.name, p.price, p.category, 
-               CASE WHEN COUNT(r.review_id) = 0 THEN NULL ELSE AVG(r.rating) END AS avg_rating
-        FROM products p
-        LEFT JOIN reviews r ON p.id = r.product_id
-        WHERE p.id = %s
-        GROUP BY p.id
-    """, (product_id,))
-    product = cursor.fetchone()
-
-    # 리뷰 목록 가져오기
-    cursor.execute("""
-        SELECT r.rating, r.review_time, u.name AS reviewer_name
-        FROM reviews r
-        JOIN users u ON r.user_id = u.user_id
-        WHERE r.product_id = %s
-        ORDER BY r.review_time DESC
-    """, (product_id,))
-    reviews = cursor.fetchall()
-
-    # 장바구니 내 기존 수량 확인
-    cursor.execute("""
-        SELECT quantity
-        FROM cart
-        WHERE session_id = %s AND product_id = %s
-    """, (session_id, product_id))
-    cart_item = cursor.fetchone()
-
-    cursor.close()
-    conn.close()
-
-    if product:
-        # JSON 응답을 위한 데이터 구성
-        data_for_json = {
-            "product": {
-                "id": product['id'],
-                "name": product['name'],
-                "price": str(product['price']),  # Decimal을 문자열로 변환
-                "category": product['category'],
-                "avg_rating": product['avg_rating'] if product['avg_rating'] is not None else None
-            },
-            "reviews": [
-                {
-                    "rating": review['rating'],
-                    "review_time": review['review_time'].isoformat(),
-                    "reviewer_name": review['reviewer_name']
-                } for review in reviews
-            ],
-            "cart_quantity": cart_item['quantity'] if cart_item else 0
-        }
-
-        # HTML 렌더링을 위한 콜백 함수 정의
-        def render_product_html(data):
-            product = data['product']
-            reviews = data['reviews']
-            cart_quantity = data['cart_quantity']
-
-            html = f"""
-            <h1>Product Detail</h1>
-            <ul>
-                <li>ID: {product['id']}</li>
-                <li>Name: {product['name']}</li>
-                <li>Price: {product['price']}</li>
-                <li>Category: {product['category']}</li>
-                <li>Average Rating: {"None" if product['avg_rating'] is None else f"{product['avg_rating']:.1f}"}</li>
-                <li>Reviews:
-                    <ul>
-            """
-            if reviews:
-                for i, review in enumerate(reviews):
-                    if i < 5:
-                        html += (f"<li>Rating: {review['rating']}, Reviewed by: {review['reviewer_name']}, "
-                                 f"Time: {review['review_time']}</li>")
-                    else:
-                        html += "<li>...</li>"
-                        break
-            else:
-                html += "<li>None</li>"
-
-            html += "</ul></li></ul>"
-
-            # 장바구니 추가/수정 기능 (사용자가 로그인한 경우)
-            if user_id:
-                html += f"""
-                <form action="/cart/add" method="post">
-                    <input type="hidden" name="id" value="{product['id']}">
-                    <label for="quantity">Quantity (Current: {cart_quantity}):</label>
-                    <input type="number" id="quantity" name="quantity" min="1" value="1" required>
-                    <button type="submit">Add to Cart</button>
-                </form>
-                """
-
-            html += "<a href='/'>[Home]</a>"
-            return html
-
-        return respond_html_or_json(data_for_json, render_product_html)
-
-    return "Product not found. <a href='/'>[Home]</a>", 404
-
-
-
-
-@app.route('/login', methods=['POST'])
-def login():
-    user_id = request.form.get('user_id')
-    existing_user_id = request.cookies.get('user_id')
-    existing_session_id = request.cookies.get('session_id')
-
-    if not user_id:
-        return "User ID is required. <a href='/'>[Home]</a>", 400
-
-    if existing_user_id == user_id:
-        return f"Already logged in as {user_id}. <a href='/'>[Home]</a>", 200
-
-    # 기존 user_id와 다른 ID로 로그인하려는 경우 새로운 세션 ID 생성
-    if existing_user_id and existing_user_id != user_id:
-        #기존 세션에 로그아웃 처리
-        try:
-            conn = get_db_connection()
-            cursor = conn.cursor()
-            cursor.execute("""
-                UPDATE sessions
-                   SET logout_time = NOW()
-                 WHERE session_id = %s
-            """, (existing_session_id,))
-            conn.commit()
-        except Exception as e:
-            print(f"Failed to logout old session: {e}")
-        finally:
-            if cursor:
-                cursor.close()
-            if conn:
-                conn.close()
-        # 새로운 세션 생성
-        session_id = create_session_id()
-    else:
-        session_id = get_or_create_session_id()
-
-    try:
-        conn = get_db_connection()
-        cursor = conn.cursor(dictionary=True)
-        
-        # 사용자 인증
-        cursor.execute("SELECT * FROM users WHERE user_id = %s", (user_id,))
-        user = cursor.fetchone()
-        
-        if not user:
-            return "User not found. <a href='/'>[Home]</a>", 404
-        
-        # 세션 테이블의 user_id 필드 업데이트
-        cursor.execute("""
-            UPDATE sessions
-               SET user_id = %s,
-                   login_time = NOW()
-             WHERE session_id = %s
-        """, (user_id, session_id))
-        conn.commit()
-
-        cursor.close()
-        conn.close()
-
-        # 응답 생성
-        resp = make_response(f"""
-        <h1>Logged In</h1>
-        <ul>
-            <li>User ID: {user['user_id']}</li>
-            <li>Name: {user['name']}</li>
-            <li>Email: {user['email']}</li>
-            <li>Gender: {user['gender']}</li>
-            <li>Age: {user['age']}</li>
-        </ul><a href='/'>[Home]</a>
-        """)
-        resp.set_cookie('user_id', user_id)
-        resp.set_cookie('session_id', session_id)
-            
-        return resp
-    except mysql.connector.Error as e:
-        return f"Database Error {e.errno}: {e.msg}. <a href='/'>[Home]</a>", 500
-    except Exception as e:
-        return f"An unexpected error occurred: {e}. <a href='/'>[Home]</a>", 500
-    finally:
-        if 'cursor' in locals() and cursor:
-            cursor.close()
-        if 'conn' in locals() and conn:
-            conn.close()
-
-
-
-@app.route('/categories')
-def categories():
-    try:
-        conn = get_db_connection()
-        cursor = conn.cursor(dictionary=True)
-        cursor.execute("SELECT DISTINCT category FROM products")
-        rows = cursor.fetchall()
-
-        # 데이터 구성: JSON 응답을 위한 데이터
-        data_for_json = {
-            "categories": [row['category'] for row in rows]
-        }
-
-        # HTML 렌더링을 위한 콜백 함수 정의
-        def render_categories_html(data):
-            categories = data['categories']
-            if categories:
-                html = "<h1>Categories</h1><ul>"
-                for category in categories:
-                    html += f"<li><a href='/category?name={category}'>{category}</a></li>"
-                html += "</ul><a href='/'>[Home]</a>"
-                return html
-            else:
-                return "No categories found. <a href='/'>[Home]</a>"
-
-        # respond_html_or_json 함수를 호출하여 적절한 응답 반환
-        return respond_html_or_json(data_for_json, render_categories_html)
-
-    except Exception as e:
-        return f"An error occurred: {e}. <a href='/'>[Home]</a>", 500
-
-    finally:
-        if cursor:
-            cursor.close()
-        if conn:
-            conn.close()
-            
-            
-
-@app.route('/category')
-def category():
-    category_name = request.args.get('name')
-    if not category_name:
-        return "Category name is required. <a href='/'>[Home]</a>", 400
-
-    try:
-        conn = get_db_connection()
-        cursor = conn.cursor(dictionary=True)
-        cursor.execute("SELECT id, name FROM products WHERE category = %s", (category_name,))
-        rows = cursor.fetchall()
-
-        # 데이터 구성: JSON 응답을 위한 데이터
-        data_for_json = {
-            "category": category_name,
-            "products": [
-                {
-                    "id": row['id'],
-                    "name": row['name']
-                } for row in rows
-            ]
-        }
-
-        # HTML 렌더링을 위한 콜백 함수 정의
-        def render_category_html(data):
-            category = data['category']
-            products = data['products']
-
-            if products:
-                html = f"<h1>Products in {category}</h1><ul>"
-                for product in products:
-                    html += f"<li><a href='/product?id={product['id']}'>{product['id']} - {product['name']}</a></li>"
-                html += "</ul><a href='/'>[Home]</a>"
-                return html
-            else:
-                return f"No products found in {category} category. <a href='/'>[Home]</a>"
-
-        # respond_html_or_json 함수를 호출하여 적절한 응답 반환
-        return respond_html_or_json(data_for_json, render_category_html)
-
-    except Exception as e:
-        return f"An error occurred: {e}. <a href='/'>[Home]</a>", 500
-
-    finally:
-        if cursor:
-            cursor.close()
-        if conn:
-            conn.close()
-            
-            
-
-@app.route('/logout', methods=['POST'])
-def logout():
-    session_id = request.cookies.get('session_id')
-    
-    if session_id:
-        try:
-            conn = get_db_connection()
-            cursor = conn.cursor()
-
-            cursor.execute("""
-                UPDATE sessions
-                SET logout_time = NOW()
-                WHERE session_id = %s
-            """, (session_id,))
-
-            conn.commit()
-        except Exception as e:
-            print(f"Error in logout: {e}")
-        finally:
-            if cursor:
-                cursor.close()
-            if conn:
-                conn.close()
-
-    resp = make_response("Logged Out. <a href='/'>[Home]</a>")
-    resp.delete_cookie('session_id')
-    resp.delete_cookie('user_id')
-    return resp
-
-
-
-@app.route('/search')
-def search():
-    query = request.args.get('query', '').strip()
-    session_id = get_or_create_session_id()  # Retrieve session ID from cookies
-
-    if not query:
-        return "Search query is required. <a href='/'>[Home]</a>", 400
-
-    if not session_id:
-        return "Session ID is required. Please visit the homepage to create a session. <a href='/'>[Home]</a>", 400
-
-    try:
-        conn = get_db_connection()
-        cursor = conn.cursor(dictionary=True)
-
-        # Check if session_id exists in the sessions table
-        cursor.execute("SELECT session_id FROM sessions WHERE session_id = %s", (session_id,))
-        session_exists = cursor.fetchone()
-
-        if not session_exists:
-            return "Invalid session. Please visit the homepage to create a session. <a href='/'>[Home]</a>", 400
-
-        # Perform the search
-        cursor.execute("SELECT id, name FROM products WHERE name LIKE %s OR category LIKE %s", (f"%{query}%", f"%{query}%"))
-        rows = cursor.fetchall()
-
-        # Log the search query
-        cursor.execute(
-            "INSERT INTO search_logs (session_id, search_query, searched_at) VALUES (%s, %s, NOW())",
-            (session_id, query)
-        )
-        conn.commit()
-
-        # 데이터 구성: JSON 응답을 위한 데이터
-        data_for_json = {
-            "query": query,
-            "results": [
-                {
-                    "id": row['id'],
-                    "name": row['name']
-                } for row in rows
-            ]
-        }
-
-        # HTML 렌더링을 위한 콜백 함수 정의
-        def render_search_html(data):
-            query = data['query']
-            results = data['results']
-
-            if results:
-                html = f"<h1>Search Results for '{query}'</h1><ul>"
-                for item in results:
-                    html += f"<li><a href='/product?id={item['id']}'>{item['name']}</a></li>"
-                html += "</ul><a href='/'>[Home]</a>"
-                return html
-            else:
-                return f"No results found for '{query}'. <a href='/'>[Home]</a>"
-
-        # respond_html_or_json 함수를 호출하여 적절한 응답 반환
-        return respond_html_or_json(data_for_json, render_search_html)
-
-    except Exception as e:
-        return f"An error occurred: {e}. <a href='/'>[Home]</a>", 500
-
-    finally:
-        if cursor:
-            cursor.close()
-        if conn:
-            conn.close()
-
-    
-@app.route('/cart/add', methods=['POST'])
-def add_to_cart():
-    product_id = request.form.get('id')
-    user_id = request.cookies.get('user_id')  # 사용자 ID 가져오기
-    session_id = get_or_create_session_id()  # 세션 ID 가져오기
-    quantity = request.form.get('quantity', 1)  # 기본 수량은 1
-
-    if not product_id or not user_id or not session_id:
-        return "Product ID, User ID, and Session ID are required. <a href='/'>[Home]</a>", 400
-
-    try:
-        conn = get_db_connection()
-        cursor = conn.cursor(dictionary=True)
-
-        # Check if the product exists and fetch its price
-        cursor.execute("SELECT id, price FROM products WHERE id = %s", (product_id,))
-        product = cursor.fetchone()
-        if not product:
-            cursor.close()
-            conn.close()
-            return "Invalid product. <a href='/'>[Home]</a>", 404
-
-        product_price = product['price']
-
-        # Check if the product is already in the cart for this session
-        cursor.execute(
-            "SELECT cart_id, quantity FROM cart WHERE session_id = %s AND product_id = %s",
-            (session_id, product_id)
-        )
-        cart_item = cursor.fetchone()
-
-        if cart_item:
-            old_quantity = cart_item['quantity']
-            new_quantity = old_quantity + int(quantity)
-            cursor.execute(
-                "UPDATE cart SET quantity = %s WHERE session_id = %s AND product_id = %s",
-                (new_quantity, session_id, product_id)
-            )
-
-            cursor.execute(
-                """
-                INSERT INTO cart_logs (
-                    cart_id, session_id, user_id, product_id,
-                    old_quantity, new_quantity, price, event_type, event_time
-                )
-                VALUES (%s, %s, %s, %s, %s, %s, %s, 'UPDATED', NOW())
-                """,
-                (cart_item['cart_id'], session_id, user_id, product_id,
-                 old_quantity, new_quantity, product_price)
-            )
-        else:
-            # Insert new item into the cart
-            cursor.execute(
-                "INSERT INTO cart (session_id, user_id, product_id, quantity, price, added_at) VALUES (%s, %s, %s, %s, %s, NOW())",
-                (session_id, user_id, product_id, quantity, product_price)
-            )
-
-            # Get the cart_id of the newly inserted item
-            cursor.execute(
-                "SELECT cart_id FROM cart WHERE session_id = %s AND product_id = %s",
-                (session_id, product_id)
-            )
-            new_cart_id = cursor.fetchone()['cart_id']
-
-            # cart_logs 테이블에 ADDED 기록
-            cursor.execute(
-                """
-                INSERT INTO cart_logs (
-                    cart_id, session_id, user_id, product_id,
-                    old_quantity, new_quantity, price, event_type, event_time
-                )
-                VALUES (%s, %s, %s, %s, %s, %s, %s, 'ADDED', NOW())
-                """,
-                (new_cart_id, session_id, user_id, product_id,
-                 0, int(quantity), product_price)
-            )
-
-        conn.commit()
-        cursor.close()
-        conn.close()
-
-        return f"Product {product_id} added to cart. Quantity: {quantity}. <a href='/'>[Home]</a>"
-    except Exception as e:
-        return f"An error occurred: {e}. <a href='/'>[Home]</a>", 500
-
-
-
-@app.route('/cart/view', methods=['GET'])
-def view_cart():
-    user_id = request.cookies.get('user_id')  # 사용자 ID 가져오기
-    session_id = get_or_create_session_id()  # 세션 ID 가져오기
-
-    if not user_id or not session_id:
-        return "User ID and Session ID are required. <a href='/'>[Home]</a>", 400
-
-    try:
-        conn = get_db_connection()
-        cursor = conn.cursor(dictionary=True)
-
-        # 현재 세션의 장바구니 아이템 가져오기
-        cursor.execute("""
-            SELECT c.product_id, p.name, c.price, c.quantity, (c.price * c.quantity) AS total_price
-            FROM cart c
-            JOIN products p ON c.product_id = p.id
-            WHERE c.session_id = %s
-        """, (session_id,))
-        cart_items = cursor.fetchall()
-
-        # 데이터 구성: JSON 응답을 위한 데이터
-        data_for_json = {
-            "user_id": user_id,
-            "session_id": session_id,
-            "cart_items": [
-                {
-                    "product_id": item['product_id'],
-                    "name": item['name'],
-                    "price": str(item['price']),         # Decimal을 문자열로 변환
-                    "quantity": item['quantity'],
-                    "total_price": str(item['total_price'])  # Decimal을 문자열로 변환
-                } for item in cart_items
-            ],
-            "total_cost": str(sum(float(item['total_price']) for item in cart_items))
-        }
-
-        # HTML 렌더링을 위한 콜백 함수 정의
-        def render_view_cart_html(data):
-            cart_items = data['cart_items']
-            total_cost = data['total_cost']
-
-            if cart_items:
-                html = "<h1>Your Cart</h1><ul>"
-                for item in cart_items:
-                    html += f"""
-                        <li>
-                            Product: {item['name']} - Price: {item['price']} - Quantity: {item['quantity']} - Total: {item['total_price']}
-                        </li>
-                    """
-                html += f"</ul><p>Total Cost: {total_cost}</p><a href='/'>[Home]</a>"
-                return html
-            else:
-                return "Your cart is empty. <a href='/'>[Home]</a>"
-
-        # respond_html_or_json 함수를 호출하여 적절한 응답 반환
-        return respond_html_or_json(data_for_json, render_view_cart_html)
-
-    except Exception as e:
-        return f"An error occurred: {e}. <a href='/'>[Home]</a>", 500
-
-    finally:
-        if cursor:
-            cursor.close()
-        if conn:
-            conn.close()
-
-
-
-@app.route('/cart/remove', methods=['POST'])
-def remove_from_cart():
-    product_id = request.form.get('product_id')  # 삭제할 상품 ID
-    quantity_to_remove = int(request.form.get('quantity', 0))  # 삭제할 수량
-    session_id = get_or_create_session_id()  # 세션 ID 가져오기
-
-    if not session_id:
-        return "Session ID is required. <a href='/'>[Home]</a>", 400
-
-    if not product_id or quantity_to_remove <= 0:
-        return "Product ID and a valid quantity are required to remove items from the cart. <a href='/'>[Home]</a>", 400
-
-    try:
-        conn = get_db_connection()
-        cursor = conn.cursor(dictionary=True)
-
-        # Check if the product exists in the cart
-        cursor.execute(
-            "SELECT cart_id, quantity, price FROM cart WHERE session_id = %s AND product_id = %s",
-            (session_id, product_id)
-        )
-        cart_item = cursor.fetchone()
-
-        if not cart_item:
-            return f"No product with ID {product_id} found in the cart. <a href='/'>[Home]</a>", 404
-
-        current_quantity = cart_item['quantity']
-        cart_id = cart_item['cart_id']
-        product_price = cart_item['price']
-
-        if quantity_to_remove > current_quantity:
-            # If trying to remove more than available quantity
-            return f"Cannot remove {quantity_to_remove} items. Only {current_quantity} items available in the cart. <a href='/'>[Home]</a>", 400
-
-        if quantity_to_remove == current_quantity:
-            # If removing equal to current quantity, delete the item
-            cursor.execute(
-                "DELETE FROM cart WHERE session_id = %s AND product_id = %s",
-                (session_id, product_id)
-            )
-            action = 'REMOVED'
-            old_quantity = current_quantity
-            new_quantity = 0
-            message = f"Product {product_id} completely removed from the cart."
-        else:
-            # Otherwise, reduce the quantity
-            new_quantity = current_quantity - quantity_to_remove
-            cursor.execute(
-                "UPDATE cart SET quantity = %s WHERE session_id = %s AND product_id = %s",
-                (new_quantity, session_id, product_id)
-            )
-            action = 'UPDATED'
-            old_quantity = current_quantity
-            message = f"Product {product_id} quantity reduced to {new_quantity} in the cart."
-
-        # Log the action to cart_logs
-        cursor.execute(
-            """
-            INSERT INTO cart_logs (
-                cart_id, session_id, user_id, product_id,
-                old_quantity, new_quantity, price, event_type, event_time
-            )
-            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, NOW())
-            """,
-            (cart_id, session_id, request.cookies.get('user_id'), product_id,
-             old_quantity, new_quantity, product_price, action)
-        )
-
-        conn.commit()
-        cursor.close()
-        conn.close()
-
-        return f"{message} <a href='/'>[Home]</a>"
-    except Exception as e:
-        return f"An error occurred: {e}. <a href='/'>[Home]</a>", 500
-
-
-
-@app.route('/checkout', methods=['POST'])
-def checkout():
-    user_id = request.cookies.get('user_id')
-    session_id = get_or_create_session_id()  # 세션 ID 가져오기
-
-    if not user_id or not session_id:
-        return "User ID and Session ID are required. <a href='/'>[Home]</a>", 400
-
-    try:
-        conn = get_db_connection()
-        cursor = conn.cursor(dictionary=True)
-
-        # Fetch all cart items for the current session
-        cursor.execute("""
-            SELECT c.cart_id, c.product_id, c.price, c.quantity, p.name
-            FROM cart c
-            JOIN products p ON c.product_id = p.id
-            WHERE c.session_id = %s
-        """, (session_id,))
-        cart_items = cursor.fetchall()
-
-        if not cart_items:
-            return "Your cart is empty. <a href='/'>[Home]</a>"
-
-        # Process each cart item as an order
-        for item in cart_items:
-            order_id = str(uuid.uuid4())
-            cursor.execute(
-                """
-                INSERT INTO orders (order_id, user_id, session_id, product_id, price, quantity, order_time)
-                VALUES (%s, %s, %s, %s, %s, %s, NOW())
-                """,
-                (order_id, user_id, session_id, item['product_id'], item['price'], item['quantity'])
-            )
-
-            # cart_logs: CHECKED_OUT
-            old_quantity = item['quantity']
-            new_quantity = 0
-            cursor.execute("""
-                INSERT INTO cart_logs (
-                    cart_id, session_id, user_id, product_id,
-                    old_quantity, new_quantity, price, event_type, event_time
-                )
-                VALUES (%s, %s, %s, %s, %s, %s, %s, 'CHECKED_OUT', NOW())
-            """, (
-                item['cart_id'], session_id, user_id, item['product_id'],
-                old_quantity, new_quantity, item['price']
-            ))
-
-        # Clear the cart after checkout
-        cursor.execute("DELETE FROM cart WHERE session_id = %s", (session_id,))
-        conn.commit()
-
-        cursor.close()
-        conn.close()
-
-        return "Checkout successful. Your cart is now empty. <a href='/'>[Home]</a>"
-    except Exception as e:
-        return f"An error occurred: {e}. <a href='/'>[Home]</a>", 500
-
-
-
-
-@app.route('/checkout_history')
-def checkout_history():
-    user_id = request.cookies.get('user_id')
-    if not user_id:
-        return "User ID is required to view checkout history. <a href='/'>[Home]</a>", 400
-
-    try:
-        conn = get_db_connection()
-        cursor = conn.cursor(dictionary=True)
-
-        # 주문 목록 가져오기
-        cursor.execute("""
-            SELECT o.order_id, p.name AS product_name, o.price, o.quantity, 
-                   (o.price * o.quantity) AS total_price, o.order_time
-            FROM orders o
-            JOIN products p ON o.product_id = p.id
-            WHERE o.user_id = %s
-            ORDER BY o.order_time DESC
-        """, (user_id,))
-        orders = cursor.fetchall()
-
-        # 데이터 구성: JSON 응답을 위한 데이터
-        data_for_json = {
-            "user_id": user_id,
-            "checkout_history": [
-                {
-                    "order_id": order['order_id'],
-                    "product_name": order['product_name'],
-                    "price": str(order['price']),  # Decimal을 문자열로 변환
-                    "quantity": order['quantity'],
-                    "total_price": str(order['total_price']),  # Decimal을 문자열로 변환
-                    "order_time": order['order_time'].isoformat()
-                } for order in orders
-            ]
-        }
-
-        # HTML 렌더링을 위한 콜백 함수 정의
-        def render_checkout_history_html(data):
-            user_id = data['user_id']
-            checkout_history = data['checkout_history']
-
-            if checkout_history:
-                html = f"<h1>Checkout History for User: {user_id}</h1><ul>"
-                for order in checkout_history:
-                    html += (f"<li>Order ID: {order['order_id']}, Product: {order['product_name']}, "
-                             f"Price: {order['price']} x {order['quantity']} = {order['total_price']}, "
-                             f"Time: {order['order_time']}</li>")
-                html += "</ul><a href='/'>[Home]</a>"
-                return html
-            else:
-                return f"No checkout history found for User ID: {user_id}. <a href='/'>[Home]</a>"
-
-        # respond_html_or_json 함수를 호출하여 적절한 응답 반환
-        return respond_html_or_json(data_for_json, render_checkout_history_html)
-
-    except Exception as e:
-        return f"An error occurred: {e}. <a href='/'>[Home]</a>", 500
-
-    finally:
-        if cursor:
-            cursor.close()
-        if conn:
-            conn.close()
-
-
-
-@app.route('/add_review', methods=['POST'])
-def add_review():
-    product_id = request.form.get('product_id')
-    rating = request.form.get('rating')
-    user_id = request.cookies.get('user_id')
-    session_id = get_or_create_session_id()  # 세션 ID 추가
-
-    if not product_id or not rating or not user_id or not session_id:
-        return "Product ID, Rating, User ID, and Session ID are required. <a href='/'>[Home]</a>", 400
-
-    try:
-        conn = get_db_connection()
-        cursor = conn.cursor(dictionary=True)
-
-        # Check if the product exists
-        cursor.execute("SELECT id FROM products WHERE id = %s", (product_id,))
-        product_exists = cursor.fetchone()
-        if not product_exists:
-            return "Invalid Product ID. <a href='/'>[Home]</a>", 404
-
-        # Check if the session exists
-        cursor.execute("SELECT session_id FROM sessions WHERE session_id = %s", (session_id,))
-        session_exists = cursor.fetchone()
-        if not session_exists:
-            return "Invalid Session ID. <a href='/'>[Home]</a>", 404
-
-        # Check if the user exists
-        cursor.execute("SELECT user_id FROM users WHERE user_id = %s", (user_id,))
-        user_exists = cursor.fetchone()
-        if not user_exists:
-            return "Invalid User ID. <a href='/'>[Home]</a>", 404
-
-        # Add review
-        review_id = str(uuid.uuid4())
-        cursor.execute(
-            "INSERT INTO reviews (review_id, product_id, rating, user_id, session_id, review_time) VALUES (%s, %s, %s, %s, %s, NOW())",
-            (review_id, product_id, rating, user_id, session_id)
-        )
-        conn.commit()
-        return f"Review added for Product {product_id} with rating {rating} by User {user_id}, Session ID: {session_id}. <a href='/'>[Home]</a>"
-    except Exception as e:
-        return f"An error occurred: {e}. <a href='/'>[Home]</a>", 500
-    finally:
-        if cursor:
-            cursor.close()
-        if conn:
-            conn.close()
-
-
-@app.route('/error')
-def error():
-    return 1/0
     
 
-    
-            
+# 에러 핸들러들
+@app.errorhandler(400)
+def handle_400(e):
+    return jsonify({
+        "success": False,
+        "error": "잘못된 요청",
+        "details": str(e)
+    }), 400
+
+@app.errorhandler(404)
+def handle_404(e):
+    return jsonify({
+        "success": False,
+        "error": "리소스를 찾을 수 없음"
+    }), 404
+
+@app.errorhandler(500)
+def handle_500(e):
+    logger.error(f"내부 서버 오류: {e}")
+    return jsonify({
+        "success": False,
+        "error": "내부 서버 오류"
+    }), 500
+
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=8080)
+    logger.info("Flask 서버 시작...")
+    app.run(host='0.0.0.0', port=8080, debug=True)
+
 EOL
 
 log "Flask application setup completed successfully."
