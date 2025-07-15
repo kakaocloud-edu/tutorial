@@ -172,7 +172,7 @@
    - {endpoint-url}/v1/domains/`{조직 id}`/projects/`{프로젝트 id}`/topics/{topic-name}
    - `사용자 UUID` 는 이후 s3 sink connector 생성 시 필요
      
-  ![Image](https://github.com/user-attachments/assets/5fadd88d-d512-45a8-9ccb-23d42fdd94c0)
+   ![Image](https://github.com/user-attachments/assets/5fadd88d-d512-45a8-9ccb-23d42fdd94c0)
 
 
 
@@ -306,6 +306,7 @@
     kakaocloud: 12. OpenJDK 21 설치 시작
     kakaocloud: 13. Apache Kafka 설치 시작
     kakaocloud: 14. kafka-python 라이브러리 설치 시작
+    kakaocloud: 15. SciPy 라이브러리 설치 시작
     kakaocloud: Setup 완료
     ```
 
