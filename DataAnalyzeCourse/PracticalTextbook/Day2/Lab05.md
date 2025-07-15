@@ -11,9 +11,11 @@ Hadoop Eco의 Hive를 활용하여 이미 만들어진 Nginx 로그 데이터 �
 
     ```bash
     hive
-    ```
+    ```  
 
 2. aggregated_logs 테이블 생성
+
+    - LOCATION에 `{HadoopMST-core-hadoop-1 private ip주소}` 입력
 
     #### **lab5-1-2**
 
@@ -26,9 +28,10 @@ Hadoop Eco의 Hive를 활용하여 이미 만들어진 Nginx 로그 데이터 �
       event_count        INT,
       total_request_time DOUBLE,
       last_active_time   STRING,
-      status             INT
+      success_count      INT
     )
-    STORED AS PARQUET;
+    STORED AS PARQUET
+    LOCATION 'hdfs://{HadoopMST-core-hadoop-1 private ip주소}:8020/apps/hive/warehouse/aggregated_logs/';
     ```
 
 3. 파티션 설정 및 jar 등록
@@ -136,7 +139,7 @@ Hadoop Eco의 Hive를 활용하여 이미 만들어진 Nginx 로그 데이터 �
 
 8. Hadoop Eco의 HDFS에 생성된 aggregated_logs 테이블 확인
 
-    - 개개인의 HDFS 경로로 `{hive.metastore.warehouse.dir}` 수정
+    - `HDFS 경로`로 `{hive.metastore.warehouse.dir}` 수정
 
     #### **lab5-1-8**
 
