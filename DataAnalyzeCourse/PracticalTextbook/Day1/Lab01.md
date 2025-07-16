@@ -306,7 +306,6 @@
     kakaocloud: 12. OpenJDK 21 설치 시작
     kakaocloud: 13. Apache Kafka 설치 시작
     kakaocloud: 14. kafka-python 라이브러리 설치 시작
-    kakaocloud: 15. SciPy 라이브러리 설치 시작
     kakaocloud: Setup 완료
     ```
 
