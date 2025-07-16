@@ -85,12 +85,10 @@ Data Catalog와 Pub/Sub, Object Storage를 연동하여 테이블을 생성하�
 
 - **Note**: nginx-log 형식
 
-| timestamp           | event_id            | event_name   | user_id       | session_id               | session_index | is_return_visitor | region | device  | page_url                                   | dwell_time_seconds | product_id | quantity | search_term | review_rating | event_context                                                                                                                                                                                                                                                           | status | request_time | http_user_agent                                                      |
-|---------------------|---------------------|--------------|---------------|--------------------------|---------------|-------------------|--------|---------|---------------------------------------------|--------------------|------------|----------|-------------|---------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|--------|--------------|----------------------------------------------------------------------|
-| 2025-07-15 06:33:39 | evt_1197e356ac29    | product_view | user_74e86c39 | session_2b6ab4e8833a     | 0             | false             | Seoul  | mobile  | http://61.109.236.101/product?id=107       | 8.54               | 107        |          |             |               | {"engagement_level": "high", "current_state": "home", "current_sub_state": "", "is_existing_user": false, "active_sales": [], "traffic_multiplier": 0.6, "session_count": 1}                                                                                        | 200    | 0.028        | Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 |
-| 2025-07-15 06:33:39 | evt_52bff4bfb542    | add_to_cart  | user_74e86c39 | session_2b6ab4e8833a     | 0             | false             | Seoul  | mobile  | http://61.109.236.101/cart/add?id=107      | 4.9                | 107        | 1        |             |               | {"engagement_level": "high", "current_state": "home", "current_sub_state": "", "is_existing_user": false, "active_sales": [], "traffic_multiplier": 0.6, "session_count": 1}                                                                                        | 200    | 0.006        | Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36    |
-
-
+| timestamp           | remote\_addr | request                         | status                            | body\_bytes\_sent                 | http\_referer | http\_user\_agent      | session\_id                          | user\_id     | request\_time                       | upstream\_response\_time            | endpoint           | method | query\_params | product\_id | request\_body | x\_forwarded\_for | host           |
+| ------------------- | ------------ | ------------------------------- | --------------------------------- | --------------------------------- | ------------- | ---------------------- | ------------------------------------ | ------------ | ----------------------------------- | ----------------------------------- | ------------------ | ------ | ------------- | ----------- | ------------- | ----------------- | -------------- |
+| 2025-07-03 02:18:07 | 10.0.3.79    | GET /checkout\_history HTTP/1.1 | {'member0': None, 'member1': 200} | {'member0': None, 'member1': 48}  | NULL          | python-requests/2.25.1 | 9d35856d-0141-4e58-8a51-09f7cb9f1e95 | user\_d2ae43 | {'member0': None, 'member1': 0.014} | {'member0': None, 'member1': 0.008} | /checkout\_history | GET    | NULL          | NULL        | None          | 61.109.237.97     | 61.109.236.101 |
+| 2025-07-03 02:18:08 | 10.0.3.79    | GET /error HTTP/1.1             | {'member0': None, 'member1': 500} | {'member0': None, 'member1': 290} | NULL          | python-requests/2.25.1 | 9d35856d-0141-4e58-8a51-09f7cb9f1e95 | user\_d2ae43 | {'member0': None, 'member1': 0.054} | {'member0': None, 'member1': 0.056} | /error             | GET    | NULL          | NULL        | None          | 61.109.237.97     | 61.109.236.101 |
 
 
 
@@ -110,13 +108,16 @@ Data Catalog와 Pub/Sub, Object Storage를 연동하여 테이블을 생성하�
    - 스키마  
       - 필드 추가 버튼 클릭 후 아래 표의 순서대로 스키마 추가
           - **Note**: 한 필드 생성 후에는 반드시 닫기 버튼 클릭 후 새로운 필드 추가
+      
+        | 파티션 키 | 컬럼 번호 | 필드 이름 | 데이터 유형 |스키마|설명(선택)|
+        |----------|----------|--------------|------------|------------|------------|
+        | 미사용   | 1        | status       | struct | STRUCT<member0: STRING, member1: INT> | 빈 칸
+
 
         | 파티션 키 | 컬럼 번호 | 필드 이름     | 데이터 유형 |설명(선택)|
         |----------|----------|--------------|------------|------------|
-        | 미사용   | 1        | status         | string   | 빈 칸      |
-        | 미사용   | 2        | page_url       | string   | 빈 칸      |
-        | 미사용   | 3        | event_name     | string   | 빈 칸      |
-        | 미사용   | 4        | product_id     | string   | 빈 칸      |
+        | 미사용   | 2        | query_params | string     | 빈 칸      |
+        | 미사용   | 3        | endpoint     | string     | 빈 칸      |
    - 생성 버튼 클릭
 3. `kafka_log_table` 테이블의 상태가 `Active`인 것을 확인
       <img width="1920" alt="결과 이미지" src="https://github.com/user-attachments/assets/a5279b23-2a8b-401d-81b3-82cb542bfaa2" />
@@ -192,4 +193,3 @@ Data Catalog와 Pub/Sub, Object Storage를 연동하여 테이블을 생성하�
 6. 좌측 테이블 탭 클릭
 7. 추출한 MySQL 메타데이터 정보 확인
 ![11](https://github.com/user-attachments/assets/0a2e267a-6d4b-4a4f-ad47-0d24ed712e40)
-
