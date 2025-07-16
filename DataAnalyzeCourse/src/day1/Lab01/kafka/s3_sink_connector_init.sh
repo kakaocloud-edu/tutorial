@@ -5,7 +5,7 @@ echo "kakaocloud: 1. 환경 변수 설정 시작"
 cat <<'EOF' > /tmp/env_vars.sh
 # 기존 리소스 정보
 export KAFKA_BOOTSTRAP_SERVER="{Kafka 부트스트랩 서버}"
-export API_SRV_IP="{API Server의 Public IP}"
+export API_SRV_IP="{api-server-1의 Public IP}"
 export USER_UUID="{사용자의 UUID}"
 
 
