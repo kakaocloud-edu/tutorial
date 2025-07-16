@@ -35,7 +35,7 @@ Data Query 기능을 활용하여 NGINX 로그 및 MySQL 데이터를 이용한 
 
 
 ## 3. Data Query 실습
-- **Note**: 더 많은 쿼리문은 [Lab05_etc.md](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/PracticalTextbook/Lab05_etc.md) 참고
+- **Note**: 더 많은 쿼리문은 [Lab04_etc.md](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/PracticalTextbook/Lab05_etc.md) 참고
 
 1. `편집기` 탭 클릭
 2. NGINX 로그를 활용하여 HTTP 상태 코드 분포 쿼리
@@ -47,16 +47,21 @@ Data Query 기능을 활용하여 NGINX 로그 및 MySQL 데이터를 이용한 
       
       ```
       SELECT
-        status                           AS http_status_code,
-        COUNT(*)                         AS code_count,
-        ROUND(COUNT(*) * 100.0 / total.total_count, 2) AS percentage
-      FROM data_catalog.data_catalog_database.kafka_log_table
+         status.member1 AS http_status_code,
+         COUNT(*) AS code_count,
+         ROUND(COUNT(*) * 100.0 / total.total_count, 2) AS percentage
+      FROM
+         data_catalog.data_catalog_database.kafka_log_table
       CROSS JOIN (
-        SELECT COUNT(*) AS total_count
-        FROM data_catalog.data_catalog_database.kafka_log_table
+         SELECT
+            COUNT(*) AS total_count
+         FROM
+            data_catalog.data_catalog_database.kafka_log_table
       ) AS total
-      GROUP BY status, total.total_count
-      ORDER BY http_status_code;
+      GROUP BY
+         status.member1, total.total_count
+      ORDER BY
+         http_status_code;
       ```
    - 쿼리 결과 탭에서 HTTP 상태 코드 분포 확인
       <img width="981" alt="HTTP 상태 분포" src="https://github.com/user-attachments/assets/d904ba19-bf52-4733-8c6d-b8821da1894c" />
@@ -71,17 +76,12 @@ Data Query 기능을 활용하여 NGINX 로그 및 MySQL 데이터를 이용한 
       #### **lab5-3-3**
    
       ```
-      SELECT
-        product_id,
-        COUNT(*) AS click_count
+      SELECT 
+         regexp_extract(query_params, 'id=([0-9]+)', 1) AS product_id,
+         COUNT(*) AS click_count
       FROM data_catalog.data_catalog_database.kafka_log_table
-      WHERE regexp_extract(
-              page_url,
-              'https?://[^/]+(/[^?]+)',
-              1
-            ) = '/product'
-        AND product_id IS NOT NULL
-      GROUP BY product_id
+      WHERE endpoint = '/product'
+      GROUP BY regexp_extract(query_params, 'id=([0-9]+)', 1)
       ORDER BY click_count DESC;
       ```
    - 쿼리 결과 탭에서 인기 상품 클릭 수 확인
@@ -96,29 +96,21 @@ Data Query 기능을 활용하여 NGINX 로그 및 MySQL 데이터를 이용한 
       #### **lab5-3-4**
       
       ```
-      SELECT
-        pc.product_id,
-        p.name,
-        pc.click_count
+      SELECT 
+         pc.product_id,
+         p.name,
+         pc.click_count
       FROM (
-        SELECT
-          product_id,
-          COUNT(*) AS click_count
-        FROM data_catalog.data_catalog_database.kafka_log_table
-        WHERE
-          regexp_extract(
-            page_url,
-            'https?://[^/]+(/[^?]+)',
-            1
-          ) = '/product'
-          AND product_id IS NOT NULL
-          AND product_id <> ''
-        GROUP BY product_id
+         SELECT 
+            regexp_extract(query_params, 'id=([0-9]+)', 1) AS product_id,
+            COUNT(*) AS click_count
+         FROM data_catalog.data_catalog_database.kafka_log_table
+         WHERE endpoint = '/product'
+         GROUP BY regexp_extract(query_params, 'id=([0-9]+)', 1)
       ) AS pc
       JOIN data_origin.shopdb.products AS p
-        ON pc.product_id = CAST(p.id AS VARCHAR)
-      ORDER BY
-        pc.click_count DESC;
+         ON pc.product_id = p.id
+      ORDER BY pc.click_count DESC;
       ```
    - 쿼리 결과 탭에서 Lab2-3-3의 NGINX 로그만 활용할 때보다 인기 상품 클릭 수에 대한 더 많은 정보 확인 가능함을 확인
    ![image](https://github.com/user-attachments/assets/d83ac4aa-2fc0-4b02-9618-bd715ab69549)
@@ -134,8 +126,8 @@ Data Query 기능을 활용하여 NGINX 로그 및 MySQL 데이터를 이용한 
       #### **lab5-3-5**
 
       ```
-      SELECT
-        COUNT(DISTINCT user_id) AS new_users
+      SELECT 
+         COUNT(DISTINCT user_id) AS new_users
       FROM data_origin.shopdb.users_logs
       WHERE event_type = 'CREATED';
       ```
@@ -153,23 +145,18 @@ Data Query 기능을 활용하여 NGINX 로그 및 MySQL 데이터를 이용한 
    #### **lab5-4-1**
 
    ```
-   CREATE TABLE data_catalog.data_catalog_database.kafka_log_partitioned
+   CREATE TABLE data_catalog_database.kafka_log_partitioned
    WITH (
-     format             = 'JSON',
-     external_location  = 's3a://data-catalog-bucket/data-catalog-dir/tables/partitioned',
-     partitioned_by     = ARRAY['status_code']
+     format = 'JSON',
+     external_location = 's3a://data-catalog-bucket/data-catalog-dir/tables/partitioned',
+     partitioned_by = ARRAY['status_code']
    )
    AS
    SELECT
-     regexp_extract(
-       page_url,
-       'https?://[^/]+(/[^?]+)',
-       1
-     )                           AS endpoint,
-     product_id,
-     status                       AS status_code
-   FROM
-     data_catalog.data_catalog_database.kafka_log_table;
+     endpoint,
+     query_params,
+     status.member1   AS status_code
+   FROM data_catalog_database.kafka_log_table;
    ```
 
    - 쿼리 결과 성공 확인
