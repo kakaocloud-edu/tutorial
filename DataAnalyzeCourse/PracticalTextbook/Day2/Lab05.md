@@ -79,41 +79,35 @@ Hadoop Eco의 Hive를 활용하여 이미 만들어진 Nginx 로그 데이터 �
       SUM(CASE WHEN t.status = 200 THEN 1 ELSE 0 END) AS success_count
     
     FROM (
-      -- A) nginx 로그: 상품 상세 보기만
       SELECT
         n.session_id,
         n.user_id,
         n.product_id,
         'pageview'                             AS src,
-        CAST(n.request_time AS DOUBLE)         AS request_time,
-        CAST(n.`timestamp`   AS TIMESTAMP)     AS log_ts,
-        CAST(n.status        AS INT)           AS status
+        CAST(n.dwell_time_seconds AS DOUBLE)   AS request_time,
+        CAST(n.`timestamp`         AS TIMESTAMP) AS log_ts,
+        CAST(n.status              AS INT)       AS status
       FROM external_nginx_log n
-      WHERE n.session_id <> ''
+      WHERE n.session_id IS NOT NULL
         AND n.product_id IS NOT NULL
-        AND n.product_id <> ''
-        AND n.product_id <> 'NULL'
-        AND n.event_name = 'product_view'
     
       UNION ALL
     
-      -- B) MySQL orders: 반드시 view_ts < order_ts 이어야 함
       SELECT DISTINCT
         o.after.session_id                                AS session_id,
         o.after.user_id                                   AS user_id,
         CAST(o.after.product_id AS STRING)                AS product_id,
         'order'                                           AS src,
         0.0                                               AS request_time,
-        CAST(FROM_UNIXTIME(o.after.order_time DIV 1000000) AS TIMESTAMP) AS log_ts,
-        200                                               AS status
+        CAST(
+          FROM_UNIXTIME(o.after.order_time DIV 1000000)
+          AS TIMESTAMP
+        )                                                  AS log_ts,
+        200                                                AS status
       FROM mysql_orders o
       JOIN external_nginx_log n
         ON o.after.session_id = n.session_id
-       AND CAST(o.after.product_id AS STRING) = n.product_id
-       AND n.event_name = 'product_view'
-       -- ← 여기서 view_ts < order_ts 조건 추가!
-       AND CAST(n.`timestamp` AS TIMESTAMP)
-           < CAST(FROM_UNIXTIME(o.after.order_time DIV 1000000) AS TIMESTAMP)
+       AND CAST(o.after.product_id AS STRING) = CAST(n.product_id AS STRING)
     ) t
     WHERE COALESCE(NULLIF(t.session_id, ''), 'anonymous') <> 'anonymous'
       AND t.product_id IS NOT NULL
