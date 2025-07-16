@@ -145,7 +145,8 @@ Hadoop Eco의 Spark를 활용하여 이미 만들어진 aggregated_logs 테이�
     - 데이터베이스: `shopdb`
     - 우측 편집기의 `+` 버튼 클릭
     - 우측 편집기의 `Query5` 탭 아래 쿼리문 입력
-    - `WHERE last_active_time LIKE 'YYYY-MM-DD%'` 에서 `'YYYY-MM-DD%'`부분 실습 날짜로 변경 ex): '2025-01-01%'
+    - `WHERE last_active_time LIKE 'YYYY-MM-DD%'` 에서 `'YYYY-MM-DD%'`부분 실습 날짜로 변경
+    - ex): '2025-01-01%'
 
     #### **lab6-3-7**
 
