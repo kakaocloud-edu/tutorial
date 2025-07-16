@@ -529,7 +529,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     ```
 6. `data-catalog-bucket`에 nginx 로그를 쌓기 위해 필요한 쓰기 권한을 부여하는 명령어 실행
 
-    #### **lab3-7-6**
+    #### **lab3-7-6** (진행 x 테스트)
     
     ```bash
     aws s3api put-bucket-acl \
