@@ -176,9 +176,6 @@ sudo mv kafka_2.13-3.7.1 kafka || { echo "kakaocloud: Kafka 디렉토리 이름 
 echo "kakaocloud: 14. kafka-python 라이브러리 설치 시작"
 sudo pip3 install kafka-python || { echo "kakaocloud: kafka-python 라이브러리 설치 실패"; exit 1; }
 
-echo "kakaocloud: 15. SciPy 라이브러리 설치 시작"
-sudo pip3 install scipy || { echo "kakaocloud: SciPy 라이브러리 설치 실패"; exit 1; }
-
 # 현재 쉘 세션의 PATH에 변경 내용 적용
 source ~/.bashrc
 
