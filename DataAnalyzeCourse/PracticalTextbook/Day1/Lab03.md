@@ -423,7 +423,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
         cat <<'EOF' > /tmp/env_vars.sh
         # 기존 리소스 정보
         export KAFKA_BOOTSTRAP_SERVER="{Kafka 부트스트랩 서버}"
-        export API_SRV_IP="{api-server-1의 퍼블릭 아이피}"
+        export API_SRV_IP="{api-server-1의 Public IP}"
         
         # S3 인증 정보
         export AWS_ACCESS_KEY_ID_VALUE="{콘솔에서 발급한 S3 액세스 키의 인증 키 값}"
