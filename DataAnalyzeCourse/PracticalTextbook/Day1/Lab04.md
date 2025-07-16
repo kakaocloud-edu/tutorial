@@ -116,6 +116,7 @@ Data Catalog와 Pub/Sub, Object Storage를 연동하여 테이블을 생성하�
         | 미사용   | 1        | status         | string   | 빈 칸      |
         | 미사용   | 2        | page_url       | string   | 빈 칸      |
         | 미사용   | 3        | event_name     | string   | 빈 칸      |
+        | 미사용   | 4        | product_id     | string   | 빈 칸      |
    - 생성 버튼 클릭
 3. `kafka_log_table` 테이블의 상태가 `Active`인 것을 확인
       <img width="1920" alt="결과 이미지" src="https://github.com/user-attachments/assets/a5279b23-2a8b-401d-81b3-82cb542bfaa2" />
