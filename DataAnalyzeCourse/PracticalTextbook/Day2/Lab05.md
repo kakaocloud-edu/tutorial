@@ -3,11 +3,18 @@
 Hadoop Eco의 Hive를 활용하여 이미 만들어진 Nginx 로그 데이터 테이블과 MySQL 데이터 테이블을 사용하여 Aggregated 테이블을 생성합니다.
 
 ---
-## 1. Hive에서 aggregated_logs 테이블 생성
+## 1. Hadoop-Eco 마스터 노드 정보 조회
+
+1. 카카오 클라우드 콘솔 > Beyond Compute Service > Virtual Machine
+2. `HadoopMST-core-hadoop-1` 인스턴스의 `private ip` 복사 및 클립보드 등에 붙여넣기
+
+    <img width="1596" height="162" alt="1  mst private ip 확인" src="https://github.com/user-attachments/assets/e4e8b0b8-3b30-42fa-ac67-4b8ff9f4c600" />
+
+## 2. Hive에서 aggregated_logs 테이블 생성
 
 1. 사용하던 `HadoopMST-core-hadoop-1`에서 hive에 접속
 
-    #### **lab5-1-1**
+    #### **lab5-2-1**
 
     ```bash
     hive
@@ -15,7 +22,10 @@ Hadoop Eco의 Hive를 활용하여 이미 만들어진 Nginx 로그 데이터 �
 
 2. aggregated_logs 테이블 생성
 
-    #### **lab5-1-2**
+    - LOCATION에 `{HadoopMST-core-hadoop-1 private ip주소}` 입력
+    - **Note**: 8020번 포트는 Hadoop의 HDFS의 RPC 통신 포트
+
+    #### **lab5-2-2**
 
     ```bash
     CREATE TABLE IF NOT EXISTS aggregated_logs (
@@ -26,16 +36,17 @@ Hadoop Eco의 Hive를 활용하여 이미 만들어진 Nginx 로그 데이터 �
       event_count        INT,
       total_request_time DOUBLE,
       last_active_time   STRING,
-      status             INT
+      success_status     INT
     )
-    STORED AS PARQUET;
+    STORED AS PARQUET
+    LOCATION 'hdfs://{HadoopMST-core-hadoop-1 private ip주소}:8020/apps/hive/warehouse/aggregated_logs/';
     ```
 
 3. 파티션 설정 및 jar 등록
 
     - Hive 메타스토어에 저장된 테이블 정보를 Hadoop Eco와 공유해주는 HCatalog 코어 라이브러리 추가 
 
-    #### **lab5-1-3**
+    #### **lab5-2-3**
 
     ```bash
     ADD JAR /opt/apache-hive-3.1.3-bin/lib/hive-hcatalog-core-3.1.3.jar;
@@ -43,7 +54,7 @@ Hadoop Eco의 Hive를 활용하여 이미 만들어진 Nginx 로그 데이터 �
 
 4. aggregated_logs 테이블에 데이터 적재
 
-    #### **lab5-1-4**
+    #### **lab5-2-4**
 
     ```bash
     INSERT OVERWRITE TABLE aggregated_logs
@@ -107,7 +118,7 @@ Hadoop Eco의 Hive를 활용하여 이미 만들어진 Nginx 로그 데이터 �
 
 5. aggregated_logs 테이블에 적재된 데이터 결과 확인
 
-    #### **lab5-1-5**
+    #### **lab5-2-5**
 
     ```bash
     select * from aggregated_logs limit 10;
@@ -122,7 +133,7 @@ Hadoop Eco의 Hive를 활용하여 이미 만들어진 Nginx 로그 데이터 �
     - **Note**: HDFS는 원시 형태의 다양한 데이터를 저장해두는 분산 스토리지 계층이자 데이터 레이크이다.
     - `HDFS 경로` 복사 후 클립보드 등에 붙여넣기
 
-    #### **lab5-1-6**
+    #### **lab5-2-6**
 
     ```bash
     SET hive.metastore.warehouse.dir;
@@ -146,4 +157,4 @@ Hadoop Eco의 Hive를 활용하여 이미 만들어진 Nginx 로그 데이터 �
 
     - 아래와 같은 형식의 내용 확인
 
-    ![hdfs 리스트 확인](https://github.com/user-attachments/assets/53a9c311-c2ab-49f6-a1bb-9a32b1b31f27)
+    <img width="1500" height="73" alt="Image" src="https://github.com/user-attachments/assets/8770eb63-5550-497a-a596-bf26b25edd8e" />
