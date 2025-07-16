@@ -23,6 +23,7 @@ Hadoop Eco의 Hive를 활용하여 이미 만들어진 Nginx 로그 데이터 �
 2. aggregated_logs 테이블 생성
 
     - LOCATION에 `{HadoopMST-core-hadoop-1 private ip주소}` 입력
+    - **Note**: 8020번 포트는 Hadoop의 HDFS의 RPC 통신 포트
 
     #### **lab5-2-2**
 
