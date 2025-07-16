@@ -112,14 +112,14 @@ MySQL Connector VM 생성을 통해 MySQL 데이터의 CDC(Change Data Capture) 
     ```
     kakaocloud: 1. 환경 변수 설정 시작
     kakaocloud: 2. 스크립트 다운로드 사이트 유효성 검사 시작
-    kakaocloud: 2. 필수 환경 변수 검증 시작
-    kakaocloud: 3. 시스템 업데이트 및 필수 패키지 설치 시작
-    kakaocloud: 4. Kafka 설치 시작
-    kakaocloud: 5. Java 환경 변수 등록 시작
-    kakaocloud: 6. Debezium MySQL Connector 플러그인 다운로드 및 설치 시작
-    kakaocloud: 7. Kafka Connect 분산 모드 설정 (worker.properties) 시작
-    kakaocloud: 8. Kafka Connect 시스템 서비스 등록 및 시작
-    kakaocloud: 9. Debezium Connector 구성 파일 생성 시작
+    kakaocloud: 3. 필수 환경 변수 검증 시작
+    kakaocloud: 4. 시스템 업데이트 및 필수 패키지 설치 시작
+    kakaocloud: 5. Kafka 설치 시작
+    kakaocloud: 6. Java 환경 변수 등록 시작
+    kakaocloud: 7. Debezium MySQL Connector 플러그인 다운로드 및 설치 시작
+    kakaocloud: 8. Kafka Connect 분산 모드 설정 (worker.properties) 시작
+    kakaocloud: 9. Kafka Connect 시스템 서비스 등록 및 시작
+    kakaocloud: 10. Debezium Connector 구성 파일 생성 시작
     kakaocloud: Setup 완료
     ```
     
