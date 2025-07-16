@@ -110,16 +110,12 @@ Data Catalog와 Pub/Sub, Object Storage를 연동하여 테이블을 생성하�
    - 스키마  
       - 필드 추가 버튼 클릭 후 아래 표의 순서대로 스키마 추가
           - **Note**: 한 필드 생성 후에는 반드시 닫기 버튼 클릭 후 새로운 필드 추가
-      
-        | 파티션 키 | 컬럼 번호 | 필드 이름 | 데이터 유형 |스키마|설명(선택)|
-        |----------|----------|--------------|------------|------------|------------|
-        | 미사용   | 1        | status       | struct | STRUCT<member0: STRING, member1: INT> | 빈 칸
-
 
         | 파티션 키 | 컬럼 번호 | 필드 이름     | 데이터 유형 |설명(선택)|
         |----------|----------|--------------|------------|------------|
-        | 미사용   | 2        | query_params | string     | 빈 칸      |
-        | 미사용   | 3        | endpoint     | string     | 빈 칸      |
+        | 미사용   | 1        | status         | string   | 빈 칸      |
+        | 미사용   | 2        | page_url       | string   | 빈 칸      |
+        | 미사용   | 3        | event_name     | string   | 빈 칸      |
    - 생성 버튼 클릭
 3. `kafka_log_table` 테이블의 상태가 `Active`인 것을 확인
       <img width="1920" alt="결과 이미지" src="https://github.com/user-attachments/assets/a5279b23-2a8b-401d-81b3-82cb542bfaa2" />
