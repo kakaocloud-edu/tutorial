@@ -41,7 +41,7 @@ def parse_args():
     parser = argparse.ArgumentParser(description="Traffic generator: once vs continuous")
     parser.add_argument('--mode', choices=['once','continuous'], default='once',
                         help='한번 실행(once) vs 지속 실행(continuous)')
-    return parser.par
+    return parser.parse_args()
 
 # 로깅으로 config 값 확인
 logging.info(f"Config loaded: LOG_FILENAME={config.LOG_FILENAME}, LOG_LEVEL={config.LOG_LEVEL}")
