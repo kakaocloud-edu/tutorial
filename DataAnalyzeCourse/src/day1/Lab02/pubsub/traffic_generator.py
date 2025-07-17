@@ -6,6 +6,7 @@ import time
 import random
 import uuid
 import logging
+import argparse
 
 # 현재 스크립트의 디렉토리 경로 가져오기
 current_dir = os.path.dirname(os.path.abspath(__file__))
@@ -34,6 +35,13 @@ logging.basicConfig(
     level=config.LOG_LEVEL,
     format='%(asctime)s - %(levelname)s - %(message)s'
 )
+
+# Argument parsing for mode
+def parse_args():
+    parser = argparse.ArgumentParser(description="Traffic generator: once vs continuous")
+    parser.add_argument('--mode', choices=['once','continuous'], default='once',
+                        help='한번 실행(once) vs 지속 실행(continuous)')
+    return parser.par
 
 # 로깅으로 config 값 확인
 logging.info(f"Config loaded: LOG_FILENAME={config.LOG_FILENAME}, LOG_LEVEL={config.LOG_LEVEL}")
@@ -261,6 +269,8 @@ def perform_anon_sub_action(session: requests.Session, user_unique_id: str, sub_
         except Exception as err:
             logging.error(f"[{user_unique_id}] error page fail: {err}")
 
+    time.sleep(random.uniform(0.5, 1.0))
+
 #################################
 # 로그인 하위 FSM
 #################################
@@ -370,6 +380,8 @@ def perform_logged_sub_action(session: requests.Session,
             logging.info(f"[{user_unique_id}] GET /error => {rr.status_code}")
         except Exception as e:
             logging.error(f"[{user_unique_id}] error page => {e}")
+
+    time.sleep(random.uniform(0.5, 1.0))
 
 #################################
 # do_top_level_action_and_confirm
@@ -507,22 +519,83 @@ def user_thread(idx: int):
     with semaphore:
         run_user_simulation(idx)
 
-def main():
+def launch_traffic(num_users, max_threads, time_sleep_range):
+    # Override config values for this run
+    orig_num_users       = config.NUM_USERS
+    orig_max_threads     = config.MAX_THREADS
+    orig_time_sleep_range = config.TIME_SLEEP_RANGE
+    config.NUM_USERS     = num_users
+    config.MAX_THREADS   = max_threads
+    config.TIME_SLEEP_RANGE = time_sleep_range
+
+    # 미리 상품·카테고리 캐시 갱신
     fetch_products(config.API_URL_WITH_HTTP)
     fetch_categories(config.API_URL_WITH_HTTP)
+
+    # 스레드 시작 간격에 약간의 무작위성 부여 (0.01~0.1초)
+    spawn_min, spawn_max = 0.01, 0.1
 
     threads = []
     for i in range(config.NUM_USERS):
         t = threading.Thread(target=user_thread, args=(i,))
         threads.append(t)
         t.start()
-        time.sleep(0.05)
 
+        # 자연스러운 사용자 도착 간격
+        delay = random.uniform(spawn_min, spawn_max)
+        logging.info(f"[Launch] spawned user #{i}, next in {delay:.3f}s")
+        time.sleep(delay)
+
+    # 모든 스레드가 작업을 마칠 때까지 대기
     for t in threads:
         t.join()
 
     logging.info("All user threads finished.")
 
+    # 원래 config 값 복원
+    config.NUM_USERS       = orig_num_users
+    config.MAX_THREADS     = orig_max_threads
+    config.TIME_SLEEP_RANGE = orig_time_sleep_range
+
+
 if __name__ == "__main__":
-    main()
-    print("Traffic generation completed. Check the log file for details.")
+    args = parse_args()
+    if args.mode == "once":
+        launch_traffic(config.NUM_USERS, config.MAX_THREADS, config.TIME_SLEEP_RANGE)
+        print("[Done] Single traffic launch completed.")
+    else:
+        # continuous 모드: 1시간 단위로 '적음(light)', '평균(normal)', '몰림(heavy)' 순서 랜덤 배치하여 실행
+        patterns = ["light", "normal", "heavy"]
+        while True:
+            random.shuffle(patterns)
+            for pattern in patterns:
+                # 1) 패턴별 기본 부하 계수 범위 정의
+                if pattern == "light":
+                    base_factor_min, base_factor_max = 0.5, 0.8
+                elif pattern == "normal":
+                    base_factor_min, base_factor_max = 0.8, 1.2
+                else:  # heavy
+                    base_factor_min, base_factor_max = 1.2, 1.5
+
+                # 2) 사용자 수·스레드 수 랜덤 결정
+                factor      = random.uniform(base_factor_min, base_factor_max)
+                num_users   = max(1, int(config.NUM_USERS   * factor))
+                max_threads = max(1, int(config.MAX_THREADS * factor))
+
+                # 3) 액션 딜레이 범위에도 ±20% jitter 적용
+                base_min, base_max = config.TIME_SLEEP_RANGE
+                sleep_min = base_min * random.uniform(0.8, 1.2)
+                sleep_max = base_max * random.uniform(0.8, 1.2)
+                time_range = (sleep_min, sleep_max)
+
+                logging.info(
+                    f"[Continuous][{pattern}] users={num_users}, "
+                    f"threads={max_threads}, sleep_range=({sleep_min:.2f},{sleep_max:.2f})"
+                )
+
+                # 4) 트래픽 실행 (1시간 분량)
+                launch_traffic(num_users, max_threads, time_range)
+
+                # 5) 다음 패턴까지 5초 대기
+                logging.info(f"[Continuous][{pattern}] done. sleeping 5s before next pattern")
+                time.sleep(5)
