@@ -21,6 +21,17 @@
     { "name":"session_id",             "type":[ "null","string" ],  "default": null },
     { "name":"user_id",                "type":[ "null","string" ],  "default": null },
     {
+      "name":"age",
+      "type":[ "null", "string", "int" ],
+      "default": null
+    },
+    { "name":"gender",                 "type":[ "null","string" ],  "default": null },
+    {
+      "name":"request_time",
+      "type":[ "null", "string", "double" ],
+      "default": null
+    },
+    {
       "name":"upstream_response_time",
       "type":[ "null", "string", "double" ],
       "default": null
