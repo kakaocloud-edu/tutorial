@@ -1332,10 +1332,6 @@ NGINX_CONF_MAIN="/etc/nginx/nginx.conf"
 if ! grep -q "log_format $LOG_FORMAT_NAME" $NGINX_CONF_MAIN; then
     echo "Adding custom_json log format to NGINX configuration..."
     sed -i "/http {/a \
-        map \$request_body \$prod_pid {\\n\
-            \"~(?:^|&)(?:id|product_id)=(?<v>[^&]+)\" \$v;\\n\
-            default \"\";\\n\
-        }\\n\
         log_format $LOG_FORMAT_NAME escape=json '{\\n\
             \"timestamp\":\"\$time_local\",\\n\
             \"remote_addr\":\"\$remote_addr\",\\n\
@@ -1351,11 +1347,10 @@ if ! grep -q "log_format $LOG_FORMAT_NAME" $NGINX_CONF_MAIN; then
             \"endpoint\":\"\$uri\",\\n\
             \"method\":\"\$request_method\",\\n\
             \"query_params\":\"\$args\",\\n\
-            \"product_id\":\"\$arg_id\$prod_pid\",\\n\
-            \"x_forwarded_for\":\"\$proxy_add_x_forwarded_for\",\\n\
+            \"product_id\":\"\$arg_id\",\\n\
+            \"x_forwarded_for\":\"\$http_x_forwarded_for\",\\n\
             \"host\":\"\$host\"\\n\
-        }';" \
-    $NGINX_CONF_MAIN
+        }';" $NGINX_CONF_MAIN
     echo "custom_json log format added successfully."
 else
     echo "custom_json log format already exists. Skipping addition."
