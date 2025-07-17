@@ -178,7 +178,7 @@ Hadoop 클러스터 환경에서 실시간 스트리밍 데이터와 배치 데�
 
 1. 실시간 정제 로직 파일 생성
     - **Note**: 스크립트에 대한 자세한 내용은 아래 파일 참고
-        - [streaming_data_processor.sh](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day2/Lab07/streaming_data_processor.py)
+        - [streaming_data_processor.py](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day2/Lab07/streaming_data_processor.py)
     
     
     **lab7-3-1**
