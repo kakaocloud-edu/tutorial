@@ -53,20 +53,11 @@ Hadoop 클러스터 환경에서 실시간 스트리밍 데이터와 배치 데�
     ```
     
 
-5. nginx_log.avsc 스키마 파일 구성
-    
-    **lab7-1-5**
-    
-    ```java
-    wget https://raw.githubusercontent.com/kakaocloud-edu/tutorial/refs/heads/main/DataAnalyzeCourse/src/day2/Lab07/nginx_log.avsc
-    ```
-    
-
 ## 2. PySpark를 활용한 일괄 정제
 
 1. 배치 정제 파일 다운로드
    - **Note**: 스크립트에 대한 자세한 내용은 아래 파일 참고
-     - [historical_data_refiner.sh](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day2/Lab07/historical_data_refiner.py)
+     - [historical_data_refiner.py](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day2/Lab07/historical_data_refiner.py)
                   
     **lab7-2-1**
     
