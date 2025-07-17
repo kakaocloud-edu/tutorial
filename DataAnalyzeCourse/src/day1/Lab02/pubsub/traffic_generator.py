@@ -7,6 +7,8 @@ import random
 import uuid
 import logging
 
+import argparse
+
 # 현재 스크립트의 디렉토리 경로 가져오기
 current_dir = os.path.dirname(os.path.abspath(__file__))
 
@@ -39,6 +41,13 @@ logging.basicConfig(
 logging.info(f"Config loaded: LOG_FILENAME={config.LOG_FILENAME}, LOG_LEVEL={config.LOG_LEVEL}")
 logging.info(f"API_URL_WITH_HTTP: {config.API_URL_WITH_HTTP}")
 logging.info(f"Number of Users: {config.NUM_USERS}")
+
+# Argument parsing for mode
+def parse_args():
+    parser = argparse.ArgumentParser(description="Traffic generator: once vs continuous")
+    parser.add_argument('--mode', choices=['once','continuous'], default='once',
+                        help='한번 실행(once) vs 지속 실행(continuous)')
+    return parser.parse_args()
 
 #################################
 # 나이 구간 판단 함수
@@ -107,7 +116,7 @@ def pick_next_state(prob_dict: dict) -> str:
 #################################
 def pick_preferred_product_id(gender: str, age_segment: str) -> str:
     if not products_cache:
-        return "101"  # fallback
+        return str(random.randint(101, 124))
     cat_list = config.CATEGORY_PREFERENCE.get(gender, {}).get(age_segment, [])
     filtered = [p for p in products_cache if p.get("category", "") in cat_list]
     if filtered:
@@ -116,6 +125,21 @@ def pick_preferred_product_id(gender: str, age_segment: str) -> str:
     else:
         chosen = random.choice(products_cache)
         return chosen.get("id", "101")
+
+#################################
+# ID로부터 카테고리 조회 유틸
+#################################
+def get_category_for_product(pid: str) -> str:
+    """
+    products_cache 에서 id==pid 인 상품을 찾아
+    'category' 값을 반환합니다.
+    못 찾으면 빈 문자열 반환.
+    """
+    for p in products_cache:
+        # p['id'] 가 int 혹은 str 일 수 있으니 str 비교
+        if str(p.get("id")) == str(pid):
+            return p.get("category", "")
+    return ""
 
 #################################
 # 실제 회원가입/로그인/로그아웃/탈퇴 시도
@@ -145,7 +169,10 @@ def try_login(session: requests.Session, user_id: str) -> bool:
         url = config.API_URL_WITH_HTTP + config.API_ENDPOINTS["LOGIN"]
         r = session.post(url, data=payload, headers=headers)
         logging.info(f"[{user_id}] POST /login => {r.status_code}")
-        return (200 <= r.status_code < 300)
+        if 200 <= r.status_code < 300:
+            # 헤더에 user_id 추가
+            session.headers.update({"X-User-Id": user_id})
+            return True
     except Exception as e:
         logging.error(f"[{user_id}] login exception: {e}")
         return False
@@ -216,10 +243,10 @@ def perform_anon_sub_action(session: requests.Session, user_unique_id: str, sub_
             logging.error(f"[{user_unique_id}] Anon_Sub_Products error: {e}")
 
     elif sub_state == "Anon_Sub_ViewProduct":
-        if products_cache:
-            prod = random.choice(products_cache)
-            pid = prod.get("id", "101")
-            url = f"http://{config.API_BASE_URL}/{config.API_ENDPOINTS['PRODUCT_DETAIL']}?id={pid}"
+            # 101~124 범위의 상품 ID를 랜덤 선택하여 조회
+            pid = random.randint(101, 124)
+            url = f"{config.API_URL_WITH_HTTP}{config.API_ENDPOINTS['PRODUCT_DETAIL']}?id={pid}"
+            
             try:
                 r = session.get(url, headers=headers)
                 logging.info(f"[{user_unique_id}] GET /product?id={pid} => {r.status_code}")
@@ -260,14 +287,18 @@ def perform_anon_sub_action(session: requests.Session, user_unique_id: str, sub_
             logging.info(f"[{user_unique_id}] GET /error => {r.status_code}")
         except Exception as err:
             logging.error(f"[{user_unique_id}] error page fail: {err}")
+    
+    # 사용자 행동 사이의 대기 추가        
+    time.sleep(random.uniform(0.5, 1.0))
 
 #################################
 # 로그인 하위 FSM
 #################################
 def do_logged_sub_fsm(session: requests.Session,
                       user_unique_id: str,
-                      gender: str,
-                      age_segment: str):
+                      gender,
+                      age_segment: str
+                      ):
     sub_state = "Login_Sub_Initial"
     while sub_state != "Login_Sub_Done":
         logging.info(f"[{user_unique_id}] Logged Sub-FSM state = {sub_state}")
@@ -278,6 +309,7 @@ def do_logged_sub_fsm(session: requests.Session,
             break
 
         transitions = config.LOGGED_SUB_TRANSITIONS[sub_state]
+        
         if not transitions:
             logging.warning(f"[{user_unique_id}] No next transitions => break")
             break
@@ -292,10 +324,25 @@ def perform_logged_sub_action(session: requests.Session,
                               user_unique_id: str,
                               sub_state: str,
                               gender: str,
-                              age_segment: str):
-    headers = {"Accept": "application/json"}
+                              age_segment: str
+                              ):
+    headers = {
+        "Accept": "application/json",
+        "X-User-Id": user_unique_id,
+    }
+    
+    if sub_state == "Login_Sub_ViewProduct":
+        # 101~124 범위의 상품 ID를 랜덤 선택하여 상세 조회
+        pid = random.randint(101, 124)
+        url = f"{config.API_URL_WITH_HTTP}{config.API_ENDPOINTS['PRODUCT_DETAIL']}?id={pid}"
+        try:
+            r = session.get(url, headers=headers)
+            logging.info(f"[{user_unique_id}] GET id={pid} => {r.status_code}")
+        except Exception as err:
+            logging.error(f"[{user_unique_id}] view product error: {err}")
+        return
 
-    if sub_state == "Login_Sub_ViewCart":
+    elif sub_state == "Login_Sub_ViewCart":
         url = config.API_URL_WITH_HTTP + config.API_ENDPOINTS["CART_VIEW"]
         try:
             r = session.get(url, headers=headers)
@@ -313,12 +360,14 @@ def perform_logged_sub_action(session: requests.Session,
 
     elif sub_state == "Login_Sub_CartAdd":
         pid = pick_preferred_product_id(gender, age_segment)
-        qty = random.randint(1,3)
+        qty = random.randint(1,5)     
+        
+       
         payload = {"id": pid, "quantity": str(qty)}
         try:
             add_url = config.API_URL_WITH_HTTP + config.API_ENDPOINTS["CART_ADD"]
             r = session.post(add_url, data=payload, headers=headers)
-            logging.info(f"[{user_unique_id}] POST /cart/add (pid={pid}, qty={qty}) => {r.status_code}")
+            logging.info(f"[pid={pid}, qty={qty}) => {r.status_code}")
         except Exception as e:
             logging.error(f"[{user_unique_id}] cart add error: {e}")
 
@@ -355,6 +404,8 @@ def perform_logged_sub_action(session: requests.Session,
     elif sub_state == "Login_Sub_AddReview":
         pid = pick_preferred_product_id(gender, age_segment)
         rating = random.randint(1,5)
+        
+
         payload = {"product_id": pid, "rating": str(rating)}
         try:
             rev_url = config.API_URL_WITH_HTTP + config.API_ENDPOINTS["ADD_REVIEW"]
@@ -370,6 +421,10 @@ def perform_logged_sub_action(session: requests.Session,
             logging.info(f"[{user_unique_id}] GET /error => {rr.status_code}")
         except Exception as e:
             logging.error(f"[{user_unique_id}] error page => {e}")
+            
+            
+    #사용자 행동 사이의 대기 추가
+    time.sleep(random.uniform(0.5, 1.0))
 
 #################################
 # do_top_level_action_and_confirm
@@ -411,30 +466,13 @@ def do_top_level_action_and_confirm(
 
     return proposed_next
 
-#################################
-# 상품 id 101~124 랜덤 접근
-#################################
-def simulate_random_product_access(session: requests.Session, user_unique_id: str):
-    """
-    각 사용자 당 10~30회, 상품 id가 101부터 124 사이인 상품에 대해 GET 요청을 보냅니다.
-    """
-    access_count = random.randint(10, 30)
-    for i in range(access_count):
-        pid = random.randint(101, 124)
-        url = f"http://{config.API_BASE_URL}/product?id={pid}"
-        try:
-            r = session.get(url)
-            logging.info(f"[{user_unique_id}] GET /product?id={pid} => {r.status_code}")
-        except Exception as e:
-            logging.error(f"[{user_unique_id}] product id {pid} access error on attempt {i+1}: {e}")
-        time.sleep(random.uniform(0.1, 0.5))
 
 #################################
 # 사용자 전체 로직
 #################################
 def run_user_simulation(user_idx: int):
     session = requests.Session()
-
+    session.get(config.API_URL_WITH_HTTP) 
     gender = random.choice(["F", "M"])
     age = random.randint(18,70)
     age_segment = get_age_segment(age)
@@ -493,9 +531,6 @@ def run_user_simulation(user_idx: int):
         transition_count += 1
         time.sleep(random.uniform(*config.TIME_SLEEP_RANGE))
 
-    # 사용자 시뮬레이션 종료 후, 추가로 랜덤 상품 id 접근 시도
-    simulate_random_product_access(session, user_unique_id)
-
     logging.info(f"[{user_unique_id}] Simulation ended. final={current_state}")
 
 #################################
@@ -507,22 +542,84 @@ def user_thread(idx: int):
     with semaphore:
         run_user_simulation(idx)
 
-def main():
+
+def launch_traffic(num_users, max_threads, time_sleep_range):
+    # Override config values for this run
+    orig_num_users       = config.NUM_USERS
+    orig_max_threads     = config.MAX_THREADS
+    orig_time_sleep_range = config.TIME_SLEEP_RANGE
+    config.NUM_USERS     = num_users
+    config.MAX_THREADS   = max_threads
+    config.TIME_SLEEP_RANGE = time_sleep_range
+
+    # 미리 상품·카테고리 캐시 갱신
     fetch_products(config.API_URL_WITH_HTTP)
     fetch_categories(config.API_URL_WITH_HTTP)
+
+    # 스레드 시작 간격에 약간의 무작위성 부여 (0.01~0.1초)
+    spawn_min, spawn_max = 0.01, 0.1
 
     threads = []
     for i in range(config.NUM_USERS):
         t = threading.Thread(target=user_thread, args=(i,))
         threads.append(t)
         t.start()
-        time.sleep(0.05)
 
+        # 자연스러운 사용자 도착 간격
+        delay = random.uniform(spawn_min, spawn_max)
+        logging.info(f"[Launch] spawned user #{i}, next in {delay:.3f}s")
+        time.sleep(delay)
+
+    # 모든 스레드가 작업을 마칠 때까지 대기
     for t in threads:
         t.join()
 
     logging.info("All user threads finished.")
 
+    # 원래 config 값 복원
+    config.NUM_USERS       = orig_num_users
+    config.MAX_THREADS     = orig_max_threads
+    config.TIME_SLEEP_RANGE = orig_time_sleep_range
+
+
 if __name__ == "__main__":
-    main()
-    print("Traffic generation completed. Check the log file for details.")
+    args = parse_args()
+    if args.mode == "once":
+        launch_traffic(config.NUM_USERS, config.MAX_THREADS, config.TIME_SLEEP_RANGE)
+        print("[Done] Single traffic launch completed.")
+    else:
+        # continuous 모드: 1시간 단위로 '적음(light)', '평균(normal)', '몰림(heavy)' 순서 랜덤 배치하여 실행
+        patterns = ["light", "normal", "heavy"]
+        while True:
+            random.shuffle(patterns)
+            for pattern in patterns:
+                # 1) 패턴별 기본 부하 계수 범위 정의
+                if pattern == "light":
+                    base_factor_min, base_factor_max = 0.5, 0.8
+                elif pattern == "normal":
+                    base_factor_min, base_factor_max = 0.8, 1.2
+                else:  # heavy
+                    base_factor_min, base_factor_max = 1.2, 1.5
+
+                # 2) 사용자 수·스레드 수 랜덤 결정
+                factor      = random.uniform(base_factor_min, base_factor_max)
+                num_users   = max(1, int(config.NUM_USERS   * factor))
+                max_threads = max(1, int(config.MAX_THREADS * factor))
+
+                # 3) 액션 딜레이 범위에도 ±20% jitter 적용
+                base_min, base_max = config.TIME_SLEEP_RANGE
+                sleep_min = base_min * random.uniform(0.8, 1.2)
+                sleep_max = base_max * random.uniform(0.8, 1.2)
+                time_range = (sleep_min, sleep_max)
+
+                logging.info(
+                    f"[Continuous][{pattern}] users={num_users}, "
+                    f"threads={max_threads}, sleep_range=({sleep_min:.2f},{sleep_max:.2f})"
+                )
+
+                # 4) 트래픽 실행 (1시간 분량)
+                launch_traffic(num_users, max_threads, time_range)
+
+                # 5) 다음 패턴까지 5초 대기
+                logging.info(f"[Continuous][{pattern}] done. sleeping 5s before next pattern")
+                time.sleep(5)
