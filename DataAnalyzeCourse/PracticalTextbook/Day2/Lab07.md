@@ -2,7 +2,7 @@
 Hadoop 클러스터 환경에서 실시간 스트리밍 데이터와 배치 데이터를 통합 처리하여 사용자 행동 예측 데이터셋을 구축하고 PySpark를 활용하여 데이터를 검증하는 실습입니다.
 
 ## **1. Spark 및 Avro 환경 설정**
-1. 사용하던 HadoopMST-core-hadoop-1에서 Avro 직렬화를 위한 의존성 설치
+1. 사용하던 `HadoopMST-core-hadoop-1`에서 Avro 직렬화를 위한 의존성 설치
     
     **lab7-1-1-1**
     
