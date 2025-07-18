@@ -2,51 +2,15 @@
 Hadoop 클러스터 환경에서 실시간 스트리밍 데이터와 배치 데이터를 통합 처리하여 사용자 행동 예측 데이터셋을 구축하고 PySpark를 활용하여 데이터를 검증하는 실습입니다.
 
 ## **1. Spark 및 Avro 환경 설정**
-1. Beyond Computer Service → Virtual Machine → 인스턴스
-2. `HadoopMST-core-hadoop-1` 상태 Actice 확인 후 인스턴스의 우측 메뉴바 > `Public IP 연결` 클릭
-    - `새로운 퍼블릭 IP를 생성하고 자동으로 할당`
-    - 확인 버튼 클릭
-3. `HadoopMST-core-hadoop-1` 인스턴스의 우측 메뉴바 > `SSH 연결` 클릭
-    - SSH 접속 명령어 복사
-    - 터미널 열기
-    - keypair를 다운받아놓은 폴더로 이동
-    - 터미널에 명령어 붙여넣기
-    - yes 입력
+1. 사용하던 HadoopMST-core-hadoop-1에서 Avro 직렬화를 위한 의존성 설치
     
-    **lab7-1-3-1**
-    
-    ```
-    cd {keypair.pem 다운로드 위치}
-    ```
-    
-    
-    **lab7-1-3-2**
-    - 리눅스의 경우에 아래와 같이 키페어의 권한을 조정
-    ```
-    chmod 400 keypair.pem
-    ```
-    
-    **lab7-1-3-3**
-    
-    ```
-    ssh -i keypair.pem ubuntu@{s3-sink-connector public ip주소}
-    ```
-    
-    **lab7-1-3-4**
-    
-    ```
-    yes
-    ```
-    
-4. Avro 직렬화를 위한 의존성 설치
-    
-    **lab7-1-4-1**
+    **lab7-1-1-1**
     
     ```java
     mkdir -p /home/ubuntu/jars
     ```
     
-    **lab7-1-4-2**
+    **lab7-1-1-2**
     ```java
     wget https://packages.confluent.io/maven/io/confluent/kafka-avro-serializer/7.2.1/kafka-avro-serializer-7.2.1.jar \
          -O /home/ubuntu/jars/kafka-avro-serializer-7.2.1.jar
