@@ -174,8 +174,8 @@
    - **Note**: pub/sub 토큰 생성 API 호출 시 `조직 id`와 `프로젝트 id`를 경로 변수로 사용
    - {endpoint-url}/v1/domains/`{조직 id}`/projects/`{프로젝트 id}`/topics/{topic-name}
    - `사용자 UUID` 는 이후 s3 sink connector 생성 시 필요
-     
-   ![Image](https://github.com/user-attachments/assets/5fadd88d-d512-45a8-9ccb-23d42fdd94c0)
+
+   <img width="1236" height="553" alt="Image" src="https://github.com/user-attachments/assets/36d8b06f-6a88-4d35-bec4-930ea2b84d42" />
 
 
 
