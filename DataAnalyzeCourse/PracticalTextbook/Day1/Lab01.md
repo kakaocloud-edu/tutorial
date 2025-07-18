@@ -362,7 +362,7 @@
       export MYSQL_HOST="{MySQL 엔드포인트}"
       
       # 스키마 레지스트리 설정
-      export SCHEMA_REGISTRY_URL="{Schema Registry의 Public IP}"
+      export SCHEMA_REGISTRY_URL="{data-stream-vm의 Public IP}"
       
       # Pub/Sub 및 Kafka 설정
       export LOGSTASH_KAFKA_ENDPOINT="{Kafka 부트스트랩 서버}"
