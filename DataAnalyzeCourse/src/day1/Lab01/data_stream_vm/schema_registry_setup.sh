@@ -143,7 +143,7 @@ SCHEMA_REGISTRY_URL="http://localhost:${SCHEMA_REGISTRY_PORT}"
 # 연결 테스트 (최대 10번 시도)
 for i in {1..10}; do
     if curl -f -s "${SCHEMA_REGISTRY_URL}/subjects" > /dev/null; then
-        echo "kakaocloud: ✓ Schema Registry 연결 성공 (시도: $i)"
+        echo "kakaocloud: 18. Schema Registry 연결 성공 (시도: $i)"
         break
     else
         echo "kakaocloud: Schema Registry 연결 실패 (시도: $i/10)"
