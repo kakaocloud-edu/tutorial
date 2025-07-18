@@ -205,49 +205,59 @@
                         - 프로토콜: `ALL`, 출발지: `0.0.0.0/0`, 포트 번호: `ALL`
                     - `생성` 버튼 클릭
     - 고급 설정
-        - 사용자 스크립트: `mysql_source_connector_init.sh`의 쌍따옴표("") 사이에 자신의 리소스 값 입력
+        - 사용자 스크립트: `/data_stream_vm.init.sh`의 쌍따옴표("") 사이에 자신의 리소스 값 입력
             - **Note**: 스크립트에 대한 자세한 내용은 아래 파일들 참고
-                - [mysql_source_connector_init.sh](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day1/Lab01/kafka/mysql_source_connector_init.sh)
+                - [/data_stream_vm.init.sh](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day1/Lab01/data_stream_vm/data_stream_vm.init)
         
         ### **lab1-8-2**
         
         ```bash
+        
         #!/bin/bash
-        
-        echo "kakaocloud: 1. 환경 변수 설정 시작"
-        
-        cat <<'EOF' > /tmp/env_vars.sh
-        export KAFKA_BOOTSTRAP_SERVER="{Kafka 부트스트랩 서버}"
-        export MYSQL_DB_HOSTNAME="{MySQL 엔드포인트}"
-        export LOGFILE="/home/ubuntu/setup.log"
-        export MYSQL_DB_PORT="3306"
-        export MYSQL_DB_USER="admin"
-        export MYSQL_DB_PASSWORD="admin1234"
-        export MYSQL_SERVER_ID="184054"
-        export MYSQL_SERVER_NAME="mysql-server"
-        EOF
-        
-        source /tmp/env_vars.sh
-        
-        if ! grep -q "source /tmp/env_vars.sh" /home/ubuntu/.bashrc; then
-            echo "" >> /home/ubuntu/.bashrc
-            echo "# Load custom environment variables" >> /home/ubuntu/.bashrc
-            echo "source /tmp/env_vars.sh" >> /home/ubuntu/.bashrc
-        fi
-        
-        chown ubuntu:ubuntu /tmp/env_vars.sh
-        
-        echo "kakaocloud: 2. 스크립트 다운로드 사이트 유효성 검사 시작"
-        SCRIPT_URL="<https://raw.githubusercontent.com/kakaocloud-edu/tutorial/refs/heads/main/DataAnalyzeCourse/src/day1/Lab01/kafka/mysql_source_connector.sh>"
-        CONNECTOR_SCRIPT="/home/ubuntu/mysql_source_connector.sh"
-        
-        curl -L --output /dev/null --silent --head --fail "$SCRIPT_URL" || { echo "kakaocloud: Script download site is not valid"; exit 1; }
-        wget -q "$SCRIPT_URL" -O "$CONNECTOR_SCRIPT"
-        
-        chown ubuntu:ubuntu "$CONNECTOR_SCRIPT"
-        chmod +x "$CONNECTOR_SCRIPT"
-        sudo -E "$CONNECTOR_SCRIPT"
-        
+         # /data_stream_vm.init.sh
+         echo "kakaocloud: 1. 환경 변수 설정 시작"
+         
+         cat <<'EOF' > /tmp/env_vars.sh
+         export KAFKA_BOOTSTRAP_SERVER="{Kafka 부트스트랩 서버}"
+         export MYSQL_DB_HOSTNAME="{MySQL 엔드포인트}"
+         export LOGFILE="/home/ubuntu/setup.log"
+         export MYSQL_DB_PORT="3306"
+         export MYSQL_DB_USER="admin"
+         export MYSQL_DB_PASSWORD="admin1234"
+         export MYSQL_SERVER_ID="184054"
+         export MYSQL_SERVER_NAME="mysql-server"
+         EOF
+         
+         source /tmp/env_vars.sh
+         
+         if ! grep -q "source /tmp/env_vars.sh" /home/ubuntu/.bashrc; then
+             echo "" >> /home/ubuntu/.bashrc
+             echo "# Load custom environment variables" >> /home/ubuntu/.bashrc
+             echo "source /tmp/env_vars.sh" >> /home/ubuntu/.bashrc
+         fi
+         
+         chown ubuntu:ubuntu /tmp/env_vars.sh
+         
+         echo "kakaocloud: 2. 통합 설정 스크립트 다운로드"
+         SCRIPT_URL="https://raw.githubusercontent.com/kakaocloud-edu/tutorial/refs/heads/main/DataAnalyzeCourse/src/day1/Lab01/data_stream_vm/mysql_source_connector.sh"
+         CONNECTOR_SCRIPT="/home/ubuntu/mysql_source_connector.sh"
+         
+         curl -L --output /dev/null --silent --head --fail "$SCRIPT_URL" || { echo "kakaocloud: Script download site is not valid"; exit 1; }
+         wget -q "$SCRIPT_URL" -O "$CONNECTOR_SCRIPT"
+         
+         chown ubuntu:ubuntu "$CONNECTOR_SCRIPT"
+         chmod +x "$CONNECTOR_SCRIPT"
+         sudo -E "$CONNECTOR_SCRIPT"
+         
+         SCRIPT_URL="https://raw.githubusercontent.com/kakaocloud-edu/tutorial/refs/heads/main/DataAnalyzeCourse/src/day1/Lab01/data_stream_vm/schema_registry_setup.sh"
+         SCHEMA_REGISTRY_SCRIPT="/home/ubuntu/schema_registry_setup.sh"
+         
+         curl -L --output /dev/null --silent --head --fail "$SCRIPT_URL" || { echo "kakaocloud: Schema Registry script download site is not valid"; exit 1; }
+         wget -q "$SCRIPT_URL" -O "$SCHEMA_REGISTRY_SCRIPT"
+         
+         chown ubuntu:ubuntu "$SCHEMA_REGISTRY_SCRIPT"
+         chmod +x "$SCHEMA_REGISTRY_SCRIPT"
+         sudo -E "$SCHEMA_REGISTRY_SCRIPT"
         ```
         
     - 생성 버튼 클릭
