@@ -92,10 +92,10 @@ Data Catalog와 Pub/Sub, Object Storage를 연동하여 테이블을 생성하�
 
 - **Note**: nginx-log 형식
 
-| timestamp           | remote\_addr | request                  | status                            | body\_bytes\_sent                 | http\_referer | session\_id                          | user\_id | request\_time                       | upstream\_response\_time            | endpoint   | method | query\_params | product\_id | request\_body | category | host           |
+| timestamp           | remote\_addr | request                  | status                            | body\_bytes\_sent                 | http\_referer | session\_id                          | user\_id | request\_time                       | upstream\_response\_time            | endpoint   | method | query\_params | product\_id | host           |
 | ------------------- | ------------ | ------------------------ | --------------------------------- | --------------------------------- | ------------- | ------------------------------------ | -------- | ----------------------------------- | ----------------------------------- | ---------- | ------ | ------------- | ----------- | ------------- | -------- | -------------- |
-| 2025-07-18 03:30:16 | 10.0.3.48    | GET /search HTTP/1.1     | {'member0': None, 'member1': 200} | {'member0': None, 'member1': 168} |               | c662a5ec-ab64-4396-8cc0-02c34a1fc5ac |          | {'member0': None, 'member1': 0.015} | {'member0': None, 'member1': 0.016} | /search    | GET    | query=Home    | None        |               |          | 61.109.236.101 |
-| 2025-07-18 03:30:42 | 10.0.3.48    | POST /add\_user HTTP/1.1 | {'member0': None, 'member1': 201} | {'member0': None, 'member1': 68}  |               | e70fa26f-02c0-44e9-8476-9d1d180f9b12 |          | {'member0': None, 'member1': 0.016} | {'member0': None, 'member1': 0.016} | /add\_user | POST   |               | None        |               |          | 61.109.236.101 |
+| 2025-07-18 03:30:16 | 10.0.3.48    | GET /search HTTP/1.1     | {'member0': None, 'member1': 200} | {'member0': None, 'member1': 168} |               | c662a5ec-ab64-4396-8cc0-02c34a1fc5ac |          | {'member0': None, 'member1': 0.015} | {'member0': None, 'member1': 0.016} | /search    | GET    | query=Home    | None        | 61.109.236.101 |
+| 2025-07-18 03:30:42 | 10.0.3.48    | POST /add\_user HTTP/1.1 | {'member0': None, 'member1': 201} | {'member0': None, 'member1': 68}  |               | e70fa26f-02c0-44e9-8476-9d1d180f9b12 |          | {'member0': None, 'member1': 0.016} | {'member0': None, 'member1': 0.016} | /add\_user | POST   |               | None        | 61.109.236.101 |
 
 
 
