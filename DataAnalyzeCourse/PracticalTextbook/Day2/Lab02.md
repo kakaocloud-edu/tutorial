@@ -108,9 +108,23 @@ Data Stream VM을 통해 MySQL 데이터의 CDC(Change Data Capture) 변경 사�
     ```
     ![image](https://github.com/user-attachments/assets/bc305e4a-b407-418e-8689-65cd17dd1e49)
 
+
+5. `data-catalog-bucket`에 nginx 로그를 쌓기 위해 필요한 쓰기 권한을 부여하는 명령어 실행(개선중)
+
+    #### **lab2-2-5** 
     
-5. kafka-s3-sink Connector 생성
+    ```bash
+    aws s3api put-bucket-acl \
+      --bucket data-catalog-bucket \
+      --grant-full-control "id=${USER_UUID}" \
+      --endpoint-url https://objectstorage.kr-central-2.kakaocloud.com
+    ```
+
+
+6. kafka-s3-sink Connector 생성
+    
     - **Note**: kafka-connect.service 실행 후 5초 정도 대기 후 진행
+    #### **lab2-2-6** 
     
     ```bash
     curl -X POST \
@@ -120,17 +134,19 @@ Data Stream VM을 통해 MySQL 데이터의 CDC(Change Data Capture) 변경 사�
     | jq .
     ```
     
-6. 커넥터 상태 확인
-    
+7. 커넥터 상태 확인
+
+    #### **lab2-2-7** 
+
     ```bash
     curl -X GET http://localhost:8084/connectors/mysql-s3-sink-connector/status | jq .
     ```
     ![image](https://github.com/user-attachments/assets/e8b3b0f1-ac8e-4d8f-8c13-6612147399fe)
 
 
-7. 카카오 클라우드 콘솔 > Beyond Storage Service > Object Storage
-8. `data-catalog-bucket` 클릭
-9. MySQL 데이터 적재 확인
+8. 카카오 클라우드 콘솔 > Beyond Storage Service > Object Storage
+9. `data-catalog-bucket` 클릭
+10. MySQL 데이터 적재 확인
     - **Note**: `data-catalog-bucket/raw_cdc_events/mysql-server.shopdb.users/partition=0/`디렉터리로 이동
       ![MySQL 데이터](https://github.com/user-attachments/assets/7b4f8255-a3e7-48a1-a56e-4eb626f4cbec)
 
