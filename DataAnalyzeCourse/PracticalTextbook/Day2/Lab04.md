@@ -67,7 +67,6 @@ Hadoop Eco의 Hive를 활용하여 Nginx 로그 데이터와 MySQL 데이터를 
       status                   STRUCT<member0:INT, member1:INT>,
       body_bytes_sent          STRUCT<member0:BIGINT, member1:BIGINT>,
       http_referer             STRING,
-      http_user_agent          STRING,
       session_id               STRING,
       user_id                  STRING,
       request_time             STRUCT<member0:DOUBLE, member1:DOUBLE>,
@@ -76,8 +75,6 @@ Hadoop Eco의 Hive를 활용하여 Nginx 로그 데이터와 MySQL 데이터를 
       method                   STRING,
       query_params             STRING,
       product_id               STRING,
-      request_body             STRING,
-      x_forwarded_for          STRING,
       host                     STRING
     )
     STORED AS PARQUET
@@ -111,9 +108,7 @@ Hadoop Eco의 Hive를 활용하여 Nginx 로그 데이터와 MySQL 데이터를 
       user_id,
       query_params,
       product_id,
-      x_forwarded_for,
       host,
-      http_user_agent,
       endpoint
     FROM external_nginx_log
     LIMIT 10;
