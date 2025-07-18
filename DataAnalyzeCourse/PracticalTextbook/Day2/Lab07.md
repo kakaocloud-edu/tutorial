@@ -148,7 +148,8 @@ Hadoop 클러스터 환경에서 실시간 스트리밍 데이터와 배치 데�
     ```java
     df_enriched.printSchema()
     ```
-    ![image](https://github.com/user-attachments/assets/a2c93be1-cc4f-48c8-9f93-c9a2b578c01c)
+    <img width="470" height="314" alt="image" src="https://github.com/user-attachments/assets/c6386e75-96a5-45d3-9878-19087753bca2" />
+
 
     
 
@@ -277,7 +278,10 @@ Hadoop 클러스터 환경에서 실시간 스트리밍 데이터와 배치 데�
     ```java
     df_combined.printSchema()
     ```
-    ![image](https://github.com/user-attachments/assets/301e9cf7-06eb-4855-bedd-7488c3ac3a4f)
+
+    <img width="470" height="314" alt="image" src="https://github.com/user-attachments/assets/50ba5362-e45b-4cda-bb69-243c90ec447d" />
+
+
 
     
 
