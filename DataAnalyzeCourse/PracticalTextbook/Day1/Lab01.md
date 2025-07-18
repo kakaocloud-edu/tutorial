@@ -302,8 +302,8 @@
     - **Note**: 터미널 창이 작으면 로그가 안보일 수 있으니 터미널 창 크기 조절
     
     ```bash
-    watch -c "awk '/kakaocloud:/ {gsub(/([0-9]+)\\\\./,\\"\\\\033[33m&\\\\033[0m\\"); print}' < /var/log/cloud-init-output.log"
-    
+    watch -c "awk '/kakaocloud:/ {gsub(/([0-9]+)\\./,\"\\033[33m&\\033[0m\"); print}' < /var/log/cloud-init-output.log"
+
     ```
     
     - 모든 스크립트 완료 시 아래 출력됨
