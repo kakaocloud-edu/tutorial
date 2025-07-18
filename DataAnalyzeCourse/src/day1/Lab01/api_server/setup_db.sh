@@ -2,17 +2,27 @@
 
 # 환경변수 설정(필요한 경우)
 # 실제 환경에 맞게 수정 가능
+echo "[$(date '+%Y-%m-%d %H:%M:%S')] 환경변수 로드 시작"
+sleep 4
 MYSQL_USER="${MYSQL_USER:-admin}"
 MYSQL_PASS="${MYSQL_PASS:-admin1234}"
 source /home/ubuntu/.bashrc
+echo "[$(date '+%Y-%m-%d %H:%M:%S')] 환경변수 로드 완료"
+sleep 2
 
 # MySQL 포트 체크 (선택사항)
+echo "[$(date '+%Y-%m-%d %H:%M:%S')] MySQL 포트(3306) 응답 확인 시작"
+sleep 4
 if ! timeout 3 bash -c "</dev/tcp/$MYSQL_HOST/3306" 2>/dev/null; then
   echo "MySQL이 $MYSQL_HOST:3306 에서 응답하지 않습니다."
   exit 1
+else echo "[$(date '+%Y-%m-%d %H:%M:%S')] MySQL 포트(3306) 응답 확인 완료"
 fi
+sleep 2
 
 # 초기 스키마 및 데이터 설정용 SQL을 HERE DOC으로 직접 포함
+echo "[$(date '+%Y-%m-%d %H:%M:%S')] SQL 스크립트 구성 시작 (DB 초기화 → 테이블 생성 → 샘플 데이터 삽입 준비)"
+sleep 4
 SQL_COMMANDS=$(cat <<'EOF'
 DROP DATABASE IF EXISTS shopdb;
 CREATE DATABASE shopdb;
@@ -154,8 +164,11 @@ CREATE TABLE IF NOT EXISTS cart_logs (
 );
 EOF
 )
+echo "[$(date '+%Y-%m-%d %H:%M:%S')] SQL 스크립트 구성 완료"
+sleep 2
 
-echo "MySQL에 초기 스키마 및 데이터 세팅"
+echo "[$(date '+%Y-%m-%d %H:%M:%S')] MySQL에 초기 스키마 및 데이터 적용 시작"
+sleep 4
 if echo "$SQL_COMMANDS" | mysql \
      -h "$MYSQL_HOST" \
      -u "$MYSQL_USER" \
@@ -164,8 +177,8 @@ if echo "$SQL_COMMANDS" | mysql \
      --skip-column-names \
      >/dev/null 2>&1
 then
-    echo "DB 초기 세팅 완료"
+    echo "[$(date '+%Y-%m-%d %H:%M:%S')] DB 초기 세팅 완료"
 else
-    echo "DB 초기 세팅 실패"
+    echo "[$(date '+%Y-%m-%d %H:%M:%S')] DB 초기 세팅 실패"
     exit 1
 fi
