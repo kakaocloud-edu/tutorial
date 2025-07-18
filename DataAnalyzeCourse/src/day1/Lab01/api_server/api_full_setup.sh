@@ -1343,7 +1343,6 @@ if ! grep -q "log_format $LOG_FORMAT_NAME" $NGINX_CONF_MAIN; then
             \"status\":\"\$status\",\\n\
             \"body_bytes_sent\":\"\$body_bytes_sent\",\\n\
             \"http_referer\":\"\$http_referer\",\\n\
-            \"http_user_agent\":\"\$http_user_agent\",\\n\
             \"session_id\":\"\$cookie_session_id\",\\n\
             \"user_id\":\"\$cookie_user_id\",\\n\
             \"request_time\":\"\$request_time\",\\n\
@@ -1352,7 +1351,6 @@ if ! grep -q "log_format $LOG_FORMAT_NAME" $NGINX_CONF_MAIN; then
             \"method\":\"\$request_method\",\\n\
             \"query_params\":\"\$args\",\\n\
             \"product_id\":\"\$arg_id\$cart_pid\",\\n\
-            \"x_forwarded_for\":\"\$proxy_add_x_forwarded_for\",\\n\
             \"host\":\"\$host\"\\n\
         }';" \
     $NGINX_CONF_MAIN
@@ -1383,7 +1381,6 @@ server {
         proxy_pass http://127.0.0.1:8080;
         proxy_set_header Host              $host;
         proxy_set_header X-Real-IP         $remote_addr;
-        proxy_set_header X-Forwarded-For   $proxy_add_x_forwarded_for;
         proxy_set_header X-Forwarded-Proto $scheme;
     }
 
@@ -1392,7 +1389,6 @@ server {
         proxy_pass http://127.0.0.1:8080;
         proxy_set_header Host              $host;
         proxy_set_header X-Real-IP         $remote_addr;
-        proxy_set_header X-Forwarded-For   $proxy_add_x_forwarded_for;
         proxy_set_header X-Forwarded-Proto $scheme;
     }
 
