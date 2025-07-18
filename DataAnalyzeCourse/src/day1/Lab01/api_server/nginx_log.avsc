@@ -33,7 +33,6 @@
     { "name":"method",                 "type":"string" },
     { "name":"query_params",           "type":[ "null","string" ],  "default": null },
     { "name":"product_id",             "type":[ "null","string" ],  "default": null },
-    { "name":"request_body",           "type":[ "null","string" ],  "default": null },
     { "name":"category",               "type":[ "null","string" ],  "default": null },
     { "name":"host",                   "type":"string" }
   ]
