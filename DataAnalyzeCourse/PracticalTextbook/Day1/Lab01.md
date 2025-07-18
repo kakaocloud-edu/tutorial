@@ -213,7 +213,7 @@
         
         ```bash
       #!/bin/bash
-      # mysql_source_connector_init.sh
+      # data_stream_vm_init.sh
       echo "kakaocloud: 1. 환경 변수 설정 시작"
       
       cat <<'EOF' > /tmp/env_vars.sh
