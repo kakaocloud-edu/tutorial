@@ -124,12 +124,11 @@ Hadoop 클러스터 환경에서 실시간 스트리밍 데이터와 배치 데�
     ```
     
 10. 데이터 경로 정의
-    - **Note**: `{실습 진행 날짜}`을 개인 환경에 맞게 수정 필요 (ex. dt=2025-06-30)
     
     **lab7-2-10**
     
     ```java
-    output_data_path = "s3a://data-catalog-bucket/data-catalog-dir/user_behavior_prediction_batch/{실습 진행 날짜}/"
+    output_data_path = "s3a://data-catalog-bucket/data-catalog-dir/user_behavior_prediction_batch/"
     ```
     
 
