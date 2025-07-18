@@ -128,9 +128,21 @@ Hadoop Eco의 Hive를 활용하여 이미 만들어진 Nginx 로그 데이터 �
    
     ![aggregated_logs 확인](https://github.com/user-attachments/assets/971fac03-b72e-47e2-b8e4-6e9bde95205b)
 
-6. aggregated_logs 테이블의 정보 조회
+6. 생성한 테이블 목록 확인
 
     #### **lab5-2-6**
+
+    ```bash
+    show tables;
+    ```
+
+    - 아래와 같은 형식의 내용 확인
+  
+    <img width="637" height="299" alt="show tables" src="https://github.com/user-attachments/assets/8f546a49-c47b-4c46-83b1-82c20def85ff" />
+
+7. aggregated_logs 테이블의 정보 조회
+
+    #### **lab5-2-7**
 
     ```bash
     SHOW CREATE TABLE aggregated_logs;
@@ -140,7 +152,7 @@ Hadoop Eco의 Hive를 활용하여 이미 만들어진 Nginx 로그 데이터 �
 
     <img width="1094" height="603" alt="aggregated_logs 테이블 정보 확인" src="https://github.com/user-attachments/assets/738a56d9-a985-4c07-ba12-1aa20a8fc23c" />
 
-7. Hadoop Eco의 HDFS 경로 확인
+8. Hadoop Eco의 HDFS 경로 확인
 
     - **Note**: HDFS는 원시 형태의 다양한 데이터를 저장해두는 분산 스토리지 계층이자 데이터 레이크이다.
     - `HDFS 경로` 복사 후 클립보드 등에 붙여넣기
