@@ -1,13 +1,13 @@
 # Kafka Connect를 활용한 CDC 데이터 파이프라인 구축
 
-MySQL Connector VM 생성을 통해 MySQL 데이터의 CDC(Change Data Capture) 변경 사항을 Kafka로 실시간 전송하고, S3 Sink Connector를 이용하여 Kafka 데이터를 Object Storage에 적재하는 데이터 파이프라인을 구축하는 실습을 진행합니다.
+Data Stream vm을 통해 MySQL 데이터의 CDC(Change Data Capture) 변경 사항을 Kafka로 실시간 전송하고, S3 Sink Connector를 이용하여 Kafka 데이터를 Object Storage에 적재하는 데이터 파이프라인을 구축하는 실습을 진행합니다.
 <img width="3164" height="1165" alt="커넥터_아키텍처" src="https://github.com/user-attachments/assets/26d294d3-45b6-4e4f-8cb3-37e675a7304c" />
 
 ---
-## 1. MySQL Connector VM에서 Connector 추가
+## 1. Data Stream VM에서 Connector 추가
 1. 카카오 클라우드 콘솔 > Beyond Compute Service > Virtual Machine
-2. `mysql_source_connector` 인스턴스 SSH 접속
-    - `mysql_source_connector` 각 인스턴스의 우측 메뉴바 > `SSH 연결` 클릭
+2. `data-stream-vm` 인스턴스 SSH 접속
+    - `data-stream-vm` 각 인스턴스의 우측 메뉴바 > `SSH 연결` 클릭
     - SSH 접속 명령어 복사
     - 터미널 열기
     - keypair를 다운받아놓은 폴더로 이동 후 터미널에 명령어 붙여넣기 및 **yes** 입력
@@ -19,10 +19,10 @@ MySQL Connector VM 생성을 통해 MySQL 데이터의 CDC(Change Data Capture) 
     ```
 
     #### **lab2-1-2-2**
-    - **Note**: {mysql_source_connector의 public ip주소} 부분을 복사한 각 IP 주소로 교체
+    - **Note**: {data-stream-vm의 public ip주소} 부분을 복사한 각 IP 주소로 교체
    
     ```bash
-    ssh -i keypair.pem ubuntu@{mysql_source_connector의 public ip주소}
+    ssh -i keypair.pem ubuntu@{data-stream-vm의 public ip주소}
     ```
 
     #### **lab2-1-2-3**
