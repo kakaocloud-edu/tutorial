@@ -391,7 +391,7 @@ cat <<EOF | sudo tee /home/ubuntu/kafka/config/connectors/nginx-s3-sink-connecto
         "parquet.codec": "snappy",
         "key.converter": "org.apache.kafka.connect.storage.StringConverter",
         "value.converter": "io.confluent.connect.avro.AvroConverter",
-        "value.converter.schema.registry.url": "http://${API_SRV_IP}:8081",
+        "value.converter.schema.registry.url": "http://${SCHEMA_REGISTRY_SERVER}:8081",
         "value.converter.schemas.enable": "true",
         "flush.size": "500",
         "partitioner.class": "com.mycompany.connect.FlexibleTimeBasedPartitioner",
