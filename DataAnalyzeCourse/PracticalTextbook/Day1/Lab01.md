@@ -239,7 +239,7 @@
         chown ubuntu:ubuntu /tmp/env_vars.sh
         
         echo "kakaocloud: 2. 통합 설정 스크립트 다운로드"
-        SCRIPT_URL="https://raw.githubusercontent.com/kakaocloud-edu/tutorial/refs/heads/main/DataAnalyzeCourse/src/day1/Lab01/data_stream_vm/mysql_source_connector.sh"
+        SCRIPT_URL="https://github.com/kakaocloud-edu/tutorial/raw/refs/heads/main/DataAnalyzeCourse/src/day1/Lab01/data_stream_vm/mysql_source_connector.sh"
         CONNECTOR_SCRIPT="/home/ubuntu/mysql_source_connector.sh"
         
         curl -L --output /dev/null --silent --head --fail "$SCRIPT_URL" || { echo "kakaocloud: Script download site is not valid"; exit 1; }
@@ -249,7 +249,7 @@
         chmod +x "$CONNECTOR_SCRIPT"
         sudo -E "$CONNECTOR_SCRIPT"
         
-        SCRIPT_URL="https://raw.githubusercontent.com/kakaocloud-edu/tutorial/refs/heads/main/DataAnalyzeCourse/src/day1/Lab01/data_stream_vm/schema_registry_setup.sh"
+        SCRIPT_URL="https://github.com/kakaocloud-edu/tutorial/raw/refs/heads/main/DataAnalyzeCourse/src/day1/Lab01/data_stream_vm/schema_registry_setup.sh"
         SCHEMA_REGISTRY_SCRIPT="/home/ubuntu/schema_registry_setup.sh"
         
         curl -L --output /dev/null --silent --head --fail "$SCRIPT_URL" || { echo "kakaocloud: Schema Registry script download site is not valid"; exit 1; }
