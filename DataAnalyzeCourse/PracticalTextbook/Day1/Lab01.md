@@ -319,8 +319,15 @@
     kakaocloud: 8. Kafka Connect 분산 모드 설정 (worker.properties) 시작
     kakaocloud: 9. Kafka Connect 시스템 서비스 등록 및 시작
     kakaocloud: 10. Debezium Connector 구성 파일 생성 시작
+    kakaocloud: 11. apt 업데이트 및 Java 설치 및 설치
+    kakaocloud: 12. Confluent 패키지 다운로드 및 설치
+    kakaocloud: 13. 환경변수 설정ry 설정
+    kakaocloud: 14. Schema Registry 설정성 및 Schema Registry 서비스 등록
+    kakaocloud: 15. systemd 유닛 파일 생성 및 Schema Registry 서비스 등록
+    kakaocloud: 16. Schema Registry 서비스 시작
+    kakaocloud: 17. Schema Registry 연결 테스트
+    kakaocloud: 18. Schema Registry 연결 성공 (시도: 1)
     kakaocloud: Setup 완료
-    
     ```
 
 ## 9. Traffic Generator VM 생성 (7분)
