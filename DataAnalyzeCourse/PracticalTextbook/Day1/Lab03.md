@@ -19,7 +19,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     ```
     
 
-2. `api-server-1`서 Logstash 설정 파일을 수정하여 Kafka로 송신하도록 설정 및 Logstash, Filebeat 재시작
+2. `api-server-1`서 Logstash 설정 파일을 수정하여 Kafka로 송신하도록 설정 후 Logstash, Filebeat 재시작
 
     #### **lab3-1-2**
    
