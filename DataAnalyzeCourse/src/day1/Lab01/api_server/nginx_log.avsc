@@ -17,7 +17,6 @@
       "default": null
     },
     { "name":"http_referer",           "type":[ "null","string" ],  "default": null },
-    { "name":"http_user_agent",        "type":"string" },
     { "name":"session_id",             "type":[ "null","string" ],  "default": null },
     { "name":"user_id",                "type":[ "null","string" ],  "default": null },
     {
@@ -36,7 +35,6 @@
     { "name":"product_id",             "type":[ "null","string" ],  "default": null },
     { "name":"request_body",           "type":[ "null","string" ],  "default": null },
     { "name":"category",               "type":[ "null","string" ],  "default": null },
-    { "name":"x_forwarded_for",        "type":[ "null","string" ],  "default": null },
     { "name":"host",                   "type":"string" }
   ]
 }
