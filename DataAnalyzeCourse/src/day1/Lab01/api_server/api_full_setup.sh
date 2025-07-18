@@ -1332,8 +1332,8 @@ NGINX_CONF_MAIN="/etc/nginx/nginx.conf"
 if ! grep -q "log_format $LOG_FORMAT_NAME" $NGINX_CONF_MAIN; then
     echo "Adding custom_json log format to NGINX configuration..."
     sed -i "/http {/a \
-        map \$request_body \$cart_pid {\\n\
-            ~(?:^|&)id=(?<v>[^&]+) \$v;\\n\
+        map \$request_body \$prod_pid {\\n\
+            \"~(?:^|&)(?:id|product_id)=(?<v>[^&]+)\" \$v;\\n\
             default \"\";\\n\
         }\\n\
         log_format $LOG_FORMAT_NAME escape=json '{\\n\
@@ -1350,7 +1350,7 @@ if ! grep -q "log_format $LOG_FORMAT_NAME" $NGINX_CONF_MAIN; then
             \"endpoint\":\"\$uri\",\\n\
             \"method\":\"\$request_method\",\\n\
             \"query_params\":\"\$args\",\\n\
-            \"product_id\":\"\$arg_id\$cart_pid\",\\n\
+            \"product_id\":\"\$arg_id\$prod_pid\",\\n\
             \"host\":\"\$host\"\\n\
         }';" \
     $NGINX_CONF_MAIN
