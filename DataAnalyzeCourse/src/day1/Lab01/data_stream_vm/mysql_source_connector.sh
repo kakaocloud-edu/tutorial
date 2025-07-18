@@ -219,5 +219,3 @@ sudo tee "${KAFKA_INSTALL_DIR}/config/connectors/mysql-connector.json" << EOF_JS
 }
 EOF_JSON
 if [ $? -ne 0 ]; then echo "kakaocloud: mysql-connector.json 생성 실패"; exit 1; fi
-
-echo "kakaocloud: Setup 완료"
