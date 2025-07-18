@@ -26,13 +26,15 @@ Data Stream VM을 통해 MySQL 데이터의 CDC(Change Data Capture) 변경 사�
     ```
 
     #### **lab2-1-2-3**
+   
     ```bash
     yes
     ```
     
-3. REST API를 통해 커넥터 생성
+4. REST API를 통해 커넥터 생성
    
     #### **lab2-1-3**
+   
     ```bash
     curl -s -X POST -H "Content-Type: application/json" \
       --data @/home/ubuntu/kafka/config/connectors/mysql-connector.json \
@@ -40,16 +42,18 @@ Data Stream VM을 통해 MySQL 데이터의 CDC(Change Data Capture) 변경 사�
     | jq .
     ```
     
-4. mysql-connector의 상태 확인
+5. mysql-connector의 상태 확인
 
     #### **lab2-1-4**
+   
     ```bash
     curl -X GET http://localhost:8084/connectors/mysql-cdc-shopdb/status | jq .
     ```
     
    ![image](https://github.com/user-attachments/assets/3a2ee9a1-5c6f-48b8-8db7-bf623c64eb95)
 
-5. Kafka에 생성된 토픽 목록 조회
+6. Kafka에 생성된 토픽 목록 조회
+
     #### **lab2-1-5**
     
     ```bash
@@ -70,13 +74,13 @@ Data Stream VM을 통해 MySQL 데이터의 CDC(Change Data Capture) 변경 사�
     - 터미널에 명령어 붙여넣기
     - yes 입력
     
-    ### **lab2-2-2-1**
+    #### **lab2-2-2-1**
     
     ```bash
     cd {keypair.pem 다운로드 위치}
     ```
     
-    ### **lab2-2-2-2**
+    #### **lab2-2-2-2**
     
     ```bash
     ssh -i keypair.pem ubuntu@{s3-sink-connector public ip주소}
@@ -85,31 +89,35 @@ Data Stream VM을 통해 MySQL 데이터의 CDC(Change Data Capture) 변경 사�
 
 3. Kafka Connect 서비스 설정
 
-    ### **lab2-2-3-1**
+    #### **lab2-2-3-1**
+   
     ```bash
     sudo systemctl daemon-reload
     ```
 
-    ### **lab2-2-3-2**
+    #### **lab2-2-3-2**
+   
     ```bash
     sudo systemctl enable kafka-connect-mysql-s3-sink.service 
     ```
 
-    ### **lab2-2-3-3**
+    #### **lab2-2-3-3**
+   
     ```bash
     sudo systemctl start kafka-connect-mysql-s3-sink.service
     ```
     
-4. 서비스가 정상적으로 active (Running) 상태인지 확인
+5. 서비스가 정상적으로 active (Running) 상태인지 확인
 
-    ### **lab2-2-4**
+    #### **lab2-2-4**
+   
     ```bash
     sudo systemctl status kafka-connect-mysql-s3-sink.service
     ```
     ![image](https://github.com/user-attachments/assets/bc305e4a-b407-418e-8689-65cd17dd1e49)
 
 
-5. `data-catalog-bucket`에 nginx 로그를 쌓기 위해 필요한 쓰기 권한을 부여하는 명령어 실행(개선중)
+6. `data-catalog-bucket`에 nginx 로그를 쌓기 위해 필요한 쓰기 권한을 부여하는 명령어 실행(개선중)
 
     #### **lab2-2-5** 
     
@@ -121,7 +129,7 @@ Data Stream VM을 통해 MySQL 데이터의 CDC(Change Data Capture) 변경 사�
     ```
 
 
-6. kafka-s3-sink Connector 생성
+7. kafka-s3-sink Connector 생성
     
     - **Note**: kafka-connect.service 실행 후 5초 정도 대기 후 진행
     #### **lab2-2-6** 
@@ -134,7 +142,7 @@ Data Stream VM을 통해 MySQL 데이터의 CDC(Change Data Capture) 변경 사�
     | jq .
     ```
     
-7. 커넥터 상태 확인
+8. 커넥터 상태 확인
 
     #### **lab2-2-7** 
 
@@ -144,9 +152,9 @@ Data Stream VM을 통해 MySQL 데이터의 CDC(Change Data Capture) 변경 사�
     ![image](https://github.com/user-attachments/assets/e8b3b0f1-ac8e-4d8f-8c13-6612147399fe)
 
 
-8. 카카오 클라우드 콘솔 > Beyond Storage Service > Object Storage
-9. `data-catalog-bucket` 클릭
-10. MySQL 데이터 적재 확인
+9. 카카오 클라우드 콘솔 > Beyond Storage Service > Object Storage
+10. `data-catalog-bucket` 클릭
+11. MySQL 데이터 적재 확인
     - **Note**: `data-catalog-bucket/raw_cdc_events/mysql-server.shopdb.users/partition=0/`디렉터리로 이동
       ![MySQL 데이터](https://github.com/user-attachments/assets/7b4f8255-a3e7-48a1-a56e-4eb626f4cbec)
 
