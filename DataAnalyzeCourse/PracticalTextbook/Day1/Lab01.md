@@ -175,9 +175,7 @@
    - {endpoint-url}/v1/domains/`{조직 id}`/projects/`{프로젝트 id}`/topics/{topic-name}
    - `사용자 UUID` 는 이후 s3 sink connector 생성 시 필요
 
-   <img width="1236" height="553" alt="Image" src="https://github.com/user-attachments/assets/36d8b06f-6a88-4d35-bec4-930ea2b84d42" />
-
-
+   <img width="1501" height="526" alt="계정 정보 모자이크" src="https://github.com/user-attachments/assets/3a8ef09e-185f-48a5-bdfe-a0069f48b2b6" />
 
 ## 8. Traffic Generator VM 생성 (7분)
 1. 카카오 클라우드 콘솔 > Beyond Compute Service > Virtual Machine
