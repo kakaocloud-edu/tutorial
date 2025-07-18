@@ -177,7 +177,143 @@
 
    <img width="1501" height="526" alt="계정 정보 모자이크" src="https://github.com/user-attachments/assets/3a8ef09e-185f-48a5-bdfe-a0069f48b2b6" />
 
-## 8. Traffic Generator VM 생성 (7분)
+## 8. Data Stream VM 생성
+
+1. 카카오 클라우드 콘솔 > Beyond Compute Service > Virtual Machine
+2. 인스턴스 생성 버튼 클릭
+    - 기본 정보
+        - 이름: `data-stream-vm`
+        - 개수: `1`
+    - 이미지: `Ubuntu 22.04`
+    - 인스턴스유형: `m2a.xlarge`
+    - 볼륨: `10GB`
+    - 키 페어: `keypair`
+    - 네트워크
+        - VPC: `kc-vpc`
+        - 서브넷: `kr-central-2-a의 Public 서브넷`
+        - 유형: `새 인터페이스`
+        - IP 할당 방식: `자동`
+        - 보안 그룹
+            - `보안 그룹 생성` 버튼 클릭
+                - 보안 그룹 이름:  `data-st-sg`
+                    - 인바운드 규칙
+                        - 프로토콜: `TCP`, 출발지: `0.0.0.0/0`, 포트 번호: `22`, 설명(선택): `ssh`
+                        - 프로토콜: `TCP`, 출발지: `0.0.0.0/0`, 포트 번호: `3306`, 설명(선택): `mysql`
+                        - 프로토콜: `TCP`, 출발지: `0.0.0.0/0`, 포트 번호: `9092`, 설명(선택): `kafka`
+                        - 프로토콜: `TCP`, 출발지: `0.0.0.0/0`, 포트 번호: `8081`, 설명(선택): `schema registry`
+                    - 아웃바운드 규칙
+                        - 프로토콜: `ALL`, 출발지: `0.0.0.0/0`, 포트 번호: `ALL`
+                    - `생성` 버튼 클릭
+    - 고급 설정
+        - 사용자 스크립트: `mysql_source_connector_init.sh`의 쌍따옴표("") 사이에 자신의 리소스 값 입력
+            - **Note**: 스크립트에 대한 자세한 내용은 아래 파일들 참고
+                - [mysql_source_connector_init.sh](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day1/Lab01/kafka/mysql_source_connector_init.sh)
+        
+        ### **lab1-8-2**
+        
+        ```bash
+        #!/bin/bash
+        
+        echo "kakaocloud: 1. 환경 변수 설정 시작"
+        
+        cat <<'EOF' > /tmp/env_vars.sh
+        export KAFKA_BOOTSTRAP_SERVER="{Kafka 부트스트랩 서버}"
+        export MYSQL_DB_HOSTNAME="{MySQL 엔드포인트}"
+        export LOGFILE="/home/ubuntu/setup.log"
+        export MYSQL_DB_PORT="3306"
+        export MYSQL_DB_USER="admin"
+        export MYSQL_DB_PASSWORD="admin1234"
+        export MYSQL_SERVER_ID="184054"
+        export MYSQL_SERVER_NAME="mysql-server"
+        EOF
+        
+        source /tmp/env_vars.sh
+        
+        if ! grep -q "source /tmp/env_vars.sh" /home/ubuntu/.bashrc; then
+            echo "" >> /home/ubuntu/.bashrc
+            echo "# Load custom environment variables" >> /home/ubuntu/.bashrc
+            echo "source /tmp/env_vars.sh" >> /home/ubuntu/.bashrc
+        fi
+        
+        chown ubuntu:ubuntu /tmp/env_vars.sh
+        
+        echo "kakaocloud: 2. 스크립트 다운로드 사이트 유효성 검사 시작"
+        SCRIPT_URL="<https://raw.githubusercontent.com/kakaocloud-edu/tutorial/refs/heads/main/DataAnalyzeCourse/src/day1/Lab01/kafka/mysql_source_connector.sh>"
+        CONNECTOR_SCRIPT="/home/ubuntu/mysql_source_connector.sh"
+        
+        curl -L --output /dev/null --silent --head --fail "$SCRIPT_URL" || { echo "kakaocloud: Script download site is not valid"; exit 1; }
+        wget -q "$SCRIPT_URL" -O "$CONNECTOR_SCRIPT"
+        
+        chown ubuntu:ubuntu "$CONNECTOR_SCRIPT"
+        chmod +x "$CONNECTOR_SCRIPT"
+        sudo -E "$CONNECTOR_SCRIPT"
+        
+        ```
+        
+    - 생성 버튼 클릭
+3. `data-stream-vm` 상태 Active 확인 후 Public IP 연결
+    - 각 인스턴스의 우측 메뉴바 > `Public IP 연결` 클릭
+    - `새로운 퍼블릭 IP를 생성하고 자동으로 할당`
+    - 확인 버튼 클릭
+4. `data-stream-vm` 인스턴스 SSH 접속
+    - `data-stream-vm` 각 인스턴스의 우측 메뉴바 > `SSH 연결` 클릭
+    - SSH 접속 명령어 복사
+    - 터미널 열기
+    - keypair를 다운받아놓은 폴더로 이동 후 터미널에 명령어 붙여넣기 및 **yes** 입력
+    
+    ### **lab1-8-4-1**
+    
+    ```bash
+    cd {keypair.pem 다운로드 위치}
+    
+    ```
+    
+    ### **lab1-8-4-2**
+    
+    - **Note**: {data-stream-vm의 public ip주소} 부분을 복사한 각 IP 주소로 교체
+    
+    ```bash
+    ssh -i keypair.pem ubuntu@{data-stream-vm의 public ip주소}
+    
+    ```
+    
+    ### **lab1-8-4-3**
+    
+    ```bash
+    yes
+    
+    ```
+    
+5. data-stream-vm 스크립트 적용 확인
+    - **Note**: 스크립트 적용에 약 7분 소요
+    
+    ### **lab1-8-5**
+    
+    - **Note**: 터미널 창이 작으면 로그가 안보일 수 있으니 터미널 창 크기 조절
+    
+    ```bash
+    watch -c "awk '/kakaocloud:/ {gsub(/([0-9]+)\\\\./,\\"\\\\033[33m&\\\\033[0m\\"); print}' < /var/log/cloud-init-output.log"
+    
+    ```
+    
+    - 모든 스크립트 완료 시 아래 출력됨
+    
+    ```
+    kakaocloud: 1. 환경 변수 설정 시작
+    kakaocloud: 2. 스크립트 다운로드 사이트 유효성 검사 시작
+    kakaocloud: 3. 필수 환경 변수 검증 시작
+    kakaocloud: 4. 시스템 업데이트 및 필수 패키지 설치 시작
+    kakaocloud: 5. Kafka 설치 시작
+    kakaocloud: 6. Java 환경 변수 등록 시작
+    kakaocloud: 7. Debezium MySQL Connector 플러그인 다운로드 및 설치 시작
+    kakaocloud: 8. Kafka Connect 분산 모드 설정 (worker.properties) 시작
+    kakaocloud: 9. Kafka Connect 시스템 서비스 등록 및 시작
+    kakaocloud: 10. Debezium Connector 구성 파일 생성 시작
+    kakaocloud: Setup 완료
+    
+    ```
+
+## 9. Traffic Generator VM 생성 (7분)
 1. 카카오 클라우드 콘솔 > Beyond Compute Service > Virtual Machine
 2. 인스턴스 생성 버튼 클릭  
    - 기본 정보  
@@ -211,7 +347,7 @@
          - [tg_full_setup.sh](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day1/Lab01/traffic_generator/tg_full_setup.sh)  
          - [config.yml](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day1/Lab01/traffic_generator/config.yml)  
          - [config.py](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day1/Lab01/traffic_generator/config.py)
-      - #### **lab1-8-2**
+      - #### **lab1-9-2**
       ```bash
       #!/bin/bash
       # tg_vm_init.sh
@@ -266,27 +402,27 @@
    - SSH 접속 명령어 복사  
    - 터미널 열기  
    - keypair를 다운받아놓은 폴더로 이동 후 터미널에 명령어 붙여넣기 및 **yes** 입력  
-    #### **lab1-8-4-1**
+    #### **lab1-9-4-1**
     ```bash
     cd {keypair.pem 다운로드 위치}
     ```
     - 리눅스의 경우 아래와 같이 키페어 권한 조정  
-    #### **lab1-8-4-2**
+    #### **lab1-9-4-2**
     ```bash
     chmod 400 keypair.pem
     ```
-    #### **lab1-7-4-3**
+    #### **lab1-9-4-3**
     ```bash
     ssh -i keypair.pem ubuntu@{traffic-generator-1, 2의 public ip주소}
     ```
     - **Note**: {traffic-generator-1, 2의 public ip주소} 부분을 복사한 각 IP 주소로 교체  
-    #### **lab1-8-4-4**
+    #### **lab1-9-4-4**
     ```bash
     yes
     ```
 5. Traffic Generator 스크립트 적용 확인  
    - **Note**: 스크립트 적용에 약 7분 소요  
-    #### **lab1-8-5**
+    #### **lab1-9-5**
     - **Note**: 터미널 창이 작으면 로그가 안보일 수 있으니 터미널 창 크기 조절  
     ```bash
     watch -c "awk '/kakaocloud:/ {gsub(/([0-9]+)\\./,\"\\033[33m&\\033[0m\"); print}' < /var/log/cloud-init-output.log"
@@ -311,7 +447,7 @@
     ```
 
 
-## 9. API Server VM 생성 (3분)
+## 10. API Server VM 생성 (3분)
 1. 인스턴스 생성 버튼 클릭  
    - 기본 정보  
      - 이름: `api-server`  
@@ -348,7 +484,7 @@
          - [filebeat.yml](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day1/Lab01/api_server/filebeat.yml)  
          - [logs-to-pubsub.conf](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day1/Lab01/api_server/logs-to-pubsub.conf)  
          - [logs-to-kafka.conf](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day1/Lab01/api_server/logs-to-kafka.conf)
-      #### **lab1-9-2**
+      #### **lab1-10-2**
       ```bash
       #!/bin/bash
       # api_vm_init.sh
@@ -395,33 +531,33 @@
    - SSH 접속 명령어 복사  
    - 터미널 열기  
    - keypair를 다운받아놓은 폴더로 이동 후 터미널에 명령어 붙여넣기 및 **yes** 입력  
-    #### **lab1-9-3-1**
+    #### **lab1-10-3-1**
     ```bash
     cd {keypair.pem 다운로드 위치}
     ```
     - 리눅스의 경우 아래와 같이 키페어 권한 조정  
-    #### **lab1-9-3-2**
+    #### **lab1-10-3-2**
     ```bash
     chmod 400 keypair.pem
     ```
-    #### **lab1-9-3-3**
+    #### **lab1-10-3-3**
     ```bash
     ssh -i keypair.pem ubuntu@{api-server-1의 public ip 주소}
     ```
     - **Note**: {api-server-1의 public ip 주소} 부분을 복사한 각 IP 주소로 교체  
-    #### **lab1-9-3-4**
+    #### **lab1-10-3-4**
     ```bash
     yes
     ```
     - **Note**: 윈도우에서 ssh 접근이 안될 경우, cmd 창에서 keypair.pem가 있는 경로로 이동 후 아래 명령어 실행  
-    #### **lab1-9-3-5**
+    #### **lab1-10-3-5**
     ```bash
     icacls.exe keypair.pem /reset
     icacls.exe keypair.pem /grant:r %username%:(R)
     icacls.exe keypair.pem /inheritance:r
     ```
 4. API Server 스크립트 적용 확인  
-    #### **lab1-9-4-1**
+    #### **lab1-10-4-1**
     - **Note**: 터미널 창이 작으면 로그가 안보일 수 있으니 터미널 창 크기 조절  
     ```bash
     watch -c "awk '/kakaocloud:/ {gsub(/([0-9]+)\\./,\"\\033[33m&\\033[0m\"); print}' < /var/log/cloud-init-output.log"
@@ -445,13 +581,13 @@
 
 5. `api-server-1`에서 `setup_db.sh` 실행
 
-   #### **lab1-9-5-1**
+   #### **lab1-10-5-1**
 
    ```bash
    sudo chmod +x /home/ubuntu/setup_db.sh
    ```
 
-   #### **lab1-9-5-2**
+   #### **lab1-10-5-2**
 
    ```bash
    sudo -E /home/ubuntu/setup_db.sh
@@ -459,7 +595,7 @@
 
    <img width="1219" height="189" alt="setupdb 결과" src="https://github.com/user-attachments/assets/3ee69e38-5dd3-4066-9cc3-863768e93022" />
    
-## 10. 로드 밸런서 대상 그룹 생성 (15분)
+## 11. 로드 밸런서 대상 그룹 생성 (15분)
 1. 카카오 클라우드 콘솔 > Beyond Networking Service > Load Balancing
 2. 대상 그룹 탭 클릭 후 대상 그룹 생성 버튼 클릭 
    - 로드 밸런서  
