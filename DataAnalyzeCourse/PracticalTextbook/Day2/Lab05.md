@@ -138,7 +138,7 @@ Hadoop Eco의 Hive를 활용하여 이미 만들어진 Nginx 로그 데이터 �
 
     - 아래와 같은 형식의 내용 확인
 
-    <img width="1096" height="605" alt="aggregated_logs 테이블 정보 확인" src="https://github.com/user-attachments/assets/f8c55075-8738-4681-aaa6-33da3d45a981" />
+    <img width="1094" height="603" alt="aggregated_logs 테이블 정보 확인" src="https://github.com/user-attachments/assets/738a56d9-a985-4c07-ba12-1aa20a8fc23c" />
 
 7. Hadoop Eco의 HDFS 경로 확인
 
