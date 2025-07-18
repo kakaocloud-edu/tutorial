@@ -8,7 +8,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
 
 ![최최종 그림 lab02](https://github.com/user-attachments/assets/e2042303-f606-49e9-8a60-df66872581bf)
 
-1. `api-server-1`에서 Kafka Output 활성화 및 Pub/Sub 송신 설정 제거
+1. `api-server-1`, `api-server-2`에서 Kafka Output 활성화 및 Pub/Sub 송신 설정 제거
 
     #### **lab3-1-1**
     
@@ -19,7 +19,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     ```
     
 
-2. `api-server-1`서 Logstash 설정 파일을 수정하여 Kafka로 송신하도록 설정 후 Logstash, Filebeat 재시작
+2. `api-server-1`, `api-server-2`에서 Logstash 설정 파일을 수정하여 Kafka로 송신하도록 설정 후 Logstash, Filebeat 재시작
 
     #### **lab3-1-2**
    
@@ -31,7 +31,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     systemctl restart logstash"
     ```
 
-3. `api-server-1`에서 Logstash 가 `Active:active (running)` 상태인 것을 확인
+3. `api-server-1`, `api-server-2`에서 Logstash 가 `Active:active (running)` 상태인 것을 확인
 
     #### **lab3-1-3**
 
