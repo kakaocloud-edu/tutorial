@@ -10,52 +10,36 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
 
 1. `api-server-1`에서 Kafka Output 활성화 및 Pub/Sub 송신 설정 제거
 
-    #### **lab3-1-1-1**
+    #### **lab3-1-1**
     
-    ```bash
-    sudo sed -i 's/^ENABLE_KAFKA_OUTPUT="false"/ENABLE_KAFKA_OUTPUT="true"/' /etc/default/logstash
     ```
-    ```bash
-    sudo sed -i 's/\["127.0.0.1:5044","127.0.0.1:5045"\]/["127.0.0.1:5045"]/g' /etc/filebeat/filebeat.yml
+    sudo bash -c '
+      sed -i '\''s/^ENABLE_KAFKA_OUTPUT="false"/ENABLE_KAFKA_OUTPUT="true"/'\'' /etc/default/logstash &&
+      sed -i '\''s/\["127.0.0.1:5044","127.0.0.1:5045"\]/["127.0.0.1:5045"]/g'\'' /etc/filebeat/filebeat.yml'
     ```
     
 
-2. `api-server-1`서 Logstash 설정 파일을 수정하여 Kafka로 송신하도록 설정
+2. `api-server-1`서 Logstash 설정 파일을 수정하여 Kafka로 송신하도록 설정 및 Logstash, Filebeat 재시작
 
     #### **lab3-1-2**
    
     ```
-    sudo sed -i 's/logs-to-pubsub.conf/logs-to-kafka.conf/g' /etc/logstash/logstash.yml
-    ```
-    
-3. `api-server-1`에서 Logstash, Filebeat 재시작 및 상태 확인
-    
-    #### **lab3-1-3-1**
-    
-    ```bash
-    sudo systemctl daemon-reload
+    sudo bash -c "\
+    sed -i 's/logs-to-pubsub.conf/logs-to-kafka.conf/g' /etc/logstash/logstash.yml && \
+    systemctl daemon-reload && \
+    systemctl restart filebeat && \
+    systemctl restart logstash"
     ```
 
-    #### **lab3-1-3-2**
-   
-    ```bash
-    sudo systemctl restart filebeat
-    ```
+3. `api-server-1`에서 Logstash 가 `Active:active (running)` 상태인 것을 확인
 
-    #### **lab3-1-3-3**
-    ```bash
-    sudo systemctl restart logstash
-    ```
-
-4. `api-server-1`에서 Logstash 가 `Active:active (running)` 상태인 것을 확인
-
-    #### **lab3-1-4**
+    #### **lab3-1-3**
 
     ```bash
     sudo systemctl status logstash
     ```
 
-5. `ctrl` + `c`로 종료
+4. `ctrl` + `c`로 종료
 
     ![Image](https://github.com/user-attachments/assets/d6b11193-66a6-4bf3-a86f-7cd3a7169b51)
 
