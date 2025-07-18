@@ -3,7 +3,22 @@
 Hadoop Eco의 Hive를 활용하여 Nginx 로그 데이터와 MySQL 데이터를 사용하여 External 테이블로 생성합니다. 생성된 테이블을 이용하여 Hue로 쿼리를 진행하는 실습입니다.
 
 ---
-## 1. Hadoop-Eco 마스터 노드 접속
+## 1. Object Storage 버킷 권한 설정
+1. 카카오 클라우드 콘솔 > Beyond Storage Service > Object Storage
+2. `data-catalog-bucket` 버킷 설정
+      - `data-catalog-bucket` 버킷 클릭
+        - 접근 탭 클릭
+          - 접근 설정 버튼 클릭
+              - 액세스 권한
+                  - `퍼블릭 액세스 허용 (Read Only)` 선택
+                  - 접근 허용 IP 주소: 빈 칸
+                  - 저장 버튼 클릭
+        - 확인 버튼 클릭
+      - `퍼블릭 액세스`가 `허용 (Read Only)`으로 바뀐 것을 확인
+
+      ![1](https://github.com/user-attachments/assets/dade13de-cdd4-42f9-a1a6-0795281e093b)
+
+## 2. Hadoop-Eco 마스터 노드 접속
 
 1. 카카오 클라우드 콘솔 > Beyond Compute Service > Virtual Machine
 2. `HadoopMST-core-hadoop-1` 인스턴스의 우측 메뉴바 > `SSH 연결` 클릭
@@ -14,7 +29,7 @@ Hadoop Eco의 Hive를 활용하여 Nginx 로그 데이터와 MySQL 데이터를 
     - 터미널에 명령어 붙여넣기
     - yes 입력
 
-    #### **lab4-1-3-1**
+    #### **lab4-2-2-1**
     
     ```bash
     cd {keypair.pem 다운로드 위치}
@@ -22,32 +37,32 @@ Hadoop Eco의 Hive를 활용하여 Nginx 로그 데이터와 MySQL 데이터를 
     
     - 리눅스의 경우에 아래와 같이 키페어의 권한을 조정
     
-    #### **lab4-1-3-2**
+    #### **lab4-2-2-2**
     
     ```bash
     chmod 400 keypair.pem
     ```
     
-    #### **lab4-1-3-3**
+    #### **lab4-2-2-3**
     
     ```bash
     ssh -i keypair.pem ubuntu@{HadoopMST-core-hadoop-1 public ip주소}
     ```
     
-    #### **lab4-1-3-4**
+    #### **lab4-2-2-4**
     
     ```bash
     yes
     ```
 
 
-## 2. Hive에 External 테이블 생성
+## 3. Hive에 External 테이블 생성
 
 1. Hive에 접속
 
     - Hive 연결 시 로깅 관련 경고와 세션 정보 뜨는 것 확인
 
-    #### **lab4-2-1**
+    #### **lab4-3-1**
 
     ```bash
     hive
@@ -55,9 +70,9 @@ Hadoop Eco의 Hive를 활용하여 Nginx 로그 데이터와 MySQL 데이터를 
     
     ![hive 접속 확인](https://github.com/user-attachments/assets/1bf442e7-0139-4e7c-88fe-b83562b9ad7f)
 
-3. external_nginx_log 테이블 생성
+2. external_nginx_log 테이블 생성
 
-    #### **lab4-2-2**
+    #### **lab4-3-2**
 
     ```bash
     CREATE EXTERNAL TABLE IF NOT EXISTS external_nginx_log (
@@ -81,17 +96,17 @@ Hadoop Eco의 Hive를 활용하여 Nginx 로그 데이터와 MySQL 데이터를 
     LOCATION 's3a://data-catalog-bucket/kafka-nginx-log/nginx-topic/';
     ```
 
-4. 생성된 external_nginx_log 테이블 확인
+3. 생성된 external_nginx_log 테이블 확인
 
     - 테이블의 컬럼명이 뜨도록 설정
   
-     #### **lab4-2-3-1**
+     #### **lab4-3-3-1**
 
     ```bash
     SET hive.cli.print.header=true;
     ``` 
 
-    #### **lab4-2-3-2**
+    #### **lab4-3-3-2**
 
     ```bash
     SELECT
@@ -117,9 +132,9 @@ Hadoop Eco의 Hive를 활용하여 Nginx 로그 데이터와 MySQL 데이터를 
     
     ![1 external table 확인v1](https://github.com/user-attachments/assets/01a54ded-cb90-47fd-b57d-ce2c59206ccc)
 
-5. mysql_users 테이블 생성
+4. mysql_users 테이블 생성
 
-     #### **lab4-2-4**
+     #### **lab4-3-4**
 
     ```bash
     CREATE EXTERNAL TABLE IF NOT EXISTS mysql_users (
@@ -137,9 +152,9 @@ Hadoop Eco의 Hive를 활용하여 Nginx 로그 데이터와 MySQL 데이터를 
     LOCATION 's3a://data-catalog-bucket/raw_cdc_events/mysql-server.shopdb.users/';
     ```
 
-6. 생성된 mysql_users 테이블 확인
+5. 생성된 mysql_users 테이블 확인
 
-     #### **lab4-2-5**
+     #### **lab4-3-5**
 
     ```bash
     SELECT
@@ -156,9 +171,9 @@ Hadoop Eco의 Hive를 활용하여 Nginx 로그 데이터와 MySQL 데이터를 
    
     ![2 mysql users 확인v1](https://github.com/user-attachments/assets/0e2f25ba-22b0-44b5-aeba-fa88acba183f)
 
-7. mysql_orders 테이블 생성
+6. mysql_orders 테이블 생성
 
-     #### **lab4-2-6**
+     #### **lab4-3-6**
 
     ```bash
     CREATE EXTERNAL TABLE IF NOT EXISTS mysql_orders (
@@ -177,9 +192,9 @@ Hadoop Eco의 Hive를 활용하여 Nginx 로그 데이터와 MySQL 데이터를 
     LOCATION 's3a://data-catalog-bucket/raw_cdc_events/mysql-server.shopdb.orders/';
     ```
 
-8. 생성된 mysql_orders 테이블 확인
+7. 생성된 mysql_orders 테이블 확인
 
-     #### **lab4-2-7**
+     #### **lab4-3-7**
 
     ```bash
     SELECT
@@ -198,9 +213,9 @@ Hadoop Eco의 Hive를 활용하여 Nginx 로그 데이터와 MySQL 데이터를 
     
     ![3 mysql orders 확인v1](https://github.com/user-attachments/assets/3c27665f-8908-48da-bd2d-ad6349d2ed6a)
 
-9. mysql_products 테이블 생성
+8. mysql_products 테이블 생성
 
-     #### **lab4-2-8**
+     #### **lab4-3-8**
 
     ```bash
     CREATE EXTERNAL TABLE IF NOT EXISTS mysql_products (
@@ -216,9 +231,9 @@ Hadoop Eco의 Hive를 활용하여 Nginx 로그 데이터와 MySQL 데이터를 
     LOCATION 's3a://data-catalog-bucket/raw_cdc_events/mysql-server.shopdb.products/';
     ```
 
-10. 생성된 mysql_products 테이블 확인
+9. 생성된 mysql_products 테이블 확인
 
-     #### **lab4-2-9**
+     #### **lab4-3-9**
 
     ```bash
     SELECT
@@ -234,9 +249,9 @@ Hadoop Eco의 Hive를 활용하여 Nginx 로그 데이터와 MySQL 데이터를 
 
     ![4 mysql products 확인v1](https://github.com/user-attachments/assets/c90be6b7-4289-405a-a922-a681cf487558)
 
-11. Hue 쿼리를 위한 view 생성
+10. Hue 쿼리를 위한 view 생성
 
-     #### **lab4-2-10-1**
+     #### **lab4-3-10-1**
 
     ```bash
     CREATE VIEW hive_users_flat AS
@@ -251,7 +266,7 @@ Hadoop Eco의 Hive를 활용하여 Nginx 로그 데이터와 MySQL 데이터를 
     FROM mysql_users;
     ```
 
-    #### **lab4-2-10-2**
+    #### **lab4-3-10-2**
 
     ```bash
     CREATE VIEW hive_orders_flat AS
@@ -267,7 +282,7 @@ Hadoop Eco의 Hive를 활용하여 Nginx 로그 데이터와 MySQL 데이터를 
     FROM mysql_orders;
     ```
 
-    #### **lab4-2-10-3**
+    #### **lab4-3-10-3**
 
     ```bash
     CREATE VIEW hive_products_flat AS
@@ -280,9 +295,9 @@ Hadoop Eco의 Hive를 활용하여 Nginx 로그 데이터와 MySQL 데이터를 
     FROM mysql_products;
     ```
 
-12. 생성한 테이블 목록 확인
+11. 생성한 테이블 목록 확인
 
-    #### **lab4-2-11**
+    #### **lab4-3-11**
 
     ```bash
     show tables;
@@ -292,14 +307,14 @@ Hadoop Eco의 Hive를 활용하여 Nginx 로그 데이터와 MySQL 데이터를 
    
     ![table 목록 확인](https://github.com/user-attachments/assets/cc5f9be5-c2ff-4ba1-9472-d1941a112ed4)
 
-13. `ctrl` + `c`로 종료
+12. `ctrl` + `c`로 종료
 
 
-## 3. Hue 환경 설정
+## 4. Hue 환경 설정
 
 1. 웹 브라우저 주소창에서 아래 URL 입력을 통해 hue 접속
 
-    #### **lab4-3-1**
+    #### **lab4-4-1**
 
     ```bash
     http://{HadoopMST-core-hadoop-1 public ip주소}:8888
@@ -331,14 +346,14 @@ Hadoop Eco의 Hive를 활용하여 Nginx 로그 데이터와 MySQL 데이터를 
     - Hive 메타스토어에 저장된 테이블 정보를 Hadoop Eco와 공유해주는 HCatalog 코어 라이브러리 추가 
     
     
-    #### **lab4-3-5**
+    #### **lab4-4-5**
 
     ```bash
     ADD JAR /opt/apache-hive-3.1.3-bin/lib/hive-hcatalog-core-3.1.3.jar;
     ```
 
 
-## 4. Hue를 이용한 쿼리를 통해 지표 분석
+## 5. Hue를 이용한 쿼리를 통해 지표 분석
 
 1. 쿼리문을 통한 지표 분석
 
@@ -348,7 +363,7 @@ Hadoop Eco의 Hive를 활용하여 Nginx 로그 데이터와 MySQL 데이터를 
 
     - /login 엔드포인트를 호출한 고유 세션 수를 전체 세션 수로 나눠 백분율로 계산
 
-    #### **lab4-4-2**
+    #### **lab4-5-2**
 
     ```bash
     SELECT
@@ -374,7 +389,7 @@ Hadoop Eco의 Hive를 활용하여 Nginx 로그 데이터와 MySQL 데이터를 
 
     - /search 엔드포인트의 query_params에서 키워드를 추출해 그룹별 등장 횟수를 집계
 
-    #### **lab4-4-3**
+    #### **lab4-5-3**
 
     ```bash
     SELECT
@@ -392,7 +407,7 @@ Hadoop Eco의 Hive를 활용하여 Nginx 로그 데이터와 MySQL 데이터를 
 
     - 상품 상세 조회 수(view_count)와 주문 수(order_count)를 더해 만든 popularity_score로 내림차순 정렬 후 상위 10개 추출
 
-    #### **lab4-4-4**
+    #### **lab4-5-4**
 
     ```bash
     WITH product_views AS (
@@ -428,7 +443,7 @@ Hadoop Eco의 Hive를 활용하여 Nginx 로그 데이터와 MySQL 데이터를 
 
     - 로그의 타임스탬프를 날짜·시간별로 변환해 각 그룹별 페이지뷰 수를 집계
 
-    #### **lab4-4-5**
+    #### **lab4-5-5**
 
     ```bash
     SELECT
@@ -449,7 +464,7 @@ Hadoop Eco의 Hive를 활용하여 Nginx 로그 데이터와 MySQL 데이터를 
     - 지정 기간 내 모든 주문의 price * quantity를 합산해 총 매출 산출
     - 지정 기간 조정 가능
 
-    #### **lab4-4-6**
+    #### **lab4-5-6**
 
     ```bash
     SELECT 
@@ -464,7 +479,7 @@ Hadoop Eco의 Hive를 활용하여 Nginx 로그 데이터와 MySQL 데이터를 
 
     - 상품 카테고리별 매출액을 계산한 뒤 전체 매출액 대비 비율(%)로 환산
 
-    #### **lab4-4-7**
+    #### **lab4-5-7**
 
     ```bash
     SELECT
@@ -491,7 +506,7 @@ Hadoop Eco의 Hive를 활용하여 Nginx 로그 데이터와 MySQL 데이터를 
 
     - 세션별로 주요 엔드포인트 방문 여부를 플래그로 표시하고, 주문 세션 유무를 결합해 사용자 히스토리 파악
 
-    #### **lab4-4-8**
+    #### **lab4-5-8**
 
     ```bash
     WITH user_path AS (
@@ -526,7 +541,7 @@ Hadoop Eco의 Hive를 활용하여 Nginx 로그 데이터와 MySQL 데이터를 
 
     - 연령대·성별로 그룹화한 사용자 중 주문을 한 비율을 계산
 
-    #### **lab4-4-9**
+    #### **lab4-5-9**
 
     ```bash
     WITH purchase AS (
@@ -590,7 +605,7 @@ Hadoop Eco의 Hive를 활용하여 Nginx 로그 데이터와 MySQL 데이터를 
 
     - 키워드별 검색 세션 수와 구매 세션 수를 비교해 전환율(%)을 산출
 
-    #### **lab4-4-10**
+    #### **lab4-5-10**
 
     ```bash
     WITH search_sessions AS (
@@ -630,7 +645,7 @@ Hadoop Eco의 Hive를 활용하여 Nginx 로그 데이터와 MySQL 데이터를 
 
     - 상품별로 사용자당 주문 횟수를 집계해, 2회 이상 주문한 사용자 비율을 계산
 
-    #### **lab4-4-11**
+    #### **lab4-5-11**
 
     ```bash
     WITH product_user_orders AS (
@@ -665,7 +680,7 @@ Hadoop Eco의 Hive를 활용하여 Nginx 로그 데이터와 MySQL 데이터를 
 
     - 주문별로 담은 상품 수(quantity 합계)의 평균을 산출
 
-    #### **lab4-4-12**
+    #### **lab4-5-12**
 
     ```bash
     SELECT 
@@ -685,7 +700,7 @@ Hadoop Eco의 Hive를 활용하여 Nginx 로그 데이터와 MySQL 데이터를 
 
     - 엔드포인트별로 HTTP 상태 코드가 400 이상인 로그 비율을 계산해 에러율로 표시
 
-    #### **lab4-4-13**
+    #### **lab4-5-13**
 
     ```bash
     SELECT
