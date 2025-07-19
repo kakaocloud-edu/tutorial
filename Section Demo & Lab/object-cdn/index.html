@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="ko" data-theme="light" style=""><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>카카오 클라우드 Object Storage &amp; CDN 실습</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+        .kakao-yellow {
+            background-color: #FEE500;
+        }
+        .kakao-text {
+            color: #3C1E1E;
+        }
+        .slide-container {
+            width: 1280px;
+            min-height: 720px;
+            margin: 0 auto;
+            position: relative;
+            overflow: hidden;
+            background-image: url('https://page.gensparksite.com/v1/base64_upload/background_pattern.png');
+            background-color: #FCFAF2;
+        }
+        .logo {
+            font-weight: 700;
+            font-size: 1.5rem;
+            padding: 0.75rem 1.5rem;
+            border-radius: 10px;
+        }
+        .main-character {
+            transition: all 0.5s ease;
+            position: relative;
+            z-index: 10;
+        }
+        .main-character:hover {
+            transform: scale(1.08) rotate(5deg);
+        }
+        .glow-effect {
+            box-shadow: 0 0 25px rgba(254, 229, 0, 0.9);
+        }
+        .floating {
+            animation: float 6s ease-in-out infinite;
+        }
+        .particle {
+            position: absolute;
+            background-color: #FEE500;
+            border-radius: 50%;
+            opacity: 0;
+            animation: particle 3s ease-in-out infinite;
+        }
+        @keyframes float {
+            0% { transform: translateY(0px) rotate(0deg); }
+            25% { transform: translateY(-15px) rotate(2deg); }
+            50% { transform: translateY(0px) rotate(0deg); }
+            75% { transform: translateY(15px) rotate(-2deg); }
+            100% { transform: translateY(0px) rotate(0deg); }
+        }
+        @keyframes particle {
+            0% { transform: translateY(0) translateX(0); opacity: 0.8; }
+            100% { transform: translateY(-100px) translateX(50px); opacity: 0; }
+        }
+        .icon-card {
+            background-color: white;
+            border-radius: 15px;
+            padding: 1.75rem;
+            margin: 0.5rem;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: 2px solid transparent;
+            position: relative;
+            overflow: hidden;
+        }
+        .icon-card::before {
+            content: '';
+            position: absolute;
+            top: -10px;
+            left: -10px;
+            width: 30px;
+            height: 30px;
+            background-color: #FEE500;
+            border-radius: 50%;
+            opacity: 0.4;
+            transform: scale(0);
+            transition: transform 0.5s ease;
+        }
+        .icon-card:hover {
+            transform: translateY(-15px) scale(1.03);
+            box-shadow: 0 20px 35px rgba(0,0,0,0.15);
+            border-color: #FEE500;
+        }
+        .icon-card:hover::before {
+            transform: scale(10);
+        }
+        .icon-card .icon-container {
+            position: relative;
+            z-index: 2;
+            transition: transform 0.3s ease;
+        }
+        .icon-card:hover .icon-container {
+            transform: scale(1.2);
+        }
+        .icon-card h3, .icon-card p {
+            position: relative;
+            z-index: 2;
+        }
+        .btn-hover-effect {
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s ease;
+        }
+        .btn-hover-effect:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+        .btn-hover-effect::after {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 150%;
+            height: 150%;
+            background-color: rgba(255,255,255,0.2);
+            transform: translate(-50%, -50%) scale(0);
+            transition: transform 0.6s ease;
+            border-radius: 50%;
+        }
+        .btn-hover-effect:hover::after {
+            transform: translate(-50%, -50%) scale(1);
+        }
+        .badge {
+            transition: all 0.3s ease;
+        }
+        .badge:hover {
+            transform: scale(1.2);
+            background-color: #FEE500;
+            color: #3C1E1E;
+        }
+        .rotating {
+            animation: rotate 15s linear infinite;
+        }
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .bg-circles {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: 0;
+        }
+        .circle {
+            position: absolute;
+            border-radius: 50%;
+            background-color: #FEE500;
+            opacity: 0.1;
+        }
+    </style>
+</head>
+<body class="bg-gray-100" style="">
+    <div class="slide-container">
+        <!-- 배경 장식 원형 -->
+        <div class="bg-circles">
+            <div class="circle" style="width: 300px; height: 300px; top: -100px; left: -100px;"></div>
+            <div class="circle" style="width: 200px; height: 200px; bottom: -50px; right: -50px;"></div>
+            <div class="circle" style="width: 150px; height: 150px; top: 40%; right: 10%;"></div>
+            <div class="circle" style="width: 100px; height: 100px; bottom: 30%; left: 10%;"></div>
+        </div>
+        
+        <!-- 상단 네비게이션 바 -->
+        <div class="flex justify-between items-center p-4 bg-white shadow-lg rounded-b-xl relative z-20">
+            <a href="https://kakaoenterprise.com/" target="_blank" class="logo kakao-yellow kakao-text flex items-center">
+                <span style="font-weight: normal;">kakao</span>Enterprise&nbsp;
+            </a>
+            <a href="https://kakaocloud.com/" target="_blank" class="logo kakao-yellow kakao-text flex items-center">
+                <span style="font-weight: normal;">kakao</span>cloud
+            </a>
+        </div>
+        
+        <!-- 메인 콘텐츠 영역 -->
+        <div class="flex flex-col items-center justify-center py-10 px-6 relative z-10">
+            <h1 class="text-5xl font-bold mb-8 kakao-text text-center relative">
+                <span class="relative inline-block">
+                    <span class="absolute -top-6 -right-6 w-8 h-8 bg-yellow-300 rounded-full opacity-70"></span>
+                    Object Storage + CDN
+                </span>
+                <span class="block text-3xl mt-2">웹페이지 실습</span>
+            </h1>
+            
+            <div class="relative w-full flex justify-center items-center mb-10">
+                <!-- 파티클 효과 요소들 -->
+                <div id="particles"><div class="particle" style="width: 6.67557px; height: 6.67557px; left: calc(50% - 38.5206px); top: calc(50% - 44.6353px); animation-delay: 0s;"></div><div class="particle" style="width: 8.59264px; height: 8.59264px; left: calc(50% - 78.1186px); top: calc(50% - 19.0402px); animation-delay: 0.3s;"></div><div class="particle" style="width: 5.79015px; height: 5.79015px; left: calc(50% + 13.9444px); top: calc(50% + 32.0763px); animation-delay: 0.6s;"></div><div class="particle" style="width: 7.48899px; height: 7.48899px; left: calc(50% - 73.4168px); top: calc(50% + 29.0256px); animation-delay: 0.9s;"></div><div class="particle" style="width: 5.42786px; height: 5.42786px; left: calc(50% + 44.5716px); top: calc(50% + 0.184002px); animation-delay: 1.2s;"></div><div class="particle" style="width: 11.8406px; height: 11.8406px; left: calc(50% - 46.0742px); top: calc(50% + 40.3393px); animation-delay: 0s;"></div><div class="particle" style="width: 11.8183px; height: 11.8183px; left: calc(50% + 86.2099px); top: calc(50% - 48.2762px); animation-delay: 0.3s;"></div></div>
+                
+                <!-- 메인 캐릭터 이미지 -->
+                <div class="main-character floating glow-effect rounded-full p-3 bg-white shadow-xl">
+                    <img src="images/main.png" alt="카카오 캐릭터" class="w-72 h-72 object-cover rounded-full" data-height-listener-added="true">
+                </div>
+                
+                <!-- 장식 요소들 -->
+                <div class="absolute -top-20 -left-20 w-40 h-40 kakao-yellow rounded-full opacity-30 rotating"></div>
+                <div class="absolute bottom-10 right-20 w-32 h-32 kakao-yellow rounded-full opacity-40"></div>
+                <div class="absolute top-10 right-40 w-24 h-24 kakao-yellow rounded-full opacity-30"></div>
+                
+                <!-- 별모양 장식 -->
+                <div class="absolute top-0 left-1/3">
+                    <i class="fas fa-star text-yellow-400 text-3xl animate-pulse"></i>
+                </div>
+                <div class="absolute bottom-20 right-1/3">
+                    <i class="fas fa-star text-yellow-400 text-2xl animate-pulse"></i>
+                </div>
+            </div>
+            
+            <!-- 기능 설명 카드 -->
+            <div class="grid grid-cols-2 gap-8 w-full max-w-5xl relative">
+                <a href="https://kakaocloud.com/services/object-storage/intro" target="_blank" class="icon-card" id="storage-card">
+                    <div class="icon-container mb-4">
+                        <i class="fas fa-database text-5xl kakao-text"></i>
+                    </div>
+                    <h3 class="text-2xl font-semibold kakao-text mb-3">Object Storage</h3>
+                    <p class="text-gray-700">클라우드에 안전하게 데이터를 저장하고 언제 어디서나 접근할 수 있습니다. 대용량 파일도 쉽게 관리해보세요!</p>
+                </a>
+
+                <a href="https://kakaocloud.com/services/cdn/intro" target="_blank" class="icon-card" id="cdn-card">
+                    <div class="icon-container mb-4">
+                        <i class="fas fa-globe text-5xl kakao-text"></i>
+                    </div>
+                    <h3 class="text-2xl font-semibold kakao-text mb-3">CDN</h3>
+                    <p class="text-gray-700">전 세계 어디서나 빠르게 콘텐츠를 전송하는 서비스를 경험해보세요. 지연 없는 완벽한 전송 시스템!</p>
+                    <div class="mt-4 flex">
+                        <i class="fas fa-server mr-2 text-gray-500"></i>
+                        <i class="fas fa-long-arrow-alt-right mx-2 text-yellow-500"></i>
+                        <i class="fas fa-globe-asia mx-2 text-blue-500 animate-pulse"></i>
+                        <i class="fas fa-long-arrow-alt-right mx-2 text-yellow-500"></i>
+                        <i class="fas fa-laptop-code ml-2 text-gray-700"></i>
+                    </div>
+                </a>
+            </div>
+            
+            <!-- 하단 버튼 -->
+            <div class="mt-10">
+                
+            </div>
+            
+            <!-- 효과 요소 -->
+            <div class="flex justify-center mt-8">
+                
+                
+                
+                
+            </div>
+        </div>
+        
+        <!-- 하단 정보 -->
+        <div class="text-center pb-6 text-gray-500 text-sm relative z-10">
+            <p>Copyright © 2025 kakao<b>Cloud</b>. All rights reserved.</p>
+            
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // 파티클 효과 생성
+            const particlesContainer = document.getElementById('particles');
+            const createParticles = () => {
+                for (let i = 0; i < 5; i++) {
+                    setTimeout(() => {
+                        const particle = document.createElement('div');
+                        particle.classList.add('particle');
+                        
+                        // 랜덤 위치와 크기
+                        const size = Math.random() * 10 + 5;
+                        const posX = Math.random() * 200 - 100;
+                        const posY = Math.random() * 100 - 50;
+                        
+                        particle.style.width = `${size}px`;
+                        particle.style.height = `${size}px`;
+                        particle.style.left = `calc(50% + ${posX}px)`;
+                        particle.style.top = `calc(50% + ${posY}px)`;
+                        particle.style.animationDelay = `${i * 0.3}s`;
+                        
+                        particlesContainer.appendChild(particle);
+                        
+                        // 애니메이션 종료 후 제거
+                        setTimeout(() => {
+                            particle.remove();
+                        }, 3000);
+                    }, i * 300);
+                }
+            };
+            
+            // 주기적으로 파티클 생성
+            setInterval(createParticles, 2000);
+            createParticles();
+            
+            // 스토리지 프로그레스 바 애니메이션
+            const storageProgress = document.getElementById('storage-progress');
+            const storagePercent = document.getElementById('storage-percent');
+            let progress = 0;
+            
+            const updateProgress = () => {
+                if (progress < 100) {
+                    progress += 1;
+                    storageProgress.style.width = `${progress}%`;
+                    storagePercent.innerText = `${progress}%`;
+                    setTimeout(updateProgress, 30);
+                }
+            };
+            
+            // 카드에 호버 이벤트 추가
+            const storageCard = document.getElementById('storage-card');
+            const cdnCard = document.getElementById('cdn-card');
+            
+            storageCard.addEventListener('mouseenter', function() {
+                progress = 0;
+                updateProgress();
+            });
+            
+            // 카드 클릭 이벤트 추가
+            const cards = document.querySelectorAll('.icon-card');
+            cards.forEach(card => {
+                card.addEventListener('click', function() {
+                    this.style.backgroundColor = '#FEE500';
+                    setTimeout(() => {
+                        this.style.backgroundColor = 'white';
+                    }, 300);
+                });
+            });
+            
+            // 버튼 클릭 효과
+            const startButton = document.querySelector('.btn-hover-effect');
+            startButton.addEventListener('click', function() {
+                this.classList.add('animate-pulse');
+                setTimeout(() => {
+                    this.classList.remove('animate-pulse');
+                }, 1000);
+            });
+            
+            // 배지 효과
+            const badges = document.querySelectorAll('.badge');
+            badges.forEach(badge => {
+                badge.addEventListener('click', function() {
+                    this.style.backgroundColor = '#FEE500';
+                    setTimeout(() => {
+                        this.style.backgroundColor = '';
+                    }, 500);
+                });
+            });
+        });
+    </script>
+
+</body></html>
