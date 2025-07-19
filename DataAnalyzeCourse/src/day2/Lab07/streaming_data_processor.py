@@ -23,7 +23,7 @@ from delta.tables import DeltaTable
 # 서비스 설정 값 (스크립트 실행 전, sed 등으로 변경할 수 있도록 여기에 정의)
 # ----------------------------------------------------------------------------
 BOOTSTRAP_SERVERS = "KAFKA_BOOTSTRAP_SERVERS" 
-SCHEMA_REGISTRY_URL = "http://API_VM_IP:8081" 
+SCHEMA_REGISTRY_URL = "http://SCHEMA_REGISTRY_SERVER:8081" 
 
 # ----------------------------------------------------------------------------
 # Schema Registry 유틸리티 함수
