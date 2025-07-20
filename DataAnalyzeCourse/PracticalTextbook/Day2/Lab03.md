@@ -830,7 +830,7 @@ Kafka로 들어오는 데이터를 Druid에서 실시간으로 수집 및 가공
 14. Query 메뉴 클릭
 15. 테이블 JOIN 쿼리를 실행
 
-    - orders, users 테이블 JOIN
+    - orders, users 테이블 JOIN하여 `dw_orders_users` 테이블에 저장
 
         #### lab3-2-15-1
     
@@ -853,42 +853,11 @@ Kafka로 들어오는 데이터를 Druid에서 실시간으로 수집 및 가공
         PARTITIONED BY DAY
         ```
         
-    - cart, orders, products 테이블 JOIN
+    - 일별 사용자, 상품 주문 건수를 집계하여 `dw_user_product_order_cnt` 테이블에 저장
         
         #### lab3-2-15-2
     
         ```sql
-        INSERT INTO dw_cart_orders_products
-        SELECT
-          c.__time         AS __time,
-          c.cart_id,
-          c.user_id,
-          c.event_type,
-          c.event_time,
-          o.order_id,
-          o.order_time,
-          p.id             AS product_id,
-          p.category,
-          c.new_quantity   AS cart_qty,
-          o.quantity       AS order_qty
-        FROM shopdb_cart_logs_changes c
-        LEFT JOIN shopdb_orders_changes o
-          ON c.user_id = o.user_id
-             AND c.product_id = o.product_id
-             AND DATE_TRUNC('DAY', CAST(c.event_time AS TIMESTAMP))
-               = DATE_TRUNC('DAY', CAST(o.order_time AS TIMESTAMP))
-        LEFT JOIN shopdb_products_changes p
-          ON c.product_id = p.id
-        WHERE c.__deleted = 'false'
-          AND p.__deleted = 'false'
-        PARTITIONED BY DAY
-        ```
-        
-    - 일별 사용자, 상품 주문 건수를 집계하여 테이블에 저장
-        
-        #### lab3-2-15-3
-    
-        ```sql
         INSERT INTO dw_user_product_order_cnt
         SELECT
           __time,
@@ -899,23 +868,6 @@ Kafka로 들어오는 데이터를 Druid에서 실시간으로 수집 및 가공
         GROUP BY 1,2,3
         PARTITIONED BY DAY
         ```
-
-    - 일별 사용자, 상품 주문 건수 집계를 바탕으로 재구매율 논리 추가
-
-        #### lab3-2-15-4
-              
-        ```sql
-        INSERT INTO dw_user_product_order_cnt
-        SELECT
-          __time,
-          user_id,
-          product_id,
-          COUNT(*) AS cnt
-        FROM dw_orders_users
-        GROUP BY 1,2,3
-        PARTITIONED BY DAY
-        ```
-    
 
 ## 3. **Superset을 활용한 데이터 시각화**
 
