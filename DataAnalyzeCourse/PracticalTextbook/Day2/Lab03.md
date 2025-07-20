@@ -730,6 +730,8 @@ Kafka로 들어오는 데이터를 Druid에서 실시간으로 수집 및 가공
         FROM shopdb_orders_changes o
         LEFT JOIN shopdb_users_changes u
           ON o.user_id = u.user_id
+        WHERE o.__deleted='false'
+          AND u.__deleted='false'
         PARTITIONED BY DAY
         ```
         
