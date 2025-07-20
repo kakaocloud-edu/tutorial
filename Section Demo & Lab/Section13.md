@@ -155,4 +155,4 @@ http://{CDN 서비스 도메인}/index.html
 
 정적 웹사이트가 정상적으로 표시되는지 확인합니다.
 
----
+<img width="1910" height="1519" alt="image" src="https://github.com/user-attachments/assets/3fe876bd-79d1-4128-bafb-da8eab375000" />
