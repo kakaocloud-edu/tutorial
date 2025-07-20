@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/bash
 sleep 600
 set -euxo pipefail
 
