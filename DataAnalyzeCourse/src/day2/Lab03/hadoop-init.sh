@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+sleep 600
 set -euxo pipefail
 
 # 1. OpenJDK 17 설치
