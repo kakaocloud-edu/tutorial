@@ -28,11 +28,20 @@ Hadoop 클러스터 환경에서 실시간 스트리밍 데이터와 배치 데�
     ```java
     wget https://raw.githubusercontent.com/kakaocloud-edu/tutorial/refs/heads/main/DataAnalyzeCourse/src/day2/Lab07/historical_data_refiner.py
     ```
-    
 
-2. 배치 정제 실행
+2. `SCHEMA_REGISTRY_SERVER` 값을 실제 주소로 변경
+    - **Note**: `{data-stream-vm의 Public IP}}`을 개인 환경에 맞게 수정 필요
     
     **lab7-2-2**
+
+    ```bash
+    sed -i "s/SCHEMA_REGISTRY_SERVER/{data-stream-vm의 Public IP}/g" historical_data_refiner.py
+    ```
+
+    
+3. 배치 정제 실행
+    
+    **lab7-2-3**
     
     ```java
     nohup spark-submit \
@@ -42,9 +51,9 @@ Hadoop 클러스터 환경에서 실시간 스트리밍 데이터와 배치 데�
       historical_data_refiner.py > historical_data_refiner.log 2>&1 &
     ```
     
-3. 배치 정제 프로세스 모니터링
+4. 배치 정제 프로세스 모니터링
     
-    **lab7-3-3**
+    **lab7-3-4**
     
     ```java
     tail -f historical_data_refiner.log 
@@ -54,10 +63,10 @@ Hadoop 클러스터 환경에서 실시간 스트리밍 데이터와 배치 데�
 
     
 
-4. 모니터링 종료
+5. 모니터링 종료
     - **Note**: 맥북은 “command” + “c”
     
-    **lab7-3-4**
+    **lab7-3-5**
     
     ```java
     "ctrl" + "c"
@@ -156,7 +165,7 @@ Hadoop 클러스터 환경에서 실시간 스트리밍 데이터와 배치 데�
     ```
     
 
-2. `BOOTSTRAP_SERVERS`, `API_VM_IP`값을 실제 주소로 변경
+2. `BOOTSTRAP_SERVER`, `API_VM_IP`값을 실제 주소로 변경
     - **Note**: `{실제 Kafka 클러스터 부트스트랩 서버값}`을 개인 환경에 맞게 수정 필요
     - **Note**: `{data-stream-vm의 Public IP}}`을 개인 환경에 맞게 수정 필요
     
