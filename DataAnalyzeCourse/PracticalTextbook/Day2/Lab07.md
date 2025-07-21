@@ -75,7 +75,7 @@ Hadoop 클러스터 환경에서 실시간 스트리밍 데이터와 배치 데�
 
 6. 카카오 클라우드 콘솔 > Beyond Storage Service > Object Storage
 7. `data-catalog-bucket` 클릭
-8. 배치 정제 결과가 저장된 디렉터리로 이동 후 버킷 내 적재된배치 정제 결과 확인 
+8. 배치 정제 결과가 저장된 디렉터리로 이동 후 버킷 내 적재된 배치 정제 결과 확인 
     - **Note**: `data-catalog-bucket/data-catalog-dir/user_behavior_batch`디렉터리로 이동
    <img width="1695" height="932" alt="image" src="https://github.com/user-attachments/assets/9652d39e-5546-4c63-9f36-c604b3b37ffc" />
 
