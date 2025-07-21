@@ -320,22 +320,24 @@ Hadoop Eco의 Hive를 활용하여 Nginx 로그 데이터와 MySQL 데이터를 
 
 ## 4. Hue 환경 설정
 
-1. 웹 브라우저 주소창에서 아래 URL 입력을 통해 hue 접속
+1. 카카오 클라우드 콘솔 > Beyond Compute Service > Virtual Machine
+2. `HadoopMST-core-hadoop-1` 인스턴스의 `기본 퍼블릭 IP` 복사
+3. 웹 브라우저 주소창에서 아래 URL 입력을 통해 hue 접속
 
-    #### **lab4-4-1**
+    #### **lab4-4-3**
 
     ```bash
     http://{HadoopMST-core-hadoop-1 public ip주소}:8888
     ```
 
-2. Hue에 로그인
+4. Hue에 로그인
 
     - hadoop eco 생성 시에 만든 id와 pw 입력하여 접속
     - id:`admin`
     - pw:`Admin1234!`
 
-3. 좌측 상단 `default` 데이터베이스 확인
-4. 좌측 상단 생성된 테이블 및 뷰 확인
+5. 좌측 상단 `default` 데이터베이스 확인
+6. 좌측 상단 생성된 테이블 및 뷰 확인
 
     - 테이블 목록
         - `external_nginx_log`
@@ -348,13 +350,13 @@ Hadoop Eco의 Hive를 활용하여 Nginx 로그 데이터와 MySQL 데이터를 
         - `hive_products_flat`
         - `hive_users_flat`
 
-5. 쿼리문 입력창에 jar 파일 입력 후 실행
+7. 쿼리문 입력창에 jar 파일 입력 후 실행
 
     - 쿼리문 입력 후 입력창 좌측의 화살표 클릭하여 실행
     - Hive 메타스토어에 저장된 테이블 정보를 Hadoop Eco와 공유해주는 HCatalog 코어 라이브러리 추가 
     
     
-    #### **lab4-4-5**
+    #### **lab4-4-7**
 
     ```bash
     ADD JAR /opt/apache-hive-3.1.3-bin/lib/hive-hcatalog-core-3.1.3.jar;
