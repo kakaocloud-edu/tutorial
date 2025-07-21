@@ -73,24 +73,24 @@ Hadoop 클러스터 환경에서 실시간 스트리밍 데이터와 배치 데�
     ```
     
 
-5. 카카오 클라우드 콘솔 > Beyond Storage Service > Object Storage
-6. `data-catalog-bucket` 클릭
-7. 배치 정제 결과가 저장된 디렉터리로 이동 후 버킷 내 적재된배치 정제 결과 확인 
+6. 카카오 클라우드 콘솔 > Beyond Storage Service > Object Storage
+7. `data-catalog-bucket` 클릭
+8. 배치 정제 결과가 저장된 디렉터리로 이동 후 버킷 내 적재된배치 정제 결과 확인 
     - **Note**: `data-catalog-bucket/data-catalog-dir/user_behavior_batch`디렉터리로 이동
-   ![결과 이미지](https://github.com/user-attachments/assets/705f5b68-f7d0-4dd0-a368-73dfd152bcf7)
+   <img width="1695" height="932" alt="image" src="https://github.com/user-attachments/assets/9652d39e-5546-4c63-9f36-c604b3b37ffc" />
 
-8. 배치 정제 결과 데이터 검증을 위한 PySpark 셸 실행
+9. 배치 정제 결과 데이터 검증을 위한 PySpark 셸 실행
     
-    **lab7-2-8**
+    **lab7-2-9**
     
     ```java
     pyspark
     ```
     
 
-9. 현재 PySpark 셸 세션에서 S3 접근을 위한 Hadoop 설정값 구성
+10. 현재 PySpark 셸 세션에서 S3 접근을 위한 Hadoop 설정값 구성
     
-    **lab7-2-9**
+    **lab7-2-10**
     
     ```java
     hconf = spark.sparkContext._jsc.hadoopConfiguration()
@@ -99,27 +99,27 @@ Hadoop 클러스터 환경에서 실시간 스트리밍 데이터와 배치 데�
     hconf.set("fs.s3a.impl", "org.apache.hadoop.fs.s3a.S3AFileSystem")
     ```
     
-10. 데이터 경로 정의
+11. 데이터 경로 정의
     
-    **lab7-2-10**
+    **lab7-2-11**
     
     ```java
     output_data_path = "s3a://data-catalog-bucket/data-catalog-dir/user_behavior_prediction_batch/"
     ```
     
 
-11. Parquet 파일을 DataFrame으로 로드
+12. Parquet 파일을 DataFrame으로 로드
     
-    **lab7-2-11**
+    **lab7-2-12**
     
     ```java
     df_enriched = spark.read.parquet(output_data_path)
     ```
     
 
-12. 스키마 구조 출력
+13. 스키마 구조 출력
     
-    **lab7-2-12**
+    **lab7-2-13**
     
     ```java
     df_enriched.printSchema()
@@ -129,9 +129,9 @@ Hadoop 클러스터 환경에서 실시간 스트리밍 데이터와 배치 데�
 
     
 
-13. 상위 100개 레코드 출력
+14. 상위 100개 레코드 출력
     
-    **lab7-2-13**
+    **lab7-2-14**
     
     ```java
     (df_enriched
@@ -142,9 +142,9 @@ Hadoop 클러스터 환경에서 실시간 스트리밍 데이터와 배치 데�
     <img width="2467" height="915" alt="image" src="https://github.com/user-attachments/assets/aabb6e5b-f682-4f46-966c-e6ea0a3103bb" />
 
     
-14. Pyspark 셸 종료
+15. Pyspark 셸 종료
     
-    **lab7-2-14**
+    **lab7-2-15**
     
     ```java
     exit();
