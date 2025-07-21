@@ -49,11 +49,11 @@ Kafka로 들어오는 데이터를 Druid에서 실시간으로 수집 및 가공
     icacls.exe keypair.pem /inheritance:r
     ```
     
-3. 마스터, 워커 노드(`HadoopMST-hadoop-dataflow-1`, `HadoopWRK-hadoop-dataflow-1, 2`)에 각각 Public IP 연결
+3. 마스터, 워커 노드(`HadoopMST-hadoop-eco-1`, `HadoopWRK-hadoop-eco-1, 2`)에 각각 Public IP 연결
     - 각 인스턴스의 우측 메뉴바 > `Public IP 연결` 클릭
     - `새로운 퍼블릭 IP를 생성하고 자동으로 할당`
     - 확인 버튼 클릭
-4. 마스터, 워커 노드(`HadoopMST-hadoop-dataflow-1`, `HadoopWRK-hadoop-dataflow-1, 2`)에 SSH 접속
+4. 마스터, 워커 노드(`HadoopMST-hadoop-eco-1`, `HadoopWRK-hadoop-eco-1, 2`)에 SSH 접속
     - 각 인스턴스의 우측 메뉴바 > `SSH 연결` 클릭
     - SSH 접속 명령어 복사
     - 터미널 열기
@@ -127,24 +127,24 @@ Kafka로 들어오는 데이터를 Druid에서 실시간으로 수집 및 가공
 
 ## 2. **Druid를 활용한 데이터 수집 및 가공**
 
-1. 마스터 노드(`HadoopMST-hadoop-dataflow-1`)의 Public IP를 이용하여 웹 브라우저에서 Druid에 접속
+1. 마스터 노드(`HadoopMST-hadoop-eco-1`)의 Public IP를 이용하여 웹 브라우저에서 Druid에 접속
 
     #### lab3-2-1
  
     ```
-    http://${MASTER_NODE_PUBLIC_IP}:3008
+    http://{MASTER_NODE_PUBLIC_IP}:3008
     ```
     
     ![image](https://github.com/user-attachments/assets/b56858d8-2998-4e10-b398-59c61f1ac0f4)
 
     
-2. `api-server-1`의 Public IP 복사 후 메모장에 붙여넣기
+2. `data-stream-vm`의 Public IP 복사 후 메모장에 붙여넣기
 3. 카카오 클라우드 콘솔 > Advanced Managed Kafka > 클러스터
 4. `kafka` 클러스터 클릭
 5. 부트스트랩 서버 복사 후 메모장에 붙여넣기
 6. Load Data > Streaming > Start a new streaming spec 버튼 클릭
 7. `Edit Spec` 버튼 클릭 후 아래 spec 입력
-    - **Note**: Kafka 부트스트랩 서버, api-server-1의 Public IP를 복사해둔 값으로 변경
+    - **Note**: Kafka 부트스트랩 서버, data-stream-vm의 Public IP를 복사해둔 값으로 변경
 
     #### lab3-2-7
 
