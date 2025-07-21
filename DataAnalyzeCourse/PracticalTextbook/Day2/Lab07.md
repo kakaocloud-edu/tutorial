@@ -173,110 +173,98 @@ Hadoop 클러스터 환경에서 실시간 스트리밍 데이터와 배치 데�
     ```
     
 
-4. 실시간 정제 작업 실행
+3. 실시간 정제 작업 실행 및 프로세스 과정 확인
     
     **lab7-3-3**
     
     ```java
-    nohup spark-submit \
+    spark-submit \
       --master yarn \
       --deploy-mode client \
       --packages org.apache.spark:spark-sql-kafka-0-10_2.12:3.5.2,org.apache.spark:spark-avro_2.12:3.5.2,io.delta:delta-spark_2.12:3.1.0 \
-      streaming_data_processor.py > streaming_data_processor.log 2>&1 &
+      streaming_data_processor.py
     ```
-    
 
-5. 정제 프로세스 모니터링
-    
-    **lab7-3-4**
-    
-    ```java
-    tail -f streaming_data_processor.log 
-    ```
-    
-
-6. 모니터링 종료
+4. 모니터링 종료
     - **Note**: 맥북은 “command” + “c”
     
-    **lab7-3-5**
+    **lab7-3-4**
     
     ```java
     "ctrl" + "c"
     ```
     
 
-7. 카카오 클라우드 콘솔 > Beyond Storage Service > Object Storage
-8. `data-catalog-bucket` 클릭
-9. 배치 정제 결과가 저장된 디렉터리로 이동 후 버킷 내 적재된배치 정제 결과 확인 
+5. 카카오 클라우드 콘솔 > Beyond Storage Service > Object Storage
+6. `data-catalog-bucket` 클릭
+7. 배치 정제 결과가 저장된 디렉터리로 이동 후 버킷 내 적재된배치 정제 결과 확인 
     - **Note**: `data-catalog-bucket/data-catalog-dir/user_behavior_prediction/dt={실습 진행날짜}/`디렉터리로 이동
     ![실시간 결과 이미지](https://github.com/user-attachments/assets/5d205c50-8765-4e64-8fd7-8722f7a3d352)
     
 
-10. 배치 정제 결과 데이터 검증을 위한 PySpark 셸 실행
+8. 배치 정제 결과 데이터 검증을 위한 PySpark 셸 실행
     
-    **lab7-3-9**
+    **lab7-3-8**
     
     ```java
     pyspark
     ```
     
 
-11. 파일 경로 설정
+9. 파일 경로 설정
 
-    **lab7-3-10**
+    **lab7-3-9**
     
     ```java
     directory_path= "s3a://data-catalog-bucket/data-catalog-dir/user_behavior_prediction/"
     ```
     
 
-12. Parquet 파일 로드
+10. Parquet 파일 로드
     
-    **lab7-3-11**
+    **lab7-3-10**
     
     ```java
     df_combined = spark.read.parquet(directory_path)
     ```
     
 
-13. 스키마 구조 검증
+11. 스키마 구조 검증
     
-    **lab7-3-12**
+    **lab7-3-11**
     
     ```java
     df_combined.printSchema()
     ```
 
-    <img width="470" height="314" alt="image" src="https://github.com/user-attachments/assets/50ba5362-e45b-4cda-bb69-243c90ec447d" />
-
+    <img width="494" height="373" alt="image" src="https://github.com/user-attachments/assets/07a07f23-b154-4681-832f-e67646e5c8a3" />
 
 
     
-
-14. 상위 100개 데이터 샘플 확인
+12. 상위 100개 데이터 샘플 확인
     
-    **lab7-3-13**
+    **lab7-3-12**
     
     ```java
     (df_combined
      .orderBy("session_id", "page_depth")
      .show(100, truncate=False))
     ```
-    ![image](https://github.com/user-attachments/assets/84c3ca82-51f0-47fb-aa6e-aa325a159eb0)
+    <img width="2179" height="752" alt="image" src="https://github.com/user-attachments/assets/beabee63-4f5d-479a-bbe2-d24bfa274e8f" />
 
     
 
-15. 세션 ID별 데이터 분포 확인
+13. 세션 ID별 데이터 분포 확인
     
-    **lab7-3-14**
+    **lab7-3-13**
     
     ```java
     df_combined.groupBy("session_id").count().show(truncate=False)
     ```
     
-16. Spark 셸 종료
+14. Spark 셸 종료
     
-    **lab7-3-15**
+    **lab7-3-14**
     
     ```java
     exit()
