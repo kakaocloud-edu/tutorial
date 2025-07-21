@@ -4,6 +4,10 @@
 이 실습은 `busybox:1.35` 이미지를 사용해 쿠버네티스의 핵심 리소스(`Pod`, `ReplicaSet`, `Deployment`)를 체험하는 과정입니다.  
 각 리소스의 역할과 차이점을 실습을 통해 익혀봅시다.
 
+<img width="590" height="308" alt="image" src="https://github.com/user-attachments/assets/ab9bf16b-f847-4088-b744-10ce8cdad818" />
+<img width="842" height="234" alt="image" src="https://github.com/user-attachments/assets/851838ec-e931-49c6-9156-730bd8a2bb69" />
+
+
 ## 1. Pod 생성
 
 단일 Pod를 생성하고 기본 명령어를 통해 상태를 확인합니다.
@@ -72,7 +76,7 @@ spec:
 kubectl apply -f replicaset.yaml
 ```
 
-#### 🧪 실습 명령어
+#### 실습 명령어
 ```bash
 kubectl get rs
 kubectl get pods
