@@ -50,6 +50,9 @@ Hadoop 클러스터 환경에서 실시간 스트리밍 데이터와 배치 데�
     tail -f historical_data_refiner.log 
     ```
     
+    <img width="1714" height="920" alt="image" src="https://github.com/user-attachments/assets/6a6473d9-7984-4f5f-81be-12572087f3d2" />
+
+    
 
 4. 모니터링 종료
     - **Note**: 맥북은 “command” + “c”
@@ -112,7 +115,7 @@ Hadoop 클러스터 환경에서 실시간 스트리밍 데이터와 배치 데�
     ```java
     df_enriched.printSchema()
     ```
-    <img width="470" height="314" alt="image" src="https://github.com/user-attachments/assets/c6386e75-96a5-45d3-9878-19087753bca2" />
+    <img width="491" height="377" alt="스키마구조" src="https://github.com/user-attachments/assets/c3da899f-b6a6-49e6-85e7-3c548a123e8e" />
 
 
     
@@ -126,7 +129,8 @@ Hadoop 클러스터 환경에서 실시간 스트리밍 데이터와 배치 데�
      .orderBy("session_id", "page_depth")
      .show(100, truncate=False))
     ```
-    ![image](https://github.com/user-attachments/assets/b664d8b4-5da9-4354-8917-d555c18ab5bd)
+
+    <img width="2467" height="915" alt="image" src="https://github.com/user-attachments/assets/aabb6e5b-f682-4f46-966c-e6ea0a3103bb" />
 
     
 14. Pyspark 셸 종료
