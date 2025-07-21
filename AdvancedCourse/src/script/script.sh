@@ -93,9 +93,3 @@ echo "kakaocloud: 14.Checking Kubernetes cluster nodes status"
 kubeconfig="/home/ubuntu/.kube/config"
 KUBECONFIG=$kubeconfig kubectl get nodes || { echo "kakaocloud: Failed to communicate with Kubernetes cluster"; exit 1; }
 echo "kakaocloud: Successfully communicated with Kubernetes cluster"
-
-echo "kakaocloud: 15.Deploying ingress-nginx controller"
-KUBECONFIG=$kubeconfig kubectl apply -f \
-  https://github.com/kakaocloud-edu/tutorial/raw/main/AdvancedCourse/src/manifests/ingress-nginx-controller.yaml \
-  || { echo "kakaocloud: Failed to deploy ingress-nginx controller"; exit 1; }
-echo "kakaocloud: ingress-nginx controller deployed"
