@@ -32,7 +32,7 @@ def log_time(message):
 
 
 log_time("실시간 스트림 처리 환경 변수 로드 시작")
-BOOTSTRAP_SERVER = "KAFKA_BOOTSTRAP_SERVERS"
+BOOTSTRAP_SERVER = "KAFKA_BOOTSTRAP_SERVER"
 SCHEMA_REGISTRY_URL = f"http://SCHEMA_REGISTRY_SERVER:8081"
 log_time(f"Kafka Bootstrap Server: {BOOTSTRAP_SERVER}")
 log_time(f"Schema Registry URL: {SCHEMA_REGISTRY_URL}")
