@@ -583,9 +583,7 @@ Hadoop Eco의 Hive를 활용하여 Nginx 로그 데이터와 MySQL 데이터를 
           ELSE '50대 이상'
         END AS age_group,
         ROUND(
-          COUNT(DISTINCT CASE WHEN p.user_id IS NOT NULL THEN u.user_id END) * 1.0
-          / COUNT(DISTINCT u.user_id),
-        2) AS purchase_rate,
+          COUNT(DISTINCT CASE WHEN p.user_id IS NOT NULL THEN u.user_id END) * 1.0 / COUNT(DISTINCT u.user_id), 2) AS purchase_rate,
         CASE
           WHEN u.age < 20 THEN 1
           WHEN u.age BETWEEN 20 AND 29 THEN 2
@@ -613,10 +611,7 @@ Hadoop Eco의 Hive를 활용하여 Nginx 로그 데이터와 MySQL 데이터를 
           ELSE 5
         END
     )
-    SELECT
-      gender,
-      age_group,
-      purchase_rate
+    SELECT gender, age_group, purchase_rate
     FROM agg
     WHERE gender IS NOT NULL
       AND purchase_rate IS NOT NULL
