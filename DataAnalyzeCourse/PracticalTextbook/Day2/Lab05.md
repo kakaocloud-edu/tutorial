@@ -6,7 +6,7 @@ Hadoop Eco의 Hive를 활용하여 이미 만들어진 Nginx 로그 데이터 �
 ## 1. Hadoop-Eco 마스터 노드 정보 조회
 
 1. 카카오 클라우드 콘솔 > Beyond Compute Service > Virtual Machine
-2. `HadoopMST-core-hadoop-1` 인스턴스의 기본 private ip 복사
+2. `HadoopMST-core-hadoop-1` 인스턴스의 기본 프라이빗 ip 복사
 
     <img width="1596" height="162" alt="1  mst private ip 확인" src="https://github.com/user-attachments/assets/e4e8b0b8-3b30-42fa-ac67-4b8ff9f4c600" />
 
