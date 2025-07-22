@@ -29,7 +29,7 @@ Hadoop Eco의 Hive를 활용하여 Nginx 로그 데이터와 MySQL 데이터를 
 ## 2. Hadoop-Eco 마스터 노드 접속
 
 1. 카카오 클라우드 콘솔 > Beyond Compute Service > Virtual Machine
-2. `HadoopMST-core-hadoop-1` 인스턴스의 우측 메뉴바 > `SSH 연결` 클릭
+2. `HadoopMST-hadoop-eco-1` 인스턴스의 우측 메뉴바 > `SSH 연결` 클릭
 
     - SSH 접속 명령어 복사
     - 터미널 열기
