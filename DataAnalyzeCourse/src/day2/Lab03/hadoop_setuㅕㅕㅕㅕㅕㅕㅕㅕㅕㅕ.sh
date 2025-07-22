@@ -1,6 +1,7 @@
 #!/bin/bash
 set -euxo pipefail
 
+
 # 1. OpenJDK 17 설치
 echo "kakaocloud: 1. OpenJDK 17 설치"
 sudo apt update || { echo "kakaocloud: 1. OpenJDK 17 설치 - apt update 실패"; exit 1; }
