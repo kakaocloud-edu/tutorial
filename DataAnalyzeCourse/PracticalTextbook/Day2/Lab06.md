@@ -53,7 +53,9 @@ Hadoop Eco의 Spark를 활용하여 이미 만들어진 aggregated_logs 테이�
      --mysql-password admin1234
     ```
 
+    - 아래와 같은 형식의 내용 확인
 
+    <img width="1312" height="534" alt="5  실행완료 화면" src="https://github.com/user-attachments/assets/4ff46c32-1798-414e-9ebb-03468ff05bb1" />
 
 ## 3. 데이터 마트를 이용한 Data Query 진행
 
