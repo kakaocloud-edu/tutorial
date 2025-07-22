@@ -4,8 +4,8 @@ export DEBIAN_FRONTEND=noninteractive
 
 # 1. OpenJDK 17 설치
 echo "kakaocloud: 1. OpenJDK 17 설치"
-sudo apt update || { echo "kakaocloud: apt update 실패"; exit 1; }
-sudo apt install -y openjdk-17-jdk || { echo "kakaocloud: openjdk 설치 실패"; exit 1; }
+sudo DEBIAN_FRONTEND=noninteractive apt update || { echo "kakaocloud: apt update 실패"; exit 1; }
+sudo DEBIAN_FRONTEND=noninteractive apt install -y openjdk-17-jdk || { echo "kakaocloud: openjdk 설치 실패"; exit 1; }
 
 # 2. 환경 변수 설정 (/etc/profile.d/druid.sh)
 echo "kakaocloud: 2. 환경 변수 설정"
