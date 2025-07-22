@@ -874,7 +874,7 @@ Kafka로 들어오는 데이터를 Druid에서 실시간으로 수집 및 가공
         
     - SAVE 버튼 클릭
     - dw_user_product_order_cnt 클릭
-    - TIME-SERIES LINE CHART 선택
+    - TIME-SERIES BAR CHART 선택
     - TIME GRAIN: `Month`
     - METRICS: `재구매율(%)`
     - DIENSIONS: `product_id`
