@@ -12,7 +12,7 @@ Hadoop Eco의 Hive를 활용하여 이미 만들어진 Nginx 로그 데이터 �
 
 ## 2. Hive에서 aggregated_logs 테이블 생성
 
-1. 사용하던 `HadoopMST-core-hadoop-1`에서 hive에 접속
+1. 사용하던 `HadoopMST-hadoop-eco-1`에서 hive에 접속
 
     #### **lab5-2-1**
 
@@ -22,7 +22,7 @@ Hadoop Eco의 Hive를 활용하여 이미 만들어진 Nginx 로그 데이터 �
 
 2. aggregated_logs 테이블 생성
 
-    - LOCATION에 `{HadoopMST-core-hadoop-1 private ip주소}` 입력
+    - LOCATION에 `{HadoopMST-hadoop-eco-1 private ip주소}` 입력
     - **Note**: 8020번 포트는 Hadoop의 HDFS의 RPC 통신 포트
 
     #### **lab5-2-2**
@@ -39,7 +39,7 @@ Hadoop Eco의 Hive를 활용하여 이미 만들어진 Nginx 로그 데이터 �
       success_status     INT
     )
     STORED AS PARQUET
-    LOCATION 'hdfs://{HadoopMST-core-hadoop-1 private ip주소}:8020/apps/hive/warehouse/aggregated_logs/';
+    LOCATION 'hdfs://{HadoopMST-hadoop-eco-1 private ip주소}:8020/apps/hive/warehouse/aggregated_logs/';
     ```
 
 3. 파티션 설정 및 jar 등록
