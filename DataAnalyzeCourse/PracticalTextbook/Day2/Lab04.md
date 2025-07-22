@@ -322,7 +322,7 @@ Hadoop Eco의 Hive를 활용하여 Nginx 로그 데이터와 MySQL 데이터를 
 
 1. 카카오 클라우드 콘솔 > Beyond Compute Service > Virtual Machine
 2. `HadoopMST-hadoop-eco-1` 인스턴스의 `기본 퍼블릭 IP` 복사
-3. 웹 브라우저 주소창에서 아래 URL 입력을 통해 hue 접속
+3. 웹 브라우저 주소창에서 아래 URL 입력을 통해 Hue 접속
 
     #### **lab4-4-3**
 
@@ -332,9 +332,9 @@ Hadoop Eco의 Hive를 활용하여 Nginx 로그 데이터와 MySQL 데이터를 
 
 4. Hue에 로그인
 
-    - hadoop eco 생성 시에 만든 id와 pw 입력하여 접속
-    - id:`admin`
-    - pw:`Admin1234!`
+    - hadoop eco 생성 시에 만든 ID와 PW 입력하여 접속
+    - ID:`admin`
+    - PW:`Admin1234!`
 
 5. 좌측 상단 `default` 데이터베이스 확인
 6. 좌측 상단 생성된 테이블 및 뷰 확인
