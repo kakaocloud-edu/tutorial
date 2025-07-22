@@ -12,7 +12,7 @@ Hadoop Eco의 Hive를 활용하여 이미 만들어진 Nginx 로그 데이터 �
 
 ## 2. Hive에서 aggregated_logs 테이블 생성
 
-1. 사용하던 `HadoopMST-hadoop-eco-1`에서 hive에 접속
+1. 사용하던 `HadoopMST-hadoop-eco-1`에서 Hive에 접속
 
     #### **lab5-2-1**
 
