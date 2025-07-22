@@ -11,7 +11,7 @@ Hadoop Eco의 Spark를 활용하여 이미 만들어진 aggregated_logs 테이�
    ![스크린샷](https://github.com/user-attachments/assets/c5e2e829-02f1-41dc-9932-e14efddfca1c)  
 
 ## 2. Spark를 활용하여 데이터 마트 테이블 생성 후 MySQL에 적재 
-1. 사용하던 HadoopMST-hadoop-eco-1에서 Spark 설정 파일 업데이트
+1. 사용하던 `HadoopMST-hadoop-eco-1`에서 Spark 설정 파일 업데이트
    - **Note**: 지정한 입력 경로의 모든 하위 디렉토리에 있는 파일까지 읽도록 설정
    ```bash
    echo "spark.hadoop.mapreduce.input.fileinputformat.input.dir.recursive true" | sudo tee -a /opt/spark/conf/spark-defaults.conf
