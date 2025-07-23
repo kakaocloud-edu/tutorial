@@ -165,7 +165,7 @@ Hadoop 클러스터 환경에서 실시간 스트리밍 데이터와 배치 데�
     ```
     
 
-2. `BOOTSTRAP_SERVER`, `API_VM_IP`값을 실제 주소로 변경
+2. `BOOTSTRAP_SERVER`, `data-stream-vm의 Public IP`값을 실제 주소로 변경
     - **Note**: `{실제 Kafka 클러스터 부트스트랩 서버값}`을 개인 환경에 맞게 수정 필요
     - **Note**: `{data-stream-vm의 Public IP}}`을 개인 환경에 맞게 수정 필요
     
