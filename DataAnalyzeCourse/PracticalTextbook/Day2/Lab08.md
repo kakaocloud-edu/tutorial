@@ -1,6 +1,7 @@
 # 리소스 삭제 실습
 
-Day3에서 불필요한 리소스를 삭제하는 실습입니다.
+불필요한 리소스 삭제는 비용을 절감하고 보안을 강화하며 자원을 최적화하며 확장성을 향상시키고 운영 관리를 간소화하는데 도움을 줍니다.
+
 
 1. Virtual Machine > Instance > 모두 체크 > Instance 삭제 > 영구 삭제 > 삭제
 2. Load Balancing > Load Balancer > 생성 되어있는 로드밸런서 오른쪽 (...) 클릭 > Load Balancer 삭제 클릭 > Load Balancer 이름 입력 > 삭제
