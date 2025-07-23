@@ -194,15 +194,9 @@ Hadoop 클러스터 환경에서 실시간 스트리밍 데이터와 배치 데�
       streaming_data_processor.py
     ```
 
-4. 모니터링 종료
-    - **Note**: 맥북은 “command” + “c”
-    
-    **lab7-3-4**
-    
-    ```java
-    "ctrl" + "c"
-    ```
-    
+4. `ctrl` + `c`로 모니터링 종료
+
+    - **Note**: 맥북은 “command” + “c” 
 
 5. 카카오 클라우드 콘솔 > Beyond Storage Service > Object Storage
 6. `data-catalog-bucket` 클릭
