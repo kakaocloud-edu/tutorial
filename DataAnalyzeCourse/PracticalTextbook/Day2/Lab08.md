@@ -1,8 +1,8 @@
-# 리소스 삭제 실습
+# 리소스 삭제
 
 실습을 진행하면 만들어진 리소스를 삭제를 하는 실습입니다.
 
-## 1. 클라우드 리소스 삭제 실습
+## 1. 클라우드 리소스 삭제
 
 1. Virtual Machine > Instance > 모두 체크 > Instance 삭제 > 영구 삭제 > 삭제 버튼 클릭
 2. Load Balancing > Load Balancer > 생성 되어있는 로드밸런서 오른쪽 (...) 클릭 > Load Balancer 삭제 클릭 > Load Balancer 이름 입력 > 삭제 버튼 클릭
