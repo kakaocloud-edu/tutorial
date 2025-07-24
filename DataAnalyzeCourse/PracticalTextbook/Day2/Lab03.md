@@ -762,12 +762,13 @@ Kafka로 들어오는 데이터를 Druid에서 실시간으로 수집 및 가공
         
         - SAVE 버튼 클릭
         - 저장 정보 입력
-            - CHAR NAME: Time-series Area Chart
-            - ADD TO DASHBOARD: 빈 칸
+            - CHAR NAME: `Time-series Area Chart`
+            - ADD TO DASHBOARD: `빈 칸`
         - SAVE 버튼 클릭
-    - Dashboards 메뉴 클릭 후 + DASHBOARD 버튼 클릭
+    - Dashboards 클릭
+    - + DASHBOARD 버튼 클릭
     - Big Number, Time-series Area Chart를 빈 공간에 배치
-    - [ untitled dashboard ]를 지운 후 누적 방문자 수 제목을 제목으로 입력
+    - [ untitled dashboard ]를 지운 후 `누적 방문자 수` 입력
     - SAVE 버튼 클릭
 6. 연령대별 상품 매출 시각화
     - Datasets 메뉴 클릭 후 dw_orders_users의 수정 버튼 클릭
