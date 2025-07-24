@@ -109,9 +109,9 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 활용하여 �
 
 3. `Enter`를 눌러 송신 완료
 
-4. `Ctrl` + `c`로 메세지 수신 스크립트 실행 종료료
+- `Ctrl` + `c`로 메세지 수신 스크립트 실행 종료
     
-5. `traffic-generator-2` 터미널에서 Pub/Sub 실습 디렉토리로 이동
+4. `traffic-generator-2` 터미널에서 Pub/Sub 실습 디렉토리로 이동
     
     #### **lab2-3-4**
     
@@ -119,7 +119,7 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 활용하여 �
     cd /home/ubuntu/DataAnalyzeCourse/src/day1/Lab02/pubsub/
     ```
 
-6. `traffic-generator-2` 터미널에서 `test-topic`의 메시지를 `test-pull-sub` 서브스크립션을 통해 메시지 수신
+5. `traffic-generator-2` 터미널에서 `test-topic`의 메시지를 `test-pull-sub` 서브스크립션을 통해 메시지 수신
    - **Note**: [`pub_sub_subscriber.py`](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day1/Lab02/pubsub/pub_sub_subscriber.py)
     #### **lab2-3-5**
         
@@ -129,17 +129,17 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 활용하여 �
       ![image](https://github.com/user-attachments/assets/de6e6265-0d32-495b-8074-82635dd4f94f)
 
 
-7. `Ctrl` + `c`로 메시지 수신 스크립트 실행 종료
+6. `Ctrl` + `c`로 메시지 수신 스크립트 실행 종료
 
 
-8. LoadBalancer의 Public IP가 포함된 URL로  웹브라우저에 접속
+7. LoadBalancer의 Public IP가 포함된 URL로  웹브라우저에 접속
     #### **lab2-3-7**
 
     ```
     http://{ALB Public IP 주소}/push-messages
     ```
         
-9. `test-topic`에 게시된 메시지를 `test-push-sub` 서브스크립션을 통해 `api-server-vm`으로 송신된 메시지 확인
+8. `test-topic`에 게시된 메시지를 `test-push-sub` 서브스크립션을 통해 `api-server-vm`으로 송신된 메시지 확인
    
     ![image](https://github.com/user-attachments/assets/8dd35cf9-7eee-4b41-8e50-6f79c6ac2635)
 
