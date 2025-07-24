@@ -258,11 +258,11 @@ Kafka로 들어오는 데이터를 Druid에서 실시간으로 수집 및 가공
 
     
 11. Load Data > Streaming > Start a new streaming spec 버튼 클릭
-12. `Edit Spec` 버튼 클릭 후 아래 spec 입력
-    - **Note**: Kafka 부트스트랩 서버를 복사해둔 값으로 변경
-    - users
+12. `Edit Spec` 버튼 클릭 후 아래 users spec 입력
 
-        #### lab3-2-12-1
+    - **Note**: Kafka 부트스트랩 서버를 복사해둔 값으로 변경
+
+        #### lab3-2-12
         
         ```bash
         {
@@ -366,9 +366,11 @@ Kafka로 들어오는 데이터를 Druid에서 실시간으로 수집 및 가공
         }
         ```
         
-    - products
-        
-        #### lab3-2-12-2
+13. `Edit Spec` 버튼 클릭 후 아래 products spec 입력
+
+    - **Note**: Kafka 부트스트랩 서버를 복사해둔 값으로 변경
+
+        #### lab3-2-13
 
         ```bash
         {
@@ -460,9 +462,11 @@ Kafka로 들어오는 데이터를 Druid에서 실시간으로 수집 및 가공
         }
         ```
         
-    - orders
-        
-        #### lab3-2-12-3
+14. `Edit Spec` 버튼 클릭 후 아래 orders spec 입력
+
+    - **Note**: Kafka 부트스트랩 서버를 복사해둔 값으로 변경
+
+        #### lab3-2-14
 
         ```bash
         {
@@ -569,9 +573,11 @@ Kafka로 들어오는 데이터를 Druid에서 실시간으로 수집 및 가공
         }
         ```
         
-    - cart_logs
-        
-        #### lab3-2-12-4
+15. `Edit Spec` 버튼 클릭 후 아래 cart_logs spec 입력
+
+    - **Note**: Kafka 부트스트랩 서버를 복사해둔 값으로 변경
+
+        #### lab3-2-15
 
         ```bash
         {
@@ -699,7 +705,7 @@ Kafka로 들어오는 데이터를 Druid에서 실시간으로 수집 및 가공
         }
         ```
         
-13. 페이지 새로고침 후 각 Supervisors, Task의 Status가 RUNNING인 것을 확인
+16. 페이지 새로고침 후 각 Supervisors, Task의 Status가 RUNNING인 것을 확인
 
 ## 3. **Superset을 활용한 데이터 시각화**
 
