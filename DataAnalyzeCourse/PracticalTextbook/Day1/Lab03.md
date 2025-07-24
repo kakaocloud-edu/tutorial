@@ -466,7 +466,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     yes
     ```
 
-5. Kafka Connector 스크립트 적용 확인
+5. `s3-sink-connector` 스크립트 적용 확인
     #### **lab3-7-5**
     - **Note**: 터미널 창이 작으면 로그가 안보일 수도 있으니, 터미널 창의 크기를 늘려주세요.
    
@@ -508,7 +508,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
       --endpoint-url https://objectstorage.kr-central-2.kakaocloud.com
     ```
 
-7. nginx-s3-sink-connector 생성
+7. `nginx-s3-sink-connector` 생성
     
     #### lab**3-7-7**
    
@@ -520,7 +520,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     | jq .
     ```
 
-8. `nginx-s3-sink-connector` 커넥터 상태 확인
+8. `nginx-s3-sink-connector` 상태 확인
 
     #### lab**3-7-8**
     
