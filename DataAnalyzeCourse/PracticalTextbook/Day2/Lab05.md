@@ -157,7 +157,7 @@ Hadoop Eco의 Hive를 활용하여 이미 만들어진 Nginx 로그 데이터 �
     - **Note**: HDFS는 원시 형태의 다양한 데이터를 저장해두는 분산 스토리지 계층이자 데이터 레이크이다.
     - `HDFS 경로` 복사 후 클립보드 등에 붙여넣기
 
-    #### **lab5-2-7**
+    #### **lab5-2-8**
 
     ```bash
     SET hive.metastore.warehouse.dir;
@@ -167,13 +167,13 @@ Hadoop Eco의 Hive를 활용하여 이미 만들어진 Nginx 로그 데이터 �
 
     ![hive에서 hdfs 경로 확인](https://github.com/user-attachments/assets/5f3fd033-491c-461e-a283-4d8ee892e1c8)
 
-7. `ctrl` + `c`로 종료
+9. `ctrl` + `c`로 종료
 
-8. Hadoop Eco의 HDFS에 생성된 aggregated_logs 테이블 확인
+10. Hadoop Eco의 HDFS에 생성된 aggregated_logs 테이블 확인
 
     - 개개인의 HDFS 경로로 `{hive.metastore.warehouse.dir}` 수정
 
-    #### **lab5-1-8**
+    #### **lab5-2-10**
 
     ```bash
     hdfs dfs -ls {hive.metastore.warehouse.dir}
