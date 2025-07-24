@@ -32,7 +32,9 @@
         - 워커 노드 인스턴스 유형: `m2a.4xlarge`
         - 디스크 볼륨 크기: `100GB`
     - 키 페어: lab00에서 생성한 `keypair`
-    - 사용자 스크립트 (선택): `빈 칸`
+    - 사용자 스크립트 (선택)
+        - GitHub의 [hadoop_setup.sh](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day2/Lab03/hadoop_setup.sh) 파일 다운로드
+        - 사용자 스크립트 (선택) 항목의 스크립트 업로드 버튼 클릭 후 다운로드한 `hadoop_setup.sh` 파일 업로드
     - 다음 버튼 클릭
     - 모니터링 에이전트 설치: `설치 안 함`
     - 외부 저장소 연동
