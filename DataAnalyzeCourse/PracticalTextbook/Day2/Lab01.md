@@ -71,8 +71,8 @@
     - Kerberos 설치: `설치 안 함`
     - Ranger 설치:`설치 안 함`
     - 생성 버튼 클릭
-3. hadoop-dataflow 클러스터 `Running` 상태 확인
-4. hadoop-dataflow 클러스터 클릭 후 보안 그룹 클릭
+3. hadoop-eco 클러스터 `Running` 상태 확인
+4. hadoop-eco 클러스터 클릭 후 보안 그룹 클릭
 5. 인바운드 규칙 관리 클릭
 6. 아래 인바운드 규칙 추가
     
