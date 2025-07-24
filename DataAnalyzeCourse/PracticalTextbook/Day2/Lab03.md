@@ -729,13 +729,14 @@ Kafka로 들어오는 데이터를 Druid에서 실시간으로 수집 및 가공
     - Select database table: `Druid에서 생성한 모든 Dataset`
     - CREATE DATASET AND CREATE CHART 버튼 클릭
 5. 누적 방문자 수 시각화
-    - Datasets 메뉴 클릭 후 nginx-topic Dataset 클릭
+    - Datasets 클릭
+    - nginx-topic 클릭
     - Big Number 차트 생성
-        - BIG NUMBER 탭 선택
-        - METRICS
-            - SIMPLE 탭 클릭
-            - COLUMN: session_id
-            - AGGREGATE: COUNT
+        - BIG NUMBER 클릭
+        - METRICS 클릭
+            - SIMPLE 클릭
+            - COLUMN: `session_id`
+            - AGGREGATE: `COUNT`
             - SAVE 버튼 클릭
         - CREATE CHART 버튼 클릭
         
@@ -744,19 +745,16 @@ Kafka로 들어오는 데이터를 Druid에서 실시간으로 수집 및 가공
         
         - SAVE 버튼 클릭
         - 저장 정보 입력
-            - CHAR NAME: Big Number
-            - ADD TO DASHBOARD: 빈 칸
+            - CHAR NAME: `Big Number`
+            - ADD TO DASHBOARD: `빈 칸`
         - SAVE 버튼 클릭
     - Time-series Area 차트 생성
-        - TIME-SERIES AREA CHART 탭 선택
-        - TIME GRAIN: Minute
+        - TIME-SERIES AREA CHART 선택
+        - TIME GRAIN: `Minute`
         - METRICS
-            - SIMPLE 탭 클릭
-            - COLUMN: session_id
-            - AGGREGATE: COUNT
-            - SAVE 버튼 클릭
-        - 하단 Advanced analytics 항목 클릭
-            - Rolling window(ROLLING FUNCTION): cumsum
+            - METRICS: `COUNT(session_id` 확인
+        - Advanced analytics 클릭
+            - Rolling window(ROLLING FUNCTION): `cumsum`
         - UPDATE CHART 버튼 클릭
         
         <img width="2048" height="930" alt="image" src="https://github.com/user-attachments/assets/5cf49cad-1426-4208-8c48-361c342f4402" />
