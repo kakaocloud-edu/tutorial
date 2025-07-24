@@ -4,13 +4,14 @@ Hadoop 클러스터 환경에서 실시간 스트리밍 데이터와 배치 데�
 ## **1. Spark 및 Avro 환경 설정**
 1. 사용하던 `HadoopMST-core-hadoop-1`에서 Avro 직렬화를 위한 의존성 설치
     
-    **lab7-1-1-1**
+    #### **lab7-1-1-1**
     
     ```java
     mkdir -p /home/ubuntu/jars
     ```
     
-    **lab7-1-1-2**
+    #### **lab7-1-1-2**
+   
     ```java
     wget https://packages.confluent.io/maven/io/confluent/kafka-avro-serializer/7.2.1/kafka-avro-serializer-7.2.1.jar \
          -O /home/ubuntu/jars/kafka-avro-serializer-7.2.1.jar
@@ -23,7 +24,7 @@ Hadoop 클러스터 환경에서 실시간 스트리밍 데이터와 배치 데�
    - **Note**: 스크립트에 대한 자세한 내용은 아래 파일 참고
      - [historical_data_refiner.py](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day2/Lab07/historical_data_refiner.py)
                   
-    **lab7-2-1**
+    #### **lab7-2-1**
     
     ```java
     wget https://raw.githubusercontent.com/kakaocloud-edu/tutorial/refs/heads/main/DataAnalyzeCourse/src/day2/Lab07/historical_data_refiner.py
@@ -32,7 +33,7 @@ Hadoop 클러스터 환경에서 실시간 스트리밍 데이터와 배치 데�
 2. `SCHEMA_REGISTRY_SERVER` 값을 실제 주소로 변경
     - **Note**: `{data-stream-vm의 Public IP}}`을 개인 환경에 맞게 수정 필요
     
-    **lab7-2-2**
+    #### **lab7-2-2**
 
     ```bash
     sed -i "s/SCHEMA_REGISTRY_SERVER/{data-stream-vm의 Public IP}/g" historical_data_refiner.py
@@ -41,7 +42,7 @@ Hadoop 클러스터 환경에서 실시간 스트리밍 데이터와 배치 데�
     
 3. 배치 정제 실행
     
-    **lab7-2-3**
+    #### **lab7-2-3**
     
     ```java
     nohup spark-submit \
@@ -53,7 +54,7 @@ Hadoop 클러스터 환경에서 실시간 스트리밍 데이터와 배치 데�
     
 4. 배치 정제 프로세스 모니터링
     
-    **lab7-3-4**
+    #### **lab7-3-4**
     
     ```java
     tail -f historical_data_refiner.log 
@@ -75,7 +76,7 @@ Hadoop 클러스터 환경에서 실시간 스트리밍 데이터와 배치 데�
 
 9. 배치 정제 결과 데이터 검증을 위한 PySpark 셸 실행
     
-    **lab7-2-9**
+    #### **lab7-2-9**
     
     ```java
     pyspark
@@ -84,7 +85,7 @@ Hadoop 클러스터 환경에서 실시간 스트리밍 데이터와 배치 데�
 
 10. 현재 PySpark 셸 세션에서 S3 접근을 위한 Hadoop 설정값 구성
     
-    **lab7-2-10**
+    #### **lab7-2-10**
     
     ```java
     hconf = spark.sparkContext._jsc.hadoopConfiguration()
@@ -95,7 +96,7 @@ Hadoop 클러스터 환경에서 실시간 스트리밍 데이터와 배치 데�
     
 11. 데이터 경로 정의
     
-    **lab7-2-11**
+    #### **lab7-2-11**
     
     ```java
     output_data_path = "s3a://data-catalog-bucket/data-catalog-dir/user_behavior_prediction_batch/"
@@ -104,7 +105,7 @@ Hadoop 클러스터 환경에서 실시간 스트리밍 데이터와 배치 데�
 
 12. Parquet 파일을 DataFrame으로 로드
     
-    **lab7-2-12**
+    #### **lab7-2-12**
     
     ```java
     df_enriched = spark.read.parquet(output_data_path)
@@ -113,7 +114,7 @@ Hadoop 클러스터 환경에서 실시간 스트리밍 데이터와 배치 데�
 
 13. 스키마 구조 출력
     
-    **lab7-2-13**
+    #### **lab7-2-13**
     
     ```java
     df_enriched.printSchema()
@@ -125,7 +126,7 @@ Hadoop 클러스터 환경에서 실시간 스트리밍 데이터와 배치 데�
 
 14. 상위 100개 레코드 출력
     
-    **lab7-2-14**
+    #### **lab7-2-14**
     
     ```java
     (df_enriched
@@ -138,7 +139,7 @@ Hadoop 클러스터 환경에서 실시간 스트리밍 데이터와 배치 데�
     
 15. Pyspark 셸 종료
     
-    **lab7-2-15**
+    #### **lab7-2-15**
     
     ```java
     exit();
@@ -152,7 +153,7 @@ Hadoop 클러스터 환경에서 실시간 스트리밍 데이터와 배치 데�
         - [streaming_data_processor.py](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day2/Lab07/streaming_data_processor.py)
     
     
-    **lab7-3-1**
+    #### **lab7-3-1**
     
     ```java
     wget https://raw.githubusercontent.com/kakaocloud-edu/tutorial/refs/heads/main/DataAnalyzeCourse/src/day2/Lab07/streaming_data_processor.py
@@ -163,13 +164,13 @@ Hadoop 클러스터 환경에서 실시간 스트리밍 데이터와 배치 데�
     - **Note**: `{실제 Kafka 클러스터 부트스트랩 서버값}`을 개인 환경에 맞게 수정 필요
     - **Note**: `{data-stream-vm의 Public IP}}`을 개인 환경에 맞게 수정 필요
     
-    **lab7-3-2**
+    #### **lab7-3-2**
     
     ```bash
     sed -i 's/KAFKA_BOOTSTRAP_SERVER/{실제 Kafka 클러스터 부트스트랩 서버값}/g' streaming_data_processor.py
     ```
 
-    **lab7-3-2-2**
+    #### **lab7-3-2-2**
 
     ```bash
     sed -i "s/SCHEMA_REGISTRY_SERVER/{data-stream-vm의 Public IP}/g" streaming_data_processor.py
@@ -178,7 +179,7 @@ Hadoop 클러스터 환경에서 실시간 스트리밍 데이터와 배치 데�
 
 3. 실시간 정제 작업 실행 및 프로세스 과정 확인
     
-    **lab7-3-3**
+    #### **lab7-3-3**
     
     ```java
     spark-submit \
@@ -201,7 +202,7 @@ Hadoop 클러스터 환경에서 실시간 스트리밍 데이터와 배치 데�
 
 8. 실시간 정제 결과 데이터 검증을 위한 PySpark 셸 실행
     
-    **lab7-3-8**
+    #### **lab7-3-8**
     
     ```java
     pyspark
@@ -210,7 +211,7 @@ Hadoop 클러스터 환경에서 실시간 스트리밍 데이터와 배치 데�
 
 9. Object Storage에 적재된 실시간 정제 파일 경로 설정
 
-    **lab7-3-9**
+    #### **lab7-3-9**
     
     ```java
     directory_path= "s3a://data-catalog-bucket/data-catalog-dir/user_behavior_prediction/"
@@ -219,7 +220,7 @@ Hadoop 클러스터 환경에서 실시간 스트리밍 데이터와 배치 데�
 
 10. Parquet 파일 로드
     
-    **lab7-3-10**
+    #### **lab7-3-10**
     
     ```java
     df_combined = spark.read.parquet(directory_path)
@@ -228,7 +229,7 @@ Hadoop 클러스터 환경에서 실시간 스트리밍 데이터와 배치 데�
 
 11. 스키마 구조 검증
     
-    **lab7-3-11**
+    #### **lab7-3-11**
     
     ```java
     df_combined.printSchema()
@@ -240,7 +241,7 @@ Hadoop 클러스터 환경에서 실시간 스트리밍 데이터와 배치 데�
     
 12. 상위 100개 데이터 샘플 확인
     
-    **lab7-3-12**
+    #### **lab7-3-12**
     
     ```java
     (df_combined
@@ -253,7 +254,7 @@ Hadoop 클러스터 환경에서 실시간 스트리밍 데이터와 배치 데�
 
 13. 세션 ID별 데이터 분포 확인
     
-    **lab7-3-13**
+    #### **lab7-3-13**
     
     ```java
     df_combined.groupBy("session_id").count().show(truncate=False)
@@ -261,7 +262,7 @@ Hadoop 클러스터 환경에서 실시간 스트리밍 데이터와 배치 데�
     
 14. Spark 셸 종료
     
-    **lab7-3-14**
+    #### **lab7-3-14**
     
     ```java
     exit()
