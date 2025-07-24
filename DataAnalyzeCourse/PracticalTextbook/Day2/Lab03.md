@@ -770,9 +770,12 @@ Kafka로 들어오는 데이터를 Druid에서 실시간으로 수집 및 가공
     - Big Number, Time-series Area Chart를 빈 공간에 배치
     - [ untitled dashboard ]를 지운 후 `누적 방문자 수` 입력
     - SAVE 버튼 클릭
+
 6. 연령대별 상품 매출 시각화
-    - Datasets 메뉴 클릭 후 dw_orders_users의 수정 버튼 클릭
-    - METRICS 탭 클릭 후 + ADD ITEM 버튼 클릭
+    - Datasets 메뉴 클릭
+    - dw_orders_users 수정 버튼 클릭
+    - METRICS 클릭
+    - + ADD ITEM 버튼 클릭
     - Metric: `총매출`
     - SQL expression
      
