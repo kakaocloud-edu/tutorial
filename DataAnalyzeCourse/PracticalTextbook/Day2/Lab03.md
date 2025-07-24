@@ -709,47 +709,6 @@ Kafka로 들어오는 데이터를 Druid에서 실시간으로 수집 및 가공
         ```
         
 13. 페이지 새로고침 후 각 Supervisors, Task의 Status가 RUNNING인 것을 확인
-14. Query 메뉴 클릭
-15. 테이블 JOIN 쿼리를 실행
-
-    - orders, users 테이블 JOIN하여 `dw_orders_users` 테이블에 저장
-
-        #### lab3-2-15-1
-    
-        ```sql
-        INSERT INTO dw_orders_users
-        SELECT
-          o.__time            AS __time,
-          o.order_id,
-          o.user_id,
-          u.gender,
-          CAST(u.age AS INTEGER) AS age,
-          o.product_id,
-          o.price,
-          o.quantity
-        FROM shopdb_orders_changes o
-        LEFT JOIN shopdb_users_changes u
-          ON o.user_id = u.user_id
-        WHERE o.__deleted='false'
-          AND u.__deleted='false'
-        PARTITIONED BY DAY
-        ```
-        
-    - 일별 사용자, 상품 주문 건수를 집계하여 `dw_user_product_order_cnt` 테이블에 저장
-        
-        #### lab3-2-15-2
-    
-        ```sql
-        INSERT INTO dw_user_product_order_cnt
-        SELECT
-          __time,
-          user_id,
-          product_id,
-          COUNT(*) AS cnt
-        FROM dw_orders_users
-        GROUP BY 1,2,3
-        PARTITIONED BY DAY
-        ```
 
 ## 3. **Superset을 활용한 데이터 시각화**
 
@@ -782,7 +741,7 @@ Kafka로 들어오는 데이터를 Druid에서 실시간으로 수집 및 가공
             - SAVE 버튼 클릭
         - CREATE CHART 버튼 클릭
         
-        ![image](https://github.com/user-attachments/assets/f8f0a53d-3cad-4806-9a83-dd8eb1a6f405)
+        <img width="2048" height="926" alt="image" src="https://github.com/user-attachments/assets/e1ad063c-32ca-4d45-9012-7816f84cde40" />
 
         
         - SAVE 버튼 클릭
@@ -802,7 +761,7 @@ Kafka로 들어오는 데이터를 Druid에서 실시간으로 수집 및 가공
             - Rolling window(ROLLING FUNCTION): cumsum
         - UPDATE CHART 버튼 클릭
         
-        ![image](https://github.com/user-attachments/assets/f28e37f0-0ea4-4228-9a99-2ada1033c42d)
+        <img width="2048" height="930" alt="image" src="https://github.com/user-attachments/assets/5cf49cad-1426-4208-8c48-361c342f4402" />
 
         
         - SAVE 버튼 클릭
