@@ -1,4 +1,4 @@
-## 실시간 분석 대시보드 구축
+0## 실시간 분석 대시보드 구축
 
 Kafka로 들어오는 데이터를 Druid에서 실시간으로 수집 및 가공하고, Superset을 통해 분석 결과를 시각화하여 대시보드를 만드는 실습입니다.
 
@@ -753,12 +753,12 @@ Kafka로 들어오는 데이터를 Druid에서 실시간으로 수집 및 가공
 
 ## 3. **Superset을 활용한 데이터 시각화**
 
-1. 마스터 노드(`HadoopMST-hadoop-dataflow-1`)의 Public IP를 이용하여 웹 브라우저에서 Superset에 접속
+1. 마스터 노드(`HadoopMST-hadoop-eco-1`)의 Public IP를 이용하여 웹 브라우저에서 Superset에 접속
     
     #### lab3-3-1
 
     ```
-    http://${MASTER_NODE_PUBLIC_IP}:4000
+    http://{MASTER_NODE_PUBLIC_IP}:4000
     ```
     
 2. Dataflow 유형 클러스터 생성 시 입력한 관리자 아이디, 비밀번호를 이용하여 로그인
@@ -774,7 +774,7 @@ Kafka로 들어오는 데이터를 Druid에서 실시간으로 수집 및 가공
 5. 누적 방문자 수 시각화
     - Datasets 메뉴 클릭 후 nginx-topic Dataset 클릭
     - Big Number 차트 생성
-        - BIG NUMBER 선택
+        - BIG NUMBER 탭 선택
         - METRICS
             - SIMPLE 탭 클릭
             - COLUMN: session_id
@@ -791,9 +791,7 @@ Kafka로 들어오는 데이터를 Druid에서 실시간으로 수집 및 가공
             - ADD TO DASHBOARD: 빈 칸
         - SAVE 버튼 클릭
     - Time-series Area 차트 생성
-        - Datasets 메뉴 클릭 후 nginx-topic 클릭
-        - TIME-SERIES AREA CHART 선택
-        - SELECT 버튼 클릭
+        - TIME-SERIES AREA CHART 탭 선택
         - TIME GRAIN: Minute
         - METRICS
             - SIMPLE 탭 클릭
@@ -802,7 +800,7 @@ Kafka로 들어오는 데이터를 Druid에서 실시간으로 수집 및 가공
             - SAVE 버튼 클릭
         - 하단 Advanced analytics 항목 클릭
             - Rolling window(ROLLING FUNCTION): cumsum
-        - CREATE CHART 버튼 클릭
+        - UPDATE CHART 버튼 클릭
         
         ![image](https://github.com/user-attachments/assets/f28e37f0-0ea4-4228-9a99-2ada1033c42d)
 
@@ -847,7 +845,7 @@ Kafka로 들어오는 데이터를 Druid에서 실시간으로 수집 및 가공
         
     - SAVE 버튼 클릭
     - dw_orders_users 클릭
-    - TIME-SERIES LINE CHART 선택
+    - TIME-SERIES LINE CHART 탭 선택
     - TIME GRAIN: `Hour`
     - METRICS: `총매출`
     - DIENSIONS: `age_group`
@@ -874,7 +872,7 @@ Kafka로 들어오는 데이터를 Druid에서 실시간으로 수집 및 가공
         
     - SAVE 버튼 클릭
     - dw_user_product_order_cnt 클릭
-    - TIME-SERIES BAR CHART 선택
+    - TIME-SERIES BAR CHART 탭 선택
     - TIME GRAIN: `Month`
     - METRICS: `재구매율(%)`
     - DIENSIONS: `product_id`
@@ -898,7 +896,7 @@ Kafka로 들어오는 데이터를 Druid에서 실시간으로 수집 및 가공
         
     - SAVE 버튼 클릭
     - Datasets 메뉴 클릭 후 shopdb_orders_changes 클릭
-    - TIME-SERIES AREA CHART 선택
+    - TIME-SERIES AREA CHART 탭 선택
     - TIME GRAIN: `Hour`
     - METRICS: `총매출`
     - CREATE CHART 버튼 클릭
@@ -926,7 +924,7 @@ Kafka로 들어오는 데이터를 Druid에서 실시간으로 수집 및 가공
         
     - SAVE 버튼 클릭
     - shopdb_cart_logs_changes 클릭
-    - TIME-SERIES LINE CHART 선택
+    - TIME-SERIES LINE CHART 탭 선택
     - TIME GRAIN: `Hour`
     - METRICS
         - SIMPLE 탭 클릭
