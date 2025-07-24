@@ -778,7 +778,7 @@ Kafka로 들어오는 데이터를 Druid에서 실시간으로 수집 및 가공
         - METRICS
             - SIMPLE 탭 클릭
             - COLUMN: session_id
-            - AGGREGATE: COUNT_DISTINCT
+            - AGGREGATE: COUNT
             - SAVE 버튼 클릭
         - CREATE CHART 버튼 클릭
         
@@ -796,7 +796,7 @@ Kafka로 들어오는 데이터를 Druid에서 실시간으로 수집 및 가공
         - METRICS
             - SIMPLE 탭 클릭
             - COLUMN: session_id
-            - AGGREGATE: COUNT_DISTINCT
+            - AGGREGATE: COUNT
             - SAVE 버튼 클릭
         - 하단 Advanced analytics 항목 클릭
             - Rolling window(ROLLING FUNCTION): cumsum
