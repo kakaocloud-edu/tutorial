@@ -752,7 +752,7 @@ Kafka로 들어오는 데이터를 Druid에서 실시간으로 수집 및 가공
         - TIME-SERIES AREA CHART 선택
         - TIME GRAIN: `Minute`
         - METRICS
-            - METRICS: `COUNT(session_id` 확인
+            - METRICS: `COUNT(session_id)` 확인
         - Advanced analytics 클릭
             - Rolling window(ROLLING FUNCTION): `cumsum`
         - UPDATE CHART 버튼 클릭
