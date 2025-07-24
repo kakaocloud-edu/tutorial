@@ -804,7 +804,7 @@ Kafka로 들어오는 데이터를 Druid에서 실시간으로 수집 및 가공
         
     - SAVE 버튼 클릭
     - dw_orders_users 클릭
-    - TIME-SERIES LINE CHART 탭 선택
+    - TIME-SERIES LINE CHART 클릭
     - TIME GRAIN: `Hour`
     - METRICS: `총매출`
     - DIENSIONS: `age_group`
@@ -814,8 +814,10 @@ Kafka로 들어오는 데이터를 Druid에서 실시간으로 수집 및 가공
 
     
 7. 상품별 재구매율 Top5 시각화
-    - Datasets 메뉴 클릭 후 dw_user_product_order_cnt의 수정 버튼 클릭
-    - METRICS 탭 클릭 후 + ADD ITEM 버튼 클릭
+    - Datasets 클릭
+    - dw_user_product_order_cnt 수정 버튼 클릭
+    - METRICS 클릭
+    - `+ ADD ITEM` 버튼 클릭
     - Metric: `재구매율(%)`
     - SQL expression
 
@@ -831,7 +833,7 @@ Kafka로 들어오는 데이터를 Druid에서 실시간으로 수집 및 가공
         
     - SAVE 버튼 클릭
     - dw_user_product_order_cnt 클릭
-    - TIME-SERIES BAR CHART 탭 선택
+    - TIME-SERIES BAR CHART 선택
     - TIME GRAIN: `Month`
     - METRICS: `재구매율(%)`
     - DIENSIONS: `product_id`
@@ -842,8 +844,10 @@ Kafka로 들어오는 데이터를 Druid에서 실시간으로 수집 및 가공
 
     
 8. 시간대별 매출 및 성장률
-    - Datasets 메뉴 클릭 후 shopdb_orders_changes의 수정 버튼 클릭
-    - METRICS 탭 클릭 후 + ADD ITEM 버튼 클릭
+    - Datasets 클릭
+    - shopdb_orders_changes 수정 버튼 클릭
+    - METRICS 클릭
+    - `+ ADD ITEM` 버튼 클릭
     - Metric: `총매출`
     - SQL expression
         
@@ -854,8 +858,9 @@ Kafka로 들어오는 데이터를 Druid에서 실시간으로 수집 및 가공
         ```
         
     - SAVE 버튼 클릭
-    - Datasets 메뉴 클릭 후 shopdb_orders_changes 클릭
-    - TIME-SERIES AREA CHART 탭 선택
+    - Datasets 클릭
+    - shopdb_orders_changes 클릭
+    - TIME-SERIES AREA CHART 클릭
     - TIME GRAIN: `Hour`
     - METRICS: `총매출`
     - CREATE CHART 버튼 클릭
@@ -864,8 +869,9 @@ Kafka로 들어오는 데이터를 Druid에서 실시간으로 수집 및 가공
 
     
 9. 장바구니 행동 분석
-    - Datasets 메뉴 클릭 후 shopdb_cart_logs_changes의 수정 버튼 클릭
-    - CALCULATED COLUMNS 탭 클릭
+    - Datasets 클릭
+    - shopdb_cart_logs_changes 수정 버튼 클릭
+    - CALCULATED COLUMNS 클릭
     - Column: `event_type_ko`
     - SQL EXPRESSION
         
@@ -883,10 +889,10 @@ Kafka로 들어오는 데이터를 Druid에서 실시간으로 수집 및 가공
         
     - SAVE 버튼 클릭
     - shopdb_cart_logs_changes 클릭
-    - TIME-SERIES LINE CHART 탭 선택
+    - TIME-SERIES LINE CHART 클릭
     - TIME GRAIN: `Hour`
     - METRICS
-        - SIMPLE 탭 클릭
+        - SIMPLE 클릭
         - COLUMN: `cart_id`
         - AGGREGATE: `COUNT`
         - SAVE 버튼 클릭
