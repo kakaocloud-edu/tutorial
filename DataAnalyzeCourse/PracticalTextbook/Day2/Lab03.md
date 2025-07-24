@@ -896,7 +896,7 @@ Kafka로 들어오는 데이터를 Druid에서 실시간으로 수집 및 가공
         - COLUMN: `cart_id`
         - AGGREGATE: `COUNT`
         - SAVE 버튼 클릭
-    - DIENSIONS: `event_type_ko`
+    - DIMENSIONS: `event_type_ko`
     - CREATE CHART 버튼 클릭
     
     ![image](https://github.com/user-attachments/assets/7342ca12-d969-45b5-bd76-6edfaa10715f)
