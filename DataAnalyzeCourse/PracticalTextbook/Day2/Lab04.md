@@ -362,6 +362,11 @@ Hadoop Eco의 Hive를 활용하여 Nginx 로그 데이터와 MySQL 데이터를 
     ADD JAR /opt/apache-hive-3.1.3-bin/lib/hive-hcatalog-core-3.1.3.jar;
     ```
 
+8. jar 파일 입력 실행 성공 확인
+
+    - 아래와 같은 형식의 내용 확인
+
+    <img width="1629" height="581" alt="8  jar 파일 실행" src="https://github.com/user-attachments/assets/a3952fc7-a44b-4fea-9262-72f90b334428" />
 
 ## 5. Hue를 이용한 쿼리를 통해 지표 분석
 
