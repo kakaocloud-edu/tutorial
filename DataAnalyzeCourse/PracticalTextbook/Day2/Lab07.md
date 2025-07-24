@@ -164,7 +164,7 @@ Hadoop 클러스터 환경에서 실시간 스트리밍 데이터와 배치 데�
     - **Note**: `{실제 Kafka 클러스터 부트스트랩 서버값}`을 개인 환경에 맞게 수정 필요
     - **Note**: `{data-stream-vm의 Public IP}}`을 개인 환경에 맞게 수정 필요
     
-    #### **lab7-3-2**
+    #### **lab7-3-2-1**
     
     ```bash
     sed -i 's/KAFKA_BOOTSTRAP_SERVER/{실제 Kafka 클러스터 부트스트랩 서버값}/g' streaming_data_processor.py
