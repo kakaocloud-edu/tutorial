@@ -61,6 +61,7 @@
         - 유형/크기: `SSD`/`100GB`
         - 최대 IOPS: `3000`
     - 네트워크 설정
+        - 다중 AZ 옵션: `미사용`
         - VPC: `kc-vpc`
         - Subnet: `kr-central-2-a의 Private 서브넷`
         - 보안 그룹
