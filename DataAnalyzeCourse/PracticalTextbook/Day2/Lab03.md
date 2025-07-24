@@ -766,7 +766,7 @@ Kafka로 들어오는 데이터를 Druid에서 실시간으로 수집 및 가공
             - ADD TO DASHBOARD: `빈 칸`
         - SAVE 버튼 클릭
     - Dashboards 클릭
-    - + DASHBOARD 버튼 클릭
+    + DASHBOARD 버튼 클릭
     - Big Number, Time-series Area Chart를 빈 공간에 배치
     - [ untitled dashboard ]를 지운 후 `누적 방문자 수` 입력
     - SAVE 버튼 클릭
@@ -775,7 +775,7 @@ Kafka로 들어오는 데이터를 Druid에서 실시간으로 수집 및 가공
     - Datasets 메뉴 클릭
     - dw_orders_users 수정 버튼 클릭
     - METRICS 클릭
-    - + ADD ITEM 버튼 클릭
+    + ADD ITEM 버튼 클릭
     - Metric: `총매출`
     - SQL expression
      
