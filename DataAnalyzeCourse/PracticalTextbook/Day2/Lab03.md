@@ -519,26 +519,23 @@ Kafka로 들어오는 데이터를 Druid에서 실시간으로 수집 및 가공
     - USERNAME: `admin`
     - PASSWORD: `Admin1234!`
     - SIGN IN 버튼 클릭
-3. Datasets 메뉴 클릭 후 + DATASET 버튼 클릭
-4. DATASET 추가
-    - DATABASE: `druid`
-    - SCHEMA: `druid`
-    - Select database table: `Druid에서 생성한 모든 Dataset`
-    - CREATE DATASET AND CREATE CHART 버튼 클릭
-5. 누적 방문자 수 시각화
-    - Datasets 클릭
-    - nginx-topic 클릭
+3. 누적 방문자 수 시각화
+    - Datasets 메뉴 클릭 후 `+ DATASET` 버튼 클릭
+    - DATASET 추가
+        - DATABASE: `druid`
+        - SCHEMA: `druid`
+        - Select database table: `nginx-topic`
+        - `CREATE DATASET AND CREATE CHART` 버튼 클릭
     - Big Number 차트 생성
         - BIG NUMBER 클릭
-        - METRICS 클릭
+        - METRICS
             - SIMPLE 클릭
             - COLUMN: `session_id`
             - AGGREGATE: `COUNT`
             - SAVE 버튼 클릭
         - CREATE CHART 버튼 클릭
         
-        <img width="2048" height="926" alt="image" src="https://github.com/user-attachments/assets/e1ad063c-32ca-4d45-9012-7816f84cde40" />
-
+        <img width="1920" height="925" alt="image" src="https://github.com/user-attachments/assets/664f8f7f-3c5c-4a8b-867a-5b5e6e18c4d3" />
         
         - SAVE 버튼 클릭
         - 저장 정보 입력
@@ -546,15 +543,19 @@ Kafka로 들어오는 데이터를 Druid에서 실시간으로 수집 및 가공
             - ADD TO DASHBOARD: `빈 칸`
         - SAVE 버튼 클릭
     - Time-series Area 차트 생성
+        - Datasets 메뉴 클릭 후 `nginx-topic` Dataset 클릭
         - TIME-SERIES AREA CHART 선택
         - TIME GRAIN: `Minute`
         - METRICS
-            - METRICS: `COUNT(session_id)` 확인
+            - SIMPLE 클릭
+            - COLUMN: `session_id`
+            - AGGREGATE: `COUNT`
+            - SAVE 버튼 클릭
         - Advanced analytics 클릭
             - Rolling window(ROLLING FUNCTION): `cumsum`
         - UPDATE CHART 버튼 클릭
         
-        <img width="2048" height="930" alt="image" src="https://github.com/user-attachments/assets/5cf49cad-1426-4208-8c48-361c342f4402" />
+        <img width="1920" height="925" alt="image" src="https://github.com/user-attachments/assets/33666530-7da5-4a5d-90d0-1b81fd59e862" />
 
         
         - SAVE 버튼 클릭
@@ -562,14 +563,13 @@ Kafka로 들어오는 데이터를 Druid에서 실시간으로 수집 및 가공
             - CHAR NAME: `Time-series Area Chart`
             - ADD TO DASHBOARD: `빈 칸`
         - SAVE 버튼 클릭
-    - Dashboards 클릭
-    - `+ DASHBOARD` 버튼 클릭
-    - Big Number, Time-series Area Chart를 빈 공간에 배치
-    - [ untitled dashboard ]를 지운 후 `누적 방문자 수` 입력
+    - Dashboards 메뉴 클릭 후 `+ DASHBOARD` 버튼 클릭
+    - `[ untitled dashboard ]` 제목을 지운 후 `누적 방문자 수` 입력
+    -  `Big Number`, `Time-series Area Chart`를 빈 공간에 배치
     - SAVE 버튼 클릭
 
-6. 조회→장바구니→결제 전환률
-    - 상단 SQL > SQL Lab 메뉴 클릭
+6. 조회→장바구니→결제 전환률 시각화
+    - SQL > SQL Lab 메뉴 클릭
     - 엔드포인트 단계별 발생 횟수 집계 쿼리 입력 후 RUN 버튼 클릭
         ```
         SELECT
@@ -593,62 +593,80 @@ Kafka로 들어오는 데이터를 Druid에서 실시간으로 수집 및 가공
         - AGGREGATE: SUM
         - SAVE 버튼 클릭
     - UPDATE CHART 버튼 클릭
-    <img width="1920" height="925" alt="image" src="https://github.com/user-attachments/assets/27329f5a-8708-47af-a814-e823cc794e03" />
+    
+    <img width="1920" height="925" alt="image" src="https://github.com/user-attachments/assets/b5b6cc47-e538-4603-aefe-0ec1796dc91f" />
 
     - SAVE 버튼 클릭
     - 저장 정보 입력
-        - CHAR NAME: 조회→장바구니→결제 전환률
-        - DATASET NAME: 단계별 횟수 집계
-        - ADD TO DASHBOARD: 빈 칸
+        - CHART NAME: `조회→장바구니→결제 전환률`
+        - DATASET NAME: `단계별 횟수 집계`
+        - ADD TO DASHBOARD: `빈 칸`
         - SAVE 버튼 클릭
     
-7. 시간대별 매출 및 성장률
-    - Datasets 클릭
-    - shopdb_orders_changes 수정 버튼 클릭
-    - METRICS 클릭
-    - `+ ADD ITEM` 버튼 클릭
-    - Metric: `총매출`
-    - SQL expression
-        
-        #### lab3-3-8
-
-        ```bash
-        SUM(price * quantity)
-        ```
-        
-    - SAVE 버튼 클릭
-    - Datasets 클릭
+7. 시간대별 매출 및 성장률 시각화
+    - Datasets 메뉴 클릭 후 `+ DATASET` 버튼 클릭
+    - DATASET 추가
+        - DATABASE: `druid`
+        - SCHEMA: `druid`
+        - Select database table: `shopdb_orders_changes`
+        - `CREATE DATASET AND CREATE CHART` 버튼 클릭
+    - Time-series Area Chart 선택 후 CREATE NEW CHART 버튼 클릭
+    - Datasets 메뉴 클릭 후 `shopdb_orders_changes` Dataset 수정 버튼 클릭
+    - METRICS 탭 클릭 후 `+ ADD ITEM` 버튼 클릭
+    - Metric 설정 
+        - Metric: `총매출`
+        - SQL expression
+            
+            #### lab3-3-8
+    
+            ```bash
+            SUM(price * quantity)
+            ```
+            
+        - SAVE 버튼 클릭
+        - OK 버튼 클릭
     - shopdb_orders_changes 클릭
-    - TIME-SERIES AREA CHART 클릭
+    - Time-series Line Chart 클릭
     - TIME GRAIN: `Hour`
     - METRICS: `총매출`
     - CREATE CHART 버튼 클릭
     
-    ![image](https://github.com/user-attachments/assets/6578228d-0ae0-4829-851f-17ddc3e3618b)
-
-    
-8. 장바구니 행동 분석
-    - Datasets 클릭
-    - shopdb_cart_logs_changes 수정 버튼 클릭
-    - CALCULATED COLUMNS 클릭
-    - Column: `event_type_ko`
-    - SQL EXPRESSION
-        
-        #### lab3-3-9
-
-        ```bash
-        CASE
-        WHEN event_type = 'ADDED'        THEN '추가'        -- 장바구니 담기
-        WHEN event_type = 'UPDATED'      THEN '수정'        -- 수량/옵션 변경
-        WHEN event_type = 'CHECKED_OUT'  THEN '주문완료'    -- 결제 단계 진입
-        WHEN event_type = 'REMOVED'      THEN '삭제'        -- 장바구니 제거
-        ELSE '기타'
-        END
-        ```
-        
+    <img width="1920" height="925" alt="image" src="https://github.com/user-attachments/assets/98ffd211-a832-48f8-9081-6bd50cb00d07" />
     - SAVE 버튼 클릭
+    - 저장 정보 입력
+        - CHART NAME: `시간대별 매출 및 성장률`
+        - ADD TO DASHBOARD: `빈 칸`
+        - SAVE 버튼 클릭
+    
+8. 장바구니 행동 분석 시각화
+    - Datasets 메뉴 클릭 후 `+ DATASET` 버튼 클릭
+    - DATASET 추가
+        - DATABASE: `druid`
+        - SCHEMA: `druid`
+        - Select database table: `shopdb_cart_logs_changes`
+        - `CREATE DATASET AND CREATE CHART` 버튼 클릭
+    - Datasets 메뉴 클릭 후 `shopdb_cart_logs_changes` Dataset 수정 버튼 클릭
+    - CALCULATED COLUMNS 탭 클릭 후 `+ ADD ITEM` 버튼 클릭
+    - Column 설정
+        - Column: `event_type_ko`
+        - SQL EXPRESSION
+            
+            #### lab3-3-9
+    
+            ```bash
+            CASE
+            WHEN event_type = 'ADDED'        THEN '추가'        -- 장바구니 담기
+            WHEN event_type = 'UPDATED'      THEN '수정'        -- 수량/옵션 변경
+            WHEN event_type = 'CHECKED_OUT'  THEN '주문완료'    -- 결제 단계 진입
+            WHEN event_type = 'REMOVED'      THEN '삭제'        -- 장바구니 제거
+            ELSE '기타'
+            END
+            ```
+            
+        - SAVE 버튼 클릭
+        - OK 버튼 클릭
     - shopdb_cart_logs_changes 클릭
-    - TIME-SERIES LINE CHART 클릭
+    - Time-series Area Chart 클릭
     - TIME GRAIN: `Hour`
     - METRICS
         - SIMPLE 클릭
@@ -658,4 +676,9 @@ Kafka로 들어오는 데이터를 Druid에서 실시간으로 수집 및 가공
     - DIMENSIONS: `event_type_ko`
     - CREATE CHART 버튼 클릭
     
-    ![image](https://github.com/user-attachments/assets/7342ca12-d969-45b5-bd76-6edfaa10715f)
+    <img width="1920" height="925" alt="image" src="https://github.com/user-attachments/assets/d5c62c6c-fd7b-4a5d-8d1f-54b72db5b332" />
+        - SAVE 버튼 클릭
+    - 저장 정보 입력
+        - CHART NAME: `장바구니 행동 분석`
+        - ADD TO DASHBOARD: `빈 칸`
+        - SAVE 버튼 클릭
