@@ -772,79 +772,41 @@ Kafka로 들어오는 데이터를 Druid에서 실시간으로 수집 및 가공
     - [ untitled dashboard ]를 지운 후 `누적 방문자 수` 입력
     - SAVE 버튼 클릭
 
-6. 연령대별 상품 매출 시각화
-    - Datasets 메뉴 클릭
-    - dw_orders_users 수정 버튼 클릭
-    - METRICS 클릭
-    - `+ ADD ITEM` 버튼 클릭
-    - Metric: `총매출`
-    - SQL expression
-     
-        #### lab3-3-6-1
-   
-        ```bash
-        SUM(price * quantity)
+6. 조회→장바구니→결제 전환률
+    - 상단 SQL > SQL Lab 메뉴 클릭
+    - 엔드포인트 단계별 발생 횟수 집계 쿼리 입력 후 RUN 버튼 클릭
         ```
-        
-    - CALCULATED COLUMNS 탭 클릭  후 + ADD ITEM 버튼 클릭
-    - Column: `age_group`
-    - SQL EXPRESSION
-        
-
-        #### lab3-3-6-2
-        ```bash
-        CASE
-          WHEN age BETWEEN 10 AND 19 THEN '10대'
-          WHEN age BETWEEN 20 AND 29 THEN '20대'
-          WHEN age BETWEEN 30 AND 39 THEN '30대'
-          WHEN age BETWEEN 40 AND 49 THEN '40대'
-          WHEN age BETWEEN 50 AND 59 THEN '50대'
-          ELSE '60대 이상'
-        END
+        SELECT
+          CASE endpoint
+            WHEN '/product'   THEN 'Pageview'
+            WHEN '/cart/add'  THEN 'CartAdd'
+            WHEN '/checkout'  THEN 'Checkout'
+            ELSE NULL
+          END AS stage,
+          COUNT(*) AS cnt
+        FROM "nginx-topic"
+        WHERE endpoint IN ('/product','/cart/add','/checkout')
+        GROUP BY 1
         ```
-        
-    - SAVE 버튼 클릭
-    - dw_orders_users 클릭
-    - TIME-SERIES LINE CHART 클릭
-    - TIME GRAIN: `Hour`
-    - METRICS: `총매출`
-    - DIENSIONS: `age_group`
     - CREATE CHART 버튼 클릭
-    
-    ![image](https://github.com/user-attachments/assets/671bda92-7857-4e2b-86bb-5e2f5d22cfff)
+    - View all charts 클릭
+    - Funnel Chart 검색 후 Funnel Chart 차트 선택(SELECT 버튼 빨간 박스 치면 될듯)
+    - Dimensions: stage
+    - Metric
+        - COLUMN: cnt
+        - AGGREGATE: SUM
+        - SAVE 버튼 클릭
+    - UPDATE CHART 버튼 클릭
+    <img width="1920" height="925" alt="image" src="https://github.com/user-attachments/assets/27329f5a-8708-47af-a814-e823cc794e03" />
 
-    
-7. 상품별 재구매율 Top5 시각화
-    - Datasets 클릭
-    - dw_user_product_order_cnt 수정 버튼 클릭
-    - METRICS 클릭
-    - `+ ADD ITEM` 버튼 클릭
-    - Metric: `재구매율(%)`
-    - SQL expression
-
-        #### lab3-3-7
-
-        ```bash
-        (
-          APPROX_COUNT_DISTINCT(CASE WHEN cnt > 1 THEN user_id END)
-          * 100.0
-          / APPROX_COUNT_DISTINCT(user_id)
-        )
-        ```
-        
     - SAVE 버튼 클릭
-    - dw_user_product_order_cnt 클릭
-    - TIME-SERIES BAR CHART 선택
-    - TIME GRAIN: `Month`
-    - METRICS: `재구매율(%)`
-    - DIENSIONS: `product_id`
-    - SERIES LIMIT: 5
-    - CREATE CHART 버튼 클릭
+    - 저장 정보 입력
+        - CHAR NAME: 조회→장바구니→결제 전환률
+        - DATASET NAME: 단계별 횟수 집계
+        - ADD TO DASHBOARD: 빈 칸
+        - SAVE 버튼 클릭
     
-    ![image](https://github.com/user-attachments/assets/e13c94d4-c68d-403f-b84d-8e950616eea7)
-
-    
-8. 시간대별 매출 및 성장률
+7. 시간대별 매출 및 성장률
     - Datasets 클릭
     - shopdb_orders_changes 수정 버튼 클릭
     - METRICS 클릭
@@ -869,7 +831,7 @@ Kafka로 들어오는 데이터를 Druid에서 실시간으로 수집 및 가공
     ![image](https://github.com/user-attachments/assets/6578228d-0ae0-4829-851f-17ddc3e3618b)
 
     
-9. 장바구니 행동 분석
+8. 장바구니 행동 분석
     - Datasets 클릭
     - shopdb_cart_logs_changes 수정 버튼 클릭
     - CALCULATED COLUMNS 클릭
