@@ -3,7 +3,7 @@
 Hadoop Eco의 Spark를 활용하여 이미 만들어진 aggregated_logs 테이블과 MySQL 데이터 테이블을 사용하여 user cart metrics temp 테이블을 생성합니다. 만들어진 user cart metrics temp 테이블을 MySQL에 적재하여 데이터 마트를 구축합니다.
 
 ---
-## 1. MySQL에 적재하기 위한 사용자 리소스 정보 조회
+## 1. 사용자 리소스 정보 조회
 1. 카카오 클라우드 콘솔 > Data Store > MySQL
 2. `database` Instance Group 클릭
 3. 우측 상단의 `엔드포인트` 복사 및 클립보드 등에 붙여넣기
