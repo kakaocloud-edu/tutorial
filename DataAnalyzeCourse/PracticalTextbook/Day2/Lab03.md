@@ -259,216 +259,12 @@ Kafka로 들어오는 데이터를 Druid에서 실시간으로 수집 및 가공
     ![image](https://github.com/user-attachments/assets/813bde00-86a7-40cd-bc31-6cb120911830)
 
     
-11. Load Data > Streaming > Start a new streaming spec 버튼 클릭
-12. `Edit Spec` 버튼 클릭 후 아래 users spec 입력
+11. Load Data > Streaming > Start a new streaming spec 버튼 클릭        
+12. `Edit Spec` 버튼 클릭 후 아래 orders spec 입력
 
     - **Note**: Kafka 부트스트랩 서버를 복사해둔 값으로 변경
 
         #### lab3-2-12
-        
-        ```bash
-        {
-          "type": "kafka",
-          "spec": {
-            "dataSchema": {
-              "dataSource": "shopdb_users_changes",
-              "timestampSpec": {
-                "column": "updated_at",
-                "format": "micro"
-              },
-              "dimensionsSpec": {
-                "dimensions": [
-                  "user_id",
-                  "name",
-                  "email",
-                  "gender",
-                  "age",
-                  "updated_at",
-                  "operation_type",
-                  {
-                    "name": "__deleted",
-                    "type": "boolean"
-                  }
-                ]
-              },
-              "granularitySpec": {
-                "type": "uniform",
-                "segmentGranularity": "all",
-                "queryGranularity": "MINUTE",
-                "rollup": false
-              }
-            },
-            "tuningConfig": {
-              "type": "kafka",
-              "maxRowsPerSegment": 5000000,
-              "maxBytesInMemory": 25000000
-            },
-            "ioConfig": {
-              "topic": "mysql-server.shopdb.users",
-              "consumerProperties": {
-                "bootstrap.servers": "{Kafka 부트스트랩 서버}",
-                "group.id": "druid-shopdb-users"
-              },
-              "taskCount": 1,
-              "replicas": 1,
-              "taskDuration": "PT1H",
-              "completionTimeout": "PT20M",
-              "inputFormat": {
-                "type": "json",
-                "flattenSpec": {
-                  "useFieldDiscovery": false,
-                  "fields": [
-                    {
-                      "type": "jq",
-                      "name": "user_id",
-                      "expr": ".before.user_id // .after.user_id"
-                    },
-                    {
-                      "type": "jq",
-                      "name": "name",
-                      "expr": ".before.name // .after.name"
-                    },
-                    {
-                      "type": "jq",
-                      "name": "email",
-                      "expr": ".before.email // .after.email"
-                    },
-                    {
-                      "type": "jq",
-                      "name": "gender",
-                      "expr": ".before.gender // .after.gender"
-                    },
-                    {
-                      "type": "jq",
-                      "name": "age",
-                      "expr": ".before.age // .after.age"
-                    },
-                    {
-                      "type": "jq",
-                      "name": "updated_at",
-                      "expr": ".before.updated_at // .after.updated_at"
-                    },
-                    {
-                      "type": "jq",
-                      "name": "operation_type",
-                      "expr": ".op"
-                    },
-                    {
-                      "type": "jq",
-                      "name": "__deleted",
-                      "expr": ".op == \"d\""
-                    }
-                  ]
-                }
-              },
-              "type": "kafka",
-              "useEarliestOffset": true
-            }
-          }
-        }
-        ```
-        
-13. `Edit Spec` 버튼 클릭 후 아래 products spec 입력
-
-    - **Note**: Kafka 부트스트랩 서버를 복사해둔 값으로 변경
-
-        #### lab3-2-13
-
-        ```bash
-        {
-          "type": "kafka",
-          "spec": {
-            "dataSchema": {
-              "dataSource": "shopdb_products_changes",
-              "timestampSpec": {
-                "column": "!!!_no_such_column_!!!",
-                "missingValue": "2010-01-01T00:00:00Z"
-              },
-              "dimensionsSpec": {
-                "dimensions": [
-                  "id",
-                  "name",
-                  "price",
-                  "category",
-                  "operation_type",
-                  {
-                    "name": "__deleted",
-                    "type": "boolean"
-                  }
-                ]
-              },
-              "granularitySpec": {
-                "type": "uniform",
-                "segmentGranularity": "all",
-                "queryGranularity": "MINUTE",
-                "rollup": false
-              }
-            },
-            "tuningConfig": {
-              "type": "kafka",
-              "maxRowsPerSegment": 5000000,
-              "maxBytesInMemory": 25000000
-            },
-            "ioConfig": {
-              "topic": "mysql-server.shopdb.products",
-              "consumerProperties": {
-                "bootstrap.servers": "{Kafka 부트스트랩 서버}",
-                "group.id": "druid-shopdb-products"
-              },
-              "taskCount": 1,
-              "replicas": 1,
-              "taskDuration": "PT1H",
-              "completionTimeout": "PT20M",
-              "inputFormat": {
-                "type": "json",
-                "flattenSpec": {
-                  "useFieldDiscovery": false,
-                  "fields": [
-                    {
-                      "type": "jq",
-                      "name": "id",
-                      "expr": ".before.id // .after.id"
-                    },
-                    {
-                      "type": "jq",
-                      "name": "name",
-                      "expr": ".before.name // .after.name"
-                    },
-                    {
-                      "type": "jq",
-                      "name": "price",
-                      "expr": ".before.price // .after.price"
-                    },
-                    {
-                      "type": "jq",
-                      "name": "category",
-                      "expr": ".before.category // .after.category"
-                    },
-                    {
-                      "type": "jq",
-                      "name": "operation_type",
-                      "expr": ".op"
-                    },
-                    {
-                      "type": "jq",
-                      "name": "__deleted",
-                      "expr": ".op == \"d\""
-                    }
-                  ]
-                }
-              },
-              "type": "kafka",
-              "useEarliestOffset": true
-            }
-          }
-        }
-        ```
-        
-14. `Edit Spec` 버튼 클릭 후 아래 orders spec 입력
-
-    - **Note**: Kafka 부트스트랩 서버를 복사해둔 값으로 변경
-
-        #### lab3-2-14
 
         ```bash
         {
@@ -575,11 +371,11 @@ Kafka로 들어오는 데이터를 Druid에서 실시간으로 수집 및 가공
         }
         ```
         
-15. `Edit Spec` 버튼 클릭 후 아래 cart_logs spec 입력
+13. `Edit Spec` 버튼 클릭 후 아래 cart_logs spec 입력
 
     - **Note**: Kafka 부트스트랩 서버를 복사해둔 값으로 변경
 
-        #### lab3-2-15
+        #### lab3-2-13
 
         ```bash
         {
@@ -707,7 +503,7 @@ Kafka로 들어오는 데이터를 Druid에서 실시간으로 수집 및 가공
         }
         ```
         
-16. 페이지 새로고침 후 각 Supervisors, Task의 Status가 RUNNING인 것을 확인
+14. 페이지 새로고침 후 각 Supervisors, Task의 Status가 RUNNING인 것을 확인
 
 ## 3. **Superset을 활용한 데이터 시각화**
 
