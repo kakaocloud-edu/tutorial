@@ -148,19 +148,19 @@ Kafka로 들어오는 데이터를 Druid에서 실시간으로 수집 및 가공
 
     #### lab3-2-7
 
-    ```bash
+    ```
     {
       "type": "kafka",
       "spec": {
         "ioConfig": {
           "type": "kafka",
-    
+
           "consumerProperties": {
             // Kafka 브로커 주소 (필수)
             "bootstrap.servers": "{Kafka 부트스트랩 서버}"
           },
           "topic": "nginx-topic",
-    
+
           "inputFormat": {
             "type": "avro_stream",
             "avroBytesDecoder": {
@@ -169,11 +169,11 @@ Kafka로 들어오는 데이터를 Druid에서 실시간으로 수집 및 가공
               "url": "http://{data-stream-vm의 Public IP}:8081"
             }
           },
-    
+
           // Earliest 오프셋부터 읽을지 여부 (선택, default=false)
-          "useEarliestOffset": false
+          "useEarliestOffset": true
         },
-    
+
         // ─────────────────────────────────────────────────
         // 2) 적재 작업의 성능, 리소스 관련 세부 설정
         // ─────────────────────────────────────────────────
@@ -181,59 +181,52 @@ Kafka로 들어오는 데이터를 Druid에서 실시간으로 수집 및 가공
           // Kafka용 튜닝
           "type": "kafka"
         },
-    
+
         // ─────────────────────────────────────────────────
         // 3) 적재할 데이터의 구조와 분석 기준을 정의
         // ─────────────────────────────────────────────────
         "dataSchema": {
           // Druid datasource 이름 (필수)
           "dataSource": "nginx-topic",
-    
+
           "timestampSpec": {
             // 타임스탬프가 저장된 컬럼 (필수)
             "column": "timestamp",
             // 자동 포맷 감지 (선택, default="auto")
             "format": "auto"
           },
-    
+
           "dimensionsSpec": {
             // Druid가 집계, 분석 시 기준으로 삼을 컬럼 목록 (선택)
             "dimensions": [
               "remote_addr",
               "request",
-              "gender",
-              "method",
               {
-                "type": "long",
-                "name": "body_bytes_sent"
+                "name": "status",
+                "type": "long"
               },
-              "session_id",
-              "http_user_agent",
-              "x_forwarded_for",
-              "endpoint",
               {
-                "type": "double",
-                "name": "request_time"
+                "name": "body_bytes_sent",
+                "type": "long"
               },
-              "request_body",
-              "user_id",
               "http_referer",
+              "session_id",
+              "user_id",
+              {
+                "name": "request_time",
+                "type": "double"
+              },
+              {
+                "name": "upstream_response_time",
+                "type": "double"
+              },
+              "endpoint",
+              "method",
               "query_params",
               "product_id",
-              "host",
-              {
-                "type": "double",
-                "name": "upstream_response_time"
-              },
-              "category",
-              "age",
-              {
-                "type": "long",
-                "name": "status"
-              }
+              "host"
             ]
           },
-    
           "granularitySpec": {
             // 쿼리 기본 단위 (필수)
             "queryGranularity": "none",
