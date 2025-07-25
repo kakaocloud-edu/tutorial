@@ -150,20 +150,28 @@ Kafka로 들어오는 데이터를 Druid에서 실시간으로 수집 및 가공
 
     ```
     {
+      // Ingestion 타입: Kafka 스트리밍
       "type": "kafka",
       "spec": {
+        // ─────────────────────────────────────────────────
+        // 1) 입력 설정
+        // ─────────────────────────────────────────────────
         "ioConfig": {
+          // 입력 타입
           "type": "kafka",
 
           "consumerProperties": {
             // Kafka 브로커 주소 (필수)
             "bootstrap.servers": "{Kafka 부트스트랩 서버}"
           },
+          // 구독할 토픽 (필수)
           "topic": "nginx-topic",
 
           "inputFormat": {
+            // 메시지 포맷 (필수)
             "type": "avro_stream",
             "avroBytesDecoder": {
+              // Avro 스키마 조회 방식 (필수)
               "type": "schema_registry",
               // Schema Registry URL (필수)
               "url": "http://{data-stream-vm의 Public IP}:8081"
