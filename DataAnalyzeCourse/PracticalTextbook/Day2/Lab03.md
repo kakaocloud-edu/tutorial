@@ -566,20 +566,22 @@ Kafka로 들어오는 데이터를 Druid에서 실시간으로 수집 및 가공
 4. 조회→장바구니→결제 전환률 시각화
     - SQL > SQL Lab 메뉴 클릭
     - 엔드포인트 단계별 발생 횟수 집계 쿼리 입력 후 RUN 버튼 클릭
+
    #### lab3-3-4
-        ```
-        SELECT
-          CASE endpoint
-            WHEN '/product'   THEN 'Pageview'
-            WHEN '/cart/add'  THEN 'CartAdd'
-            WHEN '/checkout'  THEN 'Checkout'
-            ELSE NULL
-          END AS stage,
-          COUNT(*) AS cnt
-        FROM "nginx-topic"
-        WHERE endpoint IN ('/product','/cart/add','/checkout')
-        GROUP BY 1
-        ```
+
+    ```
+    SELECT
+      CASE endpoint
+        WHEN '/product'   THEN 'Pageview'
+        WHEN '/cart/add'  THEN 'CartAdd'
+        WHEN '/checkout'  THEN 'Checkout'
+        ELSE NULL
+      END AS stage,
+      COUNT(*) AS cnt
+    FROM "nginx-topic"
+    WHERE endpoint IN ('/product','/cart/add','/checkout')
+    GROUP BY 1
+    ```
     - 쿼리 결과 확인
     - CREATE CHART 버튼 클릭
     - View all charts 클릭
