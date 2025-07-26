@@ -565,9 +565,10 @@ Kafka로 들어오는 데이터를 Druid에서 실시간으로 수집 및 가공
     -  `Big Number`, `Time-series Area Chart`를 빈 공간에 배치
     - SAVE 버튼 클릭
 
-6. 조회→장바구니→결제 전환률 시각화
+4. 조회→장바구니→결제 전환률 시각화
     - SQL > SQL Lab 메뉴 클릭
     - 엔드포인트 단계별 발생 횟수 집계 쿼리 입력 후 RUN 버튼 클릭
+   #### lab3-3-4
         ```
         SELECT
           CASE endpoint
@@ -600,7 +601,7 @@ Kafka로 들어오는 데이터를 Druid에서 실시간으로 수집 및 가공
         - ADD TO DASHBOARD: `빈 칸`
         - SAVE 버튼 클릭
     
-7. 시간대별 매출 및 성장률 시각화
+5. 시간대별 매출 및 성장률 시각화
     - Datasets 메뉴 클릭 후 `+ DATASET` 버튼 클릭
     - DATASET 추가
         - DATABASE: `druid`
@@ -614,7 +615,7 @@ Kafka로 들어오는 데이터를 Druid에서 실시간으로 수집 및 가공
         - Metric: `총매출`
         - SQL expression
             
-            #### lab3-3-8
+            #### lab3-3-5
     
             ```bash
             SUM(price * quantity)
@@ -636,7 +637,7 @@ Kafka로 들어오는 데이터를 Druid에서 실시간으로 수집 및 가공
         - ADD TO DASHBOARD: `빈 칸`
         - SAVE 버튼 클릭
     
-8. 장바구니 행동 분석 시각화
+6. 장바구니 행동 분석 시각화
     - Datasets 메뉴 클릭 후 `+ DATASET` 버튼 클릭
     - DATASET 추가
         - DATABASE: `druid`
@@ -649,7 +650,7 @@ Kafka로 들어오는 데이터를 Druid에서 실시간으로 수집 및 가공
         - Column: `event_type_ko`
         - SQL EXPRESSION
             
-            #### lab3-3-9
+            #### lab3-3-6
     
             ```bash
             CASE
