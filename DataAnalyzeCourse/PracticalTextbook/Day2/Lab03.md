@@ -527,8 +527,7 @@ Kafka로 들어오는 데이터를 Druid에서 실시간으로 수집 및 가공
         - Select database table: `nginx-topic`
         - `CREATE DATASET AND CREATE CHART` 버튼 클릭
     - Big Number 차트 생성
-        - Big Number 차트 클릭
-        - CREATE NEW CHART 버튼 클릭
+        - Big Number 차트 선택 후 CREATE NEW CHART 버튼 클릭
         - BIG NUMBER 차트 확인
         - METRICS
             - SIMPLE 클릭
