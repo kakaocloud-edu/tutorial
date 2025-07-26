@@ -632,8 +632,9 @@ Kafka로 들어오는 데이터를 Druid에서 실시간으로 수집 및 가공
     - CREATE CHART 버튼 클릭
     
     <img width="1920" height="925" alt="image" src="https://github.com/user-attachments/assets/98ffd211-a832-48f8-9081-6bd50cb00d07" />
+    
     - SAVE 버튼 클릭
-    - 저장 정보 입력
+        - 저장 정보 입력
         - CHART NAME: `시간대별 매출 및 성장률`
         - ADD TO DASHBOARD: `빈 칸`
         - SAVE 버튼 클릭
@@ -677,8 +678,9 @@ Kafka로 들어오는 데이터를 Druid에서 실시간으로 수집 및 가공
     - CREATE CHART 버튼 클릭
     
     <img width="1920" height="925" alt="image" src="https://github.com/user-attachments/assets/d5c62c6c-fd7b-4a5d-8d1f-54b72db5b332" />
-        - SAVE 버튼 클릭
-    - 저장 정보 입력
+    
+    - SAVE 버튼 클릭
+        - 저장 정보 입력
         - CHART NAME: `장바구니 행동 분석`
         - ADD TO DASHBOARD: `빈 칸`
         - SAVE 버튼 클릭
