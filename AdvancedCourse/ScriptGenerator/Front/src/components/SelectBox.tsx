@@ -42,7 +42,8 @@ const SelectWrapper = styled.div`
     }
 `;
 
-const Select = styled.select<{ isPlaceholder: boolean }>`
+// ✅ $ 접두사 사용으로 DOM 전달 방지
+const Select = styled.select<{ $isPlaceholder: boolean }>`
     width: 100%;
     padding: 0.75em;
     padding-right: 2em; /* 화살표와 겹치지 않도록 패딩 추가 */
@@ -51,7 +52,7 @@ const Select = styled.select<{ isPlaceholder: boolean }>`
     transition: all 0.3s ease;
     height: auto;
     background-color: white;
-    color: ${({ isPlaceholder }) => (isPlaceholder ? '#aaa' : 'black')}; /* 조건부 색상 변경 */
+    color: ${({ $isPlaceholder }) => ($isPlaceholder ? '#aaa' : 'black')}; /* ✅ $ 접두사 사용 */
 
     &:focus {
         border-color: #007bff;
@@ -67,7 +68,11 @@ const SelectBox: React.FC<SelectBoxProps> = ({ label, value, options, onChange }
         <Container>
             <Label>{label}</Label>
             <SelectWrapper>
-                <Select value={value} onChange={onChange} isPlaceholder={isPlaceholder}>
+                <Select 
+                    value={value} 
+                    onChange={onChange} 
+                    $isPlaceholder={isPlaceholder}
+                >
                     <option value="" style={{ color: '#aaa' }}>
                         Select an option
                     </option>

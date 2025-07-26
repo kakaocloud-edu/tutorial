@@ -4,6 +4,11 @@ import ScriptDisplay from '../components/ScriptDisplay';
 import SelectBox from '../components/SelectBox';
 import styled from 'styled-components';
 import axios from 'axios';
+import usePersistedState from '../hooks/usePersistedState';
+import { STORAGE_KEYS } from '../constants/storageKeys';
+
+// API URL 환경변수
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'http://localhost:8000';
 
 const Container = styled.div`
     max-width: 800px;
@@ -30,17 +35,6 @@ const Subtitle = styled.h3`
     font-size: 1.2em;
     font-weight: normal;
 `;
-/*
-const Header = styled.h2`
-    text-align: center;
-    color: #3c1e1e;
-    margin-bottom: 0.5em;
-    font-size: 2em;
-    font-weight: bold; */
-    //color: #ffe100; /* 카카오 노란색 */ 
-//`;  
-
-
 
 const GroupContainer = styled.div`
     margin-bottom: 1.5em;
@@ -59,7 +53,7 @@ const ButtonContainer = styled.div`
 `;
 
 const StyledButton = styled.button`
-    background-color: #ffe100; /* 카카오 노란색 */
+    background-color: #ffe100;
     color: black;
     border: none;
     padding: 0.75em 1.5em;
@@ -90,9 +84,8 @@ interface KubeConfig {
 }
 
 const MainPage: React.FC = () => {
-    const [accessKey, setAccessKey] = useState('');
-    const [secretKey, setSecretKey] = useState('');
-    //const [email, setEmail] = useState('');
+    const [accessKey, setAccessKey] = usePersistedState(STORAGE_KEYS.KAKAO_ACCESS_KEY, '');
+    const [secretKey, setSecretKey] = usePersistedState(STORAGE_KEYS.KAKAO_SECRET_KEY, '');
     const [projectName, setProjectName] = useState('');
     const [clusterList, setClusterList] = useState<string[]>([]);
     const [clusterName, setClusterName] = useState('');
@@ -137,7 +130,6 @@ const MainPage: React.FC = () => {
         await fetchInstanceLists();
     };
 
-
     const validateForm = () => {
         const newErrors: { [key: string]: string } = {};
         let isValid = true;
@@ -159,13 +151,6 @@ const MainPage: React.FC = () => {
             isValid = false;
             newErrors.secretKey = '비밀 액세스 키는 소문자와 숫자로만 구성되어야 합니다.';
         }
-
-        /* 이메일 유효성 검사
-        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-            isValid = false;
-            newErrors.email = '유효한 이메일 형식이 아닙니다.';
-        }
-        */
 
         // 클러스터 이름 유효성 검사
         if (!/^[a-z]/.test(clusterName)) {
@@ -269,38 +254,41 @@ const MainPage: React.FC = () => {
         return isValid;
     };
 
-    const generateScript = async() => {
+    const generateScript = async () => {
         if (validateForm()) {
             const newScript = `#!/bin/bash
 echo "kakaocloud: 1.Starting environment variable setup"
+
 # 환경 변수 설정: 사용자는 이 부분에 자신의 환경에 맞는 값을 입력해야 합니다.
 command=$(cat <<EOF
-export ACC_KEY='${accessKey}'
-export SEC_KEY='${secretKey}'
-export CLUSTER_NAME='${clusterName}'
-export API_SERVER='${apiEndpoint}'
-export AUTH_DATA='${authData}'
-export PROJECT_NAME='${projectName}'
-export INPUT_DB_EP1='${primaryEndpoint}'
-export INPUT_DB_EP2='${standbyEndpoint}'
-export DOCKER_IMAGE_NAME='${dockerImageName}'
-export DOCKER_JAVA_VERSION='${dockerJavaVersion}'
-export JAVA_VERSION='17'
-export SPRING_BOOT_VERSION='3.1.0'
-export DB_EP1=\\$(echo -n "\\$INPUT_DB_EP1" | base64 -w 0)
-export DB_EP2=\\$(echo -n "\\$INPUT_DB_EP2" | base64 -w 0)
+export ACCESS_KEY="${accessKey}"
+export SECRET_KEY="${secretKey}"
+export PROJECT_NAME="${projectName}"
+export CLUSTER_NAME="${clusterName}"
+export API_ENDPOINT="${apiEndpoint}"
+export AUTH_DATA="${authData}"
+export INSTANCE_LIST="${instanceList}"
+export PRIMARY_ENDPOINT="${primaryEndpoint}"
+export STANDBY_ENDPOINT="${standbyEndpoint}"
+export DOCKER_IMAGE_NAME="${dockerImageName}"
+export DOCKER_JAVA_VERSION="${dockerJavaVersion}"
 EOF
 )
+
 eval "$command"
 echo "$command" >> /home/ubuntu/.bashrc
 echo "kakaocloud: Environment variable setup completed"
+
 echo "kakaocloud: 2.Checking the validity of the script download site"
 curl --output /dev/null --silent --head --fail "https://github.com/kakaocloud-edu/tutorial/raw/main/AdvancedCourse/src/script/script.sh" || { echo "kakaocloud: Script download site is not valid"; exit 1; }
+
 echo "kakaocloud: Script download site is valid"
 wget https://github.com/kakaocloud-edu/tutorial/raw/main/AdvancedCourse/src/script/script.sh
 chmod +x script.sh
 sudo -E ./script.sh`;
+
             setScript(newScript);
+
             try {
                 if (navigator.clipboard && navigator.clipboard.writeText) {
                     await navigator.clipboard.writeText(newScript);
@@ -330,7 +318,7 @@ sudo -E ./script.sh`;
     const fetchProjects = async () => {
         setLoading(true);
         try {
-            const response = await axios.post('http://61.109.237.236:8000/get-project-name', {
+            const response = await axios.post(`${API_BASE_URL}/get-project-name`, {
                 access_key_id: accessKey,
                 access_key_secret: secretKey,
             });
@@ -345,15 +333,12 @@ sudo -E ./script.sh`;
     const fetchClusters = async () => {
         setLoading(true);
         try {
-            const response = await axios.post('http://61.109.237.236:8000/get-clusters', {
+            const response = await axios.post(`${API_BASE_URL}/get-clusters`, {
                 access_key_id: accessKey,
                 access_key_secret: secretKey,
             });
-
             const clusterNames = response.data.items.map((item: any) => item.name);
-
-            setClusterList(clusterNames); // 배열로 설정
-
+            setClusterList(clusterNames);
         } catch (error) {
             console.error('API 호출 오류:', error);
         }
@@ -363,13 +348,12 @@ sudo -E ./script.sh`;
     const fetchInstanceLists = async () => {
         setLoading(true);
         try {
-            const response = await axios.post('http://61.109.237.236:8000/get-instance-groups', {
+            const response = await axios.post(`${API_BASE_URL}/get-instance-groups`, {
                 access_key_id: accessKey,
                 access_key_secret: secretKey,
             });
-            const instanceSetNames = response.data;  // 이미 배열 형태라고 가정
+            const instanceSetNames = response.data;
             setInstanceList(instanceSetNames.join(', '));
-
         } catch (error) {
             console.error('API 호출 오류:', error);
         }
@@ -379,16 +363,16 @@ sudo -E ./script.sh`;
     const fetchInstanceEndpoints = async (selectedInstanceName?: string) => {
         setLoading(true);
         try {
-            const response = await axios.post('http://61.109.237.236:8000/get-instance-endpoints', {
+            const response = await axios.post(`${API_BASE_URL}/get-instance-endpoints`, {
                 access_key_id: accessKey,
                 access_key_secret: secretKey,
-                instance_set_name: selectedInstanceName  // instance_set_name 추가
+                instance_set_name: selectedInstanceName
             });
-            console.log('전체 응답 데이터:', response.data); // 전체 응답 데이터 확인용 로그
-
+            console.log('전체 응답 데이터:', response.data);
             const { primary_endpoint, standby_endpoint } = response.data;
             setInstanceEndpoints(prev => ({
-                [selectedInstanceName as string]: { primary_endpoint, standby_endpoint } as { primary_endpoint: string, standby_endpoint: string }
+                ...prev,
+                [selectedInstanceName as string]: { primary_endpoint, standby_endpoint }
             }));
             setPrimaryEndpoint(primary_endpoint);
             setStandbyEndpoint(standby_endpoint);
@@ -401,13 +385,13 @@ sudo -E ./script.sh`;
     const fetchKubeConfig = async (selectedClusterName?: string) => {
         setLoading(true);
         try {
-            const response = await axios.post<KubeConfig>('http://61.109.237.236:8000/get-kubeconfig', {
+            const response = await axios.post(`${API_BASE_URL}/get-kubeconfig`, {
                 access_key_id: accessKey,
                 access_key_secret: secretKey,
-                cluster_name: selectedClusterName  // cluster_name 추가
+                cluster_name: selectedClusterName
             });
             const { clusters } = response.data;
-            const selectedCluster = clusters.find(cluster => cluster.name === selectedClusterName);
+            const selectedCluster = clusters.find((cluster: any) => cluster.name === selectedClusterName);
             if (selectedCluster) {
                 setClusterName(selectedCluster.name);
                 setApiEndpoint(selectedCluster.cluster.server);
@@ -418,53 +402,30 @@ sudo -E ./script.sh`;
         }
         setLoading(false);
     };
-    /*
-    const handleConsoleClick = (url: string) => {
-        window.open(url, '_blank');
-    };
-    */
-    /*useEffect(() => {
-        fetchInstanceLists();
-    }, []);
-    */
-    /*const formData = {
-        accessKey,
-        secretKey,
-        projectName,
-        clusterName,
-        apiEndpoint,
-        authData,
-        instanceList,
-        primaryEndpoint,
-        standbyEndpoint,
-        dockerImageName,
-        dockerJavaVersion,
-    };
-    */
+
     return (
         <Container>
             <Title>Bastion VM 스크립트 생성</Title>
             <Subtitle>kakaocloud 교육용</Subtitle>
+            
             <GroupContainer>
                 <InputBox
-                    label="1. 사용자 액세스 키"
+                    label="1. 액세스 키"
                     placeholder="직접 입력"
                     value={accessKey}
                     onChange={(e) => setAccessKey(e.target.value)}
                     error={errors.accessKey}
                 />
                 <InputBox
-                    label="2. 사용자 액세스 보안 키"
+                    label="2. 시크릿 키"
                     placeholder="직접 입력"
                     value={secretKey}
                     onChange={(e) => setSecretKey(e.target.value)}
                     error={errors.secretKey}
                 />
-            </GroupContainer>
-            <GroupContainer>
                 <InputBox
                     label="3. 프로젝트 이름"
-                    placeholder="직접 입력"
+                    placeholder="조회 버튼 클릭 시 자동 입력"
                     value={projectName}
                     onChange={(e) => setProjectName(e.target.value)}
                     showApiButton
@@ -473,57 +434,56 @@ sudo -E ./script.sh`;
                     error={errors.projectName}
                 />
             </GroupContainer>
+
             <GroupContainer>
                 <SelectBox
-                    label="4. 클러스터 리스트"
+                    label="4. 클러스터 이름"
                     value={clusterName}
                     options={clusterList}
                     onChange={handleClusterNameChange}
                 />
                 <InputBox
-                    label="5. 클러스터 이름"
-                    placeholder="직접 입력"
-                    value={clusterName}
-                    onChange={(e) => setClusterName(e.target.value)}
-                    height="100px"
-                    error={errors.clusterName}
-                />
-                <InputBox
-                    label="6. 클러스터의 API 엔드포인트"
-                    placeholder="직접 입력"
+                    label="5. API 엔드포인트"
+                    placeholder="위에서 클러스터 선택 시 자동 입력"
                     value={apiEndpoint}
                     onChange={(e) => setApiEndpoint(e.target.value)}
                     height="100px"
                     error={errors.apiEndpoint}
                 />
                 <InputBox
-                    label="7. 클러스터의 certificate-authority-data"
-                    placeholder="직접 입력"
+                    label="6. 인증 데이터"
+                    placeholder="위에서 클러스터 선택 시 자동 입력"
                     value={authData}
                     onChange={(e) => setAuthData(e.target.value)}
                     height="100px"
                     error={errors.authData}
                 />
             </GroupContainer>
+
             <GroupContainer>
+                <InputBox
+                    label="7. 인스턴스 목록"
+                    placeholder="조회 버튼 클릭 시 자동 입력"
+                    value={instanceList}
+                    onChange={(e) => setInstanceList(e.target.value)}
+                />
                 <SelectBox
-                    label="8. 인스턴스 그룹 리스트"
+                    label="8. 인스턴스 이름"
                     value={instanceName}
-                    options={instanceList.split(', ')}
+                    options={instanceList.split(', ').filter(name => name.trim() !== '')}
                     onChange={handleInstanceNameChange}
-                    disabled={loadingButton === 'fetchInstanceLists'}
                 />
                 <InputBox
-                    label="9. Primary의 엔드포인트"
-                    placeholder="직접 입력"
+                    label="9. Primary 엔드포인트"
+                    placeholder="위에서 인스턴스 선택 시 자동 입력"
                     value={primaryEndpoint}
                     onChange={(e) => setPrimaryEndpoint(e.target.value)}
                     height="100px"
                     error={errors.primaryEndpoint}
                 />
                 <InputBox
-                    label="10. Standby의 엔드포인트"
-                    placeholder="직접 입력"
+                    label="10. Standby 엔드포인트"
+                    placeholder="위에서 인스턴스 선택 시 자동 입력"
                     value={standbyEndpoint}
                     onChange={(e) => setStandbyEndpoint(e.target.value)}
                     height="100px"
@@ -531,25 +491,30 @@ sudo -E ./script.sh`;
                     error={errors.standbyEndpoint}
                 />
             </GroupContainer>
+
             <GroupContainer>
                 <InputBox
-                    label="11. Docker Image 이름"
-                    placeholder="직접 입력"
+                    label="11. Docker 이미지명"
+                    placeholder="예: demo-spring-boot"
                     value={dockerImageName}
                     onChange={(e) => setDockerImageName(e.target.value)}
                     error={errors.dockerImageName}
                 />
                 <InputBox
-                    label="12. Docker Image Base Java Version"
-                    placeholder="직접 입력"
+                    label="12. Java 버전"
+                    placeholder="예: 17-jdk-slim"
                     value={dockerJavaVersion}
                     onChange={(e) => setDockerJavaVersion(e.target.value)}
                     error={errors.dockerJavaVersion}
                 />
             </GroupContainer>
+
             <ScriptDisplay script={script} />
+            
             <ButtonContainer>
-                <StyledButton onClick={generateScript}>스크립트 생성 및 복사</StyledButton>
+                <StyledButton onClick={generateScript}>
+                    스크립트 생성 및 복사
+                </StyledButton>
             </ButtonContainer>
         </Container>
     );
