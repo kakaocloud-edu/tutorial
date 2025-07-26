@@ -582,12 +582,13 @@ Kafka로 들어오는 데이터를 Druid에서 실시간으로 수집 및 가공
         WHERE endpoint IN ('/product','/cart/add','/checkout')
         GROUP BY 1
         ```
+    - 쿼리 결과 확인
     - CREATE CHART 버튼 클릭
     - View all charts 클릭
-    - Funnel Chart 검색 > Funnel Chart 차트 선택 > SELECT 버튼 클릭
+    - Funnel Chart 검색 > Funnel Chart 선택 > SELECT 버튼 클릭
     - FUNNEL 차트 확인
-    - Dimensions: stage
-    - Metric
+    - DIMENSIONS: stage
+    - METRICS
         - COLUMN: cnt
         - AGGREGATE: SUM
         - SAVE 버튼 클릭
