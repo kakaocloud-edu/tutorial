@@ -627,12 +627,12 @@ Kafka로 들어오는 데이터를 Druid에서 실시간으로 수집 및 가공
         - SAVE 버튼 클릭
         - OK 버튼 클릭
     - shopdb_orders_changes 클릭
-    - Time-series Line Chart 클릭
+    - Time-series Area Chart 클릭
     - TIME GRAIN: `Hour`
     - METRICS: `총매출`
     - CREATE CHART 버튼 클릭
     
-    <img width="1920" height="925" alt="image" src="https://github.com/user-attachments/assets/98ffd211-a832-48f8-9081-6bd50cb00d07" />
+    <img width="2898" height="1014" alt="Image" src="https://github.com/user-attachments/assets/b947a83f-a116-440a-b5cc-e65ed1b4fb00" />
     
     - SAVE 버튼 클릭
         - 저장 정보 입력
