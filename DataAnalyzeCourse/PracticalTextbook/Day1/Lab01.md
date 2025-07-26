@@ -2,7 +2,7 @@
 사전 환경 구성에 대한 실습입니다.
 
 - Day1 구성 아키텍처
-<img width="938" height="544" alt="day1 아키텍쳐" src="https://github.com/user-attachments/assets/c3ba2fa4-edf4-4836-9856-de699f79c2d0" />
+<img width="981" height="542" alt="day1 아키텍쳐" src="https://github.com/user-attachments/assets/4f6af8a2-20d3-4bcd-8b4d-c844c70df3f8" />
 
 ## 1. VPC 생성
 1. 카카오 클라우드 콘솔 > Beyond Networking Service > VPC
