@@ -584,7 +584,8 @@ Kafka로 들어오는 데이터를 Druid에서 실시간으로 수집 및 가공
         ```
     - CREATE CHART 버튼 클릭
     - View all charts 클릭
-    - Funnel Chart 검색 후 Funnel Chart 차트 선택(SELECT 버튼 빨간 박스 치면 될듯)
+    - Funnel Chart 검색 > Funnel Chart 차트 선택 > SELECT 버튼 클릭
+    - FUNNEL 차트 확인
     - Dimensions: stage
     - Metric
         - COLUMN: cnt
@@ -608,7 +609,8 @@ Kafka로 들어오는 데이터를 Druid에서 실시간으로 수집 및 가공
         - SCHEMA: `druid`
         - Select database table: `shopdb_orders_changes`
         - `CREATE DATASET AND CREATE CHART` 버튼 클릭
-    - Time-series Area Chart 선택 후 CREATE NEW CHART 버튼 클릭
+    - Time-series Area Chart 선택
+    - CREATE NEW CHART 버튼 클릭
     - Datasets 메뉴 클릭 후 `shopdb_orders_changes` Dataset 수정 버튼 클릭
     - METRICS 탭 클릭 후 `+ ADD ITEM` 버튼 클릭
     - Metric 설정 
