@@ -528,9 +528,8 @@ Kafka로 들어오는 데이터를 Druid에서 실시간으로 수집 및 가공
         - `CREATE DATASET AND CREATE CHART` 버튼 클릭
     - Big Number 차트 생성
         - Big Number 차트 선택 후 CREATE NEW CHART 버튼 클릭
-        - BIG NUMBER 차트 확인
         - METRICS
-            - SIMPLE 클릭
+            - SIMPLE 탭 클릭
             - COLUMN: `session_id`
             - AGGREGATE: `COUNT`
             - SAVE 버튼 클릭
@@ -609,8 +608,6 @@ Kafka로 들어오는 데이터를 Druid에서 실시간으로 수집 및 가공
         - SCHEMA: `druid`
         - Select database table: `shopdb_orders_changes`
         - `CREATE DATASET AND CREATE CHART` 버튼 클릭
-    - Time-series Area Chart 선택
-    - CREATE NEW CHART 버튼 클릭
     - Datasets 메뉴 클릭 후 `shopdb_orders_changes` Dataset 수정 버튼 클릭
     - METRICS 탭 클릭 후 `+ ADD ITEM` 버튼 클릭
     - Metric 설정 
