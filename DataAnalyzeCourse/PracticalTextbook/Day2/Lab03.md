@@ -527,7 +527,9 @@ Kafka로 들어오는 데이터를 Druid에서 실시간으로 수집 및 가공
         - Select database table: `nginx-topic`
         - `CREATE DATASET AND CREATE CHART` 버튼 클릭
     - Big Number 차트 생성
-        - BIG NUMBER 클릭
+        - Big Number 차트 클릭
+        - CREATE NEW CHART 버튼 클릭
+        - BIG NUMBER 차트 확인
         - METRICS
             - SIMPLE 클릭
             - COLUMN: `session_id`
@@ -543,14 +545,9 @@ Kafka로 들어오는 데이터를 Druid에서 실시간으로 수집 및 가공
             - ADD TO DASHBOARD: `빈 칸`
         - SAVE 버튼 클릭
     - Time-series Area 차트 생성
-        - Datasets 메뉴 클릭 후 `nginx-topic` Dataset 클릭
         - TIME-SERIES AREA CHART 선택
         - TIME GRAIN: `Minute`
-        - METRICS
-            - SIMPLE 클릭
-            - COLUMN: `session_id`
-            - AGGREGATE: `COUNT`
-            - SAVE 버튼 클릭
+        - METRICS: `COUNT(session_id)` 확인
         - Advanced analytics 클릭
             - Rolling window(ROLLING FUNCTION): `cumsum`
         - UPDATE CHART 버튼 클릭
