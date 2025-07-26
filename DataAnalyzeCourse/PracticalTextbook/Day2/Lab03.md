@@ -667,7 +667,7 @@ Kafka로 들어오는 데이터를 Druid에서 실시간으로 수집 및 가공
         - SAVE 버튼 클릭
         - OK 버튼 클릭
     - shopdb_cart_logs_changes 클릭
-    - Time-series Area Chart 클릭
+    - Time-series Line Chart 클릭
     - TIME GRAIN: `Hour`
     - METRICS
         - SIMPLE 클릭
