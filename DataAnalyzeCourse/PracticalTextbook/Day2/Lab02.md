@@ -1,4 +1,4 @@
-# Kafka Connect를 활용한 CDC 데이터 파이프라인 구축
+# Kafka Connect로 CDC 데이터 파이프라인 구축
 
 Data Stream VM을 통해 MySQL 데이터의 CDC(Change Data Capture) 변경 사항을 Kafka로 실시간 전송하고, S3 Sink Connector를 이용하여 Kafka 데이터를 Object Storage에 적재하는 데이터 파이프라인을 구축하는 실습을 진행합니다.
 <img width="3164" height="1165" alt="커넥터_아키텍처" src="https://github.com/user-attachments/assets/26d294d3-45b6-4e4f-8cb3-37e675a7304c" />
