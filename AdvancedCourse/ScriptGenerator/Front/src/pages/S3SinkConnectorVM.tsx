@@ -187,7 +187,7 @@ const S3SinkConnectorVM: React.FC = () => {
             
         } catch (error: any) {
             if (error.response?.status === 424) {
-                alert('⚠️ Kafka 클러스터 조회 실패\n\nKafka 서비스 권한이 없거나 클러스터가 존재하지 않을 수 있습니다.\n수동으로 입력해주세요.');
+                alert('Kafka 클러스터 조회 실패\n\nKafka 서비스 권한이 없거나 클러스터가 존재하지 않을 수 있습니다.\n수동으로 입력해주세요.');
             } else {
                 alert('Kafka 클러스터 조회 중 오류 발생');
             }
@@ -296,7 +296,7 @@ sudo -E ./s3_sink_connector.sh`;
                     $isLoading={integratedLoading}
                 >
                     <LoadingText $visible={integratedLoading}>
-                        🚀 Kafka 클러스터 조회
+                        Kafka 클러스터 조회
                     </LoadingText>
                 </IntegratedQueryButton>
             </IntegratedQueryContainer>

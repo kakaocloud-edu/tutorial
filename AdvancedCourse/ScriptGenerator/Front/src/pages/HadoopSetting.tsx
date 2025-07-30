@@ -212,7 +212,7 @@ const HadoopSetting: React.FC = () => {
             
         } catch (error: any) {
             if (error.response?.status === 424) {
-                alert('⚠️ 리소스 조회 실패\n\n일부 서비스 권한이 없거나 리소스가 존재하지 않을 수 있습니다.\n수동으로 입력해주세요.');
+                alert('리소스 조회 실패\n\n일부 서비스 권한이 없거나 리소스가 존재하지 않을 수 있습니다.\n수동으로 입력해주세요.');
             } else {
                 alert('리소스 조회 중 오류 발생');
             }
@@ -274,43 +274,6 @@ const HadoopSetting: React.FC = () => {
         setScript(formattedJson);
         await copyToClipboard(formattedJson, 'Hadoop Configuration JSON');
     };
-
-    // 2. Spark Submit 명령어 생성
-    const generateSparkSubmit = async () => {
-        if (!mysqlEndpoint) {
-            alert('MySQL 엔드포인트를 먼저 선택해주세요.');
-            return;
-        }
-
-        const sparkSubmitCommand = `spark-submit \\
- --packages org.apache.hadoop:hadoop-aws:3.3.1,com.amazonaws:aws-java-sdk-bundle:1.12.375 \\
- --jars /opt/hive/lib/mysql-connector-j-8.0.33.jar,/opt/hive/lib/hive-hcatalog-core-3.1.3.jar \\
- user_cart_metrics.py \\
- --mysql-endpoint ${mysqlEndpoint} \\
- --mysql-user admin \\
- --mysql-password admin1234`;
-
-        setScript(sparkSubmitCommand);
-        await copyToClipboard(sparkSubmitCommand, 'Spark Submit 명령어');
-    };
-
-    // 3. Sed 치환 명령어 생성
-    const generateSedCommands = async () => {
-        if (!kafkaServer || !dataStreamVmIp) {
-            alert('Kafka 부트스트랩 서버와 DataStream VM IP를 먼저 입력해주세요.');
-            return;
-        }
-
-        const sedCommands = `# Kafka 부트스트랩 서버 치환
-sed -i 's/KAFKA_BOOTSTRAP_SERVER/${kafkaServer}/g' streaming_data_processor.py
-
-# Schema Registry 서버 치환  
-sed -i "s/SCHEMA_REGISTRY_SERVER/${dataStreamVmIp}/g" streaming_data_processor.py`;
-
-        setScript(sedCommands);
-        await copyToClipboard(sedCommands, 'Sed 치환 명령어');
-    };
-
     // 4. 전체 스크립트 생성
     const generateAllScripts = async () => {
         if (!mysqlEndpoint || !kafkaServer || !dataStreamVmIp) {
@@ -318,57 +281,18 @@ sed -i "s/SCHEMA_REGISTRY_SERVER/${dataStreamVmIp}/g" streaming_data_processor.p
             return;
         }
 
-        const allScripts = `#!/bin/bash
-# Hadoop & Spark 통합 설정 스크립트
-
-echo "🚀 Hadoop & Spark 환경 설정 시작"
-
-# 1. Hadoop Configuration 적용 (core-site.xml 설정은 별도 수행)
-echo "📁 Hadoop Configuration은 다음 JSON을 사용하세요:"
-cat << 'EOF'
-${JSON.stringify({
-    "configurations": [
-        {
-            "classification": "core-site",
-            "properties": {
-                "fs.swifta.service.kic.credential.id": accessKey,
-                "fs.swifta.service.kic.credential.secret": secretKey,
-                "fs.s3a.access.key": s3AccessKey,
-                "fs.s3a.secret.key": s3SecretKey,
-                "fs.s3a.buckets.create.region": "kr-central-2",
-                "fs.s3a.endpoint.region": "kr-central-2",
-                "fs.s3a.endpoint": "objectstorage.kr-central-2.kakaocloud.com",
-                "s3service.s3-endpoint": "objectstorage.kr-central-2.kakaocloud.com"
-            }
-        }
-    ]
-}, null, 2)}
+        const allScripts = `sudo tee /etc/profile.d/hadoop-env.sh > /dev/null << 'EOF'
+#!/bin/bash
+export MYSQL_HOST=${mysqlEndpoint}
+export SCHEMA_REGISTRY_SERVER=${dataStreamVmIp}
+export KAFKA_BOOTSTRAP_SERVERS=${kafkaServer}
 EOF
 
-echo ""
-echo "⚙️  StreamingData Processor 설정 중..."
+sudo chmod +x /etc/profile.d/hadoop-env.sh
 
-# 2. Kafka 부트스트랩 서버 치환
-sed -i 's/KAFKA_BOOTSTRAP_SERVER/${kafkaServer}/g' streaming_data_processor.py
-
-# 3. Schema Registry 서버 치환  
-sed -i "s/SCHEMA_REGISTRY_SERVER/${dataStreamVmIp}/g" streaming_data_processor.py
-
-echo "✅ 설정 완료 확인 중..."
-grep -n "KAFKA_BOOTSTRAP_SERVER\\|SCHEMA_REGISTRY_SERVER" streaming_data_processor.py || echo "✅ 모든 플레이스홀더가 치환되었습니다."
-
-echo ""
-echo "🔥 Spark Submit 명령어:"
-echo "spark-submit \\\\
- --packages org.apache.hadoop:hadoop-aws:3.3.1,com.amazonaws:aws-java-sdk-bundle:1.12.375 \\\\
- --jars /opt/hive/lib/mysql-connector-j-8.0.33.jar,/opt/hive/lib/hive-hcatalog-core-3.1.3.jar \\\\
- user_cart_metrics.py \\\\
- --mysql-endpoint ${mysqlEndpoint} \\\\
- --mysql-user admin \\\\
- --mysql-password admin1234"
-
-echo ""
-echo "🎉 Hadoop & Spark 환경 설정 완료!"`;
+# 2. 현재 세션에 적용
+source /etc/profile.d/hadoop-env.sh
+`;
 
         setScript(allScripts);
         await copyToClipboard(allScripts, '통합 Hadoop & Spark 스크립트');
@@ -403,31 +327,31 @@ echo "🎉 Hadoop & Spark 환경 설정 완료!"`;
             {/* 1단계: 액세스 키, 시크릿 키, DataStream VM IP */}
             <GroupContainer>
                 <InputBox
-                    label="1. 사용자 액세스 키 (credential_id)"
+                    label="1. 사용자 액세스 키"
                     placeholder="직접 입력"
                     value={accessKey}
                     onChange={(e) => setAccessKey(e.target.value)}
                 />
                 <InputBox
-                    label="2. 사용자 시크릿 키 (credential_secret)"
+                    label="2. 사용자 시크릿 키"
                     placeholder="직접 입력"
                     value={secretKey}
                     onChange={(e) => setSecretKey(e.target.value)}
                 />
                 <InputBox
-                    label="3. DataStream VM Public IP (Schema Registry)"
+                    label="3. DataStream VM Public IP"
                     placeholder="ex) 1.2.3.4 (직접 입력 필요)"
                     value={dataStreamVmIp}
                     onChange={(e) => setDataStreamVmIp(e.target.value)}
                 />
                 <InputBox
-                    label="4. S3 액세스 키 (access_key)"
+                    label="4. S3 액세스 키"
                     placeholder="직접 입력"
                     value={s3AccessKey}
                     onChange={(e) => setS3AccessKey(e.target.value)}
                 />
                 <InputBox
-                    label="5. S3 시크릿 키 (secret_key)"
+                    label="5. S3 시크릿 키"
                     placeholder="직접 입력"
                     value={s3SecretKey}
                     onChange={(e) => setS3SecretKey(e.target.value)}
@@ -442,7 +366,7 @@ echo "🎉 Hadoop & Spark 환경 설정 완료!"`;
                     $isLoading={integratedLoading}
                 >
                     <LoadingText $visible={integratedLoading}>
-                        🚀 Kafka & MySQL 리소스 조회
+                        전체 리소스 조회
                     </LoadingText>
                 </IntegratedQueryButton>
             </IntegratedQueryContainer>
@@ -488,12 +412,6 @@ echo "🎉 Hadoop & Spark 환경 설정 완료!"`;
             <ButtonContainer>
                 <StyledButton onClick={generateHadoopConfig}>
                     Hadoop Config JSON
-                </StyledButton>
-                <StyledButton onClick={generateSparkSubmit}>
-                    Spark Submit 명령어
-                </StyledButton>
-                <StyledButton onClick={generateSedCommands}>
-                    Sed 치환 명령어
                 </StyledButton>
                 <StyledButton onClick={generateAllScripts}>
                     전체 통합 스크립트

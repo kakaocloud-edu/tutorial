@@ -337,13 +337,13 @@ sudo -E "$SCHEMA_REGISTRY_SCRIPT"
             {/* 1단계: 액세스 키, 시크릿 키 입력 */}
             <GroupContainer>
                 <InputBox
-                    label="1. 액세스 키"
+                    label="1. 사용자 액세스 키"
                     placeholder="직접 입력"
                     value={accessKey}
                     onChange={(e) => setAccessKey(e.target.value)}
                 />
                 <InputBox
-                    label="2. 시크릿 키"
+                    label="2. 사용자 시크릿 키"
                     placeholder="직접 입력"
                     value={secretKey}
                     onChange={(e) => setSecretKey(e.target.value)}
@@ -358,7 +358,7 @@ sudo -E "$SCHEMA_REGISTRY_SCRIPT"
                     $isLoading={integratedLoading}
                 >
                     <LoadingText $visible={integratedLoading}>
-                        🚀 전체 리소스 통합 조회
+                        전체 리소스 조회
                     </LoadingText>
                 </IntegratedQueryButton>
             </IntegratedQueryContainer>

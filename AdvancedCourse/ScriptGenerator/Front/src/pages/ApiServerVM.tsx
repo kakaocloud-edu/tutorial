@@ -315,13 +315,13 @@ sudo -E ./api_env_setup.sh`;
             {/* 1단계: 액세스 키, 시크릿 키, DataStream VM IP (직접 입력) */}
             <GroupContainer>
                 <InputBox
-                    label="1. 액세스 키"
+                    label="1. 사용자 액세스 키"
                     placeholder="직접 입력"
                     value={accessKey}
                     onChange={(e) => setAccessKey(e.target.value)}
                 />
                 <InputBox
-                    label="2. 시크릿 키"
+                    label="2. 사용자 시크릿 키"
                     placeholder="직접 입력"
                     value={secretKey}
                     onChange={(e) => setSecretKey(e.target.value)}
@@ -342,7 +342,7 @@ sudo -E ./api_env_setup.sh`;
                     $isLoading={integratedLoading}
                 >
                     <LoadingText $visible={integratedLoading}>
-                        🚀 전체 리소스 통합 조회
+                        전체 리소스 조회
                     </LoadingText>
                 </IntegratedQueryButton>
             </IntegratedQueryContainer>
@@ -356,13 +356,13 @@ sudo -E ./api_env_setup.sh`;
                     onChange={(e) => setProjectName(e.target.value)}
                 />
                 <InputBox
-                    label="5. 조직 ID (DOMAIN_ID)"
+                    label="5. 조직 ID"
                     placeholder="위의 통합 조회 버튼 클릭 시 자동 입력"
                     value={domainId}
                     onChange={(e) => setDomainId(e.target.value)}
                 />
                 <InputBox
-                    label="6. 프로젝트 ID (PROJECT_ID)"
+                    label="6. 프로젝트 ID"
                     placeholder="위의 통합 조회 버튼 클릭 시 자동 입력"
                     value={projectId}
                     onChange={(e) => setProjectId(e.target.value)}
