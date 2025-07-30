@@ -7,7 +7,6 @@ import axios from 'axios';
 import usePersistedState from '../hooks/usePersistedState';
 import { STORAGE_KEYS } from '../constants/storageKeys';
 
-// Cluster 인터페이스 정의
 interface Cluster {
     id: string;
     name: string;
@@ -17,6 +16,8 @@ interface Cluster {
     total_broker_count: number;
     instance_type: string;
 }
+
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'http://localhost:8000';
 
 const Container = styled.div`
     max-width: 800px;
@@ -53,7 +54,6 @@ const GroupContainer = styled.div`
     border-radius: 8px;
 `;
 
-// 통합 조회 버튼 컨테이너
 const IntegratedQueryContainer = styled.div`
     display: flex;
     justify-content: center;
@@ -158,15 +158,11 @@ const S3SinkConnectorVM: React.FC = () => {
     const [s3SecretKey, setS3SecretKey] = usePersistedState(STORAGE_KEYS.S3_SECRET_KEY, '');
     const [script, setScript] = useState('');
     
-    // Kafka 클러스터 관련 상태
     const [selectedClusterId, setSelectedClusterId] = useState('');
     const [kafkaClusters, setKafkaClusters] = useState<Cluster[]>([]);
     const [kafkaLoaded, setKafkaLoaded] = useState(false);
-    
-    // 통합 조회 로딩 상태
     const [integratedLoading, setIntegratedLoading] = useState(false);
 
-    // Kafka 클러스터 조회
     const handleKafkaQuery = async () => {
         if (!accessKey || !secretKey) {
             alert('액세스 키와 시크릿 키를 먼저 입력해야 함');
@@ -176,7 +172,7 @@ const S3SinkConnectorVM: React.FC = () => {
         setIntegratedLoading(true);
         
         try {
-            const kafkaResponse = await axios.post('http://localhost:8000/get-kafka-clusters', {
+            const kafkaResponse = await axios.post(`${API_BASE_URL}/get-kafka-clusters`, {
                 access_key_id: accessKey,
                 access_key_secret: secretKey,
             });
@@ -198,7 +194,6 @@ const S3SinkConnectorVM: React.FC = () => {
         setIntegratedLoading(false);
     };
 
-    // Kafka 클러스터 선택 처리
     const handleClusterSelect = (clusterId: string, bootstrapServers: string) => {
         setSelectedClusterId(clusterId);
         setKafkaServer(bootstrapServers);
@@ -254,7 +249,6 @@ sudo -E ./s3_sink_connector.sh`;
             <Title>S3 Sink Connector VM 스크립트 생성</Title>
             <Subtitle>kakaocloud 교육용</Subtitle>
             
-            {/* 1단계: 직접 입력 필요한 필드들 */}
             <GroupContainer>
                 <InputBox
                     label="1. 사용자 액세스 키"
@@ -288,7 +282,6 @@ sudo -E ./s3_sink_connector.sh`;
                 />
             </GroupContainer>
 
-            {/* 2단계: Kafka 클러스터 조회 버튼 */}
             <IntegratedQueryContainer>
                 <IntegratedQueryButton
                     onClick={handleKafkaQuery}
@@ -301,7 +294,6 @@ sudo -E ./s3_sink_connector.sh`;
                 </IntegratedQueryButton>
             </IntegratedQueryContainer>
 
-            {/* 3단계: Kafka 클러스터 선택 */}
             <GroupContainer>
                 <ClusterToggle
                     label="6. Kafka 클러스터 선택"
@@ -309,7 +301,7 @@ sudo -E ./s3_sink_connector.sh`;
                     onClusterSelect={handleClusterSelect}
                     clusters={kafkaClusters}
                     isLoaded={kafkaLoaded}
-                    hideButton={true}  // 개별 버튼 숨김
+                    hideButton={true}
                 />
                 <InputBox
                     label="7. Kafka 부트스트랩 서버"
