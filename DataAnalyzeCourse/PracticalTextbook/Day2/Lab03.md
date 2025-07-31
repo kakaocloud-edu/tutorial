@@ -4,62 +4,18 @@ Kafka로 들어오는 데이터를 Druid에서 실시간으로 수집 및 가공
 
 ## 1. Druid 확장 설정
 
-1. 카카오 클라우드 콘솔 > Beyond Compute Service > Virtual Machine
-2. `api-server-1` 인스턴스 SSH 접속
-    - `api-server-1` 각 인스턴스의 우측 메뉴바 > `SSH 연결` 클릭
-    - SSH 접속 명령어 복사
-    - 터미널 열기
-    - keypair를 다운받아놓은 폴더로 이동 후 터미널에 명령어 붙여넣기 및 **yes** 입력
-    
-    #### lab3-1-2-1
-    
-    ```bash
-    cd {keypair.pem 다운로드 위치}
-    ```
-    
-    - 리눅스의 경우 아래와 같이 키페어 권한 조정
-    
-    #### lab3-1-2-2
-    
-    ```bash
-    chmod 400 keypair.pem
-    ```
-    
-    #### lab3-1-2-3
-    
-    ```bash
-    ssh -i keypair.pem ubuntu@{api-server-1의 public ip 주소}
-    ```
-    
-    - **Note**: {api-server-1의 public ip 주소} 부분을 복사한 각 IP 주소로 교체
-    
-    #### lab3-1-2-4
-    
-    ```bash
-    yes
-    ```
-    
-    - **Note**: 윈도우에서 ssh 접근이 안될 경우, cmd 창에서 keypair.pem가 있는 경로로 이동 후 아래 명령어 실행
-    
-    #### lab3-1-2-5
-    
-    ```bash
-    icacls.exe keypair.pem /reset
-    icacls.exe keypair.pem /grant:r %username%:(R)
-    icacls.exe keypair.pem /inheritance:r
-    ```
-    
-3. 마스터, 워커 노드(`HadoopMST-hadoop-eco-1`, `HadoopWRK-hadoop-eco-1, 2`)에 각각 Public IP 연결
+1. 카카오 클라우드 콘솔 > Beyond Compute Service > Virtual Machine 
+2. 마스터, 워커 노드(`HadoopMST-hadoop-eco-1`, `HadoopWRK-hadoop-eco-1, 2`)에 각각 Public IP 연결
     - 각 인스턴스의 우측 메뉴바 > `Public IP 연결` 클릭
     - `새로운 퍼블릭 IP를 생성하고 자동으로 할당`
     - 확인 버튼 클릭
-4. 마스터, 워커 노드(`HadoopMST-hadoop-eco-1`, `HadoopWRK-hadoop-eco-1, 2`)에 SSH 접속
+3. 마스터, 워커 노드(`HadoopMST-hadoop-eco-1`, `HadoopWRK-hadoop-eco-1, 2`)에 SSH 접속
     - 각 인스턴스의 우측 메뉴바 > `SSH 연결` 클릭
     - SSH 접속 명령어 복사
     - 터미널 열기
     - keypair를 다운받아놓은 폴더로 이동 후 터미널에 명령어 붙여넣기 및 **yes** 입력
     
-    #### lab3-1-4-1
+    #### lab3-1-3-1
     
     ```bash
     cd {keypair.pem 다운로드 위치}
@@ -67,21 +23,21 @@ Kafka로 들어오는 데이터를 Druid에서 실시간으로 수집 및 가공
     
     - 리눅스의 경우 아래와 같이 키페어 권한 조정
     
-    #### lab3-1-4-2
+    #### lab3-1-3-2
     
     ```bash
     chmod 400 keypair.pem
     ```
     
-    #### lab3-1-4-3
+    #### lab3-1-3-3
     
     ```bash
-    ssh -i keypair.pem ubuntu@{마스터 또는 워커 노드의 public ip 주소}
+    ssh -i keypair.pem ubuntu@{마스터, 워커 노드의 public ip 주소}
     ```
     
     - **Note**: {마스터 또는 워커 노드의 public ip 주소} 부분을 복사한 각 IP 주소로 교체
     
-    #### lab3-1-4-4
+    #### lab3-1-3-4
     
     ```bash
     yes
@@ -89,7 +45,7 @@ Kafka로 들어오는 데이터를 Druid에서 실시간으로 수집 및 가공
     
     - **Note**: 윈도우에서 ssh 접근이 안될 경우, cmd 창에서 keypair.pem가 있는 경로로 이동 후 아래 명령어 실행
     
-    #### lab3-1-4-5
+    #### lab3-1-3-5
     
     ```bash
     icacls.exe keypair.pem /reset
@@ -97,9 +53,9 @@ Kafka로 들어오는 데이터를 Druid에서 실시간으로 수집 및 가공
     icacls.exe keypair.pem /inheritance:r
     ```
     
-5. Druid 확장 모듈 목록 확인
+4. Druid 확장 모듈 목록 확인
 
-    #### lab3-1-5
+    #### lab3-1-4
 
     ```bash
     ls -l /opt/apache-druid-25.0.0/extensions/
@@ -107,18 +63,18 @@ Kafka로 들어오는 데이터를 Druid에서 실시간으로 수집 및 가공
     ![image](https://github.com/user-attachments/assets/70e24570-32d5-4acb-bcd0-1fcc3e4f8f50)
 
 
-6. 마스터, 워커 노드 모두에서 Druid 설정 파일에서 druid.extensions.loadList 값 추가
+5. 마스터, 워커 노드 모두에서 Druid 설정 파일에서 druid.extensions.loadList 값 추가
 
-    #### lab3-1-6
+    #### lab3-1-5
 
     ```bash
     sudo sed -i 's|druid.extensions.loadList=.*|druid.extensions.loadList=["druid-avro-extensions", "druid-parquet-extensions", "mysql-metadata-storage", "druid-hdfs-storage", "druid-kafka-indexing-service", "druid-datasketches", "druid-multi-stage-query"]|' /opt/apache-druid-25.0.0/conf/druid/cluster/_common/common.runtime.properties && \
     sudo sed -i 's|druid.extensions.loadList=.*|druid.extensions.loadList=["druid-avro-extensions", "druid-hdfs-storage", "druid-kafka-indexing-service", "druid-datasketches", "druid-multi-stage-query"]|' /opt/apache-druid-25.0.0/conf/druid/auto/_common/common.runtime.properties
     ```
     
-7. 마스터, 워커 노드 모두에서 Druid 관련 서비스 재시작
+6. 마스터, 워커 노드 모두에서 Druid 관련 서비스 재시작
 
-    #### lab3-1-7
+    #### lab3-1-6
 
     ```bash
     sudo systemctl restart 'druid-*'
