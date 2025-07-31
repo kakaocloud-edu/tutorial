@@ -43,7 +43,6 @@ Hadoop Eco의 Spark를 활용하여 이미 만들어진 aggregated_logs 테이�
 
    - packages: S3와 같은 스토리지 접근에 필요한 Hadoop-AWS 모듈과 AWS SDK 라이브러리 사용
    - jars: MySQL에 데이터를 쓰기 위한 JDBC 드라이버와 Hive 메타스토어 연결을 위한 HCatalog 코어 JAR 사용
-   - `{MySQL_엔드포인트}`: 위에서 복사해둔 엔드포인트로 수정
 
     #### **lab6-2-4**
 
@@ -52,7 +51,7 @@ Hadoop Eco의 Spark를 활용하여 이미 만들어진 aggregated_logs 테이�
      --packages org.apache.hadoop:hadoop-aws:3.3.1,com.amazonaws:aws-java-sdk-bundle:1.12.375 \
      --jars /opt/hive/lib/mysql-connector-j-8.0.33.jar,/opt/hive/lib/hive-hcatalog-core-3.1.3.jar \
      user_cart_metrics.py \
-     --mysql-endpoint {MySQL_엔드포인트} \
+     --mysql-endpoint "$MYSQL_HOST" \
      --mysql-user admin \
      --mysql-password admin1234
     ```
