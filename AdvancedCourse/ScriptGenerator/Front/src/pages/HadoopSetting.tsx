@@ -272,30 +272,53 @@ const HadoopSetting: React.FC = () => {
 
         const formattedJson = JSON.stringify(hadoopConfig, null, 2);
         setScript(formattedJson);
-        await copyToClipboard(formattedJson, 'Hadoop Configuration JSON');
+        await copyToClipboard(formattedJson, '클러스터 구성 설정');
     };
-    // 4. 전체 스크립트 생성
     const generateAllScripts = async () => {
         if (!mysqlEndpoint || !kafkaServer || !dataStreamVmIp) {
             alert('모든 필수 정보를 입력해주세요.');
             return;
         }
 
-        const allScripts = `sudo tee /etc/profile.d/hadoop-env.sh > /dev/null << 'EOF'
-#!/bin/bash
-export MYSQL_HOST=${mysqlEndpoint}
-export SCHEMA_REGISTRY_SERVER=${dataStreamVmIp}
-export KAFKA_BOOTSTRAP_SERVERS=${kafkaServer}
-EOF
+        const allScripts = `#!/bin/bash
+set -x
+exec > >(logger -t HADOOP-ENV) 2>&1
 
-sudo chmod +x /etc/profile.d/hadoop-env.sh
+echo "Hadoop environment variables setup start"
 
-# 2. 현재 세션에 적용
-source /etc/profile.d/hadoop-env.sh
+# Wait for ubuntu user directory
+timeout=30
+count=0
+while [ ! -d "/home/ubuntu" ] && [ $count -lt $timeout ]; do
+    echo "Waiting for ubuntu user... ($count/$timeout)"
+    sleep 2
+    count=$((count + 1))
+done
+
+if [ ! -d "/home/ubuntu" ]; then
+    echo "Ubuntu user directory not found"
+    exit 1
+fi
+
+# Check if variables already exist to prevent duplicates
+if ! grep -q "MYSQL_HOST=" /home/ubuntu/.bashrc; then
+    echo "" >> /home/ubuntu/.bashrc
+    echo "# Hadoop Cluster Environment Variables" >> /home/ubuntu/.bashrc
+    echo "export MYSQL_HOST=${mysqlEndpoint}" >> /home/ubuntu/.bashrc
+    echo "export SCHEMA_REGISTRY_SERVER=${dataStreamVmIp}" >> /home/ubuntu/.bashrc
+    echo "export KAFKA_BOOTSTRAP_SERVERS=${kafkaServer}" >> /home/ubuntu/.bashrc
+
+    chown ubuntu:ubuntu /home/ubuntu/.bashrc
+    echo "Environment variables added to .bashrc"
+else
+    echo "Environment variables already exist in .bashrc"
+fi
+
+echo "Hadoop environment setup completed"
 `;
 
         setScript(allScripts);
-        await copyToClipboard(allScripts, '통합 Hadoop & Spark 스크립트');
+        await copyToClipboard(allScripts, '사용자 스크립트');
     };
 
     // 클립보드 복사 함수
@@ -303,7 +326,7 @@ source /etc/profile.d/hadoop-env.sh
         try {
             if (navigator.clipboard && navigator.clipboard.writeText) {
                 await navigator.clipboard.writeText(text);
-                alert(`${scriptType}가 생성되고 클립보드에 복사됨`);
+                alert(`${scriptType} 생성 및 클립보드에 복사`);
             } else {
                 const textArea = document.createElement('textarea');
                 textArea.value = text;
@@ -312,7 +335,7 @@ source /etc/profile.d/hadoop-env.sh
                 textArea.select();
                 document.execCommand('copy');
                 document.body.removeChild(textArea);
-                alert(`${scriptType}가 생성되고 클립보드에 복사됨`);
+                alert(`${scriptType}생성 및 클립보드에 복사`);
             }
         } catch (err) {
             alert('클립보드 복사 중 오류 발생');
@@ -410,11 +433,11 @@ source /etc/profile.d/hadoop-env.sh
             <ScriptDisplay script={script} />
             
             <ButtonContainer>
-                <StyledButton onClick={generateHadoopConfig}>
-                    Hadoop Config JSON
-                </StyledButton>
                 <StyledButton onClick={generateAllScripts}>
-                    전체 통합 스크립트
+                    사용자 스크립트 
+                </StyledButton>
+                <StyledButton onClick={generateHadoopConfig}>
+                    클러스터 구성 설정
                 </StyledButton>
             </ButtonContainer>
         </Container>
