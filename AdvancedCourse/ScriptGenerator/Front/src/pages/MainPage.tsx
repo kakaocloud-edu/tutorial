@@ -410,14 +410,14 @@ sudo -E ./script.sh`;
             
             <GroupContainer>
                 <InputBox
-                    label="1. 액세스 키"
+                    label="1. 사용자 액세스 키"
                     placeholder="직접 입력"
                     value={accessKey}
                     onChange={(e) => setAccessKey(e.target.value)}
                     error={errors.accessKey}
                 />
                 <InputBox
-                    label="2. 시크릿 키"
+                    label="2. 사용자 시크릿 키"
                     placeholder="직접 입력"
                     value={secretKey}
                     onChange={(e) => setSecretKey(e.target.value)}
