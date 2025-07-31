@@ -31,12 +31,11 @@ Hadoop 클러스터 환경에서 실시간 스트리밍 데이터와 배치 데�
     ```
 
 2. `SCHEMA_REGISTRY_SERVER` 값을 실제 주소로 변경
-    - **Note**: `{data-stream-vm의 Public IP}}`을 개인 환경에 맞게 수정 필요
     
     #### **lab7-2-2**
 
     ```bash
-    sed -i "s/SCHEMA_REGISTRY_SERVER/{data-stream-vm의 Public IP}/g" historical_data_refiner.py
+    sed -i "s/SCHEMA_REGISTRY_SERVER/${SCHEMA_REGISTRY_SERVER}/g" historical_data_refiner.py
     ```
 
     
@@ -161,19 +160,17 @@ Hadoop 클러스터 환경에서 실시간 스트리밍 데이터와 배치 데�
     
 
 2. `BOOTSTRAP_SERVER`, `data-stream-vm의 Public IP`값을 실제 주소로 변경
-    - **Note**: `{실제 Kafka 클러스터 부트스트랩 서버값}`을 개인 환경에 맞게 수정 필요
-    - **Note**: `{data-stream-vm의 Public IP}}`을 개인 환경에 맞게 수정 필요
     
     #### **lab7-3-2-1**
     
     ```bash
-    sed -i 's/KAFKA_BOOTSTRAP_SERVER/{실제 Kafka 클러스터 부트스트랩 서버값}/g' streaming_data_processor.py
+    sed -i "s/KAFKA_BOOTSTRAP_SERVER/${KAFKA_BOOTSTRAP_SERVERS}/g" streaming_data_processor.py
     ```
 
     #### **lab7-3-2-2**
 
     ```bash
-    sed -i "s/SCHEMA_REGISTRY_SERVER/{data-stream-vm의 Public IP}/g" streaming_data_processor.py
+    sed -i "s/SCHEMA_REGISTRY_SERVER/${SCHEMA_REGISTRY_SERVER}/g" streaming_data_processor.py
     ```
     
 
