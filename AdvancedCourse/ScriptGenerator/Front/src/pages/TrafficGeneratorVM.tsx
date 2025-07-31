@@ -225,7 +225,7 @@ const TrafficGeneratorVM: React.FC = () => {
     };
 
     const generateScript = async () => {
-        const newScript = `#!/bin/bash
+    const newScript = `#!/bin/bash
 # tg_vm_init.sh
 set -e  # 오류 발생 시 스크립트 종료
 
@@ -267,19 +267,31 @@ wget https://raw.githubusercontent.com/kakaocloud-edu/tutorial/main/DataAnalyzeC
 chmod +x tg_full_setup.sh
 sudo -E ./tg_full_setup.sh`;
 
-        setScript(newScript);
+    setScript(newScript);
 
-        try {
+    try {
+        if (navigator.clipboard && navigator.clipboard.writeText) {
             await navigator.clipboard.writeText(newScript);
             alert('스크립트가 생성되고 클립보드에 복사됨');
-        } catch (err) {
-            alert('클립보드 복사 중 오류 발생');
+        } else {
+            const textArea = document.createElement('textarea');
+            textArea.value = newScript;
+            document.body.appendChild(textArea);
+            textArea.focus();
+            textArea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textArea);
+            alert('스크립트가 생성되고 클립보드에 복사됨');
         }
-    };
+    } catch (err) {
+        alert('클립보드 복사 중 오류 발생');
+    }
+};
+
 
     return (
         <Container>
-            <Title>트래픽 생성기 VM 스크립트 생성</Title>
+            <Title>Traffic Generator VM 스크립트 생성</Title>
             <Subtitle>kakaocloud 교육용</Subtitle>
             
             {/* 1단계: 액세스 키, 시크릿 키, ALB IP (직접 입력) */}

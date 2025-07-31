@@ -200,7 +200,7 @@ const S3SinkConnectorVM: React.FC = () => {
     };
 
     const generateScript = async () => {
-        const newScript = `#!/bin/bash
+    const newScript = `#!/bin/bash
 # s3_sink_connector_init.sh
 echo "kakaocloud: 1. 환경 변수 설정 시작"
 
@@ -234,15 +234,28 @@ wget -q "$SCRIPT_URL"
 chmod +x s3_sink_connector.sh
 sudo -E ./s3_sink_connector.sh`;
 
-        setScript(newScript);
+    setScript(newScript);
 
-        try {
+    try {
+        if (navigator.clipboard && navigator.clipboard.writeText) {
             await navigator.clipboard.writeText(newScript);
             alert('스크립트가 생성되고 클립보드에 복사됨');
-        } catch (err) {
-            alert('클립보드 복사 중 오류 발생');
+        } else {
+            // fallback: textarea 생성 후 execCommand('copy') 사용
+            const textArea = document.createElement('textarea');
+            textArea.value = newScript;
+            document.body.appendChild(textArea);
+            textArea.focus();
+            textArea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textArea);
+            alert('스크립트가 생성되고 클립보드에 복사됨');
         }
-    };
+    } catch (err) {
+        alert('클립보드 복사 중 오류 발생');
+    }
+};
+
 
     return (
         <Container>

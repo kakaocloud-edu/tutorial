@@ -45,7 +45,7 @@ export const TabProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
         },
         {
             id: 'traffic-vm',
-            label: '트래픽 생성기 VM 스크립트 생성',
+            label: 'Traffic Generator VM 스크립트 생성',
             content: <TrafficGeneratorVM />
         },
         {

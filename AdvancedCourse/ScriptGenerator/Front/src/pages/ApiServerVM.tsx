@@ -262,7 +262,7 @@ const ApiServerVM: React.FC = () => {
     };
 
     const generateScript = async () => {
-        const newScript = `#!/bin/bash
+    const newScript = `#!/bin/bash
 # api_vm_init.sh
 # 프로젝트 및 인증 정보
 export DOMAIN_ID="${domainId}"
@@ -297,15 +297,27 @@ echo "kakaocloud: 2. api_env_setup.sh 실행"
 chmod +x api_env_setup.sh
 sudo -E ./api_env_setup.sh`;
 
-        setScript(newScript);
+    setScript(newScript);
 
-        try {
+    try {
+        if (navigator.clipboard && navigator.clipboard.writeText) {
             await navigator.clipboard.writeText(newScript);
             alert('스크립트가 생성되고 클립보드에 복사됨');
-        } catch (err) {
-            alert('클립보드 복사 중 오류 발생');
+        } else {
+            // fallback: 텍스트 영역 만들어서 execCommand('copy') 사용
+            const textArea = document.createElement('textarea');
+            textArea.value = newScript;
+            document.body.appendChild(textArea);
+            textArea.focus();
+            textArea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textArea);
+            alert('스크립트가 생성되고 클립보드에 복사됨');
         }
-    };
+    } catch (err) {
+        alert('클립보드 복사 중 오류 발생');
+    }
+};
 
     return (
         <Container>
