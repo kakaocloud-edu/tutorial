@@ -11,8 +11,9 @@
      - VPC 이름: `kc-vpc`  
      - VPC IP CIDR 블록: `10.0.0.0/16`  
    - Availability Zone  
-     - 가용 영역 개수: `1`  
-     - 첫 번째 AZ: `kr-central-2-a`  
+     - 가용 영역 개수: `2`  
+     - 첫 번째 AZ: `kr-central-2-a`
+     - 두 번째 AZ: `kr-central-2-b`
    - 서브넷 설정  
      - 가용 영역당 퍼블릭 서브넷 개수: `1`  
      - 가용 영역당 프라이빗 서브넷 개수: `1`  
