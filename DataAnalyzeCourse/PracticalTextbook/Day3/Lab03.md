@@ -91,10 +91,14 @@
    kubectl get pvc -n kbm-u-kubeflow-tutorial
    ```
 
-## 3. taxi 테스트
-1. taxi 다운로드
+## 3. 간단한 Notebook 실습
+1. speed.ipynb 파일 다운로드
+   - **Note**: 위에서 생성한 Notebook(`cpu-notebook`)에서 입력
 
    #### **lab4-3-6**
    ```bash
-   wget https://raw.githubusercontent.com/kakaocloud-edu/tutorial/main/DataAnalyzeCourse/src/day3/ipynb/taxi.ipynb
+   wget https://raw.githubusercontent.com/kakaocloud-edu/tutorial/main/DataAnalyzeCourse/src/day3/ipynb/speed.ipynb
    ```
+   - speed.ipynb 파일 생성 확인 및 더블 클릭 후 내부 코드 실행
+
+2. speed 생성 확인
