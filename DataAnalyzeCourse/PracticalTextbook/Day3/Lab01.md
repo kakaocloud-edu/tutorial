@@ -1,5 +1,5 @@
 # 실습 환경 구성
-Kubeflow 실습을 위한 프로젝트 기본 환경 실습을 진행합니다. VPC,  사용자 액세스 키 등을 생성합니다.
+Kubeflow 실습을 위한 프로젝트 기본 환경 실습을 진행합니다. Kubernetes Engine, Node Pool, File Storage 등을 생성합니다.
 
 ## 1. Kubernetes Engine Cluster 생성 (약 10~15분 소요)
 1. 카카오 클라우드 콘솔 > Container Pack > Kubernetes Engine > 클러스터
