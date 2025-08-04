@@ -37,7 +37,7 @@
 3. kubectl.ipynb 파일 다운로드
    #### **Lab5-2-5**
    ```bash
-   wget https://raw.githubusercontent.com/kakaocloud-edu/tutorial/main/Kubeflow/src/ipynb/kubectl.ipynb
+   wget https://raw.githubusercontent.com/kakaocloud-edu/tutorial/main/DataAnalyzeCourse/src/day3/ipynb/kubectl.ipynb
    ```
    - kubectl.ipynb 파일 생성 확인 및 더블 클릭 후 내부 코드 실행
 
