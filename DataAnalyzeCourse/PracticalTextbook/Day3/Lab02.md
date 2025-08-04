@@ -20,12 +20,12 @@
         - GPU 노드 풀 (선택) : `pool-gpu`
         - GPU MIG : `1g.10gb`
         - `+`를 눌러서 7을 선택
-    - 기본 File Storage : `handson`
+    - 기본 File Storage : `http://{File Storage IP}/handson(퍼블릭 액세스 허용)`
     - Object Storage 설정 : `Object Storage`
     - Kubeflow 소유자 설정
         - 소유자 이메일 계정 : `입력된 이메일로 임시 비밀번호 발송`
         - 네임 스페이스 이름 : `kubeflow-tutorial`
-        - 네임스페이스 파일 스토리지 : `http://10.16.2.116/handson(퍼블릭 액세스 허용)`
+        - 네임스페이스 파일 스토리지 : `http://{File Storage IP}/handson(퍼블릭 액세스 허용)`
     - DB 설정
         - 포트 : `3306`
         - 비밀번호 : `admin1234!`
