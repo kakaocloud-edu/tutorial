@@ -1,0 +1,160 @@
+# 노트북에서 예측 모델 학습하기
+import torch 
+import torch.nn as nn
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+device = torch.device('cpu')
+
+if torch.cuda.is_available():
+    device = torch.device('cuda')
+    print("Train on GPU.")
+else:
+    print("No cuda available")
+## 데이터세트 다운로드
+! wget https://objectstorage.kr-central-2.kakaocloud.com/v1/252267c6b6f745eba8b850ec047b673e/kbm-files/guide_docs/hands_on/nyc_taxi_fare/data/train.csv -O train.csv
+df = pd.read_csv("train.csv", index_col=False)
+print(df)
+df.describe()
+## 데이터 전처리
+def haversine_distance(df, lat1, long1, lat2, long2):
+    """
+    Calculates the haversine distance between 2 sets of GPS coordinates in df
+    """
+    r = 6371  # average radius of Earth in kilometers
+       
+    phi1 = np.radians(df[lat1])  # converting the longitude and latidtude into numpy radians
+    phi2 = np.radians(df[lat2])
+    
+    delta_phi = np.radians(df[lat2]-df[lat1])
+    delta_lambda = np.radians(df[long2]-df[long1])
+     
+    a = np.sin(delta_phi/2)**2 + np.cos(phi1) * np.cos(phi2) * np.sin(delta_lambda/2)**2
+    c = 2 * np.arctan2(np.sqrt(a), np.sqrt(1-a))
+    d = (r * c) # in kilometers
+
+    return d
+df['distance_km'] = haversine_distance(df, 'pickup_latitude', 'pickup_longitude','dropoff_latitude','dropoff_longitude')
+df.drop(columns=['key'], inplace=True, errors='ignore')
+df
+df['pickup_datetime'] = pd.to_datetime(df['pickup_datetime'])
+df.info()
+df['edtdate'] = df['pickup_datetime'] - pd.Timedelta(hours=4)
+df['Hour'] = df['edtdate'].dt.hour
+df['am_or_pm'] = np.where(df['Hour']<12, 'am', 'pm')
+df['weekday'] = df['edtdate'].dt.strftime("%a")
+df.head()
+df.columns
+cat_cols = ['Hour', 'am_or_pm', 'weekday']
+cont_cols = ['pickup_longitude',
+       'pickup_latitude', 'dropoff_longitude', 'dropoff_latitude',
+       'passenger_count', 'distance_km']
+y_col = ['fare_amount']
+for cat in cat_cols:
+    df[cat] = df[cat].astype('category')
+df.dtypes
+hr = df['Hour'].cat.codes.values
+am_pm = df['am_or_pm'].cat.codes.values
+wkdy = df['weekday'].cat.codes.values
+cats = np.stack([hr,am_pm,wkdy], axis=1)
+cats
+cats = torch.tensor(cats, dtype=torch.int64)
+conts = np.stack([df[col].values for col in cont_cols], axis=1)
+conts
+### Converting it into tensors
+conts = torch.tensor(conts, dtype=torch.float)
+conts
+conts.shape
+y = torch.tensor(df[y_col].values, dtype=torch.float).reshape(-1,1)
+y.shape
+cat_sizes = [len(df[col].cat.categories) for col in cat_cols]
+cat_sizes
+emb_sizes = [(size, min(50,(size+1)//2)) for size in cat_sizes]
+emb_sizes
+selfembeds = nn.ModuleList([nn.Embedding(ni, nf) for ni,nf in emb_sizes])
+selfembeds
+## 예측 모델 학습
+class TabularModel(nn.Module):
+    
+    def __init__(self, emb_sizes, n_cont, out_szs, layers, p=0.5):
+        super().__init__()
+        
+        self.embeds = nn.ModuleList([nn.Embedding(ni, nf) for ni,nf in emb_sizes])
+        self.emb_drop = nn.Dropout(p)
+        self.bn_cont = nn.BatchNorm1d(n_cont)
+        
+        layer_list = []
+        n_emb = sum([nf for ni,nf in emb_sizes])
+        n_in = n_emb + n_cont
+        
+        for i in layers:
+            layer_list.append(nn.Linear(n_in, i))
+            layer_list.append(nn.ReLU(inplace=True))
+            layer_list.append(nn.BatchNorm1d(i))
+            layer_list.append(nn.Dropout(p))
+            n_in = i
+            
+        layer_list.append(nn.Linear(layers[-1], out_szs))
+        
+        self.layers = nn.Sequential(*layer_list)
+        
+    def forward(self, x_cat, x_cont):
+        embeddings = []
+        
+        for i,e in enumerate(self.embeds):
+            embeddings.append(e(x_cat[:,i]))
+            
+        x = torch.cat(embeddings, 1)
+        x = self.emb_drop(x)
+        
+        x_cont = self.bn_cont(x_cont)
+        x = torch.cat([x,x_cont], 1)
+        x = self.layers(x)
+        
+        return x
+torch.manual_seed(33)
+model = TabularModel(emb_sizes, conts.shape[1], 1,[200,100], p=0.4)
+model
+criterion = nn.MSELoss()
+optimizer = torch.optim.Adam(model.parameters(), lr=0.01)
+batch_size=60000
+test_size = int(batch_size*0.2)
+cat_train = cats[:batch_size-test_size]
+cat_test = cats[batch_size-test_size:batch_size]
+con_train = conts[:batch_size-test_size]
+con_test = conts[batch_size-test_size:batch_size]
+y_train=y[:batch_size-test_size]
+y_test = y[batch_size-test_size:batch_size]
+len(cat_train)
+len(con_train)
+import time
+
+start_time = time.time()
+
+final_losses = []
+
+for epochs in range(100):
+    optimizer.zero_grad()
+    y_pred = model(cat_train, con_train)
+    loss = torch.sqrt(criterion(y_pred, y_train))
+    final_losses.append(loss)
+    loss.backward()
+    optimizer.step()
+    print(f"Epoch {epochs+1}, loss: {loss.item()}")
+    
+duration = time.time() - start_time
+print(f"Training took {duration/60} minutes")
+### PLotting the loss function
+visualize_losses = [_ea_tensor.detach().numpy() for _ea_tensor in final_losses]
+
+# 에러 발생시 아래의 주석을 해제하여 matplotlib를 재설치 해주세요.
+# !pip install matplotlib==3.8.2
+plt.plot(range(100), visualize_losses)
+## 테스트 데이터세트 검증
+### Evaluating our model on the test set
+with torch.no_grad():
+    y_val = model(cat_test, con_test)
+    loss = torch.sqrt(criterion(y_val, y_test))
+for i in range(20):
+    diff = np.abs(y_val[i].item()-y_test[i].item())
+    print(f'예측값 : {y_val[i].item():8.4f} 실측값 : {y_test[i].item():8.2f} 절대오차 : {diff:8.2f}')
