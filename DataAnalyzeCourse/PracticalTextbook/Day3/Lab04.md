@@ -2,16 +2,7 @@
 
 쿠버네티스 위에서 동작하는 Kubeflow의 리소스들이 어떤 것들이 있는지 확인해 보는 실습입니다.
 
-## 1. 쿠버네티스에서 kubeflow와 관련된 namespace들을 확인해 보기 (Demo)
-
-1. 터미널에서 Kubeflow를 위한 네임스페이스들 확인
-   - **Note**: 터미널에서 명령어 입력
-   #### **Lab4-1-1**
-   ```bash
-   kubectl get ns
-   ```
-
-## 2. CPU 기반 Notebook 생성 (약 3분 소요)
+## 1. CPU 기반 Notebook 생성 (약 3분 소요)
    - **Note** : Kubeflow 콘솔에서 진행하는 실습입니다.
 
 1. kbm-u-kubeflow-tutorial 네임스페이스 선택 > 좌측 메뉴바의 `Notebooks` 탭 클릭 
