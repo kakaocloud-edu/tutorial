@@ -20,7 +20,7 @@
          - GPU 노트북 노드 풀(선택) : `pool-gpu`
          - GPU MIG : `1g.10gb`
              - `+`를 눌러서 7을 선택
-     - 기본 File Storage : `handson`
+     - 기본 File Storage : `http://{File Storage IP}/handson(퍼블릭 액세스 허용)`
      - Object storage 타입 : `Object Storage`
      - Kubeflow 소유자 설정
          - 소유자 이메일 계정 : `입력된 이메일로 임시 비밀번호 발송`
