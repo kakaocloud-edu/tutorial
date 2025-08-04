@@ -12,7 +12,7 @@ Kubeflow 실습을 위한 프로젝트 기본 환경 실습을 진행합니다. 
         - Kubernetes 버전 : `1.31`
     - 클러스터 Network 설정
         - VPC : `kc-vpc`
-        - Subnet : `Public Subnet 2개 선택`
+        - Subnet : `main`, `public` 선택     
     - 클러스터 엔드포인트 액세스 : `퍼블릭 엔드포인트`
     - CNI
        - `Calico` 선택
@@ -38,7 +38,7 @@ Kubeflow 실습을 위한 프로젝트 기본 환경 실습을 진행합니다. 
     - 노드 수: `1`
     - 노드 풀 Network 설정
         - VPC: `kc-vpc`
-        - Subnet: `Public 서브넷 2개` 선택
+        - Subnet : `main`, `public` 선택 
     - 보안 그룹
         - `보안 그룹 생성` 버튼 클릭
             - 우측 상단의 `보안 그룹 생성` 버튼 클릭
@@ -65,7 +65,7 @@ Kubeflow 실습을 위한 프로젝트 기본 환경 실습을 진행합니다. 
     - 노드 수: `6`
     - 노드 풀 Network 설정
         - VPC: `kc-vpc`
-        - Subnet: `Public 서브넷 2개` 선택
+        - Subnet : `main`, `public` 선택 
     - 보안 그룹
         - `보안 그룹 생성` 버튼 클릭
             - 우측 상단의 `보안 그룹 생성` 버튼 클릭
@@ -92,7 +92,7 @@ Kubeflow 실습을 위한 프로젝트 기본 환경 실습을 진행합니다. 
     - 노드 수: `1`
     - 노드 풀 Network 설정
         - VPC: `kc-vpc`
-        - Subnet: `Public 서브넷 2개` 선택
+        - Subnet : `main`, `public` 선택 
     - 보안 그룹
         - `보안 그룹 생성` 버튼 클릭
             - 우측 상단의 `보안 그룹 생성` 버튼 클릭
