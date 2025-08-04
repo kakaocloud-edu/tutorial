@@ -89,3 +89,11 @@
    ```bash
    kubectl get pvc -n kbm-u-kubeflow-tutorial
    ```
+
+## 3. taxi 테스트
+1. taxi 다운로드
+
+   #### **lab4-3-6**
+   ```bash
+   wget https://raw.githubusercontent.com/kakaocloud-edu/tutorial/main/DataAnalyzeCourse/src/day3/ipynb/taxi.ipynb
+   ```
