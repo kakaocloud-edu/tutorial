@@ -8,7 +8,7 @@
 4. 기본 설정 정보 작성
     - Kubeflow 이름 : `kc-handson`
     - Kubeflow 구성
-        - 버전 : `1.0.0`
+        - 버전 : `1.8`
         - 서비스 타입 : `체크된 기본값`
     - 클러스터 연결 : `k8s-cluster`
     - 클러스터 구성
@@ -16,23 +16,21 @@
             - Ingress 노드 풀 : `pool-ingress`
             - Worker 노드 풀 : `pool-worker`
      - 선택 노드 풀 설정
-         - CPU 노트북 노드 풀 : `pool-worker`
-         - CPU 파이프라인 노드 풀 : `pool-worker`
-         - GPU 노트북 노드 풀 : `pool-gpu`
+         - CPU 노트북 노드 풀(선택) : `pool-worker`
+         - GPU 노트북 노드 풀(선택) : `pool-gpu`
          - GPU MIG : `1g.10gb`
              - `+`를 눌러서 7을 선택
-         - GPU 파이프라인 노드 풀 : `pool-gpu`
-     - 디폴트 파일 스토리지 : `handson`
+     - 기본 File Storage : `handson`
+     - Object storage 타입 : `Object Storage`
      - Kubeflow 소유자 설정
          - 소유자 이메일 계정 : `입력된 이메일로 임시 비밀번호 발송`
          - 네임 스페이스 이름 : `kubeflow-tutorial`
-         - 네임스페이스 파일 스토리지 : `http://172.16.2.116/handson(퍼블릭 액세스 허용)`
+         - 네임스페이스 파일 스토리지 : `http://{File Storage IP}/handson(퍼블릭 액세스 허용)`
      - DB 설정
+         - DB 유형: `Kubeflow Internal DB`
          - 포트 : `3306`
          - 비밀번호 : `admin1234!`
-     - Object storage 타입 : `KC Object Storage`
-     - [Demo] 도메인 연결 : kakaocloud-edu.com
-     - `만들기` 버튼 클릭
+     - `생성` 버튼 클릭
 5. Active 생성 확인
 6. Kubeflow 생성 시 입력한 소유자 이메일 계정, 해당 이메일로 전송된 임시 비밀번호 복사 후 메모장에 붙여넣기
     - **Note**: 추후 비밀번호 변경 가능
