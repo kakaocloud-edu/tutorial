@@ -3,28 +3,29 @@
 쿠버네티스 위에서 동작하는 Kubeflow의 리소스들이 어떤 것들이 있는지 확인해 보는 실습입니다.
 
 ## 1. CPU 기반 Notebook 생성 (약 3분 소요)
-   - **Note** : Kubeflow 콘솔에서 진행하는 실습입니다.
 
-1. kbm-u-kubeflow-tutorial 네임스페이스 선택 > 좌측 메뉴바의 `Notebooks` 탭 클릭 
+- **Note** : Kubeflow 콘솔에서 진행하는 실습입니다.
+1. kbm-u-kubeflow-tutorial 네임스페이스 선택 > 좌측 메뉴바의 `Notebooks` 탭 클릭
 2. `+ New Notebook` 클릭
-   - 노트북 설정 정보
-      - Name
-         - Name : `cpu-notebook`
-         - Namespace : `kbm-u-kubeflow-tutorial`
-      - Docker Image
-         - Image : `mlops-pipelines/jupyter-tensorflow-cuda-full:v1.0.1.py36`
-         - **Note**: 이미지 이름 정확하게 확인하기
-      - CPU/RAM
-         -  Requested CPUs : `2`
-         - Requested memory in Gi : `8`
-      - GPUs
-         - Number of GPUs : `None`
-      - Workspace Valume, Data Valumes, Configurations : `모두 기본값 사용`
-      - Affiinity/Tolerations
-         - Affiinity : `pool-worker` 
-         - Tolerations : `None` 
-      - Miscellaneous Settings : `Enable Shared Memory`
-   - `LAUNCH` 클릭
+    - 노트북 설정 정보
+        - Name
+            - Name : `cpu-notebook`
+        - Docker Image
+            - `Custom Notebook` 클릭
+                - Image : `kc-kubeflow/jupyter-tensorflow-cuda-full:v1.8.0.py38.1a`
+                - **Note**: 이미지 이름 정확하게 확인하기
+        - CPU/RAM
+            - Minimum CPU : `2`
+            - Minimum memory  Gi : `8`
+        - GPUs
+            - Number of GPUs : `None`
+        - Workspace Valume, Data Valumes : `모두 기본값 사용`
+        - `Advanced Options` 클릭
+            - Configurations : `기본값 사용`
+            - Affinity Config : `pool-worker`
+            - Tolerations Group : `None`
+            - Miscellaneous Settings : `Enable Shared Memory`
+    - `LAUNCH` 클릭
 3. Notebook 생성 확인
 
 
