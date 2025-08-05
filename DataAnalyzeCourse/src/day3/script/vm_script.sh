@@ -44,7 +44,7 @@ echo "kakaocloud: kubectl 설치 완료"
 
 echo "kakaocloud: 4. kic-iam-auth 설치 시작"
 # kic-iam-auth 설치
-wget -O /usr/local/bin/kic-iam-auth https://objectstorage.kr-central-2.kakaoi.io/v1/fe631cd1b7a14c0ba2612d031a8a5619/public/docs%2Fbinaries-kic-iam-auth%2FLinux%20x86_64%2064Bit%2Fkic-iam-auth
+wget -O /usr/local/bin/kic-iam-auth https://objectstorage.kr-central-2.kakaocloud.com/v1/c11fcba415bd4314b595db954e4d4422/public/docs/binaries-kic-iam-auth/Linux%20x86_64%2064Bit/kic-iam-auth
 chmod +x /usr/local/bin/kic-iam-auth
 echo "kakaocloud: kic-iam-auth 설치 완료"
 
