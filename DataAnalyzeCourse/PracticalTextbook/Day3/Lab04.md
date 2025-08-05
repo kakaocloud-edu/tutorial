@@ -247,12 +247,12 @@
    #### **lab6-3-3**
    ```bash
    docker run -it --rm \
-     -e S3_BUCKET=$S3_BUCKET \
-     -e S3_KEY=$S3_KEY \
-     -e AWS_ACCESS_KEY_ID=$ACC_KEY \
-     -e AWS_SECRET_ACCESS_KEY=$SEC_KEY \
-     -e REGION=$REGION \
-     -e S3_ENDPOINT_URL=$S3_ENDPOINT_URL \
+     -e S3_BUCKET="$S3_BUCKET" \
+     -e S3_KEY="$S3_KEY" \
+     -e ACC_KEY="$ACC_KEY" \
+     -e SEC_KEY="$SEC_KEY" \
+     -e REGION="$REGION" \
+     -e S3_ENDPOINT_URL="$S3_ENDPOINT_URL" \
      hyperpram:1.0
    ```
    #### **lab6-3-3-1**
