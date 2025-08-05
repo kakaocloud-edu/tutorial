@@ -1,5 +1,5 @@
-# TensorFlow 이미지 사용
-FROM tensorflow/tensorflow:latest
+# Dockerfile
+FROM python:3.8-slim
 
 # 작업 디렉토리 설정
 WORKDIR /app
