@@ -15,7 +15,7 @@ export PROJECT_NAME='프로젝트 이름 입력'
 
 export S3_BUCKET='data-catalog-bucket'
 export S3_KEY='preprocessed/processed_user_behavior.parquet'
-export AWS_REGION='kr-central-2'
+export REGION='kr-central-2'
 export S3_ENDPOINT_URL='https://objectstorage.kr-central-2.kakaocloud.com'
 export IMAGE_NAME="\${PROJECT_NAME}.kr-central-2.kcr.dev/kakao-registry/next-state:1.0"
 EOF
