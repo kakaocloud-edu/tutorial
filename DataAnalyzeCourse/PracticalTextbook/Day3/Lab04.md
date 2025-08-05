@@ -32,6 +32,14 @@
    export API_SERVER='클러스터의 server 값 입력'
    export CLUSTER_NAME='클러스터 이름 입력'
    export PROJECT_NAME='프로젝트 이름 입력'
+   
+   
+   
+   export S3_BUCKET='data-catalog-bucket'
+   export S3_KEY='preprocessed/processed_user_behavior.parquet'
+   export REGION='kr-central-2'
+   export S3_ENDPOINT_URL='https://objectstorage.kr-central-2.kakaocloud.com'
+   export IMAGE_NAME="\${PROJECT_NAME}.kr-central-2.kcr.dev/kakao-registry/next-state:1.0"
    EOF
    )
    
@@ -58,7 +66,7 @@
    
    echo "kakaocloud: 4. kic-iam-auth 설치 시작"
    # kic-iam-auth 설치
-   wget -O /usr/local/bin/kic-iam-auth https://objectstorage.kr-central-2.kakaoi.io/v1/fe631cd1b7a14c0ba2612d031a8a5619/public/docs%2Fbinaries-kic-iam-auth%2FLinux%20x86_64%2064Bit%2Fkic-iam-auth
+   wget -O /usr/local/bin/kic-iam-auth https://objectstorage.kr-central-2.kakaocloud.com/v1/c11fcba415bd4314b595db954e4d4422/public/docs/binaries-kic-iam-auth/Linux%20x86_64%2064Bit/kic-iam-auth
    chmod +x /usr/local/bin/kic-iam-auth
    echo "kakaocloud: kic-iam-auth 설치 완료"
    
@@ -87,10 +95,20 @@
    fi
    
    # 하이퍼파라미터에 필요한 파일 다운로드
-   wget -O /home/ubuntu/Dockerfile https://raw.githubusercontent.com/kakaocloud-edu/tutorial/main/Kubeflow/HyperParam/Dockerfile 
-   wget -O /home/ubuntu/mnist_train.py https://raw.githubusercontent.com/kakaocloud-edu/tutorial/main/Kubeflow/HyperParam/mnist_train.py
-   wget -O /home/ubuntu/Experiment.template.yaml https://raw.githubusercontent.com/kakaocloud-edu/tutorial/main/Kubeflow/HyperParam/Experiment.template.yaml
-
+   # HyperParam 관련 파일 다운로드
+   wget -O /home/ubuntu/Dockerfile \
+        https://raw.githubusercontent.com/kakaocloud-edu/tutorial/main/DataAnalyzeCourse/HyperParam/Dockerfile
+   
+   wget -O /home/ubuntu/requirements.txt \
+        https://raw.githubusercontent.com/kakaocloud-edu/tutorial/main/DataAnalyzeCourse/HyperParam/requirements.txt
+   
+   wget -O /home/ubuntu/next_state_train.py \
+        https://raw.githubusercontent.com/kakaocloud-edu/tutorial/main/DataAnalyzeCourse/HyperParam/next_state_train.py
+   
+   wget -O /home/ubuntu/Experiment.template.yaml \
+        https://raw.githubusercontent.com/kakaocloud-edu/tutorial/main/DataAnalyzeCourse/HyperParam/Experiment.template.yaml
+   
+   
    # Experiment.yaml 파일 생성
    envsubst < /home/ubuntu/Experiment.template.yaml > /home/ubuntu/Experiment.yaml
    rm /home/ubuntu/Experiment.template.yaml
@@ -211,7 +229,7 @@
 17. mnist_train.py 내용 조회
    #### **6-2-15**
    ```bash
-   cat mnist_train.py 
+   cat next_state_train.py 
    ```
 
 ## 3. 도커 이미지 생성 및 레지스트리 등록
@@ -232,7 +250,7 @@
    ```
    #### **lab6-3-3-1**
    ```bash
-   docker run -it --rm hyperpram:1.0 python mnist_train.py --learning_rate 0.02 --batch_size 128
+   docker run -it --rm hyperpram:1.0 python next_state_train.py --learning_rate 0.02 --batch_size 128
    ```
 4. 도커 로그인
    - 접속 중인 Bastion VM 인스턴스에 명령어 입력
