@@ -52,7 +52,7 @@
 2. speed 생성 확인
 
 ## 4. Notebook에서 Object Storage에 쌓인 데이터 확인
-1. dataCheck.ipynb 파일 다운로드
+1. data_check.ipynb 파일 다운로드
    - **Note**: 위에서 생성한 Notebook(`cpu-notebook`)에서 입력
 
    #### **lab4-3-6**
@@ -61,3 +61,5 @@
    ```
 
    - kubectl.ipynb 파일 생성 확인 및 더블 클릭 후 내부 코드 실행
+
+2. data 생성 확인
