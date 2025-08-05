@@ -1,0 +1,83 @@
+apiVersion: "kubeflow.org/v1beta1"
+kind: Experiment
+metadata:
+  name: next-state-tuning
+  namespace: kubeflow
+spec:
+  objective:
+    type: maximize
+    goal: 0.90
+    objectiveMetricName: accuracy
+
+  algorithm:
+    algorithmName: random
+
+  parallelTrialCount: 5
+  maxTrialCount: 10
+  maxFailedTrialCount: 2
+
+  parameters:
+    - name: --n_estimators
+      parameterType: int
+      feasibleSpace:
+        min: "50"
+        max: "200"
+    - name: --max_depth
+      parameterType: int
+      feasibleSpace:
+        min: "5"
+        max: "30"
+
+  trialTemplate:
+    primaryContainerName: next-state-trainer
+    trialParameters:
+      - name: nEstimators
+        description: Number of trees in the forest
+        reference: --n_estimators
+      - name: maxDepth
+        description: Maximum tree depth
+        reference: --max_depth
+    trialSpec:
+      apiVersion: batch/v1
+      kind: Job
+      spec:
+        template:
+          spec:
+            containers:
+              - name: next-state-trainer
+                image: ${PROJECT_NAME}.kr-central-2.kcr.dev/kakao-registry/next-state:1.0
+                command:
+                  - "python"
+                  - "next_state_train.py"
+                  - "--s3-bucket=${S3_BUCKET}"
+                  - "--s3-key=${S3_KEY}"
+                  - "--aws-access-key=${ACC_KEY}"
+                  - "--aws-secret-key=${SEC_KEY}"
+                  - "--n_estimators=${trialParameters.nEstimators}"
+                  - "--max_depth=${trialParameters.maxDepth}"
+                env:
+                  - name: S3_BUCKET
+                    value: "data-catalog-bucket"
+                  - name: S3_KEY
+                    value: "preprocessed/processed_user_behavior.parquet"
+                  - name: ACC_KEY
+                    valueFrom:
+                      secretKeyRef:
+                        name: regcred
+                        key: username
+                  - name: SEC_KEY
+                    valueFrom:
+                      secretKeyRef:
+                        name: regcred
+                        key: password
+            restartPolicy: Never
+            imagePullSecrets:
+              - name: regcred
+
+  metricsCollectorSpec:
+    source:
+      fileSystemPath:
+        path: "/tmp/metrics.log"
+        kind: File
+    collector:
+      kind: File
