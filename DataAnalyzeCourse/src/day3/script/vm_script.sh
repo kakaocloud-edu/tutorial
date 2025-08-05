@@ -73,9 +73,10 @@ if [ -f /home/ubuntu/mnist_train.py ]; then
 fi
 
 # 하이퍼파라미터에 필요한 파일 다운로드
-wget -O /home/ubuntu/Dockerfile https://raw.githubusercontent.com/kakaocloud-edu/tutorial/main/Kubeflow/HyperParam/Dockerfile 
-wget -O /home/ubuntu/mnist_train.py https://raw.githubusercontent.com/kakaocloud-edu/tutorial/main/Kubeflow/HyperParam/mnist_train.py
-wget -O /home/ubuntu/Experiment.template.yaml https://raw.githubusercontent.com/kakaocloud-edu/tutorial/main/Kubeflow/HyperParam/Experiment.template.yaml
+wget -O /home/ubuntu/Dockerfile https://raw.githubusercontent.com/kakaocloud-edu/tutorial/main/DataAnalyzeCourse/HyperParam/Dockerfile 
+wget -O /home/ubuntu/Dockerfile https://raw.githubusercontent.com/kakaocloud-edu/tutorial/main/DataAnalyzeCourse/HyperParam/requirements.txt
+wget -O /home/ubuntu/mnist_train.py https://raw.githubusercontent.com/kakaocloud-edu/tutorial/main/DataAnalyzeCourse/HyperParam/next_state_train.py
+wget -O /home/ubuntu/Experiment.template.yaml https://raw.githubusercontent.com/kakaocloud-edu/tutorial/main/DataAnalyzeCourse/HyperParam/Experiment.template.yaml
 
 # Experiment.yaml 파일 생성
 envsubst < /home/ubuntu/Experiment.template.yaml > /home/ubuntu/Experiment.yaml
