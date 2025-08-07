@@ -1,31 +1,14 @@
+# train.py
 import os
-import boto3
-import io
-import pyarrow.parquet as pq
 import pandas as pd
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score
 from sklearn.model_selection import train_test_split
 
 def load_data():
-    bucket       = os.environ["S3_BUCKET"]
-    key          = os.environ["S3_KEY"]
-    access_key   = os.environ["ACC_KEY"]
-    secret_key   = os.environ["SEC_KEY"]
-    region       = os.getenv("REGION", "kr-central-2")
-    endpoint_url = os.getenv("S3_ENDPOINT_URL",
-                             "https://objectstorage.kr-central-2.kakaocloud.com")
-
-    s3 = boto3.client(
-        service_name="s3",
-        region_name=region,
-        endpoint_url=endpoint_url,
-        aws_access_key_id=access_key,
-        aws_secret_access_key=secret_key
-    )
-    obj = s3.get_object(Bucket=bucket, Key=key)
-    buf = io.BytesIO(obj["Body"].read())
-    return pq.read_table(buf).to_pandas()
+    # 로컬 Parquet 파일 경로 (기본값)
+    local_path = os.getenv("/home/jovyan", "processed_user_behavior.parquet")
+    return pd.read_parquet(local_path)
 
 def train_and_log(df, n_estimators, max_depth):
     y = df["next_state"]
@@ -43,6 +26,7 @@ def train_and_log(df, n_estimators, max_depth):
     preds = clf.predict(X_test)
     acc = accuracy_score(y_test, preds)
 
+    # 메트릭 로그
     with open("/tmp/metrics.log", "w") as f:
         f.write(f"{{metricName: accuracy, metricValue: {acc}}}\n")
 
