@@ -11,7 +11,7 @@ CPU, GPU Notebook을 각각 생성하고 Tensorboard, 하이퍼파라미터 튜�
          - Name : `gpu-notebook`
          - Namespace : `kbm-u-kubeflow-tutorial`
       - Docker Image
-         -  Image : `mlops-pipelines/jupyter-tensorflow-cuda-full:v1.0.1.py36`
+         -  Image : `kc-kubeflow-registry/jupyter-tensorflow-cuda-full:v1.10.0.py311.1a`
          -  **Note**: 이미지 이름 정확하게 확인하기
       - CPU/RAM
          - Requested CPUs : `2`
@@ -20,10 +20,6 @@ CPU, GPU Notebook을 각각 생성하고 Tensorboard, 하이퍼파라미터 튜�
          - Number of GPUs : `4` 
          - GPU Vendor : `NVIDIA MIC - 1g.10gb`  
       - Workspace Valume, Data Valumes, Configurations : `모두 기본값 사용`
-      - Affiinity/Tolerations
-         - Affinity : `pool-gpu`
-         - Tolerations : `None`
-      - Miscellaneous Settings : `Enable Shared Memory`
    - `Launch` 클릭
 3. Notebook 생성 확인
 
@@ -63,7 +59,7 @@ CPU, GPU Notebook을 각각 생성하고 Tensorboard, 하이퍼파라미터 튜�
 2. Tensorboards 탭 > `+ New TensorBoard` 클릭
 3. Tensorboard 설정 정보 작성
    - 이름 : `tensorboard`
-   - `PVC` 클릭
+   - Storage Type : `PVC` 클릭
    - PVC name : `gpu-notebook-volume`
    - Mount Path : `logs/fit/`
    - `CREATE` 클릭
