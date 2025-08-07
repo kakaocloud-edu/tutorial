@@ -21,7 +21,7 @@
          - Name : `cpu-notebook`
          - Namespace : `kbm-u-kubeflow-tutorial`
       - Docker Image
-         - Image : `mlops-pipelines/jupyter-tensorflow-cuda-full:v1.0.1.py36`
+         - Image : `kc-kubeflow-registry/jupyter-tensorflow-full:v1.10.0.py311.1a`
          - **Note**: 이미지 이름 정확하게 확인하기
       - CPU/RAM
          -  Requested CPUs : `2`
@@ -29,10 +29,6 @@
       - GPUs
          - Number of GPUs : `None`
       - Workspace Valume, Data Valumes, Configurations : `모두 기본값 사용`
-      - Affiinity/Tolerations
-         - Affiinity : `pool-worker` 
-         - Tolerations : `None` 
-      - Miscellaneous Settings : `Enable Shared Memory`
    - `LAUNCH` 클릭
 3. Notebook 생성 확인
 
