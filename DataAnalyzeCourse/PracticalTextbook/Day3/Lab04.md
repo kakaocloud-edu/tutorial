@@ -246,26 +246,22 @@
 3. 테스트로 이미지 실행
    #### **lab6-3-3**
    ```bash
-   docker run -it --rm \
-     -e S3_BUCKET="$S3_BUCKET" \
-     -e S3_KEY="$S3_KEY" \
-     -e ACC_KEY="$ACC_KEY" \
-     -e SEC_KEY="$SEC_KEY" \
-     -e REGION="$REGION" \
-     -e S3_ENDPOINT_URL="$S3_ENDPOINT_URL" \
-     hyperpram:1.0
+   docker run --rm \
+     -v /home/jovyan:/app/data \
+     -e LOCAL_PATH=/app/data/processed_user_behavior.parquet \
+     behavior-train:latest \
+       --n_estimators 100 \
+       --max_depth 10
    ```
    #### **lab6-3-3-1**
    ```bash
    docker run -it --rm \
-     -e S3_BUCKET="$S3_BUCKET" \
-     -e S3_KEY="$S3_KEY" \
-     -e ACC_KEY="$ACC_KEY" \
-     -e SEC_KEY="$SEC_KEY" \
-     -e REGION="$REGION" \
-     -e S3_ENDPOINT_URL="$S3_ENDPOINT_URL" \
+     -v /home/jovyan/work:/app/data \
+     -e LOCAL_PATH=/app/data/processed_user_behavior.parquet \
      hyperpram:1.0 \
-     python next_state_train.py --learning_rate 0.02 --batch_size 128
+     python next_state_train.py \
+       --learning_rate 0.02 \
+       --batch_size 128
    ```
 4. 도커 로그인
    - 접속 중인 Bastion VM 인스턴스에 명령어 입력
