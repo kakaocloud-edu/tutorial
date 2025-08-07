@@ -8,21 +8,18 @@
 4. 기본 설정 정보 작성
     - Kubeflow 이름 : `kc-handson`
     - Kubeflow 구성
-        - 버전 : `1.0.0`
-        - 서비스 타입 : `체크된 기본값`
+        - 버전 : `1.10`
     - 클러스터 연결 : `k8s-cluster`
     - 클러스터 구성
         - 필수 노드 풀 설정 
             - Ingress 노드 풀 : `pool-ingress`
             - Worker 노드 풀 : `pool-worker`
      - 선택 노드 풀 설정
-         - CPU 노트북 노드 풀 : `pool-worker`
-         - CPU 파이프라인 노드 풀 : `pool-worker`
-         - GPU 노트북 노드 풀 : `pool-gpu`
+         - CPU 노드 풀 : `pool-worker`
+         - GPU 노드 풀 : `pool-gpu`
          - GPU MIG : `1g.10gb`
              - `+`를 눌러서 7을 선택
-         - GPU 파이프라인 노드 풀 : `pool-gpu`
-     - 디폴트 파일 스토리지 : `handson`
+     - 기본 파일 스토리지 : `handson`
      - Kubeflow 소유자 설정
          - 소유자 이메일 계정 : `입력된 이메일로 임시 비밀번호 발송`
          - 네임 스페이스 이름 : `kubeflow-tutorial`
