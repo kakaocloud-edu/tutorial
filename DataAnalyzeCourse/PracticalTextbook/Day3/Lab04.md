@@ -255,11 +255,11 @@
    ```
    #### **lab6-3-3-1**
    ```bash
-   docker run -it --rm \
+   docker run --rm \
      -v /home/jovyan:/app/data \
      -e LOCAL_PATH=/app/data/processed_user_behavior.parquet \
      hyperpram:1.0 \
-     python next_state_train.py \
+       python next_state_train.py \
        --learning_rate 0.02 \
        --batch_size 128
    ```
