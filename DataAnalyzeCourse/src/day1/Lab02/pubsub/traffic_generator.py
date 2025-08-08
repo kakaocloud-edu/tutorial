@@ -83,6 +83,19 @@ def fetch_products(api_base_url: str):
     except Exception as e:
         logging.error(f"Exception while fetching products: {e}")
 
+#################################
+# products_cache 기반 ID 선택 유틸
+#################################
+def _cached_product_ids() -> list:
+    return [str(p.get("id")) for p in products_cache if p.get("id") not in (None, "")]
+
+def random_product_id() -> str:
+    """products_cache에서 무작위 상품 ID 선택. 비어있으면 101~124로 폴백."""
+    ids = _cached_product_ids()
+    if ids:
+        return random.choice(ids)
+    return str(random.randint(101, 124))
+
 def fetch_categories(api_base_url: str):
     global categories_cache
     headers = {"Accept": "application/json"}
@@ -128,15 +141,37 @@ def pick_next_state(prob_dict: dict) -> str:
 #################################
 def pick_preferred_product_id(gender: str, age_segment: str) -> str:
     if not products_cache:
-        return str(random.randint(101, 124))
-    cat_list = config.CATEGORY_PREFERENCE.get(gender, {}).get(age_segment, [])
-    filtered = [p for p in products_cache if p.get("category", "") in cat_list]
-    if filtered:
-        chosen = random.choice(filtered)
-        return chosen.get("id", "101")
-    else:
+        return random_product_id()
+
+    # 기본값(원하면 config에 둬도 됨)
+    W_PREF = getattr(config, "CATEGORY_PICK_W_PREF", 3.0)   # 선호 카테고리 가중치
+    W_OTHER = getattr(config, "CATEGORY_PICK_W_OTHER", 1.0) # 비선호 가중치
+    EPS = getattr(config, "CATEGORY_PICK_EPS", 0.10)        # ε-탐색 비율(완전 랜덤)
+
+    preferred = config.CATEGORY_PREFERENCE.get(gender, {}).get(age_segment, [])
+
+    # ε-탐색: 일부는 완전 랜덤으로 섞어서 과적합 방지
+    if random.random() < EPS:
         chosen = random.choice(products_cache)
-        return chosen.get("id", "101")
+        return str(chosen.get("id", "101"))
+
+    # 소프트 바이어스: 선호 카테고리는 가중치↑, 나머지는 가중치↓
+    weights = []
+    for p in products_cache:
+        cat = p.get("category", "")
+        base = W_PREF if cat in preferred else W_OTHER
+
+        # (선택) 가격 영향 살짝 반영: 너무 고가면 약간 페널티(현실감↑, 쉬운 규칙 완화)
+        try:
+            price = float(p.get("price", 0))
+        except Exception:
+            price = 0.0
+        price_factor = 1.2 - min(max(price / 700.0, 0.0), 0.5)  # 0.7~1.2 범위
+        weights.append(base * price_factor)
+
+    chosen = random.choices(products_cache, weights=weights, k=1)[0]
+    return str(chosen.get("id", "101"))
+
 
 #################################
 # ID로부터 카테고리 조회 유틸
@@ -258,8 +293,8 @@ def perform_anon_sub_action(session: requests.Session, user_unique_id: str, sub_
             logging.error(f"[{user_unique_id}] Anon_Sub_Products error: {e}")
 
     elif sub_state == "Anon_Sub_ViewProduct":
-            # 101~124 범위의 상품 ID를 랜덤 선택하여 조회
-            pid = random.randint(101, 124)
+            # 상품 ID를 랜덤 선택하여 조회
+            pid = random_product_id()
             url = f"{config.API_URL_WITH_HTTP}{config.API_ENDPOINTS['PRODUCT_DETAIL']}?id={pid}"
             
             try:
@@ -349,8 +384,8 @@ def perform_logged_sub_action(session: requests.Session,
     headers = make_headers(session, {"X-User-Id": user_unique_id})
     
     if sub_state == "Login_Sub_ViewProduct":
-        # 101~124 범위의 상품 ID를 랜덤 선택하여 상세 조회
-        pid = random.randint(101, 124)
+        # 상품 ID를 랜덤 선택하여 상세 조회
+        pid = random_product_id()
         url = f"{config.API_URL_WITH_HTTP}{config.API_ENDPOINTS['PRODUCT_DETAIL']}?id={pid}"
         try:
             r = session.get(url, headers=headers)
@@ -388,7 +423,7 @@ def perform_logged_sub_action(session: requests.Session,
             add_url = config.API_URL_WITH_HTTP + config.API_ENDPOINTS["CART_ADD"]
             r = session.post(add_url, data=payload, headers=headers)
             session.prev_url = add_url
-            logging.info(f"[pid={pid}, qty={qty}) => {r.status_code}")
+            logging.info(f"[pid={pid}, qty={qty}] => {r.status_code}")
         except Exception as e:
             logging.error(f"[{user_unique_id}] cart add error: {e}")
 
