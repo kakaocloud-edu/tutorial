@@ -66,3 +66,28 @@ pattern_bias:
     no_goal:          # 목표 행동이 전혀 없는 세션
       Done: 2.0
       Logged_Out: 0.5
+
+bias_thresholds:
+  cart_has_items_min: 1
+  heavy_cart_min: 3
+  deep_page_min: 6
+  long_session_sec: 60
+  idle_slow_sec: 5
+
+sub_bias:
+  logged_in:
+    Login_Sub_ViewCart:
+      if_cart_item_count_lt: 1
+      multiply:
+        Login_Sub_CartAdd: 1.8
+        Login_Sub_Done: 0.8
+    Login_Sub_CartAdd:
+      if_cart_item_count_gte: 1
+      multiply:
+        Login_Sub_Checkout: 1.4
+        Login_Sub_ViewCart: 1.2
+    Login_Sub_ViewProduct:
+      if_idle_slow_sec_gte: 5
+      multiply:
+        Login_Sub_ViewCart: 1.3
+        Login_Sub_Done: 0.9
