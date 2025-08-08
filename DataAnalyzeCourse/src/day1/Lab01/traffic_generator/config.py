@@ -249,3 +249,5 @@ SEARCH_KEYWORDS = [
 ]
 
 PATTERN_BIAS = config.get('pattern_bias', {})
+BIAS_THRESHOLDS = config.get('bias_thresholds', {})
+SUB_BIAS       = config.get('sub_bias', {})
