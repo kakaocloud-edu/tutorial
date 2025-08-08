@@ -218,19 +218,30 @@ def try_login(session: requests.Session, user_id: str) -> bool:
         logging.info(f"[{user_id}] POST /login => {r.status_code}")
         if 200 <= r.status_code < 300:
             # 헤더에 user_id 추가
-            session.headers.update({"X-User-Id": user_id})
+            # session.headers.update({"X-User-Id": user_id})
             return True
     except Exception as e:
         logging.error(f"[{user_id}] login exception: {e}")
         return False
 
 def try_logout(session: requests.Session, user_id: str) -> bool:
+    # 전역 헤더에 남은 Referer만 살리고 X-User-Id는 보내지 않음
     headers = {"Accept": "application/json"}
+    if getattr(session, "prev_url", None):
+        headers["Referer"] = session.prev_url
+
     try:
         url = config.API_URL_WITH_HTTP + config.API_ENDPOINTS["LOGOUT"]
         r = session.post(url, headers=headers)
+        ok = (200 <= r.status_code < 300)
         logging.info(f"[{user_id}] POST /logout => {r.status_code}")
-        return (200 <= r.status_code < 300)
+
+        if ok:
+            # 방어적으로 전역 헤더/쿠키 정리 (세션 잔존 방지)
+            session.headers.pop("X-User-Id", None)
+            session.cookies.clear()
+            session.prev_url = url
+        return ok
     except Exception as e:
         logging.error(f"[{user_id}] logout exception: {e}")
         return False
@@ -272,7 +283,7 @@ def do_anon_sub_fsm(session: requests.Session, user_unique_id: str):
         time.sleep(random.uniform(*config.TIME_SLEEP_RANGE))
 
 def perform_anon_sub_action(session: requests.Session, user_unique_id: str, sub_state: str):
-    headers = make_headers(session)
+    headers = make_headers(session, {"X-User-Id": user_unique_id})
 
     if sub_state == "Anon_Sub_Main":
         try:
