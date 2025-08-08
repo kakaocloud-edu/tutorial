@@ -228,12 +228,12 @@ LOGGED_SUB_TRANSITIONS = {
 #################################
 CATEGORY_PREFERENCE = {
     "F": {
-        "young": ["Fashion", "Electronics", "Books"],
+        "young": ["Fashion", "Books"],
         "middle": ["Fashion", "Home", "Books"],
         "old": ["Home", "Books"]
     },
     "M": {
-        "young": ["Electronics", "Gaming", "Fashion"],
+        "young": ["Electronics", "Gaming"],
         "middle": ["Electronics", "Home", "Gaming"],
         "old": ["Home", "Books"]
     }
@@ -251,3 +251,7 @@ SEARCH_KEYWORDS = [
 PATTERN_BIAS = config.get('pattern_bias', {})
 BIAS_THRESHOLDS = config.get('bias_thresholds', {})
 SUB_BIAS       = config.get('sub_bias', {})
+
+CATEGORY_PICK_W_PREF = 4.5
+CATEGORY_PICK_EPS = 0.05
+CATEGORY_PICK_W_OTHER = 1.0
