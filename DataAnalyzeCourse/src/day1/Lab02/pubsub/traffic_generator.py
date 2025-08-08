@@ -363,12 +363,13 @@ def perform_anon_sub_action(session: requests.Session, user_unique_id: str, sub_
 def do_logged_sub_fsm(session: requests.Session,
                       user_unique_id: str,
                       gender,
-                      age_segment: str
-                      ):
+                      age_segment: str,
+                      ctx: dict):
+                          
     sub_state = "Login_Sub_Initial"
     while sub_state != "Login_Sub_Done":
         logging.info(f"[{user_unique_id}] Logged Sub-FSM state = {sub_state}")
-        perform_logged_sub_action(session, user_unique_id, sub_state, gender, age_segment)
+        perform_logged_sub_action(session, user_unique_id, sub_state, gender, age_segment, ctx)
 
         if sub_state not in config.LOGGED_SUB_TRANSITIONS:
             logging.warning(f"[{user_unique_id}] {sub_state} not in LOGGED_SUB_TRANSITIONS => break")
@@ -390,8 +391,8 @@ def perform_logged_sub_action(session: requests.Session,
                               user_unique_id: str,
                               sub_state: str,
                               gender: str,
-                              age_segment: str
-                              ):
+                              age_segment: str,
+                              ctx: dict):
     headers = make_headers(session, {"X-User-Id": user_unique_id})
     
     if sub_state == "Login_Sub_ViewProduct":
@@ -427,14 +428,14 @@ def perform_logged_sub_action(session: requests.Session,
     elif sub_state == "Login_Sub_CartAdd":
         pid = pick_preferred_product_id(gender, age_segment)
         qty = random.randint(1,5)     
-        
-       
         payload = {"id": pid, "quantity": str(qty)}
         try:
             add_url = config.API_URL_WITH_HTTP + config.API_ENDPOINTS["CART_ADD"]
             r = session.post(add_url, data=payload, headers=headers)
             session.prev_url = add_url
             logging.info(f"[pid={pid}, qty={qty}] => {r.status_code}")
+            if 200 <= r.status_code < 300:
+                ctx["has_cart_or_checkout"] = True   # ★ 목표행동 플래그 ON
         except Exception as e:
             logging.error(f"[{user_unique_id}] cart add error: {e}")
 
@@ -468,6 +469,8 @@ def perform_logged_sub_action(session: requests.Session,
             r = session.post(check_url, headers=headers)
             session.prev_url = check_url
             logging.info(f"[{user_unique_id}] POST /checkout => {r.status_code}")
+            if 200 <= r.status_code < 300:
+                ctx["has_cart_or_checkout"] = True   # ★ 목표행동 플래그 ON
         except Exception as e:
             logging.error(f"[{user_unique_id}] checkout error: {e}")
 
@@ -537,6 +540,27 @@ def do_top_level_action_and_confirm(
 
     return proposed_next
 
+def _apply_bias_from_config(state: str, probs: dict, has_goal: bool) -> dict:
+    # config 기반 배수 적용
+    pattern_bias = getattr(config, "PATTERN_BIAS", {})
+    mode = "with_goal" if has_goal else "no_goal"
+    bias_map = pattern_bias.get('logged_in', {}).get(mode, {}) if state == "Logged_In" else {}
+
+    if not bias_map:
+        return probs
+
+    # 곱셈 적용
+    out = probs.copy()
+    for k, mul in bias_map.items():
+        if k in out:
+            out[k] *= float(mul)
+
+    # 정규화(합이 0이 아닌 경우)
+    s = sum(out.values())
+    if s > 0:
+        for k in out:
+            out[k] = out[k] / s
+    return out
 
 #################################
 # 사용자 전체 로직
@@ -555,6 +579,9 @@ def run_user_simulation(user_idx: int):
     current_state = "Anon_NotRegistered"
     transition_count = 0
 
+    # === 학습 패턴용 플래그 ===
+    ctx = {"has_cart_or_checkout": False}
+
     while True:
         if transition_count >= config.ACTIONS_PER_USER:
             logging.info(f"[{user_unique_id}] Reached max transitions => end.")
@@ -568,11 +595,16 @@ def run_user_simulation(user_idx: int):
             logging.error(f"[{user_unique_id}] no transitions from {current_state} => end.")
             break
 
-        possible_next = config.STATE_TRANSITIONS[current_state]
+        possible_next = dict(config.STATE_TRANSITIONS[current_state])  # 복사본
         if not possible_next:
             logging.warning(f"[{user_unique_id}] next_candidates empty => end.")
             break
-
+        if current_state == "Logged_In":
+            possible_next = _apply_bias_from_config(
+                state=current_state,
+                probs=possible_next,
+                has_goal=ctx["has_cart_or_checkout"]
+            )
         proposed_next = pick_next_state(possible_next)
         logging.info(f"[{user_unique_id}] (Top) {current_state} -> proposed={proposed_next}")
 
@@ -593,7 +625,7 @@ def run_user_simulation(user_idx: int):
         elif current_state == "Anon_Registered":
             do_anon_sub_fsm(session, user_unique_id)
         elif current_state == "Logged_In":
-            do_logged_sub_fsm(session, user_unique_id, gender, age_segment)
+            do_logged_sub_fsm(session, user_unique_id, gender, age_segment, ctx)
         elif current_state == "Logged_Out":
             logging.info(f"[{user_unique_id}] (Top) state=Logged_Out => no sub-FSM")
         elif current_state == "Unregistered":
