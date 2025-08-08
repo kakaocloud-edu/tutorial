@@ -218,14 +218,15 @@ def load_kafka_avro_stream(spark, topic, avro_schema_str):
         when(col("d.user_id") == "", lit(None)).otherwise(col("d.user_id")).alias("user_id"),
         col("d.endpoint"),
         col("d.method"),
-        # query_params 처리: /search가 아닌 경우만 처리, /search인 경우는 null
+        # category_name 처리: /search가 아닌 경우만 처리, /search인 경우는 null
         when(col("d.endpoint") == "/search", lit(None))
+        .when(col("d.endpoint") == "/product", lit(None))  # /product면 query_params 제거
         .when(col("d.query_params").rlike("query=([^&]+)"), 
-              expr("regexp_extract(d.query_params, 'query=([^&]+)', 1)"))
+            expr("regexp_extract(d.query_params, 'query=([^&]+)', 1)"))
         .when(col("d.query_params").isNotNull() & (col("d.query_params") != ""), 
-              col("d.query_params"))
+            expr("regexp_replace(d.query_params, '^name=', '')"))  # name= 제거
         .otherwise(lit(None))
-        .alias("query_params"),
+        .alias("category_name"),
         # search_keyword 처리: /search인 경우만 추출
         when((col("d.endpoint") == "/search") & col("d.query_params").rlike("query=([^&]+)"), 
              expr("regexp_extract(d.query_params, 'query=([^&]+)', 1)"))
@@ -326,7 +327,7 @@ def foreach_batch_debug(logs_df, batch_id):
                         col("raw_timestamp"),
                         col("event_time"),
                         col("current_state"),
-                        col("query_params"),
+                        col("category_name"),
                         col("search_keyword"),
                         col("product_id"),
                         lit(1).alias("page_depth"),
@@ -378,7 +379,7 @@ def foreach_batch_debug(logs_df, batch_id):
                     col("l.current_state"),
                     col("l.endpoint"),
                     col("l.method"),
-                    col("l.query_params"),
+                    col("l.category_name"),
                     col("l.search_keyword"),
                     col("l.product_id"),
                     col("l.request_body"),
@@ -397,7 +398,7 @@ def foreach_batch_debug(logs_df, batch_id):
                 "event_time", 
                 "endpoint", 
                 coalesce("product_id", lit("")),
-                coalesce("query_params", lit(""))
+                coalesce("category_name", lit(""))
             )
 
             # 세션별 전체 범위 윈도우 (첫 번째 이벤트 시간 계산용)
@@ -481,9 +482,8 @@ def foreach_batch_debug(logs_df, batch_id):
                 coalesce(col("c.next_state"), col("c.current_state")).alias("next_state"),
                 date_format(col("c.event_time"), "yyyy-MM-dd HH:mm:ss").alias("timestamp"),
                 coalesce(col("r.avg_response_time"), col("c.request_time")).alias("avg_response_time"),
-                col("c.product_id").cast(IntegerType()).alias("current_product_id"),
                 col("c.session_duration"),
-                col("c.query_params"),
+                col("c.category_name"),
                 col("c.search_keyword"),
                 col("c.product_id")
             )
