@@ -4,6 +4,7 @@ config.py
 
 - config.yml 파일을 로드하여 설정을 관리합니다.
 """
+_BOOST_APPLIED = False
 
 import os
 import yaml
@@ -223,6 +224,40 @@ LOGGED_SUB_TRANSITIONS = {
     "Login_Sub_Done": {}
 }
 
+
+def _renormalize(d: dict) -> dict:
+    s = sum(d.values())
+    if s <= 0:
+        # 모두 0이면 균등 분배
+        n = len(d)
+        return {k: (1.0 / n) for k in d} if n else d
+    return {k: v / s for k, v in d.items()}
+
+def boost_checkout_and_review(
+    transitions: dict,
+    checkout_mul: float = 1.2,
+    review_mul: float = 1.5
+):
+    for state, nxt in transitions.items():
+        if not isinstance(nxt, dict):
+            continue
+        # 값 곱하기
+        for k in list(nxt.keys()):
+            if k == "Login_Sub_Checkout":
+                nxt[k] = float(nxt[k]) * checkout_mul
+            elif k == "Login_Sub_AddReview":
+                nxt[k] = float(nxt[k]) * review_mul
+        # 상태별 정규화
+        transitions[state] = _renormalize(nxt)
+
+# 적용
+if not _BOOST_APPLIED:
+    boost = config.get('boost', {})
+    checkout_mul = float(boost.get('checkout_mul', 1.2))
+    review_mul   = float(boost.get('review_mul', 1.5))
+    boost_checkout_and_review(LOGGED_SUB_TRANSITIONS, checkout_mul=checkout_mul, review_mul=review_mul)
+    _BOOST_APPLIED = True
+
 #################################
 # 카테고리 선호도
 #################################
@@ -235,7 +270,7 @@ CATEGORY_PREFERENCE = {
     "M": {
         "young": ["Electronics", "Gaming"],
         "middle": ["Electronics", "Home", "Gaming"],
-        "old": ["Home", "Books"]
+        "old": ["Books"]
     }
 }
 
@@ -253,5 +288,5 @@ BIAS_THRESHOLDS = config.get('bias_thresholds', {})
 SUB_BIAS       = config.get('sub_bias', {})
 
 CATEGORY_PICK_W_PREF = 4.5
-CATEGORY_PICK_EPS = 0.05
+CATEGORY_PICK_EPS = 0.1
 CATEGORY_PICK_W_OTHER = 1.0
