@@ -91,3 +91,31 @@ sub_bias:
       multiply:
         Login_Sub_ViewCart: 1.3
         Login_Sub_Done: 0.9
+  anon:
+    # 검색을 많이 한 뒤면 Done 쪽으로 기울이기
+    Anon_Sub_Search:
+      if_search_count_gte: 5
+      multiply:
+        Anon_Sub_Done: 1.3
+    # 검색 누적 후 상세만 반복 보는 패턴도 Done 강화
+    Anon_Sub_ViewProduct:
+      if_search_count_gte: 3
+      multiply:
+        Anon_Sub_Done: 1.25
+    # 탐색이 너무 깊어지면(피곤함) Done 약간↑
+    Anon_Sub_Main:
+      if_page_depth_gte: 8
+      multiply:
+        Anon_Sub_Done: 1.2
+    Anon_Sub_Products:
+      if_page_depth_gte: 8
+      multiply:
+        Anon_Sub_Done: 1.2
+    Anon_Sub_Categories:
+      if_page_depth_gte: 8
+      multiply:
+        Anon_Sub_Done: 1.2
+    Anon_Sub_CategoryList:
+      if_page_depth_gte: 8
+      multiply:
+        Anon_Sub_Done: 1.2
