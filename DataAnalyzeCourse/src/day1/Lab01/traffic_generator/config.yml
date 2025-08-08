@@ -119,3 +119,7 @@ sub_bias:
       if_page_depth_gte: 8
       multiply:
         Anon_Sub_Done: 1.2
+
+boost:
+  checkout_mul: 1.2   # Login_Sub_Checkout 전이 가중치 배율
+  review_mul: 1.5     # Login_Sub_AddReview 전이 가중치 배율
