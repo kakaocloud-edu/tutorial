@@ -261,11 +261,11 @@ def try_delete_user(session: requests.Session, user_id: str) -> bool:
 #################################
 # 비로그인 하위 FSM
 #################################
-def do_anon_sub_fsm(session: requests.Session, user_unique_id: str):
+def do_anon_sub_fsm(session: requests.Session, user_unique_id: str, ctx: dict):
     sub_state = "Anon_Sub_Initial"
     while sub_state != "Anon_Sub_Done":
         logging.info(f"[{user_unique_id}] Anon Sub-FSM state = {sub_state}")
-        perform_anon_sub_action(session, user_unique_id, sub_state)
+        perform_anon_sub_action(session, user_unique_id, sub_state, ctx)
 
         if sub_state not in config.ANON_SUB_TRANSITIONS:
             logging.warning(f"[{user_unique_id}] {sub_state} not in ANON_SUB_TRANSITIONS => break")
@@ -276,13 +276,14 @@ def do_anon_sub_fsm(session: requests.Session, user_unique_id: str):
             logging.warning(f"[{user_unique_id}] No next transitions => break")
             break
 
-        next_sub = pick_next_state(transitions)
+        biased_sub = _apply_sub_bias_from_config("anon", sub_state, dict(transitions), ctx)
+        next_sub = pick_next_state(biased_sub)
         logging.info(f"[{user_unique_id}] (AnonSub) {sub_state} -> {next_sub}")
         sub_state = next_sub
 
         time.sleep(random.uniform(*config.TIME_SLEEP_RANGE))
 
-def perform_anon_sub_action(session: requests.Session, user_unique_id: str, sub_state: str):
+def perform_anon_sub_action(session: requests.Session, user_unique_id: str, sub_state: str, ctx: dict):
     headers = make_headers(session)
 
     if sub_state == "Anon_Sub_Main":
@@ -342,6 +343,8 @@ def perform_anon_sub_action(session: requests.Session, user_unique_id: str, sub_
             r = session.get(search_url, headers=headers)
             session.prev_url = search_url
             logging.info(f"[{user_unique_id}] GET /search?query={q} => {r.status_code}")
+            if 200 <= r.status_code < 300:
+                ctx["search_count"] = ctx.get("search_count", 0) + 1
         except Exception as err:
             logging.error(f"[{user_unique_id}] search error: {err}")
 
@@ -356,6 +359,8 @@ def perform_anon_sub_action(session: requests.Session, user_unique_id: str, sub_
     
     # 사용자 행동 사이의 대기 추가        
     time.sleep(random.uniform(0.5, 1.0))
+    if sub_state != "Anon_Sub_Initial":
+        _tick_ctx_after_action(ctx)
 
 #################################
 # 로그인 하위 FSM
@@ -380,8 +385,10 @@ def do_logged_sub_fsm(session: requests.Session,
         if not transitions:
             logging.warning(f"[{user_unique_id}] No next transitions => break")
             break
-
-        next_sub = pick_next_state(transitions)
+            
+        # 컨텍스트 기반 sub-FSM 바이어스 적용
+        biased_sub = _apply_sub_bias_from_config("logged_in", sub_state, dict(transitions), ctx)
+        next_sub = pick_next_state(biased_sub)
         logging.info(f"[{user_unique_id}] (LoggedSub) {sub_state} -> {next_sub}")
         sub_state = next_sub
 
@@ -405,7 +412,6 @@ def perform_logged_sub_action(session: requests.Session,
             logging.info(f"[{user_unique_id}] GET id={pid} => {r.status_code}")
         except Exception as err:
             logging.error(f"[{user_unique_id}] view product error: {err}")
-        return
 
     elif sub_state == "Login_Sub_ViewCart":
         url = config.API_URL_WITH_HTTP + config.API_ENDPOINTS["CART_VIEW"]
@@ -436,6 +442,7 @@ def perform_logged_sub_action(session: requests.Session,
             logging.info(f"[pid={pid}, qty={qty}] => {r.status_code}")
             if 200 <= r.status_code < 300:
                 ctx["has_cart_or_checkout"] = True   # ★ 목표행동 플래그 ON
+                ctx["cart_item_count"] = ctx.get("cart_item_count", 0) + qty
         except Exception as e:
             logging.error(f"[{user_unique_id}] cart add error: {e}")
 
@@ -456,6 +463,8 @@ def perform_logged_sub_action(session: requests.Session,
                     rr = session.post(remove_url, data=remove_payload, headers=headers)
                     session.prev_url = remove_url
                     logging.info(f"[{user_unique_id}] POST /cart/remove (pid={rid}, qty={rqty}) => {rr.status_code}")
+                    if 200 <= rr.status_code < 300:
+                        ctx["cart_item_count"] = max(0, ctx.get("cart_item_count", 0) - rqty)
                 else:
                     logging.info(f"[{user_unique_id}] Cart empty => skip remove")
             else:
@@ -499,6 +508,8 @@ def perform_logged_sub_action(session: requests.Session,
             
     #사용자 행동 사이의 대기 추가
     time.sleep(random.uniform(0.5, 1.0))
+    if sub_state != "Login_Sub_Initial":
+        _tick_ctx_after_action(ctx)
 
 #################################
 # do_top_level_action_and_confirm
@@ -540,27 +551,88 @@ def do_top_level_action_and_confirm(
 
     return proposed_next
 
-def _apply_bias_from_config(state: str, probs: dict, has_goal: bool) -> dict:
-    # config 기반 배수 적용
-    pattern_bias = getattr(config, "PATTERN_BIAS", {})
-    mode = "with_goal" if has_goal else "no_goal"
-    bias_map = pattern_bias.get('logged_in', {}).get(mode, {}) if state == "Logged_In" else {}
+def _normalize_probs(d: dict) -> dict:
+    s = sum(d.values())
+    if s <= 0:
+        n = len(d)
+        if n == 0: 
+            return d
+        return {k: 1.0/n for k in d}  # ← 전부 0이면 균등
+    return {k: v / s for k, v in d.items()}
 
-    if not bias_map:
+def _session_duration(ctx: dict) -> float:
+    return time.time() - ctx.get("session_start_ts", time.time())
+
+def _apply_bias_from_config(state: str, probs: dict, ctx: dict) -> dict:
+    if state != "Logged_In":
         return probs
-
-    # 곱셈 적용
     out = probs.copy()
-    for k, mul in bias_map.items():
+    pattern_bias = getattr(config, "PATTERN_BIAS", {})
+    thr = getattr(config, "BIAS_THRESHOLDS", {})
+
+    # 1) 목표행동 여부 기반
+    mode = "with_goal" if ctx.get("has_cart_or_checkout") else "no_goal"
+    for k, mul in pattern_bias.get('logged_in', {}).get(mode, {}).items():
         if k in out:
             out[k] *= float(mul)
 
-    # 정규화(합이 0이 아닌 경우)
-    s = sum(out.values())
-    if s > 0:
-        for k in out:
-            out[k] = out[k] / s
-    return out
+    # 2) 임계치 기반 보정
+    cart_cnt = ctx.get("cart_item_count", 0)
+    page_depth = ctx.get("page_depth", 0)
+    duration = _session_duration(ctx)
+    idle = ctx.get("last_action_elapsed", 0.0)
+
+    if cart_cnt >= thr.get("cart_has_items_min", 1):
+        if "Logged_Out" in out:
+            out["Logged_Out"] *= 1.3
+    else:
+        if "Done" in out:
+            out["Done"] *= 1.2
+
+    if (page_depth >= thr.get("deep_page_min", 6)) or (duration >= thr.get("long_session_sec", 60)):
+        if "Logged_Out" in out:
+            out["Logged_Out"] *= 1.15
+
+    if idle >= thr.get("idle_slow_sec", 5):
+        if "Done" in out:
+            out["Done"] *= 1.1
+
+    return _normalize_probs(out)
+
+def _apply_sub_bias_from_config(sub_group: str, sub_state: str, probs: dict, ctx: dict) -> dict:
+    sb = getattr(config, "SUB_BIAS", {}).get(sub_group, {})
+    rules = sb.get(sub_state, {})
+    if not rules:
+        return _normalize_probs(probs)
+    out = probs.copy()
+    # 조건 처리
+    if "if_cart_item_count_lt" in rules and ctx.get("cart_item_count", 0) < rules["if_cart_item_count_lt"]:
+        for k, mul in rules.get("multiply", {}).items():
+            if k in out:
+                out[k] *= float(mul)
+    if "if_cart_item_count_gte" in rules and ctx.get("cart_item_count", 0) >= rules["if_cart_item_count_gte"]:
+        for k, mul in rules.get("multiply", {}).items():
+            if k in out:
+                out[k] *= float(mul)
+    if "if_idle_slow_sec_gte" in rules and ctx.get("last_action_elapsed", 0.0) >= rules["if_idle_slow_sec_gte"]:
+        for k, mul in rules.get("multiply", {}).items():
+            if k in out:
+                out[k] *= float(mul)
+    if "if_search_count_gte" in rules and ctx.get("search_count", 0) >= rules["if_search_count_gte"]:
+        for k, mul in rules.get("multiply", {}).items():
+            if k in out: out[k] *= float(mul)
+    if "if_page_depth_gte" in rules and ctx.get("page_depth", 0) >= rules["if_page_depth_gte"]:
+        for k, mul in rules.get("multiply", {}).items():
+            if k in out: out[k] *= float(mul)
+                
+    return _normalize_probs(out)
+
+def _tick_ctx_after_action(ctx: dict):
+    now = time.time()
+    ctx["last_action_elapsed"] = now - ctx.get("last_ts", now)
+    ctx["last_ts"] = now
+    ctx["page_depth"] = ctx.get("page_depth", 0) + 1
+
 
 #################################
 # 사용자 전체 로직
@@ -580,7 +652,15 @@ def run_user_simulation(user_idx: int):
     transition_count = 0
 
     # === 학습 패턴용 플래그 ===
-    ctx = {"has_cart_or_checkout": False}
+    ctx = {
+        "has_cart_or_checkout": False,
+        "search_count": 0,
+        "cart_item_count": 0,
+        "page_depth": 0,
+        "session_start_ts": time.time(),
+        "last_ts": time.time(),
+        "last_action_elapsed": 0.0,
+    }
 
     while True:
         if transition_count >= config.ACTIONS_PER_USER:
@@ -595,19 +675,30 @@ def run_user_simulation(user_idx: int):
             logging.error(f"[{user_unique_id}] no transitions from {current_state} => end.")
             break
 
+        # 1) 현재 state에 맞는 sub-FSM 먼저 실행 → ctx 갱신
+        if current_state in ("Anon_NotRegistered", "Anon_Registered"):
+            do_anon_sub_fsm(session, user_unique_id, ctx)
+        elif current_state == "Logged_In":
+            do_logged_sub_fsm(session, user_unique_id, gender, age_segment, ctx)
+        # Logged_Out/Unregistered/Done은 sub-FSM 없음
+    
+        # 2) 그 다음 상위 전이 확률 계산/보정
         possible_next = dict(config.STATE_TRANSITIONS[current_state])  # 복사본
         if not possible_next:
             logging.warning(f"[{user_unique_id}] next_candidates empty => end.")
             break
+    
         if current_state == "Logged_In":
             possible_next = _apply_bias_from_config(
                 state=current_state,
                 probs=possible_next,
-                has_goal=ctx["has_cart_or_checkout"]
+                ctx=ctx
             )
+    
         proposed_next = pick_next_state(possible_next)
         logging.info(f"[{user_unique_id}] (Top) {current_state} -> proposed={proposed_next}")
-
+    
+        # 3) 상위 전이 확정(실제 API 호출 포함)
         actual_next = do_top_level_action_and_confirm(
             session=session,
             current_state=current_state,
@@ -616,21 +707,32 @@ def run_user_simulation(user_idx: int):
             gender=gender,
             age_segment=age_segment
         )
+    
         if actual_next != current_state:
             logging.info(f"[{user_unique_id}] => confirmed next: {actual_next}")
+            if actual_next in ("Logged_Out", "Anon_NotRegistered"):
+                ctx.update({
+                    "has_cart_or_checkout": False,
+                    "cart_item_count": 0,
+                    "search_count": 0,
+                    "page_depth": 0,
+                    "session_start_ts": time.time(),
+                    "last_ts": time.time(),
+                    "last_action_elapsed": 0.0,
+                })
             current_state = actual_next
-
-        if current_state == "Anon_NotRegistered":
-            do_anon_sub_fsm(session, user_unique_id)
-        elif current_state == "Anon_Registered":
-            do_anon_sub_fsm(session, user_unique_id)
-        elif current_state == "Logged_In":
-            do_logged_sub_fsm(session, user_unique_id, gender, age_segment, ctx)
-        elif current_state == "Logged_Out":
-            logging.info(f"[{user_unique_id}] (Top) state=Logged_Out => no sub-FSM")
-        elif current_state == "Unregistered":
-            logging.info(f"[{user_unique_id}] user unregistered => next=Done")
-            current_state = "Done"
+            if current_state == "Unregistered":
+                ctx.update({
+                    "has_cart_or_checkout": False,
+                    "cart_item_count": 0,
+                    "search_count": 0,
+                    "page_depth": 0,
+                    "session_start_ts": time.time(),
+                    "last_ts": time.time(),
+                    "last_action_elapsed": 0.0,
+                })
+                logging.info(f"[{user_unique_id}] user unregistered => next=Done")
+                current_state = "Done"
 
         transition_count += 1
         time.sleep(random.uniform(*config.TIME_SLEEP_RANGE))
