@@ -283,7 +283,7 @@ def do_anon_sub_fsm(session: requests.Session, user_unique_id: str):
         time.sleep(random.uniform(*config.TIME_SLEEP_RANGE))
 
 def perform_anon_sub_action(session: requests.Session, user_unique_id: str, sub_state: str):
-    headers = make_headers(session, {"X-User-Id": user_unique_id})
+    headers = make_headers(session)
 
     if sub_state == "Anon_Sub_Main":
         try:
