@@ -56,3 +56,13 @@ api:
 age_threshold:
   young: 25
   middle: 50
+
+# === 추가: 행동 패턴 기반 전이 가중치 ===
+pattern_bias:
+  logged_in:
+    with_goal:        # /cart/add 또는 /checkout 경험이 있는 세션
+      Logged_Out: 2.0
+      Done: 0.5
+    no_goal:          # 목표 행동이 전혀 없는 세션
+      Done: 2.0
+      Logged_Out: 0.5
