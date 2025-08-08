@@ -641,7 +641,7 @@ def run_user_simulation(user_idx: int):
     session = requests.Session()
     session.prev_url = None
     session.get(config.API_URL_WITH_HTTP)
-    gender = random.choice(["F", "M"])
+    gender = "F" if (user_idx % 2 == 0) else "M" # 데이터셋 성별 클래스 균형있게 생성
     age = random.randint(18,70)
     age_segment = get_age_segment(age)
 
@@ -742,10 +742,8 @@ def run_user_simulation(user_idx: int):
 #################################
 # 멀티 스레드 실행
 #################################
-semaphore = threading.Semaphore(config.MAX_THREADS)
-
-def user_thread(idx: int):
-    with semaphore:
+def user_thread(idx: int, sem: threading.Semaphore):
+    with sem:
         run_user_simulation(idx)
 
 
@@ -764,10 +762,10 @@ def launch_traffic(num_users, max_threads, time_sleep_range):
 
     # 스레드 시작 간격에 약간의 무작위성 부여 (0.01~0.1초)
     spawn_min, spawn_max = 0.01, 0.1
-
+    sem = threading.Semaphore(max_threads)
     threads = []
     for i in range(config.NUM_USERS):
-        t = threading.Thread(target=user_thread, args=(i,))
+        t = threading.Thread(target=user_thread, args=(i, sem))
         threads.append(t)
         t.start()
 
