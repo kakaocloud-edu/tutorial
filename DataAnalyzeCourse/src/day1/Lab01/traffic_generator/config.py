@@ -247,3 +247,5 @@ SEARCH_KEYWORDS = [
     "Coffee", "Mouse", "Sneakers", "Bag", "Sunglasses", "Mug",
     "cofee", "blu tooth", "iphon", "labtop", "rayban"
 ]
+
+PATTERN_BIAS = config.get('pattern_bias', {})
