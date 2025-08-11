@@ -26,7 +26,7 @@ from pyspark.sql.types import (
 from delta.tables import DeltaTable
 
 
-# --- 환경 변수 로드 ---
+# --- 유틸 ---
 def log_time(message):
     print(f"[{time.strftime('%Y-%m-%d %H:%M:%S')}] {message}")
 
@@ -39,7 +39,7 @@ log_time(f"Schema Registry URL: {SCHEMA_REGISTRY_URL}")
 
 
 # ----------------------------------------------------------------------------
-# Schema Registry 유틸리티 함수
+# Schema Registry
 # ----------------------------------------------------------------------------
 def get_latest_schema_from_registry(subject_name):
     log_time(f"실시간 처리용 Avro 스키마 요청: {subject_name}")
@@ -151,9 +151,12 @@ def load_debezium_sessions_json(spark, topic):
 
 
 # -----------------------------------
-# 2) 상태 저장용 Delta 테이블 설정
+# 2) Delta 테이블들
 # -----------------------------------
-STATE_TABLE_PATH = "s3a://data-catalog-bucket/data-catalog-dir/session_state/"
+STATE_TABLE_PATH   = "s3a://data-catalog-bucket/data-catalog-dir/session_state/"
+PENDING_EVENT_PATH = "s3a://data-catalog-bucket/data-catalog-dir/pending_event/"
+RESULT_TABLE_PATH  = "s3a://data-catalog-bucket/data-catalog-dir/user_behavior_prediction_delta/"
+
 state_schema = StructType() \
     .add("session_id",          StringType()) \
     .add("search_count",        LongType()) \
@@ -162,7 +165,45 @@ state_schema = StructType() \
     .add("last_event_time",     TimestampType()) \
     .add("session_start_time",  TimestampType())
 
-log_time(f"실시간 세션 상태 테이블 경로: {STATE_TABLE_PATH}")
+pending_schema = StructType() \
+    .add("session_id", StringType()) \
+    .add("event_id", StringType()) \
+    .add("user_id", StringType()) \
+    .add("gender", StringType()) \
+    .add("age", IntegerType()) \
+    .add("event_time", TimestampType()) \
+    .add("current_state", StringType()) \
+    .add("endpoint", StringType()) \
+    .add("method", StringType()) \
+    .add("category_name", StringType()) \
+    .add("search_keyword", StringType()) \
+    .add("product_id", StringType()) \
+    .add("request_body", StringType()) \
+    .add("request_time", DoubleType())
+
+# 결과(사실상 팩트) 테이블 스키마 (MERGE 키: session_id + event_id)
+result_schema = StructType() \
+    .add("session_id", StringType()) \
+    .add("event_id", StringType()) \
+    .add("user_id", StringType()) \
+    .add("gender", StringType()) \
+    .add("age", IntegerType()) \
+    .add("current_state", StringType()) \
+    .add("search_count", LongType()) \
+    .add("cart_item_count", LongType()) \
+    .add("page_depth", LongType()) \
+    .add("last_action_elapsed", DoubleType()) \
+    .add("next_state", StringType()) \
+    .add("timestamp", StringType()) \
+    .add("avg_response_time", DoubleType()) \
+    .add("session_duration", DoubleType()) \
+    .add("category_name", StringType()) \
+    .add("search_keyword", StringType()) \
+    .add("product_id", StringType())
+
+log_time(f"STATE:   {STATE_TABLE_PATH}")
+log_time(f"PENDING: {PENDING_EVENT_PATH}")
+log_time(f"RESULT:  {RESULT_TABLE_PATH}")
 
 
 def ensure_delta_table(spark, path, schema):
@@ -214,7 +255,7 @@ def upsert_state(spark, updates_df):
 
 
 # ------------------------------------------------
-# 3) nginx Avro 토픽을 스트림(readStream)으로 로드
+# 3) Kafka Avro Stream
 # ------------------------------------------------
 def load_kafka_avro_stream(spark, topic, avro_schema_str):
     log_time(f"실시간 Kafka Avro 스트림 초기화: {topic}")
@@ -264,7 +305,7 @@ def load_kafka_avro_stream(spark, topic, avro_schema_str):
         col("session_id").isNotNull() & (col("session_id") != "") & col("endpoint").isNotNull()
     )
 
-    # 합성 event_id
+    # event_id (결정적 해시)
     result_df = result_df.withColumn(
         "event_id",
         sha2(
@@ -299,7 +340,7 @@ def load_kafka_avro_stream(spark, topic, avro_schema_str):
 
 
 # ------------------------------------------------
-# 4) foreach_batch - JSON CDC 처리 버전
+# 4) foreach_batch - Delta 경계 보정 + MERGE + 소급 보정
 # ------------------------------------------------
 def foreach_batch_debug(logs_df, batch_id):
     try:
@@ -322,14 +363,35 @@ def foreach_batch_debug(logs_df, batch_id):
         if filtered_count == 0:
             return
 
-        # JSON CDC 참조 로드
+        # --- (A) 직전 배치의 마지막 이벤트 carry-in ---
+        ensure_delta_table(spark, PENDING_EVENT_PATH, pending_schema)
         try:
-            log_time("스트림 배치: 실시간 CDC 참조 데이터 로드")
+            prev_pending = DeltaTable.forPath(spark, PENDING_EVENT_PATH).toDF()
+            has_pending = not prev_pending.rdd.isEmpty()
+        except Exception:
+            has_pending = False
+
+        fresh_df = filtered_df.withColumn("is_carried", lit(0).cast("int"))
+        if has_pending:
+            prev_pending = prev_pending.withColumn("is_carried", lit(1).cast("int"))
+            # 칼럼 정렬/정합
+            for c in set(fresh_df.columns) - set(prev_pending.columns):
+                prev_pending = prev_pending.withColumn(c, lit(None).cast(fresh_df.schema[c].dataType))
+            for c in set(prev_pending.columns) - set(fresh_df.columns):
+                fresh_df = fresh_df.withColumn(c, lit(None).cast(prev_pending.schema[c].dataType))
+            base_df = prev_pending.select(fresh_df.columns).unionByName(fresh_df.select(prev_pending.columns))
+            log_time(f"이전 배치 잔여 이벤트 병합: {prev_pending.count()} → 합계 {base_df.count()}")
+        else:
+            base_df = fresh_df
+
+        # --- (B) CDC 참조 ---
+        try:
+            log_time("스트림 배치: CDC 참조 로드")
             sessions = load_debezium_sessions_json(spark, "mysql-server.shopdb.sessions")
             users    = load_debezium_users_json(spark, "mysql-server.shopdb.users")
-            log_time("스트림 배치: 실시간 CDC 참조 데이터 준비 완료")
+            log_time("스트림 배치: CDC 참조 준비 완료")
         except Exception as e:
-            log_time(f"스트림 배치: CDC 참조 데이터 로드 실패, 빈 데이터로 처리: {e}")
+            log_time(f"CDC 참조 로드 실패, 빈 데이터 사용: {e}")
             sessions = spark.createDataFrame([], StructType([
                 StructField("session_id", StringType(), True),
                 StructField("session_user_id", StringType(), True)
@@ -340,14 +402,13 @@ def foreach_batch_debug(logs_df, batch_id):
                 StructField("age", IntegerType(), True)
             ]))
 
-        # 조인
-        log_time("스트림 배치: 실시간 데이터 조인 시작")
-        enriched = (
-            filtered_df.alias("l")
+        # --- (C) enrich ---
+        enriched_all = (
+            base_df.alias("l")
             .join(sessions.alias("s"), col("l.session_id") == col("s.session_id"), "left")
             .join(
                 users.alias("u"),
-                (col("l.user_id") == col("u.user_info_id")) | (col("s.session_user_id") == col("u.user_info_id")),
+                (coalesce(col("l.user_id"), col("s.session_user_id")) == col("u.user_info_id")),
                 "left"
             )
             .select(
@@ -364,11 +425,12 @@ def foreach_batch_debug(logs_df, batch_id):
                 col("l.search_keyword"),
                 col("l.product_id"),
                 col("l.request_body"),
-                col("l.request_time")
+                col("l.request_time"),
+                col("l.is_carried").cast("int").alias("is_carried")
             )
         )
 
-        # 윈도우 정의
+        # --- (D) 윈도우 ---
         session_order = Window.partitionBy("session_id").orderBy(
             "event_time",
             "event_id",
@@ -382,9 +444,9 @@ def foreach_batch_debug(logs_df, batch_id):
             .rowsBetween(Window.unboundedPreceding, Window.unboundedFollowing)
         )
 
-        # 배치 내 계산
+        # --- (E) 배치 내 계산 + carry 보정 플래그(has_carry) ---
         calculated_df = (
-            enriched
+            enriched_all
             .withColumn("batch_seq", row_number().over(session_order))
             .withColumn("batch_session_start_time", first("event_time").over(session_full))
             .withColumn(
@@ -411,24 +473,26 @@ def foreach_batch_debug(logs_df, batch_id):
                 )
             )
             .withColumn("next_state", lead("current_state", 1).over(session_order))
+            .withColumn("has_carry", spark_max(col("is_carried")).over(session_full))  # 세션 내 carry 존재 여부
         )
 
-        # --- 상태 조인 및 과거 이벤트 필터링 / 누적합산 ---
+        # --- (F) 상태 조인 + 이전 이벤트 필터 ---
         ensure_delta_table(spark, STATE_TABLE_PATH, state_schema)
         prev_state = get_state_df(spark)
 
-        # 각 세션의 배치 내 최소 event_time (세션 시작 후보)
         batch_min_event = calculated_df.groupBy("session_id").agg(
             spark_min("event_time").alias("batch_min_event_time")
         )
 
-        # 조인 후 필요한 상태 컬럼을 일반 이름으로 노출하여 이후 참조 단순화
         with_prev = (
             calculated_df.alias("c")
             .join(prev_state.alias("p"), col("c.session_id") == col("p.sid"), "left")
             .join(batch_min_event.alias("b"), col("c.session_id") == col("b.session_id"), "left")
-            # 과거 이벤트 차단
-            .filter((col("p.prev_last_event_time").isNull()) | (col("c.event_time") > col("p.prev_last_event_time")))
+            .filter(
+                (col("p.prev_last_event_time").isNull()) |
+                (col("c.event_time") > col("p.prev_last_event_time")) |
+                ((col("c.is_carried") == 1) & (col("c.event_time") == col("p.prev_last_event_time")))
+            )
             .select(
                 col("c.*"),
                 col("b.batch_min_event_time"),
@@ -438,15 +502,18 @@ def foreach_batch_debug(logs_df, batch_id):
                 col("p.prev_cart"),
                 col("p.prev_last_event_time")
             )
-            # 상태 기반 세션 시작시각 계산
             .withColumn(
                 "effective_session_start_time",
                 coalesce(col("prev_session_start_time"), col("batch_min_event_time"))
             )
-            # 누적값에 이전 상태 합산
+            # page_depth = prev_depth + batch_seq - has_carry  (carry로 붙인 1건 만큼 보정)
             .withColumn(
                 "page_depth",
-                (coalesce(col("prev_depth"), lit(0).cast(LongType())) + col("batch_seq")).cast(LongType())
+                (
+                    coalesce(col("prev_depth"), lit(0).cast(LongType()))
+                    + col("batch_seq").cast(LongType())
+                    - coalesce(col("has_carry").cast(LongType()), lit(0).cast(LongType()))
+                ).cast(LongType())
             )
             .withColumn(
                 "search_count_total",
@@ -456,23 +523,76 @@ def foreach_batch_debug(logs_df, batch_id):
                 "cart_item_count_total",
                 (coalesce(col("prev_cart"), lit(0).cast(LongType())) + col("cart_item_count")).cast(LongType())
             )
-            # session_duration = event_time - session_start_time(상태)
             .withColumn(
                 "session_duration",
                 round((unix_timestamp(col("event_time")) - unix_timestamp(col("effective_session_start_time"))).cast(DoubleType()), 1)
             )
         )
 
-        # 평균 응답시간 (세션 단위)
-        session_avg_response = with_prev.groupBy("session_id").agg(
+        # (F)까지 동일 — with_prev 생성까지 끝난 상태라고 가정
+
+        # === (F2) 상태 필터 이후에 다시 윈도우 계산 (점프 방지) ===
+        session_order_after = (
+            Window.partitionBy("session_id").orderBy(
+                "event_time",
+                "event_id",
+                "endpoint",
+                coalesce(col("product_id"), lit("")),
+                coalesce(col("category_name"), lit(""))
+            )
+        )
+        session_full_after = (
+            Window.partitionBy("session_id")
+            .orderBy("event_time")
+            .rowsBetween(Window.unboundedPreceding, Window.currentRow)
+        )
+
+        with_prev_recalc = (
+            with_prev
+            # 필터 후 연속 순번 (page_depth용)
+            .withColumn("seq_after", row_number().over(session_order_after))
+            # 필터 후 누적합 (이 배치에서 새로 본 검색/장바구니 이벤트만 합산)
+            .withColumn(
+                "search_cum_after",
+                spark_sum(when(col("endpoint").like("/search%"), 1).otherwise(0)).over(session_full_after)
+            )
+            .withColumn(
+                "cart_cum_after",
+                spark_sum(when(col("endpoint") == "/cart/add", 1).otherwise(0)).over(session_full_after)
+            )
+            # page_depth = prev_depth + seq_after - has_carry (carry 1건 보정은 그대로)
+            .withColumn(
+                "page_depth",
+                (
+                    coalesce(col("prev_depth"), lit(0).cast(LongType()))
+                    + col("seq_after").cast(LongType())
+                    - coalesce(col("has_carry").cast(LongType()), lit(0).cast(LongType()))
+                ).cast(LongType())
+            )
+            # 누적 카운트는 prev_* + (필터 후 누적)
+            .withColumn(
+                "search_count_total",
+                (coalesce(col("prev_search"), lit(0).cast(LongType())) + col("search_cum_after")).cast(LongType())
+            )
+            .withColumn(
+                "cart_item_count_total",
+                (coalesce(col("prev_cart"), lit(0).cast(LongType())) + col("cart_cum_after")).cast(LongType())
+            )
+        )
+
+        # 이후 단계에서 with_prev 대신 with_prev_recalc 를 사용
+        # (G) 평균 응답시간
+        session_avg_response = with_prev_recalc.groupBy("session_id").agg(
             round(spark_avg("request_time"), 3).alias("avg_response_time")
         )
 
-        final_df = (
-            with_prev.alias("c")
+        # (H) 최종 결과
+        final_all = (
+            with_prev_recalc.alias("c")
             .join(session_avg_response.alias("r"), "session_id", "left")
             .select(
                 col("c.session_id"),
+                col("c.event_id"),
                 col("c.user_id"),
                 col("c.gender"),
                 col("c.age"),
@@ -487,21 +607,55 @@ def foreach_batch_debug(logs_df, batch_id):
                 col("c.session_duration"),
                 col("c.category_name"),
                 col("c.search_keyword"),
-                col("c.product_id")
+                col("c.product_id"),
+                col("c.is_carried")
             )
         )
 
-        final_count = final_df.count()
-        log_time(f"스트림 배치: 실시간 최종 데이터 생성 완료: {final_count}개")
+        # (I)~(L) 이하(RESULT Delta MERGE, 소급 보정, 상태 upsert, pending 저장)는 기존 코드 그대로
 
-        (
-            final_df.write.mode("append").format("parquet")
-            .option("maxRecordsPerFile", 500000)
-            .save("s3a://data-catalog-bucket/data-catalog-dir/user_behavior_prediction/")
+
+        final_fresh = final_all.filter(col("is_carried") == 0).drop("is_carried")
+        final_carried = final_all.filter(col("is_carried") == 1)  # 소급 보정용
+
+        # --- (I) RESULT Delta MERGE (신규/중복 모두 안전) ---
+        ensure_delta_table(spark, RESULT_TABLE_PATH, result_schema)
+        dt = DeltaTable.forPath(spark, RESULT_TABLE_PATH)
+
+        if not final_fresh.rdd.isEmpty():
+            log_time(f"결과 Delta MERGE (신규행): {final_fresh.count()}개")
+            (dt.alias("t").merge(
+                final_fresh.alias("s"),
+                "t.session_id = s.session_id AND t.event_id = s.event_id"
+            )
+            .whenMatchedUpdateAll()
+            .whenNotMatchedInsertAll()
+            .execute()
+            )
+
+        # --- (J) 소급 보정: '직전 배치 마지막 이벤트(=carried)'의 next_state 업데이트 ---
+        # carried 자체의 next_state가 이번 배치에서 계산됨 → 그 값을 이전에 써 놓은 행에 반영
+        fixups = (
+            final_carried
+            .select(
+                col("session_id"),
+                col("event_id"),
+                col("next_state").alias("fixed_next_state")
+            )
+            .filter(col("fixed_next_state").isNotNull())
         )
-        log_time(f"스트림 배치: 실시간 처리 결과 저장 완료: {final_count}개")
 
-        # --- 상태 갱신: 이번 배치 최종값으로 일관화 (max/min) ---
+        if not fixups.rdd.isEmpty():
+            log_time(f"소급 보정 MERGE (이전 배치 마지막행 next_state): {fixups.count()}개")
+            (dt.alias("t").merge(
+                fixups.alias("f"),
+                "t.session_id = f.session_id AND t.event_id = f.event_id"
+            )
+            .whenMatchedUpdate(set={"next_state": col("f.fixed_next_state")})
+            .execute()
+            )
+
+        # --- (K) 상태 갱신 (세션별 최종치) ---
         updates = (
             with_prev
             .groupBy("session_id")
@@ -515,13 +669,35 @@ def foreach_batch_debug(logs_df, batch_id):
         )
         upsert_state(spark, updates)
 
+        # --- (L) 다음 배치용 pending 이벤트 (신규 중 세션별 마지막 1건) 저장 ---
+        enriched_fresh = enriched_all.filter(col("is_carried") == 0)
+
+        last_events = (
+            enriched_fresh
+            .withColumn("rn", row_number().over(
+                Window.partitionBy("session_id").orderBy(col("event_time").desc(), col("event_id").desc())
+            ))
+            .filter(col("rn") == 1)
+            .drop("rn")
+            .select(
+                "session_id", "event_id", "user_id", "gender", "age",
+                "event_time", "current_state", "endpoint", "method",
+                "category_name", "search_keyword", "product_id",
+                "request_body", "request_time"
+            )
+        )
+
+        ensure_delta_table(spark, PENDING_EVENT_PATH, pending_schema)
+        last_events.write.format("delta").mode("overwrite").save(PENDING_EVENT_PATH)
+        log_time(f"이번 배치 마지막 이벤트 저장 완료 (세션 수: {last_events.count()})")
+
     except Exception as e:
         log_time(f"스트림 배치: 실시간 처리 오류 발생: {str(e)}")
         import traceback; traceback.print_exc()
 
 
 # -----------------------------------
-# 5) main: 스트림 정의 및 실행
+# 5) main
 # -----------------------------------
 if __name__ == "__main__":
     log_time("실시간 사용자 행동 분석 스트림 애플리케이션 시작")
