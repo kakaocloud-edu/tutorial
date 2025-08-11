@@ -202,7 +202,10 @@ Hadoop 클러스터 환경에서 실시간 스트리밍 데이터와 배치 데�
     #### **lab7-3-8**
     
     ```java
-    pyspark
+    pyspark \
+      --packages io.delta:delta-spark_2.12:3.1.0 \
+      --conf spark.sql.extensions=io.delta.sql.DeltaSparkSessionExtension \
+      --conf spark.sql.catalog.spark_catalog=org.apache.spark.sql.delta.catalog.DeltaCatalog
     ```
     
 
@@ -211,7 +214,7 @@ Hadoop 클러스터 환경에서 실시간 스트리밍 데이터와 배치 데�
     #### **lab7-3-9**
     
     ```java
-    directory_path= "s3a://data-catalog-bucket/data-catalog-dir/user_behavior_prediction/"
+    path = "s3a://data-catalog-bucket/data-catalog-dir/user_behavior_prediction_delta/"
     ```
     
 
@@ -220,7 +223,7 @@ Hadoop 클러스터 환경에서 실시간 스트리밍 데이터와 배치 데�
     #### **lab7-3-10**
     
     ```java
-    df_combined = spark.read.parquet(directory_path)
+    df = spark.read.format("delta").load(path)
     ```
     
 
@@ -229,7 +232,7 @@ Hadoop 클러스터 환경에서 실시간 스트리밍 데이터와 배치 데�
     #### **lab7-3-11**
     
     ```java
-    df_combined.printSchema()
+    df.printSchema()
     ```
 
     <img width="494" height="373" alt="image" src="https://github.com/user-attachments/assets/07a07f23-b154-4681-832f-e67646e5c8a3" />
@@ -241,10 +244,9 @@ Hadoop 클러스터 환경에서 실시간 스트리밍 데이터와 배치 데�
     #### **lab7-3-12**
     
     ```java
-    (df_combined
-        .dropDuplicates(["event_id"])
-        .orderBy("session_id", "page_depth")
-        .show(100, truncate=False)
+    (df
+     .orderBy("session_id", "page_depth", "event_id")
+     .show(100, truncate=False)
     )
     ```
     <img width="2179" height="752" alt="image" src="https://github.com/user-attachments/assets/beabee63-4f5d-479a-bbe2-d24bfa274e8f" />
