@@ -242,8 +242,8 @@ Hadoop 클러스터 환경에서 실시간 스트리밍 데이터와 배치 데�
     
     ```java
     (df_combined
-        .orderBy("session_id", "page_depth")
         .dropDuplicates(["event_id"])
+        .orderBy("session_id", "page_depth")
         .show(100, truncate=False)
     )
     ```
