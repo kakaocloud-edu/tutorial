@@ -96,7 +96,7 @@ graph LR
     - 조건 유형 : `이벤트`
     - 서비스 : `Virtual Machine`
     - 조건 설정
-        - 이벤트 항목 : `Instance Start`
+        - 이벤트 항목 : `Instance Reboot`
     - `다음` 버튼 클릭
 - 2단계: 수신 채널 설정
     - 채널 유형 : `이메일`
