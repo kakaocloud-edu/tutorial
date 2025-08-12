@@ -98,6 +98,7 @@ graph LR
     export USER_ID="{USER_ID}"
     export AWS_DEFAULT_REGION="kr-central-2"
     export AWS_ENDPOINT_URL="https://objectstorage.kr-central-2.kakaocloud.com"
+    export AWS_S3_FORCE_PATH_STYLE=true
 
     export TOKEN=$(curl -s -X POST -i https://iam.kakaocloud.com/identity/v3/auth/tokens -H "Content-Type: application/json" -d \
     '{
