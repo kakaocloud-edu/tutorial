@@ -174,32 +174,40 @@ Hadoop 클러스터 환경에서 실시간 스트리밍 데이터와 배치 데�
     ```
     
 
-3. 실시간 정제 작업 실행 및 프로세스 과정 확인
+3. 실시간 정제 작업 실행
     
     #### **lab7-3-3**
     
     ```java
-    spark-submit \
+    nohup spark-submit \
       --master yarn \
       --deploy-mode client \
       --packages org.apache.spark:spark-sql-kafka-0-10_2.12:3.5.2,org.apache.spark:spark-avro_2.12:3.5.2,io.delta:delta-spark_2.12:3.1.0 \
-      streaming_data_processor.py
+      streaming_data_processor.py > streaming.log 2>&1 &
     ```
 
-4. `ctrl` + `c`로 모니터링 종료
+4. 프로세스 과정 확인
+
+    #### **lab7-3-3**
+    
+    ```java
+    tail -f streaming.log
+    ```
+
+5. `ctrl` + `c`로 모니터링 종료
 
     - **Note**: 맥북은 “command” + “c” 
 
-5. 카카오 클라우드 콘솔 > Beyond Storage Service > Object Storage
-6. `data-catalog-bucket` 클릭
-7. 실시간 정제 결과가 저장된 디렉터리로 이동 후 버킷 내 실시간 배치 정제 결과 확인 
+6. 카카오 클라우드 콘솔 > Beyond Storage Service > Object Storage
+7. `data-catalog-bucket` 클릭
+8. 실시간 정제 결과가 저장된 디렉터리로 이동 후 버킷 내 실시간 배치 정제 결과 확인 
     - **Note**: `data-catalog-bucket/data-catalog-dir/user_behavior_prediction_delta/`디렉터리로 이동
     ![실시간 결과 이미지](https://github.com/user-attachments/assets/5d205c50-8765-4e64-8fd7-8722f7a3d352)
     
 
-8. 실시간 정제 결과 데이터 검증을 위한 PySpark 셸 실행
+9. 실시간 정제 결과 데이터 검증을 위한 PySpark 셸 실행
     
-    #### **lab7-3-8**
+    #### **lab7-3-9**
     
     ```java
     pyspark \
@@ -209,27 +217,27 @@ Hadoop 클러스터 환경에서 실시간 스트리밍 데이터와 배치 데�
     ```
     
 
-9. Object Storage에 적재된 실시간 정제 파일 경로 설정
+10. Object Storage에 적재된 실시간 정제 파일 경로 설정
 
-    #### **lab7-3-9**
+    #### **lab7-3-10**
     
     ```java
     path = "s3a://data-catalog-bucket/data-catalog-dir/user_behavior_prediction_delta/"
     ```
     
 
-10. Delta 파일 로드
+11. Delta 파일 로드
     
-    #### **lab7-3-10**
+    #### **lab7-3-11**
     
     ```java
     df = spark.read.format("delta").load(path)
     ```
     
 
-11. 스키마 구조 검증
+12. 스키마 구조 검증
     
-    #### **lab7-3-11**
+    #### **lab7-3-12**
     
     ```java
     df.printSchema()
@@ -239,9 +247,9 @@ Hadoop 클러스터 환경에서 실시간 스트리밍 데이터와 배치 데�
 
 
     
-12. 상위 100개 데이터 샘플 확인
+13. 상위 100개 데이터 샘플 확인
     
-    #### **lab7-3-12**
+    #### **lab7-3-13**
     
     ```java
     (df
@@ -253,17 +261,17 @@ Hadoop 클러스터 환경에서 실시간 스트리밍 데이터와 배치 데�
 
     
 
-13. 세션 ID별 데이터 분포 확인
+14. 세션 ID별 데이터 분포 확인
     
-    #### **lab7-3-13**
+    #### **lab7-3-14**
     
     ```java
     df_combined.groupBy("session_id").count().show(truncate=False)
     ```
     
-14. Spark 셸 종료
+15. Spark 셸 종료
     
-    #### **lab7-3-14**
+    #### **lab7-3-15**
     
     ```java
     exit()
