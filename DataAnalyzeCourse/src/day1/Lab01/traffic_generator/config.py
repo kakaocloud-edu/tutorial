@@ -350,6 +350,8 @@ CATEGORY_PREFERENCE = {
 SEARCH_KEYWORDS = [
     "Bluetooth", "Laptop", "Fashion", "Camera", "Book", "Home",
     "Coffee", "Mouse", "Sneakers", "Bag", "Sunglasses", "Mug",
+    "Mouse", "Earbuds", "Speaker", "Phone", "Dress", "Fryer",
+    "Keyboard", "Console", "Headset", "Novel",
     "cofee", "blu tooth", "iphon", "labtop", "rayban"
 ]
 
@@ -367,7 +369,7 @@ ANON_EPS = 0.15          # ε-탐색(무작위 섞기)
 
 # 선택: 카테고리별 검색 키워드 풀 (없으면 상품명에서 자동 추출)
 CATEGORY_KEYWORDS = {
-    "Electronics": ["mouse", "earbuds", "speaker", "tablet", "laptop", "phone"],
+    "Electronics": ["mouse", "earbuds", "speaker", "laptop", "phone"],
     "Fashion": ["sneakers", "dress", "bag"],
     "Home": ["mug", "fryer", "coffee"],
     "Gaming": ["keyboard", "console", "headset"],
