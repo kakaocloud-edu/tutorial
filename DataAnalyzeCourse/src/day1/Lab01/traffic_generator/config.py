@@ -161,69 +161,139 @@ ANON_SUB_TRANSITIONS = {
 # 로그인 하위머신 전이 표
 #################################
 LOGGED_SUB_TRANSITIONS = {
+    # 진입점
     "Login_Sub_Initial": {
-        "Login_Sub_ViewCart": 0.2,
+        "Login_Sub_Main": 0.95,
+        "Login_Sub_Error": 0.05
+    },
+    
+    # 메인 페이지
+    "Login_Sub_Main": {
+        "Login_Sub_Main": 0.05,
+        "Login_Sub_Products": 0.2,
+        "Login_Sub_ViewProduct": 0.2,
+        "Login_Sub_Search": 0.2,
+        "Login_Sub_Categories": 0.1,
         "Login_Sub_CheckoutHistory": 0.1,
-        "Login_Sub_CartAdd": 0.2,
-        "Login_Sub_CartRemove": 0.1,
-        "Login_Sub_Checkout": 0.1,
-        "Login_Sub_AddReview": 0.1,
-        "Login_Sub_Error": 0.1,
+        "Login_Sub_Error": 0.05,
         "Login_Sub_Done": 0.1
     },
-    "Login_Sub_ViewCart": {
+    
+    # 상품 목록
+    "Login_Sub_Products": {
+        "Login_Sub_Main": 0.05,
+        "Login_Sub_Products": 0.1,
+        "Login_Sub_ViewProduct": 0.4,
+        "Login_Sub_Categories": 0.1,
+        "Login_Sub_Search": 0.2,
+        "Login_Sub_Error": 0.05,
+        "Login_Sub_Done": 0.1
+    },
+    
+    # 상품 상세
+    "Login_Sub_ViewProduct": {
+        "Login_Sub_Main": 0.05,
+        "Login_Sub_ViewProduct": 0.1,
+        "Login_Sub_Products": 0.1,
+        "Login_Sub_Search": 0.1,
+        "Login_Sub_Categories": 0.1,
         "Login_Sub_ViewCart": 0.1,
         "Login_Sub_CartAdd": 0.2,
-        "Login_Sub_CartRemove": 0.2,
         "Login_Sub_Checkout": 0.1,
-        "Login_Sub_Error": 0.1,
+        "Login_Sub_Error": 0.05,
+        "Login_Sub_Done": 0.1
+    },
+    
+    # 검색
+    "Login_Sub_Search": {
+        "Login_Sub_Main": 0.05,
+        "Login_Sub_Products": 0.2, 
+        "Login_Sub_Categories": 0.2, 
+        "Login_Sub_ViewProduct": 0.4,
+        "Login_Sub_Error": 0.05,
+        "Login_Sub_Done": 0.1
+    },
+    
+    # 카테고리 목록
+    "Login_Sub_Categories": {
+        "Login_Sub_Main": 0.05,
+        "Login_Sub_CategoryList": 0.5,
+        "Login_Sub_Search": 0.3,
+        "Login_Sub_Error": 0.05,
+        "Login_Sub_Done": 0.1
+    },
+    
+    # 특정 카테고리 상품 목록
+    "Login_Sub_CategoryList": {
+        "Login_Sub_Main": 0.05,
+        "Login_Sub_Categories": 0.3,
+        "Login_Sub_ViewProduct": 0.5,
+        "Login_Sub_Error": 0.05,
+        "Login_Sub_Done": 0.1
+    },
+    
+    # 장바구니 보기
+    "Login_Sub_ViewCart": {
+        "Login_Sub_Main": 0.05,
+        "Login_Sub_CartRemove": 0.3,
+        "Login_Sub_Checkout": 0.5,
+        "Login_Sub_Error": 0.05,
+        "Login_Sub_Done": 0.1
+    },
+    
+    # 결제 이력 보기
+    "Login_Sub_CheckoutHistory": {
+        "Login_Sub_Main": 0.55,
+        "Login_Sub_ViewCart": 0.2,
+        "Login_Sub_Error": 0.05,
+        "Login_Sub_Done": 0.2
+    },
+    
+    # 장바구니에 상품 추가
+    "Login_Sub_CartAdd": {
+        "Login_Sub_Main": 0.05,
+        "Login_Sub_ViewCart": 0.4,
+        "Login_Sub_Checkout": 0.4,
+        "Login_Sub_Error": 0.05,
+        "Login_Sub_Done": 0.1
+    },
+    
+    # 장바구니 상품 제거
+    "Login_Sub_CartRemove": {
+        "Login_Sub_Main": 0.25,
+        "Login_Sub_ViewCart": 0.5,
+        "Login_Sub_Error": 0.05,
+        "Login_Sub_Done": 0.2
+    },
+    
+    # 결제
+    "Login_Sub_Checkout": {
+        "Login_Sub_Main": 0.05,
+        "Login_Sub_CheckoutHistory": 0.4,
+        "Login_Sub_ViewCart": 0.1,
+        "Login_Sub_AddReview": 0.3,
+        "Login_Sub_Error": 0.05,
+        "Login_Sub_Done": 0.1
+    },
+    
+    # 리뷰 작성
+    "Login_Sub_AddReview": {
+        "Login_Sub_Main": 0.05,
+        "Login_Sub_AddReview": 0.2,
+        "Login_Sub_ViewCart": 0.1,
+        "Login_Sub_CheckoutHistory": 0.3,
+        "Login_Sub_Error": 0.05,
         "Login_Sub_Done": 0.3
     },
-    "Login_Sub_CheckoutHistory": {
-        "Login_Sub_CheckoutHistory": 0.1,
-        "Login_Sub_ViewCart": 0.2,
-        "Login_Sub_CartAdd": 0.1,
-        "Login_Sub_Error": 0.1,
-        "Login_Sub_Done": 0.5
-    },
-    "Login_Sub_CartAdd": {
-        "Login_Sub_CartAdd": 0.1,
-        "Login_Sub_ViewCart": 0.3,
-        "Login_Sub_Checkout": 0.1,
-        "Login_Sub_Error": 0.1,
-        "Login_Sub_Done": 0.4
-    },
-    "Login_Sub_CartRemove": {
-        "Login_Sub_CartRemove": 0.1,
-        "Login_Sub_ViewCart": 0.3,
-        "Login_Sub_Checkout": 0.1,
-        "Login_Sub_Error": 0.1,
-        "Login_Sub_Done": 0.4
-    },
-    "Login_Sub_Checkout": {
-        "Login_Sub_Checkout": 0.0,
-        "Login_Sub_CheckoutHistory": 0.2,
-        "Login_Sub_ViewCart": 0.2,
-        "Login_Sub_AddReview": 0.1,
-        "Login_Sub_Error": 0.1,
-        "Login_Sub_Done": 0.4
-    },
-    "Login_Sub_AddReview": {
-        "Login_Sub_AddReview": 0.1,
-        "Login_Sub_ViewCart": 0.2,
-        "Login_Sub_CheckoutHistory": 0.1,
-        "Login_Sub_Error": 0.1,
-        "Login_Sub_Done": 0.5
-    },
+    
+    # 에러
     "Login_Sub_Error": {
-        "Login_Sub_ViewCart": 0.2,
-        "Login_Sub_AddReview": 0.1,
-        "Login_Sub_Checkout": 0.1,
-        "Login_Sub_Done": 0.6
+        "Login_Sub_Done": 1.0
     },
+    
+    # 종료
     "Login_Sub_Done": {}
 }
-
 
 def _renormalize(d: dict) -> dict:
     s = sum(d.values())
@@ -290,3 +360,16 @@ SUB_BIAS       = config.get('sub_bias', {})
 CATEGORY_PICK_W_PREF = 4.5
 CATEGORY_PICK_EPS = 0.1
 CATEGORY_PICK_W_OTHER = 1.0
+
+ANON_W_PREF = 3.0        # 익명 단계에서 선호 카테고리 가중치
+ANON_W_OTHER = 1.0       # 비선호 가중치
+ANON_EPS = 0.15          # ε-탐색(무작위 섞기)
+
+# 선택: 카테고리별 검색 키워드 풀 (없으면 상품명에서 자동 추출)
+CATEGORY_KEYWORDS = {
+    "Electronics": ["mouse", "earbuds", "speaker", "tablet", "laptop", "phone"],
+    "Fashion": ["sneakers", "dress", "bag"],
+    "Home": ["mug", "fryer", "coffee"],
+    "Gaming": ["keyboard", "console", "headset"],
+    "Books": ["book", "novel"]
+}
