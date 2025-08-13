@@ -202,7 +202,7 @@ def pick_preferred_category(gender: str, age_segment: str) -> str:
     # ε-탐색
     eps = getattr(config, "ANON_EPS", 0.15)
     if random.random() < eps:
-        return random.choice(당구)
+        return random.choice(pool)
 
     w_pref = float(getattr(config, "ANON_W_PREF", 3.0))
     w_other = float(getattr(config, "ANON_W_OTHER", 1.0))
@@ -227,7 +227,7 @@ def pick_keyword_for_category(cat: str) -> str:
     if not pool:
         pool = getattr(config, "SEARCH_KEYWORDS", []) or ["sale","new"]
 
-    return random.choice(당구)
+    return random.choice(pool)
 
 
 #################################
