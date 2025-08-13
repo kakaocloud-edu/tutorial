@@ -77,7 +77,7 @@ def random_pid_in_category(cat: str) -> str:
     # 폴백: 전체 products_cache에서 랜덤
     if products_cache:
         return str(random.choice(products_cache).get("id", "")).strip()
-    return ""
+    return str(random.randint(101, 124))
 
 #################################
 # 상품/카테고리 데이터 가져오기
