@@ -6,20 +6,17 @@ import time
 import random
 import uuid
 import logging
-
 import argparse
+from collections import defaultdict
 
-# 현재 스크립트의 디렉토리 경로 가져오기
+# 현재 스크립트의 디렉토리 경로
 current_dir = os.path.dirname(os.path.abspath(__file__))
 
-# config.py가 위치한 경로:
-# 현재 디렉토리에서 두 단계 위로 이동한 후 Lab00/traffic_generator 디렉토리로 이동
+# config.py 경로: ../.. / Lab01 / traffic_generator
 config_path = os.path.abspath(os.path.join(current_dir, "..", "..", "Lab01", "traffic_generator"))
-
-# 절대경로 지정
 sys.path.append(config_path)
 
-# config.py 불러오기
+# config 불러오기
 import config
 
 #################################
@@ -59,6 +56,28 @@ def get_age_segment(age: int) -> str:
         return "middle"
     else:
         return "old"
+    
+    # ✅ 카테고리 → 상품ID 인덱스
+category_to_pids = defaultdict(list)
+
+def build_category_index():
+    """products_cache를 기반으로 카테고리→상품ID 인덱스 재생성"""
+    category_to_pids.clear()
+    for p in products_cache:
+        cat = str(p.get("category", "")).strip()
+        pid = str(p.get("id", "")).strip()
+        if cat and pid:
+            category_to_pids[cat].append(pid)
+
+def random_pid_in_category(cat: str) -> str:
+    """해당 카테고리에서 랜덤 상품ID 하나 선택 (없으면 폴백)"""
+    ids = category_to_pids.get(cat, [])
+    if ids:
+        return random.choice(ids)
+    # 폴백: 전체 products_cache에서 랜덤
+    if products_cache:
+        return str(random.choice(products_cache).get("id", "")).strip()
+    return ""
 
 #################################
 # 상품/카테고리 데이터 가져오기
@@ -78,23 +97,16 @@ def fetch_products(api_base_url: str):
             else:
                 products_cache = []
             logging.info(f"Fetched {len(products_cache)} products.")
+
+            # ✅ 여기서 인덱스 재빌드 (핵심 한 줄)
+            build_category_index()
+            logging.info(f"Built category index for {len(category_to_pids)} categories.")
+
         else:
             logging.error(f"Failed to fetch products: {resp.status_code}, content={resp.text}")
+            # 실패 시 인덱스를 건드리지 않음 (이전 인덱스 유지)
     except Exception as e:
         logging.error(f"Exception while fetching products: {e}")
-
-#################################
-# products_cache 기반 ID 선택 유틸
-#################################
-def _cached_product_ids() -> list:
-    return [str(p.get("id")) for p in products_cache if p.get("id") not in (None, "")]
-
-def random_product_id() -> str:
-    """products_cache에서 무작위 상품 ID 선택. 비어있으면 101~124로 폴백."""
-    ids = _cached_product_ids()
-    if ids:
-        return random.choice(ids)
-    return str(random.randint(101, 124))
 
 def fetch_categories(api_base_url: str):
     global categories_cache
@@ -117,9 +129,21 @@ def fetch_categories(api_base_url: str):
         logging.error(f"Exception while fetching categories: {e}")
 
 #################################
+# products_cache 기반 ID 선택 유틸
+#################################
+def _cached_product_ids() -> list:
+    return [str(p.get("id")) for p in products_cache if p.get("id") not in (None, "")]
+
+def random_product_id() -> str:
+    """products_cache에서 무작위 상품 ID 선택. 비어있으면 101~124로 폴백."""
+    ids = _cached_product_ids()
+    if ids:
+        return random.choice(ids)
+    return str(random.randint(101, 124))
+
+#################################
 # Referer 헤더 포함용 유틸
 #################################
-
 def make_headers(session: requests.Session, extra: dict = None) -> dict:
     headers = {"Accept": "application/json"}
     if getattr(session, "prev_url", None):
@@ -137,53 +161,80 @@ def pick_next_state(prob_dict: dict) -> str:
     return random.choices(states, weights=probs, k=1)[0]
 
 #################################
-# 선호 카테고리 상품 선택
+# 선호 카테고리 상품 선택 (가중치 기반)
 #################################
 def pick_preferred_product_id(gender: str, age_segment: str) -> str:
     if not products_cache:
         return random_product_id()
 
-    # 기본값(원하면 config에 둬도 됨)
-    W_PREF = getattr(config, "CATEGORY_PICK_W_PREF", 3.0)   # 선호 카테고리 가중치
-    W_OTHER = getattr(config, "CATEGORY_PICK_W_OTHER", 1.0) # 비선호 가중치
-    EPS = getattr(config, "CATEGORY_PICK_EPS", 0.10)        # ε-탐색 비율(완전 랜덤)
+    W_PREF = getattr(config, "CATEGORY_PICK_W_PREF", 3.0)
+    W_OTHER = getattr(config, "CATEGORY_PICK_W_OTHER", 1.0)
+    EPS = getattr(config, "CATEGORY_PICK_EPS", 0.10)
 
     preferred = config.CATEGORY_PREFERENCE.get(gender, {}).get(age_segment, [])
 
-    # ε-탐색: 일부는 완전 랜덤으로 섞어서 과적합 방지
+    # ε-탐색: 일부는 완전 랜덤
     if random.random() < EPS:
         chosen = random.choice(products_cache)
         return str(chosen.get("id", "101"))
 
-    # 소프트 바이어스: 선호 카테고리는 가중치↑, 나머지는 가중치↓
     weights = []
     for p in products_cache:
         cat = p.get("category", "")
         base = W_PREF if cat in preferred else W_OTHER
-
-        # (선택) 가격 영향 살짝 반영: 너무 고가면 약간 페널티(현실감↑, 쉬운 규칙 완화)
+        # 가격 페널티(살짝)
         try:
             price = float(p.get("price", 0))
         except Exception:
             price = 0.0
-        price_factor = 1.2 - min(max(price / 700.0, 0.0), 0.5)  # 0.7~1.2 범위
+        price_factor = 1.2 - min(max(price / 700.0, 0.0), 0.5)  # 0.7~1.2
         weights.append(base * price_factor)
 
     chosen = random.choices(products_cache, weights=weights, k=1)[0]
     return str(chosen.get("id", "101"))
 
+def pick_preferred_category(gender: str, age_segment: str) -> str:
+    preferred = getattr(config, "CATEGORY_PREFERENCE", {}).get(gender, {}).get(age_segment, [])
+    pool = categories_cache[:] if categories_cache else []
+    if not pool:
+        return ""  # 안전 폴백
+
+    # ε-탐색
+    eps = getattr(config, "ANON_EPS", 0.15)
+    if random.random() < eps:
+        return random.choice(당구)
+
+    w_pref = float(getattr(config, "ANON_W_PREF", 3.0))
+    w_other = float(getattr(config, "ANON_W_OTHER", 1.0))
+    weights = [(w_pref if c in preferred else w_other) for c in pool]
+    return random.choices(pool, weights=weights, k=1)[0]
+
+def pick_keyword_for_category(cat: str) -> str:
+    # 1) 설정에 있으면 그걸 사용
+    ck = getattr(config, "CATEGORY_KEYWORDS", {})
+    pool = ck.get(cat, [])
+
+    # 2) 없으면 해당 카테고리 상품명에서 어휘 추출(아주 단순)
+    if not pool:
+        names = [str(p.get("name","")) for p in products_cache if str(p.get("category","")) == cat]
+        tokens = []
+        for nm in names:
+            tokens += [t.lower() for t in nm.split() if len(t) >= 3]
+        tokens = list({t for t in tokens})[:20]  # 상위 20개만
+        pool = tokens
+
+    # 3) 그래도 없으면 공용 키워드 사용
+    if not pool:
+        pool = getattr(config, "SEARCH_KEYWORDS", []) or ["sale","new"]
+
+    return random.choice(당구)
+
 
 #################################
-# ID로부터 카테고리 조회 유틸
+# ID로부터 카테고리 조회
 #################################
 def get_category_for_product(pid: str) -> str:
-    """
-    products_cache 에서 id==pid 인 상품을 찾아
-    'category' 값을 반환합니다.
-    못 찾으면 빈 문자열 반환.
-    """
     for p in products_cache:
-        # p['id'] 가 int 혹은 str 일 수 있으니 str 비교
         if str(p.get("id")) == str(pid):
             return p.get("category", "")
     return ""
@@ -217,8 +268,7 @@ def try_login(session: requests.Session, user_id: str) -> bool:
         r = session.post(url, data=payload, headers=headers)
         logging.info(f"[{user_id}] POST /login => {r.status_code}")
         if 200 <= r.status_code < 300:
-            # 헤더에 user_id 추가
-            # session.headers.update({"X-User-Id": user_id})
+            # 전역헤더는 건드리지 않고, 각 요청마다 X-User-Id 부여(Referer 유지 포함)
             return True
     except Exception as e:
         logging.error(f"[{user_id}] login exception: {e}")
@@ -237,7 +287,7 @@ def try_logout(session: requests.Session, user_id: str) -> bool:
         logging.info(f"[{user_id}] POST /logout => {r.status_code}")
 
         if ok:
-            # 방어적으로 전역 헤더/쿠키 정리 (세션 잔존 방지)
+            # 방어적으로 세션 쿠키/헤더 정리
             session.headers.pop("X-User-Id", None)
             session.cookies.clear()
             session.prev_url = url
@@ -259,13 +309,96 @@ def try_delete_user(session: requests.Session, user_id: str) -> bool:
         return False
 
 #################################
+# Bias/컨텍스트 유틸
+#################################
+def _normalize_probs(d: dict) -> dict:
+    s = sum(d.values())
+    if s <= 0:
+        n = len(d)
+        if n == 0:
+            return d
+        return {k: 1.0/n for k in d}
+    return {k: v / s for k, v in d.items()}
+
+def _session_duration(ctx: dict) -> float:
+    return time.time() - ctx.get("session_start_ts", time.time())
+
+def _apply_bias_from_config(state: str, probs: dict, ctx: dict) -> dict:
+    if state != "Logged_In":
+        return probs
+    out = probs.copy()
+    pattern_bias = getattr(config, "PATTERN_BIAS", {})
+    thr = getattr(config, "BIAS_THRESHOLDS", {})
+
+    mode = "with_goal" if ctx.get("has_cart_or_checkout") else "no_goal"
+    for k, mul in pattern_bias.get('logged_in', {}).get(mode, {}).items():
+        if k in out:
+            out[k] *= float(mul)
+
+    cart_cnt = ctx.get("cart_item_count", 0)
+    page_depth = ctx.get("page_depth", 0)
+    duration = _session_duration(ctx)
+    idle = ctx.get("last_action_elapsed", 0.0)
+
+    if cart_cnt >= thr.get("cart_has_items_min", 1):
+        if "Logged_Out" in out:
+            out["Logged_Out"] *= 1.3
+    else:
+        if "Done" in out:
+            out["Done"] *= 1.2
+
+    if (page_depth >= thr.get("deep_page_min", 6)) or (duration >= thr.get("long_session_sec", 60)):
+        if "Logged_Out" in out:
+            out["Logged_Out"] *= 1.15
+
+    if idle >= thr.get("idle_slow_sec", 5):
+        if "Done" in out:
+            out["Done"] *= 1.1
+
+    return _normalize_probs(out)
+
+def _apply_sub_bias_from_config(sub_group: str, sub_state: str, probs: dict, ctx: dict) -> dict:
+    sb = getattr(config, "SUB_BIAS", {}).get(sub_group, {})
+    rules = sb.get(sub_state, {})
+    if not rules:
+        return _normalize_probs(probs)
+    out = probs.copy()
+    if "if_cart_item_count_lt" in rules and ctx.get("cart_item_count", 0) < rules["if_cart_item_count_lt"]:
+        for k, mul in rules.get("multiply", {}).items():
+            if k in out:
+                out[k] *= float(mul)
+    if "if_cart_item_count_gte" in rules and ctx.get("cart_item_count", 0) >= rules["if_cart_item_count_gte"]:
+        for k, mul in rules.get("multiply", {}).items():
+            if k in out:
+                out[k] *= float(mul)
+    if "if_idle_slow_sec_gte" in rules and ctx.get("last_action_elapsed", 0.0) >= rules["if_idle_slow_sec_gte"]:
+        for k, mul in rules.get("multiply", {}).items():
+            if k in out:
+                out[k] *= float(mul)
+    if "if_search_count_gte" in rules and ctx.get("search_count", 0) >= rules["if_search_count_gte"]:
+        for k, mul in rules.get("multiply", {}).items():
+            if k in out:
+                out[k] *= float(mul)
+    if "if_page_depth_gte" in rules and ctx.get("page_depth", 0) >= rules["if_page_depth_gte"]:
+        for k, mul in rules.get("multiply", {}).items():
+            if k in out:
+                out[k] *= float(mul)
+    return _normalize_probs(out)
+
+def _tick_ctx_after_action(ctx: dict):
+    now = time.time()
+    ctx["last_action_elapsed"] = now - ctx.get("last_ts", now)
+    ctx["last_ts"] = now
+    ctx["page_depth"] = ctx.get("page_depth", 0) + 1
+
+#################################
 # 비로그인 하위 FSM
 #################################
-def do_anon_sub_fsm(session: requests.Session, user_unique_id: str, ctx: dict):
+def do_anon_sub_fsm(session: requests.Session, user_unique_id: str, gender: str, age_segment: str, ctx: dict):
     sub_state = "Anon_Sub_Initial"
     while sub_state != "Anon_Sub_Done":
         logging.info(f"[{user_unique_id}] Anon Sub-FSM state = {sub_state}")
-        perform_anon_sub_action(session, user_unique_id, sub_state, ctx)
+        perform_anon_sub_action(session, user_unique_id, sub_state, gender, age_segment, ctx)
 
         if sub_state not in config.ANON_SUB_TRANSITIONS:
             logging.warning(f"[{user_unique_id}] {sub_state} not in ANON_SUB_TRANSITIONS => break")
@@ -283,7 +416,7 @@ def do_anon_sub_fsm(session: requests.Session, user_unique_id: str, ctx: dict):
 
         time.sleep(random.uniform(*config.TIME_SLEEP_RANGE))
 
-def perform_anon_sub_action(session: requests.Session, user_unique_id: str, sub_state: str, ctx: dict):
+def perform_anon_sub_action(session: requests.Session, user_unique_id: str, sub_state: str, gender: str, age_segment: str, ctx: dict):
     headers = make_headers(session)
 
     if sub_state == "Anon_Sub_Main":
@@ -305,16 +438,16 @@ def perform_anon_sub_action(session: requests.Session, user_unique_id: str, sub_
             logging.error(f"[{user_unique_id}] Anon_Sub_Products error: {e}")
 
     elif sub_state == "Anon_Sub_ViewProduct":
-            # 상품 ID를 랜덤 선택하여 조회
-            pid = random_product_id()
-            url = f"{config.API_URL_WITH_HTTP}{config.API_ENDPOINTS['PRODUCT_DETAIL']}?id={pid}"
-            
-            try:
-                r = session.get(url, headers=headers)
-                session.prev_url = url
-                logging.info(f"[{user_unique_id}] GET /product?id={pid} => {r.status_code}")
-            except Exception as err:
-                logging.error(f"[{user_unique_id}] view product error: {err}")
+        # ✅ 선호 카테고리 내 상품 상세 조회
+        cat = pick_preferred_category(gender, age_segment)
+        pid = random_pid_in_category(cat) if cat else random_product_id()
+        url = f"{config.API_URL_WITH_HTTP}{config.API_ENDPOINTS['PRODUCT_DETAIL']}?id={pid}"
+        try:
+            r = session.get(url, headers=headers)
+            session.prev_url = url
+            logging.info(f"[{user_unique_id}] GET /product?id={pid} [cat={cat}] => {r.status_code}")
+        except Exception as err:
+            logging.error(f"[{user_unique_id}] view product error: {err}")
 
     elif sub_state == "Anon_Sub_Categories":
         try:
@@ -326,8 +459,11 @@ def perform_anon_sub_action(session: requests.Session, user_unique_id: str, sub_
             logging.error(f"[{user_unique_id}] categories error: {err}")
 
     elif sub_state == "Anon_Sub_CategoryList":
-        if categories_cache:
+        # ✅ 선호 카테고리 위주로 리스트 조회
+        chosen_cat = pick_preferred_category(gender, age_segment)
+        if not chosen_cat and categories_cache:
             chosen_cat = random.choice(categories_cache)
+        if chosen_cat:
             cat_url = f"http://{config.API_BASE_URL}/{config.API_ENDPOINTS['CATEGORY']}?name={chosen_cat}"
             try:
                 r = session.get(cat_url, headers=headers)
@@ -337,12 +473,14 @@ def perform_anon_sub_action(session: requests.Session, user_unique_id: str, sub_
                 logging.error(f"[{user_unique_id}] category list error: {err}")
 
     elif sub_state == "Anon_Sub_Search":
-        q = random.choice(config.SEARCH_KEYWORDS)
+        # ✅ 해당 카테고리의 상품을 '검색'하는 히스토리 생성
+        cat = pick_preferred_category(gender, age_segment)
+        q = pick_keyword_for_category(cat) if cat else random.choice(getattr(config, "SEARCH_KEYWORDS", ["sale"]))
         search_url = f"http://{config.API_BASE_URL}/{config.API_ENDPOINTS['SEARCH']}?query={q}"
         try:
             r = session.get(search_url, headers=headers)
             session.prev_url = search_url
-            logging.info(f"[{user_unique_id}] GET /search?query={q} => {r.status_code}")
+            logging.info(f"[{user_unique_id}] GET /search?query={q} [cat={cat}] => {r.status_code}")
             if 200 <= r.status_code < 300:
                 ctx["search_count"] = ctx.get("search_count", 0) + 1
         except Exception as err:
@@ -356,8 +494,8 @@ def perform_anon_sub_action(session: requests.Session, user_unique_id: str, sub_
             logging.info(f"[{user_unique_id}] GET /error => {r.status_code}")
         except Exception as err:
             logging.error(f"[{user_unique_id}] error page fail: {err}")
-    
-    # 사용자 행동 사이의 대기 추가        
+
+    # 사용자 행동 사이의 대기 및 컨텍스트 tick
     time.sleep(random.uniform(0.5, 1.0))
     if sub_state != "Anon_Sub_Initial":
         _tick_ctx_after_action(ctx)
@@ -370,7 +508,6 @@ def do_logged_sub_fsm(session: requests.Session,
                       gender,
                       age_segment: str,
                       ctx: dict):
-                          
     sub_state = "Login_Sub_Initial"
     while sub_state != "Login_Sub_Done":
         logging.info(f"[{user_unique_id}] Logged Sub-FSM state = {sub_state}")
@@ -381,12 +518,11 @@ def do_logged_sub_fsm(session: requests.Session,
             break
 
         transitions = config.LOGGED_SUB_TRANSITIONS[sub_state]
-        
         if not transitions:
             logging.warning(f"[{user_unique_id}] No next transitions => break")
             break
-            
-        # 컨텍스트 기반 sub-FSM 바이어스 적용
+
+        # 컨텍스트 기반 바이어스
         biased_sub = _apply_sub_bias_from_config("logged_in", sub_state, dict(transitions), ctx)
         next_sub = pick_next_state(biased_sub)
         logging.info(f"[{user_unique_id}] (LoggedSub) {sub_state} -> {next_sub}")
@@ -401,17 +537,72 @@ def perform_logged_sub_action(session: requests.Session,
                               age_segment: str,
                               ctx: dict):
     headers = make_headers(session, {"X-User-Id": user_unique_id})
-    
-    if sub_state == "Login_Sub_ViewProduct":
-        # 상품 ID를 랜덤 선택하여 상세 조회
-        pid = random_product_id()
+
+    if sub_state == "Login_Sub_Initial":
+        logging.info(f"[{user_unique_id}] Login Sub-FSM initialized")
+
+    elif sub_state == "Login_Sub_Main":
+        try:
+            url = config.API_URL_WITH_HTTP
+            r = session.get(url, headers=headers)
+            session.prev_url = url
+            logging.info(f"[{user_unique_id}] GET / (logged) => {r.status_code}")
+        except Exception as e:
+            logging.error(f"[{user_unique_id}] Login_Sub_Main error: {e}")
+
+    elif sub_state == "Login_Sub_Products":
+        try:
+            url = config.API_URL_WITH_HTTP + config.API_ENDPOINTS["PRODUCTS"]
+            r = session.get(url, headers=headers)
+            session.prev_url = url
+            logging.info(f"[{user_unique_id}] GET /products (logged) => {r.status_code}")
+        except Exception as e:
+            logging.error(f"[{user_unique_id}] Login_Sub_Products error: {e}")
+
+    elif sub_state == "Login_Sub_ViewProduct":
+        pid = pick_preferred_product_id(gender, age_segment)
         url = f"{config.API_URL_WITH_HTTP}{config.API_ENDPOINTS['PRODUCT_DETAIL']}?id={pid}"
         try:
             r = session.get(url, headers=headers)
             session.prev_url = url
-            logging.info(f"[{user_unique_id}] GET id={pid} => {r.status_code}")
+            logging.info(f"[{user_unique_id}] GET /product?id={pid} (logged) => {r.status_code}")
         except Exception as err:
-            logging.error(f"[{user_unique_id}] view product error: {err}")
+            logging.error(f"[{user_unique_id}] Login_Sub_ViewProduct error: {err}")
+
+    elif sub_state == "Login_Sub_Search":
+        q = random.choice(config.SEARCH_KEYWORDS)
+        search_url = f"http://{config.API_BASE_URL}/{config.API_ENDPOINTS['SEARCH']}?query={q}"
+        try:
+            r = session.get(search_url, headers=headers)
+            session.prev_url = search_url
+            logging.info(f"[{user_unique_id}] GET /search?query={q} (logged) => {r.status_code}")
+            if 200 <= r.status_code < 300:
+                ctx["search_count"] = ctx.get("search_count", 0) + 1
+        except Exception as err:
+            logging.error(f"[{user_unique_id}] Login_Sub_Search error: {err}")
+
+    elif sub_state == "Login_Sub_Categories":
+        try:
+            url = config.API_URL_WITH_HTTP + config.API_ENDPOINTS["CATEGORIES"]
+            r = session.get(url, headers=headers)
+            session.prev_url = url
+            logging.info(f"[{user_unique_id}] GET /categories (logged) => {r.status_code}")
+        except Exception as err:
+            logging.error(f"[{user_unique_id}] Login_Sub_Categories error: {err}")
+
+    elif sub_state == "Login_Sub_CategoryList":
+        if categories_cache:
+            preferred_cats = config.CATEGORY_PREFERENCE.get(gender, {}).get(age_segment, [])
+            available_cats = [cat for cat in categories_cache if cat in preferred_cats]
+            chosen_cat = random.choice(available_cats) if available_cats else random.choice(categories_cache)
+
+            cat_url = f"http://{config.API_BASE_URL}/{config.API_ENDPOINTS['CATEGORY']}?name={chosen_cat}"
+            try:
+                r = session.get(cat_url, headers=headers)
+                session.prev_url = cat_url
+                logging.info(f"[{user_unique_id}] GET /category?name={chosen_cat} (logged) => {r.status_code}")
+            except Exception as err:
+                logging.error(f"[{user_unique_id}] Login_Sub_CategoryList error: {err}")
 
     elif sub_state == "Login_Sub_ViewCart":
         url = config.API_URL_WITH_HTTP + config.API_ENDPOINTS["CART_VIEW"]
@@ -433,18 +624,18 @@ def perform_logged_sub_action(session: requests.Session,
 
     elif sub_state == "Login_Sub_CartAdd":
         pid = pick_preferred_product_id(gender, age_segment)
-        qty = random.randint(1,5)     
+        qty = random.randint(1,5)
         payload = {"id": pid, "quantity": str(qty)}
         try:
             add_url = config.API_URL_WITH_HTTP + config.API_ENDPOINTS["CART_ADD"]
             r = session.post(add_url, data=payload, headers=headers)
             session.prev_url = add_url
-            logging.info(f"[pid={pid}, qty={qty}] => {r.status_code}")
+            logging.info(f"[{user_unique_id}] POST /cart/add (pid={pid}, qty={qty}) => {r.status_code}")
             if 200 <= r.status_code < 300:
-                ctx["has_cart_or_checkout"] = True   # ★ 목표행동 플래그 ON
+                ctx["has_cart_or_checkout"] = True
                 ctx["cart_item_count"] = ctx.get("cart_item_count", 0) + qty
         except Exception as e:
-            logging.error(f"[{user_unique_id}] cart add error: {e}")
+            logging.error(f"[{user_unique_id}] Login_Sub_CartAdd error: {e}")
 
     elif sub_state == "Login_Sub_CartRemove":
         view_url = config.API_URL_WITH_HTTP + config.API_ENDPOINTS["CART_VIEW"]
@@ -470,7 +661,7 @@ def perform_logged_sub_action(session: requests.Session,
             else:
                 logging.error(f"[{user_unique_id}] GET /cart/view fail => {vr.status_code}")
         except Exception as e:
-            logging.error(f"[{user_unique_id}] remove cart error: {e}")
+            logging.error(f"[{user_unique_id}] Login_Sub_CartRemove error: {e}")
 
     elif sub_state == "Login_Sub_Checkout":
         check_url = config.API_URL_WITH_HTTP + config.API_ENDPOINTS["CHECKOUT"]
@@ -479,15 +670,13 @@ def perform_logged_sub_action(session: requests.Session,
             session.prev_url = check_url
             logging.info(f"[{user_unique_id}] POST /checkout => {r.status_code}")
             if 200 <= r.status_code < 300:
-                ctx["has_cart_or_checkout"] = True   # ★ 목표행동 플래그 ON
+                ctx["has_cart_or_checkout"] = True
         except Exception as e:
             logging.error(f"[{user_unique_id}] checkout error: {e}")
 
     elif sub_state == "Login_Sub_AddReview":
         pid = pick_preferred_product_id(gender, age_segment)
         rating = random.randint(1,5)
-        
-
         payload = {"product_id": pid, "rating": str(rating)}
         try:
             rev_url = config.API_URL_WITH_HTTP + config.API_ENDPOINTS["ADD_REVIEW"]
@@ -501,12 +690,12 @@ def perform_logged_sub_action(session: requests.Session,
         err_url = config.API_URL_WITH_HTTP + config.API_ENDPOINTS["ERROR_PAGE"]
         try:
             rr = session.get(err_url, headers=headers)
+            session.prev_url = err_url
             logging.info(f"[{user_unique_id}] GET /error => {rr.status_code}")
         except Exception as e:
-            logging.error(f"[{user_unique_id}] error page => {e}")
-            
-            
-    #사용자 행동 사이의 대기 추가
+            logging.error(f"[{user_unique_id}] Login_Sub_Error => {e}")
+
+    # 사용자 행동 사이의 대기 및 컨텍스트 tick
     time.sleep(random.uniform(0.5, 1.0))
     if sub_state != "Login_Sub_Initial":
         _tick_ctx_after_action(ctx)
@@ -551,89 +740,6 @@ def do_top_level_action_and_confirm(
 
     return proposed_next
 
-def _normalize_probs(d: dict) -> dict:
-    s = sum(d.values())
-    if s <= 0:
-        n = len(d)
-        if n == 0: 
-            return d
-        return {k: 1.0/n for k in d}  # ← 전부 0이면 균등
-    return {k: v / s for k, v in d.items()}
-
-def _session_duration(ctx: dict) -> float:
-    return time.time() - ctx.get("session_start_ts", time.time())
-
-def _apply_bias_from_config(state: str, probs: dict, ctx: dict) -> dict:
-    if state != "Logged_In":
-        return probs
-    out = probs.copy()
-    pattern_bias = getattr(config, "PATTERN_BIAS", {})
-    thr = getattr(config, "BIAS_THRESHOLDS", {})
-
-    # 1) 목표행동 여부 기반
-    mode = "with_goal" if ctx.get("has_cart_or_checkout") else "no_goal"
-    for k, mul in pattern_bias.get('logged_in', {}).get(mode, {}).items():
-        if k in out:
-            out[k] *= float(mul)
-
-    # 2) 임계치 기반 보정
-    cart_cnt = ctx.get("cart_item_count", 0)
-    page_depth = ctx.get("page_depth", 0)
-    duration = _session_duration(ctx)
-    idle = ctx.get("last_action_elapsed", 0.0)
-
-    if cart_cnt >= thr.get("cart_has_items_min", 1):
-        if "Logged_Out" in out:
-            out["Logged_Out"] *= 1.3
-    else:
-        if "Done" in out:
-            out["Done"] *= 1.2
-
-    if (page_depth >= thr.get("deep_page_min", 6)) or (duration >= thr.get("long_session_sec", 60)):
-        if "Logged_Out" in out:
-            out["Logged_Out"] *= 1.15
-
-    if idle >= thr.get("idle_slow_sec", 5):
-        if "Done" in out:
-            out["Done"] *= 1.1
-
-    return _normalize_probs(out)
-
-def _apply_sub_bias_from_config(sub_group: str, sub_state: str, probs: dict, ctx: dict) -> dict:
-    sb = getattr(config, "SUB_BIAS", {}).get(sub_group, {})
-    rules = sb.get(sub_state, {})
-    if not rules:
-        return _normalize_probs(probs)
-    out = probs.copy()
-    # 조건 처리
-    if "if_cart_item_count_lt" in rules and ctx.get("cart_item_count", 0) < rules["if_cart_item_count_lt"]:
-        for k, mul in rules.get("multiply", {}).items():
-            if k in out:
-                out[k] *= float(mul)
-    if "if_cart_item_count_gte" in rules and ctx.get("cart_item_count", 0) >= rules["if_cart_item_count_gte"]:
-        for k, mul in rules.get("multiply", {}).items():
-            if k in out:
-                out[k] *= float(mul)
-    if "if_idle_slow_sec_gte" in rules and ctx.get("last_action_elapsed", 0.0) >= rules["if_idle_slow_sec_gte"]:
-        for k, mul in rules.get("multiply", {}).items():
-            if k in out:
-                out[k] *= float(mul)
-    if "if_search_count_gte" in rules and ctx.get("search_count", 0) >= rules["if_search_count_gte"]:
-        for k, mul in rules.get("multiply", {}).items():
-            if k in out: out[k] *= float(mul)
-    if "if_page_depth_gte" in rules and ctx.get("page_depth", 0) >= rules["if_page_depth_gte"]:
-        for k, mul in rules.get("multiply", {}).items():
-            if k in out: out[k] *= float(mul)
-                
-    return _normalize_probs(out)
-
-def _tick_ctx_after_action(ctx: dict):
-    now = time.time()
-    ctx["last_action_elapsed"] = now - ctx.get("last_ts", now)
-    ctx["last_ts"] = now
-    ctx["page_depth"] = ctx.get("page_depth", 0) + 1
-
-
 #################################
 # 사용자 전체 로직
 #################################
@@ -641,7 +747,8 @@ def run_user_simulation(user_idx: int):
     session = requests.Session()
     session.prev_url = None
     session.get(config.API_URL_WITH_HTTP)
-    gender = "F" if (user_idx % 2 == 0) else "M" # 데이터셋 성별 클래스 균형있게 생성
+
+    gender = "F" if (user_idx % 2 == 0) else "M"  # 클래스 균형
     age = random.randint(18,70)
     age_segment = get_age_segment(age)
 
@@ -651,7 +758,7 @@ def run_user_simulation(user_idx: int):
     current_state = "Anon_NotRegistered"
     transition_count = 0
 
-    # === 학습 패턴용 플래그 ===
+    # 컨텍스트 플래그
     ctx = {
         "has_cart_or_checkout": False,
         "search_count": 0,
@@ -677,27 +784,27 @@ def run_user_simulation(user_idx: int):
 
         # 1) 현재 state에 맞는 sub-FSM 먼저 실행 → ctx 갱신
         if current_state in ("Anon_NotRegistered", "Anon_Registered"):
-            do_anon_sub_fsm(session, user_unique_id, ctx)
+            do_anon_sub_fsm(session, user_unique_id, gender, age_segment, ctx)
         elif current_state == "Logged_In":
             do_logged_sub_fsm(session, user_unique_id, gender, age_segment, ctx)
-        # Logged_Out/Unregistered/Done은 sub-FSM 없음
-    
-        # 2) 그 다음 상위 전이 확률 계산/보정
-        possible_next = dict(config.STATE_TRANSITIONS[current_state])  # 복사본
+        # Logged_Out/Unregistered/Done 은 sub-FSM 없음
+
+        # 2) 상위 전이 확률 계산/보정
+        possible_next = dict(config.STATE_TRANSITIONS[current_state])
         if not possible_next:
             logging.warning(f"[{user_unique_id}] next_candidates empty => end.")
             break
-    
+
         if current_state == "Logged_In":
             possible_next = _apply_bias_from_config(
                 state=current_state,
                 probs=possible_next,
                 ctx=ctx
             )
-    
+
         proposed_next = pick_next_state(possible_next)
         logging.info(f"[{user_unique_id}] (Top) {current_state} -> proposed={proposed_next}")
-    
+
         # 3) 상위 전이 확정(실제 API 호출 포함)
         actual_next = do_top_level_action_and_confirm(
             session=session,
@@ -707,7 +814,7 @@ def run_user_simulation(user_idx: int):
             gender=gender,
             age_segment=age_segment
         )
-    
+
         if actual_next != current_state:
             logging.info(f"[{user_unique_id}] => confirmed next: {actual_next}")
             if actual_next in ("Logged_Out", "Anon_NotRegistered"):
@@ -746,21 +853,21 @@ def user_thread(idx: int, sem: threading.Semaphore):
     with sem:
         run_user_simulation(idx)
 
-
 def launch_traffic(num_users, max_threads, time_sleep_range):
     # Override config values for this run
-    orig_num_users       = config.NUM_USERS
-    orig_max_threads     = config.MAX_THREADS
+    orig_num_users        = config.NUM_USERS
+    orig_max_threads      = config.MAX_THREADS
     orig_time_sleep_range = config.TIME_SLEEP_RANGE
-    config.NUM_USERS     = num_users
-    config.MAX_THREADS   = max_threads
+    config.NUM_USERS      = num_users
+    config.MAX_THREADS    = max_threads
     config.TIME_SLEEP_RANGE = time_sleep_range
 
-    # 미리 상품·카테고리 캐시 갱신
+    # 미리 캐시 갱신
     fetch_products(config.API_URL_WITH_HTTP)
     fetch_categories(config.API_URL_WITH_HTTP)
+    build_category_index()
 
-    # 스레드 시작 간격에 약간의 무작위성 부여 (0.01~0.1초)
+    # 스레드 스폰
     spawn_min, spawn_max = 0.01, 0.1
     sem = threading.Semaphore(max_threads)
     threads = []
@@ -769,22 +876,19 @@ def launch_traffic(num_users, max_threads, time_sleep_range):
         threads.append(t)
         t.start()
 
-        # 자연스러운 사용자 도착 간격
         delay = random.uniform(spawn_min, spawn_max)
         logging.info(f"[Launch] spawned user #{i}, next in {delay:.3f}s")
         time.sleep(delay)
 
-    # 모든 스레드가 작업을 마칠 때까지 대기
     for t in threads:
         t.join()
 
     logging.info("All user threads finished.")
 
     # 원래 config 값 복원
-    config.NUM_USERS       = orig_num_users
-    config.MAX_THREADS     = orig_max_threads
+    config.NUM_USERS        = orig_num_users
+    config.MAX_THREADS      = orig_max_threads
     config.TIME_SLEEP_RANGE = orig_time_sleep_range
-
 
 if __name__ == "__main__":
     args = parse_args()
@@ -792,12 +896,11 @@ if __name__ == "__main__":
         launch_traffic(config.NUM_USERS, config.MAX_THREADS, config.TIME_SLEEP_RANGE)
         print("[Done] Single traffic launch completed.")
     else:
-        # continuous 모드: 1시간 단위로 '적음(light)', '평균(normal)', '몰림(heavy)' 순서 랜덤 배치하여 실행
+        # continuous 모드: light / normal / heavy 패턴 순환
         patterns = ["light", "normal", "heavy"]
         while True:
             random.shuffle(patterns)
             for pattern in patterns:
-                # 1) 패턴별 기본 부하 계수 범위 정의
                 if pattern == "light":
                     base_factor_min, base_factor_max = 0.5, 0.8
                 elif pattern == "normal":
@@ -805,12 +908,10 @@ if __name__ == "__main__":
                 else:  # heavy
                     base_factor_min, base_factor_max = 1.2, 1.5
 
-                # 2) 사용자 수·스레드 수 랜덤 결정
                 factor      = random.uniform(base_factor_min, base_factor_max)
                 num_users   = max(1, int(config.NUM_USERS   * factor))
                 max_threads = max(1, int(config.MAX_THREADS * factor))
 
-                # 3) 액션 딜레이 범위에도 ±20% jitter 적용
                 base_min, base_max = config.TIME_SLEEP_RANGE
                 sleep_min = base_min * random.uniform(0.8, 1.2)
                 sleep_max = base_max * random.uniform(0.8, 1.2)
@@ -821,9 +922,7 @@ if __name__ == "__main__":
                     f"threads={max_threads}, sleep_range=({sleep_min:.2f},{sleep_max:.2f})"
                 )
 
-                # 4) 트래픽 실행 (1시간 분량)
                 launch_traffic(num_users, max_threads, time_range)
 
-                # 5) 다음 패턴까지 5초 대기
                 logging.info(f"[Continuous][{pattern}] done. sleeping 5s before next pattern")
                 time.sleep(5)
