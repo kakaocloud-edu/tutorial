@@ -12,7 +12,7 @@
             - Name : `cpu-notebook`
         - Docker Image
             - `Custom Notebook` 클릭
-                - Image : `kc-kubeflow/jupyter-tensorflow-cuda-full:v1.8.0.py38.1a`
+                - Image : `kc-kubeflow-registry/jupyter-tensorflow-cuda-full:v1.8.0.py311.1a`
                 - **Note**: 이미지 이름 정확하게 확인하기
         - CPU/RAM
             - Minimum CPU : `2`
