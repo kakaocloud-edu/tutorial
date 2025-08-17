@@ -1,5 +1,5 @@
 # 베이스 이미지: 가벼운 파이썬 환경
-FROM python:3.8-slim
+FROM python:3.11-slim
 
 WORKDIR /app
 
