@@ -104,12 +104,13 @@
             
             <img width="1547" height="32" alt="Image" src="https://github.com/user-attachments/assets/ca332ced-2034-4644-a8be-a2ff1f5e1019" />
             
-13.  Jupyter notebook에서 Katib 하이퍼파라미터 튜닝 & 추출 값 확인
-    **note:** Cell 9번 부터 실행
-    - Katib에서 찾은 최적 하이퍼파라미터 값 확인
+13.  Jupyter notebook에서 Katib 하이퍼파라미터 추출 값 확인
+        - **note:** Cell 9번 부터 실행
+        - Katib에서 찾은 최적 하이퍼파라미터 값 확인
 14. Katib 최적 하이퍼파라미터로 모델 학습
     - Katib 최적 하이퍼파라미터로 모델 재학습
 15. Katib 모델 평가 밎 저장
+    - Katib 모델 평가 값 확인 및 저장
     - 일반 학습한 모델 평가 값과 Katib 최적 하이퍼파라미터로 학습한 모델 평가 값 비교
 16. 성별 추론 결과 값 시각화
     - Katib 최적 하이퍼파라미터로 추론한 결과 값을 그래프로 확인
