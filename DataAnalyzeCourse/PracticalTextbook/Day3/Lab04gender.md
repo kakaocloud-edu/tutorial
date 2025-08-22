@@ -22,7 +22,7 @@
     - gender_tableJoin.ipynb 파일 생성 확인
 6.  gender_tableJoin.ipynb 파일 더블 클릭
     -  gender_tableJoin.ipynb 파일 좌측 상단에 있는 실행 버튼(Shift + Enter)을 눌러 셀 실행
-7. 공통 셋업 & 유틸
+7. 환경 구성
     - 실습에 필요한 라이브러리와 경로, 네트워크 설정 값 등을 설정
     - 아래 환경 변수에 ‘api-lb의 Public IP’ 를 삽입
         - BASE_URL = "http://**{api-lb의 Public IP}**”
