@@ -18,7 +18,7 @@
     - pip 명령어를 통해 `pyarrow`, `fasparquet`, `pandas`, `torch`, `optuna`, `scikit-learn` 설치
     - 설치 완료 후 뜨는 아래 사진과 같은 형식 확인
 
-    <img width="1474" height="68" alt="0 설치" src="https://github.com/user-attachments/assets/869a7ce0-7776-4e15-aea7-f248e1297e5b" />
+    <img width="1359" height="115" alt="0 설치" src="https://github.com/user-attachments/assets/c3c0e4b8-112c-4218-b089-5c8ae3bf9813" />
 
 6. 경로 / 시드 / 하이퍼파라미터
 
