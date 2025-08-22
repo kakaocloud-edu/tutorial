@@ -14,28 +14,7 @@
     ### **Lab4-1-3**
     
     ```bash
-    wget https://raw.githubusercontent.com/kakaocloud-edu/tutorial/main/DataAnalyzeCourse/src/day3/Lab04/gender_tableJoin.ipynb
-    
-    ```
-    
-    - gender_tableJoin.ipynb 파일 생성 확인
-6. gender_predict.ipynb 파일 더블 클릭
-    - gender_predict.ipynb 파일 좌측 상단에 있는 실행 버튼(Shift + Enter)을 눌러 셀 실행
-7. 공통 셋업 & 유틸
-    - 실습에 필요한 라이브러리와 경로, 네트워크 설정 값 등을 설정
-    - 아래 환경 변수에 ‘api-lb의 Public IP’ 를 삽입
-        - BASE_URL = "http://**{api-lb의 Public IP}**”
-8. Product -> Category Mapping 테이블 생성
-    - product_id 에 맞는 category를 Mapping해서 테이블로 저장
-9. Keyword -> Category Mapping 테이블 생성
-    - search_keyword 에 맞는 category를 Mapping해서 테이블로 저장
-10. Mapping 테이블들과 원본 테이블 Join
-    - 위에서 생성한 Mapping 테이블들과 원본 테이블을 Join
-    - 이후 성별 추론 실습에서 Join 테이블을 원본 데이터로 사용
-
-## 2. Notebook에서 성별 추론 모델 학습 진행 (10분)
-
-사용자의 로그인 전 행동 패턴을 보고 사용자의 성별을 추론하는 실습입니다.
+    wget https://raw.githubusercontent.com/kakaocloud-edu/tutorial/main/DataAnalyzeCourse/src/day3/Lab04/gend닝 실습입니다.
 
 1. 노트북 상단  `Terminal`   탭 클릭
 2. gender_predict.ipynb 파일 다운로드
@@ -53,7 +32,7 @@
     - 실습을 원활하게 진행하기 위해 라이브러리와 경로, 상수 값 등을 설정
 5. 원본 데이터 로드 & 로그인 전 구간 추출
     - 원본과 매핑 테이블을 조인한 데이터를 읽어와 로그인 전 구간을 추출
-    - 사용자의 로그인 전 행동 패턴을 분석해야 하므로 로그인 전 구간 추
+    - 사용자의 로그인 전 행동 패턴을 분석해야 하므로 로그인 전 구간 추출
 6. Target Label 생성 & 로그인 전 구간 수치 집계
     - 실제 결과 값인 `Label` 생성
     - 로그인 완료한 세션 수 집
@@ -74,28 +53,25 @@
     - 노트북 상단  `Terminal`  탭 클릭
     - gender_train.py 다운로드
     
-    ```
-    bash
+    ```bash
     wget https://raw.githubusercontent.com/kakaocloud-edu/tutorial/main/DataAnalyzeCourse/src/day3/Lab04/gender_train.py
     ```
     
     - gender_experiment.yaml 파일 다운로드
     
-    ```
-    bash
+    ```bash
     wget https://raw.githubusercontent.com/kakaocloud-edu/tutorial/main/DataAnalyzeCourse/src/day3/Lab04/gender_experiment.yaml
     ```
     
     - Katib 하이퍼파라미터 튜닝 experiment 적용 및 실행
     
-    ```
-    jsx
+    ```jsx
     kubectl -n kbm-u-kubeflow-tutorial apply -f gender_experiment.yaml
     ```
     
     - experiment 생성된 것을 확인
         
-        ![yaml파일적용사진.png](attachment:a5fc5942-d6e3-44ce-8f08-1c16bfd18ba9:yaml파일적용사진.png)
+        <img width="992" height="50" alt="Image" src="https://github.com/user-attachments/assets/343d72d0-4e5e-414c-97c0-a965cfec4a12" />
         
     - Kubeflow Dashboard 이동하여 Katib Experiment 탭 클릭
         - 생성된 gender-logistic-random 클릭
@@ -103,7 +79,7 @@
         - Status 값이 Experiment has succeeded because max trial count has reached 가 뜨면 튜닝 성공
         - Best trial's params에서 Katib이 찾은 최적의 하이퍼파라미터 값 확인
             
-            ![katib최적하이퍼파라미터사진.png](attachment:36c2477f-46bf-402d-9350-dd4e29d83c18:katib최적하이퍼파라미터사진.png)
+            <img width="1547" height="32" alt="Image" src="https://github.com/user-attachments/assets/eda79bb6-d43e-4e59-8874-da92dd31dbfa" />
             
 13.  Jupyter notebook에서 Katib 하이퍼파라미터 튜닝 & 추출 값 확인
  **note:** Cell 9번 부터 실행
