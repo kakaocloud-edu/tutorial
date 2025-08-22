@@ -13,6 +13,9 @@
     ```
 
 4. next_state.ipynb 파일 생성 확인 및 더블 클릭
+
+    - next_state.ipynb 파일 좌측 상단에 있는 화살표를 눌러 셀 실행
+
 5. 런타임 / 환경 구성
 
     - pip 명령어를 통해 `pyarrow`, `fasparquet`, `pandas`, `torch`, `optuna`, `scikit-learn` 설치
