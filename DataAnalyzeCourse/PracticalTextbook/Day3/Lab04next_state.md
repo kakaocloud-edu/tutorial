@@ -16,6 +16,7 @@
 5. 런타임 / 환경 구성
 
     - pip 명령어를 통해 `pyarrow`, `fasparquet`, `pandas`, `torch`, `optuna`, `scikit-learn` 설치
+    - 설치 완료 후 뜨는 `Successfully installed Mako-1.3.10 alembic-1.16.4 colorlog-6.9.0 cramjam-2.11.0 fastparquet-2024.11.0 fsspec-2025.7.0 greenlet-3.2.4 mpmath-1.3.0 nvidia-cublas-cu12-12.8.4.1 nvidia-cuda-cupti-cu12-12.8.90 nvidia-cuda-nvrtc-cu12-12.8.93 nvidia-cuda-runtime-cu12-12.8.90 nvidia-cudnn-cu12-9.10.2.21 nvidia-cufft-cu12-11.3.3.83 nvidia-cufile-cu12-1.13.1.3 nvidia-curand-cu12-10.3.9.90 nvidia-cusolver-cu12-11.7.3.90 nvidia-cusparse-cu12-12.5.8.93 nvidia-cusparselt-cu12-0.7.1 nvidia-nccl-cu12-2.27.3 nvidia-nvjitlink-cu12-12.8.93 nvidia-nvtx-cu12-12.8.90 optuna-4.5.0 pandas-2.3.2 pyarrow-15.0.2 scikit-learn-1.7.1 sqlalchemy-2.0.43 sympy-1.14.0 torch-2.8.0 triton-3.4.0`을 통해 설치 완료 확인
     
 6. 경로 / 시드 / 하이퍼파라미터
 
