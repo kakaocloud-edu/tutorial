@@ -189,8 +189,9 @@ wget https://raw.githubusercontent.com/kakaocloud-edu/tutorial/main/DataAnalyzeC
 
 ## 4. Notebook에서 성별 추론 모델 학습 진행 (7분)
 
-1. 노트북 상단 `Terminal` 탭 클릭
-2. gender_predict.ipynb 파일 다운로드
+1. gender_predict.ipynb 파일 다운로드
+
+    - Note: 위에서 생성한 Notebook(cpu-notebook) Terminal에서 입력
     
     ### **Lab4-4-2**
     
@@ -224,7 +225,7 @@ wget https://raw.githubusercontent.com/kakaocloud-edu/tutorial/main/DataAnalyzeC
     - 검증용 데이터 셋으로 모델을 검증 및 평가
     - 평가에서 `Macro-F1`, `Accuracy` 값 확인
 12. Katib 하이퍼파라미터 튜닝 & 최적 하이퍼파라미터 값 추출
-    - 노트북 상단  `Terminal`  탭 클릭
+    - Note: 위에서 생성한 Notebook(cpu-notebook) Terminal에서 입력
     - gender_train.py 다운로드
     
     ```
