@@ -8,18 +8,18 @@
 2. Other 중 `Terminal` 클릭
 3. KServe.ipynb 파일 다운로드
 
-### **Lab5-1-3**
+    ### **Lab5-1-3**
 
-```bash
-wget https://raw.githubusercontent.com/kakaocloud-edu/tutorial/main/DataAnalyzeCourse/src/day3/Lab05/KServe.ipynb
-```
+    ```bash
+    wget https://raw.githubusercontent.com/kakaocloud-edu/tutorial/main/DataAnalyzeCourse/src/day3/Lab05/KServe.ipynb
+    ```
 
 - KServe.ipynb 파일 생성 확인
-1. KServe.ipynb 파일 더블 클릭
+4. KServe.ipynb 파일 더블 클릭
     - KServe.ipynb 파일 좌측 상단에 있는 실행 버튼(Shift + Enter)을 눌러 셀 실행
-2. 패키지 설치
+5. 패키지 설치
     - 실습에 필요한 패키지를 설치
-3.  Object Storage에 모델 저장
+6.  Object Storage에 모델 저장
     - Kakaocloud Object Storage에 모델을 저장
     - 아래 환경 변수들에 S3 키 값을 삽입 후 실행
         - AWS_ACCESS_KEY_ID = "**{S3_ACCESS_KEY}**”
@@ -29,20 +29,20 @@ wget https://raw.githubusercontent.com/kakaocloud-edu/tutorial/main/DataAnalyzeC
     - 버킷 안 `gender_predict` 폴더 생성 확인 및 클릭
     - 저장된 `model.joblib` 파일 확인
     - notebook 내 `kserve_s3_creds.env` 파일 생성 확인
-4. KServe 리소스 생성
+7. KServe 리소스 생성
     - KServe가 Object Storage에 있는 모델을 읽기 위한 리소스를 생성
     - notebook 내 `kserve_sa.env` 파일 생성 확인
-5. KServe InferenceService 생성 및 모델 배포
+8. KServe InferenceService 생성 및 모델 배포
     - 배포된 모델을 API를 활용하여 사용할 수 있는 KServe InferenceService 생성
     - KServe InferenceService 생성 확인
     
     <img width="315" height="19" alt="Image" src="https://github.com/user-attachments/assets/e1d214f8-e110-431f-ad6c-854827c745e8" />
     
-6. 배포된 모델 확인
+9. 배포된 모델 확인
     - 노트북 상단  `Terminal`   탭 클릭
     - kubectl 명령어를 통해 배포된 모델 확인
     
-    ### **Lab5-1-5**
+    ### **Lab5-1-9**
     
     ```jsx
     kubectl get isvc -n kbm-u-kubeflow-tutorial gender-predict -w
