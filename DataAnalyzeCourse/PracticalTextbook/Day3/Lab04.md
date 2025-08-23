@@ -4,9 +4,8 @@
 
 ## 1. Notebook에서 세션 이탈 추론 모델 학습 진행 (5분)
 
-1. Notebooks 탭 > `cpu-notebook`의 `CONNECT` 클릭
-2. Other 중 `Terminal` 클릭
-3. sessionDrop.ipynb 파일 다운로드
+1. sessionDrop.ipynb 파일 다운로드
+    Note: 위에서 생성한 Notebook(cpu-notebook) Terminal에서 입력
 
 ### **Lab4-1-3**
 
