@@ -354,37 +354,37 @@ Monitoring Flow를 이용하여 로드밸런서, API 서버, Hadoop 클러스터
     - 터미널 열기
     - keypair를 다운받아놓은 폴더로 이동 후 터미널에 명령어 붙여넣기 및 **yes** 입력
       
-       **lab6-6-9-1**
-       ```
-       cd {keypair.pem 다운로드 위치}
-       ```
+    **lab6-6-9-1**
+    ```
+    cd {keypair.pem 다운로드 위치}
+    ```
         
-   - 리눅스의 경우 아래와 같이 키페어 권한 조정
+    - 리눅스의 경우 아래와 같이 키페어 권한 조정
         
-     **lab6-6-9-2**
+    **lab6-6-9-2**
         
-     ```
-     chmod 400 keypair.pem
-     ```
+    ```
+    chmod 400 keypair.pem
+    ```
         
-     **lab6-6-9-3**
+    **lab6-6-9-3**
         
-     ```
-     ssh -i keypair.pem ubuntu@{api-server-1의 public ip 주소}
-     ```
-     - **Note**: {api-server-1의 public ip 주소} 부분을 복사한 각 IP 주소로 교체
+    ```
+    ssh -i keypair.pem ubuntu@{api-server-1의 public ip 주소}
+    ```
+    - **Note**: {api-server-1의 public ip 주소} 부분을 복사한 각 IP 주소로 교체
    
 10. 장애를 발생시키기 위해 http 80 포트를 90초 동안 차단하는 명령어 실행
     
-     **lab6-6-10**
+    **lab6-6-10**
 
-     ```
-     sudo nohup bash -c '
-       iptables -I INPUT -p tcp --dport 80  -j REJECT
-       sleep 90
-       iptables -D INPUT -p tcp --dport 80  -j REJECT
-     ' >/tmp/http_drop.log 2>&1 &
-     ```
+    ```
+    sudo nohup bash -c '
+      iptables -I INPUT -p tcp --dport 80  -j REJECT
+      sleep 90
+      iptables -D INPUT -p tcp --dport 80  -j REJECT
+    ' >/tmp/http_drop.log 2>&1 &
+    ```
     
 11. 카카오 클라우드 콘솔 > Management > Monitoring Flow
 12. `lab2` 시나리오 클릭
