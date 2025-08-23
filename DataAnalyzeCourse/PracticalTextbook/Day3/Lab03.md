@@ -16,7 +16,7 @@
                 - **Note**: 이미지 이름 정확하게 확인하기
         - CPU/RAM
             - Minimum CPU : `2`
-            - Minimum memory  Gi : `8`
+            - Minimum memory Gi : `8`
         - GPUs
             - Number of GPUs : `None`
         - Workspace Valume, Data Valumes : `모두 기본값 사용`
@@ -28,40 +28,112 @@
     - `LAUNCH` 클릭
 3. Notebook 생성 확인
 
-
 ## 2. 생성된 Notebook에 접속하여 namespace 내의 리소스들 확인
+
 1. Notebooks 탭 > `cpu-notebook`의 `CONNECT` 클릭
 2. Other 중 `Terminal` 클릭
 3. kubectl.ipynb 파일 다운로드
-   #### **Lab5-2-5**
-   ```bash
-   wget https://raw.githubusercontent.com/kakaocloud-edu/tutorial/main/DataAnalyzeCourse/src/day3/Lab03/kubectl.ipynb
-   ```
-   - kubectl.ipynb 파일 생성 확인 및 더블 클릭 후 내부 코드 실행
+    
+    ### **Lab3-2-3**
+    
+    ```bash
+    wget https://raw.githubusercontent.com/kakaocloud-edu/tutorial/main/DataAnalyzeCourse/src/day3/Lab03/kubectl.ipynb
+    
+    ```
+    
+    - kubectl.ipynb 파일 생성 확인
+4.  kubectl.ipynb 더블 클릭 
+    - kubectl.ipynb 파일 좌측 상단에 있는 실행 버튼(Shift + Enter)을 눌러 셀 실행
+5. 특정 Kubernetes 네임스페이스의 리소스를 확인하는 명령어 실행
+    
+    ### **Lab3-2-5**
+    
+    ```jsx
+    kubectl get all
+    ```
+    
+6. Kubernetes StatefulSet 리소스를 YAML 형식으로 출력하는 명령어 실행\
+    
+    ### **Lab3-2-6**
+    
+    ```jsx
+    kubectl get sts -o yaml
+    ```
+    
+7. Kubernetes ServiceAccount 리소스를 조회하는 명령어 실행
+    
+    ### **Lab3-2-7**
+    
+    ```jsx
+    kubectl get sa
+    ```
+    
+8. kbm-u-kubeflow-tutorial Namespace에서 RoleBinding 리소스를 조회하는 명령어 실행 (Demo)
+    
+    ### **Lab3-2-8**
+    
+    ```jsx
+    kubectl get rolebinding -n kbm-u-kubeflow-tutorial
+    ```
+    
+9. kbm-u-kubeflow-tutorial Namespace에서 default-editor라는 이름의 RoleBinding 리소스를 YAML 형식으로 조회하는 명령어 실행 (Demo)
+    
+    ### **Lab3-2-9**
+    
+    ```jsx
+    kubectl get rolebinding default-editor -n kbm-u-kubeflow-tutorial -o yaml
+    ```
+    
+10. kbm-u-kubeflow-tutorial Namespace에서 default-viewer라는 이름의 RoleBinding 리소스를 YAML 형식으로 조회하는 명령어 실행 (Demo)
+    
+    ### **Lab3-2-10**
+    
+    ```jsx
+    kubectl get rolebinding default-viewer -n kbm-u-kubeflow-tutorial -o yaml
+    ```
+    
+11. 현재 Namespace에서 모든 PersistentVolumeClaim(PVC) 리소스를 조회하는 명령어 실행
+    
+    ### **Lab3-2-11**
+    
+    ```jsx
+    kubectl get pvc
+    ```
+    
 
 ## 3. 간단한 Notebook 실습
+
 1. speed.ipynb 파일 다운로드
-   - **Note**: 위에서 생성한 Notebook(`cpu-notebook`) `Terminal`에서 입력
-
-   #### **lab4-3-6**
-   ```bash
-   wget https://raw.githubusercontent.com/kakaocloud-edu/tutorial/main/DataAnalyzeCourse/src/day3/Lab03/speed.ipynb
-   ```
-   - speed.ipynb 파일 생성 확인 및 더블 클릭 후 내부 코드 실행
-
-2. speed 생성 확인
+    - **Note**: 위에서 생성한 Notebook(`cpu-notebook`) `Terminal`에서 입력
+    
+    ### **lab3-3-1**
+    
+    ```bash
+    wget https://raw.githubusercontent.com/kakaocloud-edu/tutorial/main/DataAnalyzeCourse/src/day3/Lab03/speed.ipynb
+    ```
+    
+    - speed.ipynb 파일 생성 확인
+2. speed.ipynb 파일 더블 클릭
+    - speed.ipynb 파일 좌측 상단에 있는 실행 버튼(Shift + Enter)을 눌러 셀 실행
+    - cpu 사용하여 모델이 학습하는데 걸리는 시간 확인
 
 ## 4. Notebook에서 Object Storage에 쌓인 데이터 확인
+
 1. data_check.ipynb 파일 다운로드
-   - **Note**: 위에서 생성한 Notebook(`cpu-notebook`) `Terminal`에서 입력
-
-   #### **lab4-3-6**
-   ```bash
-   wget https://raw.githubusercontent.com/kakaocloud-edu/tutorial/main/DataAnalyzeCourse/src/day3/Lab03/data_check.ipynb
-   ```
-
-   - kubectl.ipynb 파일 생성 확인 및 더블 클릭 후 내부 코드 실행
-
-2. datasets 폴더 생성 확인
-3. processed_user_behavior.sorted.csv 파일 확인
-
+    - **Note**: 위에서 생성한 Notebook(`cpu-notebook`) `Terminal`에서 입력
+    
+    ### **lab4-4-1**
+    
+    ```bash
+    wget https://raw.githubusercontent.com/kakaocloud-edu/tutorial/main/DataAnalyzeCourse/src/day3/Lab03/data_check.ipynb
+    ```
+    
+    - data_check.ipynb 파일 생성 확인
+2. data_check.ipynb 파일 더블 클릭
+    - data_check.ipynb 파일 좌측 상단에 있는 실행 버튼(Shift + Enter)을 눌러 셀 실행
+3. 필요한 라이브러리 설치
+4. Delta Lake에서 현재 스냅샷 로드 → 정렬 후 CSV/Parquet 저장
+    - 아래 환경 변수에 S3 키 값 삽입
+        - S3_ACCESS_KEY = "**{S3_ACCESS_KEY_ID}**”
+        - S3_SECRET_KEY = "**{S3_SECRET_ACCESS_KEY}**”
+5. datasets 폴더 더블 클릭 후 원본 데이터 로드 확인
