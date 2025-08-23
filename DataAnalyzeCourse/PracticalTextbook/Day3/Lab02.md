@@ -30,7 +30,7 @@
         - DB 유형: `Kubeflow Internal DB`
         - 포트 : `3306`
         - 비밀번호 : `admin1234!`
-    - Object storage 타입 : `KC Object Storage`
+        - 비밀번호 확인: `admin1234!`
     - 도메인 연결 (선택) : `빈 칸`
     - `생성` 버튼 클릭
 5. Active 생성 확인
