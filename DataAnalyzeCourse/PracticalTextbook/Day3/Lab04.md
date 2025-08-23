@@ -257,7 +257,7 @@ wget https://raw.githubusercontent.com/kakaocloud-edu/tutorial/main/DataAnalyzeC
         - 생성된 gender-logistic-random 클릭
         - Katib 하이퍼파라미터 튜닝 진행 상황 확인
         - Status 값이 Experiment has succeeded because max trial count has reached 가 뜨면 튜닝 성공
-        - Best trial's params ****에서 Katib이 찾은 최적의 하이퍼파라미터 값 확인
+        - Best trial's params에서 Katib이 찾은 최적의 하이퍼파라미터 값 확인
             
             <img width="1547" height="32" alt="Image" src="https://github.com/user-attachments/assets/ca332ced-2034-4644-a8be-a2ff1f5e1019" />
             
