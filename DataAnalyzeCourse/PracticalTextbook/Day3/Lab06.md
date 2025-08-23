@@ -82,12 +82,11 @@ Monitoring Flow를 이용하여 로드밸런서, API 서버, Hadoop 클러스터
       - Key: `API_IP`
       - Type: `String`
       - Value: `{api-server-1의 private IP}`
-   - 저장 버튼 클릭
-
+      - 저장 버튼 클릭
       - Key: `HADOOP_ID`
       - Type: `String`
       - Value: `{hadoop-eco kluster ID}`
-   - 저장 버튼 클릭
+      - 저장 버튼 클릭
 
 10. 닫기 버튼 클릭
 11. 새 스탭 설정의 유형 선택 클릭
