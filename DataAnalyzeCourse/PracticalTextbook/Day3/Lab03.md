@@ -35,7 +35,7 @@
 3. kubectl.ipynb 파일 다운로드
    #### **Lab5-2-5**
    ```bash
-   wget https://raw.githubusercontent.com/kakaocloud-edu/tutorial/main/DataAnalyzeCourse/src/day3/ipynb/kubectl.ipynb
+   wget https://raw.githubusercontent.com/kakaocloud-edu/tutorial/main/DataAnalyzeCourse/src/day3/Lab03/kubectl.ipynb
    ```
    - kubectl.ipynb 파일 생성 확인 및 더블 클릭 후 내부 코드 실행
 
@@ -45,7 +45,7 @@
 
    #### **lab4-3-6**
    ```bash
-   wget https://raw.githubusercontent.com/kakaocloud-edu/tutorial/main/DataAnalyzeCourse/src/day3/ipynb/speed.ipynb
+   wget https://raw.githubusercontent.com/kakaocloud-edu/tutorial/main/DataAnalyzeCourse/src/day3/Lab03/speed.ipynb
    ```
    - speed.ipynb 파일 생성 확인 및 더블 클릭 후 내부 코드 실행
 
@@ -57,7 +57,7 @@
 
    #### **lab4-3-6**
    ```bash
-   wget https://raw.githubusercontent.com/kakaocloud-edu/tutorial/main/DataAnalyzeCourse/src/day3/ipynb/data_check.ipynb
+   wget https://raw.githubusercontent.com/kakaocloud-edu/tutorial/main/DataAnalyzeCourse/src/day3/Lab03/data_check.ipynb
    ```
 
    - kubectl.ipynb 파일 생성 확인 및 더블 클릭 후 내부 코드 실행
