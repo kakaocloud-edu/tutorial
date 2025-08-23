@@ -27,7 +27,7 @@ Monitoring Flow를 이용하여 로드밸런서, API 서버, Hadoop 클러스터
 
 ---
 
-## LAB 2. 내부 자원 헬스체크 (Flow Connection 사용)
+## 2. 내부 자원 헬스체크 (Flow Connection 사용)
 
 **목표**: VPC 내부 API 서버 및 Hadoop 클러스터 헬스체크.
 
@@ -60,7 +60,7 @@ Monitoring Flow를 이용하여 로드밸런서, API 서버, Hadoop 클러스터
 
 ---
 
-## LAB 3. 쇼핑몰 API 서버 다수 Endpoint 시나리오 체크
+## 3. 쇼핑몰 API 서버 다수 Endpoint 시나리오 체크
 
 **목표**: 카테고리 조회 → 상품 조회 → 로그인 → 회원가입 등 **사용자 여정 기반 API 시퀀스** 모니터링.
 
@@ -95,7 +95,7 @@ USER_ID       = u1
 
 ---
 
-## LAB 4. 멀티 타깃 모니터링 (For + JSON List)
+## 4. 멀티 타깃 모니터링 (For + JSON List)
 
 **목표**: 여러 API 서버를 하나의 시나리오에서 반복 점검.
 
