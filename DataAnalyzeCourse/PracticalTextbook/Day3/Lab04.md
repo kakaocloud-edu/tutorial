@@ -185,12 +185,11 @@ wget https://raw.githubusercontent.com/kakaocloud-edu/tutorial/main/DataAnalyzeC
         - BASE_URL = "http://**{api-lb의 Public IP}**”
 8. Product -> Category Mapping 테이블 생성
     - product_id 에 맞는 category를 Mapping해서 테이블로 저장
-    - datasets/gender 경로에 Mapping table 저장 확인
 9. Keyword -> Category Mapping 테이블 생성
     - search_keyword 에 맞는 category를 Mapping해서 테이블로 저장
-    - datasets/gender 경로에 Mapping table 저장 확인
 10. Mapping 테이블들과 원본 테이블 Join
     - 위에서 생성한 Mapping 테이블들과 원본 테이블을 Join
+    - datasets/gender 경로에 Join table 저장 확인
     - 이후 성별 추론 실습에서 Join 테이블을 원본 데이터로 사용
 
 ## 4. Notebook에서 성별 추론 모델 학습 진행 (7분)
