@@ -4,8 +4,6 @@
 
 ## 1. Notebook에서 세션 이탈 추론 모델 학습 진행 (5분)
 
-사용자의 첫 활동부터 K개의 활동까지 분석하여 세션이 완료될지 중간에 이탈할지 추론하는 실습입니다.
-
 1. Notebooks 탭 > `cpu-notebook`의 `CONNECT` 클릭
 2. Other 중 `Terminal` 클릭
 3. sessionDrop.ipynb 파일 다운로드
