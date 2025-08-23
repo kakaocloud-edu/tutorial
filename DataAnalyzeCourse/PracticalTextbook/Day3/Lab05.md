@@ -8,13 +8,13 @@
 2. Other 중 `Terminal` 클릭
 3. KServe.ipynb 파일 다운로드
 
-    ### **Lab5-1-3**
+    #### **Lab5-1-3**
 
-    ```bash
+    ```
     wget https://raw.githubusercontent.com/kakaocloud-edu/tutorial/main/DataAnalyzeCourse/src/day3/Lab05/KServe.ipynb
     ```
 
-- KServe.ipynb 파일 생성 확인
+    - KServe.ipynb 파일 생성 확인
 4. KServe.ipynb 파일 더블 클릭
     - KServe.ipynb 파일 좌측 상단에 있는 실행 버튼(Shift + Enter)을 눌러 셀 실행
 5. 패키지 설치
@@ -42,9 +42,9 @@
     - 노트북 상단  `Terminal`   탭 클릭
     - kubectl 명령어를 통해 배포된 모델 확인
     
-    ### **Lab5-1-9**
+    #### **Lab5-1-9**
     
-    ```jsx
+    ```
     kubectl get isvc -n kbm-u-kubeflow-tutorial gender-predict -w
     ```
     
