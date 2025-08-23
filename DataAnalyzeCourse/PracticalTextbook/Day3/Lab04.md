@@ -7,9 +7,9 @@
 1. sessionDrop.ipynb 파일 다운로드
     - Note: 위에서 생성한 Notebook(cpu-notebook) Terminal에서 입력
 
-### **Lab4-1-3**
+#### **Lab4-1-3**
 
-```bash
+```
 wget https://raw.githubusercontent.com/kakaocloud-edu/tutorial/main/DataAnalyzeCourse/src/day3/Lab04/sessionDrop_predict.ipynb
 ```
 
@@ -52,7 +52,7 @@ wget https://raw.githubusercontent.com/kakaocloud-edu/tutorial/main/DataAnalyzeC
     - Note: 위에서 생성한 Notebook(cpu-notebook) Terminal에서 입력
 
     #### **Lab4-2-2**
-    ```bash
+    ```
     wget https://raw.githubusercontent.com/kakaocloud-edu/tutorial/main/DataAnalyzeCourse/src/day3/Lab04/next_state.ipynb
     ```
 
@@ -169,9 +169,9 @@ wget https://raw.githubusercontent.com/kakaocloud-edu/tutorial/main/DataAnalyzeC
 
     - Note: 위에서 생성한 Notebook(cpu-notebook) Terminal에서 입력
     
-    ### **Lab4-3-4**
+    #### **Lab4-3-4**
     
-    ```bash
+    ```
     wget https://raw.githubusercontent.com/kakaocloud-edu/tutorial/main/DataAnalyzeCourse/src/day3/Lab04/gender_tableJoin.ipynb
     
     ```
@@ -198,53 +198,53 @@ wget https://raw.githubusercontent.com/kakaocloud-edu/tutorial/main/DataAnalyzeC
 
     - Note: 위에서 생성한 Notebook(cpu-notebook) Terminal에서 입력
     
-    ### **Lab4-4-2**
+    #### **Lab4-4-1**
     
-    ```bash
-    
+    ```
     wget https://raw.githubusercontent.com/kakaocloud-edu/tutorial/main/DataAnalyzeCourse/src/day3/Lab04/gender_predict.ipynb
     ```
     
     - gender_predict.ipynb 파일 생성 확인
-3. gender_predict.ipynb 파일 더블 클릭
+2. gender_predict.ipynb 파일 더블 클릭
     - gender_predict.ipynb 파일 좌측 상단에 있는 실행 버튼(Shift + Enter)을 눌러 셀 실행
-4. 환경 구성
+3. 환경 구성
     - 실습을 원활하게 진행하기 위해 라이브러리와 경로, 상수 값 등을 설정
-5. 원본 데이터 로드 & 로그인 전 구간 추출
+4. 원본 데이터 로드 & 로그인 전 구간 추출
     - 원본과 매핑 테이블을 조인한 데이터를 원본 데이터로 로드
     - 사용자의 로그인 전 행동 패턴을 분석해야 하므로 로그인 전 구간 추출
-6. Target Label 생성 & 로그인 전 구간 수치 집계
+5. Target Label 생성 & 로그인 전 구간 수치 집계
     - 실제 결과 값인 `Label` 생성
     - 로그인 완료한 세션 수 집계 
-7. 카테고리 카운트 & 파생 컬럼 생성 (Feature Engineering)
+6. 카테고리 카운트 & 파생 컬럼 생성 (Feature Engineering)
     - 카테고리 등장 횟수를 저장하는 카운트 컬럼 생성
     - 등장 횟수를 비율로 치환한 파생 컬럼 생성
-8. 파생 컬럼 결합 및 저장 (Feature Engineering)
+7. 파생 컬럼 결합 및 저장 (Feature Engineering)
     - 카운트, 파생 컬럼 결합하여 저장
     - 저장한 전처리 데이터로 모델 학습
-9. 학습용 / 검증용 데이터셋 분할
+8. 학습용 / 검증용 데이터셋 분할
     - 모델을 학습하기 위한 학습용 / 모델을 검증하기 위한 검증용 데이터 셋으로 분할
-10. 모델 학습
+9. 모델 학습
     - 학습용 데이터 셋으로 모델 학습
-11. 학습 평가
+10. 학습 평가
     - 검증용 데이터 셋으로 모델을 검증 및 평가
     - 평가에서 `Macro-F1`, `Accuracy` 값 확인
-12. Katib 하이퍼파라미터 튜닝 & 최적 하이퍼파라미터 값 추출
+11. Katib 하이퍼파라미터 튜닝 & 최적 하이퍼파라미터 값 추출
     - Note: 위에서 생성한 Notebook(cpu-notebook) Terminal에서 입력
     - gender_train.py 다운로드
-    
+      
+    #### **Lab4-4-11-1**
     ```
     wget https://raw.githubusercontent.com/kakaocloud-edu/tutorial/main/DataAnalyzeCourse/src/day3/Lab04/gender_train.py
     ```
     
     - gender_experiment.yaml 파일 다운로드
-    
+    #### **Lab4-4-11-2**
     ```
     wget https://raw.githubusercontent.com/kakaocloud-edu/tutorial/main/DataAnalyzeCourse/src/day3/Lab04/gender_experiment.yaml
     ```
     
     - Katib 하이퍼파라미터 튜닝 experiment 적용 및 실행
-    
+    #### **Lab4-4-11-3**
     ```
     kubectl -n kbm-u-kubeflow-tutorial apply -f gender_experiment.yaml
     ```
@@ -261,14 +261,14 @@ wget https://raw.githubusercontent.com/kakaocloud-edu/tutorial/main/DataAnalyzeC
             
             <img width="1547" height="32" alt="Image" src="https://github.com/user-attachments/assets/ca332ced-2034-4644-a8be-a2ff1f5e1019" />
             
-13.  Jupyter notebook에서 Katib 하이퍼파라미터 추출 값 확인
+12.  Jupyter notebook에서 Katib 하이퍼파라미터 추출 값 확인
         - **note:** Cell 9번 부터 실행
         - Katib에서 찾은 최적 하이퍼파라미터 값 확인
-14. Katib 최적 하이퍼파라미터로 모델 학습
+13. Katib 최적 하이퍼파라미터로 모델 학습
     - Katib 최적 하이퍼파라미터로 모델 재학습
-15. Katib 모델 평가 밎 저장
+14. Katib 모델 평가 밎 저장
     - Katib 모델 평가 값 확인 및 저장
     - 일반 학습한 모델 평가 값과 Katib 최적 하이퍼파라미터로 학습한 모델 평가 값 비교
-16. 성별 추론 결과 값 시각화
+15. 성별 추론 결과 값 시각화
     - Katib 최적 하이퍼파라미터로 추론한 결과 값을 그래프로 확인
     - 예측 성공 → 초록색 / 예측 실패 → 빨간색
