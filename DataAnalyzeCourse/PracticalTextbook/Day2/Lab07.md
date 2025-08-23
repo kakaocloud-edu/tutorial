@@ -266,7 +266,7 @@ Hadoop 클러스터 환경에서 실시간 스트리밍 데이터와 배치 데�
     #### **lab7-3-14**
     
     ```java
-    df_combined.groupBy("session_id").count().show(truncate=False)
+    df.groupBy("session_id").count().show(truncate=False)
     ```
     
 15. Spark 셸 종료
