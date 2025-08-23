@@ -222,21 +222,76 @@ Monitoring Flow를 이용하여 로드밸런서, API 서버, Hadoop 클러스터
 
 
 ## 4. 멀티 타깃 모니터링 (For + JSON List)
+1. 좌측 시나리오 탭 클릭
+2. 시나리오 생성 버튼 클릭
 
-**목표**: 여러 API 서버를 하나의 시나리오에서 반복 점검.
+   - 시나리오 이름: `lab4`
+   - 플로우 커넥션(선택): `카카오클라우드 VPC를 활용 선택`
+      - `flowconnection`
+   - 연결 서브넷: `main`, `public`
+   - 스케줄:
+      - `분 단위`
+      - 실행 분: `1`
 
-### Default Variable
-```yaml
-END_POINTS = ["{api-server-1의 private IP}", "{api-server-2의 private IP}"]   # JSON List
-TARGET_IP  = ""   # String
-```
+3. 생성 버튼 클릭
+4. 생성된 `lab4` 시나리오 클릭
+5. 시나리오 스텝 추가 버튼 클릭
+6. 우측 상단의 `Default Variable 관리` 클릭
 
-### 스텝
-1. **FOR Loop**
-   - foreach: `END_POINTS`
-   - marker → `TARGET_IP`
-2. **하위 API 호출**
-   - GET `http://${TARGET_IP}` (Expected Code: 200)
+      - Key: `END_POINTS`
+      - Type: `JSON List`
+      - Value: `["{api-server-1의 private IP}","{api-server-2의 private IP}"]`
+   - 저장 버튼 클릭
 
-**성공 기준**
-- 모든 엔드포인트 정상 응답 시 `Succeeded`
+      - Key: `TARGET_IP`
+      - Type: `String`
+      - Value: `""`
+   - 저장 버튼 클릭
+
+7. 닫기 버튼 클릭
+8. 새 스탭 설정의 유형 선택 클릭
+9. FOR 클릭
+
+   - 스텝
+      - 스텝 이름: `API_SERVERS_CHECK`
+   - 상태
+      - Type: `foreach`
+      - Base Variable: `END_POINTS`
+   - Markers
+      - Marker Variable: `TARGET_IP`
+      - Marker Value: `${marker}`
+      - 저장 클릭
+
+10. 좌측 상단 FOR 블럭에 하위 스텝 추가 클릭
+11. 유형 선택 클릭
+12. API 클릭
+
+   - 스텝
+      - 스텝 이름: `API_SERVER1`
+   - 요청
+      - Expected Code: `200`
+      - Method: `GET`
+      - URL: `http://${TARGET_IP}`
+      - Timeout: `3000`
+      - Parameters: `빈 칸`
+      - Headers: `빈 칸`
+      - Body: `빈 칸`
+
+13. 좌측 상단 FOR 블럭에 하위 스텝 추가 클릭
+14. 유형 선택 클릭
+15. API 클릭
+
+   - 스텝
+      - 스텝 이름: `API_SERVER2`
+   - 요청
+      - Expected Code: `200`
+      - Method: `GET`
+      - URL: `http://${TARGET_IP}`
+      - Timeout: `3000`
+      - Parameters: `빈 칸`
+      - Headers: `빈 칸`
+      - Body: `빈 칸`
+
+16. 테스트 진행 후 성공 확인
+17. 저장 버튼 클릭
+18. 실행 결과 탭 클릭 후 결과 확인
