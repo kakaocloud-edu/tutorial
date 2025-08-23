@@ -17,12 +17,10 @@ Monitoring Flow를 이용하여 로드밸런서, API 서버, Hadoop 클러스터
 5. 생성된 `lab1` 시나리오 클릭
 6. 시나리오 스텝 추가 버튼 클릭
 7. 우측 상단의 `Default Variable 관리` 클릭
-
       - Key: `LB_IP`
       - Type: `String`
       - Value: `{Load Balancer의 public IP}`
    - 저장 버튼 클릭
-
 8. 닫기 버튼 클릭
 9. 새 스탭 설정의 유형 선택 클릭
 10. API 클릭
