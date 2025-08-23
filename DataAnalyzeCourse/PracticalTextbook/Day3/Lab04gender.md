@@ -1,10 +1,8 @@
 # 성별 추론 모델 학습
 
-실시간 정제된 데이터를 기반으로 하여 사용자의 성별을 추론하는 모델 학습 과정입니다.
+실시간 정제된 데이터를 기반으로 하여 사용자의 성별을 추론하는 모델 학습 과정입니다. 성별 추론 실습에 필요한 Mapping 테이블을 생성하여 원본 테이블과 Join한 테이블을 생성합니다. 이후 Join한 테이블을 가지고 성별 추론 모델 학습을 진행합니다.
 
 ## 1. Notebook에서 성별 추론 모델 학습 준비 (2분)
-
-성별 추론 실습 전 필요한 Mapping 테이블을 생성하여 원본 테이블과 Join하는 예제입니다.
 
 1.  카카오 클라우드 콘솔 > Beyond Networking Service > Load Balancing
 2. `api-lb`  로드밸런서의 Public IP를 복사 후 클립보드에 저장
@@ -35,8 +33,6 @@
     - 이후 성별 추론 실습에서 Join 테이블을 원본 데이터로 사용
 
 ## 2. Notebook에서 성별 추론 모델 학습 진행 (7분)
-
-사용자의 로그인 전 행동 패턴을 보고 사용자의 성별을 추론하는 실습입니다.
 
 1. 노트북 상단  `Terminal`   탭 클릭
 2. gender_predict.ipynb 파일 다운로드
@@ -76,19 +72,19 @@
     - 노트북 상단  `Terminal`  탭 클릭
     - gender_train.py 다운로드
     
-    ```bash
+    ```
     wget https://raw.githubusercontent.com/kakaocloud-edu/tutorial/main/DataAnalyzeCourse/src/day3/Lab04/gender_train.py
     ```
     
     - gender_experiment.yaml 파일 다운로드
     
-    ```bash
+    ```
     wget https://raw.githubusercontent.com/kakaocloud-edu/tutorial/main/DataAnalyzeCourse/src/day3/Lab04/gender_experiment.yaml
     ```
     
     - Katib 하이퍼파라미터 튜닝 experiment 적용 및 실행
     
-    ```jsx
+    ```
     kubectl -n kbm-u-kubeflow-tutorial apply -f gender_experiment.yaml
     ```
     
