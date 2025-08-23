@@ -2,7 +2,7 @@
 
 Monitoring Flow를 이용하여 로드밸런서, API 서버, Hadoop 클러스터 등을 모니터링하는 실습입니다.
 
-## LAB 1. 퍼블릭 가용성 모니터링 (without Flow Connection)
+## 1. 퍼블릭 가용성 모니터링 (without Flow Connection)
 
 **목표**: Load Balancer 퍼블릭 엔드포인트의 **API 응답 상태**를 모니터링한다.  
 
