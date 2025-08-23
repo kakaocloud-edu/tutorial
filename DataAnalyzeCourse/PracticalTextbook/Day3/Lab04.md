@@ -55,7 +55,7 @@ wget https://raw.githubusercontent.com/kakaocloud-edu/tutorial/main/DataAnalyzeC
 
 3. next_state.ipynb 파일 생성 확인 및 더블 클릭
 
-    - next_state.ipynb 파일 좌측 상단에 있는 화살표를 눌러 셀 실행
+    - next_state.ipynb 파일 좌측 상단에 있는 실행 버튼(Shift + Enter)을 눌러 셀 실행
 
 4. 런타임 / 환경 구성
 
