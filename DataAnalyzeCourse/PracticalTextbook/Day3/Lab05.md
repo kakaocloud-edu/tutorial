@@ -56,8 +56,6 @@ wget https://raw.githubusercontent.com/kakaocloud-edu/tutorial/main/DataAnalyzeC
 
 ## 2. 모델 성별 추론 실습 진행 (1분)
 
-배포된 모델에 샘플 데이터를 입력하여 성별 추론 실습을 진행합니다.
-
 1. 좌측 상단 실행 버튼(Shift + Enter)을 눌러 성별 추론 셀 (Cell 5) 을 실행
     - KServe를 이용하여 배포된 모델 API URL 확인
     - Cell 내의 10개의 샘플 데이터 확인
