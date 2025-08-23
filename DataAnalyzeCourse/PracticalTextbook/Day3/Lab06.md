@@ -126,13 +126,13 @@ Monitoring Flow를 이용하여 로드밸런서, API 서버, Hadoop 클러스터
       - Headers:
          - Key: `content-type`
          - Value: `application/json`
-         - 저장 클릭
+            - 저장 클릭
          - Key: `credential-id`
          - Value: `{IAM 액세스 키 ID}`
-         - 저장 클릭
+            - 저장 클릭
          - Key: `credential-secret`
          - Value: `{IAM 보안 액세스 키}`
-         - 저장 클릭
+            - 저장 클릭
       - Body: `빈 칸`
 
 19. 테스트 진행 후 성공 확인
@@ -187,7 +187,7 @@ Monitoring Flow를 이용하여 로드밸런서, API 서버, Hadoop 클러스터
       - Headers:
          - Key: `Accept`
          - Value: `application/json`
-         - 저장 클릭
+            - 저장 클릭
       - Body: `빈 칸`
 
 10. 좌측 상단 API 블럭에 다음 스텝 추가 클릭
@@ -205,7 +205,7 @@ Monitoring Flow를 이용하여 로드밸런서, API 서버, Hadoop 클러스터
       - Headers:
          - Key: `Accept`
          - Value: `application/json`
-         - 저장 클릭
+            - 저장 클릭
       - Body: `빈 칸`
 
 13. 좌측 상단 API 블럭에 다음 스텝 추가 클릭
@@ -223,7 +223,7 @@ Monitoring Flow를 이용하여 로드밸런서, API 서버, Hadoop 클러스터
       - Headers:
          - Key: `Content-Type`
          - Value: `application/x-www-form-urlencoded`
-         - 저장 클릭
+            - 저장 클릭
       - Body: `user_id=${USER_ID}`
 
 16. 테스트 진행 후 성공 확인
@@ -270,7 +270,7 @@ Monitoring Flow를 이용하여 로드밸런서, API 서버, Hadoop 클러스터
    - Markers
       - Marker Variable: `TARGET_IP`
       - Marker Value: `${marker}`
-      - 저장 클릭
+         - 저장 클릭
 
 10. 좌측 상단 FOR 블럭에 하위 스텝 추가 클릭
 11. 유형 선택 클릭
