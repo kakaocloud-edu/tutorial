@@ -370,14 +370,14 @@ Monitoring Flow를 이용하여 로드밸런서, API 서버, Hadoop 클러스터
     ```
     - **Note**: {api-server-1의 public ip 주소} 부분을 복사한 각 IP 주소로 교체
    
-10. 장애를 발생시키기 위해 http 80 포트를 90초 동안 차단하는 명령어 실행
+10. 장애를 발생시키기 위해 http 80 포트를 2분 동안 차단하는 명령어 실행
     
     **lab6-6-10**
 
     ```
     sudo nohup bash -c '
       iptables -I INPUT -p tcp --dport 80  -j REJECT
-      sleep 90
+      sleep 120
       iptables -D INPUT -p tcp --dport 80  -j REJECT
     ' >/tmp/http_drop.log 2>&1 &
     ```
