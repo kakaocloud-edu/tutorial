@@ -354,28 +354,30 @@ Monitoring Flow를 이용하여 로드밸런서, API 서버, Hadoop 클러스터
     - 터미널 열기
     - keypair를 다운받아놓은 폴더로 이동 후 터미널에 명령어 붙여넣기 및 **yes** 입력
       
-       **lab6-5-9-1**
+       **lab6-6-9-1**
        ```
        cd {keypair.pem 다운로드 위치}
        ```
         
    - 리눅스의 경우 아래와 같이 키페어 권한 조정
         
-     **lab6-5-9-2**
+     **lab6-6-9-2**
         
      ```
      chmod 400 keypair.pem
      ```
         
-     **lab6-5-9-3**
+     **lab6-6-9-3**
         
      ```
      ssh -i keypair.pem ubuntu@{api-server-1의 public ip 주소}
      ```
      - **Note**: {api-server-1의 public ip 주소} 부분을 복사한 각 IP 주소로 교체
    
-11. 장애를 발생시키기 위해 http 80 포트를 90초 동안 차단하는 명령어 실행
+10. 장애를 발생시키기 위해 http 80 포트를 90초 동안 차단하는 명령어 실행
     
+     **lab6-6-10**
+
     ```
     sudo nohup bash -c '
       iptables -I INPUT -p tcp --dport 80  -j REJECT
@@ -384,9 +386,9 @@ Monitoring Flow를 이용하여 로드밸런서, API 서버, Hadoop 클러스터
     ' >/tmp/http_drop.log 2>&1 &
     ```
     
-12. 카카오 클라우드 콘솔 > Management > Monitoring Flow
-13. `lab2` 시나리오 클릭
+11. 카카오 클라우드 콘솔 > Management > Monitoring Flow
+12. `lab2` 시나리오 클릭
     - 실행 결과 탭 클릭
     - 1분 뒤 새로고침하여 상태가 `Failed` 인 행 확인
     - 다시 1분 뒤 새로고침하여 상태가 `Succeed`로 재전이 되었음을 확인
-14. Alert Center 수신 채널에 등록한 이메일로 접속하여 Alert 메일 확인
+13. Alert Center 수신 채널에 등록한 이메일로 접속하여 Alert 메일 확인
