@@ -67,7 +67,7 @@
    
 11. 장애를 발생시키기 위해 http 80 포트를 90초 동안 차단하는 명령어 실행
     
-    ```jsx
+    ```
     sudo nohup bash -c '
       iptables -I INPUT -p tcp --dport 80  -j REJECT
       sleep 90
