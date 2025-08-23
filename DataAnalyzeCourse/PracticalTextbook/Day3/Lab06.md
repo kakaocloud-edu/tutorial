@@ -2,7 +2,17 @@
 
 Monitoring Flow를 이용하여 로드밸런서, API 서버, Hadoop 클러스터 등을 모니터링하는 실습입니다.
 
-## 1. 퍼블릭 가용성 모니터링
+## 1. 사용자 리소스 정보 조회
+1. 카카오 클라우드 콘솔 > Beyond Compute Service > Virtual Machine
+2.`api-server-1`의 private IP 클립보드 등에 복사 붙여넣기
+3. 카카오 클라우드 콘솔 > Beyond Networking Service > Load Balancing
+4. `api-lb`의 Public IP 클립보드 등에 복사 붙여넣기
+5. 카카오 클라우드 콘솔 > Analytics > Hadoop Eco
+6. `hadoop-eco` 클릭
+7. 클러스터 정보 클릭
+8. `클러스터 ID` 클립보드 등에 복사 붙여넣기
+
+## 2. 퍼블릭 가용성 모니터링
 1. 카카오 클라우드 콘솔 > Management > Mornitoring Flow
 2. 좌측 시나리오 탭 클릭
 3. 시나리오 생성 버튼 클릭
@@ -43,7 +53,7 @@ Monitoring Flow를 이용하여 로드밸런서, API 서버, Hadoop 클러스터
 13. 실행 결과 탭 클릭 후 결과 확인
 
 
-## 2. 내부 자원 헬스체크
+## 3. 내부 자원 헬스체크
 1. 좌츨 플로우 커넥션 탭 클릭
 2. 플로우 커넥션 생성 버튼 클릭
 
@@ -130,7 +140,7 @@ Monitoring Flow를 이용하여 로드밸런서, API 서버, Hadoop 클러스터
 21. 실행 결과 탭 클릭 후 결과 확인
 
 
-## 3. 쇼핑몰 API 서버 다수 Endpoint 시나리오 체크
+## 4. 쇼핑몰 API 서버 다수 Endpoint 시나리오 체크
 1. 좌측 시나리오 탭 클릭
 2. 시나리오 생성 버튼 클릭
 
@@ -221,7 +231,7 @@ Monitoring Flow를 이용하여 로드밸런서, API 서버, Hadoop 클러스터
 18. 실행 결과 탭 클릭 후 결과 확인
 
 
-## 4. 멀티 타깃 모니터링
+## 5. 멀티 타깃 모니터링
 1. 좌측 시나리오 탭 클릭
 2. 시나리오 생성 버튼 클릭
 
@@ -297,7 +307,7 @@ Monitoring Flow를 이용하여 로드밸런서, API 서버, Hadoop 클러스터
 18. 실행 결과 탭 클릭 후 결과 확인
 
 
-## 5. Monitering Flow & Alert Center 장애 탐지 (8분)
+## 6. Monitering Flow & Alert Center 장애 탐지 (8분)
 
 1. 우측 상단 프로필 이미지 클릭 > 계정 정보 클릭
 2. 계정 정보 내 이메일 주소 입력
