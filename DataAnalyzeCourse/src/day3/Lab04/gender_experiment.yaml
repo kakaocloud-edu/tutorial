@@ -32,7 +32,7 @@ spec:
   metricsCollectorSpec:
     collector: { kind: StdOut }
   trialTemplate:
-    retain : ture
+    retain : true
     primaryContainerName: training-container
     trialParameters:
       - { name: min_prelogin_events, reference: min_prelogin_events }
