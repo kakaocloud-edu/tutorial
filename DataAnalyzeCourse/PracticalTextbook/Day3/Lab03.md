@@ -41,7 +41,7 @@
 
 ## 3. 간단한 Notebook 실습
 1. speed.ipynb 파일 다운로드
-   - **Note**: 위에서 생성한 Notebook(`cpu-notebook`)에서 입력
+   - **Note**: 위에서 생성한 Notebook(`cpu-notebook`) `Terminal`에서 입력
 
    #### **lab4-3-6**
    ```bash
@@ -53,7 +53,7 @@
 
 ## 4. Notebook에서 Object Storage에 쌓인 데이터 확인
 1. data_check.ipynb 파일 다운로드
-   - **Note**: 위에서 생성한 Notebook(`cpu-notebook`)에서 입력
+   - **Note**: 위에서 생성한 Notebook(`cpu-notebook`) `Terminal`에서 입력
 
    #### **lab4-3-6**
    ```bash
