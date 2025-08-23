@@ -9,7 +9,7 @@
 
     #### **Lab4-0-3**
     ```bash
-    wget https://raw.githubusercontent.com/kakaocloud-edu/tutorial/main/DataAnalyzeCourse/src/day3/ipynb/next_state.ipynb
+    wget https://raw.githubusercontent.com/kakaocloud-edu/tutorial/main/DataAnalyzeCourse/src/day3/Lab04/next_state.ipynb
     ```
 
 4. next_state.ipynb 파일 생성 확인 및 더블 클릭
