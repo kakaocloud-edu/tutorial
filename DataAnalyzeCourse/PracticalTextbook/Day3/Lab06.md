@@ -310,10 +310,10 @@ Monitoring Flow를 이용하여 로드밸런서, API 서버, Hadoop 클러스터
 
 ## 6. Monitering Flow & Alert Center 장애 탐지 (8분)
 
-1. 우측 상단 프로필 이미지 클릭 > 계정 정보 클릭
+1. 우측 상단 프로필 이미지 클릭 > 계정 정보
 2. 계정 정보 내 이메일 주소 입력
     - **note :** 이메일 인증 필요
-3. 카카오 클라우드 콘솔 > Management > Alert Center 접속
+3. 카카오 클라우드 콘솔 > Management > Alert Center
 4. 좌측 수신 채널 클릭
 5. 수신 채널 생성 버튼 클릭
     - 수신 채널 이름 : `mf-email`
@@ -385,7 +385,7 @@ Monitoring Flow를 이용하여 로드밸런서, API 서버, Hadoop 클러스터
     ' >/tmp/http_drop.log 2>&1 &
     ```
     
-12. 카카오 클라우드 콘솔 > Management > Monitoring Flow 접속
+12. 카카오 클라우드 콘솔 > Management > Monitoring Flow
 13. `lab2` 시나리오 클릭
     - 실행 결과 탭 클릭
     - 1분 뒤 새로고침하여 상태가 `Failed` 인 행 확인
