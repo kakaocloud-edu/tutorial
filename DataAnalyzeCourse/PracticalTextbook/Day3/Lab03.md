@@ -62,5 +62,6 @@
 
    - kubectl.ipynb 파일 생성 확인 및 더블 클릭 후 내부 코드 실행
 
-2. data 생성 확인
+2. datasets 폴더 생성 확인
+3. processed_user_behavior.sorted.csv 파일 확인
 
