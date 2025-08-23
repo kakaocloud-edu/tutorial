@@ -5,7 +5,7 @@
 ## 1. Notebook에서 세션 이탈 추론 모델 학습 진행 (5분)
 
 1. sessionDrop.ipynb 파일 다운로드
-    - Note: 위에서 생성한 Notebook(cpu-notebook) Terminal에서 입력
+    - Note: lab3에서 생성한 Notebook(cpu-notebook) Terminal에서 입력
 
 #### **Lab4-1-3**
 
@@ -49,7 +49,7 @@ wget https://raw.githubusercontent.com/kakaocloud-edu/tutorial/main/DataAnalyzeC
 
 ## 2. Notebook에서 next_state 예측 모델 학습 진행 (20분)
 1. next_state.ipynb 파일 다운로드
-    - Note: 위에서 생성한 Notebook(cpu-notebook) Terminal에서 입력
+    - Note: lab3에서 생성한 Notebook(cpu-notebook) Terminal에서 입력
 
     #### **Lab4-2-2**
     ```
@@ -167,7 +167,7 @@ wget https://raw.githubusercontent.com/kakaocloud-edu/tutorial/main/DataAnalyzeC
 2. `api-lb`  로드밸런서의 Public IP를 복사 후 클립보드에 저장
 4. gender_tableJoin.ipynb 파일 다운로드
 
-    - Note: 위에서 생성한 Notebook(cpu-notebook) Terminal에서 입력
+    - Note: lab3에서 생성한 Notebook(cpu-notebook) Terminal에서 입력
     
     #### **Lab4-3-4**
     
@@ -196,7 +196,7 @@ wget https://raw.githubusercontent.com/kakaocloud-edu/tutorial/main/DataAnalyzeC
 
 1. gender_predict.ipynb 파일 다운로드
 
-    - Note: 위에서 생성한 Notebook(cpu-notebook) Terminal에서 입력
+    - Note: lab3에서 생성한 Notebook(cpu-notebook) Terminal에서 입력
     
     #### **Lab4-4-1**
     
