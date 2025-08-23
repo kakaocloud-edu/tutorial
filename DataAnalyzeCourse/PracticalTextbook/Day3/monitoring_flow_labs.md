@@ -1,7 +1,6 @@
-# Monitoring Flow Labs
+# Monitoring Flow
 
-이 문서는 다양한 **모니터링 시나리오**를 실습하기 위한 가이드입니다.  
-로드밸런서, API 서버, Hadoop 클러스터 등을 모니터링하는 실습입니다.
+Monitoring Flow를 이용하여 로드밸런서, API 서버, Hadoop 클러스터 등을 모니터링하는 실습입니다.
 
 ---
 
