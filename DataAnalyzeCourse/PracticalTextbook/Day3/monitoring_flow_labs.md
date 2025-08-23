@@ -3,10 +3,15 @@
 Monitoring Flow를 이용하여 로드밸런서, API 서버, Hadoop 클러스터 등을 모니터링하는 실습입니다.
 
 ## 1. 퍼블릭 가용성 모니터링 (without Flow Connection)
+1. 카카오 클라우드 콘솔 > Management > Mornitoring Flow
+2. 좌측 시나리오 탭 클릭
+3. 시나리오 생성 버튼 클릭
+   - 시나리오 이름: `lab1`
+   - 플로우 커넥션(선택): `카카오클라우드 VPC를 활용` 선택 안 함
+   - 스케줄:
+      - `분 단위`
+      - 실행 분: `1`
 
-**목표**: Load Balancer 퍼블릭 엔드포인트의 **API 응답 상태**를 모니터링한다.  
-
-### 구성
 1. 시나리오 생성  
    - *VPC 활용* 체크 해제 (Flow Connection 없이)  
    - 스케줄: 1분마다
