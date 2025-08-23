@@ -5,12 +5,13 @@ Monitoring Flow를 이용하여 로드밸런서, API 서버, Hadoop 클러스터
 ## 1. 사용자 리소스 정보 조회
 1. 카카오 클라우드 콘솔 > Beyond Compute Service > Virtual Machine
 2. `api-server-1`의 private IP 클립보드 등에 복사 붙여넣기
-3. 카카오 클라우드 콘솔 > Beyond Networking Service > Load Balancing
-4. `api-lb`의 Public IP 클립보드 등에 복사 붙여넣기
-5. 카카오 클라우드 콘솔 > Analytics > Hadoop Eco
-6. `hadoop-eco` 클릭
-7. 클러스터 정보 클릭
-8. `클러스터 ID` 클립보드 등에 복사 붙여넣기
+3. `api-server-2`의 private IP 클립보드 등에 복사 붙여넣기
+4. 카카오 클라우드 콘솔 > Beyond Networking Service > Load Balancing
+5. `api-lb`의 Public IP 클립보드 등에 복사 붙여넣기
+6. 카카오 클라우드 콘솔 > Analytics > Hadoop Eco
+7. `hadoop-eco` 클릭
+8. 클러스터 정보 클릭
+9. `클러스터 ID` 클립보드 등에 복사 붙여넣기
 
 ## 2. 퍼블릭 가용성 모니터링
 1. 카카오 클라우드 콘솔 > Management > Mornitoring Flow
