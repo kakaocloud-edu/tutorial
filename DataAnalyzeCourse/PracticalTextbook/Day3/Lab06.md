@@ -378,13 +378,13 @@ Monitoring Flow를 이용하여 로드밸런서, API 서버, Hadoop 클러스터
     
      **lab6-6-10**
 
-    ```
-    sudo nohup bash -c '
-      iptables -I INPUT -p tcp --dport 80  -j REJECT
-      sleep 90
-      iptables -D INPUT -p tcp --dport 80  -j REJECT
-    ' >/tmp/http_drop.log 2>&1 &
-    ```
+     ```
+     sudo nohup bash -c '
+       iptables -I INPUT -p tcp --dport 80  -j REJECT
+       sleep 90
+       iptables -D INPUT -p tcp --dport 80  -j REJECT
+     ' >/tmp/http_drop.log 2>&1 &
+     ```
     
 11. 카카오 클라우드 콘솔 > Management > Monitoring Flow
 12. `lab2` 시나리오 클릭
