@@ -28,7 +28,7 @@ Kubeflow 실습을 위한 프로젝트 기본 환경 실습을 진행합니다. 
 #### pool-ingress 노드풀 생성 (약 3분 소요)
 3. 노드 풀 탭 > 노드 풀 생성 버튼 클릭
 4. pool-ingress 노드 풀 설정 정보
-    - 노드 풀 타입: `Virtual Machine`
+    - 노드 풀 유형: `Virtual Machine`
     - 기본 설정
         - 노드 풀 이름: `pool-ingress`
         - 노드 풀 설명(선택): `빈 칸`
@@ -55,7 +55,7 @@ Kubeflow 실습을 위한 프로젝트 기본 환경 실습을 진행합니다. 
 #### pool-worker 노드풀 생성 (약 3분 소요) 
 5. 노드 풀 탭 > 노드 풀 생성 버튼 클릭
 6. pool-worker 노드 설정 정보
-    - 노드 풀 타입: `Virtual Machine`
+    - 노드 풀 유형: `Virtual Machine`
     - 기본 설정
         - 노드 풀 이름: `pool-worker`
         - 노드 풀 설명(선택): `빈 칸`
@@ -75,7 +75,7 @@ Kubeflow 실습을 위한 프로젝트 기본 환경 실습을 진행합니다. 
 #### pool-gpu 노드풀 생성 (약 3분 소요)
 7. 노드 풀 탭 > 노드 풀 생성 버튼 클릭
 8. pool-worker 노드 설정 정보
-    - 노드 풀 타입: `GPU`
+    - 노드 풀 유형: `GPU`
     - 기본 설정
         - 노드 풀 이름: `pool-gpu`
         - 노드 풀 설명(선택): 빈칸
