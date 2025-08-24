@@ -32,9 +32,9 @@ Kubeflow 실습을 위한 프로젝트 기본 환경 실습을 진행합니다. 
     - 기본 설정
         - 노드 풀 이름: `pool-ingress`
         - 노드 풀 설명(선택): `빈 칸`
-    - Image: `Ubuntu 22.04`
-    - Instance 타입: `m2a.large`
-    - Volume: SSD `50GB`
+    - 이미지: `Ubuntu 22.04`
+    - 인스턴스 타입: `m2a.large`
+    - 볼륨: SSD `50GB`
     - 노드 수: `1`
     - 노드 풀 Network 설정
         - VPC: `kc-vpc`
@@ -59,9 +59,9 @@ Kubeflow 실습을 위한 프로젝트 기본 환경 실습을 진행합니다. 
     - 기본 설정
         - 노드 풀 이름: `pool-worker`
         - 노드 풀 설명(선택): `빈 칸`
-    - Image: `Ubuntu 22.04`
-    - Instance 타입: `m2a.xlarge`
-    - Volume: SSD `100GB`
+    - 이미지: `Ubuntu 22.04`
+    - 인스턴스 타입: `m2a.xlarge`
+    - 볼륨: SSD `100GB`
     - 노드 수: `6`
     - 노드 풀 Network 설정
         - VPC: `kc-vpc`
@@ -79,9 +79,9 @@ Kubeflow 실습을 위한 프로젝트 기본 환경 실습을 진행합니다. 
     - 기본 설정
         - 노드 풀 이름: `pool-gpu`
         - 노드 풀 설명(선택): 빈칸
-    - Image: `Ubuntu 22.04`
-    - Instance 타입: `p2i.6xlarge`
-    - Volume: SSD `50GB`
+    - 이미지: `Ubuntu 22.04`
+    - 인스턴스 타입: `p2i.6xlarge`
+    - 볼륨: SSD `50GB`
     - 노드 수: `1`
     - 노드 풀 Network 설정
         - VPC: `kc-vpc`
