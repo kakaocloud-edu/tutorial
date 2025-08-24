@@ -24,7 +24,7 @@
     - Object Storage 설정 : `Object Storage`
     - Kubeflow 소유자 설정
         - 소유자 이메일 계정 : `입력된 이메일로 임시 비밀번호 발송`
-        - 네임 스페이스 이름 : `kubeflow-tutorial`
+        - 네임스페이스 이름 : `kubeflow-tutorial`
         - 네임스페이스 파일 스토리지 : `http://{File Storage IP}/handson(퍼블릭 액세스 허용)`
     - DB 설정
         - DB 유형: `Kubeflow Internal DB`
