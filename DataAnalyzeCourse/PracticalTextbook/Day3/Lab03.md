@@ -43,7 +43,7 @@
     
     - kubectl.ipynb 파일 생성 확인
 4.  kubectl.ipynb 실행 
-    - kubectl.ipynb 파일 좌측 상단에 있는 실행 버튼(Shift + Enter)을 눌러 셀 실행
+    - 실행 버튼(Shift + Enter)을 눌러 셀 실행
 
 
 ## 3. 간단한 Notebook 실습
@@ -60,8 +60,8 @@ CIFAR-10 이미지를 분류하는 간단한 CNN을 학습하고 성능을 평�
     ```
     
     - speed.ipynb 파일 생성 확인
-2. speed.ipynb 파일 더블 클릭
-    - speed.ipynb 파일 좌측 상단에 있는 실행 버튼(Shift + Enter)을 눌러 셀 실행
+2. speed.ipynb 파일 실행
+    - 실행 버튼(Shift + Enter)을 눌러 셀 실행
     - cpu 사용하여 모델이 학습하는데 걸리는 시간 확인
 
 ## 4. Object Storage에 쌓인 데이터 확인
@@ -76,8 +76,8 @@ CIFAR-10 이미지를 분류하는 간단한 CNN을 학습하고 성능을 평�
     ```
     
     - data_check.ipynb 파일 생성 확인
-2. data_check.ipynb 파일 더블 클릭
-    - data_check.ipynb 파일 좌측 상단에 있는 실행 버튼(Shift + Enter)을 눌러 셀 실행
+2. data_check.ipynb 파일 실행
+    - 실행 버튼(Shift + Enter)을 눌러 셀 실행
 3. 필요한 라이브러리 설치
 4. Delta Lake에서 현재 스냅샷 로드 → 정렬 후 CSV/Parquet 저장
     - 아래 환경 변수에 S3 키 값 삽입
