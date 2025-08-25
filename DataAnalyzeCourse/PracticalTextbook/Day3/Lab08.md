@@ -44,7 +44,7 @@
         - `생성` 버튼 클릭
 8. 알림 정책 생성 확인
 
-## 2. Monitering Flow & Alert Center 장애 탐지 (5분)
+## 2. Alert Center에서 장애 탐지 (5분)
 
 1. 카카오 클라우드 콘솔 > Beyond Compute Service > Virtual Machine
 2. `api-server-1` 인스턴스 SSH 접속
