@@ -5,85 +5,51 @@
 ## 1. Notebook에서 성별 추론 모델 학습 준비 (2분)
 1.  카카오 클라우드 콘솔 > Beyond Networking Service > Load Balancing
 2. `api-lb`  로드밸런서의 Public IP를 복사 후 클립보드에 저장
-3. gender_tableJoin.ipynb 파일 다운로드
-
-    - Note: lab3에서 생성한 Notebook(cpu-notebook) Terminal에서 입력
-    
-    #### **Lab5-1-3**
-    
-    ```
-    wget https://raw.githubusercontent.com/kakaocloud-edu/tutorial/main/DataAnalyzeCourse/src/day3/Lab05/gender_tableJoin.ipynb
-    ```
-    
-    - gender_tableJoin.ipynb 파일 생성 확인
-4.  gender_tableJoin.ipynb 파일 더블 클릭
-    -  gender_tableJoin.ipynb 파일 좌측 상단에 있는 실행 버튼(Shift + Enter)을 눌러 셀 실행
-5. 환경 구성
+3.  gender_tableJoin.ipynb 파일 더블 클릭 후 실행
+    -  \실행 버튼(Shift + Enter)을 눌러 셀 실행
+4. 환경 구성
     - 실습에 필요한 라이브러리와 경로, 네트워크 설정 값 등을 설정
     - 아래 환경 변수에 ‘api-lb의 Public IP’ 를 삽입
         - BASE_URL = "http://**{api-lb의 Public IP}**”
-6. Product -> Category Mapping 테이블 생성
+5. Product -> Category Mapping 테이블 생성
     - product_id 에 맞는 category를 Mapping해서 테이블로 저장
-7. Keyword -> Category Mapping 테이블 생성
+6. Keyword -> Category Mapping 테이블 생성
     - search_keyword 에 맞는 category를 Mapping해서 테이블로 저장
-8. Mapping 테이블들과 원본 테이블 Join
+7. Mapping 테이블들과 원본 테이블 Join
     - 위에서 생성한 Mapping 테이블들과 원본 테이블을 Join
     - datasets/gender 경로에 Join table 저장 확인
     - 이후 성별 추론 실습에서 Join 테이블을 원본 데이터로 사용
 
 ## 2. Notebook에서 성별 추론 모델 학습 진행 (7분)
 
-1. gender_predict.ipynb 파일 다운로드
-
-    - Note: lab3에서 생성한 Notebook(cpu-notebook) Terminal에서 입력
-    
-    #### **Lab5-2-1**
-    
-    ```
-    wget https://raw.githubusercontent.com/kakaocloud-edu/tutorial/main/DataAnalyzeCourse/src/day3/Lab05/gender_predict.ipynb
-    ```
-    
-    - gender_predict.ipynb 파일 생성 확인
-2. gender_predict.ipynb 파일 더블 클릭
+1. gender_predict.ipynb 파일 더블 클릭 후 실행
     - gender_predict.ipynb 파일 좌측 상단에 있는 실행 버튼(Shift + Enter)을 눌러 셀 실행
-3. 환경 구성
+2. 환경 구성
     - 실습을 원활하게 진행하기 위해 라이브러리와 경로, 상수 값 등을 설정
-4. 원본 데이터 로드 & 로그인 전 구간 추출
+3. 원본 데이터 로드 & 로그인 전 구간 추출
     - 원본과 매핑 테이블을 조인한 데이터를 원본 데이터로 로드
     - 사용자의 로그인 전 행동 패턴을 분석해야 하므로 로그인 전 구간 추출
-5. Target Label 생성 & 로그인 전 구간 수치 집계
+4. Target Label 생성 & 로그인 전 구간 수치 집계
     - 실제 결과 값인 `Label` 생성
     - 로그인 완료한 세션 수 집계 
-6. 카테고리 카운트 & 파생 컬럼 생성 (Feature Engineering)
+5. 카테고리 카운트 & 파생 컬럼 생성 (Feature Engineering)
     - 카테고리 등장 횟수를 저장하는 카운트 컬럼 생성
     - 등장 횟수를 비율로 치환한 파생 컬럼 생성
-7. 파생 컬럼 결합 및 저장 (Feature Engineering)
+6. 파생 컬럼 결합 및 저장 (Feature Engineering)
     - 카운트, 파생 컬럼 결합하여 저장
     - 저장한 전처리 데이터로 모델 학습
-8. 학습용 / 검증용 데이터셋 분할
+7. 학습용 / 검증용 데이터셋 분할
     - 모델을 학습하기 위한 학습용 / 모델을 검증하기 위한 검증용 데이터 셋으로 분할
-9. 모델 학습
+8. 모델 학습
     - 학습용 데이터 셋으로 모델 학습
-10. 학습 평가
+9. 학습 평가
     - 검증용 데이터 셋으로 모델을 검증 및 평가
     - 평가에서 `Macro-F1`, `Accuracy` 값 확인
-11. Katib 하이퍼파라미터 튜닝 & 최적 하이퍼파라미터 값 추출
-    - Note: 위에서 생성한 Notebook(cpu-notebook) Terminal에서 입력
-    - gender_train.py 다운로드
-      
-    #### **Lab5-2-11-1**
-    ```
-    wget https://raw.githubusercontent.com/kakaocloud-edu/tutorial/main/DataAnalyzeCourse/src/day3/Lab05/gender_train.py
-    ```
-    
-    - gender_experiment.yaml 파일 다운로드
-    #### **Lab5-2-11-2**
-    ```
-    wget https://raw.githubusercontent.com/kakaocloud-edu/tutorial/main/DataAnalyzeCourse/src/day3/Lab05/gender_experiment.yaml
-    ```
-    
+10. Katib 하이퍼파라미터 튜닝 & 최적 하이퍼파라미터 값 추출
+
+    - **Note**: lab3에서 생성한 Notebook(`cpu-notebook`) `Terminal`에서 입력
     - Katib 하이퍼파라미터 튜닝 experiment 적용 및 실행
-    #### **Lab5-2-11-3**
+    #### **Lab5-2-10**
     ```
     kubectl -n kbm-u-kubeflow-tutorial apply -f gender_experiment.yaml
     ```
@@ -100,7 +66,7 @@
             
             <img width="1547" height="32" alt="Image" src="https://github.com/user-attachments/assets/ca332ced-2034-4644-a8be-a2ff1f5e1019" />
             
-12.  Jupyter notebook에서 Katib 하이퍼파라미터 추출 값 확인
+12.  `cpu-notebook`의 gender_predict.ipynb에서 Katib 하이퍼파라미터 추출 값 확인
         - **note:** Cell 9번 부터 실행
         - Katib에서 찾은 최적 하이퍼파라미터 값 확인
 13. Katib 최적 하이퍼파라미터로 모델 학습
@@ -114,45 +80,34 @@
 
 
 ## 3. Object Stroage에 모델 저장 후 KServe로 모델 배포 (2분)
-1. KServe.ipynb 파일 다운로드
 
-    - Note: lab3에서 생성한 Notebook(cpu-notebook) Terminal에서 입력
-
-    #### **Lab5-3-1**
-
-    ```
-    wget https://raw.githubusercontent.com/kakaocloud-edu/tutorial/main/DataAnalyzeCourse/src/day3/Lab05/KServe.ipynb
-    ```
-
-    - KServe.ipynb 파일 생성 확인
-2. KServe.ipynb 파일 더블 클릭
-    - KServe.ipynb 파일 좌측 상단에 있는 실행 버튼(Shift + Enter)을 눌러 셀 실행
-3. 패키지 설치
+1. KServe.ipynb 파일 더블 클릭 후 실행
+    - 실행 버튼(Shift + Enter)을 눌러 셀 실행
+2. 패키지 설치
     - 실습에 필요한 패키지를 설치
-4.  Object Storage에 모델 저장
+3.  Object Storage에 모델 저장
     - Kakaocloud Object Storage에 모델을 저장
     - 아래 환경 변수들에 S3 키 값을 삽입 후 실행
         - AWS_ACCESS_KEY_ID = "**{S3_ACCESS_KEY}**”
         - AWS_SECRET_ACCESS_KEY = "**{S3_SECRET_KEY}**”
-    - 카카오 클라우드 콘솔 > Beyond Storage Service > Object Storage
-    - `models`  버킷 생성 확인 및 클릭
-    - 버킷 안 `gender_predict` 폴더 생성 확인 및 클릭
-    - 저장된 `model.joblib` 파일 확인
-    - notebook 내 `kserve_s3_creds.env` 파일 생성 확인
-5. KServe 리소스 생성
+4. 카카오 클라우드 콘솔 > Beyond Storage Service > Object Storage
+5. `models`  버킷 생성 확인 및 클릭
+6. 버킷 안 `gender_predict` 폴더 생성 확인 및 클릭
+7. 저장된 `model.joblib` 파일 확인
+8. `cpu-notebook` 내 `kserve_s3_creds.env` 파일 생성 확인
+9. KServe 리소스 생성
     - KServe가 Object Storage에 있는 모델을 읽기 위한 리소스를 생성
     - notebook 내 `kserve_sa.env` 파일 생성 확인
-6. KServe InferenceService 생성 및 모델 배포
+10. KServe InferenceService 생성 및 모델 배포
     - 배포된 모델을 API를 활용하여 사용할 수 있는 KServe InferenceService 생성
     - KServe InferenceService 생성 확인
     
     <img width="315" height="19" alt="Image" src="https://github.com/user-attachments/assets/e1d214f8-e110-431f-ad6c-854827c745e8" />
     
-7. 배포된 모델 확인
-    - 노트북 상단  `Terminal`   탭 클릭
-    - kubectl 명령어를 통해 배포된 모델 확인
+11. `cpu-notebook`의 `terminal` 클릭
+12. 배포된 모델을 확인하는 kubectl 명령어 실행 
     
-    #### **Lab5-3-7**
+    #### **Lab5-3-12**
     
     ```
     kubectl get isvc -n kbm-u-kubeflow-tutorial gender-predict -w
@@ -160,13 +115,14 @@
     
     <img width="858" height="38" alt="Image" src="https://github.com/user-attachments/assets/3a25c854-e913-40d7-a098-e9ce768733ff" />
     
-    - Kubeflow Dashboard 이동하여 KServe Endpoints 탭 클릭
-        - 생성된 `gender-predict` 클릭
-        - 배포된 모델 정보 확인
+ 13. Kubeflow Dashboard 이동하여 KServe Endpoints 탭 클릭
+ 14. 생성된 `gender-predict` 클릭
+ 15. 배포된 모델 정보 확인
 
 ## 4. 모델 성별 추론 실습 진행 (1분)
 
-1. 좌측 상단 실행 버튼(Shift + Enter)을 눌러 성별 추론 셀 (Cell 5) 을 실행
+1. KServe.ipynb 파일 실행
+    - **note:** Cell 5번 부터 실행
     - KServe를 이용하여 배포된 모델 API URL 확인
     - Cell 내의 10개의 샘플 데이터 확인
 2. 출력된 추론 결과 값을 확인
