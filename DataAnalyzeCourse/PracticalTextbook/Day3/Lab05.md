@@ -2,7 +2,7 @@
 
 실시간 정제된 데이터를 기반으로 하는 성별 예측 모델 학습 과정입니다. 전처리 데이터로 학습 및 검증을 마친 성별 추론 모델을  Object Storage에 저장하고 KServe를 이용하여 모델을 배포합니다. 이후 배포된 모델에 샘플 데이터를 입력하여 성별 추론을 진행하는 실습입니다.
 
-## 1. Notebook에서 성별 추론 모델 학습 준비 (2분)
+## 1. 성별 추론 모델 학습 준비 (2분)
 1.  카카오 클라우드 콘솔 > Beyond Networking Service > Load Balancing
 2. `api-lb`  로드밸런서의 Public IP를 복사 후 클립보드에 저장
 3.  gender_tableJoin.ipynb 파일 더블 클릭 후 실행
@@ -20,7 +20,7 @@
     - datasets/gender 경로에 Join table 저장 확인
     - 이후 성별 추론 실습에서 Join 테이블을 원본 데이터로 사용
 
-## 2. Notebook에서 성별 추론 모델 학습 진행 (7분)
+## 2. 성별 추론 모델 학습 진행 (7분)
 
 1. gender_predict.ipynb 파일 더블 클릭 후 실행
     - gender_predict.ipynb 파일 좌측 상단에 있는 실행 버튼(Shift + Enter)을 눌러 셀 실행
