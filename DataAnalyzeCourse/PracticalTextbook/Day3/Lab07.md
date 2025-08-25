@@ -1,5 +1,6 @@
 # Monitoring Flow
 
+쇼핑몰 API 서버 다수 Endpoint 및 멀티 타깃 모니터링 실습입니다.
 
 ## 1. 쇼핑몰 API 서버 다수 Endpoint 시나리오 체크
 1. 좌측 시나리오 탭 클릭
