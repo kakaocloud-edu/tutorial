@@ -12,7 +12,7 @@
     #### **Lab5-1-3**
     
     ```
-    wget https://raw.githubusercontent.com/kakaocloud-edu/tutorial/main/DataAnalyzeCourse/src/day3/Lab04/gender_tableJoin.ipynb
+    wget https://raw.githubusercontent.com/kakaocloud-edu/tutorial/main/DataAnalyzeCourse/src/day3/Lab05/gender_tableJoin.ipynb
     ```
     
     - gender_tableJoin.ipynb 파일 생성 확인
@@ -40,7 +40,7 @@
     #### **Lab5-2-1**
     
     ```
-    wget https://raw.githubusercontent.com/kakaocloud-edu/tutorial/main/DataAnalyzeCourse/src/day3/Lab04/gender_predict.ipynb
+    wget https://raw.githubusercontent.com/kakaocloud-edu/tutorial/main/DataAnalyzeCourse/src/day3/Lab05/gender_predict.ipynb
     ```
     
     - gender_predict.ipynb 파일 생성 확인
@@ -73,13 +73,13 @@
       
     #### **Lab5-2-11-1**
     ```
-    wget https://raw.githubusercontent.com/kakaocloud-edu/tutorial/main/DataAnalyzeCourse/src/day3/Lab04/gender_train.py
+    wget https://raw.githubusercontent.com/kakaocloud-edu/tutorial/main/DataAnalyzeCourse/src/day3/Lab05/gender_train.py
     ```
     
     - gender_experiment.yaml 파일 다운로드
     #### **Lab5-2-11-2**
     ```
-    wget https://raw.githubusercontent.com/kakaocloud-edu/tutorial/main/DataAnalyzeCourse/src/day3/Lab04/gender_experiment.yaml
+    wget https://raw.githubusercontent.com/kakaocloud-edu/tutorial/main/DataAnalyzeCourse/src/day3/Lab05/gender_experiment.yaml
     ```
     
     - Katib 하이퍼파라미터 튜닝 experiment 적용 및 실행
