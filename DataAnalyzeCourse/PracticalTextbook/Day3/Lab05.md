@@ -79,7 +79,7 @@
     - 예측 성공 → 초록색 / 예측 실패 → 빨간색
 
 
-## 3. Object Stroage에 모델 저장 후 KServe로 모델 배포 (2분)
+## 3. S3에 모델 저장 후 Kserve로 모델 배포 (2분)
 
 1. KServe.ipynb 파일 더블 클릭 후 실행
     - 실행 버튼(Shift + Enter)을 눌러 셀 실행
