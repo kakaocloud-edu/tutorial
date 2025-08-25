@@ -30,8 +30,8 @@ Monitoring Flow를 이용하여 로드밸런서, API 서버, Hadoop 클러스터
    - Value: `{Load Balancer의 public IP}`
    - 저장 버튼 클릭
    - 닫기 버튼 클릭
-7. 새 스탭 설정의 유형 선택 클릭 후 API 클릭
-8. API 설정
+6. 새 스탭 설정의 유형 선택 클릭 후 API 클릭
+- API 설정
    - 유형 : `API`
    - 스텝
       - 스텝 이름: `LB_CHECK`
@@ -43,9 +43,9 @@ Monitoring Flow를 이용하여 로드밸런서, API 서버, Hadoop 클러스터
       - Parameters: `빈 칸`
       - Headers: `빈 칸`
       - Body: `빈 칸`
-9. 테스트 버튼 클릭
-10. 테스트 진행 후 성공 확인
-11. 저장 버튼 클릭
+7. 테스트 버튼 클릭
+8. 테스트 진행 후 성공 확인
+9. 저장 버튼 클릭
 
 
 ## 3. 내부 자원 헬스체크
