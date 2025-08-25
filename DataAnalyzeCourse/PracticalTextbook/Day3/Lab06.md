@@ -99,8 +99,8 @@ Monitoring Flow를 이용하여 로드밸런서, API 서버, Hadoop 클러스터
       - Headers: `빈 칸`
       - Body: `빈 칸`
    - 좌측 상단 API 블럭에 다음 스텝 추가 클릭
-9. 유형 선택 클릭 후 SLEEP 클릭
-- SLEEP 설정
+9. 유형 선택 클릭 후 Sleep 클릭
+- Sleep 설정
    - 유형 : `Sleep`
    - 스텝
       - 스텝 이름: `SLEEP`
