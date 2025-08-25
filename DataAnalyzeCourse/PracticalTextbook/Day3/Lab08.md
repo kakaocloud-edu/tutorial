@@ -1,6 +1,8 @@
 # Monitoring flow & Alert Center
 
-## 1. Monitering Flow & Alert Center 장애 탐지 (8분)
+서비스 장애 발생 시 알림을 받기 위해 Alert Center에 수신 채널을 설정하고 알림 정책을 생성합니다. 이후 API 서버에 장애를 발생시켜 Monitering Flow 결과 창과 수신 채널로 장애 탐지를 확인하는 실습입니다.
+
+## 1. Alert Center 수신 채널 설정 및 알림 정책 생성 (5분)
 
 1. 우측 상단 프로필 이미지 클릭 > 계정 정보
 2. 계정 정보 내 이메일 주소 입력
@@ -40,8 +42,12 @@
     - 4단계: 검토
         - `설정 정보 확인`
         - `생성` 버튼 클릭
-8. 카카오 클라우드 콘솔 > Beyond Compute Service > Virtual Machine
-9. `api-server-1` 인스턴스 SSH 접속
+8. 알림 정책 생성 확인
+
+## 2. Monitering Flow & Alert Center 장애 탐지 (5분)
+
+1. 카카오 클라우드 콘솔 > Beyond Compute Service > Virtual Machine
+2. `api-server-1` 인스턴스 SSH 접속
     - `api-server-1` 각 인스턴스의 우측 메뉴바 > `SSH 연결` 클릭
     - SSH 접속 명령어 복사
     - 터미널 열기
@@ -67,7 +73,7 @@
     ```
     - **Note**: {api-server-1의 public ip 주소} 부분을 복사한 각 IP 주소로 교체
    
-10. 장애를 발생시키기 위해 http 80 포트를 2분 동안 차단하는 명령어 실행
+3. 장애를 발생시키기 위해 http 80 포트를 2분 동안 차단하는 명령어 실행
     
     **lab8-1-10**
 
@@ -79,9 +85,9 @@
     ' >/tmp/http_drop.log 2>&1 &
     ```
     
-11. 카카오 클라우드 콘솔 > Management > Monitoring Flow
-12. `lab2` 시나리오 클릭
+4. 카카오 클라우드 콘솔 > Management > Monitoring Flow
+5. `lab2` 시나리오 클릭
     - 실행 결과 탭 클릭
     - 1분 뒤 새로고침하여 상태가 `Failed` 인 행 확인
     - 다시 1분 뒤 새로고침하여 상태가 `Succeed`로 재전이 되었음을 확인
-13. Alert Center 수신 채널에 등록한 이메일로 접속하여 Alert 메일 확인
+6. Alert Center 수신 채널에 등록한 이메일로 접속하여 Alert 메일 확인
