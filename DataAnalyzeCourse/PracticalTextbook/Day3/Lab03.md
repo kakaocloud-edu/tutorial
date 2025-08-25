@@ -32,16 +32,26 @@
 
 1. Notebooks 탭 > `cpu-notebook`의 `CONNECT` 클릭
 2. Other 중 `Terminal` 클릭
-3. kubectl.ipynb 파일 다운로드
+3. 실습에 필요한 ipynb 파일들 다운로드
     
     ### **Lab3-2-3**
     
     ```bash
-    wget https://raw.githubusercontent.com/kakaocloud-edu/tutorial/main/DataAnalyzeCourse/src/day3/Lab03/kubectl.ipynb
-    
+    wget https://raw.githubusercontent.com/kakaocloud-edu/tutorial/main/DataAnalyzeCourse/src/day3/Lab03/kubectl.ipynb \
+     https://raw.githubusercontent.com/kakaocloud-edu/tutorial/main/DataAnalyzeCourse/src/day3/Lab03/speed.ipynb \
+     https://raw.githubusercontent.com/kakaocloud-edu/tutorial/main/DataAnalyzeCourse/src/day3/Lab03/data_check.ipynb \
+     https://raw.githubusercontent.com/kakaocloud-edu/tutorial/main/DataAnalyzeCourse/src/day3/Lab04/sessionDrop_predict.ipynb \
+     https://raw.githubusercontent.com/kakaocloud-edu/tutorial/main/DataAnalyzeCourse/src/day3/Lab04/next_state.ipynb \
+     https://raw.githubusercontent.com/kakaocloud-edu/tutorial/main/DataAnalyzeCourse/src/day3/Lab05/gender_tableJoin.ipynb \
+     https://raw.githubusercontent.com/kakaocloud-edu/tutorial/main/DataAnalyzeCourse/src/day3/Lab05/gender_predict.ipynb \
+     https://raw.githubusercontent.com/kakaocloud-edu/tutorial/main/DataAnalyzeCourse/src/day3/Lab05/gender_train.py \
+     https://raw.githubusercontent.com/kakaocloud-edu/tutorial/main/DataAnalyzeCourse/src/day3/Lab05/gender_experiment.yaml \
+     https://raw.githubusercontent.com/kakaocloud-edu/tutorial/main/DataAnalyzeCourse/src/day3/Lab05/KServe.ipynb
     ```
     
-    - kubectl.ipynb 파일 생성 확인
+    - 아래 사진과 같은 파일들 생성 확인
+
+
 4.  kubectl.ipynb 실행 
     - 실행 버튼(Shift + Enter)을 눌러 셀 실행
 
