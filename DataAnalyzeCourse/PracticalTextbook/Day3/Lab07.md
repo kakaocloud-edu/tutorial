@@ -106,7 +106,7 @@
 
    - Key: `END_POINTS`
    - Type: `JSON List`
-   - Value: `["{api-server-1의 private IP}","{api-server-2의 private IP}"]`
+   - Value: `["{api-server-1 private IP}","{api-server-2 private IP}"]`
       - 저장 버튼 클릭
 
    - Key: `TARGET_IP`
