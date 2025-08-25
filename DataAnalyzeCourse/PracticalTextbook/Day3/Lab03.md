@@ -28,7 +28,7 @@
     - `LAUNCH` 클릭
 3. Notebook 생성 확인
 
-## 2. namespace 내의 리소스들 확인
+## 2. namespace 내의 리소스 확인
 
 1. Notebooks 탭 > `cpu-notebook`의 `CONNECT` 클릭
 2. Other 중 `Terminal` 클릭
