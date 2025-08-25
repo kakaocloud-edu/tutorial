@@ -55,20 +55,20 @@
     - 터미널 열기
     - keypair를 다운받아놓은 폴더로 이동 후 터미널에 명령어 붙여넣기 및 **yes** 입력
       
-    **lab8-1-9-1**
+    **lab8-2-2-1**
     ```
     cd {keypair.pem 다운로드 위치}
     ```
         
     - 리눅스의 경우 아래와 같이 키페어 권한 조정
         
-    **lab8-1-9-2**
+    **lab8-2-2-2**
         
     ```
     chmod 400 keypair.pem
     ```
         
-    **lab8-1-9-3**
+    **lab8-2-2-3**
         
     ```
     ssh -i keypair.pem ubuntu@{api-server-1의 public ip 주소}
@@ -77,7 +77,7 @@
    
 3. 장애를 발생시키기 위해 http 80 포트를 2분 동안 차단하는 명령어 실행
     
-    **lab8-1-10**
+    **lab8-2-3**
 
     ```
     sudo nohup bash -c '
