@@ -81,6 +81,6 @@ CIFAR-10 이미지를 분류하는 간단한 CNN을 학습하고 성능을 평�
 3. 필요한 라이브러리 설치
 4. Delta Lake에서 현재 스냅샷 로드 → 정렬 후 CSV/Parquet 저장
     - 아래 환경 변수에 S3 키 값 삽입
-        - S3_ACCESS_KEY = "**{S3_ACCESS_KEY_ID}**”
-        - S3_SECRET_KEY = "**{S3_SECRET_ACCESS_KEY}**”
+        - S3_ACCESS_KEY = **{S3_ACCESS_KEY_ID}**
+        - S3_SECRET_KEY = **{S3_SECRET_ACCESS_KEY}**
 5. datasets 폴더 더블 클릭 후 원본 데이터 로드 확인
