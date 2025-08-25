@@ -103,7 +103,7 @@
 
 ## 3. 간단한 Notebook 실습
 
-CIFAR-10 이미지를 분류하는 간단한 CNN을 학습하고 성능을 평가·시각화하는 간단한 Notebook 실습입니다.
+CIFAR-10 이미지를 분류하는 간단한 CNN을 학습하고 성능을 평가·시각화하는 Notebook 실습입니다.
 
 1. speed.ipynb 파일 다운로드
     - **Note**: 위에서 생성한 Notebook(`cpu-notebook`) `Terminal`에서 입력
