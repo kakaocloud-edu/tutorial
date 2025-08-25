@@ -30,8 +30,8 @@ Monitoring Flow를 이용하여 로드밸런서, API 서버, Hadoop 클러스터
    - Value: `{Load Balancer의 public IP}`
    - 저장 버튼 클릭
    - 닫기 버튼 클릭
-7. 새 스탭 설정의 유형 선택 클릭
-8. API 클릭
+7. 새 스탭 설정의 유형 선택 클릭 후 API 클릭
+8. API 설정
 
    - 스텝
       - 스텝 이름: `LB_CHECK`
