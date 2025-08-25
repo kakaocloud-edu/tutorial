@@ -13,7 +13,6 @@
     
     ```
     wget https://raw.githubusercontent.com/kakaocloud-edu/tutorial/main/DataAnalyzeCourse/src/day3/Lab04/gender_tableJoin.ipynb
-    
     ```
     
     - gender_tableJoin.ipynb 파일 생성 확인
