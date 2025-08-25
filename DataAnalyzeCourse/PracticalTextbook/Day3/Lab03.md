@@ -42,7 +42,7 @@
     ```
     
     - kubectl.ipynb 파일 생성 확인
-4.  kubectl.ipynb 더블 클릭 
+4.  kubectl.ipynb 실행 
     - kubectl.ipynb 파일 좌측 상단에 있는 실행 버튼(Shift + Enter)을 눌러 셀 실행
 
 
