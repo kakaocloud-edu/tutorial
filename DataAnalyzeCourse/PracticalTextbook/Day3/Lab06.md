@@ -131,7 +131,7 @@ Monitoring Flow를 이용하여 로드밸런서, API 서버, Hadoop 클러스터
    - 좌측 상단 API 블럭에 다음 스텝 추가 클릭
 11. 유형 선택 클릭 후 Set Variables 클릭
 - set Variable 설정
-   - 유형 : `Ser Variable`
+   - 유형 : `Set Variable`
    - 스텝
       - 스텝 이름: `HADOOP_LIST_CHECK`
    - Parameters
