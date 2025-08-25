@@ -64,7 +64,7 @@ CIFAR-10 이미지를 분류하는 간단한 CNN을 학습하고 성능을 평�
     - speed.ipynb 파일 좌측 상단에 있는 실행 버튼(Shift + Enter)을 눌러 셀 실행
     - cpu 사용하여 모델이 학습하는데 걸리는 시간 확인
 
-## 4. Notebook에서 Object Storage에 쌓인 데이터 확인
+## 4. Object Storage에 쌓인 데이터 확인
 
 1. data_check.ipynb 파일 다운로드
     - **Note**: 위에서 생성한 Notebook(`cpu-notebook`) `Terminal`에서 입력
