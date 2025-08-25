@@ -98,18 +98,16 @@ Monitoring Flow를 이용하여 로드밸런서, API 서버, Hadoop 클러스터
       - Parameters: `빈 칸`
       - Headers: `빈 칸`
       - Body: `빈 칸`
-
-9. 좌측 상단 API 블럭에 다음 스텝 추가 클릭
-10. 유형 선택 클릭 후 SLEEP 클릭
+   - 좌측 상단 API 블럭에 다음 스텝 추가 클릭
+9. 유형 선택 클릭 후 SLEEP 클릭
 - SLEEP 설정
-
+   - 유형 : `Sleep`
    - 스텝
       - 스텝 이름: `SLEEP`
       - 상태: `0`분 `10`초
-
-11. 좌측 상단 SLEEP 블럭에 다음 스텝 추가 클릭
-12. 유형 선택 클릭 후 API 클릭
-- API 클릭
+   - 좌측 상단 SLEEP 블럭에 다음 스텝 추가 클릭
+10. 유형 선택 클릭 후 API 클릭
+- API 설정
    - 유형 : `API`
    - 스텝
       - 스텝 이름: `HADOOP_CHECK`
@@ -130,11 +128,10 @@ Monitoring Flow를 이용하여 로드밸런서, API 서버, Hadoop 클러스터
          - Value: `{IAM 보안 액세스 키}`
             - 저장 클릭
       - Body: `빈 칸`
-
-13. 좌측 상단 API 블럭에 다음 스텝 추가 클릭
-14. 유형 선택 클릭
-15. Set Variables 클릭
-
+   - 좌측 상단 API 블럭에 다음 스텝 추가 클릭
+11. 유형 선택 클릭 후 Set Variables 클릭
+- set Variable 설정
+   - 유형 : `Ser Variable`
    - 스텝
       - 스텝 이름: `HADOOP_LIST_CHECK`
    - Parameters
@@ -142,6 +139,6 @@ Monitoring Flow를 이용하여 로드밸런서, API 서버, Hadoop 클러스터
       - Step: `HADOOP_CHECK` > `response` > `body`
       - Key: `content`
          - 저장 클릭
-
-16. 테스트 진행 후 성공 확인
-17. 저장 버튼 클릭
+12. 테스트 버튼 클릭
+13. 테스트 진행 후 성공 확인
+14. 저장 버튼 클릭
