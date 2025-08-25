@@ -52,7 +52,7 @@
     - 아래 사진과 같은 파일들 생성 확인
 
 
-4.  kubectl.ipynb 실행 
+4.  kubectl.ipynb 더블 클릭 후 실행
     - 실행 버튼(Shift + Enter)을 눌러 셀 실행
 
 
@@ -60,13 +60,13 @@
 
 CIFAR-10 이미지를 분류하는 간단한 CNN을 학습하고 성능을 평가·시각화하는 Notebook 실습입니다.
 
-1. speed.ipynb 파일 실행
+1. speed.ipynb 파일 더블 클릭 후 실행
     - 실행 버튼(Shift + Enter)을 눌러 셀 실행
     - 진행 상황 확인
 
 ## 4. Object Storage에 쌓인 데이터 확인
 
-1. data_check.ipynb 파일 실행
+1. data_check.ipynb 파일 더블 클릭 후 실행
     - 실행 버튼(Shift + Enter)을 눌러 셀 실행
 3. 필요한 라이브러리 설치
 4. Delta Lake에서 현재 스냅샷 로드 → 정렬 후 CSV/Parquet 저장
