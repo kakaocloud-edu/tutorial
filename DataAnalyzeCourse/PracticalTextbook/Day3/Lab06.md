@@ -86,6 +86,10 @@ Monitoring Flow를 이용하여 로드밸런서, API 서버, Hadoop 클러스터
    - Type: `String`
    - Value: `{hadoop-eco kluster ID}`
       - 저장 버튼 클릭
+   - Key: `HADOOP_NODE_LIST`
+   - Type: `JSON List`
+   - Value: `[]`
+      - 저장 버튼 클릭
 
 10. 닫기 버튼 클릭
 11. 새 스탭 설정의 유형 선택 클릭
@@ -134,5 +138,17 @@ Monitoring Flow를 이용하여 로드밸런서, API 서버, Hadoop 클러스터
             - 저장 클릭
       - Body: `빈 칸`
 
-19. 테스트 진행 후 성공 확인
-20. 저장 버튼 클릭
+19. 좌측 상단 API 블럭에 다음 스텝 추가 클릭
+20. 유형 선택 클릭
+21. Set Variables 클릭
+
+   - 스텝
+      - 스텝 이름: `HADOOP_LIST_CHECK`
+   - Parameters
+      - Variable: `HADOOP_NODE_LIST`
+      - Step: `HADOOP_CHECK` > `response` > `body`
+      - Key: `content`
+         - 저장 클릭
+
+22. 테스트 진행 후 성공 확인
+23. 저장 버튼 클릭
