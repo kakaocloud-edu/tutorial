@@ -1,4 +1,4 @@
-# Monitoring Flow
+# Monitoring Flow 1
 
 Monitoring Flow를 이용하여 로드밸런서, API 서버, Hadoop 클러스터 등을 모니터링하는 실습입니다.
 
