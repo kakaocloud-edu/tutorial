@@ -80,7 +80,7 @@
     - 좌측 gender_pipeline.yaml 파일 생성 확인
 18. gender_pipeline.yaml 파일 위에서 마우스 우클릭 후 Download
 19. Kubeflow Dashboard > Pipelines > Pipelines
-20. 상단 우측 `+ Upload pipeline` 버튼 클릭
+20. 우측 상단 `+ Upload pipeline` 버튼 클릭
     - `Create a new pipeline` 체크
     - `Private` 체크
     - Pipeline Name : `gender_pipeline`
@@ -115,8 +115,8 @@
 26. 버킷 안 `gender_predict_pipeline` 폴더 생성 확인 및 클릭
 27. 저장된 `model.joblib` 파일 확인
 28. Kubeflow Dashboard 이동하여 KServe Endpoints 탭 클릭
-29. 생성된 `gender-sklearn` 클릭
-30. 배포된 모델 정보 확인
-31. `cpu-notebook`의 gender_pipeline.ipynb에서 모델 추론 실습 (Cell 15) 진행
+    - 생성된 `gender-sklearn` 클릭
+29. 배포된 모델 정보 확인
+30. `cpu-notebook`의 gender_pipeline.ipynb에서 모델 추론 실습 (Cell 15) 진행
     - KServe로 배포된 모델에 샘플 데이터를 입력하여 추론하는 실습
     - 실제 결과와 예측 결과를 비교
