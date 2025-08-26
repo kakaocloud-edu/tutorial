@@ -53,6 +53,7 @@
     
     - 아래 사진과 같은 파일들 생성 확인
 
+    <img width="281" height="481" alt="github용 다운로드 파일 확인" src="https://github.com/user-attachments/assets/e188bf04-f863-419e-8281-d7d1c0d163d7" />
 
 4.  kubectl.ipynb 더블 클릭 후 실행
     - 실행 버튼(Shift + Enter)을 눌러 셀 실행
