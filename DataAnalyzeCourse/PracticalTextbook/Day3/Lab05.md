@@ -37,13 +37,13 @@
         
         <img width="992" height="50" alt="Image" src="https://github.com/user-attachments/assets/343d72d0-4e5e-414c-97c0-a965cfec4a12" />
         
-    - Kubeflow Dashboard 이동하여 Katib Experiments 탭 클릭
-        - 생성된 gender-logistic-random 클릭
-        - Katib 하이퍼파라미터 튜닝 진행 상황 확인
-        - Status 값이 Experiment has succeeded because max trial count has reached 가 뜨면 튜닝 성공
-        - Best trial's params에서 Katib이 찾은 최적의 하이퍼파라미터 값 확인
+2. Kubeflow Dashboard 이동하여 Katib Experiments 탭 클릭
+   - 생성된 gender-logistic-random 클릭
+    - Katib 하이퍼파라미터 튜닝 진행 상황 확인
+    - Status 값이 Experiment has succeeded because max trial count has reached 가 뜨면 튜닝 성공
+    - Best trial's params에서 Katib이 찾은 최적의 하이퍼파라미터 값 확인
             
-            <img width="1547" height="32" alt="Image" src="https://github.com/user-attachments/assets/ca332ced-2034-4644-a8be-a2ff1f5e1019" />
+   <img width="1547" height="32" alt="Image" src="https://github.com/user-attachments/assets/ca332ced-2034-4644-a8be-a2ff1f5e1019" />
             
 2. gender_pipeline.ipynb 파일 더블 클릭 후 실행
     - gender_pipeline.ipynb 파일 좌측 상단에 있는 실행 버튼(Shift + Enter)을 눌러 셀 실행
