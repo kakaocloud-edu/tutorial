@@ -85,7 +85,7 @@ Kubeflow 실습을 위한 프로젝트 기본 환경 실습을 진행합니다. 
     - 노드 수: `1`
     - 노드 풀 Network 설정
         - VPC: `kc-vpc`
-        - Subnet : `main`, `public` 선택 
+        - Subnet: `main`, `public` 선택 
     - 보안 그룹
         - 보안 그룹 이름: `clu-sg`
     - 키 페어: `keypair`
