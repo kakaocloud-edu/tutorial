@@ -60,21 +60,21 @@
 
 5. 특정 네임스페이스의 리소스 확인
    - Kubeflow 네임스페이스의 리소스 출력
-   - **Note**: 위에서 생성한 Notebook(`cpu-notebook`)에서 입력
+   - **Note**: 위에서 생성한 Notebook(`cpu-notebook`) `Terminal`에서 입력
    #### **lab3-2-5-1**
    ```bash
    kubectl get all
    ```
 
    - `cpu-notebook`에 대한 Kubernetes StatefulSet 리소스를 YAML 형식으로 출력
-   - **Note**: 위에서 생성한 Notebook(`cpu-notebook`)에서 입력
+   - **Note**: 위에서 생성한 Notebook(`cpu-notebook`) `Terminal`에서 입력
    #### **lab3-2-5-2**
    ```bash
    kubectl get sts cpu-notebook -o yaml
    ```
 
 6. Kubernetes ServiceAccount 리소스 조회 
-   - **Note**: 위에서 생성한 Notebook(`cpu-notebook`)에서 입력
+   - **Note**: 위에서 생성한 Notebook(`cpu-notebook`) `Terminal`에서 입력
    #### **lab3-2-6**
    ```bash
    kubectl get sa
@@ -97,7 +97,7 @@
    ```
 
 9. 현재 Namespace에서 모든 PersistentVolumeClaim(PVC) 리소스 조회
-   - **Note**: 위에서 생성한 Notebook(`cpu-notebook`)에서 입력
+   - **Note**: 위에서 생성한 Notebook(`cpu-notebook`) `Terminal`에서 입력
    #### **lab3-2-9**
    ```bash
    kubectl get pvc -n kbm-u-kubeflow-tutorial
