@@ -1,4 +1,4 @@
-# Monitoring Flow 1
+# 클라우드 리소스 모니터링 실습
 
 Monitoring Flow를 이용하여 로드밸런서, API 서버, Hadoop 클러스터 등을 모니터링하는 실습입니다.
 
@@ -11,7 +11,7 @@ Monitoring Flow를 이용하여 로드밸런서, API 서버, Hadoop 클러스터
 6. `hadoop-eco` 클릭
 7. `클러스터 ID` 클립보드 등에 복사 붙여넣기
 
-## 2. 퍼블릭 가용성 모니터링
+## 2. 외부 가용성 모니터링
 1. 카카오 클라우드 콘솔 > Management > Mornitoring Flow
 2. 시나리오 생성 버튼 클릭
 
@@ -48,7 +48,7 @@ Monitoring Flow를 이용하여 로드밸런서, API 서버, Hadoop 클러스터
 9. 저장 버튼 클릭
 
 
-## 3. 내부 자원 헬스체크
+## 3. 내부 리소스 모니터링
 1. 좌측 플로우 커넥션 탭 클릭
 2. 플로우 커넥션 생성 버튼 클릭
 
