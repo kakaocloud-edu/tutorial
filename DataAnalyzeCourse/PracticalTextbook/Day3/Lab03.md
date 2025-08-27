@@ -58,6 +58,50 @@
 4.  kubectl.ipynb 더블 클릭 후 실행
     - 실행 버튼(Shift + Enter)을 눌러 셀 실행
 
+5. 특정 네임스페이스의 리소스 확인
+   - Kubeflow 네임스페이스의 리소스 출력
+   - **Note**: 위에서 생성한 Notebook(`cpu-notebook`)에서 입력
+   #### **lab3-2-5-1**
+   ```bash
+   kubectl get all
+   ```
+
+   - `cpu-notebook`에 대한 Kubernetes StatefulSet 리소스를 YAML 형식으로 출력
+   - **Note**: 위에서 생성한 Notebook(`cpu-notebook`)에서 입력
+   #### **lab3-2-5-2**
+   ```bash
+   kubectl get sts cpu-notebook -o yaml
+   ```
+
+6. Kubernetes ServiceAccount 리소스 조회 
+   - **Note**: 위에서 생성한 Notebook(`cpu-notebook`)에서 입력
+   #### **lab3-2-6**
+   ```bash
+   kubectl get sa
+   ```
+
+7. 매핑된 바인딩 확인 (데모)
+   - kbm-u-kubeflow-tutorial 네임스페이스의 모든 RoleBinding 목록 조회
+   - **Note**: 터미널 창에서 입력
+   #### **lab3-2-7**
+   ```bash
+   kubectl get rolebinding -n kbm-u-kubeflow-tutorial
+   ```
+
+8. 특정 RoleBinding의 상세 정보 출력 (데모)
+   - kbm-u-kubeflow-tutorial 네임스페이스의 default-editor RoleBinding의 세부 정보를 YAML 형식으로 조회
+   - **Note**: 터미널 창에서 입력
+   #### **lab3-2-8**
+   ```bash
+   kubectl get rolebinding default-editor -n kbm-u-kubeflow-tutorial -o yaml
+   ```
+
+9. 현재 Namespace에서 모든 PersistentVolumeClaim(PVC) 리소스 조회
+   - **Note**: 위에서 생성한 Notebook(`cpu-notebook`)에서 입력
+   #### **lab3-2-9**
+   ```bash
+   kubectl get pvc -n kbm-u-kubeflow-tutorial
+   ```
 
 ## 3. 간단한 Notebook 실습
 
