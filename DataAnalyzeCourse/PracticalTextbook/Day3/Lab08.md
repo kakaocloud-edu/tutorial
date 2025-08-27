@@ -1,8 +1,8 @@
-# Monitoring flow & Alert Center
+# Monitoring flow - Alert 연동 모니터링 실습
 
 서비스 장애 발생 시 알림을 받기 위해 Alert Center에 수신 채널을 설정하고 알림 정책을 생성합니다. 이후 API 서버에 장애를 발생시켜 Monitering Flow 결과 창과 수신 채널로 장애 탐지를 확인하는 실습입니다.
 
-## 1. 수신 채널 설정 및 알림 정책 생성 (5분)
+## 1. 알림 정책 생성 및 연동 (5분)
 
 1. 우측 상단 프로필 이미지 클릭 > 계정 정보
 2. 비밀번호 재확인 > 비밀번호 입력 > 비밀번호 확인
@@ -46,7 +46,7 @@
         - `생성` 버튼 클릭
 9. 알림 정책 생성 확인
 
-## 2. Alert Center에서 장애 탐지 (5분)
+## 2. 장애 알림 검증 (5분)
 
 1. 카카오 클라우드 콘솔 > Beyond Compute Service > Virtual Machine
 2. `api-server-1` 인스턴스 SSH 접속
