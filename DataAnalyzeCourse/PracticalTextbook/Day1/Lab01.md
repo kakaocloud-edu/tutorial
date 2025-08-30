@@ -21,8 +21,8 @@
      - 가용 영역당 프라이빗 서브넷 개수: `1`  
      - kr-central-2-a의 퍼블릭 서브넷 IPv4 CIDR 블록: `10.0.0.0/20`  
      - kr-central-2-a의 프라이빗 서브넷 IPv4 CIDR 블록: `10.0.16.0/20`  
-     - kr-central-2-a의 퍼블릭 서브넷 IPv4 CIDR 블록: `10.0.32.0/20`  
-     - kr-central-2-a의 프라이빗 서브넷 IPv4 CIDR 블록: `10.0.48.0/20`  
+     - kr-central-2-b의 퍼블릭 서브넷 IPv4 CIDR 블록: `10.0.32.0/20`  
+     - kr-central-2-b의 프라이빗 서브넷 IPv4 CIDR 블록: `10.0.48.0/20`  
 3. 생성 버튼 클릭  
 4. VPC 생성 확인
 
