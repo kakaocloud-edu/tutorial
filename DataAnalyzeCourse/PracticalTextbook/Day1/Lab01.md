@@ -1,5 +1,7 @@
 # 사전 환경 구성
-사전 환경 구성에 대한 실습입니다.
+실습 진행을 위한 프로젝트 사전 환경을 구성합니다.
+
+
 
 - Day1 구성 아키텍처
 <img width="896" height="509" alt="day1 아키텍쳐" src="https://github.com/user-attachments/assets/a60c4542-ffe4-4258-b750-ec8b76d85306" />
