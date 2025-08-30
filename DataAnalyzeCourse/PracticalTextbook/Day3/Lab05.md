@@ -3,7 +3,7 @@
 실시간 정제된 데이터를 기반으로 하는 성별 예측 모델 학습 과정을 파이프라인으로 진행하는 실습입니다.
 
 ## 1. 성별 추론 모델 파이프라인 실습 준비 (2분)
-- **Note**: 성별 추론 모델 노트북 실습은 [Lab05_etc.md](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/PracticalTextbook/Lab05_etc.md) 참고
+- **Note**: 성별 추론 모델 노트북 실습은 [Lab05_etc.md](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/PracticalTextbook/Day3/Lab05_etc.md) 참고
 1. 카카오 클라우드 콘솔 > Beyond Networking Service > Load Balancing
 2. `api-lb` 로드밸런서의 Public IP를 복사 후 클립보드에 저장
 3. gender_tableJoin.ipynb 파일 더블 클릭 후 실행
