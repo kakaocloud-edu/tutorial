@@ -123,7 +123,7 @@
       - 액세스 로그: `사용`  
       - 선택할 버킷: `data-catalog-bucket`  
       - 선택할 액세스 키 ID: 위에서 생성한 `액세스 키 ID` 입력  
-      - 입력할 보안 액세스 키: 위에서 생성한 `보안 엑세스 키` 입력  
+      - 입력할 보안 액세스 키: 위에서 생성한 `보안 액세스 키` 입력  
    - 적용 클릭
 
 ## 6. Kafka Cluster 생성 (3분)
@@ -269,7 +269,7 @@
       chmod +x "$SCHEMA_REGISTRY_SCRIPT"
       sudo -E "$SCHEMA_REGISTRY_SCRIPT"
         ```
-        
+    - CPU 멀티스레딩: `활성화`  
     - 생성 버튼 클릭
 3. `data-stream-vm` 상태 Active 확인 후 Public IP 연결
     - 각 인스턴스의 우측 메뉴바 > `Public IP 연결` 클릭
