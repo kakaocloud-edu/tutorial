@@ -1,0 +1,1808 @@
+# PIPELINE DEFINITION
+# Name: prelogin-gender-pipeline
+# Description: Build features, train baseline, fetch Katib HPs, retrain, tune threshold, upload to Kakao Object Storage, and deploy on KServe.
+# Inputs:
+#    artifact_dir: str [Default: 'models/gender']
+#    calib_cv: int [Default: 5.0]
+#    calib_method: str [Default: 'isotonic']
+#    datasets_dir: str [Default: 'datasets/gender']
+#    input_path: str [Default: '/home/jovyan/datasets/gender/processed_user_behavior.joined.csv']
+#    kakao_access_key: str [Default: '']
+#    kakao_bucket: str [Default: 'models']
+#    kakao_endpoint: str [Default: 'https://objectstorage.kr-central-2.kakaocloud.com']
+#    kakao_prefix: str [Default: 'gender_predict_pipeline']
+#    kakao_public_read: bool [Default: False]
+#    kakao_region: str [Default: 'kr-central-2']
+#    kakao_secret_key: str [Default: '']
+#    katib_experiment: str [Default: 'gender-logistic-random']
+#    katib_namespace: str [Default: 'kbm-u-kubeflow-tutorial']
+#    known_cats_json: str [Default: '["Books","Electronics","Gaming","Home","Fashion"]']
+#    min_prelogin_events: int [Default: 2.0]
+#    production_threshold: float [Default: 0.5]
+#    pvc_name: str [Default: 'cpu-notebook-workspace']
+#    random_state: int [Default: 42.0]
+#    test_size: float [Default: 0.2]
+#    tune_t_hi: float [Default: 0.8]
+#    tune_t_lo: float [Default: 0.2]
+#    tune_t_steps: int [Default: 61.0]
+components:
+  comp-cell1-init:
+    executorLabel: exec-cell1-init
+    inputDefinitions:
+      parameters:
+        artifact_dir:
+          parameterType: STRING
+        datasets_dir:
+          parameterType: STRING
+        known_cats_json:
+          parameterType: STRING
+        min_prelogin_events:
+          parameterType: NUMBER_INTEGER
+        production_threshold:
+          parameterType: NUMBER_DOUBLE
+    outputDefinitions:
+      parameters:
+        params_out_path:
+          parameterType: STRING
+  comp-cell10-train-with-katib:
+    executorLabel: exec-cell10-train-with-katib
+    inputDefinitions:
+      artifacts:
+        Xva_prev_in:
+          artifactType:
+            schemaTitle: system.Artifact
+            schemaVersion: 0.0.1
+        dataset_prev_in:
+          artifactType:
+            schemaTitle: system.Artifact
+            schemaVersion: 0.0.1
+        yva_prev_in:
+          artifactType:
+            schemaTitle: system.Artifact
+            schemaVersion: 0.0.1
+      parameters:
+        base_min_prelogin_events:
+          parameterType: NUMBER_INTEGER
+        input_path:
+          parameterType: STRING
+        katib_params_json_in:
+          parameterType: STRING
+        known_cats_json:
+          parameterType: STRING
+    outputDefinitions:
+      artifacts:
+        Xva_out:
+          artifactType:
+            schemaTitle: system.Artifact
+            schemaVersion: 0.0.1
+        cal_model_out:
+          artifactType:
+            schemaTitle: system.Model
+            schemaVersion: 0.0.1
+        dataset_out:
+          artifactType:
+            schemaTitle: system.Artifact
+            schemaVersion: 0.0.1
+        yva_out:
+          artifactType:
+            schemaTitle: system.Artifact
+            schemaVersion: 0.0.1
+      parameters:
+        train_txt:
+          parameterType: STRING
+  comp-cell11-tune-threshold-and-save:
+    executorLabel: exec-cell11-tune-threshold-and-save
+    inputDefinitions:
+      artifacts:
+        Xva_in:
+          artifactType:
+            schemaTitle: system.Artifact
+            schemaVersion: 0.0.1
+        cal_model_in:
+          artifactType:
+            schemaTitle: system.Model
+            schemaVersion: 0.0.1
+        dataset_in:
+          artifactType:
+            schemaTitle: system.Artifact
+            schemaVersion: 0.0.1
+        df_in:
+          artifactType:
+            schemaTitle: system.Artifact
+            schemaVersion: 0.0.1
+        yva_in:
+          artifactType:
+            schemaTitle: system.Artifact
+            schemaVersion: 0.0.1
+      parameters:
+        artifact_dir_hint:
+          parameterType: STRING
+        t_hi:
+          parameterType: NUMBER_DOUBLE
+        t_lo:
+          parameterType: NUMBER_DOUBLE
+        t_steps:
+          parameterType: NUMBER_INTEGER
+    outputDefinitions:
+      artifacts:
+        age_metrics_out:
+          artifactType:
+            schemaTitle: system.Artifact
+            schemaVersion: 0.0.1
+        proba_csv_out:
+          artifactType:
+            schemaTitle: system.Artifact
+            schemaVersion: 0.0.1
+      parameters:
+        best_t_txt:
+          parameterType: STRING
+        eval_txt:
+          parameterType: STRING
+        meta_json_out:
+          parameterType: STRING
+  comp-cell12-upload-model-to-kakao:
+    executorLabel: exec-cell12-upload-model-to-kakao
+    inputDefinitions:
+      artifacts:
+        cal_model_in:
+          artifactType:
+            schemaTitle: system.Model
+            schemaVersion: 0.0.1
+      parameters:
+        access_key:
+          parameterType: STRING
+        bucket:
+          parameterType: STRING
+        endpoint:
+          parameterType: STRING
+        object_name:
+          defaultValue: model.joblib
+          isOptional: true
+          parameterType: STRING
+        prefix:
+          defaultValue: gender_predict_pipeline
+          isOptional: true
+          parameterType: STRING
+        public_read:
+          defaultValue: false
+          isOptional: true
+          parameterType: BOOLEAN
+        region:
+          parameterType: STRING
+        secret_key:
+          parameterType: STRING
+    outputDefinitions:
+      parameters:
+        log_txt:
+          parameterType: STRING
+        uploaded_uri_out:
+          parameterType: STRING
+  comp-cell13-deploy-kserve:
+    executorLabel: exec-cell13-deploy-kserve
+    inputDefinitions:
+      parameters:
+        append_model_filename:
+          defaultValue: false
+          isOptional: true
+          parameterType: BOOLEAN
+        aws_access_key_id:
+          parameterType: STRING
+        aws_secret_access_key:
+          parameterType: STRING
+        bucket:
+          parameterType: STRING
+        isvc_name:
+          parameterType: STRING
+        max_replicas:
+          defaultValue: 1.0
+          isOptional: true
+          parameterType: NUMBER_INTEGER
+        min_replicas:
+          defaultValue: 1.0
+          isOptional: true
+          parameterType: NUMBER_INTEGER
+        namespace:
+          parameterType: STRING
+        prefix:
+          parameterType: STRING
+        s3_endpoint:
+          parameterType: STRING
+        s3_region:
+          parameterType: STRING
+        use_legacy_spec:
+          defaultValue: false
+          isOptional: true
+          parameterType: BOOLEAN
+    outputDefinitions:
+      parameters:
+        isvc_name_out:
+          parameterType: STRING
+        isvc_url_out:
+          parameterType: STRING
+        isvc_yaml_out:
+          parameterType: STRING
+        log_txt:
+          parameterType: STRING
+  comp-cell2-prelogin-filter:
+    executorLabel: exec-cell2-prelogin-filter
+    inputDefinitions:
+      parameters:
+        input_path:
+          parameterType: STRING
+        min_prelogin_events:
+          parameterType: NUMBER_INTEGER
+    outputDefinitions:
+      artifacts:
+        df_out:
+          artifactType:
+            schemaTitle: system.Artifact
+            schemaVersion: 0.0.1
+        pre_out:
+          artifactType:
+            schemaTitle: system.Artifact
+            schemaVersion: 0.0.1
+      parameters:
+        log_txt:
+          parameterType: STRING
+  comp-cell3-aggregate-and-label:
+    executorLabel: exec-cell3-aggregate-and-label
+    inputDefinitions:
+      artifacts:
+        df_in:
+          artifactType:
+            schemaTitle: system.Artifact
+            schemaVersion: 0.0.1
+        pre_in:
+          artifactType:
+            schemaTitle: system.Artifact
+            schemaVersion: 0.0.1
+    outputDefinitions:
+      artifacts:
+        Xnum_out:
+          artifactType:
+            schemaTitle: system.Artifact
+            schemaVersion: 0.0.1
+        y_out:
+          artifactType:
+            schemaTitle: system.Artifact
+            schemaVersion: 0.0.1
+      parameters:
+        counts_txt:
+          parameterType: STRING
+        keep_sessions_out:
+          parameterType: STRING
+  comp-cell4-category-features:
+    executorLabel: exec-cell4-category-features
+    inputDefinitions:
+      artifacts:
+        Xnum_in:
+          artifactType:
+            schemaTitle: system.Artifact
+            schemaVersion: 0.0.1
+        pre_in:
+          artifactType:
+            schemaTitle: system.Artifact
+            schemaVersion: 0.0.1
+      parameters:
+        known_cats_json:
+          parameterType: STRING
+    outputDefinitions:
+      artifacts:
+        cat_cnt_out:
+          artifactType:
+            schemaTitle: system.Artifact
+            schemaVersion: 0.0.1
+        cat_log_out:
+          artifactType:
+            schemaTitle: system.Artifact
+            schemaVersion: 0.0.1
+        cat_prop_out:
+          artifactType:
+            schemaTitle: system.Artifact
+            schemaVersion: 0.0.1
+      parameters:
+        cats_txt:
+          parameterType: STRING
+  comp-cell5-build-dataset:
+    executorLabel: exec-cell5-build-dataset
+    inputDefinitions:
+      artifacts:
+        Xnum_in:
+          artifactType:
+            schemaTitle: system.Artifact
+            schemaVersion: 0.0.1
+        cat_cnt_in:
+          artifactType:
+            schemaTitle: system.Artifact
+            schemaVersion: 0.0.1
+        cat_log_in:
+          artifactType:
+            schemaTitle: system.Artifact
+            schemaVersion: 0.0.1
+        cat_prop_in:
+          artifactType:
+            schemaTitle: system.Artifact
+            schemaVersion: 0.0.1
+        y_in:
+          artifactType:
+            schemaTitle: system.Artifact
+            schemaVersion: 0.0.1
+    outputDefinitions:
+      artifacts:
+        dataset_csv_out:
+          artifactType:
+            schemaTitle: system.Artifact
+            schemaVersion: 0.0.1
+        dataset_pq_out:
+          artifactType:
+            schemaTitle: system.Artifact
+            schemaVersion: 0.0.1
+      parameters:
+        head_txt:
+          parameterType: STRING
+  comp-cell6-split:
+    executorLabel: exec-cell6-split
+    inputDefinitions:
+      artifacts:
+        dataset_pq_in:
+          artifactType:
+            schemaTitle: system.Artifact
+            schemaVersion: 0.0.1
+      parameters:
+        random_state:
+          parameterType: NUMBER_INTEGER
+        test_size:
+          parameterType: NUMBER_DOUBLE
+    outputDefinitions:
+      artifacts:
+        Xtr_out:
+          artifactType:
+            schemaTitle: system.Artifact
+            schemaVersion: 0.0.1
+        Xva_out:
+          artifactType:
+            schemaTitle: system.Artifact
+            schemaVersion: 0.0.1
+        ytr_out:
+          artifactType:
+            schemaTitle: system.Artifact
+            schemaVersion: 0.0.1
+        yva_out:
+          artifactType:
+            schemaTitle: system.Artifact
+            schemaVersion: 0.0.1
+      parameters:
+        split_txt:
+          parameterType: STRING
+  comp-cell7-train-calibrate:
+    executorLabel: exec-cell7-train-calibrate
+    inputDefinitions:
+      artifacts:
+        Xtr_in:
+          artifactType:
+            schemaTitle: system.Artifact
+            schemaVersion: 0.0.1
+        ytr_in:
+          artifactType:
+            schemaTitle: system.Artifact
+            schemaVersion: 0.0.1
+      parameters:
+        calib_cv:
+          parameterType: NUMBER_INTEGER
+        calib_method:
+          parameterType: STRING
+    outputDefinitions:
+      artifacts:
+        cal_model_out:
+          artifactType:
+            schemaTitle: system.Model
+            schemaVersion: 0.0.1
+      parameters:
+        train_txt:
+          parameterType: STRING
+  comp-cell8-eval-prod-threshold:
+    executorLabel: exec-cell8-eval-prod-threshold
+    inputDefinitions:
+      artifacts:
+        Xva_in:
+          artifactType:
+            schemaTitle: system.Artifact
+            schemaVersion: 0.0.1
+        cal_model_in:
+          artifactType:
+            schemaTitle: system.Model
+            schemaVersion: 0.0.1
+        dataset_csv_in:
+          artifactType:
+            schemaTitle: system.Artifact
+            schemaVersion: 0.0.1
+        yva_in:
+          artifactType:
+            schemaTitle: system.Artifact
+            schemaVersion: 0.0.1
+      parameters:
+        production_threshold:
+          parameterType: NUMBER_DOUBLE
+    outputDefinitions:
+      artifacts:
+        age_metrics_out:
+          artifactType:
+            schemaTitle: system.Artifact
+            schemaVersion: 0.0.1
+        pred_out:
+          artifactType:
+            schemaTitle: system.Artifact
+            schemaVersion: 0.0.1
+        proba_out:
+          artifactType:
+            schemaTitle: system.Artifact
+            schemaVersion: 0.0.1
+      parameters:
+        eval_txt:
+          parameterType: STRING
+  comp-cell9-fetch-katib:
+    executorLabel: exec-cell9-fetch-katib
+    inputDefinitions:
+      parameters:
+        katib_experiment:
+          parameterType: STRING
+        katib_namespace:
+          parameterType: STRING
+    outputDefinitions:
+      artifacts:
+        katib_df_csv_out:
+          artifactType:
+            schemaTitle: system.Artifact
+            schemaVersion: 0.0.1
+      parameters:
+        katib_params_json_out:
+          parameterType: STRING
+deploymentSpec:
+  executors:
+    exec-cell1-init:
+      container:
+        args:
+        - --executor_input
+        - '{{$}}'
+        - --function_to_execute
+        - cell1_init
+        command:
+        - sh
+        - -c
+        - "\nif ! [ -x \"$(command -v pip)\" ]; then\n    python3 -m ensurepip ||\
+          \ python3 -m ensurepip --user || apt-get install python3-pip\nfi\n\nPIP_DISABLE_PIP_VERSION_CHECK=1\
+          \ python3 -m pip install --quiet --no-warn-script-location 'kfp==2.11.0'\
+          \ '--no-deps' 'typing-extensions>=3.7.4,<5; python_version<\"3.9\"'  &&\
+          \  python3 -m pip install --quiet --no-warn-script-location 'numpy==1.26.4'\
+          \ 'pandas==2.2.2' 'scikit-learn==1.5.1' 'joblib==1.4.2' 'matplotlib==3.9.0'\
+          \ 'pyarrow==17.0.0' && \"$0\" \"$@\"\n"
+        - sh
+        - -ec
+        - 'program_path=$(mktemp -d)
+
+
+          printf "%s" "$0" > "$program_path/ephemeral_component.py"
+
+          _KFP_RUNTIME=true python3 -m kfp.dsl.executor_main                         --component_module_path                         "$program_path/ephemeral_component.py"                         "$@"
+
+          '
+        - "\nimport kfp\nfrom kfp import dsl\nfrom kfp.dsl import *\nfrom typing import\
+          \ *\n\ndef cell1_init(\n    known_cats_json: str,\n    production_threshold:\
+          \ float,\n    min_prelogin_events: int,\n    datasets_dir: str,\n    artifact_dir:\
+          \ str,\n    params_out_path: OutputPath(str),\n):\n    import json, unicodedata\n\
+          \    from pathlib import Path\n\n    KNOWN_CATS = [unicodedata.normalize(\"\
+          NFKC\", c.strip()) for c in json.loads(known_cats_json)]\n    Path(datasets_dir).mkdir(parents=True,\
+          \ exist_ok=True)\n    Path(artifact_dir).mkdir(parents=True, exist_ok=True)\n\
+          \n    blob = {\n        \"KNOWN_CATS\": KNOWN_CATS,\n        \"PRODUCTION_THRESHOLD\"\
+          : float(production_threshold),\n        \"MIN_PRELOGIN_EVENTS\": int(min_prelogin_events),\n\
+          \        \"DATASETS_DIR\": datasets_dir,\n        \"ARTIFACT_DIR\": artifact_dir,\n\
+          \    }\n    with open(params_out_path, \"w\", encoding=\"utf-8\") as f:\n\
+          \        json.dump(blob, f, ensure_ascii=False, indent=2)\n\n"
+        image: python:3.11-slim
+    exec-cell10-train-with-katib:
+      container:
+        args:
+        - --executor_input
+        - '{{$}}'
+        - --function_to_execute
+        - cell10_train_with_katib
+        command:
+        - sh
+        - -c
+        - "\nif ! [ -x \"$(command -v pip)\" ]; then\n    python3 -m ensurepip ||\
+          \ python3 -m ensurepip --user || apt-get install python3-pip\nfi\n\nPIP_DISABLE_PIP_VERSION_CHECK=1\
+          \ python3 -m pip install --quiet --no-warn-script-location 'kfp==2.11.0'\
+          \ '--no-deps' 'typing-extensions>=3.7.4,<5; python_version<\"3.9\"'  &&\
+          \  python3 -m pip install --quiet --no-warn-script-location 'numpy==1.26.4'\
+          \ 'pandas==2.2.2' 'scikit-learn==1.5.1' 'joblib==1.4.2' 'pyarrow==17.0.0'\
+          \ && \"$0\" \"$@\"\n"
+        - sh
+        - -ec
+        - 'program_path=$(mktemp -d)
+
+
+          printf "%s" "$0" > "$program_path/ephemeral_component.py"
+
+          _KFP_RUNTIME=true python3 -m kfp.dsl.executor_main                         --component_module_path                         "$program_path/ephemeral_component.py"                         "$@"
+
+          '
+        - "\nimport kfp\nfrom kfp import dsl\nfrom kfp.dsl import *\nfrom typing import\
+          \ *\n\ndef cell10_train_with_katib(\n    katib_params_json_in: str,    \
+          \     \n    input_path: str,\n    known_cats_json: str,\n    base_min_prelogin_events:\
+          \ int,\n    Xva_prev_in: InputPath(\"Parquet\"),\n    yva_prev_in: InputPath(\"\
+          CSV\"),\n    dataset_prev_in: InputPath(\"CSV\"),\n    cal_model_out: OutputPath(\"\
+          Model\"),\n    Xva_out: OutputPath(\"Parquet\"),\n    yva_out: OutputPath(\"\
+          CSV\"),\n    dataset_out: OutputPath(\"CSV\"),\n    train_txt: OutputPath(str),\n\
+          ):\n    import json, os, unicodedata, numpy as np, pandas as pd\n    from\
+          \ sklearn.preprocessing import StandardScaler, RobustScaler\n    from sklearn.linear_model\
+          \ import LogisticRegression\n    from sklearn.pipeline import Pipeline\n\
+          \    from sklearn.calibration import CalibratedClassifierCV\n    from sklearn.model_selection\
+          \ import StratifiedShuffleSplit\n    from joblib import dump\n\n    # ---\
+          \ Katib \uD30C\uB77C\uBBF8\uD130 \uD30C\uC2F1 (\uBB38\uC790\uC5F4 or \uACBD\
+          \uB85C \uB458 \uB2E4 \uC548\uC804 \uCC98\uB9AC) ---\n    raw = katib_params_json_in\
+          \ or \"[]\"\n    try:\n        if raw.strip().startswith(\"[\"):\n     \
+          \       params = json.loads(raw)\n        elif os.path.exists(raw):\n  \
+          \          params = json.load(open(raw, \"r\", encoding=\"utf-8\"))\n  \
+          \      else:\n            params = []\n    except Exception:\n        params\
+          \ = []\n    K = {d[\"name\"]: str(d[\"value\"]).strip() for d in params}\
+          \ if params else {}\n\n    def _get_str(m, k, default=None):\n        v\
+          \ = m.get(k, default); return None if v is None else str(v).strip()\n  \
+          \  def _get_float(m, k, default=None):\n        v = m.get(k, None)\n   \
+          \     try: return float(v)\n        except: return default\n    def _get_int(m,\
+          \ k, default=None):\n        v = m.get(k, None)\n        try: return int(float(v))\n\
+          \        except: return default\n\n    penalty   = (_get_str(K, \"penalty\"\
+          , \"l2\") or \"l2\").lower()\n    C         = _get_float(K, \"C\", 1.0)\n\
+          \    l1_ratio  = _get_float(K, \"l1_ratio\", None)\n    scaler_nm = (_get_str(K,\
+          \ \"scaler\", \"standard\") or \"standard\").lower()\n    cw_nm     = _get_str(K,\
+          \ \"class_weight\", None)\n    class_weight = None if (cw_nm is None or\
+          \ cw_nm.lower()==\"none\") else (\"balanced\" if cw_nm.lower()==\"balanced\"\
+          \ else cw_nm)\n\n    calib_method = (_get_str(K, \"calib_method\", \"isotonic\"\
+          ) or \"isotonic\").lower()\n    if calib_method not in {\"isotonic\",\"\
+          sigmoid\"}: calib_method = \"isotonic\"\n    calib_cv   = _get_int(K, \"\
+          calib_cv\", 5)\n\n    t_lo    = _get_float(K, \"tune_t_lo\", 0.2)\n    t_hi\
+          \    = _get_float(K, \"tune_t_hi\", 0.8)\n    t_steps = _get_int (K, \"\
+          tune_t_steps\", 61)\n    if (t_lo is not None) and (t_hi is not None) and\
+          \ (t_lo > t_hi):\n        t_lo, t_hi = t_hi, t_lo\n\n    min_prelogin_events_k\
+          \ = _get_int(K, \"min_prelogin_events\", None)\n    need_rebuild = (min_prelogin_events_k\
+          \ is not None) and (int(min_prelogin_events_k) != int(base_min_prelogin_events))\n\
+          \n    def _norm(series: pd.Series) -> pd.Series:\n        s = series.astype(\"\
+          string\").str.strip()\n        return s.apply(lambda x: unicodedata.normalize(\"\
+          NFKC\", x) if pd.notna(x) else x)\n\n    def _build_dataset_from_raw(input_path:\
+          \ str, min_events: int, known_cats_json: str):\n        df = pd.read_csv(input_path,\
+          \ low_memory=False)\n        df[\"ts\"] = pd.to_datetime(df[\"timestamp\"\
+          ], errors=\"coerce\")\n        df = df.dropna(subset=[\"session_id\",\"\
+          ts\"]).copy()\n        sort_cols = [\"session_id\",\"ts\"] + ([\"event_id\"\
+          ] if \"event_id\" in df.columns else [])\n        df = df.sort_values(sort_cols).reset_index(drop=True)\n\
+          \n        uid_str  = df[\"user_id\"].astype(\"string\").str.strip()\n  \
+          \      anon_like = {\"\", \"0\", \"-1\", \"None\", \"none\", \"NULL\", \"\
+          null\", \"NaN\", \"nan\"}\n        has_uid = uid_str.notna() & ~uid_str.isin(anon_like)\n\
+          \        appeared = has_uid.groupby(df[\"session_id\"]).cummax()\n     \
+          \   pre = df.loc[~appeared].copy()\n\n        pre_cnt = pre.groupby(\"session_id\"\
+          ).size()\n        valid_sessions = pre_cnt.index[pre_cnt >= int(min_events)]\n\
+          \        pre = pre[pre[\"session_id\"].isin(valid_sessions)].copy()\n\n\
+          \        df_gender = df.copy()\n        df_gender[\"gender_norm\"] = (\n\
+          \            df_gender.get(\"gender\", pd.Series(index=df_gender.index,\
+          \ dtype=\"object\")).astype(\"string\").str.strip().str.upper().replace({\"\
+          FEMALE\":\"F\",\"MALE\":\"M\"})\n        )\n        lab_full = df_gender[df_gender[\"\
+          gender_norm\"].isin([\"M\",\"F\"])].groupby(\"session_id\")[\"gender_norm\"\
+          ].agg(lambda s: s.iloc[0])\n\n        agg_num = pre.groupby(\"session_id\"\
+          ).agg(\n            n_events=(\"session_id\",\"size\"),\n            search_count_sum=(\"\
+          search_count\",\"sum\") if \"search_count\" in pre.columns else (\"session_id\"\
+          ,\"size\"),\n            cart_item_count_sum=(\"cart_item_count\",\"sum\"\
+          ) if \"cart_item_count\" in pre.columns else (\"session_id\",\"size\"),\n\
+          \            page_depth_mean=(\"page_depth\",\"mean\") if \"page_depth\"\
+          \ in pre.columns else (\"session_id\",\"size\"),\n            last_elapsed_mean=(\"\
+          last_action_elapsed\",\"mean\") if \"last_action_elapsed\" in pre.columns\
+          \ else (\"session_id\",\"size\"),\n            unique_pages=(\"current_state\"\
+          ,\"nunique\") if \"current_state\" in pre.columns else (\"session_id\",\"\
+          size\"),\n            unique_categories=(\"resolved_category\",\"nunique\"\
+          ) if \"resolved_category\" in pre.columns else (\"session_id\",\"size\"\
+          ),\n        ).fillna(0.0)\n        first_ts = pre.groupby(\"session_id\"\
+          )[\"ts\"].min()\n        agg_num[\"start_hour\"] = first_ts.dt.hour\n  \
+          \      agg_num[\"start_weekday\"] = first_ts.dt.weekday\n\n        import\
+          \ json\n        KNOWN_CATS = [unicodedata.normalize(\"NFKC\", c.strip())\
+          \ for c in json.loads(known_cats_json)]\n        norm_to_orig = {unicodedata.normalize(\"\
+          NFKC\", c.strip()): c for c in json.loads(known_cats_json)}\n        pre_cat_norm\
+          \ = _norm(pre.get(\"resolved_category\", pd.Series(index=pre.index, dtype=\"\
+          object\")))\n        mask = pre_cat_norm.isin(KNOWN_CATS)\n        pre_kept\
+          \ = pre[mask].copy()\n        pre_kept[\"cat_norm\"] = pre_cat_norm[mask].values\n\
+          \        pre_kept[\"one\"] = 1\n        cat_cnt = pre_kept.pivot_table(index=\"\
+          session_id\", columns=\"cat_norm\", values=\"one\", aggfunc=\"sum\", fill_value=0)\n\
+          \        cat_cnt = cat_cnt.reindex(columns=KNOWN_CATS, fill_value=0)\n \
+          \       cat_cnt.columns = [norm_to_orig[c] for c in cat_cnt.columns]\n \
+          \       cat_cnt.columns = [f\"cat_cnt::{c}\" for c in cat_cnt.columns]\n\
+          \        cat_cnt = cat_cnt.reindex(agg_num.index).fillna(0).astype(int)\n\
+          \n        cat_prop = cat_cnt.div(agg_num[\"n_events\"].replace(0,1), axis=0)\n\
+          \        cat_prop.columns = [c.replace(\"cat_cnt::\",\"cat_prop::\") for\
+          \ c in cat_cnt.columns]\n        cat_log = np.log1p(cat_cnt)\n        cat_log.columns\
+          \ = [c.replace(\"cat_cnt::\",\"cat_log::\") for c in cat_cnt.columns]\n\n\
+          \        X = (agg_num.join(cat_cnt, how=\"left\").join(cat_prop, how=\"\
+          left\").join(cat_log, how=\"left\")).fillna(0)\n        keep_sessions =\
+          \ X.index.intersection(lab_full.index)\n        X = X.loc[keep_sessions].copy()\n\
+          \        y = lab_full.loc[keep_sessions].rename(\"gender\").copy()\n\n \
+          \       X_ = X.copy(); X_.index.name = \"session_id\"\n        dataset =\
+          \ X_.join(y).reset_index()\n        dataset[\"gender\"] = dataset[\"gender\"\
+          ].astype(\"string\").str.strip().str.upper().replace({\"FEMALE\":\"F\",\"\
+          MALE\":\"M\"})\n        return dataset\n\n    if need_rebuild:\n       \
+          \ dataset = _build_dataset_from_raw(input_path, int(min_prelogin_events_k),\
+          \ known_cats_json)\n        non_feature = {\"session_id\",\"gender\"}\n\
+          \        feature_cols = [c for c in dataset.columns if c not in non_feature]\n\
+          \        X_all = dataset[feature_cols].copy()\n        y_bin = dataset[\"\
+          gender\"].map({\"F\":0,\"M\":1}).astype(int)\n        sss = StratifiedShuffleSplit(n_splits=1,\
+          \ test_size=0.2, random_state=42)\n        _, va_idx = next(sss.split(X_all,\
+          \ y_bin))\n        X_valid, y_valid = X_all.iloc[va_idx], y_bin.iloc[va_idx]\n\
+          \    else:\n        dataset = pd.read_csv(dataset_prev_in)\n        X_valid\
+          \ = pd.read_parquet(Xva_prev_in)\n        y_valid = pd.read_csv(yva_prev_in)[\"\
+          y\"].astype(int)\n\n    ScalerClass  = StandardScaler if scaler_nm == \"\
+          standard\" else RobustScaler\n    clf_kwargs = dict(solver=\"saga\", penalty=penalty,\
+          \ C=float(C), max_iter=5000, random_state=42)\n    if penalty == \"elasticnet\"\
+          \ and l1_ratio is not None:\n        clf_kwargs[\"l1_ratio\"] = float(l1_ratio)\n\
+          \    if class_weight is not None:\n        clf_kwargs[\"class_weight\"]\
+          \ = class_weight\n\n    non_feature = {\"session_id\",\"gender\"}\n    feature_cols\
+          \ = [c for c in dataset.columns if c not in non_feature]\n    X_all = dataset[feature_cols].copy()\n\
+          \    y_all = dataset[\"gender\"].map({\"F\":0,\"M\":1}).astype(int)\n\n\
+          \    log_katib = Pipeline([\n        (\"scaler\", ScalerClass(with_mean=True,\
+          \ with_std=True) if ScalerClass is StandardScaler else ScalerClass(with_centering=True,\
+          \ with_scaling=True)),\n        (\"clf\", LogisticRegression(**clf_kwargs)),\n\
+          \    ])\n    log_katib.fit(X_all, y_all)\n\n    try:\n        cal_katib\
+          \ = CalibratedClassifierCV(estimator=log_katib, method=calib_method, cv=int(calib_cv))\n\
+          \    except TypeError:\n        cal_katib = CalibratedClassifierCV(base_estimator=log_katib,\
+          \ method=calib_method, cv=int(calib_cv))\n    cal_katib.fit(X_all, y_all)\n\
+          \n    dump(cal_katib, cal_model_out)\n    X_valid.to_parquet(Xva_out, index=False)\n\
+          \    y_valid.to_frame(\"y\").to_csv(yva_out, index=False)\n    dataset.to_csv(dataset_out,\
+          \ index=False)\n\n    with open(train_txt, \"w\", encoding=\"utf-8\") as\
+          \ f:\n        f.write(\n            f\"[OK] \uBAA8\uB378 \uD559\uC2B5 \uC644\
+          \uB8CC \u2192 min_prelogin_events={min_prelogin_events_k if need_rebuild\
+          \ else base_min_prelogin_events}, \"\n            f\"scaler={scaler_nm},\
+          \ penalty={penalty}, C={C}, class_weight={class_weight}, \"\n          \
+          \  f\"calibration=({calib_method}, cv={calib_cv})\\n\"\n        )\n\n"
+        image: python:3.11-slim
+    exec-cell11-tune-threshold-and-save:
+      container:
+        args:
+        - --executor_input
+        - '{{$}}'
+        - --function_to_execute
+        - cell11_tune_threshold_and_save
+        command:
+        - sh
+        - -c
+        - "\nif ! [ -x \"$(command -v pip)\" ]; then\n    python3 -m ensurepip ||\
+          \ python3 -m ensurepip --user || apt-get install python3-pip\nfi\n\nPIP_DISABLE_PIP_VERSION_CHECK=1\
+          \ python3 -m pip install --quiet --no-warn-script-location 'kfp==2.11.0'\
+          \ '--no-deps' 'typing-extensions>=3.7.4,<5; python_version<\"3.9\"'  &&\
+          \  python3 -m pip install --quiet --no-warn-script-location 'numpy==1.26.4'\
+          \ 'pandas==2.2.2' 'scikit-learn==1.5.1' 'joblib==1.4.2' 'pyarrow==17.0.0'\
+          \ && \"$0\" \"$@\"\n"
+        - sh
+        - -ec
+        - 'program_path=$(mktemp -d)
+
+
+          printf "%s" "$0" > "$program_path/ephemeral_component.py"
+
+          _KFP_RUNTIME=true python3 -m kfp.dsl.executor_main                         --component_module_path                         "$program_path/ephemeral_component.py"                         "$@"
+
+          '
+        - "\nimport kfp\nfrom kfp import dsl\nfrom kfp.dsl import *\nfrom typing import\
+          \ *\n\ndef cell11_tune_threshold_and_save(\n    cal_model_in: InputPath(\"\
+          Model\"),\n    Xva_in: InputPath(\"Parquet\"),\n    yva_in: InputPath(\"\
+          CSV\"),     \n    dataset_in: InputPath(\"CSV\"), \n    df_in: InputPath(\"\
+          Parquet\"),\n    t_lo: float,\n    t_hi: float,\n    t_steps: int,\n   \
+          \ artifact_dir_hint: str,\n    best_t_txt: OutputPath(str),\n    proba_csv_out:\
+          \ OutputPath(\"CSV\"),\n    age_metrics_out: OutputPath(\"CSV\"), \n   \
+          \ meta_json_out: OutputPath(str),\n    eval_txt: OutputPath(str),\n):\n\
+          \    import os, json, numpy as np, pandas as pd\n    from joblib import\
+          \ load, dump\n    from sklearn.metrics import f1_score\n\n    model = load(cal_model_in)\n\
+          \    X_valid = pd.read_parquet(Xva_in)\n    y_valid = pd.read_csv(yva_in)[\"\
+          y\"].astype(int)\n    dataset = pd.read_csv(dataset_in)\n    df = pd.read_parquet(df_in)\n\
+          \n    lo, hi, n = float(t_lo), float(t_hi), int(t_steps)\n    ths = np.linspace(lo,\
+          \ hi, n)\n    proba_k = model.predict_proba(X_valid)[:, 1]\n    best_t,\
+          \ best_f1 = 0.5, -1.0\n    for t in ths:\n        f1 = f1_score(y_valid,\
+          \ (proba_k >= t).astype(int), average=\"macro\")\n        if f1 > best_f1:\n\
+          \            best_t, best_f1 = float(t), float(f1)\n\n    with open(best_t_txt,\
+          \ \"w\", encoding=\"utf-8\") as f:\n        f.write(f\"{best_t}\")\n   \
+          \ pd.DataFrame({\"proba\": proba_k}).to_csv(proba_csv_out, index=False)\n\
+          \n    sess_ids = dataset.loc[X_valid.index, \"session_id\"].to_numpy() if\
+          \ \"session_id\" in dataset.columns else np.arange(len(X_valid))\n    pred_bin\
+          \ = (proba_k >= best_t).astype(int)\n    pred_col = f\"y_pred@{best_t:.3f}\"\
+          \n    out_df = pd.DataFrame({\n        \"session_id\": sess_ids,\n     \
+          \   \"y_true\": y_valid.values,\n        pred_col: pred_bin,\n        \"\
+          proba_cal\": proba_k,\n    })\n\n    extra_cols = [c for c in [\"age\",\
+          \ \"age_group\"] if c in dataset.columns]\n    if extra_cols:\n        out_df\
+          \ = out_df.merge(\n            dataset[[\"session_id\"] + extra_cols].drop_duplicates(\"\
+          session_id\"),\n            on=\"session_id\", how=\"left\"\n        )\n\
+          \n    if \"age_group\" not in out_df.columns and \"age\" in df.columns:\n\
+          \        uid_str  = df.get(\"user_id\", pd.Series([\"\"] * len(df))).astype(\"\
+          string\").str.strip()\n        anon_like = {\"\", \"0\", \"-1\", \"None\"\
+          , \"none\", \"NULL\", \"null\", \"NaN\", \"nan\"}\n        has_uid = uid_str.notna()\
+          \ & ~uid_str.isin(anon_like)\n        appeared_local = has_uid.groupby(df[\"\
+          session_id\"]).cummax()\n        post = df.loc[appeared_local].copy()\n\
+          \        age_post_by_sess = (\n            pd.to_numeric(post[\"age\"],\
+          \ errors=\"coerce\")\n              .groupby(post[\"session_id\"])\n   \
+          \           .apply(lambda s: s.dropna().iloc[0] if len(s.dropna()) else\
+          \ np.nan)\n              .rename(\"age\")\n        )\n        age_map =\
+          \ age_post_by_sess.to_frame()\n\n        def _to_age_bucket(x):\n      \
+          \      if pd.isna(x): return np.nan\n            x = float(x)\n        \
+          \    return \"young\" if x < 25 else (\"middle\" if x < 50 else \"old\"\
+          )\n\n        age_map[\"age_group\"] = age_map[\"age\"].apply(_to_age_bucket)\n\
+          \        out_df = out_df.merge(age_map.reset_index(), on=\"session_id\"\
+          , how=\"left\")\n\n    out_df[\"age_group\"] = out_df.get(\"age_group\"\
+          ).astype(\"string\").fillna(\"unknown\")\n    rows = []\n    for g, sub\
+          \ in out_df.groupby(\"age_group\", dropna=False):\n        y_true_g = sub[\"\
+          y_true\"].astype(int).to_numpy()\n        y_pred_g = sub[pred_col].astype(int).to_numpy()\n\
+          \        acc = float((y_true_g == y_pred_g).mean())\n        f1  = float(f1_score(y_true_g,\
+          \ y_pred_g, average=\"macro\")) if len(np.unique(y_true_g)) > 1 else float(\"\
+          nan\")\n        rows.append({\"age_group\": str(g), \"acc\": acc, \"macro_f1\"\
+          : f1})\n\n    pd.DataFrame(rows).sort_values(\"age_group\").to_csv(age_metrics_out,\
+          \ index=False)\n\n    meta = {\n        \"source\": \"katib\",\n       \
+          \ \"best_params\": None,\n        \"best_cv_f1_macro\": None,\n        \"\
+          production_threshold\": float(best_t),\n        \"calibration\": None,\n\
+          \        \"threshold_tuning\": {\"lo\": float(lo), \"hi\": float(hi), \"\
+          steps\": int(n)},\n    }\n    with open(meta_json_out, \"w\", encoding=\"\
+          utf-8\") as f:\n        json.dump(meta, f, ensure_ascii=False, indent=2)\n\
+          \n    try:\n        os.makedirs(artifact_dir_hint, exist_ok=True)\n    \
+          \    dump(model, os.path.join(artifact_dir_hint, \"model_calibrated.joblib\"\
+          ))\n    except Exception:\n        pass\n\n    with open(eval_txt, \"w\"\
+          , encoding=\"utf-8\") as f:\n        f.write(f\"[Katib HP] Best macro-F1\
+          \ in [{lo:.3f},{hi:.3f}] steps={n}: t={best_t:.3f}, F1={best_f1:.4f}\\n\"\
+          )\n\n"
+        image: python:3.11-slim
+    exec-cell12-upload-model-to-kakao:
+      container:
+        args:
+        - --executor_input
+        - '{{$}}'
+        - --function_to_execute
+        - cell12_upload_model_to_kakao
+        command:
+        - sh
+        - -c
+        - "\nif ! [ -x \"$(command -v pip)\" ]; then\n    python3 -m ensurepip ||\
+          \ python3 -m ensurepip --user || apt-get install python3-pip\nfi\n\nPIP_DISABLE_PIP_VERSION_CHECK=1\
+          \ python3 -m pip install --quiet --no-warn-script-location 'kfp==2.11.0'\
+          \ '--no-deps' 'typing-extensions>=3.7.4,<5; python_version<\"3.9\"'  &&\
+          \  python3 -m pip install --quiet --no-warn-script-location 'boto3==1.34.162'\
+          \ 'botocore==1.34.162' && \"$0\" \"$@\"\n"
+        - sh
+        - -ec
+        - 'program_path=$(mktemp -d)
+
+
+          printf "%s" "$0" > "$program_path/ephemeral_component.py"
+
+          _KFP_RUNTIME=true python3 -m kfp.dsl.executor_main                         --component_module_path                         "$program_path/ephemeral_component.py"                         "$@"
+
+          '
+        - "\nimport kfp\nfrom kfp import dsl\nfrom kfp.dsl import *\nfrom typing import\
+          \ *\n\ndef cell12_upload_model_to_kakao(\n    # --- \uD544\uC218(\uAE30\uBCF8\
+          \uAC12 \uC5C6\uC74C) ---\n    cal_model_in: InputPath(\"Model\"),\n    endpoint:\
+          \ str,\n    region: str,\n    bucket: str,\n    access_key: str,       \
+          \    \n    secret_key: str,              \n    uploaded_uri_out: OutputPath(str),\n\
+          \    log_txt: OutputPath(str),\n\n    # --- \uC120\uD0DD(\uAE30\uBCF8\uAC12\
+          \ \uC788\uC74C) ---\n    prefix: str = \"gender_predict_pipeline\",\n  \
+          \  object_name: str = \"model.joblib\",\n    public_read: bool = False,\n\
+          ):\n    import os, time, hashlib\n    import boto3\n\n    # 1) boto3 \uD074\
+          \uB77C\uC774\uC5B8\uD2B8\n    ak = access_key or os.getenv(\"AWS_ACCESS_KEY_ID\"\
+          ) or os.getenv(\"KAKAO_S3_ACCESS_KEY_ID\")\n    sk = secret_key or os.getenv(\"\
+          AWS_SECRET_ACCESS_KEY\") or os.getenv(\"KAKAO_S3_SECRET_ACCESS_KEY\")\n\
+          \    if not ak or not sk:\n        raise RuntimeError(\"Missing credentials:\
+          \ provide access_key/secret_key or set env vars.\")\n\n    s3 = boto3.client(\n\
+          \        \"s3\",\n        endpoint_url=endpoint,\n        region_name=region,\n\
+          \        aws_access_key_id=ak,\n        aws_secret_access_key=sk,\n    )\n\
+          \n    # 2) \uBC84\uD0B7 \uC874\uC7AC \uBCF4\uC7A5\n    try:\n        s3.head_bucket(Bucket=bucket)\n\
+          \    except Exception:\n        try:\n            s3.create_bucket(Bucket=bucket,\
+          \ CreateBucketConfiguration={\"LocationConstraint\": region})\n        except\
+          \ Exception as e2:\n            code = getattr(e2, \"response\", {}).get(\"\
+          Error\", {}).get(\"Code\")\n            if code not in (\"BucketAlreadyOwnedByYou\"\
+          , \"BucketAlreadyExists\"):\n                raise\n\n    # 3) \uC5C5\uB85C\
+          \uB4DC \uD0A4 \uACB0\uC815\n    key_prefix = (prefix.strip(\"/\") + \"/\"\
+          ) if prefix and prefix.strip() else \"\"\n    if not object_name:\n    \
+          \    object_name = f\"model_calibrated_{time.strftime('%Y%m%d-%H%M%S')}.joblib\"\
+          \n    key = f\"{key_prefix}{object_name}\"\n\n    # 4) \uC5C5\uB85C\uB4DC\
+          \n    extra_args = {\"ContentType\": \"application/octet-stream\"}\n   \
+          \ if public_read:\n        extra_args[\"ACL\"] = \"public-read\"\n    s3.upload_file(cal_model_in,\
+          \ bucket, key, ExtraArgs=extra_args)\n\n    # 5) \uBB34\uACB0\uC131/\uB85C\
+          \uADF8\n    h = hashlib.md5()\n    with open(cal_model_in, \"rb\") as f:\n\
+          \        for chunk in iter(lambda: f.read(8192), b\"\"):\n            h.update(chunk)\n\
+          \    md5 = h.hexdigest()\n    s3_uri = f\"s3://{bucket}/{key}\"\n\n    with\
+          \ open(uploaded_uri_out, \"w\", encoding=\"utf-8\") as f:\n        f.write(s3_uri)\n\
+          \    with open(log_txt, \"w\", encoding=\"utf-8\") as f:\n        f.write(\n\
+          \            \"=== Kakao Object Storage Upload ===\\n\"\n            f\"\
+          Endpoint: {endpoint}\\nRegion  : {region}\\n\"\n            f\"Bucket  :\
+          \ {bucket}\\nPrefix  : {key_prefix}\\n\"\n            f\"Object  : {object_name}\\\
+          nMD5     : {md5}\\n\"\n            f\"URI     : {s3_uri}\\n\"\n        )\n\
+          \n"
+        image: python:3.11-slim
+    exec-cell13-deploy-kserve:
+      container:
+        args:
+        - --executor_input
+        - '{{$}}'
+        - --function_to_execute
+        - cell13_deploy_kserve
+        command:
+        - sh
+        - -c
+        - "\nif ! [ -x \"$(command -v pip)\" ]; then\n    python3 -m ensurepip ||\
+          \ python3 -m ensurepip --user || apt-get install python3-pip\nfi\n\nPIP_DISABLE_PIP_VERSION_CHECK=1\
+          \ python3 -m pip install --quiet --no-warn-script-location 'kfp==2.11.0'\
+          \ '--no-deps' 'typing-extensions>=3.7.4,<5; python_version<\"3.9\"'  &&\
+          \  python3 -m pip install --quiet --no-warn-script-location 'kubernetes==29.0.0'\
+          \ 'pyyaml==6.0.1' && \"$0\" \"$@\"\n"
+        - sh
+        - -ec
+        - 'program_path=$(mktemp -d)
+
+
+          printf "%s" "$0" > "$program_path/ephemeral_component.py"
+
+          _KFP_RUNTIME=true python3 -m kfp.dsl.executor_main                         --component_module_path                         "$program_path/ephemeral_component.py"                         "$@"
+
+          '
+        - "\nimport kfp\nfrom kfp import dsl\nfrom kfp.dsl import *\nfrom typing import\
+          \ *\n\ndef cell13_deploy_kserve(\n    # === Required params ===\n    namespace:\
+          \ str,               # \uBC30\uD3EC \uB124\uC784\uC2A4\uD398\uC774\uC2A4\
+          \n    isvc_name: str,               # InferenceService \uC774\uB984\n  \
+          \  bucket: str,                  # S3 \uBC84\uD0B7\uBA85 (\uC608: models)\n\
+          \    prefix: str,                  # \uACBD\uB85C/\uD3F4\uB354 (\uC608:\
+          \ gender_predict_pipeline)\n    s3_endpoint: str,             # https://objectstorage.kr-central-2.kakaocloud.com\n\
+          \    s3_region: str,               # kr-central-2\n    aws_access_key_id:\
+          \ str,       # \uC561\uC138\uC2A4 \uD0A4\n    aws_secret_access_key: str,\
+          \   # \uC2DC\uD06C\uB9BF \uD0A4\n\n    # === Outputs (\uAE30\uBCF8\uAC12\
+          \ \uC788\uB294 \uC778\uC790\uBCF4\uB2E4 \uBA3C\uC800 \uB46C\uC57C \uD30C\
+          \uC774\uC36C \uC2DC\uADF8\uB2C8\uCC98 \uC624\uB958\uAC00 \uC548 \uB0A8)\
+          \ ===\n    isvc_name_out: OutputPath(str),\n    isvc_yaml_out: OutputPath(str),\n\
+          \    isvc_url_out: OutputPath(str),\n    log_txt: OutputPath(str),\n\n \
+          \   # === Optional params ===\n    min_replicas: int = 1,\n    max_replicas:\
+          \ int = 1,\n    use_legacy_spec: bool = False,    # False: predictor.model,\
+          \ True: predictor.sklearn\n    append_model_filename: bool = False,  # True\uBA74\
+          \ /model.joblib \uAE4C\uC9C0 \uBD99\uC784\n):\n    import time, yaml\n \
+          \   from kubernetes import client, config\n    from kubernetes.client import\
+          \ ApiException\n\n    # ---- sanitize & compose storageUri ----\n    bucket\
+          \ = bucket.strip().strip(\"/\")\n    prefix = prefix.strip().strip(\"/\"\
+          )\n    s3_endpoint = s3_endpoint.strip()\n    s3_host = s3_endpoint.replace(\"\
+          https://\", \"\").replace(\"http://\", \"\").strip(\"/\")\n    storage_uri\
+          \ = f\"s3://{bucket}/{prefix}\"\n    if append_model_filename:\n       \
+          \ storage_uri = storage_uri + \"/model.joblib\"\n\n    # ---- K8s \uC5F0\
+          \uACB0 ----\n    try:\n        config.load_incluster_config()\n    except\
+          \ Exception:\n        config.load_kube_config()\n    core = client.CoreV1Api()\n\
+          \    crd = client.CustomObjectsApi()\n\n    # ---- S3 Secret \uC0DD\uC131\
+          /\uAC31\uC2E0 (KServe \uD06C\uB808\uB374\uC15C \uC778\uC81D\uD130\uC6A9\
+          \ \uC5B4\uB178\uD14C\uC774\uC158 \uD3EC\uD568) ----\n    secret_name = f\"\
+          {isvc_name}-s3\"\n    secret_body = client.V1Secret(\n        metadata=client.V1ObjectMeta(\n\
+          \            name=secret_name,\n            annotations={\n            \
+          \    \"serving.kserve.io/s3-endpoint\":  s3_host,\n                \"serving.kserve.io/s3-usehttps\"\
+          :  \"1\",\n                \"serving.kserve.io/s3-verifyssl\": \"1\",\n\
+          \                \"serving.kserve.io/s3-region\":    s3_region,\n      \
+          \      },\n        ),\n        type=\"Opaque\",\n        string_data={\n\
+          \            \"AWS_ACCESS_KEY_ID\":     aws_access_key_id,\n           \
+          \ \"AWS_SECRET_ACCESS_KEY\": aws_secret_access_key,\n        },\n    )\n\
+          \    try:\n        core.create_namespaced_secret(namespace, secret_body)\n\
+          \    except ApiException as e:\n        if e.status == 409:\n          \
+          \  core.patch_namespaced_secret(secret_name, namespace, secret_body)\n \
+          \       else:\n            raise\n\n    # ---- ServiceAccount \uC0DD\uC131\
+          /\uAC31\uC2E0 (Secret \uC5F0\uACB0) ----\n    sa_name = f\"{isvc_name}-sa\"\
+          \n    sa_body = client.V1ServiceAccount(\n        metadata=client.V1ObjectMeta(name=sa_name),\n\
+          \        secrets=[client.V1ObjectReference(name=secret_name)],\n    )\n\
+          \    try:\n        core.create_namespaced_service_account(namespace, sa_body)\n\
+          \    except ApiException as e:\n        if e.status == 409:\n          \
+          \  core.patch_namespaced_service_account(sa_name, namespace, sa_body)\n\
+          \        else:\n            raise\n\n    # ---- InferenceService (v1beta1)\
+          \ \uC815\uC758 ----\n    group, version, plural = \"serving.kserve.io\"\
+          , \"v1beta1\", \"inferenceservices\"\n    annotations_isvc = {\n       \
+          \ \"autoscaling.knative.dev/minScale\": str(min_replicas),\n        \"autoscaling.knative.dev/maxScale\"\
+          : str(max_replicas),\n        # \uC77C\uBD80 \uC124\uCE58\uC5D0\uC11C \uBA54\
+          \uD0C0\uC5D0 s3 \uD78C\uD2B8\uB97C \uAC19\uC774 \uC8FC\uBA74 \uB354 \uC548\
+          \uC815\uC801\n        \"serving.kserve.io/s3-endpoint\":  s3_host,\n   \
+          \     \"serving.kserve.io/s3-usehttps\":  \"1\",\n        \"serving.kserve.io/s3-verifyssl\"\
+          : \"1\",\n        \"serving.kserve.io/s3-region\":    s3_region,\n    }\n\
+          \n    if use_legacy_spec:\n        predictor = {\n            \"serviceAccountName\"\
+          : sa_name,\n            \"sklearn\": {\n                \"storageUri\":\
+          \ storage_uri,\n                \"resources\": {\n                    \"\
+          requests\": {\"cpu\": \"200m\", \"memory\": \"512Mi\"},\n              \
+          \      \"limits\":   {\"cpu\": \"1\",    \"memory\": \"2Gi\"},\n       \
+          \         },\n            },\n        }\n    else:\n        predictor =\
+          \ {\n            \"serviceAccountName\": sa_name,\n            \"model\"\
+          : {\n                \"modelFormat\": {\"name\": \"sklearn\"},\n       \
+          \         \"storageUri\": storage_uri,\n                \"resources\": {\n\
+          \                    \"requests\": {\"cpu\": \"200m\", \"memory\": \"512Mi\"\
+          },\n                    \"limits\":   {\"cpu\": \"1\",    \"memory\": \"\
+          2Gi\"},\n                },\n            },\n        }\n\n    isvc_body\
+          \ = {\n        \"apiVersion\": f\"{group}/{version}\",\n        \"kind\"\
+          : \"InferenceService\",\n        \"metadata\": {\n            \"name\":\
+          \ isvc_name,\n            \"namespace\": namespace,\n            \"annotations\"\
+          : annotations_isvc,\n        },\n        \"spec\": {\"predictor\": predictor},\n\
+          \    }\n\n    # ---- \uC0DD\uC131 \uB610\uB294 \uD328\uCE58 ----\n    created\
+          \ = False\n    try:\n        crd.create_namespaced_custom_object(group,\
+          \ version, namespace, plural, isvc_body)\n        created = True\n    except\
+          \ ApiException as e:\n        if e.status == 409:\n            crd.patch_namespaced_custom_object(group,\
+          \ version, namespace, plural, isvc_name, isvc_body)\n        else:\n   \
+          \         raise\n\n    # ---- Ready \uB300\uAE30 (\uCD5C\uB300 3\uBD84)\
+          \ ----\n    url, ready = \"\", \"\"\n    deadline = time.time() + 180\n\
+          \    while time.time() < deadline:\n        obj = crd.get_namespaced_custom_object(group,\
+          \ version, namespace, plural, isvc_name)\n        status = obj.get(\"status\"\
+          , {})\n        conds = {c.get(\"type\"): c for c in status.get(\"conditions\"\
+          , [])}\n        if \"Ready\" in conds:\n            ready = conds[\"Ready\"\
+          ].get(\"status\", \"\")\n        url = status.get(\"url\") or status.get(\"\
+          address\", {}).get(\"url\") or \"\"\n        if ready == \"True\" and url:\n\
+          \            break\n        time.sleep(3)\n\n    # ---- \uACB0\uACFC \uC0B0\
+          \uCD9C\uBB3C ----\n    with open(isvc_name_out, \"w\", encoding=\"utf-8\"\
+          ) as f:\n        f.write(isvc_name)\n    with open(isvc_yaml_out, \"w\"\
+          , encoding=\"utf-8\") as f:\n        yaml.safe_dump(isvc_body, f, sort_keys=False,\
+          \ allow_unicode=True)\n    with open(isvc_url_out, \"w\", encoding=\"utf-8\"\
+          ) as f:\n        f.write(url or \"\")\n    with open(log_txt, \"w\", encoding=\"\
+          utf-8\") as f:\n        f.write(\n            \"=== KServe Deploy Result\
+          \ ===\\n\"\n            f\"namespace : {namespace}\\n\"\n            f\"\
+          isvc_name : {isvc_name}\\n\"\n            f\"created   : {created}\\n\"\n\
+          \            f\"ready     : {ready}\\n\"\n            f\"url       : {url}\\\
+          n\"\n            f\"storageUri: {storage_uri}\\n\"\n            f\"sa/secret\
+          \ : {sa_name} / {secret_name}\\n\"\n        )\n\n"
+        image: python:3.11-slim
+    exec-cell2-prelogin-filter:
+      container:
+        args:
+        - --executor_input
+        - '{{$}}'
+        - --function_to_execute
+        - cell2_prelogin_filter
+        command:
+        - sh
+        - -c
+        - "\nif ! [ -x \"$(command -v pip)\" ]; then\n    python3 -m ensurepip ||\
+          \ python3 -m ensurepip --user || apt-get install python3-pip\nfi\n\nPIP_DISABLE_PIP_VERSION_CHECK=1\
+          \ python3 -m pip install --quiet --no-warn-script-location 'kfp==2.11.0'\
+          \ '--no-deps' 'typing-extensions>=3.7.4,<5; python_version<\"3.9\"'  &&\
+          \  python3 -m pip install --quiet --no-warn-script-location 'numpy==1.26.4'\
+          \ 'pandas==2.2.2' 'pyarrow==17.0.0' && \"$0\" \"$@\"\n"
+        - sh
+        - -ec
+        - 'program_path=$(mktemp -d)
+
+
+          printf "%s" "$0" > "$program_path/ephemeral_component.py"
+
+          _KFP_RUNTIME=true python3 -m kfp.dsl.executor_main                         --component_module_path                         "$program_path/ephemeral_component.py"                         "$@"
+
+          '
+        - "\nimport kfp\nfrom kfp import dsl\nfrom kfp.dsl import *\nfrom typing import\
+          \ *\n\ndef cell2_prelogin_filter(\n    input_path: str,\n    min_prelogin_events:\
+          \ int,\n    df_out: OutputPath(\"Parquet\"),\n    pre_out: OutputPath(\"\
+          Parquet\"),\n    log_txt: OutputPath(str),\n):\n    import pandas as pd\n\
+          \n    df = pd.read_csv(input_path, low_memory=False)\n    df[\"ts\"] = pd.to_datetime(df[\"\
+          timestamp\"], errors=\"coerce\")\n    df = df.dropna(subset=[\"session_id\"\
+          , \"ts\"]).copy()\n\n    sort_cols = [\"session_id\", \"ts\"]\n    if \"\
+          event_id\" in df.columns:\n        sort_cols.append(\"event_id\")\n    df\
+          \ = df.sort_values(sort_cols).reset_index(drop=True)\n\n    uid_str = df[\"\
+          user_id\"].astype(\"string\").str.strip()\n    anon_like = {\"\", \"0\"\
+          , \"-1\", \"None\", \"none\", \"NULL\", \"null\", \"NaN\", \"nan\"}\n  \
+          \  has_uid = uid_str.notna() & ~uid_str.isin(anon_like)\n    appeared =\
+          \ has_uid.groupby(df[\"session_id\"]).cummax()\n    pre = df.loc[~appeared].copy()\n\
+          \n    pre_cnt = pre.groupby(\"session_id\").size()\n    valid_sessions =\
+          \ pre_cnt.index[pre_cnt >= int(min_prelogin_events)]\n    pre = pre[pre[\"\
+          session_id\"].isin(valid_sessions)].copy()\n\n    df.to_parquet(df_out,\
+          \ index=False)\n    pre.to_parquet(pre_out, index=False)\n\n    with open(log_txt,\
+          \ \"w\", encoding=\"utf-8\") as f:\n        f.write(f\"\uC6D0\uBCF8 \uD589\
+          \ \uC218: {len(df)}\\n\")\n        f.write(f\"\uB85C\uADF8\uC778 \uC804\
+          \ \uB85C\uADF8 \uD544\uD130 \uD6C4 \uD589 \uC218: {len(pre)}\\n\")\n   \
+          \     f.write(f\"\uB85C\uADF8\uC778 \uC804 \uC720\uC77C \uC138\uC158 \uC218\
+          : {pre['session_id'].nunique()}\\n\")\n\n"
+        image: python:3.11-slim
+    exec-cell3-aggregate-and-label:
+      container:
+        args:
+        - --executor_input
+        - '{{$}}'
+        - --function_to_execute
+        - cell3_aggregate_and_label
+        command:
+        - sh
+        - -c
+        - "\nif ! [ -x \"$(command -v pip)\" ]; then\n    python3 -m ensurepip ||\
+          \ python3 -m ensurepip --user || apt-get install python3-pip\nfi\n\nPIP_DISABLE_PIP_VERSION_CHECK=1\
+          \ python3 -m pip install --quiet --no-warn-script-location 'kfp==2.11.0'\
+          \ '--no-deps' 'typing-extensions>=3.7.4,<5; python_version<\"3.9\"'  &&\
+          \  python3 -m pip install --quiet --no-warn-script-location 'numpy==1.26.4'\
+          \ 'pandas==2.2.2' 'pyarrow==17.0.0' && \"$0\" \"$@\"\n"
+        - sh
+        - -ec
+        - 'program_path=$(mktemp -d)
+
+
+          printf "%s" "$0" > "$program_path/ephemeral_component.py"
+
+          _KFP_RUNTIME=true python3 -m kfp.dsl.executor_main                         --component_module_path                         "$program_path/ephemeral_component.py"                         "$@"
+
+          '
+        - "\nimport kfp\nfrom kfp import dsl\nfrom kfp.dsl import *\nfrom typing import\
+          \ *\n\ndef cell3_aggregate_and_label(\n    df_in: InputPath(\"Parquet\"\
+          ),\n    pre_in: InputPath(\"Parquet\"),\n    Xnum_out: OutputPath(\"Parquet\"\
+          ),\n    y_out: OutputPath(\"CSV\"),\n    keep_sessions_out: OutputPath(str),\n\
+          \    counts_txt: OutputPath(str),\n):\n    import pandas as pd\n\n    df\
+          \ = pd.read_parquet(df_in)\n    pre = pd.read_parquet(pre_in)\n\n    df_gender\
+          \ = df.copy()\n    df_gender[\"gender_norm\"] = (\n        df_gender[\"\
+          gender\"].astype(\"string\").str.strip().str.upper().replace({\"FEMALE\"\
+          :\"F\", \"MALE\":\"M\"})\n    )\n    lab_full = (\n        df_gender[df_gender[\"\
+          gender_norm\"].isin([\"M\",\"F\"])]\n          .groupby(\"session_id\")[\"\
+          gender_norm\"].agg(lambda s: s.iloc[0])\n    )\n\n    agg_num = pre.groupby(\"\
+          session_id\").agg(\n        n_events=(\"session_id\", \"size\"),\n     \
+          \   search_count_sum=(\"search_count\", \"sum\"),\n        cart_item_count_sum=(\"\
+          cart_item_count\", \"sum\"),\n        page_depth_mean=(\"page_depth\", \"\
+          mean\"),\n        last_elapsed_mean=(\"last_action_elapsed\", \"mean\"),\n\
+          \        unique_pages=(\"current_state\", \"nunique\"),\n        unique_categories=(\"\
+          resolved_category\", \"nunique\"),\n    ).fillna(0.0)\n\n    first_ts =\
+          \ pd.to_datetime(pre.groupby(\"session_id\")[\"ts\"].min(), errors=\"coerce\"\
+          )\n    agg_num[\"start_hour\"] = first_ts.dt.hour\n    agg_num[\"start_weekday\"\
+          ] = first_ts.dt.weekday\n\n    keep_sessions = agg_num.index.intersection(lab_full.index)\n\
+          \    X_num = agg_num.loc[keep_sessions].copy()\n    y = lab_full.loc[keep_sessions].rename(\"\
+          gender\").copy()\n\n    X_num.to_parquet(Xnum_out, index=True)\n    y.to_frame().to_csv(y_out,\
+          \ index=True, header=True)\n    pd.Series(keep_sessions, name=\"session_id\"\
+          ).to_csv(keep_sessions_out, index=False, header=False)\n\n    with open(counts_txt,\
+          \ \"w\", encoding=\"utf-8\") as f:\n        f.write(f\"\uB85C\uADF8\uC778\
+          \ \uC644\uB8CC\uD55C \uC138\uC158 \uC218: {len(keep_sessions)}\\n\")\n \
+          \       f.write(\"\uC131\uBCC4 \uBD84\uD3EC:\\n\\n\")\n        f.write(y.value_counts(dropna=False).to_string())\n\
+          \n"
+        image: python:3.11-slim
+    exec-cell4-category-features:
+      container:
+        args:
+        - --executor_input
+        - '{{$}}'
+        - --function_to_execute
+        - cell4_category_features
+        command:
+        - sh
+        - -c
+        - "\nif ! [ -x \"$(command -v pip)\" ]; then\n    python3 -m ensurepip ||\
+          \ python3 -m ensurepip --user || apt-get install python3-pip\nfi\n\nPIP_DISABLE_PIP_VERSION_CHECK=1\
+          \ python3 -m pip install --quiet --no-warn-script-location 'kfp==2.11.0'\
+          \ '--no-deps' 'typing-extensions>=3.7.4,<5; python_version<\"3.9\"'  &&\
+          \  python3 -m pip install --quiet --no-warn-script-location 'numpy==1.26.4'\
+          \ 'pandas==2.2.2' 'pyarrow==17.0.0' && \"$0\" \"$@\"\n"
+        - sh
+        - -ec
+        - 'program_path=$(mktemp -d)
+
+
+          printf "%s" "$0" > "$program_path/ephemeral_component.py"
+
+          _KFP_RUNTIME=true python3 -m kfp.dsl.executor_main                         --component_module_path                         "$program_path/ephemeral_component.py"                         "$@"
+
+          '
+        - "\nimport kfp\nfrom kfp import dsl\nfrom kfp.dsl import *\nfrom typing import\
+          \ *\n\ndef cell4_category_features(\n    pre_in: InputPath(\"Parquet\"),\n\
+          \    Xnum_in: InputPath(\"Parquet\"),\n    known_cats_json: str,\n    cat_cnt_out:\
+          \ OutputPath(\"Parquet\"),\n    cat_prop_out: OutputPath(\"Parquet\"),\n\
+          \    cat_log_out: OutputPath(\"Parquet\"),\n    cats_txt: OutputPath(str),\n\
+          ):\n    import pandas as pd, numpy as np, json, unicodedata\n\n    pre =\
+          \ pd.read_parquet(pre_in)\n    X_num = pd.read_parquet(Xnum_in)\n\n    KNOWN_CATS_NORM\
+          \ = [unicodedata.normalize(\"NFKC\", c.strip()) for c in json.loads(known_cats_json)]\n\
+          \    norm_to_orig = {unicodedata.normalize(\"NFKC\", c.strip()): c for c\
+          \ in json.loads(known_cats_json)}\n\n    pre_cat_norm = pre[\"resolved_category\"\
+          ].astype(\"string\").str.strip().apply(\n        lambda x: unicodedata.normalize(\"\
+          NFKC\", x) if pd.notna(x) else x\n    )\n    mask = pre_cat_norm.isin(KNOWN_CATS_NORM)\n\
+          \    pre_kept = pre[mask].copy()\n    pre_kept[\"cat_norm\"] = pre_cat_norm[mask].values\n\
+          \    pre_kept[\"one\"] = 1\n\n    cat_cnt = pre_kept.pivot_table(index=\"\
+          session_id\", columns=\"cat_norm\", values=\"one\", aggfunc=\"sum\", fill_value=0)\n\
+          \    cat_cnt = cat_cnt.reindex(columns=KNOWN_CATS_NORM, fill_value=0)\n\
+          \    cat_cnt.columns = [norm_to_orig[c] for c in cat_cnt.columns]\n    cat_cnt.columns\
+          \ = [f\"cat_cnt::{c}\" for c in cat_cnt.columns]\n    cat_cnt = cat_cnt.reindex(X_num.index).fillna(0).astype(int)\n\
+          \n    cat_prop = cat_cnt.div(X_num[\"n_events\"].replace(0, 1), axis=0)\n\
+          \    cat_prop.columns = [c.replace(\"cat_cnt::\", \"cat_prop::\") for c\
+          \ in cat_cnt.columns]\n\n    cat_log = np.log1p(cat_cnt)\n    cat_log.columns\
+          \ = [c.replace(\"cat_cnt::\", \"cat_log::\") for c in cat_cnt.columns]\n\
+          \n    cat_cnt.to_parquet(cat_cnt_out, index=True)\n    cat_prop.to_parquet(cat_prop_out,\
+          \ index=True)\n    cat_log.to_parquet(cat_log_out, index=True)\n\n    with\
+          \ open(cats_txt, \"w\", encoding=\"utf-8\") as f:\n        f.write(\"\uCE74\
+          \uD14C\uACE0\uB9AC \uCE74\uC6B4\uD2B8 \uCEEC\uB7FC:\\n\")\n        f.write(\"\
+          , \".join(list(cat_cnt.columns)) + \"\\n\\n\")\n        f.write(\"\uCE74\
+          \uD14C\uACE0\uB9AC \uD30C\uC0DD \uCEEC\uB7FC \uC608\uC2DC:\\n\")\n     \
+          \   f.write(\", \".join(list(cat_prop.columns[:3]) + list(cat_log.columns[:3])))\n\
+          \n"
+        image: python:3.11-slim
+    exec-cell5-build-dataset:
+      container:
+        args:
+        - --executor_input
+        - '{{$}}'
+        - --function_to_execute
+        - cell5_build_dataset
+        command:
+        - sh
+        - -c
+        - "\nif ! [ -x \"$(command -v pip)\" ]; then\n    python3 -m ensurepip ||\
+          \ python3 -m ensurepip --user || apt-get install python3-pip\nfi\n\nPIP_DISABLE_PIP_VERSION_CHECK=1\
+          \ python3 -m pip install --quiet --no-warn-script-location 'kfp==2.11.0'\
+          \ '--no-deps' 'typing-extensions>=3.7.4,<5; python_version<\"3.9\"'  &&\
+          \  python3 -m pip install --quiet --no-warn-script-location 'numpy==1.26.4'\
+          \ 'pandas==2.2.2' 'pyarrow==17.0.0' && \"$0\" \"$@\"\n"
+        - sh
+        - -ec
+        - 'program_path=$(mktemp -d)
+
+
+          printf "%s" "$0" > "$program_path/ephemeral_component.py"
+
+          _KFP_RUNTIME=true python3 -m kfp.dsl.executor_main                         --component_module_path                         "$program_path/ephemeral_component.py"                         "$@"
+
+          '
+        - "\nimport kfp\nfrom kfp import dsl\nfrom kfp.dsl import *\nfrom typing import\
+          \ *\n\ndef cell5_build_dataset(\n    Xnum_in: InputPath(\"Parquet\"),\n\
+          \    cat_cnt_in: InputPath(\"Parquet\"),\n    cat_prop_in: InputPath(\"\
+          Parquet\"),\n    cat_log_in: InputPath(\"Parquet\"),\n    y_in: InputPath(\"\
+          CSV\"),\n    dataset_csv_out: OutputPath(\"CSV\"),\n    dataset_pq_out:\
+          \ OutputPath(\"Parquet\"),\n    head_txt: OutputPath(str),\n):\n    import\
+          \ pandas as pd\n\n    X_num = pd.read_parquet(Xnum_in)\n    cat_cnt = pd.read_parquet(cat_cnt_in)\n\
+          \    cat_prop = pd.read_parquet(cat_prop_in)\n    cat_log = pd.read_parquet(cat_log_in)\n\
+          \    y = pd.read_csv(y_in, index_col=0)[\"gender\"]\n\n    X = (X_num.join(cat_cnt,\
+          \ how=\"left\")\n              .join(cat_prop, how=\"left\")\n         \
+          \     .join(cat_log,  how=\"left\")).fillna(0)\n\n    X_ = X.copy(); X_.index.name\
+          \ = \"session_id\"\n    dataset = X_.join(y).reset_index()\n\n    dataset.to_csv(dataset_csv_out,\
+          \ index=False)\n    dataset.to_parquet(dataset_pq_out, index=False)\n\n\
+          \    with open(head_txt, \"w\", encoding=\"utf-8\") as f:\n        f.write(f\"\
+          dataset shape: {dataset.shape}\\n\\n\")\n        f.write(dataset.head(10).to_string(index=False))\n\
+          \n"
+        image: python:3.11-slim
+    exec-cell6-split:
+      container:
+        args:
+        - --executor_input
+        - '{{$}}'
+        - --function_to_execute
+        - cell6_split
+        command:
+        - sh
+        - -c
+        - "\nif ! [ -x \"$(command -v pip)\" ]; then\n    python3 -m ensurepip ||\
+          \ python3 -m ensurepip --user || apt-get install python3-pip\nfi\n\nPIP_DISABLE_PIP_VERSION_CHECK=1\
+          \ python3 -m pip install --quiet --no-warn-script-location 'kfp==2.11.0'\
+          \ '--no-deps' 'typing-extensions>=3.7.4,<5; python_version<\"3.9\"'  &&\
+          \  python3 -m pip install --quiet --no-warn-script-location 'numpy==1.26.4'\
+          \ 'pandas==2.2.2' 'scikit-learn==1.5.1' 'pyarrow==17.0.0' && \"$0\" \"$@\"\
+          \n"
+        - sh
+        - -ec
+        - 'program_path=$(mktemp -d)
+
+
+          printf "%s" "$0" > "$program_path/ephemeral_component.py"
+
+          _KFP_RUNTIME=true python3 -m kfp.dsl.executor_main                         --component_module_path                         "$program_path/ephemeral_component.py"                         "$@"
+
+          '
+        - "\nimport kfp\nfrom kfp import dsl\nfrom kfp.dsl import *\nfrom typing import\
+          \ *\n\ndef cell6_split(\n    dataset_pq_in: InputPath(\"Parquet\"),\n  \
+          \  random_state: int,\n    test_size: float,\n    Xtr_out: OutputPath(\"\
+          Parquet\"),\n    Xva_out: OutputPath(\"Parquet\"),\n    ytr_out: OutputPath(\"\
+          CSV\"),\n    yva_out: OutputPath(\"CSV\"),\n    split_txt: OutputPath(str),\n\
+          ):\n    import pandas as pd\n    from sklearn.model_selection import StratifiedShuffleSplit\n\
+          \n    dataset = pd.read_parquet(dataset_pq_in)\n    dataset[\"gender\"]\
+          \ = (\n        dataset[\"gender\"].astype(\"string\").str.strip().str.upper().replace({\"\
+          FEMALE\":\"F\",\"MALE\":\"M\"})\n    )\n\n    non_feature = {\"session_id\"\
+          ,\"gender\"}\n    feature_cols = [c for c in dataset.columns if c not in\
+          \ non_feature]\n    X = dataset[feature_cols].copy()\n    y_bin = dataset[\"\
+          gender\"].map({\"F\":0, \"M\":1}).astype(int)\n\n    sss = StratifiedShuffleSplit(n_splits=1,\
+          \ test_size=test_size, random_state=int(random_state))\n    train_idx, valid_idx\
+          \ = next(sss.split(X, y_bin))\n\n    # \u2605 \uC778\uB371\uC2A4 \uBCF4\uC874\
+          (\uD6C4\uC18D \uC140\uC5D0\uC11C \uB9E4\uD551\uC5D0 \uD544\uC694)\n    X.iloc[train_idx].to_parquet(Xtr_out,\
+          \ index=True)\n    X.iloc[valid_idx].to_parquet(Xva_out, index=True)\n \
+          \   y_bin.iloc[train_idx].to_frame(\"y\").to_csv(ytr_out, index=False)\n\
+          \    y_bin.iloc[valid_idx].to_frame(\"y\").to_csv(yva_out, index=False)\n\
+          \n    with open(split_txt, \"w\", encoding=\"utf-8\") as f:\n        f.write(f\"\
+          Train: {X.iloc[train_idx].shape}  Valid: {X.iloc[valid_idx].shape}\\n\"\
+          )\n        f.write(\"Label dist (train):\\n\")\n        f.write(y_bin.iloc[train_idx].value_counts(normalize=True).rename({0:\"\
+          F\",1:\"M\"}).to_string() + \"\\n\\n\")\n        f.write(\"Label dist (valid):\\\
+          n\")\n        f.write(y_bin.iloc[valid_idx].value_counts(normalize=True).rename({0:\"\
+          F\",1:\"M\"}).to_string())\n\n"
+        image: python:3.11-slim
+    exec-cell7-train-calibrate:
+      container:
+        args:
+        - --executor_input
+        - '{{$}}'
+        - --function_to_execute
+        - cell7_train_calibrate
+        command:
+        - sh
+        - -c
+        - "\nif ! [ -x \"$(command -v pip)\" ]; then\n    python3 -m ensurepip ||\
+          \ python3 -m ensurepip --user || apt-get install python3-pip\nfi\n\nPIP_DISABLE_PIP_VERSION_CHECK=1\
+          \ python3 -m pip install --quiet --no-warn-script-location 'kfp==2.11.0'\
+          \ '--no-deps' 'typing-extensions>=3.7.4,<5; python_version<\"3.9\"'  &&\
+          \  python3 -m pip install --quiet --no-warn-script-location 'numpy==1.26.4'\
+          \ 'pandas==2.2.2' 'scikit-learn==1.5.1' 'joblib==1.4.2' 'pyarrow==17.0.0'\
+          \ && \"$0\" \"$@\"\n"
+        - sh
+        - -ec
+        - 'program_path=$(mktemp -d)
+
+
+          printf "%s" "$0" > "$program_path/ephemeral_component.py"
+
+          _KFP_RUNTIME=true python3 -m kfp.dsl.executor_main                         --component_module_path                         "$program_path/ephemeral_component.py"                         "$@"
+
+          '
+        - "\nimport kfp\nfrom kfp import dsl\nfrom kfp.dsl import *\nfrom typing import\
+          \ *\n\ndef cell7_train_calibrate(\n    Xtr_in: InputPath(\"Parquet\"),\n\
+          \    ytr_in: InputPath(\"CSV\"),\n    calib_method: str,\n    calib_cv:\
+          \ int,\n    cal_model_out: OutputPath(\"Model\"),\n    train_txt: OutputPath(str),\n\
+          ):\n    import pandas as pd\n    from sklearn.preprocessing import StandardScaler\n\
+          \    from sklearn.linear_model import LogisticRegression\n    from sklearn.pipeline\
+          \ import Pipeline\n    from sklearn.calibration import CalibratedClassifierCV\n\
+          \    from joblib import dump\n\n    X_train = pd.read_parquet(Xtr_in)\n\
+          \    y_train = pd.read_csv(ytr_in)[\"y\"].astype(int)\n\n    log_best =\
+          \ Pipeline([\n        (\"scaler\", StandardScaler(with_mean=True, with_std=True)),\n\
+          \        (\"clf\", LogisticRegression(solver=\"saga\", penalty=\"l2\", C=1.0,\
+          \ max_iter=5000, random_state=42)),\n    ])\n    log_best.fit(X_train, y_train)\n\
+          \n    try:\n        cal_log = CalibratedClassifierCV(estimator=log_best,\
+          \ method=calib_method, cv=int(calib_cv))\n    except TypeError:\n      \
+          \  cal_log = CalibratedClassifierCV(base_estimator=log_best, method=calib_method,\
+          \ cv=int(calib_cv))\n\n    cal_log.fit(X_train, y_train)\n    dump(cal_log,\
+          \ cal_model_out)\n\n    with open(train_txt, \"w\", encoding=\"utf-8\")\
+          \ as f:\n        f.write(f\"[Calibration] done: method={calib_method}, cv={calib_cv}\\\
+          n\")\n\n"
+        image: python:3.11-slim
+    exec-cell8-eval-prod-threshold:
+      container:
+        args:
+        - --executor_input
+        - '{{$}}'
+        - --function_to_execute
+        - cell8_eval_prod_threshold
+        command:
+        - sh
+        - -c
+        - "\nif ! [ -x \"$(command -v pip)\" ]; then\n    python3 -m ensurepip ||\
+          \ python3 -m ensurepip --user || apt-get install python3-pip\nfi\n\nPIP_DISABLE_PIP_VERSION_CHECK=1\
+          \ python3 -m pip install --quiet --no-warn-script-location 'kfp==2.11.0'\
+          \ '--no-deps' 'typing-extensions>=3.7.4,<5; python_version<\"3.9\"'  &&\
+          \  python3 -m pip install --quiet --no-warn-script-location 'numpy==1.26.4'\
+          \ 'pandas==2.2.2' 'scikit-learn==1.5.1' 'joblib==1.4.2' 'pyarrow==17.0.0'\
+          \ && \"$0\" \"$@\"\n"
+        - sh
+        - -ec
+        - 'program_path=$(mktemp -d)
+
+
+          printf "%s" "$0" > "$program_path/ephemeral_component.py"
+
+          _KFP_RUNTIME=true python3 -m kfp.dsl.executor_main                         --component_module_path                         "$program_path/ephemeral_component.py"                         "$@"
+
+          '
+        - "\nimport kfp\nfrom kfp import dsl\nfrom kfp.dsl import *\nfrom typing import\
+          \ *\n\ndef cell8_eval_prod_threshold(\n    cal_model_in: InputPath(\"Model\"\
+          ),\n    Xva_in: InputPath(\"Parquet\"),\n    yva_in: InputPath(\"CSV\"),\n\
+          \    dataset_csv_in: InputPath(\"CSV\"),\n    production_threshold: float,\n\
+          \    proba_out: OutputPath(\"CSV\"),\n    pred_out: OutputPath(\"CSV\"),\n\
+          \    age_metrics_out: OutputPath(\"CSV\"),\n    eval_txt: OutputPath(str),\n\
+          ):\n    import pandas as pd, numpy as np\n    from joblib import load\n\
+          \    from sklearn.metrics import classification_report, confusion_matrix,\
+          \ f1_score\n\n    cal_log = load(cal_model_in)\n    X_valid = pd.read_parquet(Xva_in)\n\
+          \    y_valid = pd.read_csv(yva_in)[\"y\"].astype(int)\n\n    proba_v = cal_log.predict_proba(X_valid)[:,\
+          \ 1]\n    pred_bin = (proba_v >= float(production_threshold)).astype(int)\n\
+          \n    pd.DataFrame({\"proba\": proba_v}).to_csv(proba_out, index=False)\n\
+          \    pd.DataFrame({\"pred\":  pred_bin}).to_csv(pred_out, index=False)\n\
+          \n    macro_f1 = f1_score(y_valid, pred_bin, average=\"macro\")\n    acc\
+          \ = (y_valid.values == pred_bin).mean()\n\n    lines = []\n    lines.append(f\"\
+          === LogisticCal (prod={production_threshold:.3f}) ===\")\n    lines.append(classification_report(y_valid,\
+          \ pred_bin, target_names=[\"F\",\"M\"], digits=4))\n    lines.append(\"\
+          Confusion matrix [rows=true F,M | cols=pred F,M]:\")\n    lines.append(str(confusion_matrix(y_valid,\
+          \ pred_bin)))\n    lines.append(f\"[LogisticCal (prod@{production_threshold:.3f})]\
+          \ Macro-F1 : {macro_f1:.4f} / Accuracy : {acc:.4f}\")\n\n    dataset = pd.read_csv(dataset_csv_in)\n\
+          \    sess_ids_valid = dataset.iloc[X_valid.index][\"session_id\"].values\n\
+          \    out_df = pd.DataFrame({\n        \"session_id\": sess_ids_valid,\n\
+          \        \"y_true\": y_valid.values,\n        f\"y_pred@{production_threshold:.3f}\"\
+          : pred_bin,\n        \"proba_cal\": proba_v,\n    })\n\n    extra_cols =\
+          \ [c for c in [\"age\", \"age_group\"] if c in dataset.columns]\n    if\
+          \ extra_cols:\n        out_df = out_df.merge(\n            dataset[[\"session_id\"\
+          ] + extra_cols].drop_duplicates(\"session_id\"),\n            on=\"session_id\"\
+          , how=\"left\"\n        )\n\n    metrics_df = out_df.copy()\n    metrics_df[\"\
+          age_group\"] = metrics_df.get(\"age_group\", pd.Series([np.nan]*len(metrics_df))).astype(\"\
+          string\").fillna(\"unknown\")\n\n    rows = []\n    pred_col = [c for c\
+          \ in metrics_df.columns if c.startswith(\"y_pred@\")][0]\n    for g, sub\
+          \ in metrics_df.groupby(\"age_group\", dropna=False):\n        y_t = sub[\"\
+          y_true\"].astype(int).to_numpy()\n        y_h = sub[pred_col].astype(int).to_numpy()\n\
+          \        acc_g = float((y_t == y_h).mean())\n        f1_g  = float(f1_score(y_t,\
+          \ y_h, average=\"macro\")) if len(np.unique(y_t)) > 1 else float(\"nan\"\
+          )\n        rows.append({\"age_group\": str(g), \"acc\": acc_g, \"macro_f1\"\
+          : f1_g})\n\n    pd.DataFrame(rows).to_csv(age_metrics_out, index=False)\n\
+          \    with open(eval_txt, \"w\", encoding=\"utf-8\") as f:\n        f.write(\"\
+          \\n\".join(lines))\n\n"
+        image: python:3.11-slim
+    exec-cell9-fetch-katib:
+      container:
+        args:
+        - --executor_input
+        - '{{$}}'
+        - --function_to_execute
+        - cell9_fetch_katib
+        command:
+        - sh
+        - -c
+        - "\nif ! [ -x \"$(command -v pip)\" ]; then\n    python3 -m ensurepip ||\
+          \ python3 -m ensurepip --user || apt-get install python3-pip\nfi\n\nPIP_DISABLE_PIP_VERSION_CHECK=1\
+          \ python3 -m pip install --quiet --no-warn-script-location 'kfp==2.11.0'\
+          \ '--no-deps' 'typing-extensions>=3.7.4,<5; python_version<\"3.9\"'  &&\
+          \  python3 -m pip install --quiet --no-warn-script-location 'numpy==1.26.4'\
+          \ 'pandas==2.2.2' 'pyarrow==17.0.0' 'kubernetes==29.0.0' && \"$0\" \"$@\"\
+          \n"
+        - sh
+        - -ec
+        - 'program_path=$(mktemp -d)
+
+
+          printf "%s" "$0" > "$program_path/ephemeral_component.py"
+
+          _KFP_RUNTIME=true python3 -m kfp.dsl.executor_main                         --component_module_path                         "$program_path/ephemeral_component.py"                         "$@"
+
+          '
+        - "\nimport kfp\nfrom kfp import dsl\nfrom kfp.dsl import *\nfrom typing import\
+          \ *\n\ndef cell9_fetch_katib(\n    katib_namespace: str,\n    katib_experiment:\
+          \ str,\n    katib_params_json_out: OutputPath(str),\n    katib_df_csv_out:\
+          \ OutputPath(\"CSV\"),\n):\n    import pandas as pd, json\n    from kubernetes\
+          \ import client, config\n\n    try:\n        config.load_incluster_config()\n\
+          \    except Exception:\n        config.load_kube_config()\n\n    api = client.CustomObjectsApi()\n\
+          \    obj = api.get_namespaced_custom_object(\n        group=\"kubeflow.org\"\
+          , version=\"v1beta1\", plural=\"experiments\",\n        namespace=katib_namespace,\
+          \ name=katib_experiment\n    )\n\n    status = obj.get(\"status\", {})\n\
+          \    trial = status.get(\"currentOptimalTrial\") or status.get(\"optimalTrial\"\
+          ) or status.get(\"bestTrial\") or {}\n    params = trial.get(\"parameterAssignments\"\
+          , [])\n    if not params:\n        params = []\n\n    with open(katib_params_json_out,\
+          \ \"w\", encoding=\"utf-8\") as f:\n        json.dump(params, f, ensure_ascii=False,\
+          \ indent=2)\n\n    pd.DataFrame(params).to_csv(katib_df_csv_out, index=False)\n\
+          \n"
+        image: python:3.11-slim
+pipelineInfo:
+  description: Build features, train baseline, fetch Katib HPs, retrain, tune threshold,
+    upload to Kakao Object Storage, and deploy on KServe.
+  name: prelogin-gender-pipeline
+root:
+  dag:
+    tasks:
+      cell1-init:
+        cachingOptions: {}
+        componentRef:
+          name: comp-cell1-init
+        inputs:
+          parameters:
+            artifact_dir:
+              componentInputParameter: artifact_dir
+            datasets_dir:
+              componentInputParameter: datasets_dir
+            known_cats_json:
+              componentInputParameter: known_cats_json
+            min_prelogin_events:
+              componentInputParameter: min_prelogin_events
+            production_threshold:
+              componentInputParameter: production_threshold
+        taskInfo:
+          name: cell1-init
+      cell10-train-with-katib:
+        cachingOptions: {}
+        componentRef:
+          name: comp-cell10-train-with-katib
+        dependentTasks:
+        - cell5-build-dataset
+        - cell6-split
+        - cell9-fetch-katib
+        inputs:
+          artifacts:
+            Xva_prev_in:
+              taskOutputArtifact:
+                outputArtifactKey: Xva_out
+                producerTask: cell6-split
+            dataset_prev_in:
+              taskOutputArtifact:
+                outputArtifactKey: dataset_csv_out
+                producerTask: cell5-build-dataset
+            yva_prev_in:
+              taskOutputArtifact:
+                outputArtifactKey: yva_out
+                producerTask: cell6-split
+          parameters:
+            base_min_prelogin_events:
+              componentInputParameter: min_prelogin_events
+            input_path:
+              componentInputParameter: input_path
+            katib_params_json_in:
+              taskOutputParameter:
+                outputParameterKey: katib_params_json_out
+                producerTask: cell9-fetch-katib
+            known_cats_json:
+              componentInputParameter: known_cats_json
+        taskInfo:
+          name: cell10-train-with-katib
+      cell11-tune-threshold-and-save:
+        cachingOptions: {}
+        componentRef:
+          name: comp-cell11-tune-threshold-and-save
+        dependentTasks:
+        - cell10-train-with-katib
+        - cell2-prelogin-filter
+        inputs:
+          artifacts:
+            Xva_in:
+              taskOutputArtifact:
+                outputArtifactKey: Xva_out
+                producerTask: cell10-train-with-katib
+            cal_model_in:
+              taskOutputArtifact:
+                outputArtifactKey: cal_model_out
+                producerTask: cell10-train-with-katib
+            dataset_in:
+              taskOutputArtifact:
+                outputArtifactKey: dataset_out
+                producerTask: cell10-train-with-katib
+            df_in:
+              taskOutputArtifact:
+                outputArtifactKey: df_out
+                producerTask: cell2-prelogin-filter
+            yva_in:
+              taskOutputArtifact:
+                outputArtifactKey: yva_out
+                producerTask: cell10-train-with-katib
+          parameters:
+            artifact_dir_hint:
+              componentInputParameter: artifact_dir
+            t_hi:
+              componentInputParameter: tune_t_hi
+            t_lo:
+              componentInputParameter: tune_t_lo
+            t_steps:
+              componentInputParameter: tune_t_steps
+        taskInfo:
+          name: cell11-tune-threshold-and-save
+      cell12-upload-model-to-kakao:
+        cachingOptions: {}
+        componentRef:
+          name: comp-cell12-upload-model-to-kakao
+        dependentTasks:
+        - cell10-train-with-katib
+        - cell11-tune-threshold-and-save
+        inputs:
+          artifacts:
+            cal_model_in:
+              taskOutputArtifact:
+                outputArtifactKey: cal_model_out
+                producerTask: cell10-train-with-katib
+          parameters:
+            access_key:
+              componentInputParameter: kakao_access_key
+            bucket:
+              componentInputParameter: kakao_bucket
+            endpoint:
+              componentInputParameter: kakao_endpoint
+            object_name:
+              runtimeValue:
+                constant: model.joblib
+            prefix:
+              componentInputParameter: kakao_prefix
+            public_read:
+              componentInputParameter: kakao_public_read
+            region:
+              componentInputParameter: kakao_region
+            secret_key:
+              componentInputParameter: kakao_secret_key
+        taskInfo:
+          name: cell12-upload-model-to-kakao
+      cell13-deploy-kserve:
+        cachingOptions: {}
+        componentRef:
+          name: comp-cell13-deploy-kserve
+        dependentTasks:
+        - cell12-upload-model-to-kakao
+        inputs:
+          parameters:
+            append_model_filename:
+              runtimeValue:
+                constant: true
+            aws_access_key_id:
+              componentInputParameter: kakao_access_key
+            aws_secret_access_key:
+              componentInputParameter: kakao_secret_key
+            bucket:
+              componentInputParameter: kakao_bucket
+            isvc_name:
+              runtimeValue:
+                constant: gender-sklearn
+            max_replicas:
+              runtimeValue:
+                constant: 1.0
+            min_replicas:
+              runtimeValue:
+                constant: 1.0
+            namespace:
+              runtimeValue:
+                constant: kbm-u-kubeflow-tutorial
+            prefix:
+              componentInputParameter: kakao_prefix
+            s3_endpoint:
+              componentInputParameter: kakao_endpoint
+            s3_region:
+              componentInputParameter: kakao_region
+            use_legacy_spec:
+              runtimeValue:
+                constant: false
+        taskInfo:
+          name: cell13-deploy-kserve
+      cell2-prelogin-filter:
+        cachingOptions: {}
+        componentRef:
+          name: comp-cell2-prelogin-filter
+        inputs:
+          parameters:
+            input_path:
+              componentInputParameter: input_path
+            min_prelogin_events:
+              componentInputParameter: min_prelogin_events
+        taskInfo:
+          name: cell2-prelogin-filter
+      cell3-aggregate-and-label:
+        cachingOptions: {}
+        componentRef:
+          name: comp-cell3-aggregate-and-label
+        dependentTasks:
+        - cell2-prelogin-filter
+        inputs:
+          artifacts:
+            df_in:
+              taskOutputArtifact:
+                outputArtifactKey: df_out
+                producerTask: cell2-prelogin-filter
+            pre_in:
+              taskOutputArtifact:
+                outputArtifactKey: pre_out
+                producerTask: cell2-prelogin-filter
+        taskInfo:
+          name: cell3-aggregate-and-label
+      cell4-category-features:
+        cachingOptions: {}
+        componentRef:
+          name: comp-cell4-category-features
+        dependentTasks:
+        - cell2-prelogin-filter
+        - cell3-aggregate-and-label
+        inputs:
+          artifacts:
+            Xnum_in:
+              taskOutputArtifact:
+                outputArtifactKey: Xnum_out
+                producerTask: cell3-aggregate-and-label
+            pre_in:
+              taskOutputArtifact:
+                outputArtifactKey: pre_out
+                producerTask: cell2-prelogin-filter
+          parameters:
+            known_cats_json:
+              componentInputParameter: known_cats_json
+        taskInfo:
+          name: cell4-category-features
+      cell5-build-dataset:
+        cachingOptions: {}
+        componentRef:
+          name: comp-cell5-build-dataset
+        dependentTasks:
+        - cell3-aggregate-and-label
+        - cell4-category-features
+        inputs:
+          artifacts:
+            Xnum_in:
+              taskOutputArtifact:
+                outputArtifactKey: Xnum_out
+                producerTask: cell3-aggregate-and-label
+            cat_cnt_in:
+              taskOutputArtifact:
+                outputArtifactKey: cat_cnt_out
+                producerTask: cell4-category-features
+            cat_log_in:
+              taskOutputArtifact:
+                outputArtifactKey: cat_log_out
+                producerTask: cell4-category-features
+            cat_prop_in:
+              taskOutputArtifact:
+                outputArtifactKey: cat_prop_out
+                producerTask: cell4-category-features
+            y_in:
+              taskOutputArtifact:
+                outputArtifactKey: y_out
+                producerTask: cell3-aggregate-and-label
+        taskInfo:
+          name: cell5-build-dataset
+      cell6-split:
+        cachingOptions: {}
+        componentRef:
+          name: comp-cell6-split
+        dependentTasks:
+        - cell5-build-dataset
+        inputs:
+          artifacts:
+            dataset_pq_in:
+              taskOutputArtifact:
+                outputArtifactKey: dataset_pq_out
+                producerTask: cell5-build-dataset
+          parameters:
+            random_state:
+              componentInputParameter: random_state
+            test_size:
+              componentInputParameter: test_size
+        taskInfo:
+          name: cell6-split
+      cell7-train-calibrate:
+        cachingOptions: {}
+        componentRef:
+          name: comp-cell7-train-calibrate
+        dependentTasks:
+        - cell6-split
+        inputs:
+          artifacts:
+            Xtr_in:
+              taskOutputArtifact:
+                outputArtifactKey: Xtr_out
+                producerTask: cell6-split
+            ytr_in:
+              taskOutputArtifact:
+                outputArtifactKey: ytr_out
+                producerTask: cell6-split
+          parameters:
+            calib_cv:
+              componentInputParameter: calib_cv
+            calib_method:
+              componentInputParameter: calib_method
+        taskInfo:
+          name: cell7-train-calibrate
+      cell8-eval-prod-threshold:
+        cachingOptions: {}
+        componentRef:
+          name: comp-cell8-eval-prod-threshold
+        dependentTasks:
+        - cell5-build-dataset
+        - cell6-split
+        - cell7-train-calibrate
+        inputs:
+          artifacts:
+            Xva_in:
+              taskOutputArtifact:
+                outputArtifactKey: Xva_out
+                producerTask: cell6-split
+            cal_model_in:
+              taskOutputArtifact:
+                outputArtifactKey: cal_model_out
+                producerTask: cell7-train-calibrate
+            dataset_csv_in:
+              taskOutputArtifact:
+                outputArtifactKey: dataset_csv_out
+                producerTask: cell5-build-dataset
+            yva_in:
+              taskOutputArtifact:
+                outputArtifactKey: yva_out
+                producerTask: cell6-split
+          parameters:
+            production_threshold:
+              componentInputParameter: production_threshold
+        taskInfo:
+          name: cell8-eval-prod-threshold
+      cell9-fetch-katib:
+        cachingOptions: {}
+        componentRef:
+          name: comp-cell9-fetch-katib
+        inputs:
+          parameters:
+            katib_experiment:
+              componentInputParameter: katib_experiment
+            katib_namespace:
+              componentInputParameter: katib_namespace
+        taskInfo:
+          name: cell9-fetch-katib
+  inputDefinitions:
+    parameters:
+      artifact_dir:
+        defaultValue: models/gender
+        isOptional: true
+        parameterType: STRING
+      calib_cv:
+        defaultValue: 5.0
+        isOptional: true
+        parameterType: NUMBER_INTEGER
+      calib_method:
+        defaultValue: isotonic
+        isOptional: true
+        parameterType: STRING
+      datasets_dir:
+        defaultValue: datasets/gender
+        isOptional: true
+        parameterType: STRING
+      input_path:
+        defaultValue: /home/jovyan/datasets/gender/processed_user_behavior.joined.csv
+        isOptional: true
+        parameterType: STRING
+      kakao_access_key:
+        defaultValue: ''
+        isOptional: true
+        parameterType: STRING
+      kakao_bucket:
+        defaultValue: models
+        isOptional: true
+        parameterType: STRING
+      kakao_endpoint:
+        defaultValue: https://objectstorage.kr-central-2.kakaocloud.com
+        isOptional: true
+        parameterType: STRING
+      kakao_prefix:
+        defaultValue: gender_predict_pipeline
+        isOptional: true
+        parameterType: STRING
+      kakao_public_read:
+        defaultValue: false
+        isOptional: true
+        parameterType: BOOLEAN
+      kakao_region:
+        defaultValue: kr-central-2
+        isOptional: true
+        parameterType: STRING
+      kakao_secret_key:
+        defaultValue: ''
+        isOptional: true
+        parameterType: STRING
+      katib_experiment:
+        defaultValue: gender-logistic-random
+        isOptional: true
+        parameterType: STRING
+      katib_namespace:
+        defaultValue: kbm-u-kubeflow-tutorial
+        isOptional: true
+        parameterType: STRING
+      known_cats_json:
+        defaultValue: '["Books","Electronics","Gaming","Home","Fashion"]'
+        isOptional: true
+        parameterType: STRING
+      min_prelogin_events:
+        defaultValue: 2.0
+        isOptional: true
+        parameterType: NUMBER_INTEGER
+      production_threshold:
+        defaultValue: 0.5
+        isOptional: true
+        parameterType: NUMBER_DOUBLE
+      pvc_name:
+        defaultValue: cpu-notebook-workspace
+        isOptional: true
+        parameterType: STRING
+      random_state:
+        defaultValue: 42.0
+        isOptional: true
+        parameterType: NUMBER_INTEGER
+      test_size:
+        defaultValue: 0.2
+        isOptional: true
+        parameterType: NUMBER_DOUBLE
+      tune_t_hi:
+        defaultValue: 0.8
+        isOptional: true
+        parameterType: NUMBER_DOUBLE
+      tune_t_lo:
+        defaultValue: 0.2
+        isOptional: true
+        parameterType: NUMBER_DOUBLE
+      tune_t_steps:
+        defaultValue: 61.0
+        isOptional: true
+        parameterType: NUMBER_INTEGER
+schemaVersion: 2.1.0
+sdkVersion: kfp-2.11.0
+---
+platforms:
+  kubernetes:
+    deploymentSpec:
+      executors:
+        exec-cell10-train-with-katib:
+          pvcMount:
+          - componentInputParameter: pvc_name
+            mountPath: /home/jovyan
+            pvcNameParameter:
+              componentInputParameter: pvc_name
+        exec-cell2-prelogin-filter:
+          pvcMount:
+          - componentInputParameter: pvc_name
+            mountPath: /home/jovyan
+            pvcNameParameter:
+              componentInputParameter: pvc_name
