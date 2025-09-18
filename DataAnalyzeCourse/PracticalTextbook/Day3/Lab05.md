@@ -27,7 +27,7 @@
     - **Note**: lab3에서 생성한 Notebook(`cpu-notebook`) `Terminal`에서 입력
     - Katib 하이퍼파라미터 튜닝 experiment 적용 및 실행
     
-    ### **Lab5-2-10**
+    ### **Lab5-2-1**
     
     ```
     kubectl -n kbm-u-kubeflow-tutorial apply -f gender_experiment.yaml
