@@ -60,7 +60,7 @@ Data Stream VM을 통해 MySQL 데이터의 CDC(Change Data Capture) 변경 사�
     /home/ubuntu/kafka/bin/kafka-topics.sh \
       --bootstrap-server "$KAFKA_BOOTSTRAP_SERVER" \
       --list \
-    | grep '^mysql-server'
+    | grep ^mysql-server
     ```
     
     ![image](https://github.com/user-attachments/assets/faedd699-2cd2-4ebf-9137-b438404cfb15)
