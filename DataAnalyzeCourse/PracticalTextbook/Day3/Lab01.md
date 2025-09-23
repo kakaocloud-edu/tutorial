@@ -22,6 +22,7 @@ Kubeflow 실습을 위한 프로젝트 기본 환경 실습을 진행합니다. 
 5. 클러스터 생성 상태 확인 
 
 ## 2. Kubernetes Engine Cluster의 노드풀 생성
+1. 카카오 클라우드 콘솔 > Beyond Networking Service > VPC > 보안 그
 1. 생성된 `k8s-cluster` 클릭
 2. 생성된 k8s-cluster 세부 정보 확인
 
