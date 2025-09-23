@@ -242,8 +242,7 @@ Hadoop 클러스터 환경에서 실시간 스트리밍 데이터와 배치 데�
     df.printSchema()
     ```
 
-    <img width="494" height="373" alt="image" src="https://github.com/user-attachments/assets/07a07f23-b154-4681-832f-e67646e5c8a3" />
-
+    <img width="1278" height="503" alt="9" src="https://github.com/user-attachments/assets/d9fe4542-8537-4d2c-9c69-33a876f67f63" />
 
     
 13. 상위 100개 데이터 샘플 확인
