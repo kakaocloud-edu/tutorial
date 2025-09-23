@@ -202,8 +202,7 @@ Hadoop 클러스터 환경에서 실시간 스트리밍 데이터와 배치 데�
 7. `data-catalog-bucket` 클릭
 8. 실시간 정제 결과가 저장된 디렉터리로 이동 후 버킷 내 실시간 배치 정제 결과 확인 
     - **Note**: `data-catalog-bucket/data-catalog-dir/user_behavior_prediction_delta/`디렉터리로 이동
-    ![실시간 결과 이미지](https://github.com/user-attachments/assets/5d205c50-8765-4e64-8fd7-8722f7a3d352)
-    
+    <img width="1645" height="380" alt="3" src="https://github.com/user-attachments/assets/52749e51-5b2c-449d-8c7c-22eab0278b29" />
 
 9. 실시간 정제 결과 데이터 검증을 위한 PySpark 셸 실행
     
