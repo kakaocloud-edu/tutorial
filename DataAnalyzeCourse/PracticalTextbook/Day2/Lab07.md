@@ -255,7 +255,7 @@ Hadoop 클러스터 환경에서 실시간 스트리밍 데이터와 배치 데�
      .show(100, truncate=False)
     )
     ```
-    <img width="2179" height="752" alt="image" src="https://github.com/user-attachments/assets/beabee63-4f5d-479a-bbe2-d24bfa274e8f" />
+    <img width="1903" height="494" alt="10" src="https://github.com/user-attachments/assets/fc7fafa2-3079-4345-b72c-dde5a0b60025" />
 
     
 
