@@ -91,6 +91,7 @@
 
     - 테이블 형태의 피처/라벨 저장
     - 좌측 next_state_pre 폴더에 X_train.csv, X_val.csv, y_train.csv, y_val.csv 생성 확인
+    - X_train.csv 더블 클릭 후 내용 확인
 
 10. Dataset/Collate/DataLoader 정의
 
