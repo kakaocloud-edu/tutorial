@@ -33,9 +33,47 @@
         - 디스크 볼륨 크기: `100GB`
     - 키 페어: lab00에서 생성한 `keypair`
     - 사용자 스크립트 (선택): [스크립트 사이트](http://210.109.54.80/) 에서 다운로드 후 업로드
-        - Hadoop Configuration 생성 탭 클릭
-        - 리소스 값 입력 후 사용자 스크립트 다운로드 클릭
-        - 스크립트 업로드 클릭 후 다운로드 된 스크립트 선택
+        - **사용자 스크립트**
+
+            ```sql
+                #!/bin/bash
+                set -x
+                exec > >(logger -t HADOOP-ENV) 2>&1
+                
+                echo "Hadoop environment variables setup start"
+                
+                # Wait for ubuntu user directory
+                timeout=30
+                count=0
+                while [ ! -d "/home/ubuntu" ] && [ $count -lt $timeout ]; do
+                    echo "Waiting for ubuntu user... ($count/$timeout)"
+                    sleep 2
+                    count=$((count + 1))
+                done
+                
+                if [ ! -d "/home/ubuntu" ]; then
+                    echo "Ubuntu user directory not found"
+                    exit 1
+                fi
+                
+                # Check if variables already exist to prevent duplicates
+                if ! grep -q "MYSQL_HOST=" /home/ubuntu/.bashrc; then
+                    echo "" >> /home/ubuntu/.bashrc
+                    echo "# Hadoop Cluster Environment Variables" >> /home/ubuntu/.bashrc
+                    echo "export MYSQL_HOST={MySQL의 엔드포인트}" >> /home/ubuntu/.bashrc
+                    echo "export SCHEMA_REGISTRY_SERVER={Data Stream VM의 Public IP" >> /home/ubuntu/.bashrc
+                    echo "export KAFKA_BOOTSTRAP_SERVERS={kafka의 bootstrap 주소" >> /home/ubuntu/.bashrc
+                
+                    chown ubuntu:ubuntu /home/ubuntu/.bashrc
+                    echo "Environment variables added to .bashrc"
+                else
+                    echo "Environment variables already exist in .bashrc"
+                fi
+                source /home/ubuntu/.bashrc
+                
+                echo "Hadoop environment setup completed"
+            ```    
+
     - 다음 버튼 클릭
     - 모니터링 에이전트 설치: `설치 안 함`
     - 외부 저장소 연동
