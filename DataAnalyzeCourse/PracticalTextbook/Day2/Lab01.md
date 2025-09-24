@@ -32,7 +32,8 @@
         - 워커 노드 인스턴스 유형: `m2a.4xlarge`
         - 디스크 볼륨 크기: `100GB`
     - 키 페어: lab00에서 생성한 `keypair`
-    - 사용자 스크립트 (선택): [스크립트 사이트](http://210.109.54.80/) 에서 다운로드 후 업로드
+    - 사용자 스크립트 (선택): [스크립트 사이트](http://210.109.54.80/) 를 활용하여 사용자 스크립트 다운로드 후 업로드 가능
+        - 자신의 환경 변수에 맞게 수정 후 삽입
         - **사용자 스크립트**
 
             ```sql
@@ -61,8 +62,8 @@
                     echo "" >> /home/ubuntu/.bashrc
                     echo "# Hadoop Cluster Environment Variables" >> /home/ubuntu/.bashrc
                     echo "export MYSQL_HOST={MySQL의 엔드포인트}" >> /home/ubuntu/.bashrc
-                    echo "export SCHEMA_REGISTRY_SERVER={Data Stream VM의 Public IP" >> /home/ubuntu/.bashrc
-                    echo "export KAFKA_BOOTSTRAP_SERVERS={kafka의 bootstrap 주소" >> /home/ubuntu/.bashrc
+                    echo "export SCHEMA_REGISTRY_SERVER={Data Stream VM의 Public IP}" >> /home/ubuntu/.bashrc
+                    echo "export KAFKA_BOOTSTRAP_SERVERS={kafka의 bootstrap 주소}" >> /home/ubuntu/.bashrc
                 
                     chown ubuntu:ubuntu /home/ubuntu/.bashrc
                     echo "Environment variables added to .bashrc"
