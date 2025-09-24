@@ -216,7 +216,7 @@
                         - 프로토콜: `ALL`, 출발지: `0.0.0.0/0`, 포트 번호: `ALL`
                     - `생성` 버튼 클릭
     - 고급 설정
-        - [스크립트 사이트](http://210.109.54.80/)
+        - [스크립트 사이트](http://210.109.54.80/) 를 활용하여 사용자 스크립트 생성 가능
         - 사용자 스크립트: `data_stream_vm.init.sh`의 쌍따옴표("") 사이에 자신의 리소스 값 입력
             - **Note**: 스크립트에 대한 자세한 내용은 아래 파일들 참고
                 - [data_stream_vm.init.sh](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day1/Lab01/data_stream_vm/data_stream_vm.init)
@@ -364,8 +364,9 @@
              - 프로토콜: `TCP`, 출발지: `0.0.0.0/0`, 포트 번호: `9092`, 설명(선택): `kafka`  
            - 아웃바운드 규칙  
              - 프로토콜: `ALL`, 출발지: `0.0.0.0/0`, 포트 번호: `ALL`  
-   - 고급 설정  
-     - 사용자 스크립트: [`tg_vm_init.sh`](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day1/Lab01/traffic_generator/tg_vm_init.sh)의 쌍따옴표(“”) 사이에 자신의 리소스 값 입력  
+   - 고급 설정
+      - [스크립트 사이트](http://210.109.54.80/) 를 활용하여 사용자 스크립트 생성 가능
+      - 사용자 스크립트: [`tg_vm_init.sh`](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day1/Lab01/traffic_generator/tg_vm_init.sh)의 쌍따옴표(“”) 사이에 자신의 리소스 값 입력  
        - **Note**: 스크립트에 대한 자세한 내용은 아래 파일들 참고
          - [tg_full_setup.sh](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day1/Lab01/traffic_generator/tg_full_setup.sh)  
          - [config.yml](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day1/Lab01/traffic_generator/config.yml)  
@@ -496,7 +497,8 @@
            - 아웃바운드 규칙  
              - 프로토콜: `ALL`, 출발지: `0.0.0.0/0`, 포트 번호: `ALL`  
            - `생성` 버튼 클릭  
-   - 고급 설정  
+   - 고급 설정
+   - [스크립트 사이트](http://210.109.54.80/) 를 활용하여 사용자 스크립트 생성 가능
      - **Note**: 메모장에 아래 링크의 코드를 복사 붙여넣기 하여 사용  
      - **Note**: 중괄호({})는 제거하고 쌍 따옴표는 유지  
      - 사용자 스크립트: [`api_vm_init`](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day1/Lab01/api_server/api_vm_init.sh)의 쌍따옴표(“”) 사이에 자신의 리소스 값 입력  
