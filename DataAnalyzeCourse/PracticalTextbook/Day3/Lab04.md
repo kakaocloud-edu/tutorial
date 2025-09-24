@@ -67,7 +67,8 @@
 5. 상태→인덱스 매핑 생성/저장
 
     - PAD=0, UNK=1 예약
-    - 상태에 2부터 ID 부
+    - 상태에 2부터 ID 부여
+    - 좌측 next_state_pre 폴더에 state_mapping.json 파일 생성 확인
 
 6. prev1/prev2 생성·관측쌍 저장
 
