@@ -27,7 +27,7 @@
     - **Note**: lab3에서 생성한 Notebook(`cpu-notebook`) `Terminal`에서 입력
     - Katib 하이퍼파라미터 튜닝 experiment 적용 및 실행
     
-    ### **Lab5-2-1-1**
+    ### **Lab5-2-1**
     
     ```
     kubectl -n kbm-u-kubeflow-tutorial apply -f gender_experiment.yaml
@@ -37,8 +37,8 @@
         
         <img width="992" height="50" alt="Image" src="https://github.com/user-attachments/assets/343d72d0-4e5e-414c-97c0-a965cfec4a12" />
         
-   - Katib 하이퍼파라미터 튜닝을 진행 중인 trial들을 실시간으로 확인
-    ### **Lab5-2-1-2**
+2. Katib 하이퍼파라미터 튜닝을 진행 중인 trial들을 실시간으로 확인
+    ### **Lab5-2-2**
     
     ```
     kubectl -n kbm-u-kubeflow-tutorial get trials -w
