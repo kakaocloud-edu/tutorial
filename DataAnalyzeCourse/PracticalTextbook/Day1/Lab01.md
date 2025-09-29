@@ -6,6 +6,22 @@
 - Day1 구성 아키텍처
 <img width="896" height="509" alt="day1 아키텍쳐" src="https://github.com/user-attachments/assets/a60c4542-ffe4-4258-b750-ec8b76d85306" />
 
+## 목차
+
+1. 생성 단계 목차
+2. VPC 생성
+3. Object Storage 생성
+4. MySQL 인스턴스 그룹 생성
+5. 자격 증명 생성
+6. 로드 밸런서 생성
+7. Kafka Cluster 생성
+8. 사용자 리소스 정보 조회
+9. Data Stream VM 생성
+10. Traffic Generator VM 생성
+11. API Server VM 생성
+12. 로드 밸런서 대상 그룹 생성
+
+
 ## 1. VPC 생성
 1. 카카오 클라우드 콘솔 > Beyond Networking Service > VPC
 2. VPC 생성 버튼 클릭  
