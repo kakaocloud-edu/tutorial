@@ -4,7 +4,7 @@
 
 
 - Day1 구성 아키텍처
-<img width="896" height="509" alt="day1 아키텍쳐" src="https://github.com/user-attachments/assets/a60c4542-ffe4-4258-b750-ec8b76d85306" />
+<img width="1212" height="632" alt="github day1 lab1 그림" src="https://github.com/user-attachments/assets/d6e4e819-d59f-41a3-b5c7-7053fa1856f6" />
 
 ## 목차
 
