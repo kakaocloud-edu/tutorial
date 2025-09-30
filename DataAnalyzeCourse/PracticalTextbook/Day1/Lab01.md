@@ -8,12 +8,12 @@
 
 ## 목차
 
-1. VPC 생성
+1. **VPC 생성**
 2. Object Storage 생성
-3. MySQL 인스턴스 그룹 생성
+3. **MySQL 인스턴스 그룹 생성**
 4. 자격 증명 생성
 5. 로드 밸런서 생성
-6. Kafka Cluster 생성
+6. **Kafka Cluster 생성**
 7. 사용자 리소스 정보 조회
 8. Data Stream VM 생성
 9. Traffic Generator VM 생성
