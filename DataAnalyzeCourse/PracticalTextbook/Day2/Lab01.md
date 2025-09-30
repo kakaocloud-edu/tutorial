@@ -62,7 +62,7 @@
                     echo "" >> /home/ubuntu/.bashrc
                     echo "# Hadoop Cluster Environment Variables" >> /home/ubuntu/.bashrc
                     echo "export MYSQL_HOST={MySQL의 엔드포인트}" >> /home/ubuntu/.bashrc
-                    echo "export SCHEMA_REGISTRY_SERVER={Data Stream VM의 Public IP}" >> /home/ubuntu/.bashrc
+                    echo "export SCHEMA_REGISTRY_SERVER={Data Stream VM의 Private IP}" >> /home/ubuntu/.bashrc
                     echo "export KAFKA_BOOTSTRAP_SERVERS={kafka의 bootstrap 주소}" >> /home/ubuntu/.bashrc
                 
                     chown ubuntu:ubuntu /home/ubuntu/.bashrc
