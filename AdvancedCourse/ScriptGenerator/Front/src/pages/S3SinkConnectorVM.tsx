@@ -276,7 +276,7 @@ sudo -E ./s3_sink_connector.sh`;
                     onChange={(e) => setSecretKey(e.target.value)}
                 />
                 <InputBox
-                    label="3. DataStream VM의 Public IP"
+                    label="3. DataStream VM의 Private IP"
                     placeholder="ex) 1.2.3.4 (직접 입력 필요)"
                     value={dataStreamVmIp}
                     onChange={(e) => setDataStreamVmIp(e.target.value)}
