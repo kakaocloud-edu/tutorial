@@ -363,7 +363,7 @@ echo "Hadoop environment setup completed"
       <GroupContainer>
         <InputBox label="1. 사용자 액세스 키" placeholder="직접 입력" value={accessKey} onChange={e => setAccessKey(e.target.value)} />
         <InputBox label="2. 사용자 시크릿 키" placeholder="직접 입력" value={secretKey} onChange={e => setSecretKey(e.target.value)} />
-        <InputBox label="3. DataStream VM Public IP" placeholder="ex) 1.2.3.4 (직접 입력 필요)" value={dataStreamVmIp} onChange={e => setDataStreamVmIp(e.target.value)} />
+        <InputBox label="3. DataStream VM의 Private IP" placeholder="ex) 1.2.3.4 (직접 입력 필요)" value={dataStreamVmIp} onChange={e => setDataStreamVmIp(e.target.value)} />
         <InputBox label="4. 사용자 S3 액세스 키" placeholder="직접 입력" value={s3AccessKey} onChange={e => setS3AccessKey(e.target.value)} />
         <InputBox label="5. 사용자 S3 시크릿 키" placeholder="직접 입력" value={s3SecretKey} onChange={e => setS3SecretKey(e.target.value)} />
       </GroupContainer>
