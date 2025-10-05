@@ -159,7 +159,7 @@ Hadoop 클러스터 환경에서 실시간 스트리밍 데이터와 배치 데�
     ```
     
 
-2. `BOOTSTRAP_SERVER`, `data-stream-vm의 Public IP`값을 실제 주소로 변경
+2. `BOOTSTRAP_SERVER`, `data-stream-vm의 Private IP`값을 실제 주소로 변경
     
     #### **lab7-3-2-1**
     
