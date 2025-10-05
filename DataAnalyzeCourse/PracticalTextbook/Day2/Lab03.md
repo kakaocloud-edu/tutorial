@@ -94,13 +94,13 @@ Kafka로 들어오는 데이터를 Druid에서 실시간으로 수집 및 가공
     ![image](https://github.com/user-attachments/assets/b56858d8-2998-4e10-b398-59c61f1ac0f4)
 
     
-2. `data-stream-vm`의 Public IP 복사 후 메모장에 붙여넣기
+2. `data-stream-vm`의 Private IP 복사 후 메모장에 붙여넣기
 3. 카카오 클라우드 콘솔 > Advanced Managed Kafka > 클러스터
 4. `kafka` 클러스터 클릭
 5. 부트스트랩 서버 복사 후 메모장에 붙여넣기
 6. Load Data > Streaming > Start a new streaming spec 버튼 클릭
 7. `Edit Spec` 버튼 클릭 후 아래 spec 입력
-    - **Note**: Kafka 부트스트랩 서버, data-stream-vm의 Public IP를 복사해둔 값으로 변경
+    - **Note**: Kafka 부트스트랩 서버, data-stream-vm의 Private IP를 복사해둔 값으로 변경
 
     #### lab3-2-7
 
@@ -130,7 +130,7 @@ Kafka로 들어오는 데이터를 Druid에서 실시간으로 수집 및 가공
               // Avro 스키마 조회 방식 (필수)
               "type": "schema_registry",
               // Schema Registry URL (필수)
-              "url": "http://{data-stream-vm의 Public IP}:8081"
+              "url": "http://{data-stream-vm의 Private IP}:8081"
             }
           },
 
