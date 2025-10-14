@@ -47,7 +47,7 @@ spec:
           spec:
             containers:
               - name: mnist-training
-                image: ${PROJECT_NAME}.kr-central-2.kcr.dev/kakao-registry/hyperpram:1.0
+                image: ${PROJECT_NAME}.kr-central-2.kcr.dev/kakao-registry/hyperparam:1.0
                 command:
                   - "python"
                   - "mnist_train.py"
