@@ -3,7 +3,7 @@
 Hadoop Eco의 Hive를 활용하여 Nginx 로그 데이터와 MySQL 데이터를 사용하여 External 테이블로 생성합니다. 생성된 테이블을 이용하여 Hue로 쿼리를 진행하는 실습입니다.
 
 ---
-## 1. Object Storage 버킷 권한 설정
+## 1. Object Storage 버킷 권한 설정 (약 5분 소요)
 1. 카카오 클라우드 콘솔 > Beyond Storage Service > Object Storage
 2. `data-catalog-bucket` 버킷 설정
       - `data-catalog-bucket` 버킷 클릭
@@ -26,7 +26,7 @@ Hadoop Eco의 Hive를 활용하여 Nginx 로그 데이터와 MySQL 데이터를 
 
       ![1](https://github.com/user-attachments/assets/dade13de-cdd4-42f9-a1a6-0795281e093b)
 
-## 2. Hadoop-Eco 마스터 노드 접속
+## 2. Hadoop-Eco 마스터 노드 접속 (약 1분 소요)
 
 1. 카카오 클라우드 콘솔 > Beyond Compute Service > Virtual Machine
 2. `HadoopMST-hadoop-eco-1` 인스턴스의 우측 메뉴바 > `SSH 연결` 클릭
@@ -64,7 +64,7 @@ Hadoop Eco의 Hive를 활용하여 Nginx 로그 데이터와 MySQL 데이터를 
     ```
 
 
-## 3. Hive에 External 테이블 생성
+## 3. Hive에 External 테이블 생성 (약 10분 소요)
 
 1. Hive에 접속
 
@@ -318,8 +318,8 @@ Hadoop Eco의 Hive를 활용하여 Nginx 로그 데이터와 MySQL 데이터를 
 12. `ctrl` + `c`로 종료
 
 
-## 4. Hue 환경 설정
-
+## 4. Hue 환경 설정 (약 5분 소요)
+ 
 1. 카카오 클라우드 콘솔 > Beyond Compute Service > Virtual Machine
 2. `HadoopMST-hadoop-eco-1` 인스턴스의 `기본 퍼블릭 IP` 복사
 3. 웹 브라우저 주소창에서 아래 URL 입력을 통해 Hue 접속
@@ -368,7 +368,7 @@ Hadoop Eco의 Hive를 활용하여 Nginx 로그 데이터와 MySQL 데이터를 
 
     <img width="1629" height="581" alt="8  jar 파일 실행" src="https://github.com/user-attachments/assets/a3952fc7-a44b-4fea-9262-72f90b334428" />
 
-## 5. Hue를 이용한 쿼리를 통해 지표 분석
+## 5. Hue를 이용한 쿼리를 통해 지표 분석 (약 20분 소요)
 
 1. 쿼리문을 통한 지표 분석
 
