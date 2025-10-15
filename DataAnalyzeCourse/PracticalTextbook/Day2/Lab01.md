@@ -1,7 +1,7 @@
 # 사전 환경 구성
 사전 환경 구성에 대한 실습입니다.
 
-## 1. Hadoop Eco 클러스터 생성
+## 1. Hadoop Eco 클러스터 생성 (약 20분 소요)
 1. 카카오 클라우드 콘솔 > Analytics > Hadoop Eco
 2. 클러스터 생성 버튼 클릭
     - 클러스터 이름: `hadoop-eco`
