@@ -2,7 +2,7 @@
 
 Kafka로 들어오는 데이터를 Druid에서 실시간으로 수집 및 가공하고, Superset을 통해 분석 결과를 시각화하여 대시보드를 만드는 실습입니다.
 
-## 1. Druid 확장 설정
+## 1. Druid 확장 설정 (약 5분 소요)
 
 1. 카카오 클라우드 콘솔 > Beyond Compute Service > Virtual Machine 
 2. 마스터, 워커 노드(`HadoopMST-hadoop-eco-1`, `HadoopWRK-hadoop-eco-1, 2`)에 각각 Public IP 연결
@@ -81,7 +81,7 @@ Kafka로 들어오는 데이터를 Druid에서 실시간으로 수집 및 가공
     ```
 
 
-## 2. **Druid를 활용한 데이터 수집 및 가공**
+## 2. **Druid를 활용한 데이터 수집 및 가공** (약 10분 소요)
 
 1. 마스터 노드(`HadoopMST-hadoop-eco-1`)의 Public IP를 이용하여 웹 브라우저에서 Druid에 접속
 
@@ -464,7 +464,7 @@ Kafka로 들어오는 데이터를 Druid에서 실시간으로 수집 및 가공
     - `Submit` 버튼 클릭
 15. 페이지 새로고침 후 각 Supervisors, Task의 Status가 RUNNING인 것을 확인
 
-## 3. **Superset을 활용한 데이터 시각화**
+## 3. **Superset을 활용한 데이터 시각화** (약 15분 소요)
 
 1. 마스터 노드(`HadoopMST-hadoop-eco-1`)의 Public IP를 이용하여 웹 브라우저에서 Superset에 접속
     
