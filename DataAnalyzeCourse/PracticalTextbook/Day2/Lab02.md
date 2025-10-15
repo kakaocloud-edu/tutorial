@@ -4,7 +4,7 @@ Data Stream VM을 통해 MySQL 데이터의 CDC(Change Data Capture) 변경 사�
 <img width="3164" height="1165" alt="커넥터_아키텍처" src="https://github.com/user-attachments/assets/26d294d3-45b6-4e4f-8cb3-37e675a7304c" />
 
 ---
-## 1. Data Stream VM에 커넥터 추가
+## 1. Data Stream VM에 커넥터 추가 (약 5분 소요)
 1. 카카오 클라우드 콘솔 > Beyond Compute Service > Virtual Machine
 2. `data-stream-vm` 인스턴스 SSH 접속
     - `data-stream-vm` 각 인스턴스의 우측 메뉴바 > `SSH 연결` 클릭
@@ -65,7 +65,7 @@ Data Stream VM을 통해 MySQL 데이터의 CDC(Change Data Capture) 변경 사�
     
     ![image](https://github.com/user-attachments/assets/faedd699-2cd2-4ebf-9137-b438404cfb15)
 
-## 2. S3 Sink Connector VM에 커넥터 추가
+## 2. S3 Sink Connector VM에 커넥터 추가 (약 5분 소요)
 1. 카카오 클라우드 콘솔 > Beyond Compute Service > Virtual Machine
 2. `s3-sink-connector` 인스턴스의 우측 메뉴바 > `SSH 연결` 클릭
     - SSH 접속 명령어 복사
