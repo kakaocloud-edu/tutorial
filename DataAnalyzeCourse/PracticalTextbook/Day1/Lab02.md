@@ -256,13 +256,13 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 활용하여 �
 
     - **참고용**: 
    
-    #### traffic_generator.py가 실행중인 프로세스 확인
+    #### traffic_generator.py가 실행중인 프로세스ID 확인
 
     ```bash
     pgrep -f traffic_generator.py
     ```
 
-    #### traffic_generator.py 실행 종료
+    #### traffic_generator.py가 실행중인 프로세스 강제 종료
 
     ```bash
     kill -9 {위의 명령으로 확인한 프로세스ID}
