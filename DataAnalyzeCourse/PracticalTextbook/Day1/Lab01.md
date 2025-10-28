@@ -59,6 +59,8 @@
    - 생성 버튼 클릭  
 7. `data-catalog-bucket` 버킷 생성 확인
 
+   ![image](https://github.com/user-attachments/assets/107bfb13-8e2b-4eb4-b521-05ecf66f5248)
+
 ## 3. MySQL 인스턴스 그룹 생성 (7분)
 
 1. 카카오 클라우드 콘솔 > Data Store > MySQL
