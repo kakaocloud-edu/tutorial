@@ -202,6 +202,10 @@
 
 ## 8. Data Stream VM 생성
 
+> - Day 1에서는 스키마 관리용 Schema Registry를 호스팅하는 ‘데이터 스트림 허브’
+> - Day 2에서는 Debezium MySQL Connector를 통해 Apache Kafka로 MySQL 변경사항을 스트리밍하는 CDC 게이트웨이
+
+
 1. 카카오 클라우드 콘솔 > Beyond Compute Service > Virtual Machine
 2. 인스턴스 생성 버튼 클릭
     - 기본 정보
