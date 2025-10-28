@@ -19,7 +19,8 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 활용하여 �
         - 설명: `빈 칸`
     - 생성 버튼 클릭
 5. `test-topic` 토픽 생성 확인
-![image](https://github.com/user-attachments/assets/2ed934ad-5c32-4b5c-9650-c948a86daef5)
+<img width="3195" height="475" alt="image" src="https://github.com/user-attachments/assets/672b699d-92c5-4209-af35-48d3b80a14bd" />
+
 
 
 6. 서브스크립션 탭 클릭 후 `test-topic`의 Pull 서브스크립션 생성
