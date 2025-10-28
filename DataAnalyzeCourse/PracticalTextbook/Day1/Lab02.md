@@ -215,6 +215,14 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 활용하여 �
 
 
 ## 5. Object Storage에 NGINX 로그 적재
+> 아래와 같은 과정으로 nginx 로그가 Object Storage에 적재가 됩니다.
+> 이 파이프라인은 Nginx 서버에서 발생한 접근 로그와 에러 로그를
+> Filebeat를 통해 Logstash로 전달하고,  
+> Logstash가 로그를 가공(Base64 인코딩)하여 KakaoCloud Pub/Sub 토픽으로 전송하는 구조입니다.
+> 
+> - **[Filebeat 설정 파일](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day1/Lab01/api_server/filebeat.yml)**: `/var/log/nginx/*.log` 파일을 실시간 수집  
+> - **[Logstash 설정 파일](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day1/Lab01/api_server/logs-to-pubsub.conf)**: Filebeat로부터 받은 로그를 Pub/Sub HTTP API로 게시  
+> - **Pub/Sub**: 수신된 로그 메시지를 Topic 단위로 저장 및 전달
 
 1. `traffic-generator-1` 터미널에서 Pub/Sub 실습 디렉토리로 이동
     
