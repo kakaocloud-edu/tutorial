@@ -239,19 +239,19 @@ Pub/Sub을 활용한 메시지 송수신, REST API 및 Go SDK를 활용하여 �
     nohup python3 /home/ubuntu/DataAnalyzeCourse/src/day1/Lab02/pubsub/traffic_generator.py --mode continuous > /dev/null 2>&1 &
     ```
 
-   - **참고용**: 
+      - **참고용**: 
    
-   #### traffic_generator.py가 실행중인 프로세스 확인
+      #### traffic_generator.py가 실행중인 프로세스 확인
 
-   ```bash
-   pgrep -f traffic_generator.py
-   ```
+      ```bash
+      pgrep -f traffic_generator.py
+      ```
 
-   #### traffic_generator.py 실행 종료
+      #### traffic_generator.py 실행 종료
 
-   ```bash
-   kill -9 {위의 명령으로 확인한 프로세스ID}
-   ```
+      ```bash
+      kill -9 {위의 명령으로 확인한 프로세스ID}
+      ```
     
 3. 실행 후 새로 생성된 `traffic_generator.log` 로그 파일 확인
 
