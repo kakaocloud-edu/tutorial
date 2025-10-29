@@ -104,21 +104,22 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     ```
     
 7. `traffic-generator-2`에서 `consumer-group-earliest` 그룹으로 `consol-topic`의 메시지를 `earlist` 옵션으로 메시지 수신
-    
-    #### **lab3-3-7**
+
+   #### **lab3-3-7**
         
     ```bash
     bin/kafka-console-consumer.sh --bootstrap-server ${KAFKA_BOOTSTRAP_SERVERS} \
     --topic consol-topic --group consumer-group-earliest \
     --consumer-property auto.offset.reset=earliest
     ```
+    consol-topic의 모든 메시지를 가장 처음(offset=earliest)부터 읽기 시작하는 consumer-group-earliest라는 컨슈머 그룹으로 소비하는 명령
     ![earliest 1](https://github.com/user-attachments/assets/bb5b7e75-d8b1-4c32-8344-7b6a2e752d7a)
 
 
-8. `ctrl` + `c`로 종료
+9. `ctrl` + `c`로 종료
 
 
-9. `traffic-generator-2`에서 `consumer-group-earliest-notcommit` 그룹으로 `consol-topic`의 메시지를 `earlist` 옵션과 `not commit` 옵션으로 메세지 수신
+10. `traffic-generator-2`에서 `consumer-group-earliest-notcommit` 그룹으로 `consol-topic`의 메시지를 `earlist` 옵션과 `not commit` 옵션으로 메세지 수신
 
     #### **lab3-3-9**
         
@@ -130,9 +131,9 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     ```
     ![earliest notcommit 1](https://github.com/user-attachments/assets/b1723fab-3552-4ce6-864f-83d9f1eecb4f)
 
-10. `ctrl` + `c`로 종료
+11. `ctrl` + `c`로 종료
 
-11. `traffic-generator-2`에서 `consumer-group-latest` 그룹으로 `consol-topic`의 메시지를 `latest` 옵션으로 메세지 수신
+12. `traffic-generator-2`에서 `consumer-group-latest` 그룹으로 `consol-topic`의 메시지를 `latest` 옵션으로 메세지 수신
 
     #### **lab3-3-11**
 
@@ -143,9 +144,9 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     ```
     ![latest 1](https://github.com/user-attachments/assets/775440c5-5cfa-49be-afbe-d125ee29d2c0)
 
-12. `ctrl` + `c`로 종료
+13. `ctrl` + `c`로 종료
 
-13. traffic-generator-1에서 consol-topic으로 메세지 전송 스크립트 실행
+14. traffic-generator-1에서 consol-topic으로 메세지 전송 스크립트 실행
 
     #### **lab3-3-13**
         
@@ -153,7 +154,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     bin/kafka-console-producer.sh --broker-list ${KAFKA_BOOTSTRAP_SERVERS} --topic consol-topic
     ```
 
-14. 송신할 메세지를 하나씩 입력 후 `Enter` 입력
+15. 송신할 메세지를 하나씩 입력 후 `Enter` 입력
 
     #### **lab3-3-14**
 
@@ -168,10 +169,10 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     ```
     ![Image](https://github.com/user-attachments/assets/27cf5a74-f03f-4874-92a8-96c97e30b0d0)
 
-15. 송신되는 시간 5초 대기 후 `ctrl` + `c`로 종료
+16. 송신되는 시간 5초 대기 후 `ctrl` + `c`로 종료
 
 
-16. `traffic-generator-2`에서 `consumer-group-earliest` 그룹으로 `consol-topic`의 메시지를 `earlist` 옵션으로 메시지 수신
+17. `traffic-generator-2`에서 `consumer-group-earliest` 그룹으로 `consol-topic`의 메시지를 `earlist` 옵션으로 메시지 수신
     
     #### **lab3-3-16**
         
@@ -183,9 +184,9 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     ![earliest 2](https://github.com/user-attachments/assets/eb96892e-b67c-482c-9cce-eda5b78d7ce7)
 
 
-17. `ctrl` + `c`로 종료
+18. `ctrl` + `c`로 종료
 
-18. `traffic-generator-2`에서 `consumer-group-earliest-notcommit` 그룹으로 `consol-topic`의 메시지를 `earlist` 옵션과 `not commit` 옵션으로 메세지 수신
+19. `traffic-generator-2`에서 `consumer-group-earliest-notcommit` 그룹으로 `consol-topic`의 메시지를 `earlist` 옵션과 `not commit` 옵션으로 메세지 수신
 
     #### **lab3-3-18**
         
@@ -198,10 +199,10 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     ![earliest notcommit 2](https://github.com/user-attachments/assets/58d6bbbb-a91f-4398-830a-9c5bf5cfd29a)
 
 
-19. `ctrl` + `c`로 종료
+20. `ctrl` + `c`로 종료
 
 
-20. `traffic-generator-2`에서 `consumer-group-latest` 그룹으로 `consol-topic`의 메시지를 `latest` 옵션으로 메세지 수신
+21. `traffic-generator-2`에서 `consumer-group-latest` 그룹으로 `consol-topic`의 메시지를 `latest` 옵션으로 메세지 수신
 
     #### **lab3-3-20**
 
@@ -213,10 +214,10 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     ![latest 2](https://github.com/user-attachments/assets/9aabbab4-0434-466f-a4dc-203e66d2bfa2)
 
 
-21. `ctrl` + `c`로 종료
+22. `ctrl` + `c`로 종료
 
 
-22. `traffic-generator-2`에서 생성된 consumer 그룹 목록 확인
+23. `traffic-generator-2`에서 생성된 consumer 그룹 목록 확인
 
     #### **lab3-3-22**
 
