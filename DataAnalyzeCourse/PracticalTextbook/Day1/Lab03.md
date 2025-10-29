@@ -14,7 +14,6 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     
     ```
     sudo bash -c '
-      sed -i '\''s/^ENABLE_KAFKA_OUTPUT="false"/ENABLE_KAFKA_OUTPUT="true"/'\'' /etc/default/logstash &&
       sed -i '\''s/\["127.0.0.1:5044","127.0.0.1:5045"\]/["127.0.0.1:5045"]/g'\'' /etc/filebeat/filebeat.yml'
     ```
     
