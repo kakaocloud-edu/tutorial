@@ -6,7 +6,7 @@ pubsub:
   topic_name: "$TOPIC_NAME"
   topic_name_mk: "$TOPIC_NAME_MK"
   topic_description: ""
-  topic_retention_duration: "600s"
+  topic_retention_duration: "60s"
   sub_name: "$SUB_NAME"
   credential_id: "$CREDENTIAL_ID"
   credential_secret: "$CREDENTIAL_SECRET"
