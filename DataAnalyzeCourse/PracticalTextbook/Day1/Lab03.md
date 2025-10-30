@@ -68,8 +68,10 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     ```
     
     ![Image](https://github.com/user-attachments/assets/9321a32b-fde4-486b-8398-da235d7d1de0)
+    ![Image](https://github.com/user-attachments/assets/9da3ef65-7b45-484d-93a7-d407a3855cec)
 
-3. `traffic-generator-1`에서 `consol-topic`으로 메세지 전송 스크립트 실행
+
+4. `traffic-generator-1`에서 `consol-topic`으로 메세지 전송 스크립트 실행
     
     #### **lab3-3-3**
         
@@ -77,7 +79,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     bin/kafka-console-producer.sh --broker-list ${KAFKA_BOOTSTRAP_SERVERS} --topic consol-topic
     ```
 
-4. 송신할 메세지를 하나씩 입력 후 `Enter` 입력
+5. 송신할 메세지를 하나씩 입력 후 `Enter` 입력
 
     #### **lab3-3-4**
 
@@ -93,9 +95,9 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     ![Image](https://github.com/user-attachments/assets/800bd1cb-72a6-4cff-afd0-70fa42cbe79d)
 
 
-5. 송신되는 시간 5초 대기 후 `ctrl` + `c`로 종료
+6. 송신되는 시간 5초 대기 후 `ctrl` + `c`로 종료
 
-6. `traffic-generator-2`에서 Kafka 실습용 디렉터리로 이동
+7. `traffic-generator-2`에서 Kafka 실습용 디렉터리로 이동
     
     #### **lab3-3-6**
         
@@ -103,7 +105,7 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     cd /opt/kafka
     ```
     
-7. `traffic-generator-2`에서 `consumer-group-earliest` 그룹으로 `consol-topic`의 메시지를 `earlist` 옵션으로 메시지 수신
+8. `traffic-generator-2`에서 `consumer-group-earliest` 그룹으로 `consol-topic`의 메시지를 `earlist` 옵션으로 메시지 수신
 
    #### **lab3-3-7**
         
