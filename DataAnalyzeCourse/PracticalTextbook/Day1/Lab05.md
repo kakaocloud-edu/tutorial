@@ -94,7 +94,7 @@ Data Query 기능을 활용하여 NGINX 로그 및 MySQL 데이터를 이용한 
    - 추가된 `Query3` 탭 아래 쿼리문 입력
    
       #### **lab5-3-4**
-      
+      로그 테이블(kafka_log_table)에서 상품별 클릭 수를 계산하고, 그 상품 ID를 이용해서 상품 이름(products 테이블) 과 연결(join)해 어떤 상품이 몇 번 클릭되었는지를 보여주는 쿼리
       ```
       SELECT 
          pc.product_id,
