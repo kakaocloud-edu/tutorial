@@ -274,8 +274,9 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     python3 kafka_subscriber.py
     ```
     ![Image](https://github.com/user-attachments/assets/50dba0ea-868e-4730-b0ec-15aab3578609)
+   특정 토픽(python-topic)의 특정 파티션(0) 을, 지정한 오프셋(START_OFFSET) 부터 처음부터(earliest) 읽기 시작하며 자동 커밋 없이 수동으로 제어하는 방식으로 메시지를 소비하는 코드임.
 
-6. `traffic-generator-2`에서 오프셋 3부터 메시지 소비 시작 및 오프셋 4에서 커밋 옵션을 추가하여 메세지 수신
+7. `traffic-generator-2`에서 오프셋 3부터 메시지 소비 시작 및 오프셋 4에서 커밋 옵션을 추가하여 메세지 수신
 
     #### **lab3-4-6**
 
