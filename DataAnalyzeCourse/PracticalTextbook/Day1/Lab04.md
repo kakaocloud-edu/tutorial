@@ -10,14 +10,14 @@ Data Catalog와 Pub/Sub, Object Storage를 연동하여 테이블을 생성하�
 2. `data-catalog-bucket` 버킷 설정
       - `data-catalog-bucket` 버킷 클릭
          - 권한 탭 클릭
-               - 접근 탭 클릭
+            - 접근 탭 클릭
                - 접근 설정 버튼 클릭
-                   - 액세스 권한
-                       - `퍼블릭 액세스 허용 (Read Only)` 선택
-                       - 접근 허용 IP 주소: 빈 칸
-                       - 저장 버튼 클릭
-               - 확인 버튼 클릭
-             - `퍼블릭 액세스`가 `허용 (Read Only)`으로 바뀐 것을 확인
+                  - 액세스 권한
+                     - `퍼블릭 액세스 허용 (Read Only)` 선택
+                     - 접근 허용 IP 주소: 빈 칸
+                     - 저장 버튼 클릭
+                  - 확인 버튼 클릭
+            - `퍼블릭 액세스`가 `허용 (Read Only)`으로 바뀐 것을 확인
        ![1](https://github.com/user-attachments/assets/dade13de-cdd4-42f9-a1a6-0795281e093b)
 
 
