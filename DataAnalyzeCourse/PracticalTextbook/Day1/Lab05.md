@@ -124,7 +124,7 @@ Data Query 기능을 활용하여 NGINX 로그 및 MySQL 데이터를 이용한 
    - 추가된 `Query4` 탭 아래 쿼리문 입력
 
       #### **lab5-3-5**
-
+      새로 가입한 사용자 수(new users)가 몇 명인지 세는 쿼리
       ```
       SELECT 
          COUNT(DISTINCT user_id) AS new_users
