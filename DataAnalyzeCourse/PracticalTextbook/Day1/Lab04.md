@@ -22,7 +22,7 @@ Data Catalog와 Pub/Sub, Object Storage를 연동하여 테이블을 생성하�
 
 
 ## 2. Pub/Sub 리소스 생성
-![제목 없음](https://github.com/user-attachments/assets/2588f095-9da9-44bd-89a8-a85d30a20f3e)
+<img width="977" height="638" alt="pubsub 리소스 생성 사진 lab4" src="https://github.com/user-attachments/assets/e82ab5ae-7588-4686-a4ee-ec2501183740" />
 
 1. 카카오 클라우드 콘솔 > Analytics > Pub/Sub
 2. `data-catalog-topic` 토픽 생성
