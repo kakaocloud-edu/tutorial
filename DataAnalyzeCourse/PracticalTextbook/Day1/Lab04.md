@@ -73,7 +73,8 @@ Data Catalog와 Pub/Sub, Object Storage를 연동하여 테이블을 생성하�
     - 경로  
         - S3 연결: `체크`  
         - 버킷 이름: `data-catalog-bucket`  
-        - 디렉터리: `data-catalog-dir`  
+        - 디렉터리: `data-catalog-dir` 
+    - 속성(선택): 빈칸
     - 설명(선택): 빈칸  
     - 생성 버튼 클릭  
 3. `data_catalog_database` 데이터베이스의 상태가 `Active`인 것을 확인  
