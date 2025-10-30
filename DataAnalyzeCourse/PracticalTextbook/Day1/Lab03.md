@@ -491,20 +491,10 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     kakaocloud: 20. nginx-s3-sink-connector.json 생성 시작 (8083 포트용)
     kakaocloud: Setup 완료
     ```
-6. `data-catalog-bucket`에 nginx 로그를 쌓기 위해 필요한 쓰기 권한을 부여하는 명령어 실행(개선중)
 
-    #### **lab3-7-6** 
+6. `nginx-s3-sink-connector` 생성
     
-    ```bash
-    aws s3api put-bucket-acl \
-      --bucket data-catalog-bucket \
-      --grant-full-control "id={USER_UUID}" \
-      --endpoint-url https://objectstorage.kr-central-2.kakaocloud.com
-    ```
-
-7. `nginx-s3-sink-connector` 생성
-    
-    #### lab**3-7-7**
+    #### lab**3-7-6**
    
     ```bash
     curl -s -X POST \
@@ -514,9 +504,9 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     | jq .
     ```
 
-8. `nginx-s3-sink-connector` 상태 확인
+7. `nginx-s3-sink-connector` 상태 확인
 
-    #### lab**3-7-8**
+    #### lab**3-7-7**
     
      ```bash
      curl -s http://localhost:8083/connectors/nginx-s3-sink-connector/status | jq .
@@ -524,8 +514,8 @@ Kafka로 메시지를 송수신하고, Nginx 로그를 실시간으로 수집·�
     ![image](https://github.com/user-attachments/assets/012ca5ef-70e6-499e-a8d1-22a4fa83eae0)
 
 
-9. 카카오 클라우드 콘솔 > Beyond Storage Service > Object Storage
-10. `data-catalog-bucket` 클릭
-11. NGINX 로그가 쌓인 디렉터리로 이동 후 버킷 내 적재된 NGINX 로그 적재 확인
+8. 카카오 클라우드 콘솔 > Beyond Storage Service > Object Storage
+9. `data-catalog-bucket` 클릭
+10. NGINX 로그가 쌓인 디렉터리로 이동 후 버킷 내 적재된 NGINX 로그 적재 확인
     - **Note**: `/kafka-nginx-log/nginx-topic/partition_0/year_{현재 연도}/month_{현재 월}/day_{현재 일}/hour_{현재 시}`디렉터리로 이동
    ![nginx로그 object storage 적재](https://github.com/user-attachments/assets/f825bf28-1302-4c4c-92e0-7d250cb5d86f)
