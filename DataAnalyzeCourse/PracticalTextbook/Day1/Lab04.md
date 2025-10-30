@@ -71,7 +71,6 @@ Data Catalog와 Pub/Sub, Object Storage를 연동하여 테이블을 생성하�
     - 카탈로그: `data_catalog`  
     - 이름: `data_catalog_database`  
     - 경로  
-        - S3 연결: `체크`  
         - 버킷 이름: `data-catalog-bucket`  
         - 디렉터리: `data-catalog-dir` 
     - 속성(선택): 빈칸
@@ -98,7 +97,6 @@ Data Catalog와 Pub/Sub, Object Storage를 연동하여 테이블을 생성하�
    - 데이터 베이스: `data_catalog_database`  
    - 테이블 이름: `kafka_log_table`  
    - 데이터 저장 경로  
-      - S3 연결: `체크`  
       - 버킷 이름: `data-catalog-bucket`  
       - 디렉터리: `kafka-nginx-log/nginx-topic/partition_0/year_{현재 연도}/month_{현재 월}`  
    - 데이터 유형: `Parquet`  
