@@ -74,7 +74,7 @@ Data Query 기능을 활용하여 NGINX 로그 및 MySQL 데이터를 이용한 
    - 추가된 `Query2` 탭 아래 쿼리문 입력
    
       #### **lab5-3-3**
-   
+      endpoint가 /product인 로그들 중에서, query_params 안에 있는 상품 ID를 뽑아(product_id), 같은 상품끼리 묶어서 몇 번 클릭되었는지(click_count)를 세고, 클릭 수가 많은 순서대로 정렬
       ```
       SELECT 
          regexp_extract(query_params, 'id=([0-9]+)', 1) AS product_id,
