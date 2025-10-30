@@ -19,7 +19,7 @@ Data Query 기능을 활용하여 NGINX 로그 및 MySQL 데이터를 이용한 
       - 비밀번호: `admin1234`
       - `연결 테스트` 버튼 클릭
    - 연결 성공 확인 후 생성 버튼 클릭
-5. `data_catalog` 데이터 원본 생성 확인
+5. `data_origin` 데이터 원본 생성 확인
 ![12](https://github.com/user-attachments/assets/417f3d03-bec6-4749-90fd-71eb50dadc9c)
 
 
