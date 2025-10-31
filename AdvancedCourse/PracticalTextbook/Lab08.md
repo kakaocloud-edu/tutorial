@@ -34,7 +34,7 @@
 1. Helm Chart 설치
    #### **lab8-2-1**
    ```bash
-   curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
+   curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | sudo bash
    ```
 
 2. 설치 확인
