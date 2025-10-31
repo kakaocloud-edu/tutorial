@@ -43,7 +43,7 @@
 
 ## 2. Object Storage 생성
 - **Note**: Object Storage 버킷 구조  
-   ![image](https://github.com/user-attachments/assets/905e9b40-63a9-496a-8dee-af5858e91f40)
+   <img width="972" height="1115" alt="object storage github" src="https://github.com/user-attachments/assets/8e94c3b3-367a-4903-9999-2259e1a0b169" />
 
 1. 카카오 클라우드 콘솔 > Beyond Storage Service > Object Storage 
 2. 버킷 생성 버튼 클릭  
