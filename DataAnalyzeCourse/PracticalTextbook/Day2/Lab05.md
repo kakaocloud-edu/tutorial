@@ -168,7 +168,7 @@ Hadoop Eco의 Hive를 활용하여 이미 만들어진 Nginx 로그 데이터 �
     - `HDFS 경로` 복사 후 클립보드 등에 붙여넣기
 
     #### **lab5-2-8**
-
+    현재 Hive가 테이블 데이터를 저장하는 기본 경로(warehouse directory) 를 확인하는 명령
     ```bash
     SET hive.metastore.warehouse.dir;
     ```
