@@ -44,7 +44,7 @@ Data Query 기능을 활용하여 NGINX 로그 및 MySQL 데이터를 이용한 
    - 우측 편집기의 `Query1` 탭 아래 쿼리문 입력
 
       #### **lab5-3-2**
-      
+      HTTP 상태 코드별 로그 발생 건수를 집계하고, 전체 로그 대비 각 상태 코드의 비율(%)을 계산하여 코드 순서대로 출력
       ```
       SELECT
          status.member1 AS http_status_code,
