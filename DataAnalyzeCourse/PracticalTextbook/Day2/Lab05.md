@@ -117,7 +117,15 @@ Hadoop Eco의 Hive를 활용하여 이미 만들어진 Nginx 로그 데이터 �
       AND t.product_id <> 'NULL'
     GROUP BY t.session_id, t.user_id, t.product_id;
     ```
-
+    > session_id: 사용자의 방문 세션을 식별하는 고유 ID (브라우저·앱 단위의 접속 식별자)
+    > user_id: 사용자를 구분하는 ID (user_xxx는 로그인 사용자, guest는 비로그인 방문자)
+    > product_id: 사용자가 조회하거나 구매한 상품의 고유 식별 번호
+    > event_type: 사용자의 행동 유형 (pageview = 상품 조회, order = 주문 발생)
+    > event_count: 해당 세션과 상품 조합에서 발생한 이벤트 횟수
+    > total_request_time: 해당 상품 관련 요청의 총 처리 시간(초 단위)
+    > last_active_time: 해당 세션에서 마지막으로 활동한 시각 (가장 최근 로그 타임스탬프)
+    > success_count: 성공적으로 처리된 요청의 개수 (HTTP 200 응답 수)
+    
 5. aggregated_logs 테이블에 적재된 데이터 결과 확인
 
     #### **lab5-2-5**
