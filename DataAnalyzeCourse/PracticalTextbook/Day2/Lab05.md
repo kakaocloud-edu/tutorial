@@ -55,7 +55,9 @@ Hadoop Eco의 Hive를 활용하여 이미 만들어진 Nginx 로그 데이터 �
 4. aggregated_logs 테이블에 데이터 적재
 
     #### **lab5-2-4**
-    > Nginx 웹로그와 MySQL 주문 데이터를 통합하여, 사용자별·상품별로 페이지 조회 및 주문 활동을 한눈에 볼 수 있는 요약 테이블(aggregated_logs) 을 생성
+    > - Nginx 웹로그와 MySQL 주문 데이터를 통합하여, 사용자별·상품별로 페이지 조회 및 주문 활동을 한눈에 볼 수 있는 요약 테이블(aggregated_logs) 을 생성
+    > - 사용자 요약 테이블이라고 볼 수 있음
+    > - 데이터 한 줄(row)은 바로 “하나의 세션(session)에서 특정 상품(product)에 대해 사용자가 어떤 행동을 했는가”를 요약한 기록
     ```bash
     INSERT OVERWRITE TABLE aggregated_logs
     SELECT
