@@ -54,6 +54,7 @@ Kafka로 들어오는 데이터를 Druid에서 실시간으로 수집 및 가공
     ```
     
 4. Druid 확장 모듈 목록 확인
+   > 필요한 확장(extension)들이 이미 설치되어 있는지(실제 디렉터리에 존재하는지)를 사전에 확인
 
     #### lab3-1-4
 
@@ -63,16 +64,23 @@ Kafka로 들어오는 데이터를 Druid에서 실시간으로 수집 및 가공
     ![image](https://github.com/user-attachments/assets/70e24570-32d5-4acb-bcd0-1fcc3e4f8f50)
 
 
-5. 마스터, 워커 노드 모두에서 Druid 설정 파일에서 druid.extensions.loadList 값 추가
-
+6. 마스터, 워커 노드 모두에서 Druid 설정 파일에서 druid.extensions.loadList 값 추가
+   
     #### lab3-1-5
-
+    > Druid 설정 파일에서 필요한 확장 모듈 목록(druid.extensions.loadList)을 일괄 수정하여 실시간 수집·저장·분석 기능에 필요한 플러그인을 활성화
     ```bash
     sudo sed -i 's|druid.extensions.loadList=.*|druid.extensions.loadList=["druid-avro-extensions", "druid-parquet-extensions", "mysql-metadata-storage", "druid-hdfs-storage", "druid-kafka-indexing-service", "druid-datasketches", "druid-multi-stage-query"]|' /opt/apache-druid-25.0.0/conf/druid/cluster/_common/common.runtime.properties && \
     sudo sed -i 's|druid.extensions.loadList=.*|druid.extensions.loadList=["druid-avro-extensions", "druid-hdfs-storage", "druid-kafka-indexing-service", "druid-datasketches", "druid-multi-stage-query"]|' /opt/apache-druid-25.0.0/conf/druid/auto/_common/common.runtime.properties
     ```
+    > - druid-avro-extensions → Avro 형식 데이터 처리
+    > - druid-parquet-extensions → Parquet 형식 데이터 처리
+    > - mysql-metadata-storage → MySQL을 메타데이터 저장소로 사용
+    > - druid-hdfs-storage → HDFS를 딥 스토리지로 사용
+    > - druid-kafka-indexing-service → Kafka로부터 실시간 데이터 수집
+    > - druid-datasketches → 근사 통계(집계·추정) 계산 기능
+    > - druid-multi-stage-query → SQL 기반 멀티 스테이지 쿼리 처리
     
-6. 마스터, 워커 노드 모두에서 Druid 관련 서비스 재시작
+7. 마스터와 워커 노드 모두에서 Druid 관련 서비스 재시작
 
     #### lab3-1-6
 
