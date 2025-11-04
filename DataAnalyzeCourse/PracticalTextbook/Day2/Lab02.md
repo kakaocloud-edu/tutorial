@@ -92,16 +92,10 @@ Data Stream VM을 통해 MySQL 데이터의 CDC(Change Data Capture) 변경 사�
     #### **lab2-2-3-1**
    
     ```bash
-    sudo systemctl daemon-reload
-    ```
-
-    #### **lab2-2-3-2**
-   
-    ```bash
     sudo systemctl enable kafka-connect-mysql-s3-sink.service 
     ```
 
-    #### **lab2-2-3-3**
+    #### **lab2-2-3-2**
    
     ```bash
     sudo systemctl start kafka-connect-mysql-s3-sink.service
