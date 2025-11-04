@@ -143,7 +143,7 @@ Data Query 기능을 활용하여 NGINX 로그 및 MySQL 데이터를 이용한 
    - 추가된 `Query5` 탭 아래 쿼리문 입력
 
    #### **lab5-4-1**
-
+   Kafka 로그 테이블에서 endpoint, query_params, status.member1 값을 추출해 status_code 기준으로 파티션된 JSON 형식의 외부 테이블을 S3 경로에 생성
    ```
    CREATE TABLE data_catalog_database.kafka_log_partitioned
    WITH (
