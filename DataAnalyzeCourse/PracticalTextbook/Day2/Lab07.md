@@ -51,6 +51,7 @@ Hadoop 클러스터 환경에서 실시간 스트리밍 데이터와 배치 데�
       --packages io.delta:delta-spark_2.12:3.1.0 \
       historical_data_refiner.py > historical_data_refiner.log 2>&1 &
     ```
+    > S3에 저장된 과거 데이터(nginx Parquet와 Debezium CDC JSON)를 대상으로 historical_data_refiner.py를 한 번 실행해 대량의 로그를 정제·특성화
     
 4. 배치 정제 프로세스 모니터링
     
@@ -186,6 +187,7 @@ Hadoop 클러스터 환경에서 실시간 스트리밍 데이터와 배치 데�
       --packages org.apache.spark:spark-sql-kafka-0-10_2.12:3.5.2,org.apache.spark:spark-avro_2.12:3.5.2,io.delta:delta-spark_2.12:3.1.0 \
       streaming_data_processor.py > streaming.log 2>&1 &
     ```
+    > Kafka에서 실시간 로그를 90초 단위로 받아 Spark가 분석하고 Delta Lake(Parquet을 기반으로 만든 확장 포맷: Parquet + 변경 이력을 포함)에 저장·갱신
 
 4. 프로세스 과정 확인
 
