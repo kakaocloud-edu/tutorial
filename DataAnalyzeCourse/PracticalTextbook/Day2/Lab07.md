@@ -16,6 +16,7 @@ Hadoop 클러스터 환경에서 실시간 스트리밍 데이터와 배치 데�
     wget https://packages.confluent.io/maven/io/confluent/kafka-avro-serializer/7.2.1/kafka-avro-serializer-7.2.1.jar \
          -O /home/ubuntu/jars/kafka-avro-serializer-7.2.1.jar
     ```
+    > kafka-avro-serializer: Kafka 메시지가 Avro 형식일 때, 그 데이터를 인코딩/디코딩(직렬화·역직렬화) 하기 위해 필요한 라이브러리
     
 
 ## 2. PySpark를 활용한 일괄 정제 (약 10분 소요)
