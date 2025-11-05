@@ -22,7 +22,7 @@ Hadoop Eco의 Spark를 활용하여 이미 만들어진 aggregated_logs 테이�
    ```
 2. user_cart_metrics.py 다운로드
 
-   - **[ `user_cart_metrics.py` ](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day2/Lab06/user_cart_metrics.py) 스크립트**: Hive에서 aggregated_logs 테이블을 Spark로 가져온 후 사용자별 장바구니·주문 메트릭을 집계하여 MySQL의 user_cart_metrics 테이블에 저장하는 Spark 스크립트
+   - **[ `user_cart_metrics.py` ](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day2/Lab06/user_cart_metrics.py) 스크립트**: Hive에서 aggregated_logs 테이블을 Spark로 가져온 후 사용자별로(user_id) 장바구니·주문 메트릭을 집계하여 MySQL의 user_cart_metrics 테이블에 저장하는 Spark 스크립트
    - **aggregated_logs 테이블**: 웹 로그(Nginx) 와 주문 로그(MySQL CDC) 를 통합해서 사용자가 어떤 상품을 보고(pageview), 주문(order)했는지 세션별·상품별 활동을 요약한 테이블
 
     #### **lab6-2-2**
