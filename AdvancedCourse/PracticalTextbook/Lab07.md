@@ -28,7 +28,7 @@
    kubectl scale deployment demo-deployment --replicas=3
    ```
 3. 새로운 터미널에서 Pod들의 상태 변화 확인
-4. 새로고침(키보드의`F5`카)을 통해 서버의 호스트 이름이 3가지 Pod 이름으로 바뀌는 것을 확인
+4. 새로고침(키보드의`F5`키)을 통해 서버의 호스트 이름이 3가지 Pod 이름으로 바뀌는 것을 확인
 5. Replicas 수 2개로 줄이기
    #### **lab7-1-7**
    ```bash
