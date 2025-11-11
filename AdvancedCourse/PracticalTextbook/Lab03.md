@@ -181,14 +181,14 @@
      #### **lab3-1-20-2**
     - DB 엔드포인트 환경변수 설정
     ```bash
-       export DB_EP1=\$(echo -n "\$INPUT_DB_EP1" | base64 -w 0)
-       export DB_EP2=\$(echo -n "\$INPUT_DB_EP2" | base64 -w 0)
+    export DB_EP1=$(echo -n "$INPUT_DB_EP1" | base64 -w 0)
+    export DB_EP2=$(echo -n "$INPUT_DB_EP2" | base64 -w 0)
     ```
 
      #### **lab3-1-20-3**
     - 환경변수 적용
     ```bash
-     source ~/.bashrc
+    source ~/.bashrc
     ```
     
      #### **lab3-1-20-4**
