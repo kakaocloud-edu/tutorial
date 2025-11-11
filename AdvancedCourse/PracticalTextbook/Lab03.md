@@ -50,6 +50,8 @@
    export DOCKER_JAVA_VERSION='자바 버전 입력(17-jdk)'
    export JAVA_VERSION='17'
    export SPRING_BOOT_VERSION='3.1.0'
+   export DB_EP1=$(echo -n "$INPUT_DB_EP1" | base64 -w 0)
+   export DB_EP2=$(echo -n "$INPUT_DB_EP2" | base64 -w 0)
    EOF
    )
 
@@ -179,28 +181,18 @@
      ```
 
      #### **lab3-1-20-2**
-    - DB 엔드포인트 환경변수 설정
-    ```bash
-    cat <<'EOF' >> ~/.bashrc
-    # KakaoCloud DB endpoint (base64 encoded)
-    export DB_EP1=$(echo -n "$INPUT_DB_EP1" | base64 -w 0)
-    export DB_EP2=$(echo -n "$INPUT_DB_EP2" | base64 -w 0)
-    EOF
-    ```
-
-     #### **lab3-1-20-3**
     - 환경변수 적용
     ```bash
     source ~/.bashrc
     ```
     
-     #### **lab3-1-20-4**
+     #### **lab3-1-20-3**
     - config 파일 확인
      ```bash
      cat /home/ubuntu/.kube/config
      ```
 
-     #### **lab3-1-20-5**
+     #### **lab3-1-20-4**
     - 수동 배포에 필요한 YAML 파일의 존재 확인 
      ```bash
      ls /home/ubuntu/yaml/lab6-manifests.yaml
