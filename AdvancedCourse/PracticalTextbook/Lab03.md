@@ -180,19 +180,14 @@
       kakaocloud: Successfully communicated with Kubernetes cluster
      ```
 
-     #### **lab3-1-20-2**
-    - 환경변수 적용
-    ```bash
-    source ~/.bashrc
-    ```
     
-     #### **lab3-1-20-3**
+     #### **lab3-1-20-2**
     - config 파일 확인
      ```bash
      cat /home/ubuntu/.kube/config
      ```
 
-     #### **lab3-1-20-4**
+     #### **lab3-1-20-3**
     - 수동 배포에 필요한 YAML 파일의 존재 확인 
      ```bash
      ls /home/ubuntu/yaml/lab6-manifests.yaml
