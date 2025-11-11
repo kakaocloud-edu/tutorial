@@ -504,7 +504,7 @@ sudo -E ./script.sh`;
                 />
                 <InputBox
                     label="12. Java 버전"
-                    placeholder="예: 17-jdk-slim"
+                    placeholder="예: 17-jdk"
                     value={dockerJavaVersion}
                     onChange={(e) => setDockerJavaVersion(e.target.value)}
                     error={errors.dockerJavaVersion}
