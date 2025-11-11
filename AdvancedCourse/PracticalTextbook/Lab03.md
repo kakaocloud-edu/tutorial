@@ -50,8 +50,6 @@
    export DOCKER_JAVA_VERSION='자바 버전 입력(17-jdk-slim)'
    export JAVA_VERSION='17'
    export SPRING_BOOT_VERSION='3.1.0'
-   export DB_EP1=\$(echo -n "\$INPUT_DB_EP1" | base64 -w 0)
-   export DB_EP2=\$(echo -n "\$INPUT_DB_EP2" | base64 -w 0)
    EOF
    )
 
