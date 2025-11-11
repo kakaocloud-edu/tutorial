@@ -181,8 +181,11 @@
      #### **lab3-1-20-2**
     - DB 엔드포인트 환경변수 설정
     ```bash
+    cat <<'EOF' >> ~/.bashrc
+    # KakaoCloud DB endpoint (base64 encoded)
     export DB_EP1=$(echo -n "$INPUT_DB_EP1" | base64 -w 0)
     export DB_EP2=$(echo -n "$INPUT_DB_EP2" | base64 -w 0)
+    EOF
     ```
 
      #### **lab3-1-20-3**
