@@ -3,7 +3,7 @@
 nginx pod을 위한 deployment, LoadBalancer type의 서비스가 포함된 ingress-nginx controller를 배포하고 ingress-nginx 파드, 서비스, AZ별로 생성된 loadbalancer 확인하는 실습입니다.
 
 
-## 1. <a href="https://github.com/kakaocloud-edu/tutorial/blob/main/AdvancedCourse/src/manifests/ingress-nginx-controller.yaml" target="_blank">ingress-nignx controller</a> 배포 (Demo)
+## 1. <a href="https://github.com/kakaocloud-edu/tutorial/blob/main/AdvancedCourse/src/manifests/ingress-nginx-controller.yaml" target="_blank">ingress-nginx controller</a> 배포 (Demo)
 
 1. 인그레스 컨트롤러 배포
      - 접속 중인 Bastion VM 인스턴스에 명령어 입력
