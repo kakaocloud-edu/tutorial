@@ -96,7 +96,7 @@ const MainPage: React.FC = () => {
     const [primaryEndpoint, setPrimaryEndpoint] = useState('');
     const [standbyEndpoint, setStandbyEndpoint] = useState('');
     const [dockerImageName, setDockerImageName] = useState('demo-spring-boot');
-    const [dockerJavaVersion, setDockerJavaVersion] = useState('17-jdk-slim');
+    const [dockerJavaVersion, setDockerJavaVersion] = useState('17-jdk');
     const [script, setScript] = useState('');
     const [loading, setLoading] = useState(false);
     const [loadingButton, setLoadingButton] = useState<string | null>(null);
