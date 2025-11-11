@@ -260,7 +260,7 @@ const MainPage: React.FC = () => {
 echo "kakaocloud: 1.Starting environment variable setup"
 
 # 환경 변수 설정: 사용자는 이 부분에 자신의 환경에 맞는 값을 입력해야 합니다.
-command=$(cat <<EOF
+command=$(cat <<'EOF'
 export ACC_KEY="${accessKey}"
 export SEC_KEY="${secretKey}"
 export CLUSTER_NAME="${clusterName}"
