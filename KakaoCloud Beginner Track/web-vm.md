@@ -39,16 +39,18 @@ sudo mkdir –p /var/www/nginx
 ### 111
 테스트용 index.html 파일을 생성합니다.
 ```bash
-echo '<!DOCTYPE html>
+sudo tee /var/www/nginx/index.html > /dev/null << 'EOF'
+<!DOCTYPE html>
 <html>
-  <head>
-    <title>Hello from Nginx</title>
-  </head>
-  <body>
-    <h1>Hello, Kakao Cloud!</h1>
-    <p>This page is served by Nginx</p>
-  </body>
-</html>' | sudo tee /var/www/nginx/index.html
+  <head>
+    <title>Hello from Nginx</title>
+  </head>
+  <body>
+    <h1>Hello, Kakao Cloud!</h1>
+    <p>This page is served by Nginx</p>
+  </body>
+</html>
+EOF
 ```
 
 ### 112 - 1
@@ -134,7 +136,8 @@ sudo mkdir -p /var/www/apache
 ### 123
 Apache용 테스트 index.html 파일을 생성합니다.
 ```bash
-echo '<!DOCTYPE html>
+sudo tee /var/www/apache/index.html > /dev/null << 'EOF'
+<!DOCTYPE html>
 <html>
   <head>
     <title>Hello from Apache</title>
@@ -143,7 +146,8 @@ echo '<!DOCTYPE html>
     <h1>Hello, Kakao Cloud!</h1>
     <p>This page is served by Apache</p>
   </body>
-</html>' | sudo tee /var/www/apache/index.html
+</html>
+EOF
 ```
 
 ### 124 - 1
