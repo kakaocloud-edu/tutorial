@@ -9,7 +9,7 @@
     - 터미널에 아래 명령어 입력
     #### **lab9-1-4**
     ```bash
-    wget https://github.com/kakaocloud-edu/tutorial/raw/main/Kubeflow/src/ipynb/simple_pipeline.ipynb
+    wget https://github.com/kakaocloud-edu/tutorial/raw/main/Kubeflow/src/ipynb/simple_pipeline_v2.ipynb
     ```
     - `simple_pipeline.ipynb` 파일 생성 확인
 5. 필요한 라이브러리 import 
