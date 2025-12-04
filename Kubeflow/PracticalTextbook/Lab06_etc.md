@@ -263,7 +263,7 @@
    #### **lab6-3-11**
    ```bash
    kubectl create secret docker-registry regcred \
-   --docker-server={프로젝트 이름}.kr-central-2.kcr.dev \
+   --docker-server=${PROJECT_NAME}.kr-central-2.kcr.dev \
    --docker-username=${ACC_KEY} \
    --docker-password=${SEC_KEY} \
    --docker-email=${EMAIL_ADDRESS} \
