@@ -138,16 +138,16 @@
 1. Notebooks 탭 > `cpu-notebook`의 `CONNECT` 버튼 클릭
 2. 좌측 상단의 ` + ` 버튼 클릭
 3. Other 중 `Terminal` 클릭
-4. `taxi.ipynb` 파일 다운로드
+4. `mnist-pipeline.ipynb` 파일 다운로드
     - **Note**: 터미널에 아래 명령어를 입력하세요.
     #### **lab8-5-4**
     ```bash
-    wget https://raw.githubusercontent.com/kakaocloud-edu/tutorial/main/Kubeflow/src/ipynb/taxi.ipynb
+    wget https://raw.githubusercontent.com/kakaocloud-edu/tutorial/main/Kubeflow/src/ipynb/mnist-pipeline.ipynb
     ```
-    - taxi.ipynb 파일 생성 확인
+    - mnist-pipeline.ipynb 파일 생성 확인
 5. 필요한 라이브러리 import
     - **Note**: 필요한 라이브러리를 import 하는 블록
-    - `taxi.ipynb` 파일 더블 클릭
+    - `mnist-pipeline.ipynb` 파일 더블 클릭
     - 1번 스크립트 클릭 후 `RUN` 클릭
 6. Kubeflow Pipelines에 접속하기 위한 환경 변수 설정
     - 아래 환경 변수들에 값들을 넣어주세요.
@@ -177,10 +177,10 @@
     - **Note**: 파이프라인을 실행하는 블록
     - `4-3`번 확인 후 `RUN` 클릭
     - 실험이 생성되고 실행되었다는 메세지 확인
-14. `Runs` 탭 > `nyc_taxi_pytorch_pipeline_w_cpu run` 클릭
-15. NYC Taxi Fare Dataset 컴포넌트 확인
+14. `Runs` 탭 > `mnist pytorch_pipeline run` 클릭
+15. mnistf 컴포넌트 확인
     - `Graph` 선택
-    - `NYC Taxi Fare Dataset` 컴포넌트 클릭
+    - `mnist` 컴포넌트 클릭
     - `Input / Output` 선택 후 하단 내용 확인
 16. Train Pytorch Tabular Model 컴포넌트 확인 
     - `Train Pytorch Tabular Model` 컴포넌트 클릭
