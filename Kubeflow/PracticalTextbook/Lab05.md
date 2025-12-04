@@ -26,29 +26,29 @@ CPU, GPU Notebook을 각각 생성하고 Tensorboard, 하이퍼파라미터 튜�
 ## 2. 각 노트북에 .ipynb 파일 업로드
 1. Notebooks 탭 > `cpu-notebook`의 `CONNECT` 클릭
 2. Other 중 `Terminal` 클릭
-3. speed.ipynb 파일 다운로드
+3. speed_check.ipynb 파일 다운로드
    #### **Lab5-2-5**
    ```bash
-   wget https://github.com/kakaocloud-edu/tutorial/raw/main/Kubeflow/src/ipynb/speed.ipynb
+   wget https://github.com/kakaocloud-edu/tutorial/raw/main/Kubeflow/src/ipynb/speed_check.ipynb
    ```
-   - speed.ipynb 파일 생성 확인
+   - speed_check.ipynb 파일 생성 확인
 
 4. Notebooks 탭 > `gpu-notebook`의 `CONNECT` 클릭
    - **Note** : `cpu-notebook`, `gpu-notebook` 서로 다름 유의
 5. Other 중 `Terminal` 클릭
-6. speed.ipynb 파일 다운로드
+6. speed_check.ipynb 파일 다운로드
     #### **Lab5-2-10**
    ```bash
-    wget https://github.com/kakaocloud-edu/tutorial/raw/main/Kubeflow/src/ipynb/speed.ipynb
+    wget https://github.com/kakaocloud-edu/tutorial/raw/main/Kubeflow/src/ipynb/speed_check.ipynb
    ```
-   - speed.ipynb 파일 생성 확인
+   - speed_check.ipynb 파일 생성 확인
 
 ## 3. 노트북 속도 비교
 1. Notebooks 탭 > `cpu-notebook`의 `CONNECT` 클릭\
    Notebooks 탭 > `gpu-notebook`의 `CONNECT` 클릭
-2. cpu-notebook의 speed.ipynb 파일 `RUN` 클릭
+2. cpu-notebook의 speed_check.ipynb 파일 `RUN` 클릭
    - 진행 상황 확인
-3. gpu-notebook의 speed.ipynb 파일 `RUN` 클릭
+3. gpu-notebook의 speed_check.ipynb 파일 `RUN` 클릭
    **Note**: 위의 cpu-notebook 실습과 동일
    - 진행 상황 확인
 4. 결과 값 비교
