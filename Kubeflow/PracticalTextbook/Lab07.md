@@ -27,7 +27,9 @@ Training Operator를 사용하여 병렬 학습 환경을 구축하고 PyTorchJo
 6. 실습을 위해 터미널에 아래 명령어를 입력하여 `fashionmnist_pytorch_parallel_train_with_tj.ipynb` 파일 다운
     #### **lab7-1-6**
     ```bash
-    wget -O fashionmnist_pytorch_parallel_train_with_tj.ipynb "https://objectstorage.kr-central-1.kakaoi.io/v1/c745e6650f0341a68bb73fa222e88e9b/kbm-files/guide_docs%2Fhands_on%2Ffashion-mnist-parallel-train%2Ffashionmnist_pytorch_parallel_train_with_tj.ipynb"
+    wget -O fashionmnist_pytorch_parallel_train_with_tj.ipynb "https://objectstorage.kr-central-2.kakaocloud.com/v1/4e2300eecdb740cda1c10041b204b3f3/kbm-files/guide_docs/hands_on/fashion-mnist-parallel-train/fashionmnist_pytorch_parallel_train_with_tj.ipynb"
+
+    
     ```
     - `fashionmnist_pytorch_parallel_train_with_tj.ipynb` 파일 생성 확인
 
