@@ -80,9 +80,9 @@ graph LR
               - 사용자 ID 얻는 방법: 콘솔 화면의 우측 상단 사용자 아이콘 클릭 > 계정 정보 > 비밀번호 입력 > **사용자 UUID** 복사
                 
                 ![image](https://github.com/kakaocloud-edu/tutorial/assets/128004136/5f972a7c-3c05-44a7-83e3-1c43721948e6)
-                ![image](https://github.com/kakaocloud-edu/tutorial/assets/128004136/2a5e7955-80ea-458c-949a-681c804ca56f)
+                ![image](https://github.com/user-attachments/assets/481cc91c-7615-4284-9b79-73400f67f0ef)
 
-                
+
 
 
     #### **lab11-2-2**
