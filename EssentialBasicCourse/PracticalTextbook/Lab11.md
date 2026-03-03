@@ -185,8 +185,8 @@ graph LR
 
     #### **lab11-3-1-1-1**
     ```bash
-    curl --request PUT --location "${AWS_ENDPOINT_URL}/v1_ext/bucket" \
-     --header 'X-Auth-Token: "'${TOKEN}'"' \
+    curl -g --request PUT --location "${AWS_ENDPOINT_URL}/v1_ext/bucket" \
+     --header "X-Auth-Token: ${TOKEN}" \
      --header 'Content-Type: application/json' \
      --data '{
          "name": "bucket-test",
