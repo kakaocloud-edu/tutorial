@@ -21,7 +21,7 @@
    #### **lab6-2-1**
    ```bash
    #!/bin/bash
-   
+
    echo "kakaocloud: 1. 환경 변수 설정 시작"
    # 환경 변수 설정
    command=$(cat <<EOF
@@ -34,34 +34,34 @@
    export PROJECT_NAME='프로젝트 이름 입력'
    EOF
    )
-   
+
    # 환경 변수를 평가하고 .bashrc에 추가
    eval "$command"
    echo "$command" >> /home/ubuntu/.bashrc
    source /home/ubuntu/.bashrc
    echo "kakaocloud: 환경 변수 설정 완료"
-   
+
    echo "kakaocloud: 2. 도커 설치 시작"
    # 도커 설치
    curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
    echo "deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null 
    sudo apt update
-   apt-get install -y docker-ce docker-ce-cli containerd.io 
-   chmod 666 /var/run/docker.sock 
+   sudo apt-get install -y docker-ce docker-ce-cli containerd.io 
+   sudo chmod 666 /var/run/docker.sock 
    echo "kakaocloud: 도커 설치 완료"
-   
+
    echo "kakaocloud: 3. kubectl 설치 시작"
    # kubectl 설치
    curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
-   install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
+   sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
    echo "kakaocloud: kubectl 설치 완료"
-   
+
    echo "kakaocloud: 4. kic-iam-auth 설치 시작"
    # kic-iam-auth 설치
-   wget -O /usr/local/bin/kic-iam-auth https://objectstorage.kr-central-2.kakaoi.io/v1/fe631cd1b7a14c0ba2612d031a8a5619/public/docs%2Fbinaries-kic-iam-auth%2FLinux%20x86_64%2064Bit%2Fkic-iam-auth
-   chmod +x /usr/local/bin/kic-iam-auth
+   sudo wget -O /usr/local/bin/kic-iam-auth https://objectstorage.kr-central-2.kakaocloud.com/v1/c11fcba415bd4314b595db954e4d4422/public/docs/binaries-kic-iam-auth/Linux%20x86_64%2064Bit/kic-iam-auth
+   sudo chmod +x /usr/local/bin/kic-iam-auth
    echo "kakaocloud: kic-iam-auth 설치 완료"
-   
+
    echo "kakaocloud: 5. kube config 설정 시작"
    # kube config 설정
    mkdir -p /home/ubuntu/.kube
@@ -73,7 +73,7 @@
    chmod 600 /home/ubuntu/.kube/config
    chown ubuntu:ubuntu /home/ubuntu/.kube/config
    echo "kakaocloud: kube config 설정 완료"
-   
+
    echo "kakaocloud: 6. 하이퍼파라미터 파일 다운로드 시작"
    # 기존 파일 삭제
    if [ -f /home/ubuntu/Dockerfile ]; then
@@ -85,7 +85,7 @@
    if [ -f /home/ubuntu/mnist_train.py ]; then
        rm /home/ubuntu/mnist_train.py
    fi
-   
+
    # 하이퍼파라미터에 필요한 파일 다운로드
    wget -O /home/ubuntu/Dockerfile https://raw.githubusercontent.com/kakaocloud-edu/tutorial/main/Kubeflow/HyperParam/Dockerfile 
    wget -O /home/ubuntu/mnist_train.py https://raw.githubusercontent.com/kakaocloud-edu/tutorial/main/Kubeflow/HyperParam/mnist_train.py
@@ -95,7 +95,7 @@
    envsubst < /home/ubuntu/Experiment.template.yaml > /home/ubuntu/Experiment.yaml
    rm /home/ubuntu/Experiment.template.yaml
    echo "kakaocloud: 하이퍼파라미터 파일 다운로드 완료"
-   
+
    echo "kakaocloud: 모든 설정이 완료되었습니다."
    ```
 
@@ -284,7 +284,7 @@
    kind: Experiment
    metadata:
      name: mnist-hyperparameter-tuning
-     namespace: kubeflow
+     namespace: kbm-u-kubeflow-tutorial
    spec:
      objective:
        type: maximize
