@@ -9,7 +9,7 @@ Training Operator를 사용하여 병렬 학습 환경을 구축하고 PyTorchJo
             - Name: `train-test`
             - Namespace: `kbm-u-kubeflow-tutorial`
         - Docker Image
-            - Image: `mlops-pipelines/jupyter-pyspark-pytorch:v1.0.1.py36`
+            - Image: `kc-kubeflow-registry/jupyter-pyspark-pytorch:v1.10.0.py311.1a`
         - CPU/RAM
             - Requested CPUs: `2`
             - Requested memory in Gi: `6`
