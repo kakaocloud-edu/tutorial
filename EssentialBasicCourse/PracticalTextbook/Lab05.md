@@ -71,7 +71,7 @@ graph LR
        username VARCHAR(255) NOT NULL
      );
      INSERT INTO users (username) VALUES ('kakao');
-     CALL mysql.mnms_grant_right_user('admin', '%', 'all', '*', '*');
+     CALL mysql.mnms_grant_right_user('admin', 'all', '*', '*');
      ALTER USER 'admin'@'%' IDENTIFIED WITH mysql_native_password BY 'admin1234';
      EOF
      ```
