@@ -25,7 +25,7 @@ graph LR
 1. 카카오 클라우드 콘솔 > 전체 서비스 > MySQL
 2. 인스턴스 그룹 만들기
      - 이름 : `database`
-     - Image : `MySQL 8.0.34`
+     - Image : `MySQL 8.4.8`
      - MySQL 사용자 이름: `admin`
      - MySQL 비밀번호 : `admin1234`
      - 인스턴스 가용성 : `단일(Primary 인스턴스)`
