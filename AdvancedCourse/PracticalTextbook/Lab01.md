@@ -30,13 +30,13 @@
 
    - 이름 : `database`
    - 인스턴스 가용성 : `고가용성 (Primary, Standby 인스턴스)`
-   - 엔진 버전 : `MySQL 8.0.41`
+   - 엔진 버전 : `MySQL 8.4.8`
    - Primary 포트 : `3306`
    - Standby 포트 : `3307`
    - MySQL 사용자 이름: `admin`
    - MySQL 비밀번호 : `admin1234`
       - **Note**: 원활한 실습 진행을 위해 반드시 `admin, admin1234`로 설정해주세요.
-   - 파라미터 그룹 : `default-mysql-8-0-41`
+   - 파라미터 그룹 : `default-mysql-8-4-8`
    - 인스턴스 타입 : `m2a.large`
    - 기본 스토리지 크기: `100GB`
    - 로그 스토리지 크기 : `100GB`
