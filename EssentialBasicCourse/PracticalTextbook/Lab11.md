@@ -203,7 +203,7 @@ graph LR
     #### **lab11-3-1-1-2**
     ```bash
     curl --request GET --location "${AWS_ENDPOINT_URL}/v1_ext/bucket/bucket-test" \
-    --header 'X-Auth-Token: "'${TOKEN}'"' | jq '.'
+    --header "X-Auth-Token: ${TOKEN}" | jq '.'
     ```
 
     ### 1-2 AWS S3 Client를 이용한 버킷 생성 및 확인
