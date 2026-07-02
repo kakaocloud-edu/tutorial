@@ -13,19 +13,8 @@
 
 ## 0. 실습 구조
 
-```text
-[학생 브라우저 또는 curl]
-        |
-        | http://CDN_VM_PUBLIC_IP/index.html
-        v
-[CDN VM: Nginx Reverse Proxy Cache]
-        |
-        | Cache MISS 시 Origin 요청
-        v
-[Object Storage Bucket: Origin]
-        |
-        | index.html
-```
+<img width="734" height="456" alt="image" src="https://github.com/user-attachments/assets/976b69bf-3f5a-4fb3-a921-99d9ff66aae9" />
+
 
 ## 1. 준비물
 
@@ -459,7 +448,7 @@ sudo nginx -t
 Object Storage URL이 브라우저 또는 `curl`에서 직접 열리는지 먼저 확인합니다.
 
 ```bash
-curl -I https://OBJECT_STORAGE_ORIGIN_URL/index.html
+curl -I OBJECT_STORAGE_ORIGIN_URL/index.html
 ```
 
 Origin URL 입력 시 마지막에 파일명을 넣지 않습니다.
