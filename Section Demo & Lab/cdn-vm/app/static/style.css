@@ -1,0 +1,408 @@
+:root {
+  color-scheme: light;
+  --bg: #f2f2f2;
+  --paper: #ffffff;
+  --ink: #111111;
+  --text: #242424;
+  --muted: #777777;
+  --line: #d8d8d8;
+  --line-dark: #4a4a4a;
+  --yellow: #ffe100;
+  --yellow-soft: #fff7b3;
+  --danger: #b42318;
+  --ok: #177245;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: Arial, "Noto Sans KR", "Apple SD Gothic Neo", sans-serif;
+  letter-spacing: 0;
+}
+
+.shell {
+  min-height: 100vh;
+  padding: 34px 20px 46px;
+}
+
+.workspace {
+  width: min(1200px, 100%);
+  margin: 0 auto;
+}
+
+.topbar {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 24px;
+  min-height: 190px;
+  padding: 34px 42px;
+  background: linear-gradient(180deg, #ffffff 0%, #fffbe2 54%, var(--yellow) 100%);
+  border: 1px solid #ececec;
+}
+
+.eyebrow {
+  margin: 0 0 12px;
+  color: var(--ink);
+  font-size: 21px;
+  font-weight: 900;
+}
+
+h1,
+h2,
+p {
+  margin-top: 0;
+}
+
+h1 {
+  margin-bottom: 12px;
+  color: var(--ink);
+  font-size: clamp(42px, 7vw, 86px);
+  line-height: 0.95;
+  font-weight: 900;
+}
+
+.subtitle {
+  margin-bottom: 0;
+  color: #222222;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+h2 {
+  margin-bottom: 4px;
+  color: var(--ink);
+  font-size: 20px;
+  line-height: 1.25;
+  font-weight: 900;
+}
+
+p {
+  color: var(--muted);
+  line-height: 1.62;
+}
+
+.status {
+  min-width: 122px;
+  border: 1px solid var(--ink);
+  background: rgba(255, 255, 255, 0.72);
+  padding: 9px 12px;
+  text-align: center;
+  color: var(--ink);
+  font-size: 13px;
+  font-weight: 900;
+}
+
+.status.ok {
+  color: var(--ok);
+  border-color: var(--ok);
+}
+
+.status.error {
+  color: var(--danger);
+  border-color: var(--danger);
+}
+
+.summary {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1.45fr;
+  border-left: 1px solid var(--line);
+  border-right: 1px solid var(--line);
+  background: var(--paper);
+}
+
+.summary > div {
+  min-width: 0;
+  padding: 18px 22px;
+  border-bottom: 1px solid var(--line);
+}
+
+.summary > div + div {
+  border-left: 1px solid var(--line);
+}
+
+.summary-label {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 900;
+}
+
+.summary strong {
+  display: block;
+  overflow-wrap: anywhere;
+  color: var(--ink);
+  font-size: 14px;
+}
+
+.steps-nav {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: repeat(9, minmax(0, 1fr));
+  border: 1px solid var(--line-dark);
+  border-top: 0;
+  background: var(--paper);
+}
+
+.steps-nav button,
+button {
+  min-height: 42px;
+  border: 0;
+  border-radius: 0;
+  background: var(--yellow);
+  color: var(--ink);
+  padding: 0 14px;
+  font-size: 13px;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.steps-nav button {
+  min-height: 48px;
+  background: var(--paper);
+  border-right: 1px solid var(--line);
+  font-size: 12px;
+  text-align: left;
+}
+
+.steps-nav button:last-child {
+  border-right: 0;
+}
+
+button:hover,
+.steps-nav button:hover {
+  background: var(--yellow);
+}
+
+button.secondary {
+  background: #eeeeee;
+  color: var(--ink);
+}
+
+button.secondary:hover {
+  background: #dfdfdf;
+}
+
+button.danger {
+  background: var(--ink);
+  color: #ffffff;
+}
+
+button.danger:hover {
+  background: #333333;
+}
+
+.lesson-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0;
+  border-left: 1px solid var(--line);
+  border-right: 1px solid var(--line);
+  background: var(--paper);
+}
+
+.step-card {
+  min-width: 0;
+  scroll-margin-top: 58px;
+  padding: 28px 28px 30px;
+  border-bottom: 1px solid var(--line);
+}
+
+.step-card:nth-child(odd) {
+  border-right: 1px solid var(--line);
+}
+
+.step-card:nth-child(2),
+.step-card:nth-child(3) {
+  grid-column: span 2;
+  border-right: 0;
+}
+
+.step-title {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 15px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--line-dark);
+}
+
+.step-title > span {
+  display: grid;
+  flex: 0 0 30px;
+  width: 30px;
+  height: 30px;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--yellow);
+  color: var(--ink);
+  font-size: 14px;
+  font-weight: 900;
+}
+
+.step-title p {
+  margin-bottom: 0;
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 900;
+}
+
+label {
+  display: block;
+}
+
+label span {
+  display: block;
+  color: var(--ink);
+  font-size: 13px;
+  font-weight: 900;
+  margin-bottom: 8px;
+}
+
+input {
+  width: 100%;
+  height: 44px;
+  border: 1px solid #bdbdbd;
+  border-radius: 0;
+  padding: 0 12px;
+  background: #fbfbfb;
+  color: var(--ink);
+  font-size: 15px;
+}
+
+input:focus {
+  outline: 3px solid rgba(255, 225, 0, 0.38);
+  border-color: var(--ink);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+  margin-top: 16px;
+}
+
+.actions,
+.inline-form {
+  display: flex;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.inline-form input {
+  flex: 1;
+}
+
+pre {
+  overflow-x: auto;
+  margin: 14px 0 0;
+  min-height: 64px;
+  padding: 16px;
+  border: 1px solid var(--line);
+  border-radius: 0;
+  background: #f7f7f7;
+  color: #202020;
+  line-height: 1.58;
+  white-space: pre;
+}
+
+.success-flash {
+  outline: 4px solid rgba(255, 225, 0, 0.65);
+}
+
+.footer {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 18px 4px 0;
+  color: #b4b4b4;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.footer span:first-child {
+  font-weight: 900;
+}
+
+@media (max-width: 980px) {
+  .summary,
+  .lesson-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .summary > div + div,
+  .step-card:nth-child(odd) {
+    border-left: 0;
+    border-right: 0;
+  }
+
+  .step-card:nth-child(2),
+  .step-card:nth-child(3) {
+    grid-column: span 1;
+  }
+
+  .steps-nav {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .steps-nav button:nth-child(3n) {
+    border-right: 0;
+  }
+}
+
+@media (max-width: 720px) {
+  .shell {
+    padding: 16px 12px 32px;
+  }
+
+  .topbar,
+  .actions,
+  .inline-form {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .topbar {
+    min-height: 0;
+    padding: 26px 22px;
+  }
+
+  .eyebrow {
+    font-size: 17px;
+  }
+
+  h1 {
+    font-size: 42px;
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
+  }
+
+  .steps-nav {
+    position: static;
+    grid-template-columns: 1fr;
+  }
+
+  .steps-nav button {
+    border-right: 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .step-card {
+    padding: 22px 18px 24px;
+  }
+}

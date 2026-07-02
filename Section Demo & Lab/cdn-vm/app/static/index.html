@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CDN Lab Console</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <main class="shell">
+    <section class="workspace">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">전남ICT이노베이션스퀘어</p>
+          <h1>CDN 실습 콘솔</h1>
+          <p class="subtitle">Object Storage Origin + VM Edge Cache</p>
+        </div>
+        <div class="status" id="statusBadge">확인 중</div>
+      </header>
+
+      <section class="summary">
+        <div>
+          <span class="summary-label">관리 콘솔</span>
+          <strong id="adminUrl">-</strong>
+        </div>
+        <div>
+          <span class="summary-label">CDN 엔드포인트</span>
+          <strong id="cdnUrl">-</strong>
+        </div>
+        <div>
+          <span class="summary-label">현재 Origin</span>
+          <strong id="currentOrigin">미설정</strong>
+        </div>
+      </section>
+
+      <nav class="steps-nav" aria-label="실습 목차">
+        <button type="button" data-step="1">1 CDN VM 생성</button>
+        <button type="button" data-step="2">2 Origin/TTL</button>
+        <button type="button" data-step="3">3 Nginx Proxy</button>
+        <button type="button" data-step="4">4 첫 요청</button>
+        <button type="button" data-step="5">5 재요청</button>
+        <button type="button" data-step="6">6 시간 비교</button>
+        <button type="button" data-step="7">7 원본 수정</button>
+        <button type="button" data-step="8">8 TTL 확인</button>
+        <button type="button" data-step="9">9 캐시 삭제</button>
+      </nav>
+
+      <section class="lesson-grid">
+        <article class="step-card" id="step-1">
+          <div class="step-title">
+            <span>1</span>
+            <div>
+              <h2>CDN VM 생성</h2>
+              <p>Edge 서버</p>
+            </div>
+          </div>
+          <p>VM 생성 시 사용자 스크립트가 Nginx, 관리자 콘솔, 기본 CDN 설정을 설치합니다. 보안 그룹에서 80, 8080 포트를 실습자 PC 공인 IP 또는 실습장 대역에 열어야 합니다.</p>
+          <pre id="userDataSnippet"></pre>
+        </article>
+
+        <article class="step-card" id="step-2">
+          <div class="step-title">
+            <span>2</span>
+            <div>
+              <h2>Object Storage Origin URL과 TTL 설정</h2>
+              <p>Origin, TTL</p>
+            </div>
+          </div>
+          <form id="configForm" class="config-form">
+            <label>
+              <span>Object Storage Origin URL</span>
+              <input id="originUrl" name="origin_url" type="url" placeholder="https://objectstorage.kr-central-2.kakaocloud.com/v1/.../bucket1" required>
+            </label>
+            <div class="grid">
+              <label>
+                <span>TTL seconds</span>
+                <input id="ttlSeconds" name="ttl_seconds" type="number" min="1" max="86400" value="60" required>
+              </label>
+              <label>
+                <span>Cache size</span>
+                <input id="cacheSize" name="cache_size" value="100m" required>
+              </label>
+              <label>
+                <span>Inactive</span>
+                <input id="inactive" name="inactive" value="60m" required>
+              </label>
+            </div>
+            <div class="actions">
+              <button type="submit">Origin/TTL 적용</button>
+            </div>
+          </form>
+        </article>
+
+        <article class="step-card" id="step-3">
+          <div class="step-title">
+            <span>3</span>
+            <div>
+              <h2>Nginx Proxy 설정</h2>
+              <p>Reverse Proxy</p>
+            </div>
+          </div>
+          <p>2단계의 적용 버튼을 누르면 Nginx 설정이 자동 생성되고 reload됩니다. 아래는 학생이 확인할 핵심 설정입니다.</p>
+          <pre id="nginxPreview"></pre>
+        </article>
+
+        <article class="step-card" id="step-4">
+          <div class="step-title">
+            <span>4</span>
+            <div>
+              <h2>첫 요청 확인</h2>
+              <p>Cache MISS</p>
+            </div>
+          </div>
+          <p>캐시가 비어 있으면 CDN VM은 Object Storage에서 파일을 가져오고 `MISS`를 반환합니다.</p>
+          <div class="inline-form">
+            <input id="probePathMiss" value="/index.html" aria-label="확인할 경로">
+            <button type="button" id="missButton">첫 요청 실행</button>
+          </div>
+          <pre id="missResult">결과 대기 중</pre>
+        </article>
+
+        <article class="step-card" id="step-5">
+          <div class="step-title">
+            <span>5</span>
+            <div>
+              <h2>재요청 확인</h2>
+              <p>Cache HIT</p>
+            </div>
+          </div>
+          <p>같은 파일을 다시 요청하면 CDN VM의 캐시에서 바로 응답하고 `HIT`가 표시됩니다.</p>
+          <button type="button" id="hitButton">재요청 실행</button>
+          <pre id="hitResult">결과 대기 중</pre>
+        </article>
+
+        <article class="step-card" id="step-6">
+          <div class="step-title">
+            <span>6</span>
+            <div>
+              <h2>응답 시간 비교</h2>
+              <p>캐시 성능</p>
+            </div>
+          </div>
+          <p>동일한 경로를 연속 요청해서 MISS와 HIT의 응답 시간 차이를 비교합니다.</p>
+          <button type="button" id="compareButton">2회 연속 측정</button>
+          <pre id="compareResult">결과 대기 중</pre>
+        </article>
+
+        <article class="step-card" id="step-7">
+          <div class="step-title">
+            <span>7</span>
+            <div>
+              <h2>원본 수정</h2>
+              <p>캐시 일관성</p>
+            </div>
+          </div>
+          <p>Object Storage의 `index.html` 내용을 바꾼 뒤 CDN URL로 다시 접속합니다. TTL이 남아 있으면 이전 내용이 보일 수 있습니다.</p>
+          <pre id="originEditGuide"></pre>
+        </article>
+
+        <article class="step-card" id="step-8">
+          <div class="step-title">
+            <span>8</span>
+            <div>
+              <h2>TTL 확인</h2>
+              <p>캐시 만료</p>
+            </div>
+          </div>
+          <p>TTL이 지난 뒤 다시 요청하면 Nginx가 Origin에 재검증 또는 재요청을 수행합니다.</p>
+          <button type="button" id="ttlButton">현재 TTL 확인</button>
+          <pre id="ttlResult">결과 대기 중</pre>
+        </article>
+
+        <article class="step-card" id="step-9">
+          <div class="step-title">
+            <span>9</span>
+            <div>
+              <h2>캐시 삭제</h2>
+              <p>Invalidation/Purge</p>
+            </div>
+          </div>
+          <p>캐시를 강제로 삭제하면 다음 요청은 다시 `MISS`가 됩니다.</p>
+          <div class="actions">
+            <button type="button" class="danger" id="purgeButton">캐시 Purge</button>
+            <button type="button" class="secondary" id="afterPurgeButton">Purge 후 요청 확인</button>
+          </div>
+          <pre id="purgeResult">결과 대기 중</pre>
+        </article>
+      </section>
+
+      <footer class="footer">
+        <span>kakaocloud</span>
+        <span>CDN Lab Console</span>
+      </footer>
+    </section>
+  </main>
+  <script src="/app.js"></script>
+</body>
+</html>
