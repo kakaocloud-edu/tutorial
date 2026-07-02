@@ -29,7 +29,7 @@ if [ -f "./app/cdn_admin.py" ] && [ -d "./app/static" ]; then
 else
   curl -fsSL "$REPO_ARCHIVE" -o "$TMP_DIR/source.tar.gz"
   tar -xzf "$TMP_DIR/source.tar.gz" -C "$TMP_DIR"
-  SOURCE_DIR="$(find "$TMP_DIR" -type f -path '*/app/cdn_admin.py' -printf '%h\n' | sed 's#/app$##' | head -n 1)"
+  SOURCE_DIR="$(find "$TMP_DIR" -type f -path '*/Section Demo & Lab/cdn-vm/app/cdn_admin.py' -printf '%h\n' | sed 's#/app$##' | head -n 1)"
   if [ -z "$SOURCE_DIR" ]; then
     echo "Could not find CDN Lab source files in archive: $REPO_ARCHIVE" >&2
     exit 1
