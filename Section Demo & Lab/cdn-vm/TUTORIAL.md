@@ -208,6 +208,9 @@ http://203.0.113.10:8080
 
 화면 상단에 `CDN 실습 콘솔`이 보이면 설치가 완료된 상태입니다.
 
+<img width="790" height="1588" alt="image" src="https://github.com/user-attachments/assets/0eac0c5e-a913-4cdc-bb34-44cb45170974" />
+
+
 ## 6. Origin URL과 TTL 설정
 
 CDN Lab Console의 2단계 영역에서 아래 값을 입력합니다.
