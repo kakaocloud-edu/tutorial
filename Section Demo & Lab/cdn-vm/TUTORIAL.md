@@ -30,15 +30,15 @@
 
 ## 2. Object Storage에 실습 파일 올리기
 
-Object Storage Bucket에는 `index.html` 파일 하나만 업로드합니다. 업로드한 파일은 인증 없이 브라우저에서 열 수 있도록 공개 접근이 가능해야 합니다.
+Object Storage Bucket에는 `index2.html` 파일 하나만 업로드합니다. 업로드한 파일은 인증 없이 브라우저에서 열 수 있도록 공개 접근이 가능해야 합니다.
 
 ```text
-index.html
+index2.html
 ```
 
-### 2-1. index.html 만들기
+### 2-1. index2.html 만들기
 
-아래 내용을 복사해서 `index.html` 파일로 저장한 뒤 Object Storage에 업로드합니다. CSS와 JavaScript가 모두 포함된 단일 파일이므로 별도의 `style.css`, `app.js`, `image.png` 파일은 필요하지 않습니다.
+아래 내용을 복사해서 `index2.html` 파일로 저장한 뒤 Object Storage에 업로드합니다. CSS와 JavaScript가 모두 포함된 단일 파일이므로 별도의 `style.css`, `app.js`, `image.png` 파일은 필요하지 않습니다.
 
 ```html
 <!doctype html>
@@ -116,30 +116,30 @@ button.addEventListener("click", () => {
 
 ## 3. Object Storage Origin URL 확인
 
-Object Storage에 올린 `index.html`이 HTTP 또는 HTTPS로 접근되는지 확인합니다.
+Object Storage에 올린 `index2.html`이 HTTP 또는 HTTPS로 접근되는지 확인합니다.
 
 브라우저 주소창에 아래 형식의 링크를 입력해서 페이지가 열리는지 확인합니다.
 
 ```text
-OBJECT_STORAGE_ORIGIN_URL/index.html
+OBJECT_STORAGE_ORIGIN_URL/index2.html
 ```
 
 링크 예시:
 
 ```text
-https://objectstorage.kr-central-2.kakaocloud.com/v1/533406004453430abd3d647bcf0b9bfc/bucket1/index.html
+https://objectstorage.kr-central-2.kakaocloud.com/v1/533406004453430abd3d647bcf0b9bfc/bucket1/index2.html
 ```
 
 터미널에서는 기존처럼 `curl -I`로 확인할 수 있습니다. 아래 명령에서 `OBJECT_STORAGE_ORIGIN_URL`을 본인의 Object Storage URL로 바꿉니다.
 
 ```bash
-curl -I OBJECT_STORAGE_ORIGIN_URL/index.html
+curl -I OBJECT_STORAGE_ORIGIN_URL/index2.html
 ```
 
 예시:
 
 ```bash
-curl -I https://objectstorage.kr-central-2.kakaocloud.com/v1/533406004453430abd3d647bcf0b9bfc/bucket1/index.html
+curl -I https://objectstorage.kr-central-2.kakaocloud.com/v1/533406004453430abd3d647bcf0b9bfc/bucket1/index2.html
 ```
 
 정상이라면 `200 OK` 또는 이에 준하는 성공 응답이 나와야 합니다.
@@ -149,7 +149,7 @@ HTTP/1.1 200 OK
 Content-Type: text/html
 ```
 
-`401 Unauthorized` 또는 `403 Forbidden`이 나오면 Object Storage 버킷이나 `index.html` 오브젝트가 공개 접근 가능하도록 설정되어 있는지 확인합니다.
+`401 Unauthorized` 또는 `403 Forbidden`이 나오면 Object Storage 버킷이나 `index2.html` 오브젝트가 공개 접근 가능하도록 설정되어 있는지 확인합니다.
 
 뒤에서 CDN Lab Console에 입력할 `Object Storage Origin URL`은 파일명을 제외한 버킷 URL입니다. 예를 들어 위 링크가 정상이라면 콘솔에는 아래처럼 입력합니다.
 
@@ -240,7 +240,7 @@ CDN Lab Console의 4단계에서 경로를 확인합니다.
 기본값:
 
 ```text
-/index.html
+/index2.html
 ```
 
 `첫 요청 실행` 버튼을 누릅니다.
@@ -255,7 +255,7 @@ X-CDN-Server: VM-CDN-Lab
 터미널에서 직접 확인하려면 아래 명령을 사용합니다.
 
 ```bash
-curl -I http://CDN_VM_PUBLIC_IP/index.html
+curl -I http://CDN_VM_PUBLIC_IP/index2.html
 ```
 
 처음 요청이 `MISS`인 이유는 CDN VM에 아직 해당 파일 캐시가 없기 때문입니다. 이때 CDN VM은 Object Storage Origin으로 요청을 보내 원본 파일을 가져오고, 응답을 캐시에 저장합니다.
@@ -276,10 +276,10 @@ X-CDN-Server: VM-CDN-Lab
 터미널에서 직접 확인하려면 같은 명령을 다시 실행합니다.
 
 ```bash
-curl -I http://CDN_VM_PUBLIC_IP/index.html
+curl -I http://CDN_VM_PUBLIC_IP/index2.html
 ```
 
-두 번째 요청이 `HIT`인 이유는 CDN VM이 이미 `/index.html`을 캐시에 저장했기 때문입니다. 이 경우 Object Storage까지 가지 않고 CDN VM이 바로 응답합니다.
+두 번째 요청이 `HIT`인 이유는 CDN VM이 이미 `/index2.html`을 캐시에 저장했기 때문입니다. 이 경우 Object Storage까지 가지 않고 CDN VM이 바로 응답합니다.
 
 ## 9. 응답 시간 비교
 
@@ -298,14 +298,14 @@ CDN Lab Console의 6단계에서 `2회 연속 측정` 버튼을 누릅니다.
 터미널에서 직접 비교하려면 아래 명령을 두 번 실행합니다.
 
 ```bash
-curl -w "time_total: %{time_total}\n" -o /dev/null -s http://CDN_VM_PUBLIC_IP/index.html
+curl -w "time_total: %{time_total}\n" -o /dev/null -s http://CDN_VM_PUBLIC_IP/index2.html
 ```
 
 반복 요청에서 시간이 줄어드는지 비교합니다.
 
 ## 10. 원본 수정과 캐시 일관성 확인
 
-Object Storage의 `index.html` 내용을 아래처럼 수정해서 다시 업로드합니다.
+Object Storage의 `index2.html` 내용을 아래처럼 수정해서 다시 업로드합니다.
 
 ```html
 <!doctype html>
@@ -324,7 +324,7 @@ Object Storage의 `index.html` 내용을 아래처럼 수정해서 다시 업로
 그 다음 CDN URL로 다시 접속합니다.
 
 ```text
-http://CDN_VM_PUBLIC_IP/index.html
+http://CDN_VM_PUBLIC_IP/index2.html
 ```
 
 TTL이 아직 지나지 않았다면 이전 내용이 보일 수 있습니다.
@@ -477,7 +477,7 @@ sudo nginx -t
 Object Storage URL이 브라우저 또는 `curl`에서 직접 열리는지 먼저 확인합니다.
 
 ```bash
-curl -I OBJECT_STORAGE_ORIGIN_URL/index.html
+curl -I OBJECT_STORAGE_ORIGIN_URL/index2.html
 ```
 
 Origin URL 입력 시 마지막에 파일명을 넣지 않습니다.
@@ -491,7 +491,7 @@ https://objectstorage.kr-central-2.kakaocloud.com/v1/533406004453430abd3d647bcf0
 잘못된 예:
 
 ```text
-https://objectstorage.kr-central-2.kakaocloud.com/v1/533406004453430abd3d647bcf0b9bfc/bucket1/index.html
+https://objectstorage.kr-central-2.kakaocloud.com/v1/533406004453430abd3d647bcf0b9bfc/bucket1/index2.html
 ```
 
 ### 계속 MISS만 나오는 경우
