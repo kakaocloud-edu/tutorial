@@ -25,7 +25,7 @@ graph LR
 2. 좌측 Subnet 클릭
 3. Subnet 만들기 클릭
      - VPC 선택 : `vpc_1`
-     - Subnet 이름 : `main-b`
+     - Subnet 이름 : `vpc_1_public_sn2`
      - Availability Zone: `kr-central-2-b`
      - IPv4 CIDR 블록: `172.30.32.0/20`
 4. 만들기 클릭
