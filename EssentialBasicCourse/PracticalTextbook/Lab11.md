@@ -114,10 +114,11 @@ graph LR
             }
         }
     }' | grep -i X-Subject-Token | awk -v RS='\r\n' '{print $2}')
-    if [ -z $TOKEN ]; then
+    
+    if [ -z "$TOKEN" ]; then
             echo "TOKEN is null..."
     fi
-
+    
     export PROJECT_ID=$(curl -s -X POST https://iam.kakaocloud.com/identity/v3/auth/tokens -H "Content-Type: application/json" -d \
     '{
         "auth": {
@@ -132,23 +133,25 @@ graph LR
             }
         }
     }' | jq -r ".token.project.id")
-    if [ -z $PROJECT_ID ]; then
+    
+    if [ -z "$PROJECT_ID" ]; then
             echo "PROJECT_ID is null..."
     fi
-
-    export CREDENTIALS=$(curl -s -X POST -i https://iam.kakaocloud.com/identity/v3/users/${USER_ID}/credentials/OS-EC2 \
+    
+    export CREDENTIALS=$(curl -s -X POST https://iam.kakaocloud.com/identity/v3/users/${USER_ID}/credentials/OS-EC2 \
     -H "Content-Type: application/json" \
     -H "X-Auth-Token: ${TOKEN}" -d \
     '{
         "tenant_id": "'${PROJECT_ID}'"
-    }' | awk '/\{/{flag=1} flag {print}')
-
+    }')
+    
     export AWS_ACCESS_KEY_ID=$(echo "$CREDENTIALS" | jq -r '.credential.access')
     export AWS_SECRET_ACCESS_KEY=$(echo "$CREDENTIALS" | jq -r '.credential.secret')
-    if [ -z $AWS_ACCESS_KEY_ID ]; then
+    
+    if [ -z "$AWS_ACCESS_KEY_ID" ] || [ "$AWS_ACCESS_KEY_ID" == "null" ]; then
             echo "AWS_ACCESS_KEY_ID is null..."
     fi
-    if [ -z $AWS_SECRET_ACCESS_KEY ]; then
+    if [ -z "$AWS_SECRET_ACCESS_KEY" ] || [ "$AWS_SECRET_ACCESS_KEY" == "null" ]; then
             echo "AWS_SECRET_ACCESS_KEY is null..."
     fi
 
@@ -162,7 +165,7 @@ graph LR
     echo AWS_DEFAULT_REGION=$AWS_DEFAULT_REGION
     echo AWS_ENDPOINT_URL=$AWS_ENDPOINT_URL
     } | tee output.txt
-
+    
     EOF
     ```
 4. 생성된 env.sh 실행
