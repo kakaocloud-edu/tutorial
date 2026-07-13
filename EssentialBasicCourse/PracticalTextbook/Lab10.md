@@ -68,7 +68,7 @@ graph LR
 
 1. `관리` 탭 클릭
 2.  `Life Cycle` 생성 버튼 클릭
-     - Life Cycle 정책 이름: `all_30`
+     - Life Cycle 정책 이름: `bucket-cycle`
      - 규칙: `모든 객체` 선택
      - 유지기간: `30일`
 3. 생성 버튼 클릭
