@@ -58,7 +58,7 @@ graph LR
      - Volume : `30GB`
      - Key Pair : `keypair`
      - VPC : `vpc_2`
-     - Subnet : `main`
+     - Subnet : `vpc_2_public_sn1`
 4. 새 SecurityGroup 생성 클릭
      - Security Group 이름 : `vpc2_vm`
      - Inbound 
@@ -81,12 +81,12 @@ graph LR
 4. 전체 서비스 > Transit Gateway
 5. 생성된 transit의 우측 메뉴바 클릭 > Attachment 추가 클릭
      - VPC : `vpc_2`
-     - Subnet : `main (kr-central-2-a만 설정)`
+     - Subnet : `vpc_2_public_sn1`
 6. 적용 버튼 클릭
 7. 전체 서비스 > Transit Gateway
 8. transit의 우측 메뉴바 클릭 > Attachment 추가 클릭
      - VPC : `vpc_1`
-     - Subnet : `main (kr-central-2-a만 설정)`
+     - Subnet : `vpc_1_public_sn1`
 9. 적용 버튼 클릭
 10. 전체 서비스 > Transit Gateway
 11. Route Table > transit-route-table 클릭
