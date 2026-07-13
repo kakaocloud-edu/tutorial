@@ -45,18 +45,18 @@ graph LR
 1. 카카오 클라우드 콘솔 > 전체 서비스 > Load Balancing
 2. Load Balancer 만들기 버튼 클릭
      - 타입 선택 : `Application Load Balancer`
-     - Load Balancer 이름 : `App_LB`
+     - Load Balancer 이름 : `App_LB_A`
      - VPC : `vpc_1`
-     - Subnet : `main`
+     - Subnet : `vpc_1_public_sn1`
      - Listener : `HTTP` : `80`
 3. 만들기 버튼 클릭
 4. 카카오 클라우드 콘솔 > 전체 서비스 > Load Balancing
 5. Target Group 클릭
 6. Target Group 만들기 버튼 클릭
      - Availability Zone : `kr-central-2-a`
-     - Load Balancer : `App_LB`
+     - Load Balancer : `App_LB_A`
      - Listener : `HTTP : 80`
-     - Target Group 이름 : `App_Target`
+     - Target Group 이름 : `App_Target_A`
      - 프로토콜 : `HTTP`
      - 알고리즘 : `Round Robin`
      - Sticky Session : `미사용`
@@ -65,12 +65,12 @@ graph LR
 7. 다음 버튼 클릭
 8. 체크 박스 선택
      - web_server_1(Instance), web_server_2(Instance) 좌측 체크 박스 선택
-9. 하단 포트:`80`
+9. 트래픽 포트:`80`
 10. Target 추가 버튼 클릭
 11. 다음 버튼 클릭
-12. 만들기 버튼 클릭
+12. 생성 버튼 클릭
 13. 카카오 클라우드 콘솔 > 전체 서비스 > Load Balancing
-14. App_LB 우측 메뉴바 아이콘 클릭
+14. App_LB_A 우측 메뉴바 아이콘 클릭
 15. Public IP 연결 버튼 클릭
      - `새로운 Public IP를 생성하고 자동으로 할당` 선택
 16. 적용 버튼 클릭
