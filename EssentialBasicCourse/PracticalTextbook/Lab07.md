@@ -42,37 +42,73 @@ graph LR
      - Key Pair : `keypair`
      - VPC : `vpc_1`
      - Subnet : `vpc_1_public_sn2`
-3. 새 Security Group 생성 클릭
-     - Security Group 이름 : `vm_5`
-     - Inbound 
-          - 프로토콜: TCP, 패킷 출발지: `0.0.0.0/0`, 포트번호: `22` 
-          - 프로토콜: TCP, 패킷 출발지: `0.0.0.0/0`, 포트번호: `80`
-     - Outbound 
-          - 프로토콜: `ALL`
-          - 패킷 목적지: `0.0.0.0/0`
+3. Security Group 선택
+     - Security Group 이름 : `webserver`
 4. 새 인터페이스 클릭
-     - Subnet : `main-b`(kr-cenrtral2-b의 Public 서브넷)
      - IP 할당 방식: `자동` 
 5. 고급설정 버튼 클릭
      - 사용자 스크립트에 아래 내용 붙여넣기
      #### **lab7-2-4**
      ```bash
-     #!/bin/bash
-     sudo apt update -y
-     sudo apt install -y apache2
-     sudo systemctl start apache2
+     #!/bin/bash        
+     sudo apt-get update
+     sudo apt-get -y remove mariadb-server mariadb-client
+     sudo apt-get -y install apache2 php mysql-client php-mysql wget
      sudo systemctl enable apache2
+     cd /var/www/html
+     sudo rm -f index.html
+     wget https://github.com/kakaocloud-edu/tutorial/raw/main/EssentialBasicCourse/src/kakao.tar.gz -O kakao.tar.gz
+     tar -xvf kakao.tar.gz
+     sudo mv kakao/{index.php,get_user_list.php,add_user.php} /var/www/html/
+     sudo systemctl restart apache2
      ```
-6. 만들기 버튼 클릭
+6. 생성 버튼 클릭
 7. 카카오 클라우드 콘솔 > 전체 서비스 > Virtual Machine > Instance
-8. 생성된 vm_5 인스턴스의 우측 메뉴바 클릭 > Public IP 연결 클릭
+8. 생성된 web_server_3 인스턴스의 우측 메뉴바 클릭 > Public IP 연결 클릭
      - `새로운 Public IP를 자동으로 할당` 선택
 9. 확인 버튼 클릭
-10. vm_5의 Public IP 복사
+10. web_server_3의 Public IP 복사
 11. 브라우저창에 입력
 12. apache 웹서버 Test페이지가 나오는 것을 확인
 
-## 3. DNS 서비스 설정
+## 3. Load Balancer 생성 및 설정
+
+1. 카카오 클라우드 콘솔 > 전체 서비스 > Load Balancing
+2. Load Balancer 만들기 버튼 클릭
+     - 타입 선택 : `Application Load Balancer`
+     - Load Balancer 이름 : `App_LB_b`
+     - VPC : `vpc_1`
+     - Subnet : `vpc_1_public_sn2`
+     - Listener : `HTTP` : `80`
+3. 만들기 버튼 클릭
+4. 카카오 클라우드 콘솔 > 전체 서비스 > Load Balancing
+5. Target Group 클릭
+6. Target Group 만들기 버튼 클릭
+     - Availability Zone : `kr-central-2-a`
+     - Load Balancer : `App_LB_B`
+     - Listener : `HTTP : 80`
+     - Target Group 이름 : `App_Target_B`
+     - 프로토콜 : `HTTP`
+     - 알고리즘 : `Round Robin`
+     - Sticky Session : `미사용`
+     - Health Check : `사용`
+     - 타입 : `HTTP`
+7. 다음 버튼 클릭
+8. 체크 박스 선택
+     - web_server_3(Instance) 좌측 체크 박스 선택
+9. 트래픽 포트:`80`
+10. Target 추가 버튼 클릭
+11. 다음 버튼 클릭
+12. 생성 버튼 클릭
+13. 카카오 클라우드 콘솔 > 전체 서비스 > Load Balancing
+14. App_LB_B 우측 메뉴바 아이콘 클릭
+15. Public IP 연결 버튼 클릭
+     - `새로운 Public IP를 생성하고 자동으로 할당` 선택
+16. 적용 버튼 클릭
+17. 카카오 클라우드 콘솔 > 전체 서비스 > Virtual Machine > Instance
+18. App_LB_B의 퍼블릭 IP로 정상 접근 확인
+
+## 4. DNS 서비스 설정
 
 
 1. 카카오 클라우드 콘솔 > 전체 서비스 > DNS 접속
@@ -92,7 +128,7 @@ graph LR
      - 도메인 구입처의 도메인 설정창에서 네임서버를 변경 
      - 본 실습에서는 ‘가비아’ 라는 도메인 제공 서비스를 이용하였음
 
-## 4. DNS 서비스 동작 확인
+## 5. DNS 서비스 동작 확인
 
 
 1. 브라우저에 `kakaocloud-edu.com` (연결한 도메인)을 입력
