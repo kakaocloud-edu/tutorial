@@ -13,21 +13,34 @@
    ```
 2. 실행 중인 리소스가 삭제되었는 지 확인
    #### **lab8-1-2**
+
    ```bash
-   kubectl get all -o wide
+   kubectl get ingress
    ```
-   **Note**: `service/kubernetes`는 쿠버네티스 클러스터 내에서 API 서버의 기본 서비스를 나타냄
+
+   ```bash
+   kubectl get svc
+   ```
+   
+   ```bash
+   kubectl get deploy
+   ```
+
+   ```bash
+   kubectl get po
+   ```
+   
+   ```bash
+   kubectl get job
+   ```
    
    ```bash
    kubectl get configmap
    ```
-   **Note**: `kube-root-ca.crt`는 쿠버네티스 클러스터에서 사용되는 루트 인증서(root certificate) 파일
-   
    ```bash
    kubectl get secret
    ```
-   **Note**: `default-token-*****`는 쿠버네티스 클러스터 내의 서비스 어카운트 토큰(Secret)을 나타냄
-
+   
 ## 2. Helm Chart 설치
 
 
