@@ -35,12 +35,13 @@ graph LR
 
 1. 카카오 클라우드 콘솔 > 전체 서비스 > Virtual Machine > Instance
 2. 인스턴스 만들기 클릭
-     - 이름 : `vm_5`
+     - 이름 : `web_server_3`
      - Image : `Ubuntu 20.04`
      - Instance 타입 : `m2a.large`
      - Volume : `30 GB`
      - Key Pair : `keypair`
      - VPC : `vpc_1`
+     - Subnet : `vpc_1_public_sn2`
 3. 새 Security Group 생성 클릭
      - Security Group 이름 : `vm_5`
      - Inbound 
