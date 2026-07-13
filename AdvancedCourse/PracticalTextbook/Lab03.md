@@ -47,7 +47,7 @@
    export INPUT_DB_EP1='Primary의 엔드포인트 입력'
    export INPUT_DB_EP2='Standby의 엔드포인트 입력'
    export DOCKER_IMAGE_NAME='이미지 이름 입력(demo-spring-boot)'
-   export DOCKER_JAVA_VERSION='자바 버전 입력(17-jdk)'
+   export DOCKER_JAVA_VERSION='자바 버전 입력(27-ea-17-jdk-slim)'
    export JAVA_VERSION='17'
    export SPRING_BOOT_VERSION='3.1.0'
    export DB_EP1=\$(echo -n "\$INPUT_DB_EP1" | base64 -w 0)
@@ -78,7 +78,7 @@
 10. 키 페어 : `keypair`
 11. VPC 선택
     - VPC : `vpc_1`
-    - Subnet : `main`
+    - Subnet : `vpc_1_public_sn1`
     - 보안 그룹 선택
 12. 보안 그룹 생성 클릭
     - 보안 그룹 이름: `bastion`
