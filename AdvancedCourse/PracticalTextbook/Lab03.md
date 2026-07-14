@@ -189,7 +189,7 @@
      #### **lab3-1-20-2**
     - config 파일 확인
      ```bash
-     cat /home/ubuntu/.kube/config
+     sudo cat /home/ubuntu/.kube/config
      ```
 
      #### **lab3-1-20-3**
