@@ -1,18 +1,18 @@
 # K8s engine Cluster 관리 VM 생성 실습
 
-클러스터를 관리하기 위한 Bation VM 인스턴스를 생성하는 실습입니다.
+클러스터를 관리하기 위한 Bastion VM 인스턴스를 생성하는 실습입니다.
 
 ## 1. Bastion VM 인스턴스 생성
 
 1. 카카오 클라우드 콘솔 > Container Pack > Kubernetes > 클러스터 접속
 2. 클러스터 `kakao-k8s-cluster` 클릭
     - 서버 엔드 포인트 복사 후 메모장에 붙여넣기
-    <img width="1157" alt="스크린샷 2025-03-25 오후 4 29 06" src="https://github.com/user-attachments/assets/5ac8a4c3-d0eb-40dc-9769-2bc932618753" />
+    <img width="1157" alt="스크린샷 2025-03-25 오후 4 29 06" src="https://github.com/user-attachments/assets/5ac8a4c3-d0eb-40dc-9769-2bc932618753" />
 
 3. kubeconfig 파일 클릭
     - kubeconfig 파일 다운로드 클릭
       - kubeconfig 파일 열기
-        <img width="1144" alt="스크린샷 2025-03-25 오후 4 31 58" src="https://github.com/user-attachments/assets/77f24971-0639-42b0-ad90-f5e4c2a8ff1a" />
+        <img width="1144" alt="스크린샷 2025-03-25 오후 4 31 58" src="https://github.com/user-attachments/assets/77f24971-0639-42b0-ad90-f5e4c2a8ff1a" />
       - certificate-authority-data(인증 데이터), name(클러스터 이름) 값 복사 후 메모장에 붙여넣기
       ![image](https://github.com/kakaocloud-edu/tutorial/assets/128004136/e8a73a4e-9573-492c-a432-bb8725b39065)
 
@@ -23,14 +23,13 @@
     - 왼쪽 상단에 있는 프로젝트 이름 복사 후 메모장에 붙여넣기
       ![image](https://github.com/kakaocloud-edu/tutorial/assets/128004136/689925d7-f6e4-4a1f-9765-186224867982)
 
-
 6. 사용자 스크립트 작성
    #### 아래를 진행하거나 [Bastion VM 스크립트 생성 사이트](http://210.109.54.80/) 에서 스크립트 생성
    
    #### **lab3-1-6**
      - **Note**: 사용자는 export ACC_KEY부터 DOCKER_JAVA_VERSION까지만 입력해주세요.
      - **Note**: INPUT_DB_EP1에는 Primary의 엔드포인트, INPUT_DB_EP2에는 Standby의 엔드포인트를 붙여넣어주세요.
-     - **Note**: 작은따옴표(')를 내에 사용자 입력값을 넣어주세요.
+     - **Note**: 작은따옴표(') 내에 사용자 입력값을 넣어주세요.
      - **Note**: 맥 OS 사용자의 경우 사용자 입력 시에 작은따옴표가 자동 변환되는 경우가 빈번하니, https://n.lrl.kr/ 같은 메모장 사이트를 이용해 주세요.
    ```bash
     #!/bin/bash
@@ -62,17 +61,16 @@
     echo "kakaocloud: 2.Checking the validity of the script download site"
     cd /home/ubuntu # 안전하게 ubuntu 홈 디렉터리로 이동 후 진행
     
-    curl --output /dev/null --silent --head --fail "https://github.com/kakaocloud-edu/tutorial/raw/main/AdvancedCourse/src/script/script.sh" || { echo "kakaocloud: Script download site is not valid"; exit 1; }
+    curl --output /dev/null --silent --head --fail "[https://github.com/kakaocloud-edu/tutorial/raw/main/AdvancedCourse/src/script/script.sh](https://github.com/kakaocloud-edu/tutorial/raw/main/AdvancedCourse/src/script/script.sh)" || { echo "kakaocloud: Script download site is not valid"; exit 1; }
     echo "kakaocloud: Script download site is valid"
     
-    wget https://github.com/kakaocloud-edu/tutorial/raw/main/AdvancedCourse/src/script/script.sh
+    wget [https://github.com/kakaocloud-edu/tutorial/raw/main/AdvancedCourse/src/script/script.sh](https://github.com/kakaocloud-edu/tutorial/raw/main/AdvancedCourse/src/script/script.sh)
     chmod +x script.sh
     
     sudo -E ./script.sh
     
-    chown -R ubuntu:ubuntu /home/ubuntu/
-   ```
-    
+    sudo chown -R ubuntu:ubuntu /home/ubuntu/
+    ```
 8. 카카오 클라우드 콘솔 > Beyond Compute Service > Virtual Machine > 인스턴스 접속
 9. 인스턴스 생성 버튼 클릭
    - 이름 : `bastion`
