@@ -196,7 +196,51 @@
     - 수동 배포에 필요한 YAML 파일의 존재 확인 
      ```bash
      ls /home/ubuntu/yaml/lab6-manifests.yaml
-     ```  
+     ```
+### 트러블슈팅 : VM 생성 시 스크립트가 실패했을 경우 수동 진행 방법
+
+네트워크 할당 지연이나 스크립트 내 공백/줄바꿈 오류 등으로 인해 초기화 스크립트(User Data)가 중간에 멈출 수 있습니다. `kubectl get nodes` 명령어가 작동하지 않는다면, 인스턴스에 SSH로 접속한 상태에서 아래 단계를 순서대로 진행해 수동으로 구축을 완료합니다.
+
+21. 수동 환경 변수 설정
+    - **Note**: 작은따옴표(') 내에 본인의 카카오클라우드 정보를 정확히 기입하여 터미널에 복사·붙여넣기 합니다. 특히 `AUTH_DATA`는 중간에 줄바꿈이나 공백이 없는 완벽한 한 줄이어야 합니다.
+    
+    #### **lab3-1-21-1**
+    ```bash
+    export ACC_KEY='사용자 액세스 키 ID 입력'
+    export SEC_KEY='사용자 액세스 보안 키 입력'
+    export CLUSTER_NAME='클러스터 이름 입력'
+    export API_SERVER='클러스터의 API 엔드포인트 입력'
+    export AUTH_DATA='클러스터의 certificate-authority-data 입력'
+    export PROJECT_NAME='프로젝트 이름 입력'
+    export INPUT_DB_EP1='Primary의 엔드포인트 입력'
+    export INPUT_DB_EP2='Standby의 엔드포인트 입력'
+    export DOCKER_IMAGE_NAME='demo-spring-boot'
+    export DOCKER_JAVA_VERSION='27-ea-17-jdk-slim'
+    export JAVA_VERSION='17'
+    export SPRING_BOOT_VERSION='3.1.0'
+    export DB_EP1=$(echo -n "$INPUT_DB_EP1" | base64 -w 0)
+    export DB_EP2=$(echo -n "$INPUT_DB_EP2" | base64 -w 0)
+    ```
+
+22. 스크립트 강제 다운로드 및 수동 실행
+    - **Note**: 명령어를 실행할 때 반드시 `sudo -E`를 사용해야 방금 입력한 환경 변수들이 관리자 권한으로 넘어가 정상적으로 설치됩니다.
+    
+    #### **lab3-1-22-1**
+    ```bash
+    cd /home/ubuntu
+    wget -O script.sh [https://github.com/kakaocloud-edu/tutorial/raw/main/AdvancedCourse/src/script/script.sh](https://github.com/kakaocloud-edu/tutorial/raw/main/AdvancedCourse/src/script/script.sh)
+    chmod +x script.sh
+    sudo -E ./script.sh
+    ```
+
+23. 사후 권한 정상화 및 접속 테스트
+    - **Note**: 스크립트 실행이 완료되면, root 권한으로 생성되어 꼬여버린 설정 파일들의 소유권을 ubuntu 계정으로 되돌려줍니다.
+    
+    #### **lab3-1-23-1**
+    ```bash
+    sudo chown -R ubuntu:ubuntu /home/ubuntu/
+    kubectl get nodes
+    ```
      
 
      
