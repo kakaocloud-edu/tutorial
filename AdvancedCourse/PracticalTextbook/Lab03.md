@@ -59,7 +59,7 @@
     echo "kakaocloud: Environment variable setup completed"
     
     echo "kakaocloud: 2.Checking the validity of the script download site"
-    cd /home/ubuntu # 안전하게 ubuntu 홈 디렉터리로 이동 후 진행
+    cd /home/ubuntu 
     
     curl --output /dev/null --silent --head --fail "[https://github.com/kakaocloud-edu/tutorial/raw/main/AdvancedCourse/src/script/script.sh](https://github.com/kakaocloud-edu/tutorial/raw/main/AdvancedCourse/src/script/script.sh)" || { echo "kakaocloud: Script download site is not valid"; exit 1; }
     echo "kakaocloud: Script download site is valid"
