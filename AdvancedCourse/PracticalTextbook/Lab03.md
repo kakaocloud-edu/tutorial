@@ -35,10 +35,11 @@
    #!/bin/bash
     
    echo "kakaocloud: 1.Starting environment variable setup"
-   # 환경 변수 설정: 사용자는 이 부분에 자신의 환경에 맞는 값을 입력해야 합니다.
+    
+   # 환경 변수 설정 : 사용자는 이 부분에 자신의 환경에 맞는 값을 입력해야 합니다.
    command=$(cat <<EOF
    export ACC_KEY='사용자 액세스 키 ID 입력'
-   export SEC_KEY='사용자 액세스 보안 키 입력'
+   export SEC_KEY=''사용자 액세스 보안 키 입력'
    export CLUSTER_NAME='클러스터 이름 입력'
    export API_SERVER='클러스터의 API 엔드포인트 입력'
    export AUTH_DATA='클러스터의 certificate-authority-data 입력'
@@ -61,15 +62,15 @@
    echo "kakaocloud: 2.Checking the validity of the script download site"
    cd /home/ubuntu 
     
-   curl --output /dev/null --silent --head --fail "[https://github.com/kakaocloud-edu/tutorial/raw/main/AdvancedCourse/src/script/script.sh](https://github.com/kakaocloud-edu/tutorial/raw/main/AdvancedCourse/src/script/script.sh)" || { echo "kakaocloud: Script download site is not valid"; exit 1; }
+   curl --output /dev/null --silent --head --fail "https://github.com/kakaocloud-edu/tutorial/raw/main/AdvancedCourse/src/script/script.sh" || { echo "kakaocloud: Script download site is not valid"; exit 1; }
    echo "kakaocloud: Script download site is valid"
     
-   wget [https://github.com/kakaocloud-edu/tutorial/raw/main/AdvancedCourse/src/script/script.sh](https://github.com/kakaocloud-edu/tutorial/raw/main/AdvancedCourse/src/script/script.sh)
+   wget https://github.com/kakaocloud-edu/tutorial/raw/main/AdvancedCourse/src/script/script.sh
    chmod +x script.sh
     
    sudo -E ./script.sh
     
-   sudo chown -R ubuntu:ubuntu /home/ubuntu/
+   chown -R ubuntu:ubuntu /home/ubuntu/
    ```
 8. 카카오 클라우드 콘솔 > Beyond Compute Service > Virtual Machine > 인스턴스 접속
 9. 인스턴스 생성 버튼 클릭
