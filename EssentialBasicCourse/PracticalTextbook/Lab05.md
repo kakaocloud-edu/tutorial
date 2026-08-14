@@ -28,12 +28,13 @@ graph LR
      - Image : `MySQL 8.4.8`
      - MySQL 사용자 이름: `admin`
      - MySQL 비밀번호 : `admin1234`
-     - 인스턴스 가용성 : `단일(Primary 인스턴스)`
+     - 인스턴스 가용성 : `고가용성 (Primary, Standty 인스턴스)`
      - 인스턴스 타입 : `m2a.large`
      - 기본 스토리지 크기: `100GB`
      - 로그 스토리지 크기 : `100GB`
      - VPC : `vpc_1`
-     - Subnet : `{vpc_1의 Private 서브넷} 선택`
+     - Primary Subnet : `{vpc_1 가용영역 a의 Private 서브넷} 선택`
+     - Standy Subnet : `{vpc_1 가용영역 b의 Private 서브넷} 선택`
      - 보안 그룹: `새 보안 그룹 생성` -> 보안 그룹 이름: `mysql` -> 인바운드 정책에 `TCP`/`0.0.0.0/0`/`3306` 추가 -> `생성` 버튼 클릭
      - 자동 백업: `미설정`
 3. 만들기 버튼 클릭
