@@ -21,4 +21,6 @@ VPC 생성 방법 및 서브넷 설정에 대한 실습입니다.
           - AZ당 Private Subnet 개수 : `1`
           - kr-central2-a의 Public Subnet IPv4 CIDR 블록 : `172.30.0.0/20`
           - kr-central2-a의 Private Subnet IPv4 CIDR 블록 : `172.30.16.0/20`
+          - kr-central2-b의 Public Subnet IPv4 CIDR 블록 : `172.30.32.0/20`
+          - kr-central2-b의 Private Subnet IPv4 CIDR 블록 : `172.30.48.0/20`
 3. 생성 버튼 클릭
