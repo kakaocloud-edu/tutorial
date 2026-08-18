@@ -24,8 +24,6 @@ graph LR
     classDef emphasized fill:#f9f,stroke:#333,stroke-width:4px;
 ```
 
-> **Note**: 시간표상 [Lab4] VM 생성 실습 직후에 진행되는 Mini Lab이라, [Lab03(VPC 생성)](https://github.com/kakaocloud-edu/tutorial/blob/main/EssentialBasicCourse/PracticalTextbook/Lab03.md)에서 만든 `kr-central-2-a`, `kr-central-2-b` 두 개 가용 영역과 각 AZ의 퍼블릭·프라이빗 서브넷이 있는 `vpc_1`, 그리고 [Lab04](https://github.com/kakaocloud-edu/tutorial/blob/main/EssentialBasicCourse/PracticalTextbook/Lab04.md)에서 만든 `bastion` 인스턴스를 그대로 재사용합니다. 새 VPC/서브넷은 만들지 않습니다.
-
 | 가용 영역 | 퍼블릭 서브넷 | 프라이빗 서브넷 |
 | --- | --- | --- |
 | kr-central-2-a | `vpc_1_public_sn1` | `vpc_1_private_sn1` |
