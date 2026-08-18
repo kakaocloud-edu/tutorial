@@ -9,7 +9,7 @@ Kakao Cloud Kubernetes Engine Cluster 생성에 대한 실습입니다.
 3. 클러스터 생성 버튼 클릭
    - 기본 설정
      - 클러스터 이름 : `kakao-k8s-cluster`
-     - kubernetes 버전 : `1.31`
+     - kubernetes 버전 : `1.33`
    - 클러스터 Network 설정
      - VPC : `vpc_1`
      - Subnet : kr-central-2-a과 kr-central-b의 Public 서브넷만 선택(172.30.0.0/20, 172.30.32.0/20)
@@ -32,15 +32,19 @@ Kakao Cloud Kubernetes Engine Cluster 생성에 대한 실습입니다.
    - 노드 풀 타입 : `Virtual Machine`
    - 기본 설정
      - 노드 풀 이름 : `node-pool`
-     - Image 선택 : `Ubuntu 22.04`
-     - Instance 타입 : `m2a.xlarge`
+     - Image 선택 : `Ubuntu 24.04`
+     - Instance 타입 : `m2a.large`
      - Volume 크기 : `50GB`
      - 노드 수 : `2`
    - 노드 풀 Network 설정
      - VPC : `vpc_1` 선택
      - Subnet : Public 서브넷들만 선택
      - 보안 그룹(선택): `선택 안함`
-   - 키 페어 : `keypair`
+   - 키 페어 선택
+     - `신규 키 페어 생성` 클릭
+     - 이름 : `keypair`
+     - 생성 후 키페어 재조회하여 `keypair` 선택
+       - **Note**: 다운로드 된 private key(e.g. keypair.pem)의 경로 기억하기
 6. 고급 설정 생략 후 생성 버튼 클릭
 7. 노드 풀 탭으로 이동
 8. 노드 생성 여부 확인
