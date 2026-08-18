@@ -1,6 +1,6 @@
 # TGW 구성 실습
 
-새로운 VPC2를 생성하고 VPC2에 VM을 생성합니다. 
+새로운 VPC2를 생성하고 VPC2에 VM을 생성합니다.
 VPC1과 VPC2를 연결하는 TGW를 생성하고 설정합니다. TGW를 통해 서로 다른 VPC간 통신이 가능한지 확인하는 실습입니다.
 
 ```mermaid
@@ -22,7 +22,7 @@ graph LR
 
     %% 강조
     class VPC2생성,VPC2내VM생성,TGW생성,VPC간통신확인 emphasized;
-    
+
     %% 클래스 스타일
     classDef emphasized fill:#f9f,stroke:#333,stroke-width:4px;
 
@@ -43,7 +43,7 @@ graph LR
      - Public Subnet IPv4 CIDR 블록 : `172.31.0.0/20`
      ![image](https://github.com/kakaocloud-edu/tutorial/assets/128004136/5a109ae3-5813-44a8-a336-4820e639d084)
 3. 만들기 버튼 클릭
-   
+
 
 
 ## 2. VPC2내 VM 인스턴스 생성
@@ -54,29 +54,33 @@ graph LR
 3. Instance 만들기 버튼 클릭
      - 이름 : `vpc2_vm`
      - Image : `Ubuntu 20.04 - 5.4.0-173`
-     - Instance 타입 : `m2a.large`
+     - Instance 타입 : `m2a.xlarge`
      - Volume : `30GB`
      - Key Pair : `keypair`
      - VPC : `vpc_2`
      - Subnet : `vpc_2_public_sn1`
-4. 새 SecurityGroup 생성 클릭
-     - Security Group 이름 : `vpc2_vm`
-     - Inbound 
-          - 프로토콜: `ICMP`, 패킷 출발지: `{bastion VM의 Private IP/32}`
-               - **Note**: "bastion VM의 Private IP/32" 부분을 bastion VM의 Private IP 주소로 교체하세요.
-     - Outbound 
-          - 프로토콜: `ALL`, 패킷 출발지: `0.0.0.0/0`
-5. bastion 인스턴스의 우측 메뉴바 클릭 > Public IP 연결 클릭
+4. 보안 그룹 '관리 페이지' 클릭하여 '보안 그룹 규칙 관리' 화면 오픈
+     - 보안 그룹 `default` 클릭
+     - 인바운드 규칙 > [보안 그룹 규칙 관리] 버튼 클릭
+     - 인바운드 규칙 추가 (ping test 용도)
+          - 프로토콜: `ICMP`, 패킷 출발지: `{bastion VM의 Private IP}/32`
+               - **Note**: "{bastion VM의 Private IP}" 부분을 bastion VM의 Private IP 주소로 교체하세요.
+          - 프로토콜: `ICMP`, 패킷 출발지: `0.0.0.0/0`, 포트 번호: `ALL`
+     - [적용] 버튼 클릭 후 [닫기] 버튼 클릭
+5. VM 생성 화면에서 보안 그룹 `default` 선택
+6. 생성 버튼 클릭
+7. bastion 인스턴스의 우측 메뉴바 클릭 > Public IP 연결 클릭
      - `새로운 Public IP를 생성하고 자동으로 할당` 선택
-6. 확인 버튼 클릭    
+8. 확인 버튼 클릭
 
  ## 3-1. TGW 생성 및 설정
 
 
-1. 전체 서비스 > Transit Gateway 만들기 클릭 
-2. Transit Gateway 만들기 클릭 
+1. 전체 서비스 > Transit Gateway 만들기 클릭
+2. Transit Gateway 만들기 클릭
      - 이름 : `transit`
      - 기본 연결 : `연결`
+     - 공유수락 설정 : `자동`
 3. 만들기 버튼 클릭
 4. 전체 서비스 > Transit Gateway
 5. 생성된 transit의 우측 메뉴바 클릭 > Attachment 추가 클릭
@@ -93,11 +97,11 @@ graph LR
 12. Route 클릭
 13. static Route 추가 버튼 클릭
      - 목적지 : `172.31.0.0/16`(vpc_2의 IP CIDR블록)
-     - Target : `vpc_2 선택` 
+     - Target : `vpc_2 선택`
 14. 추가 버튼 클릭
 15. static Route 추가 버튼 클릭
      - 목적지 : `172.30.0.0/16`(vpc_1의 IP CIDR블록)
-     - Target : `vpc_1 선택` 
+     - Target : `vpc_1 선택`
 ## 3-2. VPC의 라우트 설정
 1. 카카오 클라우드 콘솔 > 전체 서비스 > VPC
 2. Route Table 탭 > vpc_1의 main 클릭
@@ -121,14 +125,15 @@ graph LR
      - Bastion VM에 접속
      - ping 명령어를 통해 vpc_2에 있는 vm에 패킷이 전달됨을 확인
      - vpc_1 -> vpc_2의 통신이 가능함을 알 수 있음
-           
+
      #### **lab8-4-4-1**
      ```bash
-     ssh -i kepair.pem ubuntu@{bastion의 Public IP}
+     ssh -i keypair.pem ubuntu@{bastion의 Public IP}
      ```
      - **Note**: "bastion의 Public IP" 부분을 bastion의 Public IP 주소로 변경하세요.
-        
+
      #### **lab8-4-4-2**
-     ```bash 
-     ping `{vpc2-vm의 Private IP}`
+     ```bash
+     ping {vpc2-vm의 Private IP}
      ```
+     - **Note**: "{vpc2-vm의 Private IP}" 부분을 vpc2_vm의 Private IP 주소로 변경하세요.
