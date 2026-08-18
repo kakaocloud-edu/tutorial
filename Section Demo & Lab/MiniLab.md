@@ -64,7 +64,6 @@ graph LR
     | Subnet | `vpc_1_public_sn1` | `vpc_1_public_sn2` |
     | 보안 그룹 | `nat-instance` | `nat-instance` |
 
-    - **Note**: Instance 타입은 NAT 통신(패킷 포워딩)만 처리하면 되므로 `t1i.nano`처럼 작은 타입으로도 충분하지만, 실습 편의상 다른 VM들과 통일해 `m2a.large`로 진행합니다. `m2a.xlarge`를 쓰셔도 동작에는 차이가 없습니다.
 3. 생성 버튼 클릭
 4. 생성된 `nat-instance-a`, `nat-instance-b` 각각의 우측 메뉴바 > Public IP 연결 클릭
      - `새로운 Public IP를 생성하고 자동으로 할당` 선택
