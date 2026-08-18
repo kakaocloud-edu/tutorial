@@ -29,7 +29,7 @@ nginx pod을 위한 deployment, LoadBalancer type의 서비스가 포함된 ingr
      nslookup {DNS 주소값}
      ```
      ![image](https://github.com/kakaocloud-edu/tutorial/assets/128004136/f0b6f79e-61e8-42cf-b3e2-36701036cd65)
-     
+
 
 ## 3. LoadBalancer 확인
 

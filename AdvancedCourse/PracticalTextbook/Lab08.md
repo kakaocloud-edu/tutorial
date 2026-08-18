@@ -9,10 +9,37 @@
 1. YAML 파일 삭제
    #### **lab8-1-1**
    ```bash
-   kubectl delete -f lab6-manifests.yaml
+   rm -f lab6-manifests.yaml
    ```
-2. 실행 중인 리소스가 삭제되었는 지 확인
+2. 실행 중인 리소스 삭제
    #### **lab8-1-2**
+
+   ```bash
+   kubectl delete ingress --all
+   ```
+
+   ```bash
+   kubectl delete svc --all
+   ```
+
+   ```bash
+   kubectl delete deploy --all
+   ```
+
+   ```bash
+   kubectl delete job sql-job
+   ```
+
+   ```bash
+   kubectl delete secret app-secret
+   ```
+
+   ```bash
+   kubectl delete configmap --all
+   ```
+
+3. 실행 중인 리소스가 삭제되었는 지 확인
+   #### **lab8-1-3**
 
    ```bash
    kubectl get ingress
@@ -21,7 +48,7 @@
    ```bash
    kubectl get svc
    ```
-   
+
    ```bash
    kubectl get deploy
    ```
@@ -29,18 +56,18 @@
    ```bash
    kubectl get po
    ```
-   
+
    ```bash
    kubectl get job
    ```
-   
+
    ```bash
    kubectl get configmap
    ```
    ```bash
    kubectl get secret
    ```
-   
+
 ## 2. Helm Chart 설치
 
 
@@ -89,7 +116,7 @@
 
 ## 6. 차트 설치 시뮬레이션 및 차트 설치
 
-   
+
 1. 차트 설치 전 랜더링 테스트
 
    #### **lab8-6-1**
@@ -118,19 +145,19 @@
    helm list
    ```
    - **Note** `my-release` 이름으로 차트가 생성되었는지 확인
-   
+
 
 5. 차트 세부 내용 확인
    #### **lab8-6-5**
    ```bash
-   helm status my-release   
+   helm status my-release
    ```
 
 
 6. 파드 상태 확인
    #### **lab8-6-6**
    ```bash
-   kubectl get all  
+   kubectl get all
    ```
 
 7. 웹 사이트 배포 확인
@@ -153,23 +180,23 @@
    ```bash
    helm upgrade my-release . --description "#pod 2->3" -f values.yaml
    ```
-   
+
 3. 업데이트 확인하기 - CHART REVISION 값 변경 확인
-   
+
    #### **lab8-7-3**
    ```bash
    helm status my-release
    ```
 
 4. 업데이트 확인하기 - Pod 개수 변경 확인
-   
+
    #### **lab8-7-4**
    ```bash
    kubectl get pod
    ```
 
 5. 릴리즈 히스토리 확인
-   
+
    #### **lab8-7-5**
    ```bash
    helm history my-release

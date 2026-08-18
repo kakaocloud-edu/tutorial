@@ -25,7 +25,7 @@
 
 6. 사용자 스크립트 작성
    #### 아래를 진행하거나 [Bastion VM 스크립트 생성 사이트](http://210.109.54.80/) 에서 스크립트 생성
-   
+
    #### **lab3-1-6**
      - **Note**: 사용자는 export ACC_KEY부터 DOCKER_JAVA_VERSION까지만 입력해주세요.
      - **Note**: INPUT_DB_EP1에는 Primary의 엔드포인트, INPUT_DB_EP2에는 Standby의 엔드포인트를 붙여넣어주세요.
@@ -33,9 +33,9 @@
      - **Note**: 맥 OS 사용자의 경우 사용자 입력 시에 작은따옴표가 자동 변환되는 경우가 빈번하니, https://n.lrl.kr/ 같은 메모장 사이트를 이용해 주세요.
    ```bash
    #!/bin/bash
-    
+
    echo "kakaocloud: 1.Starting environment variable setup"
-    
+
    # 환경 변수 설정 : 사용자는 이 부분에 자신의 환경에 맞는 값을 입력해야 합니다.
    command=$(cat <<EOF
    export ACC_KEY='사용자 액세스 키 ID 입력'
@@ -54,29 +54,29 @@
    export DB_EP2=\$(echo -n "\$INPUT_DB_EP2" | base64 -w 0)
    EOF
    )
-    
+
    eval "$command"
    echo "$command" >> /home/ubuntu/.bashrc
    echo "kakaocloud: Environment variable setup completed"
-    
+
    echo "kakaocloud: 2.Checking the validity of the script download site"
-   cd /home/ubuntu 
-    
+   cd /home/ubuntu
+
    curl --output /dev/null --silent --head --fail "https://github.com/kakaocloud-edu/tutorial/raw/main/AdvancedCourse/src/script/script.sh" || { echo "kakaocloud: Script download site is not valid"; exit 1; }
    echo "kakaocloud: Script download site is valid"
-    
+
    wget https://github.com/kakaocloud-edu/tutorial/raw/main/AdvancedCourse/src/script/script.sh
    chmod +x script.sh
-    
+
    sudo -E ./script.sh
-    
+
    chown -R ubuntu:ubuntu /home/ubuntu/
    ```
 8. 카카오 클라우드 콘솔 > Beyond Compute Service > Virtual Machine > 인스턴스 접속
 9. 인스턴스 생성 버튼 클릭
    - 이름 : `bastion`
    - 개수 : `1`
-   - 이미지 : `Ubuntu 22.04`
+   - 이미지 : `Ubuntu 20.04`
    - 인스턴스 유형 : `t1i.xlarge`
    - 볼륨 : `30 GB`
 10. 키 페어 : `keypair`
@@ -92,16 +92,17 @@
       - 프로토콜 : `TCP`, 패킷 출발지: `0.0.0.0/0`, 포트 번호: `8080`
 13. 아웃바운드 클릭
     - 아웃바운드
-      - 프로토콜 : `ALL`, 패킷 목적지 : `0.0.0.0/0`
+      - 프로토콜 : `ALL`, 패킷 목적지 : `0.0.0.0/0`, 포트 번호: `22`
     - 생성 버튼 클릭
 14. 고급설정 버튼 클릭
     - 사용자 스크립트에 [**lab3-1-6**](https://github.com/kakaocloud-edu/tutorial/blob/main/AdvancedCourse/PracticalTextbook/Lab03.md#lab3-1-6) 내용을 붙여넣기
       - **Note**: 가상머신을 생성할 때 고급 설정 스크립트 부분을 설정하지 못하였더라도 [추후 설정](https://github.com/kakaocloud-edu/tutorial/blob/main/AdvancedCourse/PracticalTextbook/Lab03.md#note--19%EB%B2%88%EC%9D%80-%EA%B3%A0%EA%B8%89%EC%84%A4%EC%A0%95%EC%9D%84-%EC%A7%84%ED%96%89%ED%95%98%EC%A7%80-%EC%95%8A%EC%95%98%EC%9D%84-%EB%95%8C%EB%A7%8C-%EC%A7%84%ED%96%89%ED%95%A9%EB%8B%88%EB%8B%A4)할 수 있습니다.
+    - CPU 멀티스레딩 : `미사용`
 
 15. 생성 버튼 클릭
 16. 카카오 클라우드 콘솔 > 전체 서비스 > Virtual Machine 접속
 17. 생성된 인스턴스의 우측 메뉴바 > Public IP 연결 클릭
-    - `새로운 Public IP를 생성하고 자동으로 할당` 
+    - `새로운 Public IP를 생성하고 자동으로 할당`
 18. 확인 버튼 클릭
 19. 생성된 인스턴스의 우측 메뉴바 > SSH 연결 클릭
      - SSH 접속 명령어 복사(다운받은 keypair.pem 파일이 있는 경로에서 아래 명령어를 실행합니다.)
@@ -125,12 +126,12 @@
      ssh -i keypair.pem ubuntu@{bastion의 public ip주소}
      ```
      - **Note**: "bastion의 public ip주소" 부분을 복사한 IP 주소로 교체하세요.
-   
+
      #### **lab3-1-18-4**
      ```bash
      yes
      ```
-    
+
     - **Note**: 윈도우에서 ssh 접근이 안될 경우에 cmd 창에서 keypair.pem가 있는 경로로 이동 후 아래 명령어 입력
      #### **lab3-1-18-5**
      ```bash
@@ -144,7 +145,7 @@
 19. **bastion 생성 시에 고급 설정을 진행하지 않았을 때 진행**
     - 메모장에 작성해 놓은 스크립트 전체 복사
     - 복사한 스크립트 명령어  bastion 터미널에 붙여 넣기
-     
+
 20. cloud-init log 확인 및 YAML 파일 확인
      #### **lab3-1-20-1**
     - [**lab3-1-6**](https://github.com/kakaocloud-edu/tutorial/blob/main/AdvancedCourse/PracticalTextbook/Lab03.md#lab3-1-6)를 통해 진행한 스크립트의 진행상황을 확인
@@ -184,7 +185,7 @@
       kakaocloud: Successfully communicated with Kubernetes cluster
      ```
 
-    
+
      #### **lab3-1-20-2**
     - config 파일 확인
      ```bash
@@ -192,7 +193,7 @@
      ```
 
      #### **lab3-1-20-3**
-    - 수동 배포에 필요한 YAML 파일의 존재 확인 
+    - 수동 배포에 필요한 YAML 파일의 존재 확인
      ```bash
      ls /home/ubuntu/yaml/lab6-manifests.yaml
      ```
@@ -202,7 +203,7 @@
 
 21. 수동 환경 변수 설정
     - **Note**: 작은따옴표(') 내에 본인의 카카오클라우드 정보를 정확히 기입하여 터미널에 복사·붙여넣기 합니다. 특히 `AUTH_DATA`는 중간에 줄바꿈이나 공백이 없는 완벽한 한 줄이어야 합니다.
-    
+
     #### **lab3-1-21-1**
     ```bash
     export ACC_KEY='사용자 액세스 키 ID 입력'
@@ -223,7 +224,7 @@
 
 22. 스크립트 강제 다운로드 및 수동 실행
     - **Note**: 명령어를 실행할 때 반드시 `sudo -E`를 사용해야 방금 입력한 환경 변수들이 관리자 권한으로 넘어가 정상적으로 설치됩니다.
-    
+
     #### **lab3-1-22-1**
     ```bash
     cd /home/ubuntu
@@ -234,15 +235,15 @@
 
 23. 사후 권한 정상화 및 접속 테스트
     - **Note**: 스크립트 실행이 완료되면, root 권한으로 생성되어 꼬여버린 설정 파일들의 소유권을 ubuntu 계정으로 되돌려줍니다.
-    
+
     #### **lab3-1-23-1**
     ```bash
     sudo chown -R ubuntu:ubuntu /home/ubuntu/
     kubectl get nodes
     ```
-     
 
-     
+
+
 ## 2. Bastion VM 인스턴스를 통해 클러스터 확인
 
 

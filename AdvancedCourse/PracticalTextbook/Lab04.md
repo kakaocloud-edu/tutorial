@@ -65,7 +65,7 @@ Spring Boot 프로젝트를 생성해 간단한 웹 페이지를 생성합니다
    #### **lab4-2-3**
    - 빌드 된 Docker 이미지 실행
    ```
-   sudo docker run -d 8080:8080 ${DOCKER_IMAGE_NAME}
+   sudo docker run -d -p 8080:8080 ${DOCKER_IMAGE_NAME}
    ```
 
 4. bastion의 Public IP 복사
