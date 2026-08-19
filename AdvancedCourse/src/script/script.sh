@@ -1,10 +1,12 @@
 #!/bin/bash
 
+set -o pipefail
+
 echo "kakaocloud: 3.Variables validity test start"
 required_variables=(
     ACC_KEY SEC_KEY CLUSTER_NAME API_SERVER AUTH_DATA PROJECT_NAME
-    INPUT_DB_EP1 INPUT_DB_EP2 DOCKER_IMAGE_NAME DOCKER_JAVA_VERSION JAVA_VERSION
-    SPRING_BOOT_VERSION
+    INPUT_DB_EP1 INPUT_DB_EP2 DB_EP1 DB_EP2 DOCKER_IMAGE_NAME DOCKER_JAVA_VERSION
+    JAVA_VERSION SPRING_BOOT_VERSION
 )
 
 for var in "${required_variables[@]}"; do
@@ -19,7 +21,7 @@ echo "kakaocloud: Github Connection succeeded"
 
 
 echo "kakaocloud: 5.Preparing directories and files"
-sudo mkdir -p /home/ubuntu/yaml && sudo chmod 777 /home/ubuntu/yaml || { echo "kakaocloud: Failed to create directories."; exit 1; }
+sudo install -d -o ubuntu -g ubuntu -m 0755 /home/ubuntu/yaml || { echo "kakaocloud: Failed to create directories."; exit 1; }
 echo "kakaocloud: Directories prepared"
 
 
@@ -31,12 +33,11 @@ else
 fi
 
 if [ ! -d "/home/ubuntu/tutorial/AdvancedCourse/src/manifests" ]; then
-    echo "kakaocloud: Cloning again as the previous clone seems to have failed"
-    sudo rm -rf /home/ubuntu/tutorial
-    sudo git clone https://github.com/kakaocloud-edu/tutorial.git /home/ubuntu/tutorial || { echo "kakaocloud: Failed to git clone"; exit 1; }
+    echo "kakaocloud: The tutorial repository is incomplete. Check /home/ubuntu/tutorial and run again."
+    exit 1
 fi
 
-sudo cp /home/ubuntu/tutorial/AdvancedCourse/src/manifests/lab6-* /home/ubuntu/yaml || { echo "kakaocloud: Failed to set yaml"; exit 1; }
+sudo cp /home/ubuntu/tutorial/AdvancedCourse/src/manifests/lab6-manifests.yaml /home/ubuntu/yaml/ || { echo "kakaocloud: Failed to set yaml"; exit 1; }
 echo "kakaocloud: All YAML files downloaded"
 
 
@@ -46,8 +47,12 @@ sudo chmod +x /home/ubuntu/spring/mvnw || { echo "kakaocloud: Failed to change p
 echo "kakaocloud: Spring Directories and files prepared"
 
 echo "kakaocloud: 8.Installing kubectl"
-sudo curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl" || { echo "kakaocloud: Failed to download kubectl binary"; exit 1; }
+KUBECTL_VERSION="$(curl -LfsS https://dl.k8s.io/release/stable-1.33.txt)" || { echo "kakaocloud: Failed to determine kubectl version"; exit 1; }
+curl -LfsS -o kubectl "https://dl.k8s.io/release/${KUBECTL_VERSION}/bin/linux/amd64/kubectl" || { echo "kakaocloud: Failed to download kubectl binary"; exit 1; }
+curl -LfsS -o kubectl.sha256 "https://dl.k8s.io/release/${KUBECTL_VERSION}/bin/linux/amd64/kubectl.sha256" || { echo "kakaocloud: Failed to download kubectl checksum"; exit 1; }
+echo "$(cat kubectl.sha256)  kubectl" | sha256sum --check || { echo "kakaocloud: Kubectl checksum verification failed"; exit 1; }
 sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl || { echo "kakaocloud: Failed to install kubectl binary"; exit 1; }
+rm -f -- kubectl kubectl.sha256
 echo "kakaocloud: Kubectl installed"
 
 
@@ -67,10 +72,7 @@ echo "kakaocloud: Docker installation and setup completed"
 
 
 echo "kakaocloud: 11.Installing additional software"
-sudo apt install unzip || { echo "kakaocloud: Failed to install unzip"; exit 1; }
-sudo apt install jq -y || { echo "kakaocloud: Failed to install jq"; exit 1; }
-sudo apt-get install -y openjdk-17-jdk maven || { echo "kakaocloud: Failed to install openjdk-17-jdk and maven"; exit 1; }
-sudo apt install tree || { echo "kakaocloud: Failed to install tree"; exit 1; }
+sudo apt-get install -y unzip jq openjdk-17-jdk maven tree || { echo "kakaocloud: Failed to install additional software"; exit 1; }
 echo "kakaocloud: Additional software installation completed"
 
 
@@ -87,6 +89,7 @@ echo "kakaocloud: 13.Downloading helm-values.yaml and applying environment subst
 sudo cp /home/ubuntu/tutorial/AdvancedCourse/src/manifests/helm-values.yaml /home/ubuntu/values.yaml || { echo "kakaocloud: Failed to download helm-values.yaml"; exit 1; }
 envsubst < /home/ubuntu/yaml/lab6-manifests.yaml > /home/ubuntu/yaml/manifests.tmp && mv -f /home/ubuntu/yaml/manifests.tmp /home/ubuntu/yaml/lab6-manifests.yaml || { echo "kakaocloud: Failed to modify /home/ubuntu/yaml/lab6-manifests.yaml"; exit 1; }
 envsubst < /home/ubuntu/values.yaml > /home/ubuntu/values.tmp && mv -f /home/ubuntu/values.tmp /home/ubuntu/values.yaml || { echo "kakaocloud: Failed to modify /home/ubuntu/values.yaml"; exit 1; }
+sudo chown ubuntu:ubuntu /home/ubuntu/yaml/lab6-manifests.yaml /home/ubuntu/values.yaml
 echo "kakaocloud: Environment substitutions applied and setup completed"
 
 echo "kakaocloud: 14.Checking Kubernetes cluster nodes status"

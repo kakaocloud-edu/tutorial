@@ -5,7 +5,7 @@ metadata:
 data:
   WELCOME_MESSAGE: "Welcome to Kakao Cloud"
   BACKGROUND_COLOR: "#4a69bd"
-  
+
 ---
 apiVersion: v1
 kind: ConfigMap
@@ -22,7 +22,7 @@ data:
     INSERT INTO access (date) VALUES ('hello:)');
     CALL mysql.mnms_grant_right_user('admin', 'all', '*', '*');
     ALTER USER 'admin'@'%' IDENTIFIED WITH mysql_native_password BY 'admin1234';
-    
+
 ---
 apiVersion: v1
 kind: Secret
@@ -38,7 +38,7 @@ data:
   DB2_URL: "${DB_EP2}"
   DB2_ID: 'YWRtaW4='
   DB2_PW: 'YWRtaW4xMjM0'
-  
+
 ---
 apiVersion: batch/v1
 kind: Job
@@ -82,27 +82,25 @@ spec:
           name: sql-script
       restartPolicy: Never
   backoffLimit: 4
-  
+
 ---
-apiVersion: networking.k8s.io/v1
-kind: Ingress
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
 metadata:
-  name: kc-nginx-ingress
-  annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /
-    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+  name: kc-spring-route
 spec:
-  ingressClassName: nginx
+  parentRefs:
+    - name: kc-gateway
+      namespace: nginx-gateway
+      sectionName: http
   rules:
-    - http:
-        paths:
-          - path: /
-            pathType: Prefix
-            backend:
-              service:
-                name: kc-spring-service
-                port:
-                  number: 80
+    - matches:
+        - path:
+            type: PathPrefix
+            value: /
+      backendRefs:
+        - name: kc-spring-service
+          port: 80
 
 ---
 apiVersion: v1
@@ -134,7 +132,6 @@ spec:
     metadata:
       labels:
         app: kc-spring-demo
-    spec:
     spec:
       affinity:
         podAntiAffinity:

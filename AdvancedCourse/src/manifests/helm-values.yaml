@@ -11,11 +11,13 @@ service:
   port: 80
   targetPort: 8080
 
-ingress:
+gatewayRoute:
   enabled: true
-  className: nginx
+  parentRef:
+    name: kc-gateway
+    namespace: nginx-gateway
+    sectionName: http
   path: /
-  sslRedirect: "false"
 
 configMap:
   WELCOME_MESSAGE: "Welcome to Kakao Cloud"
