@@ -1,0 +1,194 @@
+# Kubernetes Engine 클러스터에 웹서버 자동화 배포하기
+
+지금까지 만든 배포 방식을 자동화하는 도구인 Helm에 대해 실습합니다. Helm을 이용해 Chart를 만들어 배포, 업데이트, 롤백을 진행하는 실습입니다.
+
+
+## 1. 기존 리소스 삭제
+
+
+1. YAML 파일로 배포한 리소스 삭제
+   #### **lab8-1-1**
+   ```bash
+   kubectl delete -f ./lab6-manifests_v2.yaml
+   ```
+2. YAML 파일 삭제
+   #### **lab8-1-2**
+   ```bash
+   rm -f lab6-manifests_v2.yaml
+   ```
+
+3. 실행 중인 리소스가 삭제되었는 지 확인
+   #### **lab8-1-3**
+   ```bash
+   kubectl get httproute,service,deployment,pod,job,configmap,secret
+   ```
+
+## 2. Helm Chart 설치
+
+
+1. Helm Chart 설치
+   #### **lab8-2-1**
+   ```bash
+   command -v helm >/dev/null || curl -fsSL https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | sudo bash
+   ```
+
+2. 설치 확인
+   #### **lab8-2-2**
+   ```bash
+   helm version
+   ```
+
+## 3. Helm Chart 프로젝트 설정
+
+
+1. 실습 진행을 위한 디렉터리 이동
+   #### **lab8-3-1**
+   ```bash
+   cd /home/ubuntu/tutorial/AdvancedCourse/src/helm
+   ```
+
+2. v2 values.yaml 파일 생성 후 helm 디렉터리로 이동
+   #### **lab8-3-2**
+   ```bash
+   envsubst < /home/ubuntu/tutorial/AdvancedCourse/src/manifests/helm-values_v2.yaml \
+     > /home/ubuntu/values_v2.yaml
+   sudo mv /home/ubuntu/values_v2.yaml values.yaml
+   ```
+
+## 4. 차트 확인
+1. tree를 이용해 차트 확인
+   #### **lab8-4-1**
+   ```bash
+   tree .
+   ```
+
+## 5. 차트 문제 검사
+
+
+1. lint 기능을 이용해 차트에 문제가 있는지 확인
+   #### **lab8-5-1**
+   ```bash
+   helm lint .
+   ```
+
+## 6. 차트 설치 시뮬레이션 및 차트 설치
+
+
+1. 차트 설치 전 랜더링 테스트
+
+   #### **lab8-6-1**
+   ```bash
+   helm template . -f values.yaml
+   ```
+   - 차트에서 사용하는 템플릿을 실제 값으로 렌더링하여 결과를 확인
+
+2. 디버깅
+   #### **lab8-6-2**
+   ```bash
+   helm install --dry-run --debug my-release . | tee ~/yamls
+   ```
+   - 차트의 설치가 클러스터에서 어떻게 이루어질지 시뮬레이션하고 상세한 디버그 정보를 제공
+
+3. 차트 설치
+   #### **lab8-6-3**
+   ```bash
+   helm install my-release . -f values.yaml
+   ```
+
+4. 차트 확인
+
+   #### **lab8-6-4**
+   ```bash
+   helm list
+   ```
+   - **Note** `my-release` 이름으로 차트가 생성되었는지 확인
+
+
+5. 차트 세부 내용 확인
+   #### **lab8-6-5**
+   ```bash
+   helm status my-release
+   ```
+
+
+6. 파드 상태 확인
+   #### **lab8-6-6**
+   ```bash
+   kubectl get all
+   kubectl get httproute
+   ```
+
+7. 웹 사이트 배포 확인
+- **Note** my-release-kc-spring-demo-... 이름으로 서버 호스트 이름이 변경되었는지 확인
+
+## 7. Helm Chart를 이용한 버전 관리
+
+1. replicaCount 수정
+   #### **lab8-7-1**
+   ```bash
+   sudo vi values.yaml
+   ```
+   - 1라인 : replicaCount : 2
+   - `2` -> `3` 수정
+   - ESC 버튼 + :wq + Enter 버튼 입력으로 저장 후 나가기
+
+2. `helm upgrade`를 통한 차트 릴리즈 업그레이드
+
+   #### **lab8-7-2**
+   ```bash
+   helm upgrade my-release . --description "#pod 2->3" -f values.yaml
+   ```
+
+3. 업데이트 확인하기 - CHART REVISION 값 변경 확인
+
+   #### **lab8-7-3**
+   ```bash
+   helm status my-release
+   ```
+
+4. 업데이트 확인하기 - Pod 개수 변경 확인
+
+   #### **lab8-7-4**
+   ```bash
+   kubectl get pod
+   ```
+
+5. 릴리즈 히스토리 확인
+
+   #### **lab8-7-5**
+   ```bash
+   helm history my-release
+   ```
+
+6. 특정 REVISION의 value 값 확인
+
+   #### **lab8-7-6-1**
+   ```bash
+   helm get values my-release --revision 1
+   ```
+
+   #### **lab8-7-6-2**
+   ```bash
+   helm get values my-release --revision 2
+   ```
+
+## 8. 롤백
+
+
+1. 롤백
+   #### **lab8-8-1**
+   ```bash
+   helm rollback my-release 1
+   ```
+
+2. 릴리즈 히스토리 확인
+   #### **lab8-8-2**
+   ```bash
+   helm history my-release
+   ```
+
+3. 파드 수 감소 확인
+   #### **lab8-8-3**
+   ```bash
+   kubectl get po
+   ```
