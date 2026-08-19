@@ -24,7 +24,7 @@
       ![image](https://github.com/kakaocloud-edu/tutorial/assets/128004136/689925d7-f6e4-4a1f-9765-186224867982)
 
 6. 사용자 스크립트 작성
-   #### 아래를 진행하거나 [Bastion VM 스크립트 생성 사이트](http://210.109.54.80/) 에서 스크립트 생성
+   - [스크립트 사이트](http://210.109.83.141/) 를 활용하여 사용자 스크립트 생성 가능
 
    #### **lab3-1-6**
      - **Note**: 사용자는 export ACC_KEY부터 DOCKER_JAVA_VERSION까지만 입력해주세요.
