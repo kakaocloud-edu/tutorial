@@ -1,0 +1,88 @@
+
+# Kubernetes Engine 클러스터에 웹서버 수동 배포 실습
+
+Spring application 배포를 위해서 다운받은 yaml 파일을 확인 후 배포하고, HTTPRoute를 통해 배포된 프로젝트를 웹에서 확인하는 실습입니다.
+
+
+## 1. YAML 파일 다운 및 설정
+1. v2 YAML 파일 생성 및 yaml 디렉터리 이동
+   - 접속 중인 Bastion VM 인스턴스에 명령어 입력
+
+   #### **lab6-1-1**
+   ```bash
+   envsubst < /home/ubuntu/tutorial/AdvancedCourse/src/manifests/lab6-manifests_v2.yaml \
+     > /home/ubuntu/yaml/lab6-manifests_v2.yaml
+   cd /home/ubuntu/yaml
+   ```
+   ```bash
+   ls -al
+   ```
+
+2. lab6-manifests_v2.yaml 확인
+   #### **lab6-1-2**
+   ```bash
+   cat lab6-manifests_v2.yaml
+   ```
+
+3. 레지스트리 인증을 위한 시크릿키 생성 및 확인
+   #### **lab6-1-3**
+   ```bash
+   kubectl create secret docker-registry regcred \
+   --docker-server=${PROJECT_NAME}.kr-central-2.kcr.dev \
+   --docker-username=${ACC_KEY} \
+   --docker-password=${SEC_KEY}
+   ```
+   #### **lab6-1-4**
+   ```bash
+   kubectl get secret regcred -o custom-columns=NAME:.metadata.name,TYPE:.type
+   ```
+
+## 2. YAML 파일 배포
+1. Gateway 상태 확인
+   #### **lab6-2-1**
+   ```bash
+   kubectl get gateway kc-gateway -n nginx-gateway
+   ```
+
+2. YAML 파일 배포
+   #### **lab6-2-2**
+   ```bash
+   kubectl apply -f ./lab6-manifests_v2.yaml
+   ```
+
+3. 배포한 내용 확인
+   #### **lab6-2-3**
+   ```bash
+   kubectl get all -o wide
+   ```
+     ![image](https://github.com/kakaocloud-edu/tutorial/assets/128004136/8525ee31-2830-468f-91b7-830cb82aae4a)
+
+
+4. 배포한 내용 확인(Configmap, Secret)
+   #### **lab6-2-4-1**
+   ```bash
+   kubectl get configmap
+   ```
+     ![image](https://github.com/kakaocloud-edu/tutorial/assets/128004136/f021405c-a8e5-4d85-b279-79e7084dce46)
+
+   #### **lab6-2-4-2**
+   ```bash
+   kubectl get secret
+   ```
+     ![image](https://github.com/kakaocloud-edu/tutorial/assets/128004136/b6b45faa-2275-44e4-a423-7555e6889661)
+
+5. HTTPRoute 상태 확인
+   #### **lab6-2-5**
+   ```bash
+   kubectl get httproute kc-spring-route
+   kubectl get httproute kc-spring-route \
+     -o jsonpath='{range .status.parents[*].conditions[*]}{.type}={.status}{"\n"}{end}'
+   ```
+   - `Accepted=True`, `ResolvedRefs=True`인지 확인
+
+## 3.배포한 프로젝트 웹에서 확인
+
+ 1. 카카오 클라우드 콘솔 > 전체 서비스 > Beyond Networking Service > Load Balancing > 로드 밸런서
+ 2. 두 개의 Load Balancer의 Public IP를 복사
+ 3. 브라우저 주소창에 복사한 IP 주소 각각 입력
+    - 배포한 프로젝트 구동 확인
