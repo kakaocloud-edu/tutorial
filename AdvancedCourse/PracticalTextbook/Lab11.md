@@ -12,55 +12,71 @@
    helm uninstall my-release
    ```
 
-2. Metrics Server 삭제
-   - HPA 실습에서 Helm으로 설치한 `metrics-server` 릴리스와 관련 리소스를 삭제합니다.
+2. Helm 외부에서 만든 인증 Secret과 로컬 설정 파일 삭제
+   - `regcred`는 Lab06에서 `kubectl`로 직접 생성했기 때문에 `helm uninstall`로 삭제되지 않습니다. 첫 번째 명령으로 Container Registry 인증 정보를 클러스터에서 삭제합니다.
+   - 두 번째 명령은 Lab08에서 Helm Chart 디렉터리로 옮긴 `values.yaml`을 Bastion VM에서 삭제합니다. 이 파일에는 데이터베이스 엔드포인트와 비밀번호가 포함되어 있습니다.
+   - 두 명령 모두 대상이 이미 없어도 오류 없이 넘어가도록 작성되어 있습니다.
 
    #### **lab11-2**
+   ```bash
+   kubectl delete secret regcred -n default --ignore-not-found
+   rm -f /home/ubuntu/tutorial/AdvancedCourse/src/helm/values.yaml
+   ```
+
+3. Metrics Server 삭제
+   - HPA 실습에서 Helm으로 설치한 `metrics-server` 릴리스와 관련 리소스를 삭제합니다.
+
+   #### **lab11-3**
    ```bash
    helm uninstall metrics-server
    ```
 
-3. Gateway 삭제 및 Load Balancer 삭제 대기
+4. Gateway 삭제 및 Load Balancer 삭제 대기
    - 첫 번째 명령은 `kc-gateway`를 삭제합니다. NGINX Gateway Fabric은 이 변경을 감지하여 Gateway 전용 DaemonSet과 LoadBalancer 타입 Service를 함께 삭제합니다.
    - 두 번째 명령은 `kc-gateway-nginx` Service가 완전히 없어질 때까지 기다립니다. Service 삭제가 완료되면 카카오클라우드 Load Balancer 삭제도 시작됩니다.
    - 접속 중인 Bastion VM 인스턴스에서 아래 명령어 입력
 
-   #### **lab11-3**
+   #### **lab11-4**
    ```bash
    kubectl delete -f /home/ubuntu/tutorial/AdvancedCourse/src/manifests/gateway.yaml
    kubectl wait --for=delete service/kc-gateway-nginx -n nginx-gateway --timeout=10m
    ```
 
-4. NGINX Gateway Fabric 삭제
+5. NGINX Gateway Fabric 삭제
    - Gateway와 데이터 플레인이 사라진 뒤 `ngf` Helm 릴리스를 제거합니다. `--wait`는 컨트롤러 리소스 삭제가 끝날 때까지 기다립니다.
 
-   #### **lab11-4**
+   #### **lab11-5**
    ```bash
    helm uninstall ngf -n nginx-gateway --wait --timeout=5m
    ```
 
-5. NGINX Gateway Fabric 및 Gateway API CRD 삭제
+6. NGINX Gateway Fabric 및 Gateway API CRD 삭제
    - 첫 번째 명령은 Helm Chart에 포함된 NGINX Gateway Fabric 전용 CRD를 가져와 클러스터에서 삭제합니다.
    - 두 번째 명령은 Lab05에서 설치한 Gateway API 표준 CRD를 같은 버전의 원본으로 렌더링하여 삭제합니다.
    - 마지막 명령은 전용 네임스페이스가 남아 있을 경우 삭제합니다.
 
-   #### **lab11-5**
+   > 다음 CRD는 클러스터 범위의 공용 API입니다. 이 실습처럼 전용으로 생성하여 폐기할 클러스터에서만 삭제합니다. 다른 사용자나 Gateway 컨트롤러가 사용하는 공유 클러스터에서는 CRD 삭제 명령 두 개를 건너뜁니다.
+
+   #### **lab11-6**
    ```bash
    helm show crds oci://ghcr.io/nginx/charts/nginx-gateway-fabric --version 2.3.0 | kubectl delete -f -
    kubectl kustomize "https://github.com/nginx/nginx-gateway-fabric/config/crd/gateway-api/standard?ref=v2.3.0" | kubectl delete -f -
    kubectl delete namespace nginx-gateway --ignore-not-found
    ```
 
-6. 삭제 결과 확인
+7. 삭제 결과 확인
    - 첫 번째 명령은 전체 네임스페이스의 기본 워크로드를 확인합니다.
    - 두 번째 명령은 LoadBalancer 타입 Service가 남아 있는지 확인합니다.
-   - 마지막 명령은 Gateway API 및 NGINX Gateway Fabric CRD가 남아 있으면 출력하고, 없으면 완료 메시지를 표시합니다.
+   - 세 번째 명령은 Gateway API 및 NGINX Gateway Fabric CRD가 남아 있으면 출력하고, 없으면 완료 메시지를 표시합니다.
+   - 마지막 두 명령은 수동 생성한 `regcred` Secret과 로컬 `values.yaml`이 삭제되었는지 확인합니다. Secret 조회 결과가 없고 파일 삭제 완료 메시지가 출력되면 정상입니다.
 
-   #### **lab11-6**
+   #### **lab11-7**
    ```bash
    kubectl get all --all-namespaces
    kubectl get service --all-namespaces --field-selector spec.type=LoadBalancer
    kubectl get crd | grep -E 'gateway.networking.k8s.io|gateway.nginx.org' || echo "Gateway 관련 CRD가 모두 삭제되었습니다."
+   kubectl get secret regcred -n default --ignore-not-found
+   test ! -e /home/ubuntu/tutorial/AdvancedCourse/src/helm/values.yaml && echo "로컬 values.yaml이 삭제되었습니다."
    ```
 
 > Kubernetes Service가 삭제된 뒤 카카오클라우드 콘솔의 Load Balancer가 실제로 사라지기까지 시간이 걸릴 수 있습니다. Load Balancer 삭제를 확인한 다음 연결했던 Public IP를 삭제합니다.

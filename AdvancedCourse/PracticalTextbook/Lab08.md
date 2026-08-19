@@ -6,10 +6,11 @@
 
 1. YAML 파일로 배포한 리소스 삭제
    - `kubectl delete -f`는 Lab06에서 적용한 YAML을 기준으로 애플리케이션 리소스를 삭제합니다. 다음 단계에서 같은 역할의 리소스를 Helm으로 다시 배포하기 위한 정리 작업입니다.
+   - 절대 경로를 사용하므로 Lab06 이후 SSH에 다시 접속했거나 현재 디렉터리가 달라도 같은 파일을 정확하게 찾을 수 있습니다.
 
    #### **lab8-1-1**
    ```bash
-   kubectl delete -f ./lab6-manifests.yaml
+   kubectl delete -f /home/ubuntu/yaml/lab6-manifests.yaml
    ```
 
 2. 실습에 사용한 YAML 파일 삭제
@@ -17,7 +18,7 @@
 
    #### **lab8-1-2**
    ```bash
-   rm -f lab6-manifests.yaml
+   rm -f /home/ubuntu/yaml/lab6-manifests.yaml
    ```
 
 3. 리소스 삭제 결과 확인
