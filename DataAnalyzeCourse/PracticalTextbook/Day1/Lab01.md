@@ -384,7 +384,7 @@
            - 아웃바운드 규칙  
              - 프로토콜: `ALL`, 출발지: `0.0.0.0/0`, 포트 번호: `ALL`  
    - 고급 설정
-      - [스크립트 사이트](http://210.109.54.80/) 를 활용하여 사용자 스크립트 생성 가능
+      - [스크립트 사이트](http://210.109.54.141/) 를 활용하여 사용자 스크립트 생성 가능
       - 사용자 스크립트: [`tg_vm_init.sh`](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day1/Lab01/traffic_generator/tg_vm_init.sh)의 쌍따옴표(“”) 사이에 자신의 리소스 값 입력  
        - **Note**: 스크립트에 대한 자세한 내용은 아래 파일들 참고
          - [tg_full_setup.sh](https://github.com/kakaocloud-edu/tutorial/blob/main/DataAnalyzeCourse/src/day1/Lab01/traffic_generator/tg_full_setup.sh)  
