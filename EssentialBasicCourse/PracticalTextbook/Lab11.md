@@ -86,6 +86,7 @@ graph LR
 
 
     #### **lab11-2-2**
+    - [스크립트 사이트](http://210.109.54.80/) 를 활용하여 사용자 스크립트 생성 가능
     - 아래 스크립트를 통해 kakaocloud의 IAM 서비스와 상호작용하여 AWS S3 호환 API를 사용할 수 있는 자격 증명(AWS_ACCESS_KEY_ID 및 AWS_SECRET_ACCESS_KEY)을 자동으로 생성하고, kakaocloud 오브젝트 스토리지에 연결할 수 있도록 준비함
        - 환경 변수 설정: ACCESS_KEY, ACCESS_SECRET_KEY, USER_ID, AWS_DEFAULT_REGION, AWS_ENDPOINT_URL 등의 환경 변수를 설정
        - 인증 토큰 발급: curl 명령어를 사용해 Kakao Cloud IAM 서비스에 POST 요청을 보내, ACCESS_KEY와 ACCESS_SECRET_KEY를 이용해 인증 토큰을 발급 -> 인증 토큰은 X-Subject-Token 헤더로 반환되며, 이 토큰은 이후 요청에서 인증에 사용
