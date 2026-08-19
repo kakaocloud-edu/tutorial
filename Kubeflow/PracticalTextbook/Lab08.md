@@ -35,35 +35,35 @@
 11. 파이프라인을 정의한 후 이를 컴파일 하여 YAML 파일로 저장
     - **Note**: 파이프라인을 정의한 후 컴파일하여 yaml 파일로 저장하는 블록
     - `5`번 확인 후 `RUN` 클릭
-    - 생성된 `math_pipeline.yaml` 확인
-12. 생성된 math_pipeline.yaml 파일 내용 확인하기 
-    - 생성된 math_pipeline.yaml 더블 클릭
+    - 생성된 `math_pipeline_latest.yaml` 확인
+12. 생성된 math_pipeline_latest.yaml 파일 내용 확인하기 
+    - 생성된 math_pipeline_latest.yaml 더블 클릭
 
 ## 2. SDK를 통한 파이프라인 실행
 1. SDK를 통해 파이프라인을 실행
     - **Note**: SDK를 통해 파이프라인을 실행하는 블록
     - `6`번 확인 후 `RUN` 클릭 
     - 파이프라인이 생성되고 실행됨을 확인 
-2. `Experiments(KFP)` 탭 > 생성된 `math_pipeline_test` experiment 확인
+2. `Experiments(KFP)` 탭 > 생성된 `Simple Math Test` experiment 확인
 3. Runs 탭 > 생성된 `math_pipeline_run` 클릭
 4. `Add` 컴포넌트 클릭 후 내용 확인 
 5. `Multiply` 컴포넌트 클릭 후 내용 확인
 
 ## 3. Kubeflow 대시보드 UI를 통한 파이프라인 실행
 
-1. gpu-notebook > `math.pipeline.yaml` 우클릭 > `Download` 클릭
+1. gpu-notebook > `math_pipeline_latest.yaml` 우클릭 > `Download` 클릭
 2. `Pipelines` 탭 > `+ Upload pipeline` 클릭
 3. 파이프라인 생성
     - `Create a new pipeline` 선택
     - Pipeline name : `second math_pipeline`
     - Pipeline description : `this is second math_pipeline`
-    - `Upload a file` 선택 후 `Choose file` 클릭하여 다운받은 `math_pipeline.yaml` 업로드
+    - `Upload a file` 선택 후 `Choose file` 클릭하여 다운받은 `math_pipeline_latest.yaml` 업로드
     - Create 클릭
 4. `+ Create run` 클릭
 5. This run will be associated with the following experiment > `Choose` 클릭
     - Experiment 부분 `Choose` 클릭
 6. Experiment 업로드
-    - SDK를 통해 만들어진 `math_pipeline test experiment` 선택
+    - SDK를 통해 만들어진 `Simple Math Test` 선택
     - `Use this experiment` 클릭
 7. 파라미터 설정
     - Run parameters
@@ -71,14 +71,14 @@
         - b : `5`
         - c : `6` 
     - `Start` 클릭
-8. `Experiments(KFP)` 탭 > `math_pipeline test experiment` 클릭
+8. `Experiments(KFP)` 탭 > `Simple Math Test` 클릭
 9. 실행되었던 Run 항목들 확인
     - Run의 이름, 상태, Duration, 버전 확인
 
 ## 4. 파이프라인 실행 이후 각 항목 확인
 
 ### 1. Experiments (KFP)
-1. `Experiments(KFP)` 탭 > `math_pipeline test experiment` 클릭
+1. `Experiments(KFP)` 탭 > `Simple Math Test` 클릭
 2. 실행되었던 `Run` 항목들 확인
     - Run의 이름, 상태, Duration 버전 확인
 3. 실행된 `Run of second math_pipeline`의 `Pipeline Version` 클릭
