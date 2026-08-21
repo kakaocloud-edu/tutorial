@@ -41,7 +41,10 @@ graph LR
           - 프로토콜: `TCP`, 패킷 출발지: `{bastion의 Private IP}/32`, 포트 번호: `22`
                - **Note**: "{bastion의 Private IP}" 부분을 bastion 인스턴스의 Private IP 주소로 교체하세요.
      - Outbound
-          - 프로토콜: `ALL`, 패킷 목적지: `0.0.0.0/0`, 포트 번호: `ALL`
+          - 프로토콜: `TCP`, 패킷 목적지: `0.0.0.0/0`, 포트 번호: `80`
+          - 프로토콜: `TCP`, 패킷 목적지: `0.0.0.0/0`, 포트 번호: `443`
+          - 프로토콜: `UDP`, 패킷 목적지: `169.254.169.253/32`, 포트 번호: `53`
+          - 프로토콜: `UDP`, 패킷 목적지: `172.30.0.2/32`, 포트 번호: `53`
 4. 생성 버튼 클릭
      - **Note**: 이 보안 그룹은 아래에서 생성할 두 개의 NAT 인스턴스(AZ-a, AZ-b)에 공통으로 사용합니다.
 
@@ -204,13 +207,15 @@ graph LR
 불필요한 리소스 삭제를 하는 실습입니다.
 
 > ⚠️ **주의**
-> - **VPC, VPC 하위 서브넷은 삭제하지 않습니다.**
-> - **Bastion VM, web_server_1은 삭제하지 않습니다.**
-> - **MySQL 인스턴스 그룹(database)은 삭제하지 않습니다.**
-> - **Volume Snapshot은 삭제하지 않습니다.**
-> - 위 4가지는 다음 실습에서 계속 사용하는 리소스이니 절대 삭제하지 마세요. 아래 항목은 **이 미니랩에서만 만든 리소스**로, 이후에는 다시 쓰지 않으므로 지금 삭제합니다.
+> - **VPC, VPC 하위 서브넷은 삭제하지 않습니다.** (3일차까지 계속 사용)
+> - **Bastion VM, web_server_1은 삭제하지 않습니다.** (3일차까지 계속 사용)
+> - **MySQL 인스턴스 그룹(database)은 삭제하지 않습니다.** (3일차까지 계속 사용)
+> - **Volume Snapshot은 삭제하지 않습니다.** (3일차까지 계속 사용)
+> - 아래 항목은 **위 미니랩에서만 만든 리소스**로, 이후 실습에서 다시 쓰지 않으므로 여기서 바로 삭제합니다.
 
 1. Virtual Machine > Instance > nat-instance-a, nat-instance-b, private-vm-a, private-vm-b 모두 체크 > Instance 삭제 > 영구 삭제 입력 > 삭제버튼 클릭
 2. VPC > Public IP > nat-instance-a, nat-instance-b에 연결되어 있던 Public IP 모두 선택 > 삭제버튼 클릭 > 영구 삭제 입력 > 삭제
-3. VPC > Routing Table > private-nat-rt-a 오른쪽 (...) 클릭 > 삭제 > 라우팅 테이블 이름 입력 > 삭제버튼 클릭 > private-nat-rt-b도 동일하게 반복
-4. VPC > Security Group > nat-instance 오른쪽 (...) 클릭 > 삭제 > 보안 그룹 이름 입력 > 삭제버튼 클릭 > private-vm도 동일하게 반복
+3. VPC > Routing Table > private-nat-rt-a 클릭 > 연결 수정 > `vpc_1_private_sn1` 서브넷을 원래 라우팅 테이블(`vpc_1_private_rt1`)로 다시 연결 > 연결 버튼 클릭 (private-nat-rt-b도 동일하게 `vpc_1_private_sn2`를 `vpc_1_private_rt2`로 재연결)
+   - ※ 서브넷이 연결된 상태로는 라우팅 테이블이 삭제되지 않으므로, 반드시 먼저 원래 라우팅 테이블로 옮겨줘야 합니다.
+4. VPC > Routing Table > private-nat-rt-a 오른쪽 (...) 클릭 > 삭제 > 라우팅 테이블 이름 입력 > 삭제버튼 클릭 > private-nat-rt-b도 동일하게 반복
+5. VPC > Security Group > nat-instance 오른쪽 (...) 클릭 > 삭제 > 보안 그룹 이름 입력 > 삭제버튼 클릭 > private-vm도 동일하게 반복
