@@ -199,3 +199,21 @@ graph LR
 6. 같은 방법으로 Bastion을 경유하여 `private-vm-b`에 접속 후 동일하게 확인
      - `curl https://ifconfig.me/ip` 결과가 `nat-instance-b`의 Public IP와 일치하는지 확인
      - 두 결과가 각각 일치한다면, 가용 영역별로 Private 서브넷의 트래픽이 해당 AZ의 NAT 인스턴스를 거쳐 정상적으로 인터넷과 통신하고 있다는 뜻입니다.
+
+---
+
+# 리소스 삭제 실습
+
+불필요한 리소스 삭제를 하는 실습입니다.
+
+> ⚠️ **주의**
+> - **VPC, VPC 하위 서브넷은 삭제하지 않습니다.**
+> - **Bastion VM, web_server_1은 삭제하지 않습니다.**
+> - **MySQL 인스턴스 그룹(database)은 삭제하지 않습니다.**
+> - **Volume Snapshot은 삭제하지 않습니다.**
+> - 위 4가지는 다음 실습에서 계속 사용하는 리소스이니 절대 삭제하지 마세요. 아래 항목은 **이 미니랩에서만 만든 리소스**로, 이후에는 다시 쓰지 않으므로 지금 삭제합니다.
+
+1. Virtual Machine > Instance > nat-instance-a, nat-instance-b, private-vm-a, private-vm-b 모두 체크 > Instance 삭제 > 영구 삭제 입력 > 삭제버튼 클릭
+2. VPC > Public IP > nat-instance-a, nat-instance-b에 연결되어 있던 Public IP 모두 선택 > 삭제버튼 클릭 > 영구 삭제 입력 > 삭제
+3. VPC > Routing Table > private-nat-rt-a 오른쪽 (...) 클릭 > 삭제 > 라우팅 테이블 이름 입력 > 삭제버튼 클릭 > private-nat-rt-b도 동일하게 반복
+4. VPC > Security Group > nat-instance 오른쪽 (...) 클릭 > 삭제 > 보안 그룹 이름 입력 > 삭제버튼 클릭 > private-vm도 동일하게 반복

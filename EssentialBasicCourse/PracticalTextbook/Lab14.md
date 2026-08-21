@@ -2,14 +2,24 @@
 
 불필요한 리소스 삭제를 하는 실습입니다.
 
-1. Alert Center > 수신 채널 > 왼쪽 (...) 클릭 > 삭제 > 수신 채널 이름 입력 > 삭제버튼 클릭  > 알림 채널 > 왼쪽 (...) 클릭 > 삭제 > 알림 채널 이름 입력 > 삭제버튼 클릭
-2. Virtual Machine > Instance > 모두 체크 > Instance 삭제 > 영구 삭제 > 삭제버튼 클릭
-3. DNS > DNS Zone > DNS 이름 클릭 > 추가했던 상단 레코드의 오른쪽 (...) 클릭 > 레코드 삭제 클릭 >  오른쪽 상단 레코드의 오른쪽 (...) 클릭 >  DNS 삭제 클릭 > DNS 주소 이름 입력 > 삭제버튼 클릭
-4. Load Balancing > Load Balancer > 생성 되어있는 로드밸런서 오른쪽 (...) 클릭 > Load Balancer 삭제 클릭 > Load Balancer 이름 입력 > 삭제버튼 클릭
-5. Transit Gateway > Attachment 탭 클릭 > 생성되어 있는 Attachment의 오른쪽 (...) 클릭 > 영구 삭제 입력 및 삭제버튼 클릭
-6. Transit Gateway > 생성되어 있는 Transit Gateway 오른쪽 (...) 클릭 > Transit Gateway 삭제 클릭 > Transit Gateway 이름 입력 및 삭제버튼 클릭
-7. MySQL > Instance Group > 생성되어 있는 인스턴스 그룹 오른쪽 (...) 클릭 > 인스턴스 그룹 삭제 클릭 > 인스턴스 그룹 이름 입력 및 삭제버튼 클릭
-8. File Storage > Instance > 생성되어 있는 인스턴스 그룹 오른쪽 (...) 클릭 > Instance 삭제 클릭 > 인스턴스 이름 입력 및 삭제버튼 클릭
-9. Object Storage > Bucket > 생성되어 있는 버킷 오른쪽 (...) 클릭 > 버킷 비우기 클릭 > 영구 삭제 입력 및 비우기버튼 클릭 > 생성되어 있는 버킷 오른쪽 (...) 클릭  > 버킷 삭제 클릭 > 버킷 이름 입력 및 삭제버튼 클릭 
-10. VPC > Public IP > 모두 선택 > 삭제버튼 클릭 > 영구 삭제 입력 > 삭제
-11. VPC > 생성되어 있는 VPC 오른쪽 (...) 클릭 > VPC 삭제 > VPC 이름 입력 및 삭제버튼 클릭
+> ⚠️ **주의**
+> - **VPC는 절대 삭제하지 않습니다.**
+> - **File Storage도 삭제하지 않고 남겨둡니다.**
+> - TGW, DNS 영역은 데모로 진행되지만 **따라 만든 교육생이 있을 수 있으므로 동일하게 삭제 절차를 안내합니다.**
+> - 순서를 건너뛰면 삭제가 실패할 수 있으니 아래 번호 순서대로 진행합니다. (예: Attachment를 먼저 지워야 Transit Gateway 삭제 가능, 버킷을 비운 뒤에만 버킷 삭제 가능)
+
+1. Alert Center > 수신 채널 > 왼쪽 (...) 클릭 > 삭제 > 수신 채널 이름 입력 > 삭제버튼 클릭 > 알림 채널 > 왼쪽 (...) 클릭 > 삭제 > 알림 채널 이름 입력 > 삭제버튼 클릭
+2. Virtual Machine > Instance > 모두 체크 > Instance 삭제 > 영구 삭제 입력 > 삭제버튼 클릭
+3. Networking > 고가용성 그룹 > 오른쪽 (...) 클릭 > 삭제 > 영구 삭제 입력 > 삭제버튼 클릭
+4. Load Balancing > 대상 그룹 > 오른쪽 (...) 클릭 > 삭제 > 대상 그룹 이름 입력 > 삭제버튼 클릭
+5. Load Balancing > Load Balancer > 생성되어 있는 로드밸런서 오른쪽 (...) 클릭 > Load Balancer 삭제 클릭 > Load Balancer 이름 입력 > 삭제버튼 클릭
+6. DNS > DNS Zone > DNS 이름 클릭 > 추가했던 레코드의 오른쪽 (...) 클릭 > 레코드 삭제 클릭 (레코드가 여러 개면 반복) > 상단 DNS Zone 오른쪽 (...) 클릭 > DNS 삭제 클릭 > DNS 주소 이름 입력 > 삭제버튼 클릭
+7. Transit Gateway > Attachment 탭 클릭 > 생성되어 있는 Attachment의 오른쪽 (...) 클릭 > 영구 삭제 입력 및 삭제버튼 클릭
+8. Transit Gateway > 생성되어 있는 Transit Gateway 오른쪽 (...) 클릭 > Transit Gateway 삭제 클릭 > Transit Gateway 이름 입력 및 삭제버튼 클릭
+9. MySQL > Instance Group > 생성되어 있는 인스턴스 그룹 오른쪽 (...) 클릭 > 인스턴스 그룹 삭제 클릭 > 인스턴스 그룹 이름 입력 및 삭제버튼 클릭
+10. MemStore > 생성되어 있는 인스턴스 오른쪽 (...) 클릭 > 삭제 클릭 > 인스턴스 이름 입력 및 삭제버튼 클릭
+11. Storage > Volume > 스냅샷 탭 클릭 > 생성되어 있는 스냅샷 오른쪽 (...) 클릭 > 삭제 클릭 > 스냅샷 이름 입력 및 삭제버튼 클릭
+12. Object Storage > Bucket > 생성되어 있는 버킷 오른쪽 (...) 클릭 > 버킷 비우기 클릭 > 영구 삭제 입력 및 비우기버튼 클릭 > 생성되어 있는 버킷 오른쪽 (...) 클릭 > 버킷 삭제 클릭 > 버킷 이름 입력 및 삭제버튼 클릭
+13. VPC > Public IP > 모두 선택 > 삭제버튼 클릭 > 영구 삭제 입력 > 삭제
+14. 자격증명 > S3 액세스 키 > 오른쪽 (...) 클릭 > 삭제 클릭 > 영구 삭제 입력 > 삭제버튼 클릭
+
