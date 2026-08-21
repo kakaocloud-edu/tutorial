@@ -92,7 +92,7 @@
       - 프로토콜 : `TCP`, 패킷 출발지: `0.0.0.0/0`, 포트 번호: `8080`
 13. 아웃바운드 클릭
     - 아웃바운드
-      - 프로토콜 : `ALL`, 패킷 목적지 : `0.0.0.0/0`, 포트 번호: `22`
+      - 프로토콜 : `ALL`, 패킷 목적지 : `0.0.0.0/0`, 포트 번호: `ALL`
     - 생성 버튼 클릭
 14. 고급설정 버튼 클릭
     - 사용자 스크립트에 [**lab3-1-6**](https://github.com/kakaocloud-edu/tutorial/blob/main/AdvancedCourse/PracticalTextbook/Lab03.md#lab3-1-6) 내용을 붙여넣기
