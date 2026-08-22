@@ -74,16 +74,17 @@ graph LR
 
 ### 3-1. nat-instance-a
 
-1. 터미널에서 keypair를 다운받아놓은 폴더로 이동 후 SSH 접속
+1. 터미널에서 keypair를 다운받아놓은 폴더로 이동 후 Bastion을 경유하여 SSH 접속
      #### **lab-nat-3-1-1-1**
      ```bash
      cd {keypair.pem 다운로드 위치}
      ```
      #### **lab-nat-3-1-1-2**
      ```bash
-     ssh -i keypair.pem ubuntu@{nat-instance-a의 public ip주소}
+     ssh -i "keypair.pem" -o ProxyCommand="ssh -W %h:%p ubuntu@{bastion의 public IP} -i keypair.pem" ubuntu@{nat-instance-a의 private IP}
      ```
-     - **Note**: "{nat-instance-a의 public ip주소}" 부분을 복사한 IP 주소로 교체하세요.
+     - **Note**: "{bastion의 public IP}", "{nat-instance-a의 private IP}" 부분을 복사한 IP 주소로 교체하세요.
+     - **Note**: nat-instance의 보안 그룹이 Bastion의 Private IP에서만 22번 포트를 허용하도록 설정되어 있으므로, 반드시 Bastion을 경유해서 접속해야 합니다. (교육생 PC에서 직접 접속 불가)
 
 2. NAT 통신을 위한 IP 포워딩 및 마스커레이딩 설정 - 터미널 명령어 입력
      - 이 명령어는 사용 가능한 네트워크 인터페이스를 자동으로 식별하고, IP 포워딩을 활성화하며, 선택된 인터페이스에 대한 네트워크 트래픽 마스커레이딩을 자동으로 구성합니다.
@@ -110,7 +111,7 @@ graph LR
 
 ### 3-2. nat-instance-b
 
-1. `nat-instance-a`와 동일하게, `nat-instance-b`의 Public IP로 접속하여 위 2번 스크립트를 동일하게 실행
+1. `nat-instance-a`와 동일하게, Bastion을 경유하여 `nat-instance-b`의 Private IP로 접속한 뒤 위 2번 스크립트를 동일하게 실행
 
 ## 4. 패킷 송신 허용 IP 수정
 
