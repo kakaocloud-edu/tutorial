@@ -217,6 +217,6 @@ graph LR
 1. Virtual Machine > Instance > nat-instance-a, nat-instance-b, private-vm-a, private-vm-b 모두 체크 > Instance 삭제 > 영구 삭제 입력 > 삭제버튼 클릭
 2. VPC > Public IP > nat-instance-a, nat-instance-b에 연결되어 있던 Public IP 모두 선택 > 삭제버튼 클릭 > 영구 삭제 입력 > 삭제
 3. VPC > Routing Table > `vpc_1_private_rt` 클릭 > 연결 수정 > `vpc_1_private_sn1`, `vpc_1_private_sn2` 서브넷 둘 다 연결 > 연결 버튼 클릭
-   - ※ 서브넷이 연결된 상태로는 라우팅 테이블이 삭제되지 않으므로, 반드시 먼저 원래 라우팅 테이블로 옮겨줘야 합니다.
+   - 서브넷이 연결된 상태로는 라우팅 테이블이 삭제되지 않으므로, 반드시 먼저 원래 라우팅 테이블로 옮겨줘야 합니다.
 4. VPC > Routing Table > private-nat-rt-a 오른쪽 (...) 클릭 > 삭제 > 라우팅 테이블 이름 입력 > 삭제버튼 클릭 > private-nat-rt-b도 동일하게 반복
 5. VPC > Security Group > nat-instance 오른쪽 (...) 클릭 > 삭제 > 보안 그룹 이름 입력 > 삭제버튼 클릭 > private-vm도 동일하게 반복
