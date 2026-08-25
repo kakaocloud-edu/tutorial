@@ -10,14 +10,14 @@ CPU Notebook에서 Tensorboard, 하이퍼파라미터 튜닝 등을 실습합니
 3. speed_check.ipynb 파일 다운로드
    #### **Lab5-1-3**
    ```bash
-   wget https://github.com/kakaocloud-edu/tutorial/raw/main/Kubeflow/src/ipynb/speed_check.ipynb
+   wget -O speed_check.ipynb "https://objectstorage.kr-central-2.kakaocloud.com/v1/32ac749f528f41958493b28d9387911c/kubeflow/speed_check_cpu.ipynb"
    ```
    - speed_check.ipynb 파일 생성 확인
 
 ## 2. 노트북 실행
 1. Notebooks 탭 > `cpu-notebook`의 `CONNECT` 클릭
 2. cpu-notebook의 speed_check.ipynb 파일 `RUN` 클릭
-   - **Note**: GPU가 없는 환경이므로 노트북 코드가 자동으로 CPU(`/CPU:0`)로 학습을 진행합니다. 출력 메시지 중 `"A100 MIG 1g.10gb"` 문구는 GPU 환경 기준 문구이므로 무시해도 됩니다.
+   - **Note**: 첫 실행 시 tensorflow/CIFAR-10 데이터가 준비돼있지 않으면 자동으로 설치·다운로드(사내 Object Storage 기준)를 진행한 뒤 학습을 시작합니다.
    - 진행 상황 확인
 3. 결과 값 확인
    - Training time 및 Test accuracy 확인
