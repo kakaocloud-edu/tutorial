@@ -2,7 +2,7 @@
 기존 노트북을 활용하여 간단한 계산 파이프라인을 Kubeflow로 실행하고, SDK와 대시보드 UI를 통해 파이프라인을 관리하는 실습입니다. 각 컴포넌트의 입력과 출력, 실행 로그 등을 확인하여 파이프라인의 동작을 이해합니다.
 
 ## 1. .ipynb 파일 업로드
-1. Notebooks 탭 > `gpu-notebook`의 `CONNECT` 버튼 클릭
+1. Notebooks 탭 > `cpu-notebook`의 `CONNECT` 버튼 클릭
 2. 좌측 상단의 `+` 클릭
 3. Other 중 `Terminal` 클릭
 4. `simple_pipeline.ipynb` 파일 다운
@@ -51,7 +51,7 @@
 
 ## 3. Kubeflow 대시보드 UI를 통한 파이프라인 실행
 
-1. gpu-notebook > `math_pipeline_latest.yaml` 우클릭 > `Download` 클릭
+1. cpu-notebook > `math_pipeline_latest.yaml` 우클릭 > `Download` 클릭
 2. `Pipelines` 탭 > `+ Upload pipeline` 클릭
 3. 파이프라인 생성
     - `Create a new pipeline` 선택
