@@ -27,11 +27,11 @@ Training Operator를 사용하여 병렬 학습 환경을 구축하고 PyTorchJo
 6. 실습을 위해 터미널에 아래 명령어를 입력하여 `fashionmnist_pytorch_parallel_train_with_tj.ipynb` 파일 다운
     #### **lab7-1-6**
     ```bash
-    wget -O fashionmnist_pytorch_parallel_train_with_tj.ipynb "https://objectstorage.kr-central-2.kakaocloud.com/v1/4e2300eecdb740cda1c10041b204b3f3/kbm-files/guide_docs/hands_on/fashion-mnist-parallel-train/fashionmnist_pytorch_parallel_train_with_tj.ipynb"
-
-    
+    wget -O fashionmnist_pytorch_parallel_train_with_tj.ipynb "https://objectstorage.kr-central-2.kakaocloud.com/v1/32ac749f528f41958493b28d9387911c/kubeflow/fashionmnist_pytorch_parallel_train_with_tj_cpu.ipynb"
     ```
     - `fashionmnist_pytorch_parallel_train_with_tj.ipynb` 파일 생성 확인
+    - **Note**: CPU 전용으로 수정된 버전입니다 (`nccl`→`gloo`, `cuda`→`cpu`, `MAX_EPOCHS` 100→3, GPU 리소스 요청 제거)
+    - **Note**: `base_image`의 `pytorchjob-pytorch:1.12.1-cpu` 태그가 사내 레지스트리에 실제 존재하는지 배포 전에 반드시 확인 필요 (미확인 시 ImagePullBackOff 가능)
 
 ## 2. 모델 학습 코드 살펴보기 
 1. 우측 화면 영역에 실습 내용 확인
