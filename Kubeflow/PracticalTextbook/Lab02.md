@@ -16,9 +16,7 @@
             - Worker 노드 풀 : `pool-worker`
      - 선택 노드 풀 설정
          - CPU 노드 풀 : `pool-worker`
-         - GPU 노드 풀 : `pool-gpu`
-         - GPU MIG : `1g.10gb`
-             - `+`를 눌러서 7을 선택
+         - GPU 노드 풀 : 선택 안 함 (CPU 전용 실습이라 pool-gpu 미생성)
      - 기본 파일 스토리지 : `handson`
      - Kubeflow 소유자 설정
          - 소유자 이메일 계정 : `입력된 이메일로 임시 비밀번호 발송`
