@@ -54,7 +54,7 @@ Kubeflow 실습을 위한 프로젝트 기본 환경 실습을 진행합니다. 
 2. VPC 탭 > `VPC 생성` 버튼 클릭
 3. VPC 정보 작성
     - VPC 정보
-        - VPC 이름 : `vpc_k8s`
+        - VPC 이름 : `vpc_1`
         - VPC IP CIDR 블록 : `172.16.0.0/16`
     - Availability Zone
         - 가용 영역 개수 : `2`
@@ -75,11 +75,11 @@ Kubeflow 실습을 위한 프로젝트 기본 환경 실습을 진행합니다. 
 3. `클러스터 만들기` 클릭
 4. 클러스터 기본 설정 정보 작성
     - 기본 설정
-        - 클러스터 이름: `k8s-cluster`
+        - 클러스터 이름: `kakao-k8s-cluster`
         - 클러스터 설명(선택): 빈칸
-        - Kubernetes 버전 : `1.27`
+        - Kubernetes 버전 : `1.31`
     - 클러스터 Network 설정
-        - VPC : `vpc_k8s`
+        - VPC : `vpc_1`
         - Subnet : `Public Subnet 2개 선택`
     - CNI
        - `Calico` 선택
@@ -89,8 +89,8 @@ Kubeflow 실습을 위한 프로젝트 기본 환경 실습을 진행합니다. 
 5. 클러스터 생성 상태 확인 
 
 ## 7. Kubernetes Engine Cluster의 노드풀 생성
-1. 생성된 `k8s-cluster` 클릭
-2. 생성된 k8s-cluster 세부 정보 확인
+1. 생성된 `kakao-k8s-cluster` 클릭
+2. 생성된 kakao-k8s-cluster 세부 정보 확인
 
 #### pool-ingress 노드풀 생성 (약 3분 소요)
 3. 노드 풀 탭 > `노드 풀 만들기` 클릭
@@ -104,7 +104,7 @@ Kubeflow 실습을 위한 프로젝트 기본 환경 실습을 진행합니다. 
     - Volume: SSD `50GB`
     - 노드 수: `1`
     - 노드 풀 Network 설정
-        - VPC: `vpc_k8s`
+        - VPC: `vpc_1`
         - Subnet: `Public 서브넷 2개` 선택
     - 리소스 기반 오토 스케일 (선택): `미사용`
     - Key Pair: `keypair`
@@ -123,7 +123,7 @@ Kubeflow 실습을 위한 프로젝트 기본 환경 실습을 진행합니다. 
     - Volume: SSD `100GB`
     - 노드 수: `6`
     - 노드 풀 Network 설정
-        - VPC: `vpc_k8s`
+        - VPC: `vpc_1`
         - Subnet: `Public 서브넷 2개` 선택
     - 리소스 기반 오토 스케일 (선택): `미사용`
     - Key Pair: `keypair`
@@ -137,8 +137,8 @@ Kubeflow 실습을 위한 프로젝트 기본 환경 실습을 진행합니다. 
  
 
 ## 8. 파일 스토리지 인스턴스 생성 (약 3분 소요)
-1. 카카오 클라우드 콘솔 > Beyond Storage Service > File Storage > 인스턴스
-2. 인스턴스 탭 > `인스턴스 생성` 클릭
+1. 카카오 클라우드 콘솔 > Beyond Storage Service > File Storage > Basic 파일 시스템
+2. `파일 시스템 생성` 클릭
 3. 파일 인스턴스 설정 정보 작성
     - 인스턴스 정보
         - 인스턴스 이름: `kc-handson-fs`
@@ -147,8 +147,8 @@ Kubeflow 실습을 위한 프로젝트 기본 환경 실습을 진행합니다. 
     - 유형: `Basic`
     - 크기: `1TB`
     - 네트워크 설정
-        - VPC : `vpc_k8s`
-        - 서브넷 : `main`
+        - VPC : `vpc_1`
+        - 서브넷 : `vpc_1_public_`
     - 접근 제어 설정: `설정된 VPC와 통신이 가능한 모든 프라이빗 IP 주소를 허용합니다.` 선택
     - 마운트 정보 설정 : `handson`
     - `생성` 클릭
