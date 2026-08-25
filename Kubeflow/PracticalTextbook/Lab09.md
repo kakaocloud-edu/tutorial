@@ -27,10 +27,11 @@
 1. Lab 2-1 Kubeflow 생성 시 도메인 연결(선택) 항목에 도메인 설정 필요
     - 도메인 입력 완료된 Kubeflow 사용
 2. Lab 3-1 네임스페이스 쿼터 설정 시 원활한 실습이 어려울 수 있으므로, ‘쿼터 미 설정’ 된 사용자로 실습 진행
-3. 기존에 사용하던 GPU 이미지 기반의 노트북(gpu-notebook) 사용
+3. 기존에 사용하던 CPU 이미지 기반의 노트북(cpu-notebook) 사용\
+    - **Note**: fmnist-kserve.ipynb 내 학습 이미지/파이프라인 설정도 CPU 버전으로 함께 수정 필요 (kmlp-pytorch:...cpu 이미지 사용, GPU 노드셀렉터/리소스리밋 제거)
 
 ## 2. 노트북에서 모델 학습 및 서빙 API 생성 파이프라인 만들기
-1. Notebooks 탭 > `gpu-notebook`의 `CONNECT` 버튼 클릭
+1. Notebooks 탭 > `cpu-notebook`의 `CONNECT` 버튼 클릭
 2. Other 중 Terminal 클릭
 3. `fmnist-kserve.ipynb` 파일 다운로드
     - 아래 명령어 입력
@@ -39,6 +40,26 @@
     wget https://github.com/kakaocloud-edu/tutorial/raw/main/Kubeflow/src/ipynb/fmnist-kserve.ipynb
     ```
     - `fmnist-kserve.ipynb` 파일 생성 확인
+    - **[CPU 전환 필수] 노트북 코드 2곳 수정 후 진행**
+        - fmnist-kserve.ipynb 더블클릭해서 열기
+        - ① 학습 이미지 태그 변경 (환경 변수 설정 셀, `TRAIN_CR_IMAGE` 변수)
+          ```python
+          # 변경 전
+          TRAIN_CR_IMAGE = "bigdata-150.kr-central-2.kcr.dev/kc-kubeflow/kmlp-pytorch:1.0.0.py36.cuda"
+          # 변경 후
+          TRAIN_CR_IMAGE = "bigdata-150.kr-central-2.kcr.dev/kc-kubeflow/kmlp-pytorch:1.0.0.py36.cpu"
+          ```
+        - ② 파이프라인 정의 셀(`fmnist_model_pipeline` 함수, `model_train` 부분)에서 아래 2줄 삭제
+          ```python
+          # 이 nodeSelector 제거
+          .add_node_selector_constraint('nvidia.com/gpu.present', 'true')
+
+          # 이 리소스 리밋 블록 통째로 제거
+          model_train.add_resource_limit(
+              "nvidia.com/mig-1g.10gb", "1"
+          )
+          ```
+        - `EPOCH_NUM`은 이미 `3`으로 설정돼 있어 추가로 건드릴 필요 없음 (CPU에서도 학습 시간 부담 적음)
 4. 라이브러리 추가 및 데이터 확인
   - **Note**: Fashion MNIST 데이터셋 다운로드 및 시각화
     - fmnist-kserve.ipynb 파일 더블클릭
