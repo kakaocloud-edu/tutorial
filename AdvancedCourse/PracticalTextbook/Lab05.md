@@ -47,7 +47,9 @@ Gateway API 표준 리소스와 NGINX Gateway Fabric을 배포하고, Gateway를
    ```bash
    kubectl kustomize "https://github.com/nginx/nginx-gateway-fabric/config/crd/gateway-api/standard?ref=v2.3.0" | kubectl apply -f -
    ```
-
+- [NGINX Gateway Fabric v2.3.0 - Gateway API Standard Kustomization](https://github.com/nginx/nginx-gateway-fabric/blob/v2.3.0/config/crd/gateway-api/standard/kustomization.yaml)
+- [Kubernetes Gateway API v1.4.1 - CRD Directory](https://github.com/kubernetes-sigs/gateway-api/tree/v1.4.1/config/crd)
+- 
 3. 생성된 Gateway API CRD 확인
    - 다음 명령은 방금 설치한 6개의 표준 CRD가 실제로 생성되었는지 확인합니다.
    - 이어지는 명령은 해당 CRD를 통해 사용할 수 있게 된 Gateway API 리소스의 종류와 API 버전을 보여 줍니다.
