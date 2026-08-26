@@ -40,7 +40,7 @@ Gateway API 표준 리소스와 NGINX Gateway Fabric을 배포하고, Gateway를
    ```
 
 2. Gateway API 표준 CRD 배포
-   - 이 명령은 Kubernetes가 `Gateway`, `HTTPRoute` 같은 Gateway API 리소스를 이해할 수 있도록 **CRD(CustomResourceDefinition)**를 설치하는 단계입니다.
+   - 이 명령은 Kubernetes가 `Gateway`, `HTTPRoute` 같은 Gateway API 리소스를 이해할 수 있도록 CRD(CustomResourceDefinition)를 설치하는 단계입니다.
    - `kubectl kustomize`가 NGINX Gateway Fabric 2.3.0과 호환되는 표준 CRD 묶음을 렌더링하고, 파이프(`|`) 뒤의 `kubectl apply -f -`가 렌더링된 내용을 클러스터에 적용합니다.
 
    #### **lab5-1-2**
