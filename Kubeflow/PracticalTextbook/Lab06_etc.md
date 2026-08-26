@@ -121,8 +121,8 @@
          - 루트 볼륨 : `30 GB`
       - 키 페어 : `생성해둔 keypair` 선택
       - 네트워크
-         - VPC : `vpc_k8s` 선택
-         - 서브넷 : `main` 선택
+         - VPC : `vpc_1` 선택
+         - 서브넷 : `vpc_1_public_sn1` 선택
          - 보안 그룹
             - `보안 그룹 생성` 클릭 
             - 보안그룹 설정 정보
@@ -232,7 +232,7 @@
    ```
    #### **lab6-3-3-1**
    ```bash
-   docker run -it --rm hyperparam:1.0 python mnist_train.py --learning_rate 0.02 --batch_size 128
+   docker run -it --rm --dns 8.8.8.8 hyperparam:1.0 python mnist_train.py --learning_rate 0.02 --batch_size 128
    ```
 4. 도커 로그인
    - 접속 중인 Bastion VM 인스턴스에 명령어 입력

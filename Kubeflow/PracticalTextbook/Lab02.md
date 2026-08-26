@@ -23,6 +23,7 @@
          - 네임 스페이스 이름 : `kubeflow-handson`
          - 네임스페이스 파일 스토리지 : `http://172.16.2.116/handson(퍼블릭 액세스 허용)`
      - DB 설정
+         - 유형 : `Kubeflow Internal DB`
          - 포트 : `3306`
          - 비밀번호 : `admin1234!`
      - Object storage 타입 : `KC Object Storage`
