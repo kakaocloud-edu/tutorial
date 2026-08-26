@@ -27,8 +27,7 @@
 1. Lab 2-1 Kubeflow 생성 시 도메인 연결(선택) 항목에 도메인 설정 필요
     - 도메인 입력 완료된 Kubeflow 사용
 2. Lab 3-1 네임스페이스 쿼터 설정 시 원활한 실습이 어려울 수 있으므로, ‘쿼터 미 설정’ 된 사용자로 실습 진행
-3. 기존에 사용하던 CPU 이미지 기반의 노트북(cpu-notebook) 사용\
-    - **Note**: fmnist-kserve.ipynb 내 학습 이미지/파이프라인 설정도 CPU 버전으로 함께 수정 필요 (kmlp-pytorch:...cpu 이미지 사용, GPU 노드셀렉터/리소스리밋 제거)
+3. 기존에 사용하던 CPU 이미지 기반의 노트북(cpu-notebook) 사용
 
 ## 2. 노트북에서 모델 학습 및 서빙 API 생성 파이프라인 만들기
 1. Notebooks 탭 > `cpu-notebook`의 `CONNECT` 버튼 클릭
@@ -37,29 +36,10 @@
     - 아래 명령어 입력
     #### **lab2-3-2**
     ```bash
-    wget https://github.com/kakaocloud-edu/tutorial/raw/main/Kubeflow/src/ipynb/fmnist-kserve.ipynb
+    wget -O fmnist-kserve.ipynb "https://objectstorage.kr-central-2.kakaocloud.com/v1/32ac749f528f41958493b28d9387911c/kubeflow/fmnist-kserve_cpu.ipynb"
     ```
     - `fmnist-kserve.ipynb` 파일 생성 확인
-    - **[CPU 전환 필수] 노트북 코드 2곳 수정 후 진행**
-        - fmnist-kserve.ipynb 더블클릭해서 열기
-        - ① 학습 이미지 태그 변경 (환경 변수 설정 셀, `TRAIN_CR_IMAGE` 변수)
-          ```python
-          # 변경 전
-          TRAIN_CR_IMAGE = "bigdata-150.kr-central-2.kcr.dev/kc-kubeflow/kmlp-pytorch:1.0.0.py36.cuda"
-          # 변경 후
-          TRAIN_CR_IMAGE = "bigdata-150.kr-central-2.kcr.dev/kc-kubeflow/kmlp-pytorch:1.0.0.py36.cpu"
-          ```
-        - ② 파이프라인 정의 셀(`fmnist_model_pipeline` 함수, `model_train` 부분)에서 아래 2줄 삭제
-          ```python
-          # 이 nodeSelector 제거
-          .add_node_selector_constraint('nvidia.com/gpu.present', 'true')
-
-          # 이 리소스 리밋 블록 통째로 제거
-          model_train.add_resource_limit(
-              "nvidia.com/mig-1g.10gb", "1"
-          )
-          ```
-        - `EPOCH_NUM`은 이미 `3`으로 설정돼 있어 추가로 건드릴 필요 없음 (CPU에서도 학습 시간 부담 적음)
+    - **Note**: CPU 전용으로 수정된 버전입니다 (학습 이미지 `cuda`→`cpu` 태그, GPU 노드셀렉터/리소스리밋 제거, `EPOCH_NUM`은 원래부터 `3`이라 별도 조정 불필요)
 4. 라이브러리 추가 및 데이터 확인
   - **Note**: Fashion MNIST 데이터셋 다운로드 및 시각화
     - fmnist-kserve.ipynb 파일 더블클릭
@@ -107,7 +87,8 @@
       - 6-2번 스크립트 결과 확인
 
 ## 4. K8s 측면 분석
-1. kbm-u-kubeflow-tutorial 내의 모든 InferenceService 리소스를 YAML 형식으로 출력
+   - **Note**: 명령어의 네임스페이스는 본인 것으로 바꿔서 사용하세요 (`kubectl config view --minify -o jsonpath='{..namespace}'`로 확인 가능). 예시로 쓰인 `kbm-u-kubeflow-tutorial`은 다른 계정 네임스페이스라 그대로 실행하면 권한 에러가 납니다.
+1. 본인 네임스페이스 내의 모든 InferenceService 리소스를 YAML 형식으로 출력
     - 명령어 클릭 후 `Run` 클릭
     - 명령어 결과 확인
 2. torchserve 파드들의 상태 확인
