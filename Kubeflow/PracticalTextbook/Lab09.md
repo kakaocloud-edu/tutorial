@@ -36,10 +36,10 @@
     - 아래 명령어 입력
     #### **lab2-3-2**
     ```bash
-    wget -O fmnist-kserve.ipynb "https://objectstorage.kr-central-2.kakaocloud.com/v1/32ac749f528f41958493b28d9387911c/kubeflow/fmnist-kserve_cpu.ipynb"
+    wget -O fmnist-kserve.ipynb "https://objectstorage.kr-central-2.kakaocloud.com/v1/32ac749f528f41958493b28d9387911c/kubeflow/fmnist-kserve_v3_cpu.ipynb"
     ```
     - `fmnist-kserve.ipynb` 파일 생성 확인
-    - **Note**: CPU 전용으로 수정된 버전입니다 (학습 이미지 `cuda`→`cpu` 태그, GPU 노드셀렉터/리소스리밋 제거, `EPOCH_NUM`은 원래부터 `3`이라 별도 조정 불필요)
+    - **Note**: kfp v2 문법으로 작성된 버전이라 별도 kfp 버전 설치 없이 그대로 실행되며, GPU 관련 설정 자체가 없는 구조입니다. 학습 이미지 태그만 `cuda`→`cpu`로 교체했습니다.
 4. 라이브러리 추가 및 데이터 확인
   - **Note**: Fashion MNIST 데이터셋 다운로드 및 시각화
     - fmnist-kserve.ipynb 파일 더블클릭
@@ -53,23 +53,24 @@
     - 2번 스크립트 클릭 후 `RUN` 클릭
 6. 파이프라인 컴포넌트 빌드하기
     - 데이터셋 준비 컴포넌트: Fashion MNIST 데이터셋을 다운로드하는 함수 정의
-        - **Note**: Fashion MNIST 데이터셋 다운로드
-        - **Note**: 쿠버네티스 파이프라인에서 사용할 수 있도록 구성
-      - 3-1번 첫번째 스크립트 클릭 후 `RUN` 클릭
-      - 3-1번 두번째 스크립트 클릭 후 `RUN` 클릭 
+        - **Note**: Fashion MNIST 데이터셋 다운로드 후 쿠버네티스 파이프라인에서 사용할 수 있도록 구성
+      - 3-1번 스크립트 클릭 후 `RUN` 클릭
     - Fashion MNIST 모델 학습 및 서빙 구성
-        - **Note**: Fashion MNIST 데이터셋 사용하여 신경망 모델 훈련
+        - **Note**: Fashion MNIST 데이터셋 사용하여 CNN 모델 훈련
         - **Note**: 훈련된 모델을 TorchServe 통해 배포할 수 있도록 준비
       - 3-2번 스크립트 클릭 후 `RUN` 클릭 
     - 서빙을 위한 MAR 파일 생성 컴포넌트
         - **Note**: 훈련된 PyTorch 모델을 TorchServe에서 사용할 수 있는 MAR 파일로 패키징
       - 3-3번 스크립트 클릭 후 `RUN` 클릭 
-    - KServe 컴포넌트 YAML 파일 작성
-        - **Note**: 머신러닝 모델을 배포하고 관리할 수 있도록 컴포넌트 정의
+    - KServe 컴포넌트 정의
+        - **Note**: 모델 경로 기반 InferenceService 생성/업데이트, Ready 대기, 상태 조회 기능 정의
       - 3-4번 스크립트 클릭 후 `RUN` 클릭 
-    - KServe 인퍼런스 모델 생성 컴포넌트
-        - **Note**: KServe를 사용하여 PyTorch 모델을 배포하는 파이프라인 컴포넌트 생성
+    - Foreground 실행용 ServingRuntime 생성
+        - **Note**: 기본 PyTorch runtime 대신 `torchserve --start --foreground`로 동작하는 커스텀 ServingRuntime 생성
       - 3-5번 스크립트 클릭 후 `RUN` 클릭
+    - KServe 인퍼런스 모델 생성 컴포넌트
+        - **Note**: 위에서 만든 ServingRuntime을 사용해 실제 InferenceService를 생성하는 헬퍼 함수 정의
+      - 3-6번 스크립트 클릭 후 `RUN` 클릭
 7. 파이프라인 생성
       - 4번 스크립트 클릭 후 `RUN` 클릭
 8. 파이프라인 실행
@@ -94,3 +95,9 @@
 2. torchserve 파드들의 상태 확인
     - 명령어 클릭 후 `Run` 클릭
     - 명령어 결과 확인
+
+## 5. 자원 정리
+1. 노트북 하단 정리 스크립트 실행
+    - **Note**: 실습에서 생성한 K8s 리소스(InferenceService, ServingRuntime 등)를 삭제하는 셀
+    - 스크립트 클릭 후 `RUN` 클릭
+    - 정리 완료 확인
