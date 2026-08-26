@@ -39,7 +39,6 @@
     wget -O fmnist-kserve.ipynb "https://objectstorage.kr-central-2.kakaocloud.com/v1/32ac749f528f41958493b28d9387911c/kubeflow/fmnist-kserve_v3_cpu.ipynb"
     ```
     - `fmnist-kserve.ipynb` 파일 생성 확인
-    - **Note**: kfp v2 문법으로 작성된 버전이라 별도 kfp 버전 설치 없이 그대로 실행되며, GPU 관련 설정 자체가 없는 구조입니다. 학습 이미지 태그만 `cuda`→`cpu`로 교체했습니다.
 4. 라이브러리 추가 및 데이터 확인
   - **Note**: Fashion MNIST 데이터셋 다운로드 및 시각화
     - fmnist-kserve.ipynb 파일 더블클릭
@@ -77,6 +76,10 @@
       - 5번 스크립트 클릭 후 `RUN` 클릭
       - `Run details.` 클릭
       - 모두 정상 실행됨을 확인
+9. InferenceService Ready 대기
+      - **Note**: 파이프라인이 끝까지 도는 데 시간이 걸리므로, 서빙 준비가 완료될 때까지 자동으로 기다려주는 셀입니다. 상태가 바뀔 때마다 로그가 찍히고, `Ready` 상태가 되면 자동으로 다음 단계로 넘어갈 수 있습니다.
+      - 스크립트 클릭 후 `RUN` 클릭
+      - `InferenceService Ready 상태 도달` 문구 확인
 
 ## 3. 모델 서빙 API 테스트
 1. 모델 서빙 API 테스트
