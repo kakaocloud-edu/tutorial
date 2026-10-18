@@ -29,6 +29,7 @@
 
 6. 사용자 스크립트 작성
    - [스크립트 사이트](http://210.109.83.141/) 를 활용하여 사용자 스크립트 생성 가능
+<img width="1864" height="1054" alt="image" src="https://github.com/user-attachments/assets/15a9d695-9ef6-42a2-862e-61202358b975" />
 
    #### **lab3-1-6**
      - **Note**: 사용자는 export ACC_KEY부터 DOCKER_JAVA_VERSION까지만 입력해주세요.
