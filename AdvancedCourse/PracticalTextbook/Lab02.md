@@ -48,3 +48,5 @@ Kakao Cloud Kubernetes Engine Cluster 생성에 대한 실습입니다.
 6. 고급 설정 생략 후 생성 버튼 클릭
 7. 노드 풀 탭으로 이동
 8. 노드 생성 여부 확인
+
+<img width="807" height="654" alt="image" src="https://github.com/user-attachments/assets/57fc831a-e9e2-42bf-9157-a84aa3ae88e1" />
