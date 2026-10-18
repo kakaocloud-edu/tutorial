@@ -1,8 +1,8 @@
-# Kubernetes Engine Cluster 생성 (Demo)
+# Kubernetes Engine Cluster 생성
 
 Kakao Cloud Kubernetes Engine Cluster 생성에 대한 실습입니다.
 
-## 1. 클러스터 생성
+## 1. 클러스터 생성 (Demo)
 
 1. 카카오 클라우드 콘솔 > Container Pack > Kubernetes > 클러스터 접속
 2. 시작하기 버튼 클릭
