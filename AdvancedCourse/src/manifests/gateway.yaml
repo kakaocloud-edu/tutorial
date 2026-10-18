@@ -1,14 +1,20 @@
 apiVersion: gateway.networking.k8s.io/v1
 kind: Gateway
 metadata:
-  name: kc-gateway
-  namespace: nginx-gateway
+  name: kc-gateway             # Gateway 리소스 이름
+  namespace: nginx-gateway     # Gateway를 생성할 네임스페이스
+
 spec:
+  # 사용할 GatewayClass 지정 (NGINX Gateway Fabric)
   gatewayClassName: nginx
+
+  # 외부 요청을 수신할 Listener 설정
   listeners:
-    - name: http
-      protocol: HTTP
-      port: 80
+    - name: http               # Listener 이름
+      protocol: HTTP           # 수신 프로토콜
+      port: 80                 # 요청을 수신할 포트
+
+      # Gateway에 연결할 수 있는 Route 범위 설정
       allowedRoutes:
         namespaces:
-          from: All
+          from: All            # 모든 네임스페이스의 Route 연결 허용
