@@ -13,15 +13,7 @@
    kubectl delete -f /home/ubuntu/yaml/lab6-manifests.yaml
    ```
 
-2. 실습에 사용한 YAML 파일 삭제
-   - `rm -f`는 Bastion VM에 복사해 둔 매니페스트를 삭제합니다. `-f` 옵션은 파일이 이미 없어도 오류를 표시하지 않습니다.
-
-   #### **lab8-1-2**
-   ```bash
-   rm -f /home/ubuntu/yaml/lab6-manifests.yaml
-   ```
-
-3. 리소스 삭제 결과 확인
+2. 리소스 삭제 결과 확인
    - 다음 명령은 Lab06에서 배포한 Route와 워크로드가 남아 있는지 한 번에 확인합니다. Helm에서도 사용할 `regcred` Secret은 남아 있어야 합니다.
 
    #### **lab8-1-3**
