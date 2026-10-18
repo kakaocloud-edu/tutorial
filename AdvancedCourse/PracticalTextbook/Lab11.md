@@ -53,7 +53,7 @@
    kubectl get all --all-namespaces
    ```
 
-> 📌 Kubernetes Service가 삭제된 뒤 카카오클라우드 콘솔의 Load Balancer가 실제로 사라지기까지 시간이 걸릴 수 있습니다. Load Balancer 삭제를 확인한 다음 연결했던 Public IP를 삭제합니다.
+> Kubernetes Service가 삭제된 뒤 카카오클라우드 콘솔의 Load Balancer가 실제로 사라지기까지 시간이 걸릴 수 있습니다. Load Balancer 삭제를 확인한 다음 연결했던 Public IP를 삭제합니다.
 
 ## 2. 기타 클라우드 리소스 삭제
 
@@ -69,4 +69,3 @@
 10. 오른쪽 상단의 아이콘 클릭 > 자격 증명 클릭 > 생성된 액세스 키의 오른쪽 (...) 클릭 > 삭제 클릭
 4. VPC > Public IP > Bastion VM, 클러스터 노드풀에 연결된 것을 제외하고 모두 선택 > 삭제 버튼 클릭 > 영구 삭제 입력 > 삭제
 
-> ⛔ **클러스터, Bastion VM, VPC, bastion 보안 그룹, 키 페어, 액세스 키는 삭제하지 않습니다.**
