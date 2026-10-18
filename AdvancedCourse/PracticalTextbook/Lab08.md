@@ -124,6 +124,7 @@
    #### **lab8-6-5**
    ```bash
    kubectl get all
+   ```
    - Load Balancer의 Public IP로 접속한 뒤 새로 고침하여 `my-release-kc-spring-demo-...` 형식의 Pod 이름이 화면에 표시되는지 확인합니다.
 
 ## 7. Helm Chart를 이용한 버전 관리
