@@ -48,10 +48,19 @@ class ExperienceControllerTests {
 
     @Test
     void introductionRoutesRenderWithoutQueryingDatabases() throws Exception {
+        String rootHtml = mockMvc.perform(get("/"))
+                .andExpect(status().isOk())
+                .andReturn().getResponse().getContentAsString(java.nio.charset.StandardCharsets.UTF_8);
         for (String path : new String[]{"/experience", "/experience/"}) {
-            mockMvc.perform(get(path))
+            MvcResult result = mockMvc.perform(get(path))
                     .andExpect(status().isOk())
-                    .andExpect(view().name("experience"));
+                    .andExpect(view().name("experience"))
+                    .andReturn();
+            String html = result.getResponse().getContentAsString(java.nio.charset.StandardCharsets.UTF_8);
+            assertThat(attribute(html, "data-frame-count")).isEqualTo(attribute(rootHtml, "data-frame-count"));
+            assertThat(attribute(html, "data-frame-pattern")).isEqualTo(attribute(rootHtml, "data-frame-pattern"));
+            assertThat(attribute(html, "data-static-src")).isEqualTo(attribute(rootHtml, "data-static-src"));
+            assertThat(html).doesNotContain("/experience/frames/");
         }
 
         verifyNoInteractions(primaryDatabase, secondaryDatabase);
@@ -94,31 +103,42 @@ class ExperienceControllerTests {
         int count = Integer.parseInt(attribute(html, "data-frame-count"));
         String pattern = attribute(html, "data-frame-pattern");
         assertThat(count).isPositive();
-        assertThat(pattern).startsWith("/experience/film/").contains("{index}.webp?v=");
+        assertThat(pattern).startsWith("/experience/film/").contains("{index}.avif?v=");
 
         for (int index : new int[]{0, count / 2, count - 1}) {
             String path = pattern.replace("{index}", String.format("%03d", index));
             MvcResult frame = mockMvc.perform(get(path))
                     .andExpect(status().isOk())
-                    .andExpect(content().contentType("image/webp"))
+                    .andExpect(content().contentType("image/avif"))
                     .andExpect(header().exists("Last-Modified"))
                     .andReturn();
             byte[] bytes = frame.getResponse().getContentAsByteArray();
-            assertThat(bytes.length).isGreaterThan(12);
-            assertThat(new String(bytes, 0, 4, java.nio.charset.StandardCharsets.US_ASCII)).isEqualTo("RIFF");
-            assertThat(new String(bytes, 8, 4, java.nio.charset.StandardCharsets.US_ASCII)).isEqualTo("WEBP");
+            assertThat(bytes.length).isGreaterThan(16);
+            assertThat(new String(bytes, 4, Math.min(bytes.length - 4, 60), java.nio.charset.StandardCharsets.US_ASCII))
+                    .startsWith("ftyp").contains("avif");
             mockMvc.perform(get(path).header("If-Modified-Since", frame.getResponse().getHeader("Last-Modified")))
                     .andExpect(status().isNotModified());
         }
 
-        mockMvc.perform(get("/experience/film/poster.webp"))
+        String posterPath = attribute(html, "data-static-src");
+        MvcResult poster = mockMvc.perform(get(posterPath))
                 .andExpect(status().isOk())
-                .andExpect(content().contentType("image/webp"));
+                .andExpect(content().contentType("image/webp"))
+                .andExpect(header().exists("Last-Modified"))
+                .andReturn();
+        byte[] posterBytes = poster.getResponse().getContentAsByteArray();
+        assertThat(posterBytes.length).isGreaterThan(12);
+        assertThat(new String(posterBytes, 0, 4, java.nio.charset.StandardCharsets.US_ASCII)).isEqualTo("RIFF");
+        assertThat(new String(posterBytes, 8, 4, java.nio.charset.StandardCharsets.US_ASCII)).isEqualTo("WEBP");
+        mockMvc.perform(get(posterPath).header("If-Modified-Since", poster.getResponse().getHeader("Last-Modified")))
+                .andExpect(status().isNotModified());
         mockMvc.perform(get("/experience/film/manifest.json"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.count").value(count))
                 .andExpect(jsonPath("$.width").value(Integer.parseInt(attribute(html, "data-frame-width"))))
                 .andExpect(jsonPath("$.height").value(Integer.parseInt(attribute(html, "data-frame-height"))))
+                .andExpect(jsonPath("$.format").value("avif"))
+                .andExpect(jsonPath("$.posterFormat").value("webp"))
                 .andExpect(jsonPath("$.attributionPreserved").value(false))
                 .andExpect(jsonPath("$.visibleWatermarkRemoved").value(true))
                 .andExpect(jsonPath("$.crop").value(false));

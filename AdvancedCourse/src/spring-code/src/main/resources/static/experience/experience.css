@@ -173,14 +173,15 @@ body.experience-host { margin: 0; background: #101113; }
     position:absolute;
     inset:0;
     z-index:-1;
-    background:radial-gradient(ellipse at 73% 55%,#26271e 0%,#111316 52%,#101113 85%);
+    background:#1a1a2e;
 }
 .experience-shell .scene-poster,
 .experience-shell .scene canvas {
     position:absolute;
+    inset:0;
     width:100%;
     height:100%;
-    object-fit:cover;
+    object-fit:contain;
     object-position:center;
 }
 .experience-shell .scene canvas {
@@ -596,11 +597,6 @@ body.experience-host { margin: 0; background: #101113; }
     .experience-shell .hero-description {
         font-size:13px;
     }
-    .experience-shell .scene-poster,
-    .experience-shell .scene canvas {
-        width:120%;
-        left:-10%;
-    }
     .experience-shell .scene-shade {
         background:linear-gradient(90deg,rgba(16,17,19,.64),rgba(16,17,19,.06) 90%),linear-gradient(0deg,#101113,transparent 30%);
     }
@@ -715,15 +711,6 @@ body.experience-host { margin: 0; background: #101113; }
         margin-top:24px;
         font-size:11px;
         gap:18px;
-    }
-    .experience-shell .scene-poster,
-    .experience-shell .scene canvas {
-        width:155%;
-        height:90%;
-        left:-36%;
-        top:15%;
-        object-fit:cover;
-        object-position:65% center;
     }
     .experience-shell .scene-shade {
         background:linear-gradient(180deg,rgba(16,17,19,.1) 35%,rgba(16,17,19,.4) 85%,#101113),linear-gradient(90deg,rgba(16,17,19,.55),transparent);

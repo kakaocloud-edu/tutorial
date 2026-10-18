@@ -39,6 +39,7 @@
     let direction = 1;
     let pulseFrozen = false;
     let posterFallback = false;
+    let formatUnavailable = false;
 
     const clamp = (value, lower = 0, upper = 1) => Math.max(lower, Math.min(upper, value));
     const smooth = (start, end, value) => {
@@ -177,8 +178,7 @@
                 pending.delete(index);
                 failed.add(index);
                 if (!frames.size && failed.has(0)) {
-                    posterFallback = true;
-                    loadPoster();
+                    useStaticFallback();
                 }
                 schedule();
             };
@@ -258,7 +258,7 @@
     }
 
     function preferencesChanged() {
-        motion = Boolean(context) && !reduced.matches && !mobile.matches && !short.matches;
+        motion = Boolean(context) && !formatUnavailable && !reduced.matches && !mobile.matches && !short.matches;
         document.body.dataset.immersive = motion ? 'on' : 'off';
         needsMeasure = true;
         if (!motion) {
@@ -276,12 +276,20 @@
         schedule();
     }
 
+    function useStaticFallback() {
+        posterFallback = true;
+        if (overlay.dataset.frameFormat === 'avif' && renderedFrame < 0) {
+            formatUnavailable = true;
+            preferencesChanged();
+        }
+        if (!document.hidden) loadPoster(!motion);
+        schedule();
+    }
+
     poster.addEventListener('load', schedule);
     poster.addEventListener('error', () => {
         if (posterFallback || !motion) return;
-        posterFallback = true;
-        if (visible && !document.hidden) loadPoster();
-        schedule();
+        useStaticFallback();
     });
 
     returnLink.addEventListener('click', event => {

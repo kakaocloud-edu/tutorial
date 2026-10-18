@@ -14,10 +14,11 @@
     const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
     const narrow = window.matchMedia('(max-width: 680px)');
     const shortViewport = window.matchMedia('(max-height: 640px)');
-    const frameCount = Number(journey.dataset.frameCount);
+    const frameCount = Math.max(1, Number(journey.dataset.frameCount) || 1);
     const pattern = journey.dataset.framePattern;
+    const chapterBoundaries = [7.8 / 23.625, 15.6 / 23.625];
     const cache = new Map();
-    const pending = new Set();
+    const pending = new Map();
     const failed = new Set();
     let motion = false;
     let override = null;
@@ -29,6 +30,7 @@
     let canvasWidth = 0;
     let canvasHeight = 0;
     let direction = 1;
+    let formatFailed = false;
 
     const clamp = (value, low, high) => Math.min(high, Math.max(low, value));
     const journeyTop = () => journey.getBoundingClientRect().top + window.scrollY;
@@ -66,16 +68,23 @@
         }
     }
 
+    function loadPoster() {
+        if (!poster) return;
+        const source = !motion && poster.dataset.staticSrc
+            ? poster.dataset.staticSrc : poster.dataset.src;
+        if (source && poster.getAttribute('src') !== source) poster.src = source;
+    }
+
     function paint() {
-        if (!context || !cache.size) return;
+        if (!context || !cache.size || !canvasWidth || !canvasHeight) return;
         const nearest = cache.has(targetFrame) ? targetFrame : Array.from(cache.keys()).reduce((best, index) =>
             Math.abs(index - targetFrame) < Math.abs(best - targetFrame) ? index : best);
         if (nearest === paintedFrame) return;
         const image = cache.get(nearest);
-        const scale = Math.max(canvasWidth / image.naturalWidth, canvasHeight / image.naturalHeight);
+        const scale = Math.min(canvasWidth / image.naturalWidth, canvasHeight / image.naturalHeight);
         const width = image.naturalWidth * scale;
         const height = image.naturalHeight * scale;
-        context.fillStyle = '#101113';
+        context.fillStyle = '#1a1a2e';
         context.fillRect(0, 0, canvasWidth, canvasHeight);
         context.drawImage(image, (canvasWidth - width) / 2, (canvasHeight - height) / 2, width, height);
         paintedFrame = nearest;
@@ -88,8 +97,19 @@
         while (cache.size > 14 && farthest.length) cache.delete(farthest.shift());
     }
 
+    function cancelPending(distantOnly = false) {
+        pending.forEach((image, index) => {
+            if (distantOnly && Math.abs(index - targetFrame) <= 12) return;
+            pending.delete(index);
+            image.onload = null;
+            image.onerror = null;
+            image.removeAttribute('src');
+        });
+    }
+
     function preload() {
         if (!motion || !visible || document.hidden || !context) return;
+        cancelPending(true);
         const candidates = [targetFrame];
         for (let offset = 1; offset <= 6; offset++) {
             candidates.push(targetFrame + offset * direction, targetFrame - offset * direction);
@@ -97,20 +117,25 @@
         for (const index of candidates) {
             if (pending.size >= 4) break;
             if (index < 0 || index >= frameCount || cache.has(index) || pending.has(index) || failed.has(index)) continue;
-            pending.add(index);
             const image = new Image();
+            pending.set(index, image);
             image.decoding = 'async';
             image.onload = () => {
+                if (pending.get(index) !== image) return;
                 pending.delete(index);
-                if (motion) {
+                if (motion && visible && !document.hidden && Math.abs(index - targetFrame) <= 12) {
                     cache.set(index, image);
                     trimCache();
-                    schedule();
                 }
+                schedule();
             };
             image.onerror = () => {
+                if (pending.get(index) !== image) return;
                 pending.delete(index);
                 failed.add(index);
+                if (!cache.size && failed.has(0)) {
+                    disableFilmMotion();
+                }
                 schedule();
             };
             image.src = pattern.replace('{index}', String(index).padStart(3, '0'));
@@ -121,23 +146,23 @@
         ticking = false;
         const bounds = journey.getBoundingClientRect();
         visible = bounds.top < window.innerHeight - 1 && bounds.bottom > 1;
-        if (visible && poster && !poster.hasAttribute('src')) poster.src = poster.dataset.src;
+        if (visible && !document.hidden) loadPoster();
         if (!motion) { setChapter(0); return; }
         const range = Math.max(1, journey.offsetHeight - window.innerHeight);
         const progress = clamp(-bounds.top / range, 0, 1);
         const next = Math.round(progress * (frameCount - 1));
         if (next !== targetFrame) direction = next > targetFrame ? 1 : -1;
         targetFrame = next;
-        setChapter(progress < 0.33 ? 0 : progress < 0.7 ? 1 : 2);
-        if (!visible || document.hidden) return;
+        setChapter(progress < chapterBoundaries[0] ? 0 : progress < chapterBoundaries[1] ? 1 : 2);
+        if (!visible || document.hidden) { cancelPending(); return; }
         resizeCanvas();
         paint();
         preload();
     }
 
     function applyMotion(enabled, reposition) {
-        motion = enabled && Boolean(context) && !shortViewport.matches;
-        toggle.hidden = !context || shortViewport.matches;
+        motion = enabled && Boolean(context) && !shortViewport.matches && !formatFailed;
+        toggle.hidden = !context || shortViewport.matches || formatFailed;
         root.dataset.motion = motion ? 'on' : 'off';
         toggle.setAttribute('aria-pressed', String(motion));
         toggle.setAttribute('aria-label', motion ? '모션 끄기' : '모션 켜기');
@@ -145,6 +170,7 @@
         toggle.querySelector('path').setAttribute('d', motion ? 'M5 3v10M11 3v10' : 'm5 3 8 5-8 5z');
         scrollLabel.textContent = motion ? '스크롤하며 가능성을 만나보세요' : '아래에서 서비스의 장점을 만나보세요';
         if (!motion) {
+            cancelPending();
             cache.clear();
             canvas.classList.remove('is-ready');
             paintedFrame = -1;
@@ -153,6 +179,18 @@
         if (reposition) window.scrollTo({ top: journeyTop(), behavior: 'auto' });
         schedule();
     }
+
+    function disableFilmMotion() {
+        if (formatFailed) return;
+        formatFailed = true;
+        applyMotion(false, false);
+        if (visible && !document.hidden) loadPoster();
+    }
+
+    poster?.addEventListener('load', schedule);
+    poster?.addEventListener('error', () => {
+        if (motion) disableFilmMotion();
+    });
 
     toggle.hidden = !context;
     toggle.addEventListener('click', () => {

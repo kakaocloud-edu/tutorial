@@ -6,18 +6,27 @@
   "duration": 23.625,
   "source": "kakaocloud-flow-site-master.mp4",
   "sourceSha256": "c029a6ccfce330a26228fd4b3cd6853339ff933d7447dd3768d2e777a2a20648",
-  "framePattern": "frame-%03d.webp",
+  "format": "avif",
+  "encoder": "libaom-av1",
+  "pixelFormat": "yuv420p",
+  "framePattern": "frame-%03d.avif",
   "startIndex": 0,
   "poster": "poster.webp",
-  "quality": 82,
+  "posterFormat": "webp",
+  "posterEncoder": "libwebp",
+  "posterQuality": 82,
+  "posterCompressionLevel": 6,
+  "threads": 2,
   "clipBoundariesSeconds": [
     7.8,
     15.6
   ],
   "clipCrossfadeSeconds": 0.2,
-  "frameBytes": 14446074,
-  "largestFrameBytes": 41460,
+  "frameBytes": 9235265,
+  "largestFrameBytes": 28886,
   "attributionPreserved": false,
   "visibleWatermarkRemoved": true,
-  "crop": false
+  "crop": false,
+  "crf": 20,
+  "cpuUsed": 6
 }
