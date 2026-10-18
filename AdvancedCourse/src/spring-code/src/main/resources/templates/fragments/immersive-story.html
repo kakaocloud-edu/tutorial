@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<body>
+<section id="cloud-experience" class="immersive-story" data-embedded="true" th:fragment="story"
+         aria-label="카카오클라우드 Kubernetes Engine의 장점"
+         data-frame-count="567" data-frame-pattern="/experience/film/frame-{index}.webp?v=2"
+         data-frame-width="1280" data-frame-height="720">
+    <div class="immersive-scene" aria-hidden="true">
+        <img class="immersive-poster" data-src="/experience/film/frame-000.webp?v=2" data-static-src="/experience/film/poster.webp?v=2" width="1280" height="720" alt="">
+        <noscript><img class="immersive-poster" src="/experience/film/poster.webp?v=2" width="1280" height="720" alt="" loading="lazy"></noscript>
+        <canvas id="immersive-canvas" width="1" height="1"></canvas>
+    </div>
+    <div class="immersive-veil" aria-hidden="true"></div>
+    <div class="immersive-copy">
+        <article data-benefit="0">
+            <p class="immersive-kicker">01 / MANAGED KUBERNETES</p>
+            <h2>관리의 부담은 덜고,<br><span class="highlight">서비스에 집중하세요.</span></h2>
+            <p class="immersive-description">카카오클라우드가 제어 영역을 관리합니다.<br>팀은 워커 노드와 애플리케이션에 집중하세요.</p>
+        </article>
+        <article data-benefit="1">
+            <p class="immersive-kicker">02 / MULTI AVAILABILITY ZONES</p>
+            <h2>여러 가용 영역으로,<br><span class="highlight">더 탄탄하게.</span></h2>
+            <p class="immersive-description">클러스터와 노드를 여러 가용 영역에 구성해,<br>서비스의 가용성을 높일 수 있습니다.</p>
+        </article>
+        <article data-benefit="2">
+            <p class="immersive-kicker">03 / CONNECTED CLOUD</p>
+            <h2>내 VPC에서,<br><span class="highlight">가능성을 연결하세요.</span></h2>
+            <p class="immersive-description">Container Registry, Load Balancing, IAM까지.<br>클라우드 서비스와 연결해 배포와 운영을 이어갑니다.</p>
+        </article>
+    </div>
+    <a class="immersive-return" href="#lab">실습으로 돌아가기 ↑</a>
+    <a class="immersive-source" href="https://docs.kakaocloud.com/service/container-pack/k8se/k8se-overview" target="_blank" rel="noopener noreferrer">Kubernetes Engine 자세히 보기 ↗</a>
+</section>
+</body>
+</html>

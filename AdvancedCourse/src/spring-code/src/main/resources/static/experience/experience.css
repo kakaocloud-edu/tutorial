@@ -1,0 +1,872 @@
+/* All introduction styles are isolated from the original lab. */
+body.experience-host { margin: 0; background: #101113; }
+.experience-shell {
+    color-scheme:dark;
+    --page:#101113;
+    --ink:#f5f4ee;
+    --muted:#a6a7aa;
+    --yellow:#fae100;
+    --line:rgba(255,255,255,.13);
+}
+.experience-shell * {
+    box-sizing:border-box;
+}
+.experience-shell {
+    scroll-behavior:auto;
+    scroll-padding-top:90px;
+}
+.experience-shell {
+    margin:0;
+    background:var(--page);
+    color:var(--ink);
+    font-family:Pretendard,"Noto Sans KR","Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+    word-break:keep-all;
+    -webkit-font-smoothing:antialiased;
+}
+.experience-shell a {
+    color:inherit;
+    text-decoration:none;
+}
+.experience-shell button {
+    font:inherit;
+}
+.experience-shell button,
+.experience-shell a {
+    -webkit-tap-highlight-color:transparent;
+}
+.experience-shell button {
+    cursor:pointer;
+}
+.experience-shell a:focus-visible,
+.experience-shell button:focus-visible {
+    outline:2px solid var(--yellow);
+    outline-offset:6px;
+}
+.experience-shell ::selection {
+    color:#101113;
+    background:var(--yellow);
+}
+.experience-shell .skip-link {
+    position:fixed;
+    left:24px;
+    top:-100px;
+    z-index:100;
+    background:var(--yellow);
+    color:#101113;
+    padding:14px 22px;
+    border-radius:8px;
+}
+.experience-shell .skip-link:focus {
+    top:12px;
+}
+.experience-shell .site-header {
+    height:92px;
+    position:absolute;
+    inset:0 0 auto;
+    background:rgba(16,17,19,.76);
+    backdrop-filter:blur(16px);
+    z-index:10;
+    display:flex;
+    align-items:center;
+    gap:36px;
+    padding:0 5.5%;
+    border-bottom:1px solid rgba(255,255,255,.09);
+}
+.experience-shell .brand {
+    display:inline-flex;
+    align-items:baseline;
+    position:relative;
+    gap:6px;
+    font-size:27px;
+    letter-spacing:-1.8px;
+    font-weight:600;
+    white-space:nowrap;
+}
+.experience-shell .brand span {
+    font-weight:400;
+}
+.experience-shell .brand i {
+    width:6px;
+    height:6px;
+    background:var(--yellow);
+    border-radius:50%;
+    align-self:flex-start;
+    margin:7px 0 0 2px;
+}
+.experience-shell .header-caption {
+    font-size:10px;
+    letter-spacing:2.1px;
+    color:#a9aaac;
+    border-left:1px solid var(--line);
+    padding-left:30px;
+}
+.experience-shell .header-actions {
+    margin-left:auto;
+    display:flex;
+    align-items:center;
+    gap:24px;
+}
+.experience-shell .button {
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    gap:34px;
+    background:var(--yellow);
+    color:#171711;
+    border:1px solid transparent;
+    border-radius:7px;
+    padding:20px 25px;
+    font-size:15px;
+    font-weight:700;
+    transition:background .2s,transform .2s;
+}
+.experience-shell .button:hover {
+    background:#fff16a;
+    transform:translateY(-2px);
+}
+.experience-shell .button-small {
+    padding:13px 19px;
+    gap:22px;
+    font-size:13px;
+}
+.experience-shell .button span {
+    font-size:21px;
+    font-weight:400;
+}
+.experience-shell .motion-control {
+    background:transparent;
+    border:0;
+    padding:8px 0;
+    color:#c3c4c6;
+    display:flex;
+    gap:8px;
+    align-items:center;
+    font-size:11px;
+}
+.experience-shell .motion-control[hidden] {
+    display:none;
+}
+.experience-shell .motion-control svg {
+    width:14px;
+    height:14px;
+    fill:none;
+    stroke:currentColor;
+    stroke-width:1.4;
+}
+.experience-shell .motion-control:hover {
+    color:var(--ink);
+}
+.experience-shell .journey {
+    height:280svh;
+    position:relative;
+    background:#101113;
+}
+.experience-shell .journey-sticky {
+    height:100svh;
+    min-height:640px;
+    position:sticky;
+    top:0;
+    overflow:hidden;
+    isolation:isolate;
+}
+.experience-shell .scene {
+    position:absolute;
+    inset:0;
+    z-index:-1;
+    background:radial-gradient(ellipse at 73% 55%,#26271e 0%,#111316 52%,#101113 85%);
+}
+.experience-shell .scene-poster,
+.experience-shell .scene canvas {
+    position:absolute;
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    object-position:center;
+}
+.experience-shell .scene canvas {
+    opacity:0;
+    transition:opacity .3s;
+}
+.experience-shell .scene canvas.is-ready {
+    opacity:1;
+}
+.experience-shell .scene-shade {
+    position:absolute;
+    inset:0;
+    background:linear-gradient(90deg,rgba(16,17,19,.4),rgba(16,17,19,0) 68%),linear-gradient(0deg,rgba(16,17,19,.9),transparent 22%,transparent 80%,rgba(16,17,19,.3));
+}
+.experience-shell .hero-copy {
+    position:absolute;
+    top:25%;
+    left:8%;
+    width:64%;
+    max-width:900px;
+    z-index:1;
+}
+.experience-shell .eyebrow {
+    font-size:10px;
+    font-weight:600;
+    letter-spacing:2.6px;
+    display:flex;
+    gap:11px;
+    align-items:center;
+    margin:0;
+}
+.experience-shell .yellow-dot {
+    height:6px;
+    width:6px;
+    border-radius:50%;
+    background:var(--yellow);
+    box-shadow:0 0 14px rgba(250,225,0,.4);
+}
+.experience-shell .preview-tag {
+    font-size:9px;
+    color:#a4a5a7;
+    letter-spacing:.8px;
+    border:1px solid #4b4c49;
+    padding:4px 7px;
+    border-radius:3px;
+    margin-left:5px;
+}
+.experience-shell .chapter-copy {
+    opacity:0;
+    visibility:hidden;
+    position:absolute;
+    top:66px;
+    transform:translateY(14px);
+    transition:opacity .35s,transform .35s;
+    pointer-events:none;
+}
+.experience-shell .chapter-copy.is-active {
+    opacity:1;
+    visibility:visible;
+    transform:translateY(0);
+    position:relative;
+    top:auto;
+    margin-top:43px;
+}
+.experience-shell .chapter-kicker {
+    font-size:10px;
+    letter-spacing:2px;
+    color:#8e9091;
+    margin:0 0 18px;
+}
+.experience-shell .chapter-copy h1,
+.experience-shell .chapter-copy h2 {
+    font-size:clamp(40px,4.55vw,76px);
+    font-weight:600;
+    letter-spacing:-3.5px;
+    line-height:1.27;
+    margin:0;
+    white-space:nowrap;
+}
+.experience-shell .chapter-copy h1 span,
+.experience-shell .chapter-copy h2 span {
+    color:var(--yellow);
+}
+.experience-shell .hero-description {
+    font-size:14px;
+    color:#b5b6b8;
+    line-height:1.9;
+    margin:25px 0 0;
+}
+.experience-shell .hero-link {
+    display:inline-flex;
+    align-items:center;
+    gap:24px;
+    margin-top:28px;
+    font-size:12px;
+    font-weight:600;
+    border-bottom:1px solid #74766a;
+    padding:0 0 10px;
+}
+.experience-shell .hero-link:hover {
+    color:var(--yellow);
+    border-color:var(--yellow);
+}
+.experience-shell .hero-link span {
+    font-size:19px;
+}
+.experience-shell .journey-bottom {
+    position:absolute;
+    bottom:40px;
+    left:5.5%;
+    right:5.5%;
+    display:flex;
+    align-items:flex-end;
+    gap:32px;
+}
+.experience-shell .scroll-cue {
+    font-size:10px;
+    color:#9da0a2;
+    letter-spacing:.2px;
+    display:flex;
+    align-items:center;
+    gap:12px;
+    width:30%;
+}
+.experience-shell .scroll-line {
+    height:32px;
+    width:16px;
+    border:1px solid #646767;
+    border-radius:10px;
+    position:relative;
+    flex-shrink:0;
+}
+.experience-shell .scroll-line:after {
+    content:"";
+    position:absolute;
+    top:7px;
+    left:6px;
+    width:2px;
+    height:6px;
+    background:var(--yellow);
+}
+.experience-shell .chapter-nav {
+    display:flex;
+    gap:27px;
+    width:46%;
+    margin-left:auto;
+}
+.experience-shell .chapter-nav button {
+    position:relative;
+    background:transparent;
+    border:0;
+    text-align:left;
+    color:#949698;
+    font-size:11px;
+    padding:0 0 17px;
+    flex:1;
+    min-width:0;
+}
+.experience-shell .chapter-nav button>span {
+    font-size:10px;
+    margin-right:8px;
+    font-variant-numeric:tabular-nums;
+}
+.experience-shell .chapter-nav button i {
+    position:absolute;
+    bottom:0;
+    height:1px;
+    width:100%;
+    left:0;
+    background:#41443e;
+}
+.experience-shell .chapter-nav button i:after {
+    content:"";
+    position:absolute;
+    inset:0;
+    background:var(--yellow);
+    transform:scaleX(0);
+    transform-origin:left;
+    transition:transform .3s;
+}
+.experience-shell .chapter-nav button[aria-current=step] {
+    color:var(--ink);
+}
+.experience-shell .chapter-nav button[aria-current=step] i:after {
+    transform:scaleX(1);
+}
+.experience-shell .chapter-nav button:hover {
+    color:var(--yellow);
+}
+.experience-shell .journey-fraction {
+    color:#727677;
+    font-size:11px;
+    display:flex;
+    align-items:center;
+    gap:13px;
+    letter-spacing:1px;
+    padding-bottom:13px;
+    margin-left:4%;
+}
+.experience-shell .journey-fraction b {
+    color:var(--ink);
+    font-size:17px;
+    font-weight:500;
+}
+.experience-shell .learning {
+    padding:120px 8% 125px;
+    background:#17191b;
+    border-top:1px solid #292b2b;
+}
+.experience-shell .learning-intro {
+    display:grid;
+    grid-template-columns:1.2fr 1fr;
+    column-gap:8%;
+}
+.experience-shell .learning-intro .eyebrow {
+    grid-column:1/-1;
+    color:#a5a7a8;
+    margin-bottom:32px;
+}
+.experience-shell .learning-intro h2 {
+    font-size:clamp(30px,3vw,46px);
+    font-weight:500;
+    line-height:1.45;
+    letter-spacing:-1.7px;
+    margin:0;
+}
+.experience-shell .learning-intro h2 span {
+    color:#a6a8aa;
+}
+.experience-shell .learning-intro>p:last-child {
+    align-self:end;
+    color:#a6a8aa;
+    font-size:13px;
+    line-height:2;
+    margin:0 0 8px;
+}
+.experience-shell .learning-steps {
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:45px;
+    margin-top:73px;
+}
+.experience-shell .learning-steps article {
+    border-top:1px solid #484a46;
+    padding-top:22px;
+    display:grid;
+    grid-template-columns:1fr auto;
+    position:relative;
+}
+.experience-shell .step-number {
+    font-size:10px;
+    letter-spacing:1.7px;
+    color:#9da09f;
+}
+.experience-shell .step-icon {
+    grid-column:2;
+    grid-row:1/4;
+    height:46px;
+    width:46px;
+    fill:none;
+    stroke:#c2bd75;
+    stroke-width:1;
+    align-self:center;
+    margin:16px 7px 0 15px;
+}
+.experience-shell .learning-steps h3 {
+    font-size:22px;
+    font-weight:500;
+    margin:29px 0 14px;
+    letter-spacing:-.8px;
+}
+.experience-shell .learning-steps p {
+    color:#a3a6a7;
+    font-size:12px;
+    line-height:1.9;
+    margin:0;
+}
+.experience-shell .start-section {
+    margin:0;
+    padding:75px 8%;
+    display:flex;
+    align-items:flex-end;
+    justify-content:space-between;
+    gap:40px;
+    background:var(--yellow);
+    color:#181a16;
+}
+.experience-shell .start-section .eyebrow {
+    font-size:9px;
+    letter-spacing:2px;
+    margin-bottom:28px;
+}
+.experience-shell .start-section h2 {
+    margin:0;
+    font-size:clamp(32px,3.5vw,52px);
+    line-height:1.4;
+    font-weight:600;
+    letter-spacing:-2px;
+}
+.experience-shell .start-action {
+    padding-bottom:7px;
+}
+.experience-shell .button-dark {
+    background:#1d1f1b;
+    color:#fffef2;
+    min-width:240px;
+}
+.experience-shell .button-dark:hover {
+    background:#383b30;
+}
+.experience-shell .button-dark:focus-visible {
+    outline-color:#171911;
+}
+.experience-shell .start-action p {
+    font-size:10px;
+    margin:15px 0 0;
+    color:#57541b;
+    line-height:1.7;
+}
+.experience-shell footer {
+    display:flex;
+    align-items:center;
+    padding:38px 5.5%;
+    gap:35px;
+    border-top:1px solid var(--line);
+}
+.experience-shell footer .brand {
+    font-size:22px;
+}
+.experience-shell footer .brand i {
+    width:5px;
+    height:5px;
+}
+.experience-shell footer p {
+    font-size:10px;
+    color:#9c9fa0;
+}
+.experience-shell footer>span {
+    margin-left:auto;
+    font-size:9px;
+    letter-spacing:2px;
+    color:#8d9191;
+}
+.experience-shell[data-motion=off] .journey {
+    height:100svh;
+    min-height:640px;
+}
+.experience-shell[data-motion=off] .journey-sticky {
+    position:relative;
+}
+.experience-shell[data-motion=off] .chapter-nav,
+.experience-shell[data-motion=off] .journey-fraction {
+    display:none;
+}
+.experience-shell[data-motion=off] .scroll-cue {
+    width:auto;
+}
+.experience-shell[data-motion=off] .scene canvas {
+    display:none;
+}
+@media(min-width:1700px) {
+    .experience-shell .hero-copy {
+        top:28%;
+    }
+    .experience-shell .hero-description {
+        font-size:17px;
+    }
+    .experience-shell .hero-link {
+        font-size:14px;
+    }
+    .experience-shell .eyebrow {
+        font-size:12px;
+    }
+}
+@media(max-height:760px) and (min-width:681px) {
+    .experience-shell .hero-copy {
+        top:22%;
+    }
+    .experience-shell .chapter-copy.is-active {
+        margin-top:27px;
+    }
+    .experience-shell .chapter-copy h1,
+    .experience-shell .chapter-copy h2 {
+        font-size:clamp(38px,4.1vw,65px);
+    }
+    .experience-shell .hero-description {
+        margin-top:18px;
+    }
+    .experience-shell .hero-link {
+        margin-top:20px;
+    }
+    .experience-shell .journey-bottom {
+        bottom:28px;
+    }
+}
+@media(max-width:1000px) {
+    .experience-shell .header-caption {
+        display:none;
+    }
+    .experience-shell .site-header {
+        height:80px;
+    }
+    .experience-shell .hero-copy {
+        left:7%;
+        top:26%;
+        width:85%;
+    }
+    .experience-shell .chapter-copy h1,
+    .experience-shell .chapter-copy h2 {
+        font-size:clamp(36px,5.4vw,57px);
+        letter-spacing:-2.5px;
+    }
+    .experience-shell .hero-description {
+        font-size:13px;
+    }
+    .experience-shell .scene-poster,
+    .experience-shell .scene canvas {
+        width:120%;
+        left:-10%;
+    }
+    .experience-shell .scene-shade {
+        background:linear-gradient(90deg,rgba(16,17,19,.64),rgba(16,17,19,.06) 90%),linear-gradient(0deg,#101113,transparent 30%);
+    }
+    .experience-shell .scroll-cue {
+        width:36%;
+    }
+    .experience-shell .chapter-nav {
+        width:51%;
+        gap:16px;
+    }
+    .experience-shell .journey-fraction {
+        display:none;
+    }
+    .experience-shell .learning {
+        padding:90px 7%;
+    }
+    .experience-shell .learning-intro {
+        column-gap:4%;
+    }
+    .experience-shell .learning-steps {
+        gap:25px;
+    }
+    .experience-shell .step-icon {
+        width:32px;
+        height:32px;
+        margin-right:0;
+    }
+    .experience-shell .learning-steps p {
+        font-size:11px;
+    }
+    .experience-shell .start-section {
+        padding:65px 7%;
+    }
+    .experience-shell .start-action p {
+        max-width:220px;
+    }
+    .experience-shell footer {
+        gap:25px;
+    }
+}
+@media(max-width:680px) {
+    .experience-shell .site-header {
+        padding:0 6%;
+        height:76px;
+        gap:12px;
+    }
+    .experience-shell .brand {
+        font-size:23px;
+    }
+    .experience-shell .brand i {
+        height:5px;
+        width:5px;
+    }
+    .experience-shell .header-actions {
+        gap:12px;
+    }
+    .experience-shell .button-small {
+        font-size:11px;
+        gap:9px;
+        padding:11px 12px;
+    }
+    .experience-shell .button-small span {
+        font-size:17px;
+    }
+    .experience-shell .motion-control {
+        font-size:10px;
+        gap:4px;
+    }
+    .experience-shell .motion-control svg {
+        width:11px;
+    }
+    .experience-shell .journey-sticky {
+        min-height:640px;
+    }
+    .experience-shell .journey,
+    .experience-shell[data-motion=off] .journey {
+        min-height:640px;
+    }
+    .experience-shell .hero-copy {
+        top:20%;
+        left:7%;
+        width:90%;
+    }
+    .experience-shell .eyebrow {
+        font-size:8px;
+        letter-spacing:1.4px;
+        gap:7px;
+    }
+    .experience-shell .preview-tag {
+        font-size:8px;
+        padding:3px 5px;
+    }
+    .experience-shell .chapter-copy.is-active {
+        margin-top:29px;
+    }
+    .experience-shell .chapter-kicker {
+        font-size:9px;
+        margin-bottom:17px;
+    }
+    .experience-shell .chapter-copy h1,
+    .experience-shell .chapter-copy h2 {
+        font-size:clamp(30px,7.7vw,48px);
+        letter-spacing:-2px;
+        line-height:1.35;
+    }
+    .experience-shell .hero-description {
+        font-size:12px;
+        line-height:1.85;
+        margin-top:20px;
+    }
+    .experience-shell .hero-link {
+        margin-top:24px;
+        font-size:11px;
+        gap:18px;
+    }
+    .experience-shell .scene-poster,
+    .experience-shell .scene canvas {
+        width:155%;
+        height:90%;
+        left:-36%;
+        top:15%;
+        object-fit:cover;
+        object-position:65% center;
+    }
+    .experience-shell .scene-shade {
+        background:linear-gradient(180deg,rgba(16,17,19,.1) 35%,rgba(16,17,19,.4) 85%,#101113),linear-gradient(90deg,rgba(16,17,19,.55),transparent);
+    }
+    .experience-shell .journey-bottom {
+        bottom:27px;
+        left:7%;
+        right:7%;
+        flex-wrap:wrap;
+        gap:23px;
+    }
+    .experience-shell .scroll-cue {
+        width:100%;
+        font-size:9px;
+    }
+    .experience-shell .scroll-line {
+        height:25px;
+        width:14px;
+    }
+    .experience-shell .scroll-line:after {
+        left:5px;
+        height:5px;
+    }
+    .experience-shell .chapter-nav {
+        width:100%;
+        gap:22px;
+    }
+    .experience-shell .chapter-nav button {
+        font-size:10px;
+        padding-bottom:13px;
+    }
+    .experience-shell .learning {
+        padding:70px 7% 75px;
+    }
+    .experience-shell .learning-intro {
+        display:block;
+    }
+    .experience-shell .learning-intro .eyebrow {
+        font-size:8px;
+        margin-bottom:24px;
+    }
+    .experience-shell .learning-intro h2 {
+        font-size:29px;
+        letter-spacing:-1.3px;
+    }
+    .experience-shell .learning-intro>p:last-child {
+        font-size:12px;
+        margin-top:24px;
+    }
+    .experience-shell .learning-steps {
+        grid-template-columns:1fr;
+        margin-top:40px;
+        gap:28px;
+    }
+    .experience-shell .learning-steps article {
+        padding-top:20px;
+    }
+    .experience-shell .learning-steps h3 {
+        font-size:21px;
+        margin:20px 0 10px;
+    }
+    .experience-shell .learning-steps p {
+        font-size:12px;
+    }
+    .experience-shell .step-icon {
+        width:47px;
+        height:47px;
+        margin-right:20px;
+    }
+    .experience-shell .start-section {
+        display:block;
+        padding:48px 7%;
+    }
+    .experience-shell .start-section .eyebrow {
+        margin-bottom:20px;
+    }
+    .experience-shell .start-section h2 {
+        font-size:34px;
+        letter-spacing:-1.5px;
+    }
+    .experience-shell .start-action {
+        margin-top:30px;
+    }
+    .experience-shell .button-dark {
+        min-width:230px;
+        font-size:13px;
+        padding:17px 20px;
+    }
+    .experience-shell .start-action p {
+        max-width:none;
+        font-size:9px;
+    }
+    .experience-shell footer {
+        padding:30px 7%;
+        gap:17px;
+        flex-wrap:wrap;
+    }
+    .experience-shell footer .brand {
+        font-size:21px;
+    }
+    .experience-shell footer p {
+        font-size:9px;
+        margin-left:auto;
+    }
+    .experience-shell footer>span {
+        width:100%;
+        margin:0;
+        font-size:8px;
+    }
+}
+@media(prefers-reduced-motion:reduce) {
+    .experience-shell *,
+    .experience-shell *:before,
+    .experience-shell *:after {
+        scroll-behavior:auto!important;
+        transition:none!important;
+        animation:none!important;
+    }
+    .experience-shell:not([data-motion]) .journey {
+        height:100svh;
+    }
+    .experience-shell:not([data-motion]) .journey-sticky {
+        position:relative;
+    }
+}
+@media(max-width:380px) {
+    .experience-shell .motion-control span {
+        display:none;
+    }
+    .experience-shell .header-actions {
+        gap:14px;
+    }
+    .experience-shell .brand {
+        font-size:21px;
+    }
+    .experience-shell .button-small {
+        padding:10px;
+        font-size:10px;
+    }
+}
+
+.experience-shell { position: relative; isolation: isolate; box-sizing: border-box; text-align: left; }
+.experience-shell .site-header { box-sizing: border-box; }
+.experience-shell .scene-poster:not([src]) { visibility: hidden; }
+.experience-shell .service-reference { display: inline-flex; gap: 18px; margin-top: 45px; padding-bottom: 9px; border-bottom: 1px solid #62665b; color: #c2c5c0; font-size: 11px; }
+.experience-shell .service-reference:hover { color: var(--yellow); border-color: var(--yellow); }

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<body>
+<section id="cloud-experience" class="experience-shell" th:fragment="story(embedded)" aria-label="카카오클라우드 Kubernetes Engine 소개">
+    <section class="journey" id="journey" aria-label="Kubernetes Engine의 세 가지 장점"
+             data-frame-count="60" data-frame-pattern="/experience/frames/frame-{index}.svg">
+        <div class="journey-sticky">
+            <header class="site-header">
+                <a class="brand" href="#cloud-experience" aria-label="Kubernetes Engine 소개 처음으로">kakao<span>cloud</span><i aria-hidden="true"></i></a>
+                <span class="header-caption">KUBERNETES ENGINE</span>
+                <div class="header-actions">
+                    <button class="motion-control" id="motion-control" type="button" hidden aria-pressed="true" aria-label="모션 끄기">
+                        <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M5 3v10M11 3v10"/></svg><span>모션 끄기</span>
+                    </button>
+                    <a class="button button-small" th:href="${embedded} ? '#lab' : '/#lab'">실습으로 돌아가기 <span aria-hidden="true">↗</span></a>
+                </div>
+            </header>
+            <div class="scene" aria-hidden="true">
+                <img class="scene-poster" data-src="/experience/frames/poster.svg" width="1600" height="1000" alt="">
+                <noscript><img class="scene-poster" src="/experience/frames/poster.svg" width="1600" height="1000" alt="" loading="lazy"></noscript>
+                <canvas id="sequence-canvas" width="1600" height="1000"></canvas>
+                <div class="scene-shade"></div>
+            </div>
+            <div class="hero-copy">
+                <p class="eyebrow"><span class="yellow-dot" aria-hidden="true"></span> KAKAOCLOUD KUBERNETES ENGINE <span class="preview-tag">연출 시안</span></p>
+                <div class="chapter-copy is-active" data-chapter="0">
+                    <p class="chapter-kicker">01 — MANAGED KUBERNETES</p>
+                    <h2>관리는 가볍게,<br><span>서비스에 집중하게.</span></h2>
+                    <p class="hero-description">카카오클라우드가 제어 영역을 관리합니다.<br>팀은 워커 노드와 애플리케이션에 집중하세요.</p>
+                </div>
+                <div class="chapter-copy" data-chapter="1" aria-hidden="true" inert>
+                    <p class="chapter-kicker">02 — MULTI AVAILABILITY ZONES</p>
+                    <h2>가용 영역을 넘어,<br><span>더 탄탄한 서비스로.</span></h2>
+                    <p class="hero-description">클러스터와 노드를 여러 가용 영역에 구성해,<br>서비스의 가용성을 높일 수 있습니다.</p>
+                </div>
+                <div class="chapter-copy" data-chapter="2" aria-hidden="true" inert>
+                    <p class="chapter-kicker">03 — CONNECTED CLOUD</p>
+                    <h2>내 VPC에서,<br><span>가능성을 연결하다.</span></h2>
+                    <p class="hero-description">Container Registry, Load Balancing, IAM까지.<br>클라우드 서비스와 연결해 배포와 운영을 이어갑니다.</p>
+                </div>
+                <a class="hero-link" th:href="${embedded} ? '#lab' : '/#lab'">이 가능성을 직접 실습하기 <span aria-hidden="true">↗</span></a>
+            </div>
+            <div class="journey-bottom">
+                <div class="scroll-cue"><span class="scroll-line" aria-hidden="true"></span><span id="scroll-label">스크롤하며 가능성을 만나보세요</span></div>
+                <nav class="chapter-nav" aria-label="소개 장면">
+                    <button type="button" data-jump="0" aria-current="step"><span>01</span> 관리 <i aria-hidden="true"></i></button>
+                    <button type="button" data-jump="1"><span>02</span> 가용성 <i aria-hidden="true"></i></button>
+                    <button type="button" data-jump="2"><span>03</span> 연결 <i aria-hidden="true"></i></button>
+                </nav>
+                <span class="journey-fraction" aria-hidden="true"><b id="chapter-number">01</b><span>/</span>03</span>
+            </div>
+        </div>
+    </section>
+    <section class="learning" aria-labelledby="learning-title">
+        <div class="learning-intro">
+            <p class="eyebrow">BUILT FOR YOUR SERVICE</p>
+            <h2 id="learning-title">컨테이너에서 서비스까지,<br><span>필요한 기반을 한곳에서.</span></h2>
+            <p>운영의 복잡함을 덜고, 연결의 가능성을 넓힙니다.<br>카카오클라우드 Kubernetes Engine과 함께하세요.</p>
+        </div>
+        <div class="learning-steps">
+            <article><span class="step-number">01 / MANAGED</span><svg class="step-icon" viewBox="0 0 64 64" aria-hidden="true"><path d="m32 8 22 12v24L32 56 10 44V20zM10 20l22 13 22-13M32 33v23M21 14l22 13v12"/></svg><h3>관리의 부담을 덜고</h3><p>관리형 제어 영역과 노드 풀로<br>클러스터 운영을 간소화합니다.</p></article>
+            <article><span class="step-number">02 / MULTI-AZ</span><svg class="step-icon" viewBox="0 0 64 64" aria-hidden="true"><rect x="6" y="22" width="16" height="20" rx="3"/><rect x="42" y="6" width="16" height="20" rx="3"/><rect x="42" y="40" width="16" height="18" rx="3"/><path d="M22 32h10V16h10M32 32v17h10"/></svg><h3>가용성을 설계하고</h3><p>여러 가용 영역에 분산 구성해<br>더 견고한 서비스 기반을 만듭니다.</p></article>
+            <article><span class="step-number">03 / VPC & SERVICES</span><svg class="step-icon" viewBox="0 0 64 64" aria-hidden="true"><path d="M32 6 54 15v17c0 12-12 21-22 26C22 53 10 44 10 32V15zM22 31l7 7 15-16"/></svg><h3>내 환경에서 연결합니다</h3><p>사용자 VPC의 분리된 네트워크와<br>다양한 클라우드 서비스 연동을 지원합니다.</p></article>
+        </div>
+        <a class="service-reference" href="https://docs.kakaocloud.com/service/container-pack/k8se/k8se-overview" target="_blank" rel="noopener noreferrer">Kubernetes Engine 서비스 자세히 보기 <span aria-hidden="true">↗</span></a>
+    </section>
+    <section class="start-section" aria-labelledby="start-title">
+        <div><p class="eyebrow">NOW, MAKE IT YOURS</p><h2 id="start-title">방금 본 가능성,<br>이제 직접 실습하세요.</h2></div>
+        <div class="start-action"><a class="button button-dark" th:href="${embedded} ? '#lab' : '/#lab'">실습으로 돌아가기 <span aria-hidden="true">↑</span></a><p>위쪽의 Pod · 환경설정 · DB 확인 화면으로 이동합니다.</p></div>
+    </section>
+    <footer><a class="brand" href="#cloud-experience">kakao<span>cloud</span><i aria-hidden="true"></i></a><p>Kubernetes Engine · 더 큰 가능성을 위한 기반</p><span>EXPERIENCE PREVIEW</span></footer>
+    <noscript><style>.experience-shell .journey{height:100svh}.experience-shell .chapter-nav,.experience-shell .journey-fraction{display:none}</style></noscript>
+</section>
+</body>
+</html>

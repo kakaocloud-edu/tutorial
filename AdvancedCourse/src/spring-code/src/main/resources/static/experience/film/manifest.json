@@ -1,0 +1,23 @@
+{
+  "count": 567,
+  "width": 1280,
+  "height": 720,
+  "fps": 24.0,
+  "duration": 23.625,
+  "source": "kakaocloud-flow-site-master.mp4",
+  "sourceSha256": "c029a6ccfce330a26228fd4b3cd6853339ff933d7447dd3768d2e777a2a20648",
+  "framePattern": "frame-%03d.webp",
+  "startIndex": 0,
+  "poster": "poster.webp",
+  "quality": 82,
+  "clipBoundariesSeconds": [
+    7.8,
+    15.6
+  ],
+  "clipCrossfadeSeconds": 0.2,
+  "frameBytes": 14446074,
+  "largestFrameBytes": 41460,
+  "attributionPreserved": false,
+  "visibleWatermarkRemoved": true,
+  "crop": false
+}

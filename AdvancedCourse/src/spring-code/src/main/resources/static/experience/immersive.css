@@ -1,0 +1,314 @@
+/* Root-page story only. The standalone /experience design keeps its own CSS. */
+.lab-story {
+    position: relative;
+    background: inherit;
+    --lab-progress: 0;
+    --lab-content-opacity: 1;
+    --lab-content-y: 0px;
+    --lab-content-scale: 1;
+    --lab-scene-opacity: 0;
+    --lab-veil: 0;
+    --lab-return-opacity: 0;
+    --lab-source-opacity: 0;
+}
+
+.lab-story > .lab-screen {
+    display: block;
+    padding: 0;
+    overflow: visible;
+    background: inherit;
+}
+
+.lab-story .lab-original {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+    min-height: 100svh;
+    padding: 56px 24px;
+    overflow: hidden;
+    background: inherit;
+}
+
+body[data-immersive="on"] .lab-story .lab-original {
+    height: var(--lab-base-height, 100svh);
+}
+
+.lab-story .shape-flight {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 200px;
+    height: 200px;
+    z-index: 1;
+    transform-origin: 0 0;
+    pointer-events: none;
+}
+
+.lab-story .shape-flight-blue {
+    transform: translate3d(var(--blue-x, 0px), var(--blue-y, 0px), 0) scale(var(--blue-scale, 1));
+    opacity: var(--blue-opacity, 1);
+    filter: blur(var(--blue-blur, 0px));
+}
+
+.lab-story .shape-flight-yellow {
+    transform: translate3d(var(--yellow-x, 0px), var(--yellow-y, 0px), 0) scale(var(--yellow-scale, 1));
+    opacity: var(--yellow-opacity, 1);
+    filter: blur(var(--yellow-blur, 0px));
+}
+
+/* Every original lab element keeps its initial size, position, and appearance. */
+body[data-immersive="on"] .lab-story {
+    height: calc(var(--lab-base-height, 100svh) + 340svh);
+}
+
+body[data-immersive="on"] .lab-story > .lab-screen {
+    position: sticky;
+    top: var(--lab-sticky-top, 0px);
+    height: var(--lab-base-height, 100svh);
+    isolation: isolate;
+}
+
+body[data-immersive="on"] .lab-story .lab-original > .content {
+    opacity: var(--lab-content-opacity);
+    transform: translate3d(0, var(--lab-content-y), 0) scale(var(--lab-content-scale));
+    transform-origin: 50% 50%;
+}
+
+.lab-story .immersive-story,
+.lab-story .immersive-story * {
+    box-sizing: border-box;
+}
+
+.lab-story .immersive-story {
+    position: absolute;
+    top: var(--immersive-top, 0px);
+    left: 0;
+    right: 0;
+    height: 100svh;
+    z-index: 20;
+    overflow: hidden;
+    color: #fffef5;
+    font-family: Arial, "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+    text-align: left;
+    word-break: keep-all;
+    pointer-events: none;
+}
+
+.lab-story .immersive-scene {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.lab-story .immersive-scene .immersive-poster,
+.lab-story #immersive-canvas {
+    position: absolute;
+    inset: 0;
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    opacity: var(--lab-scene-opacity);
+    background: #1a1a2e;
+    mix-blend-mode: normal;
+    transform: none;
+}
+
+.lab-story .immersive-scene.is-ready .immersive-poster {
+    opacity: 0;
+}
+
+.lab-story .immersive-veil {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, rgba(12, 12, 29, .82) 0%, rgba(12, 12, 29, .4) 32%, rgba(12, 12, 29, 0) 55%);
+    opacity: var(--lab-veil);
+}
+
+.lab-story .immersive-copy {
+    position: absolute;
+    top: 50%;
+    left: clamp(28px, 6.6vw, 144px);
+    width: min(780px, 42vw);
+    min-height: 330px;
+    transform: translateY(-50%);
+}
+
+.lab-story .immersive-copy [data-benefit] {
+    position: absolute;
+    inset: 0;
+    opacity: var(--benefit-opacity, 0);
+    transform: translate3d(0, var(--benefit-y, 36px), 0) scale(var(--benefit-scale, 1));
+    transform-origin: 0 50%;
+}
+
+.lab-story .immersive-story .immersive-kicker {
+    margin: 0 0 28px;
+    color: #eee760;
+    font-size: 10px;
+    line-height: 1.5;
+    font-weight: 700;
+    letter-spacing: 2.6px;
+}
+
+.lab-story .immersive-story h2 {
+    margin: 0;
+    color: #fffef8;
+    font-size: clamp(32px, 3.7vw, 64px);
+    line-height: 1.22;
+    font-weight: 700;
+    letter-spacing: -.055em;
+    text-wrap: balance;
+    text-shadow: 0 3px 35px rgba(8, 8, 28, .28);
+}
+
+.lab-story .immersive-story h2 .highlight {
+    color: #eee760;
+}
+
+.lab-story .immersive-story .immersive-description {
+    max-width: 510px;
+    margin: 30px 0 0;
+    color: rgba(255, 255, 251, .76);
+    font-size: clamp(14px, 1.15vw, 18px);
+    line-height: 1.85;
+    letter-spacing: -.025em;
+    text-shadow: 0 1px 14px rgba(8, 8, 28, .6);
+}
+
+.lab-story .immersive-return,
+.lab-story .immersive-source {
+    position: absolute;
+    z-index: 2;
+    color: rgba(255, 255, 251, .75);
+    text-decoration: none;
+    pointer-events: auto;
+}
+
+.lab-story .immersive-return {
+    right: clamp(24px, 4vw, 80px);
+    bottom: 30px;
+    padding: 12px 15px;
+    border: 1px solid rgba(255, 255, 245, .24);
+    border-radius: 100px;
+    background: rgba(15, 15, 35, .18);
+    font: inherit;
+    font-size: 12px;
+    line-height: 1.3;
+    cursor: pointer;
+    opacity: var(--lab-return-opacity);
+}
+
+.lab-story .immersive-source {
+    left: clamp(28px, 6.6vw, 144px);
+    bottom: 42px;
+    font-size: 10px;
+    letter-spacing: .02em;
+    opacity: var(--lab-source-opacity);
+}
+
+.lab-story .immersive-return:hover,
+.lab-story .immersive-source:hover {
+    color: #eee760;
+}
+
+.lab-story .immersive-return:focus-visible,
+.lab-story .immersive-source:focus-visible {
+    outline: 2px solid #eee760;
+    outline-offset: 5px;
+}
+
+/* A readable, ordinary page when motion is disabled or unavailable. */
+body:not([data-immersive="on"]) .lab-story .immersive-story {
+    position: relative;
+    inset: auto;
+    height: auto;
+    min-height: 1100px;
+    padding: 100px clamp(28px, 8vw, 144px) 100px;
+    pointer-events: auto;
+}
+
+body:not([data-immersive="on"]) .lab-story .immersive-scene {
+    opacity: .38;
+}
+
+body:not([data-immersive="on"]) .lab-story .immersive-poster {
+    opacity: .75;
+    transform: none;
+}
+
+body:not([data-immersive="on"]) .lab-story #immersive-canvas {
+    display: none;
+}
+
+body:not([data-immersive="on"]) .lab-story .immersive-veil {
+    opacity: .6;
+}
+
+body:not([data-immersive="on"]) .lab-story .immersive-copy {
+    position: relative;
+    inset: auto;
+    width: min(100%, 720px);
+    min-height: 0;
+    transform: none;
+}
+
+body:not([data-immersive="on"]) .lab-story .immersive-copy [data-benefit] {
+    position: relative;
+    inset: auto;
+    margin-bottom: 100px;
+    opacity: 1;
+    transform: none;
+}
+
+body:not([data-immersive="on"]) .lab-story .immersive-copy [data-benefit]:last-child {
+    margin-bottom: 45px;
+}
+
+body:not([data-immersive="on"]) .lab-story .immersive-return,
+body:not([data-immersive="on"]) .lab-story .immersive-source {
+    position: relative;
+    inset: auto;
+    display: inline-block;
+    margin: 0 24px 18px 0;
+    opacity: 1;
+}
+
+@media (max-width: 900px) {
+    .lab-story .immersive-story h2 {
+        font-size: clamp(28px, 3.8vw, 38px);
+    }
+
+    .lab-story .immersive-story .immersive-kicker {
+        margin-bottom: 20px;
+        font-size: 9px;
+        letter-spacing: 1.8px;
+    }
+
+    .lab-story .immersive-story .immersive-description {
+        margin-top: 22px;
+        font-size: 14px;
+    }
+
+    body:not([data-immersive="on"]) .lab-story .immersive-story {
+        padding-top: 80px;
+        padding-bottom: 60px;
+    }
+
+    body:not([data-immersive="on"]) .lab-story .immersive-copy [data-benefit] {
+        margin-bottom: 90px;
+    }
+
+    body:not([data-immersive="on"]) .lab-story .immersive-story h2 {
+        font-size: clamp(30px, 6vw, 48px);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .lab-story .shape-flight .animated-circle {
+        animation: none;
+    }
+}

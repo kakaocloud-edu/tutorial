@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Welcome</title>
+    <link rel="stylesheet" href="/experience/immersive.css">
+    <script src="/experience/immersive.js" defer></script>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            color: white;
+            margin: 0;
+            background: linear-gradient(145deg, #5d7404, #0d0956);
+        }
+        .lab-original {
+            position: relative;
+            background: inherit;
+            box-sizing: border-box;
+            min-height: 100vh;
+            min-height: 100svh;
+            padding: 56px 24px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+        .lab-screen .content {
+            text-align: center;
+            z-index: 10;
+            max-width: 1100px;
+        }
+        .lab-screen .background-shape {
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            width: 200px;
+            height: 200px;
+            background: #1119ba;
+            border-radius: 50%;
+        }
+        .lab-screen .shape1 {
+            top: -50px;
+            right: -50px;
+        }
+        .lab-screen .shape2 {
+            bottom: -80px;
+            left: -80px;
+            background: #e9e445;
+        }
+        .lab-screen h1 {
+            font-size: 2.5em;
+            margin-bottom: 0.5em;
+        }
+        .lab-screen p {
+            margin-bottom: 2em;
+        }
+
+        .lab-screen .db-row {
+            margin-bottom: 0; /* 추가된 클래스 스타일 */
+        }
+
+        .lab-screen .server-name {
+            font-size: 1.2em;
+            padding: 0.5em 1em;
+            border: 2px solid #e9e445;
+            border-radius: 4px;
+            background: transparent;
+            margin-bottom: 2em;
+            max-height: 500px;
+            overflow-y: auto;
+            overscroll-behavior-y: contain;
+        }
+
+        .lab-screen .animated-circle {
+            position: absolute;
+            border-radius: 50%;
+            animation: pulseAnimation 2s infinite ease-in-out;
+        }
+
+        @keyframes pulseAnimation {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        .lab-screen ul {
+            list-style-type: none; /* Removes default bullets */
+            padding-left: 0; /* Removes default padding */
+        }
+
+        .lab-screen ul li {
+            background: #e9e445; /* Same background as buttons */
+            color: white; /* Text color */
+            padding: 0.5em 1em; /* Same padding as buttons */
+            margin: 0.5em 0; /* Space between list items */
+            border-radius: 4px; /* Rounded corners */
+            cursor: pointer; /* Cursor changes on hover */
+            transition: background 0.3s ease; /* Smooth background transition */
+        }
+
+        .lab-screen ul li:hover {
+            background: #a33741; /* Hover effect similar to buttons */
+        }
+
+        /* New styles for button container */
+        .lab-screen .button-container {
+            display: flex; /* Aligns buttons horizontally */
+            justify-content: space-around; /* Spaces out buttons evenly */
+            margin: 1em 0; /* Margin above and below the container */
+        }
+
+        /* Styles for buttons (if not already styled) */
+        .lab-screen .btn {
+            padding: 0.5em 1em; /* Padding */
+            background: #e9e445; /* Background color */
+            border: none; /* No border */
+            border-radius: 4px; /* Rounded corners */
+            color: black; /* Text color */
+            cursor: pointer; /* Cursor changes on hover */
+            transition: background 0.3s ease; /* Smooth background transition */
+        }
+
+        .lab-screen .btn:hover {
+            background: #a33741; /* Hover effect */
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .lab-screen .animated-circle {
+                animation: none;
+            }
+        }
+
+    </style>
+</head>
+<body th:style="'background: linear-gradient(145deg, #1a1a2e,' + ${backgroundColor} + ');'">
+    <main id="lab-story" class="lab-story">
+    <section id="lab" class="lab-screen" aria-label="Kubernetes 실습 화면">
+    <div class="lab-original">
+    <div class="shape-flight shape-flight-blue"><div class="background-shape shape1 animated-circle"></div></div>
+    <div class="shape-flight shape-flight-yellow"><div class="background-shape shape2 animated-circle"></div></div>
+    <div class="content">
+        <h1 th:text="${welcomeMessage}">Welcome to kakaocloud</h1>
+        <p>카카오클라우드의 Kubernetes Engine 서비스를 기반으로 하는 실습 중심의 3-티어 웹서비스 구축 교육입니다.</p>
+        <div class="server-name " th:text="'서버의 호스트 이름: ' + ${hostname}">서버의 호스트 이름</div>
+
+        <button class="btn" onclick="toggleVisibility()">가용 영역별 DB 연동 열기/닫기</button>
+
+        <!-- Container for the content to show/hide -->
+        <div id="toggleContent" style="display: none;">
+            <div class="button-container">
+                <button class="btn" onclick="loadDbInfo('/db1')">첫 번째 가용 영역 DB에 데이터 삽입 및 조회</button>
+                <button class="btn" onclick="loadDbInfo('/db2')">두 번째 가용 영역 DB에 데이터 단순 조회</button>
+            </div>
+            <p class="server-name" id="dbinfo">위의 두 버튼 중 하나를 클릭하세요.</p>
+
+        </div>
+
+        <script>
+            function toggleVisibility() {
+                var content = document.getElementById("toggleContent");
+                content.style.display = content.style.display === "none" ? "block" : "none";
+            }
+
+            function loadDbInfo(endpoint) {
+                // Set a timeout value (in milliseconds)
+                const timeout = 4000;
+
+                // Create a Promise that rejects after the specified timeout
+                const timeoutPromise = new Promise((_, reject) => {
+                    setTimeout(() => {
+                        reject(new Error('Request timed out'));
+                    }, timeout);
+                });
+
+                // Use Promise.race to race between the fetch and the timeout
+                Promise.race([
+                    fetch(endpoint).then(response => response.json()),
+                    timeoutPromise
+                ])
+                .then(data => {
+                    var dbInfoElement = document.getElementById("dbinfo");
+                    var dbConnection = 'Endpoint: ' + data.dbConnection.URL + ', Port: ' + data.dbConnection.Port;
+                    var formattedData = data.data.map(item => JSON.stringify(item)).join(',<br>');
+                    dbInfoElement.innerHTML = dbConnection + '<br><br>' + formattedData;
+                })
+                .catch(error => {
+                    // Check if the error is due to a timeout
+                    if (error.message === 'Request timed out' || error.message.includes("Failed to obtain JDBC Connection") || error.message.includes('Load failed') || error instanceof TypeError) {
+                        // Handle timeout (e.g., show an alert)
+                        window.alert('데이터베이스와 연동되어 있지 않습니다.');
+                    } else {
+                        console.error('Error:', error);
+                    }
+                });
+            }
+
+    </script>
+    </div>
+    </div>
+    <div th:replace="~{fragments/immersive-story :: story}"></div>
+    </section>
+    </main>
+</body>
+</html>
