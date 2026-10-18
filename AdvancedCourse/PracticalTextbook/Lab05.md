@@ -138,6 +138,8 @@ NGINX Gateway Fabric은 Kubernetes Gateway API를 실제로 구현하는 컨트�
    kubectl get gateway kc-gateway -n nginx-gateway
    ```
    - `GatewayClass`의 `ACCEPTED`와 `Gateway`의 `PROGRAMMED`가 모두 `True`인지 확인합니다.
+      - GatewayClass의 ACCEPTED=True: NGINX Gateway Fabric이 해당 GatewayClass를 관리 대상으로 승인했음을 의미함.
+      - Gateway의 PROGRAMMED=True: Gateway 설정이 NGINX Data Plane에 정상적으로 반영되었음을 의미함.
 
 3. Gateway Service의 트래픽 정책과 상태 확인 포트 확인
    - 이 명령은 자동 생성된 Service의 타입, 외부 트래픽 정책, Load Balancer 상태 확인용 NodePort를 필요한 열만 선택해 보여 줍니다.
