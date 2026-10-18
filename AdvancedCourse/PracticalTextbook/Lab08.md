@@ -124,11 +124,6 @@
    #### **lab8-6-5**
    ```bash
    kubectl get all
-   kubectl get httproute
-   kubectl get httproute my-release-kc-spring-demo-route \
-     -o jsonpath='{range .status.parents[*].conditions[*]}{.type}={.status}{"\n"}{end}'
-   ```
-   - HTTPRoute의 `Accepted=True`, `ResolvedRefs=True`를 확인합니다.
    - Load Balancer의 Public IP로 접속한 뒤 새로 고침하여 `my-release-kc-spring-demo-...` 형식의 Pod 이름이 화면에 표시되는지 확인합니다.
 
 ## 7. Helm Chart를 이용한 버전 관리
