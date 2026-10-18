@@ -96,6 +96,7 @@
    ```bash
    helm install --dry-run --debug my-release . -f values.yaml | tee ~/yamls
    ```
+   - template은 YAML 생성에 집중하고, dry-run은 설치 과정의 검증과 디버깅 정보를 추가로 제공함.
 
 3. Chart 설치
    - `my-release`라는 이름으로 Chart를 설치합니다. Helm은 렌더링한 Deployment, Service, ConfigMap, Secret, Job, HTTPRoute를 클러스터에 생성하고 릴리스 이력을 저장합니다.
