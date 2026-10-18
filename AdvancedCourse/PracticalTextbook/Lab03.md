@@ -2,6 +2,10 @@
 
 클러스터를 관리하기 위한 Bastion VM 인스턴스를 생성하는 실습입니다.
 
+## 0. Bastion VM에게 필요한 정보들 확인
+<img width="1889" height="836" alt="image" src="https://github.com/user-attachments/assets/bf08a0df-9123-4b4c-811f-1c4f531ad19a" />
+
+
 ## 1. Bastion VM 인스턴스 생성
 
 1. 카카오 클라우드 콘솔 > Container Pack > Kubernetes > 클러스터 접속
