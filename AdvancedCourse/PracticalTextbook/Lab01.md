@@ -41,11 +41,11 @@
    - 기본 스토리지 크기: `100GB`
    - 로그 스토리지 크기 : `100GB`
    - 네트워크 설정
-     - Multi AZ 옵션 : `사용`
+     - 다중 AZ 옵션 : `사용`
        - VPC : `vpc_1`
-       - Subnet : `AZ-a의 Private 서브넷 선택(172.30.16.0/20)`
+       - Primary Subnet : `kr-central-2-a의 Private 서브넷 선택(172.30.16.0/20)`
        - 인스턴스 개수 : 1
-       - Subnet : `AZ-b의 Private 서브넷 선택(172.30.48.0/20)`
+       - Standby Subnet : `kr-central-2-b의 Private 서브넷 선택(172.30.48.0/20)`
        - 인스턴스 개수 : 1
     - 보안 그룹 설정
       - 새 보안 그룹 설정 클릭
