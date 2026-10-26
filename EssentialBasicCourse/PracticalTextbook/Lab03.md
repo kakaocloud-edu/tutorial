@@ -11,8 +11,9 @@ VPC 생성 방법 및 서브넷 설정에 대한 실습입니다.
           - VPC 이름 : `vpc_1`
           - VPC IP CIDR 블록 : `172.30.0.0/16`
      - Availability Zone
-          - AZ 개수 : `1`
-          - 첫 번째 AZ : `kr-central-2-a`
+          - AZ 개수 : `2`
+               - 첫 번째 AZ : `kr-central-2-a`
+               - 두 번째 AZ : `kr-central-2-b`
      - Subnet 설정
           - AZ당 Public Subnet 개수 : `1`
           - AZ당 Private Subnet 개수 : `1`
