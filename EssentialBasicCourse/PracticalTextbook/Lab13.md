@@ -93,7 +93,7 @@ graph LR
         - 이벤트 항목 : `Instance Reboot`
         - 필터 : `리소스 이름 = bastion`
         - '추가` 버튼 클릭
-        - 조건이름 : `Instance Reboot`
+        - 조건이름 : `VirtualMachineReboot`
     - `다음` 버튼 클릭
 - 2단계: 수신 채널 설정
     - 채널 유형 : `이메일`
